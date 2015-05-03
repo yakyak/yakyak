@@ -1,0 +1,29 @@
+{
+  "name": "yakayak",
+  "version": "0.0.1",
+  "description": "Chat client for Google Hangouts",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/algesten/yakayak"
+  },
+  "keywords": [
+    "hangouts",
+    "chat",
+    "client"
+  ],
+  "author": "Martin Algesten",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/algesten/yakayak/issues"
+  },
+  "homepage": "https://github.com/algesten/yakayak",
+  "dependencies": {
+  },
+  "devDependencies": {
+    "electron-prebuilt": "^0.25.2"
+  }
+}
