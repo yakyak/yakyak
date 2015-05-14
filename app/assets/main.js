@@ -1,5 +1,3 @@
-console.log('Starting server process');
-
 var hangupsjs = require('hangupsjs');
 
 var app = require('app');
