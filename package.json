@@ -28,7 +28,6 @@
     "clean-css-brunch": "^1.7.2",
     "coffee-script": "^1.9.2",
     "coffee-script-brunch": "^1.8.1",
-    "commonjs-require-definition": "^0.2.0",
     "css-brunch": "^1.7.0",
     "electron-prebuilt": "^0.25.2",
     "javascript-brunch": "^1.7.1",

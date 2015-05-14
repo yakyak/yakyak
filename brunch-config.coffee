@@ -1,4 +1,4 @@
-commonRequireDefinition = require 'commonjs-require-definition'
+commonRequireDefinition = require './src/require-wrap'
 
 exports.config =
 
