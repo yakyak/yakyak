@@ -1,6 +1,6 @@
-var hangupsjs = require('hangupsjs');
+console.log('Starting server process');
 
-console.log('here');
+var hangupsjs = require('hangupsjs');
 
 var app = require('app');
 var BrowserWindow = require('browser-window');

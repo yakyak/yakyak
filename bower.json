@@ -1,0 +1,16 @@
+{
+  "name": "yakayak",
+  "version": "0.0.0",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "output"
+  ],
+  "private": true,
+  "dependencies": {
+    "trifl": "*"
+  }
+}
