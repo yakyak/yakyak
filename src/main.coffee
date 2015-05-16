@@ -19,7 +19,12 @@ loadAppWindow = ->
 app.on 'ready', ->
 
     # Create the browser window.
-    mainWindow = new BrowserWindow {width: 940, height: 600}
+    mainWindow = new BrowserWindow {
+        width: 940
+        height: 600
+        "min-width": 620
+        "min-height": 420
+    }
 
     # and load the index.html of the app. this may however be yanked
     # away if we must do auth.
