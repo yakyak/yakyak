@@ -13,7 +13,7 @@ runtime packages.
 
 ```bash
 $ ./build.sh
-...
+```
 
 ### start a brunch watcher (to continuously build during dev)
 
