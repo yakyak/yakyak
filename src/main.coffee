@@ -1,5 +1,6 @@
 Client = require 'hangupsjs'
 Q      = require 'q'
+login  = require './login'
 
 client = new Client()
 
@@ -12,42 +13,30 @@ mainWindow = null
 app.on 'window-all-closed', ->
     app.quit() # if (process.platform != 'darwin')
 
+loadAppWindow = ->
+    mainWindow.loadUrl 'file://' + __dirname + '/index.html'
+
 app.on 'ready', ->
 
     # Create the browser window.
     mainWindow = new BrowserWindow {width: 800, height: 600}
 
-    # promise for one-time oauth token
-    creds = -> auth: -> Q.Promise (rs) ->
-        # redirect to google oauth
-        mainWindow.loadUrl Client.OAUTH2_LOGIN_URL
-        mainWindow.webContents.on 'did-finish-load', onDidFinishLoad = ->
+    # and load the index.html of the app. this may however be yanked
+    # away if we must do auth.
+    loadAppWindow()
 
-            url = mainWindow.getUrl()
-
-            # when we find this part of the url, we must progress page to /approval
-            if url.indexOf('&response_type=code') > 0
-                scr = "document.getElementById('connect_approve').submit()"
-                mainWindow.webContents.executeJavaScript scr
-
-            # this is the approval page from which we fish out the one-time token
-            if url.indexOf('/o/oauth2/approval') > 0
-                # Title is: "Success code=4/nWublGccArjDWMn37a7UGSC2TFG7pU"
-                title = mainWindow.webContents.getTitle()
-                # just get the code out of the title
-                code = title.substring 13
-                # and return it to the auth
-                rs code
-                # clean up
-                mainWindow.webContents.removeListener 'did-finish-load', onDidFinishLoad
-
+    # callback for credentials
+    creds = ->
+        prom = login(mainWindow)
+        # reinstate app window when login finishes
+        prom.then -> loadAppWindow()
+        auth: -> prom
 
     client.connect(creds).then ->
+        # XXX update global var that indicates current
+        # client connection state.
         console.log 'connected'
     .done()
-
-    # and load the index.html of the app.
-    # mainWindow.loadUrl 'file://' + __dirname + '/index.html'
 
     # Emitted when the window is closed.
     mainWindow.on 'closed', ->

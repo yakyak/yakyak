@@ -1,0 +1,48 @@
+@grid-columns: 12;
+@gutter: 15px;
+@page-width: 940px;
+
+// minimal reset
+* {
+    padding: 0;
+    margin: 0;
+    border: 0;
+}
+html {
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+.span1  { width:percentage((1  / @grid-columns)); }
+.span2  { width:percentage((2  / @grid-columns)); }
+.span3  { width:percentage((3  / @grid-columns)); }
+.span4  { width:percentage((4  / @grid-columns)); }
+.span5  { width:percentage((5  / @grid-columns)); }
+.span6  { width:percentage((6  / @grid-columns)); }
+.span7  { width:percentage((7  / @grid-columns)); }
+.span8  { width:percentage((8  / @grid-columns)); }
+.span9  { width:percentage((9  / @grid-columns)); }
+.span10 { width:percentage((10 / @grid-columns)); }
+.span11 { width:percentage((11 / @grid-columns)); }
+.span12 { width:percentage((12 / @grid-columns)); }
+
+[class*="span"] {
+    padding-left: @gutter;
+    padding-right: @gutter;
+    float: left;
+    min-height: 1px;
+}
+.container {
+    padding-left: @gutter;
+    padding-right: @gutter;
+    margin-left: auto;
+    margin-right: auto;
+    width: @page-width;
+}
+
+.row {
+    margin-left: -@gutter;
+    margin-right: -@gutter;
+}
