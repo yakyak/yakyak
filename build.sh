@@ -3,6 +3,9 @@
 echo "npm install project"
 npm install # fetches electron-prebuilt
 
+echo "bower install"
+./node_modules/.bin/bower install
+
 echo "remove previous"
 rm -rf output/Yakayak.app
 echo "copy Electron.app -> Yakayak.app"

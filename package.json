@@ -28,6 +28,7 @@
   },
   "devDependencies": {
     "auto-reload-brunch": "^1.7.8",
+    "bower": "^1.4.1",
     "brunch": "^1.8.2",
     "clean-css-brunch": "^1.7.2",
     "coffee-script": "^1.9.2",
