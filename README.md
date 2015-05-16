@@ -1,5 +1,5 @@
-yakayaka
-========
+yakayak
+=======
 
 Standalone client for Google Hangouts
 
