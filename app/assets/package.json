@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "main": "main.js",
   "dependencies": {
-    "hangupsjs": "^0.5.2",
+    "hangupsjs": "^0.5.3",
     "q": "^1.4.0"
   }
 }
