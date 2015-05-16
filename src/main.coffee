@@ -32,10 +32,11 @@ app.on 'ready', ->
 
             # this is the approval page from which we fish out the one-time token
             if url.indexOf('/o/oauth2/approval') > 0
-                # Success code=4/nWublGccArjDWMn37a7UGSC2TFG7pU
+                # Title is: "Success code=4/nWublGccArjDWMn37a7UGSC2TFG7pU"
                 title = mainWindow.webContents.getTitle()
+                # just get the code out of the title
                 code = title.substring 13
-                # this is the code to return
+                # and return it to the auth
                 rs code
                 # clean up
                 mainWindow.webContents.removeListener 'did-finish-load', onDidFinishLoad
