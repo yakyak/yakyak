@@ -15,10 +15,13 @@ runtime packages.
 $ ./build.sh
 ```
 
-### start a brunch watcher (to continuously build during dev)
+### start two watchers
+
+1. `coffee` runs a watcher on `src` to `app/assets`
+2. `brunch` runs a watcher on `app` to `output/Yakayak.app/Contents/Resources/app`
 
 ```bash
-$ brunch w
+$ npm run watch
 ```
 
 ### start the app
