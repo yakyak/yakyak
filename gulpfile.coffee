@@ -15,9 +15,6 @@ outbin = './Yakayak.app'
 outapp = './Yakayak.app/Contents/Resources/app'
 outui  = outapp + '/ui'
 
-gulp.task 'clean', (cb) ->
-  rimraf outbin, cb
-
 copyPrebuilt = ->
   # XXX this stinks, but gulp can't deal with
   # the symlinks in the binary.
@@ -27,33 +24,47 @@ copyPrebuilt = ->
 gulp.task 'pre', ->
   copyPrebuilt() unless fs.existsSync outbin
 
-gulp.task 'default', ['pre'], ->
+paths =
+  README:  './README.md'
+  package: './package.json'
+  coffee:  './src/**/*.coffee'
+  html:    './src/**/*.html'
+  less:    './src/**/*.less'
 
-  gulp.src './README.md'
+
+# setup package stuff (README, package.json)
+gulp.task 'package', ['pre'], ->
+  gulp.src paths.README
     .pipe changed outapp
     .pipe gulp.dest outapp
 
   # install runtime deps
-  gulp.src './package.json'
+  gulp.src paths.package
     .pipe changed outapp
     .pipe gulp.dest outapp
     .pipe install(production:true)
 
-  # compile coffeescript
-  gulp.src './src/**/*.coffee'
+
+# compile coffeescript
+gulp.task 'coffee', ->
+  gulp.src paths.coffee
     .pipe sourcemaps.init()
     .pipe coffee().on 'error', gutil.log
     .pipe sourcemaps.write()
     .pipe changed outapp
     .pipe gulp.dest outapp
 
-  # move .html-files
-  gulp.src './src/**/*.html'
+
+# copy .html-files
+gulp.task 'html', ->
+  gulp.src paths.html
     .pipe changed outapp
     .pipe gulp.dest outapp
 
-  # compile less
-  gulp.src './src/**/*.less'
+
+# compile less
+gulp.task 'less', ->
+  gulp.src paths.less
     .pipe sourcemaps.init()
     .pipe less().on 'error', gutil.log
     .pipe concat('ui/app.css')
@@ -62,8 +73,7 @@ gulp.task 'default', ['pre'], ->
     .pipe gulp.dest outapp
 
 
-gulp.task 'watch', ['default'], ->
-
+gulp.task 'reloader', ->
   # create an auto reload server instance
   reloader = autoReload()
 
@@ -71,8 +81,16 @@ gulp.task 'watch', ['default'], ->
   reloader.script()
     .pipe gulp.dest outui
 
-  # watch to rebuild
-  gulp.watch './src/**/*', ['default']
-
   # watch rebuilt stuff
   gulp.watch "#{outui}/**/*", reloader.onChange
+
+
+gulp.task 'clean', (cb) ->
+  rimraf outbin, cb
+
+gulp.task 'default', ['package', 'coffee', 'html', 'less']
+
+gulp.task 'watch', ['reloader', 'default'], ->
+  # watch to rebuild
+  sources = (v for k, v of paths)
+  gulp.watch sources, ['default']
