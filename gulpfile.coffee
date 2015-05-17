@@ -55,11 +55,15 @@ gulp.task 'coffee', ->
     .pipe gulp.dest outapp
 
 
-# copy .html-files
-gulp.task 'html', ->
+buildHtml = (transform = gutil.noop()) ->
   gulp.src paths.html
+    .pipe transform
     .pipe changed outapp
     .pipe gulp.dest outapp
+
+
+# copy .html-files
+gulp.task 'html', -> buildHtml()
 
 
 # compile less
@@ -79,6 +83,9 @@ gulp.task 'reloader', ->
   # copy the client side script
   reloader.script()
     .pipe gulp.dest outui
+
+  # inject scripts in html
+  #buildHtml reloader.inject()
 
   # watch rebuilt stuff
   gulp.watch "#{outui}/**/*", reloader.onChange
