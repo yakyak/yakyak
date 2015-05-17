@@ -3,11 +3,24 @@ yakayak
 
 Desktop client for Google Hangouts
 
+## Setup
+
+```bash
+$ npm install
+$ gulp
+```
+
+## Continuous build
+
+```
+$ gulp watch
+```
+
 Structure
 
 - src/: is where sources live
 - src/ui/: holds renderer code
-- app/: is where the app is built
+- Yakayak.app/: is where the app is built
 
 Dance goes like this
 
