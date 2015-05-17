@@ -40,3 +40,7 @@ gulp.task 'default', ['pre'], ->
     .pipe less()
     .pipe sourcemaps.write()
     .pipe gulp.dest outapp
+
+
+gulp.task 'watch', ['default'], ->
+  gulp.watch './src/**/*', ['default']
