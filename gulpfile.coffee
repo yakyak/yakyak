@@ -7,6 +7,7 @@ gutil      = require 'gulp-util'
 sourcemaps = require 'gulp-sourcemaps'
 install    = require 'gulp-install'
 {execSync} = require 'child_process'
+concat     = require 'gulp-concat'
 
 outbin = './Yakayak.app'
 outapp = './Yakayak.app/Contents/Resources/app'
@@ -24,6 +25,9 @@ gulp.task 'pre', ->
   copyPrebuilt() unless fs.existsSync outbin
 
 gulp.task 'default', ['pre'], ->
+
+  gulp.src './README.md'
+    .pipe gulp.dest outapp
 
   # install runtime deps
   gulp.src './package.json'
@@ -44,7 +48,8 @@ gulp.task 'default', ['pre'], ->
   # compile less
   gulp.src './src/**/*.less'
     .pipe sourcemaps.init()
-    .pipe less()
+    .pipe less().on 'error', gutil.log
+    .pipe concat('ui/app.css')
     .pipe sourcemaps.write()
     .pipe gulp.dest outapp
 
