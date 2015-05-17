@@ -16,6 +16,12 @@ $ gulp
 $ gulp watch
 ```
 
+## Run it
+
+```
+$ electron app
+```
+
 ## Structure
 
 - `src/`: is where sources live
