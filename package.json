@@ -2,10 +2,10 @@
   "name": "yakayak",
   "version": "0.0.1",
   "description": "Chat client for Google Hangouts",
-  "main": "index.js",
+  "main": "app/main.js",
   "scripts": {
     "test": "mocha",
-    "compile": "coffee -c -o app/assets src",
+    "compile": "coffee -c -o app src",
     "watch": "coffee -w -c -o app/assets src & sleep 3 & brunch w"
   },
   "repository": {
@@ -24,7 +24,9 @@
   },
   "homepage": "https://github.com/algesten/yakayak",
   "dependencies": {
-    "q": "^1.4.0"
+    "hangupsjs": "^0.5.3",
+    "q": "^1.4.0",
+    "trifl": "0.0.7"
   },
   "devDependencies": {
     "auto-reload-brunch": "^1.7.8",
