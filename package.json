@@ -2,7 +2,7 @@
   "name": "yakayak",
   "version": "0.0.1",
   "description": "Chat client for Google Hangouts",
-  "main": "app/main.js",
+  "main": "main.js",
   "scripts": {
     "test": "mocha"
   },
