@@ -5,10 +5,11 @@ coffee = require 'gulp-coffee'
 less   = require 'gulp-less'
 minifyCss  = require 'gulp-minify-css'
 rimraf     = require 'rimraf'
-{execSync} = require 'child_process'
-fs     = require 'fs'
-gutil  = require 'gulp-util'
+fs         = require 'fs'
+gutil      = require 'gulp-util'
 sourcemaps = require 'gulp-sourcemaps'
+install    = require 'gulp-install'
+{execSync} = require 'child_process'
 
 outbin = './Yakayak.app'
 outapp = './Yakayak.app/Contents/Resources/app'
@@ -27,7 +28,10 @@ gulp.task 'pre', ->
 
 gulp.task 'default', ['pre'], ->
 
-  gulp.src
+  # install runtime deps
+  gulp.src './package.json'
+    .pipe gulp.dest outapp
+    .pipe install(production:true)
 
   # compile coffeescript
   gulp.src './src/**/*.coffee'
