@@ -56,13 +56,12 @@ gulp.task 'coffee', ->
 
 
 # reloader will inject <script> tag
-htmlInject = gutil.noop()
+htmlInject = -> gutil.noop()
 
 # copy .html-files
 gulp.task 'html', ->
   gulp.src paths.html
-    .pipe htmlInject
-    .pipe changed outapp
+    .pipe htmlInject()
     .pipe gulp.dest outapp
 
 
@@ -85,7 +84,7 @@ gulp.task 'reloader', ->
     .pipe gulp.dest outui
 
   # inject scripts in html
-  #htmlInject = reloader.inject()
+  htmlInject = reloader.inject
 
   # watch rebuilt stuff
   gulp.watch "#{outui}/**/*", reloader.onChange
