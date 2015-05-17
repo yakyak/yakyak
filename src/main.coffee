@@ -14,7 +14,7 @@ app.on 'window-all-closed', ->
     app.quit() # if (process.platform != 'darwin')
 
 loadAppWindow = ->
-    mainWindow.loadUrl 'file://' + __dirname + '/index.html'
+    mainWindow.loadUrl 'file://' + __dirname + '/ui/index.html'
 
 app.on 'ready', ->
 
