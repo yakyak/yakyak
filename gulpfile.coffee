@@ -55,15 +55,15 @@ gulp.task 'coffee', ->
     .pipe gulp.dest outapp
 
 
-buildHtml = (transform = gutil.noop()) ->
-  gulp.src paths.html
-    .pipe transform
-    .pipe changed outapp
-    .pipe gulp.dest outapp
-
+# reloader will inject <script> tag
+htmlInject = gutil.noop()
 
 # copy .html-files
-gulp.task 'html', -> buildHtml()
+gulp.task 'html', ->
+  gulp.src paths.html
+    .pipe htmlInject
+    .pipe changed outapp
+    .pipe gulp.dest outapp
 
 
 # compile less
@@ -85,7 +85,7 @@ gulp.task 'reloader', ->
     .pipe gulp.dest outui
 
   # inject scripts in html
-  #buildHtml reloader.inject()
+  #htmlInject = reloader.inject()
 
   # watch rebuilt stuff
   gulp.watch "#{outui}/**/*", reloader.onChange
@@ -96,7 +96,7 @@ gulp.task 'clean', (cb) ->
 
 gulp.task 'default', ['package', 'coffee', 'html', 'less']
 
-gulp.task 'watch', ['reloader'], ->
+gulp.task 'watch', ['reloader', 'html'], ->
   # watch to rebuild
   sources = (v for k, v of paths)
   gulp.watch sources, ['default']
