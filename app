@@ -1,0 +1,1 @@
+Yakayak.app/Contents/Resources/app
