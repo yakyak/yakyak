@@ -8,9 +8,12 @@ sourcemaps = require 'gulp-sourcemaps'
 install    = require 'gulp-install'
 {execSync} = require 'child_process'
 concat     = require 'gulp-concat'
+autoReload = require 'gulp-auto-reload'
+changed    = require 'gulp-changed'
 
 outbin = './Yakayak.app'
 outapp = './Yakayak.app/Contents/Resources/app'
+outui  = outapp + '/ui'
 
 gulp.task 'clean', (cb) ->
   rimraf outbin, cb
@@ -27,10 +30,12 @@ gulp.task 'pre', ->
 gulp.task 'default', ['pre'], ->
 
   gulp.src './README.md'
+    .pipe changed outapp
     .pipe gulp.dest outapp
 
   # install runtime deps
   gulp.src './package.json'
+    .pipe changed outapp
     .pipe gulp.dest outapp
     .pipe install(production:true)
 
@@ -39,10 +44,12 @@ gulp.task 'default', ['pre'], ->
     .pipe sourcemaps.init()
     .pipe coffee().on 'error', gutil.log
     .pipe sourcemaps.write()
+    .pipe changed outapp
     .pipe gulp.dest outapp
 
   # move .html-files
   gulp.src './src/**/*.html'
+    .pipe changed outapp
     .pipe gulp.dest outapp
 
   # compile less
@@ -51,8 +58,21 @@ gulp.task 'default', ['pre'], ->
     .pipe less().on 'error', gutil.log
     .pipe concat('ui/app.css')
     .pipe sourcemaps.write()
+    .pipe changed outapp
     .pipe gulp.dest outapp
 
 
 gulp.task 'watch', ['default'], ->
+
+  # create an auto reload server instance
+  reloader = autoReload()
+
+  # copy the client side script
+  reloader.script()
+    .pipe gulp.dest outui
+
+  # watch to rebuild
   gulp.watch './src/**/*', ['default']
+
+  # watch rebuilt stuff
+  gulp.watch "#{outui}/**/*", reloader.onChange
