@@ -26,6 +26,8 @@ app.on 'ready', ->
         "min-height": 420
     }
 
+    mainWindow.openDevTools detach: true
+
     # and load the index.html of the app. this may however be yanked
     # away if we must do auth.
     loadAppWindow()

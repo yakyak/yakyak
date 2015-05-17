@@ -1,9 +1,0 @@
-{
-  "name": "yakayak",
-  "version": "0.0.1",
-  "main": "main.js",
-  "dependencies": {
-    "hangupsjs": "^0.5.1",
-    "q": "^1.4.0"
-  }
-}
