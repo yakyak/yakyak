@@ -69,7 +69,6 @@ gulp.task 'less', ->
     .pipe less().on 'error', gutil.log
     .pipe concat('ui/app.css')
     .pipe sourcemaps.write()
-    .pipe changed outapp
     .pipe gulp.dest outapp
 
 
@@ -90,7 +89,7 @@ gulp.task 'clean', (cb) ->
 
 gulp.task 'default', ['package', 'coffee', 'html', 'less']
 
-gulp.task 'watch', ['reloader', 'default'], ->
+gulp.task 'watch', ['reloader'], ->
   # watch to rebuild
   sources = (v for k, v of paths)
   gulp.watch sources, ['default']
