@@ -27,11 +27,17 @@ gulp.task 'pre', ->
 
 gulp.task 'default', ['pre'], ->
 
+  gulp.src
+
   # compile coffeescript
   gulp.src './src/**/*.coffee'
     .pipe sourcemaps.init()
     .pipe coffee().on 'error', gutil.log
     .pipe sourcemaps.write()
+    .pipe gulp.dest outapp
+
+  # move .html-files
+  gulp.src './src/**/*.html'
     .pipe gulp.dest outapp
 
   # compile less
