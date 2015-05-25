@@ -7,44 +7,99 @@ client = new Client()
 app = require 'app'
 BrowserWindow = require 'browser-window'
 
-mainWindow = null
+model = require './model' # holds the application status/model
 
-# Quit when all windows are closed.
-app.on 'window-all-closed', ->
-    app.quit() # if (process.platform != 'darwin')
-
-loadAppWindow = ->
-    mainWindow.loadUrl 'file://' + __dirname + '/ui/index.html'
-
-app.on 'ready', ->
-
-    # Create the browser window.
-    mainWindow = new BrowserWindow {
-        width: 940
-        height: 600
-        "min-width": 620
-        "min-height": 420
-    }
-
-    mainWindow.openDevTools detach: true
-
+class Controller
+  constructor: (@app, @model, @client) ->
+    @app.on 'ready', @appReady.bind(@)
+  appReady: ->
+    @app.on 'window-all-closed', => @app.quit() # if (process.platform != 'darwin')
+    @mainWindow = new BrowserWindow
+      width: 940
+      height: 600
+      "min-width": 620
+      "min-height": 420
+    @mainWindow.on 'closed', => @mainWindow = null
+    @mainWindow.openDevTools detach: true
     # and load the index.html of the app. this may however be yanked
     # away if we must do auth.
-    loadAppWindow()
-
+    @loadAppWindow()
     # callback for credentials
-    creds = ->
-        prom = login(mainWindow)
-        # reinstate app window when login finishes
-        prom.then -> loadAppWindow()
-        auth: -> prom
+    creds = =>
+      prom = login(@mainWindow)
+      # reinstate app window when login finishes
+      prom.then -> loadAppWindow()
+      auth: -> prom
+    @mainWindow.webContents.on 'did-finish-load', => @refresh()
+    @model.connection = 'connecting..'
+    @client.connect(creds).then @clientConnectionSuccess.bind(@), @clientConnectionError.bind(@)
+    @client.on 'chat_message', @clientonchatmessage.bind(@)
+  loadAppWindow: -> @mainWindow.loadUrl 'file://' + __dirname + '/ui/index.html'
+  refresh: -> @mainWindow.webContents.send 'model:update', @model
+  clientConnectionSuccess: ->
+    @model.connection = 'online'
+    @refresh()
+    @getselfinfo().fail (err) -> console.log 'error', err, err.stack
+    @syncrecentconversations().fail (err) -> console.log 'error', err, err.stack
+  clientConnectionError: ->
+    @model.connection = 'error'
+    @refresh()
+  getselfinfo: ->
+    ret = client.getselfinfo()
+    success = (userInfo) ->
+      #console.log JSON.stringify userInfo, null, '  '
+      @model.self.username = userInfo.self_entity.properties.display_name
+      @refresh()
+    failure = (error) ->
+      console.log 'error', error
+    ret.then success.bind(@), failure.bind(@)
+    return ret
+  syncrecentconversations: =>
+    ret = client.syncrecentconversations().then (data) =>
+      todo = (ev for ev in conv.event for conv in data.conversation_state)
+      todo = todo.reduce (a, b) -> a.concat b
+      reduce = (p, c) =>
+        return p.then =>
+          @clientonchatmessage(c)
+      return todo.reduce reduce, Q()
+    return ret
+  entityCache: {}
+  getentitybyid: (id) ->
+    if @entityCache[id]
+      return Q @entityCache[id]
+    ret = client.getentitybyid id
+    success = (data) => @entityCache[id] = data
+    failure = (err) ->
+      console.log 'error', err
+      console.log err.stack
+    ret.then success.bind(@), failure.bind(@)
+    return ret
+  clientonchatmessage: (ev) ->
+    chat_id = (ev.sender_id || ev.user_id).chat_id
+    conversation_id = ev.conversation_id.id
+    console.log conversation_id
+    if not ev.chat_message or not ev.chat_message.message_content.segment
+      # TODO need to investigate, for now we skip
+      return Q()
+    text = ev.chat_message.message_content.segment[0].text
+    dfr = Q()
+    dfr = dfr.then => @getentitybyid chat_id
+    dfr = dfr.then (res) =>
+      display_name = res.entities[0].properties.display_name
+      console.log display_name, ':', text
+    dfr = dfr.then => @client.getconversation conversation_id, Date.now(), 1
+    dfr = dfr.then (res) => console.log JSON.stringify res, null, '  '
 
-    client.connect(creds).then ->
-        # XXX update global var that indicates current
-        # client connection state.
-        console.log 'connected'
-    .done()
+    return dfr
+    try
+      text = ev.chat_message.message_content.segment[0].text
+      if text
+        console.log(chat_id, text)
+    catch e
+      console.log chat_id, 'not a text message'
+    console.log 'getentitybyid for ', chat_id
+    example_getentitybyid chat_id
 
-    # Emitted when the window is closed.
-    mainWindow.on 'closed', ->
-        mainWindow = null
+    
+controller = new Controller(app, model, client)
+    
