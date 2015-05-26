@@ -47,7 +47,12 @@ class Controller
   getselfinfo: ->
     ret = client.getselfinfo()
     success = (userInfo) ->
-      #console.log JSON.stringify userInfo, null, '  '
+      fs = require('fs')
+
+      #data = JSON.stringify(userInfo, null, '  ')
+      #fs.writeFile "getselfinfo_response.json", data, ->
+      #  console.log "DONEEEEEEEEEEEE"
+      
       @model.self.username = userInfo.self_entity.properties.display_name
       @refresh()
     failure = (error) ->
@@ -55,14 +60,9 @@ class Controller
     ret.then success.bind(@), failure.bind(@)
     return ret
   syncrecentconversations: =>
-    ret = client.syncrecentconversations().then (data) =>
-      todo = (ev for ev in conv.event for conv in data.conversation_state)
-      todo = todo.reduce (a, b) -> a.concat b
-      reduce = (p, c) =>
-        return p.then =>
-          @clientonchatmessage(c)
-      return todo.reduce reduce, Q()
-    return ret
+    client.syncrecentconversations().then (data) =>
+      @model.loadRecentConversations data
+      @refresh()
   entityCache: {}
   getentitybyid: (id) ->
     if @entityCache[id]
@@ -76,8 +76,6 @@ class Controller
     return ret
   clientonchatmessage: (ev) ->
     chat_id = (ev.sender_id || ev.user_id).chat_id
-    conversation_id = ev.conversation_id.id
-    console.log conversation_id
     if not ev.chat_message or not ev.chat_message.message_content.segment
       # TODO need to investigate, for now we skip
       return Q()
@@ -86,15 +84,15 @@ class Controller
     dfr = dfr.then => @getentitybyid chat_id
     dfr = dfr.then (res) =>
       display_name = res.entities[0].properties.display_name
-      console.log display_name, ':', text
-    dfr = dfr.then => @client.getconversation conversation_id, Date.now(), 1
-    dfr = dfr.then (res) => console.log JSON.stringify res, null, '  '
+      #console.log display_name, ':', text
+    dfr = dfr.then (res) =>
+      #console.log JSON.stringify res, null, '  '
 
     return dfr
     try
       text = ev.chat_message.message_content.segment[0].text
-      if text
-        console.log(chat_id, text)
+      #if text
+      #  console.log(chat_id, text)
     catch e
       console.log chat_id, 'not a text message'
     console.log 'getentitybyid for ', chat_id
