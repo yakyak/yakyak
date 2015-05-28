@@ -25,7 +25,6 @@ class Status
   messageAdd: (event) =>
     id = event.conversation_id.id
     if not @conversationCurrent then @conversationCurrent = id
-    @conversationCurrent = id
     @messagesByConversationId[id] = @messagesByConversationId[id] || []
     @messagesByConversationId[id].push event
 
