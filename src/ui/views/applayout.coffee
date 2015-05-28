@@ -33,7 +33,7 @@ messagesUtils =
     segments = event.chat_message.message_content.segment
     if segments
       segments.forEach (segment) ->
-        if segment.type == "TEXT"
+        if segment.type == "TEXT" or segment.type.k == "TEXT"
           text.push segment.text
         else
           text.push "[#{JSON.stringify(segment)}]"
