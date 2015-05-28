@@ -45,8 +45,10 @@ messageBodyView = (model, event) ->
         link = "<a href='#{segment.link_data.link_target}'>#{segment.text}</a>"
         a href: segment.link_data.link_target, ->
           segment.text
+      else if type == "LINE_BREAK"
+        br()
       else
-        span "[#{JSON.stringify(segments)}]"
+        pre "[#{JSON.stringify(segment)}]"
   if event.chat_message.message_content.attachment
     span "ATTACHMENT: need to figure out how to parse it"
     console.log JSON.stringify(event.chat_message.message_content.attachment, null, '  ')
