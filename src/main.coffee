@@ -51,20 +51,22 @@ class Controller
   clientConnectionSuccess: ->
     @model.connection = 'online'
     @refresh()
-    @getselfinfo().fail (err) -> console.log 'error', err, err.stack
-    @syncrecentconversations().fail (err) -> console.log 'error', err, err.stack
+    promise = @getselfinfo()
+    promise.then =>
+      @syncrecentconversations().fail (err) -> console.log 'error', err, err.stack
+    pormise.fail (err) -> console.log 'error', err, err.stack
   clientConnectionError: ->
     @model.connection = 'error'
     @refresh()
   getselfinfo: ->
     ret = client.getselfinfo()
-    success = (userInfo) ->
+    success = (userInfo) =>
       fs = require('fs')
       @model.self.username = userInfo.self_entity.properties.display_name
       @refresh()
-    failure = (error) ->
+    failure = (error) =>
       console.log 'error', error
-    ret.then success.bind(@), failure.bind(@)
+    ret = ret.then success, failure
     return ret
   syncrecentconversations: =>
     client.syncrecentconversations().then (data) =>

@@ -39,9 +39,10 @@ class Status
       participants = []
       names = []
       conversation.participant_data.forEach (participant) =>
-        @identityAdd participant.id.chat_id, participant.fallback_name
-        participants.push participant.id.chat_id
-        names.push participant.fallback_name
+        if participant.fallback_name != @self.username # TODO should be based on user id
+          @identityAdd participant.id.chat_id, participant.fallback_name
+          participants.push participant.id.chat_id
+          names.push participant.fallback_name
       name = names.join(", ")
       @conversationAdd id, name, participants, sort_timestamp
     # extract messages
