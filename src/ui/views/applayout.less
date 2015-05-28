@@ -81,6 +81,11 @@
                     height: ~"calc(100% - 60px)";
                     .message-list {
                         background-color: #fff;
+                        ._message:hover {
+                            .timestamp {
+                              display: inline-block;
+                            }
+                        }                        
                         .message {
                             display: block;
                             margin: 0px;
@@ -89,6 +94,16 @@
                                 display: inline-block;
                                 font-weight: bold;
                                 text-overflow: ellipsis;
+                            }
+
+                            .timestamp {
+                              display: none;
+                              color: #aaa;
+                              float: right;
+                              padding-right: 15px;
+                            }
+                            &:hover .timestamp {
+                              display: inline-block;
                             }
 
                             .body {

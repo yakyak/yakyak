@@ -56,7 +56,16 @@ messagesView = (model) ->
     div class: 'message', ->
       div class: 'user', ->
         chat_id = (message.sender_id || message.user_id).chat_id
-        return model.identitiesById[chat_id].name || 'Unknown'
+        user = model.identitiesById[chat_id].name || 'Unknown'
+      div class: 'timestamp', ->
+        today = new Date()
+        date = new Date(message.timestamp / 1000)
+        if today.toLocaleDateString() == date.toLocaleDateString()
+          date = date.toLocaleTimeString()
+        else
+          date = date.toLocaleString()
+        return date
+        
       div class: 'body', ->
         messageBodyView model, message
 
