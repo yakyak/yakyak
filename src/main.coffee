@@ -18,6 +18,21 @@ class Controller
   appReady: ->
     menus = []
     menus.push
+      label: 'YakYak'
+      submenu: [
+        { label: 'About YakYak', selector: 'orderFrontStandardAboutPanel:' }
+        { type: 'separator' }
+        #{ label: 'Preferences...', accelerator: 'Command+,', click: => @openConfig() }
+        { type: 'separator' }
+        { label: 'Hide Atom', accelerator: 'Command+H', selector: 'hide:' }
+        { label: 'Hide Others', accelerator: 'Command+Shift+H', selector: 'hideOtherApplications:' }
+        { label: 'Show All', selector: 'unhideAllApplications:' }
+        { type: 'separator' }
+        { label: 'Open Inspector', accelerator: 'Command+Alt+I', click: => @inspectorOpen() }
+        { type: 'separator' }
+        { label: 'Quit', accelerator: 'Command+Q', click: -> app.quit() }
+      ]
+    menus.push
       label: 'Edit'
       submenu:[
         { label: 'Undo', accelerator: 'Command+Z', selector: 'undo:' }
@@ -38,7 +53,6 @@ class Controller
       "min-width": 620
       "min-height": 420
     @mainWindow.on 'closed', => @mainWindow = null
-    @mainWindow.openDevTools detach: true
     # and load the index.html of the app. this may however be yanked
     # away if we must do auth.
     @loadAppWindow()
@@ -54,6 +68,8 @@ class Controller
     @client.on 'chat_message', @clientonchatmessage
     ipc.on 'conversation:select', @conversationSelect
     ipc.on 'message:send', @messageSend
+  inspectorOpen: () =>
+    @mainWindow.openDevTools detach: true
   conversationSelect: (event, id) =>
     @model.conversationCurrent = id
     @refresh()
