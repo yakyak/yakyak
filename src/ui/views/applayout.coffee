@@ -4,9 +4,9 @@ ipc = require 'ipc'
 classify = (str) -> str.replace /[^a-zA-Z0-9_]/g, ''
 
 statusView = (model) ->
-  div class: 'self span2', ->
+  div class:'self', ->
     div model.self.username
-    span class:classify(model.connection), model.connection
+    span class:"status #{classify(model.connection)}", model.connection
 
 # conversations
 
@@ -74,10 +74,11 @@ module.exports = layout (model) ->
   if not model then return div 'Loading'
   div class:'applayout', ->
     div class:'row', ->
-      div class:'left span2', region('left'), ->
-        statusView model
-        conversationsListView model.conversations
-      div class:'main span10', region('main'), ->
+      div class:'left span3', region('left'), ->
+        div class:'span12', ->
+            statusView model
+            conversationsListView model.conversations
+      div class:'main span9', region('main'), ->
         div class: 'message-list', ->
           messagesView model
         div class: 'message-input', ->

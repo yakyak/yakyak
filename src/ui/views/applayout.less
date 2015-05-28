@@ -1,5 +1,8 @@
 @top-height: 40px;
 
+@dark: #4c3a4b;
+@darktxt: #998a98;
+
 .applayout {
     height: 100%;
     padding: 0px;
@@ -8,28 +11,56 @@
         height: 100%;
 
         .left {
-            background: #fffcee;
-            border-right: 1px solid #f0eee8;
+            height: 100%;
+            padding-right: 0;
+        }
+
+        .left  > .span12 {
+
+            padding-top: 15px;
+
+            background: @dark;
+            color: @darktxt;
+
             height: 100%;
             overflow-x: hidden;
             overflow-y: auto;
-            padding-left: 15px;
+            position: relative;
 
             .self {
-                border-bottom: 1px solid #aaa;
-                position: fixed;
-                padding: 0px;
-                top: 0px;
-                left: 0px;
-                background-color: #ced;
+                box-shadow: inset 0 1px 2px rgba(0,0,0,0.3);
+                padding: 7px 15px;
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                background-color: darken(@dark, 10%);
+                height: 60px;
+                .status {
+                    &:before {
+                        content: "●";
+                        font-size: 18px;
+                        line-height: 15px;
+                        vertical-align: bottom;
+                        padding-right: 3px;
+                    }
+                    &.online {
+                        &:before {
+                            color: #69b14b;
+                        }
+                    }
+                }
             }
 
             .conversations {
-                margin-top: 60px;
-
                 .conversation {
-                    border-bottom: 1px solid black;
+                    margin-bottom: 5px;
+                    &:hover {
+                        cursor: pointer;
+                        color: lighten(@darktxt, 10%);
+                    }
                 }
+                height: ~"calc(100% - 60px)";
             }
         }
 
@@ -40,8 +71,8 @@
             padding: 0px;
 
             .message-list {
-                border: 1px solid #aaa;
-                background-color: #eee;
+                padding-left: 15px;
+                background-color: #fff;
                 min-height: 100%;
                 margin-bottom: 1.5em;
 
