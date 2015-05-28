@@ -15,15 +15,24 @@ class Status
     object = id: id, name: name
     @identitiesById[id] = object
   conversationsSort: () ->
-    timestampDesc = (a, b) -> a.ts < a.ts
-    @conversations = @conversations.sort timestampDesc
+    timestampDesc = (a, b) -> (parseInt a.ts) > (parseInt b.ts)
+    @conversations = (@conversations.sort timestampDesc).reverse()
+    @conversations.forEach (c) ->
+      console.log new Date(parseInt c.ts).toISOString(), c.name
   conversationAdd: (id, name, participants, ts) ->
-    object = id: id, name: name, participants: participants, timestamp: ts
+    object = id: id, name: name, participants: participants, ts: ts
     @conversations.push object
     @conversationsSort()
     @conversationsById[id] = object
+  conversationUpdateTs: (id, ts) =>
+    @conversations.forEach (c) ->
+      if c.id == id
+        c.ts = ts
+    @conversationsSort()
   messageAdd: (event) =>
     id = event.conversation_id.id
+    ts = event.timestamp
+    @conversationUpdateTs id, ts
     if not @conversationCurrent then @conversationCurrent = id
     @messagesByConversationId[id] = @messagesByConversationId[id] || []
     @messagesByConversationId[id].push event
