@@ -20,14 +20,14 @@ class Status
     @conversations.forEach (c) ->
       console.log new Date(parseInt c.ts).toISOString(), c.name
   conversationAdd: (id, name, participants, ts) ->
-    object = id: id, name: name, participants: participants, ts: ts
+    object = id: id, name: name, participants: participants, ts: ts / 1000
     @conversations.push object
     @conversationsSort()
     @conversationsById[id] = object
   conversationUpdateTs: (id, ts) =>
     @conversations.forEach (c) ->
       if c.id == id
-        c.ts = ts
+        c.ts = ts / 1000
     @conversationsSort()
   messageAdd: (event) =>
     id = event.conversation_id.id
