@@ -60,11 +60,6 @@ class Controller
     ret = client.getselfinfo()
     success = (userInfo) ->
       fs = require('fs')
-
-      #data = JSON.stringify(userInfo, null, '  ')
-      #fs.writeFile "getselfinfo_response.json", data, ->
-      #  console.log "DONEEEEEEEEEEEE"
-      
       @model.self.username = userInfo.self_entity.properties.display_name
       @refresh()
     failure = (error) ->
