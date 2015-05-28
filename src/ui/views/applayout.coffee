@@ -67,6 +67,7 @@ messageInput = ->
   textarea rows:1,
   onkeypress: (e) ->
     if e.keyCode == 13
+      e.preventDefault()
       val = e.target.value
       e.target.value = ""
       ipc.send 'message:send', val
