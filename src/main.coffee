@@ -34,18 +34,15 @@ class Controller
     @mainWindow.webContents.on 'did-finish-load', => @refresh()
     @model.connection = 'connecting..'
     @client.connect(creds).then @clientConnectionSuccess.bind(@), @clientConnectionError.bind(@)
-    @client.on 'chat_message', @clientonchatmessage.bind(@)
+    @client.on 'chat_message', @clientonchatmessage
     ipc.on 'conversation:select', @conversationSelect
     ipc.on 'message:send', @messageSend
   conversationSelect: (event, id) =>
-    console.log id
     @model.conversationCurrent = id
     @refresh()
   messageSend: (event, message) =>
     conversation = @model.conversationCurrent
-    console.log conversation, message
     dfr = @client.sendchatmessage conversation, [[0, message]], null
-    dfr.then console.log, console.log
   loadAppWindow: -> @mainWindow.loadUrl 'file://' + __dirname + '/ui/index.html'
   refresh: -> @mainWindow.webContents.send 'model:update', @model
   clientConnectionSuccess: ->
@@ -83,7 +80,7 @@ class Controller
       console.log err.stack
     ret.then success.bind(@), failure.bind(@)
     return ret
-  clientonchatmessage: (ev) ->
+  clientonchatmessage: (ev) =>
     console.log JSON.stringify ev, null, '  '
     @model.messageAdd ev
     @refresh()
@@ -110,6 +107,5 @@ class Controller
     console.log 'getentitybyid for ', chat_id
     example_getentitybyid chat_id
 
-    
 controller = new Controller(app, model, client)
     

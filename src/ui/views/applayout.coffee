@@ -37,11 +37,9 @@ messageBodyView = (model, event) ->
   if segments
     segments.forEach (segment) ->
       type = segment.type.k or segment.type
-      console.log type
       if type == "TEXT"
         span segment.text
       else if type == "LINK"
-        console.log segment
         link = "<a href='#{segment.link_data.link_target}'>#{segment.text}</a>"
         a href: segment.link_data.link_target, ->
           segment.text
@@ -51,8 +49,7 @@ messageBodyView = (model, event) ->
         pre "[#{JSON.stringify(segment)}]"
   if event.chat_message.message_content.attachment
     span "ATTACHMENT: need to figure out how to parse it"
-    console.log JSON.stringify(event.chat_message.message_content.attachment, null, '  ')
-    pre "[#{JSON.stringify(event.chat_message.message_content.attachment, null, '  ')}]"
+    pre "#{JSON.stringify(event.chat_message.message_content.attachment, null, '  ')}"
   text = text.join " "
   return text
 
@@ -79,7 +76,6 @@ messageInput = ->
 # main layout
 
 module.exports = layout (model) ->
-  console.log 'model', model
   if not model then return div 'Loading'
   div class:'applayout', ->
     div class:'row', ->
