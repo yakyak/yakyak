@@ -73,13 +73,12 @@ messageInput = ->
   , onDOMNodeInserted: (e) ->
     setTimeout (-> autosize e.target), 10
 
+ipc.on 'conversation:scroll', (value) ->
+  document.body.querySelector('.message-list-scroll').scrollTop = value
+
+
 # main layout
-
-
 module.exports = layout (model) ->
-  ipc.on 'conversation:scroll', (value) ->
-    document.body.querySelector('.message-list-scroll').scrollTop = value
-  
   window.model = model # for debug
   if not model then return div 'Loading'
   div class:'applayout', ->
