@@ -51,19 +51,22 @@
                     }
                 }
             }
-
-            .conversations {
-                .conversation {
-                    margin-bottom: 5px;
-                    &:before {
-                        content: "– ";
-                    }
-                    &:hover {
-                        cursor: pointer;
-                        color: lighten(@darktxt, 10%);
+            .conversations-scroll {
+                height: ~"calc(100% - 75px)";
+                overflow-x: hidden;
+                overflow-y: auto;
+                .conversations {
+                    .conversation {
+                        margin-bottom: 5px;
+                        &:before {
+                            content: "– ";
+                        }
+                        &:hover {
+                            cursor: pointer;
+                            color: lighten(@darktxt, 10%);
+                        }
                     }
                 }
-                height: ~"calc(100% - 60px)";
             }
         }
 

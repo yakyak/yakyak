@@ -13,13 +13,14 @@ statusView = (model) ->
 # conversations
 
 conversationsListItemView = (conversation) ->
-  div class: 'conversation', conversation.name, onclick: (e) ->
+  div class:'conversation', conversation.name, onclick: (e) ->
     e.preventDefault()
     ipc.send 'conversation:select', conversation.id
 
 conversationsListView = (conversations) ->
-  div class: 'conversations', ->
-    (conversations || []).forEach conversationsListItemView
+  div class:'conversations-scroll', ->
+    div class:'conversations', ->
+      (conversations || []).forEach conversationsListItemView
 
 # messages
 
