@@ -13,7 +13,8 @@ statusView = (model) ->
 # conversations
 
 conversationsListItemView = (conversation) ->
-  div class:'conversation', conversation.name, onclick: (e) ->
+  conversationName = conversation.name || 'Unknown'
+  div class:'conversation', conversationName, onclick: (e) ->
     e.preventDefault()
     ipc.send 'conversation:select', conversation.id
 
@@ -23,11 +24,6 @@ conversationsListView = (conversations) ->
       (conversations || []).forEach conversationsListItemView
 
 # messages
-
-messagesUtils =
-  messageGetUsername: (model, event) =>
-    chat_id = (event.sender_id || event.user_id).chat_id
-    return model.identitiesById[chat_id].name
 
 messageBodyView = (model, event) ->
   # Temporary doing this to get something to print
@@ -58,7 +54,9 @@ messagesView = (model) ->
   messages = model.messagesByConversationId[model.conversationCurrent] || []
   messages.forEach (message) ->
     div class: 'message', ->
-      div class: 'user', messagesUtils.messageGetUsername(model, message)
+      div class: 'user', ->
+        chat_id = (message.sender_id || message.user_id).chat_id
+        return model.identitiesById[chat_id].name || 'Unknown'
       div class: 'body', ->
         messageBodyView model, message
 
