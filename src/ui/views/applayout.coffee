@@ -1,10 +1,12 @@
 ipc = require 'ipc'
 # status
 
+classify = (str) -> str.replace /[^a-zA-Z0-9_]/g, ''
+
 statusView = (model) ->
   div class: 'self span2', ->
-    div 'You: ' + model.self.username
-    span 'Status: ' + model.connection
+    div model.self.username
+    span class:classify(model.connection), model.connection
 
 # conversations
 
@@ -14,9 +16,6 @@ conversationsListItemView = (conversation) ->
     ipc.send 'conversation:select', conversation.id
 
 conversationsListView = (conversations) ->
-  margin =
-    style:
-      marginTop: '60px'
   div class: 'conversations', ->
     (conversations || []).forEach conversationsListItemView
 
