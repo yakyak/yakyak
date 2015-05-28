@@ -87,7 +87,11 @@ module.exports = layout (model) ->
         div class:'span12', ->
             statusView model
             conversationsListView model.conversations
-      div class:'main span9', region('main'), ->
+      focusTextAreaOnClick = onclick: (e) ->
+        if window.getSelection().toString().length > 1
+          return # let the user select
+        document.body.querySelector('.message-xinput textarea').focus()
+      div class:'main span9', focusTextAreaOnClick, region('main'), ->
         div class:'messages', ->
           div class:'message-list-scroll', ->
             div class:'message-list', ->
