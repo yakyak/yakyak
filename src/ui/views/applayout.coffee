@@ -75,7 +75,12 @@ messageInput = ->
 
 # main layout
 
+
 module.exports = layout (model) ->
+  ipc.on 'conversation:scroll', (value) ->
+    document.body.querySelector('.message-list-scroll').scrollTop = value
+  
+  window.model = model # for debug
   if not model then return div 'Loading'
   div class:'applayout', ->
     div class:'row', ->

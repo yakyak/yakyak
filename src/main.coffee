@@ -73,6 +73,7 @@ class Controller
   conversationSelect: (event, id) =>
     @model.conversationCurrent = id
     @refresh()
+    @mainWindow.webContents.send 'conversation:scroll', Number.MAX_VALUE
   messageSend: (event, message) =>
     conversation = @model.conversationCurrent
     dfr = @client.sendchatmessage conversation, [[0, message]], null
@@ -117,28 +118,8 @@ class Controller
     console.log JSON.stringify ev, null, '  '
     @model.messageAdd ev
     @refresh()
+    @mainWindow.webContents.send 'conversation:scroll', Number.MAX_VALUE
     return
-    chat_id = (ev.sender_id || ev.user_id).chat_id
-    if not ev.chat_message or not ev.chat_message.message_content.segment
-      # TODO need to investigate, for now we skip
-      return Q()
-    text = ev.chat_message.message_content.segment[0].text
-    dfr = Q()
-    dfr = dfr.then => @getentitybyid chat_id
-    dfr = dfr.then (res) =>
-      display_name = res.entities[0].properties.display_name
-      #console.log display_name, ':', text
-    dfr = dfr.then (res) =>
-      #console.log JSON.stringify res, null, '  '
-    return dfr
-    try
-      text = ev.chat_message.message_content.segment[0].text
-      #if text
-      #  console.log(chat_id, text)
-    catch e
-      console.log chat_id, 'not a text message'
-    console.log 'getentitybyid for ', chat_id
-    example_getentitybyid chat_id
 
 controller = new Controller(app, model, client)
     
