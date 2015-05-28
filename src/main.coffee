@@ -2,6 +2,8 @@ Client = require 'hangupsjs'
 Q      = require 'q'
 login  = require './login'
 ipc = require 'ipc'
+Menu = require 'menu'
+
 
 client = new Client()
 
@@ -14,6 +16,21 @@ class Controller
   constructor: (@app, @model, @client) ->
     @app.on 'ready', @appReady.bind(@)
   appReady: ->
+    menus = []
+    menus.push
+      label: 'Edit'
+      submenu:[
+        { label: 'Undo', accelerator: 'Command+Z', selector: 'undo:' }
+        { label: 'Redo', accelerator: 'Command+Shift+Z', selector: 'redo:' }
+        { type: 'separator' }
+        { label: 'Cut', accelerator: 'Command+X', selector: 'cut:' }
+        { label: 'Copy', accelerator: 'Command+C', selector: 'copy:' }
+        { label: 'Paste', accelerator: 'Command+V', selector: 'paste:' }
+        { label: 'Select All', accelerator: 'Command+A', selector: 'selectAll:' }
+      ]
+    menu = Menu.buildFromTemplate menus
+    Menu.setApplicationMenu menu
+    
     @app.on 'window-all-closed', => @app.quit() # if (process.platform != 'darwin')
     @mainWindow = new BrowserWindow
       width: 940
