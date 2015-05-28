@@ -15,7 +15,7 @@ class Status
     object = id: id, name: name
     @identitiesById[id] = object
   conversationsSort: () ->
-    timestampDesc = (a, b) -> a.ts > a.ts
+    timestampDesc = (a, b) -> a.ts < a.ts
     @conversations = @conversations.sort timestampDesc
   conversationAdd: (id, name, participants, ts) ->
     object = id: id, name: name, participants: participants, timestamp: ts
