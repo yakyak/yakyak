@@ -55,6 +55,9 @@
             .conversations {
                 .conversation {
                     margin-bottom: 5px;
+                    &:before {
+                        content: "– ";
+                    }
                     &:hover {
                         cursor: pointer;
                         color: lighten(@darktxt, 10%);
@@ -66,47 +69,52 @@
 
         .main {
             height: 100%;
-            overflow-x: hidden;
-            overflow-y: auto;
-            padding: 0px;
+            .messages {
+                position: relative;
+                height: 100%;
+                .message-list-scroll {
+                    overflow-x: hidden;
+                    overflow-y: scroll;
+                    height: ~"calc(100% - 60px)";
+                    .message-list {
+                        background-color: #fff;
+                        .message {
+                            display: block;
+                            margin: 0px;
 
-            .message-list {
-                padding-left: 15px;
-                background-color: #fff;
-                min-height: 100%;
-                margin-bottom: 1.5em;
+                            .user {
+                                display: inline-block;
+                                font-weight: bold;
+                                text-overflow: ellipsis;
+                            }
 
-                .message {
-                    display: block;
-                    margin: 0px;
-
-                    .user {
-                        display: inline-block;
-                        width: 20%;
-                        overflow: hidden;
-                        font-weight: bold;
-                        text-overflow: ellipsis;
-                    }
-
-                    .body {
-                        display: inline-block;
-                        width: 80%;
-                        overflow: hidden;
-                        padding-left: 10px;
+                            .body {
+                                display: inline-block;
+                                overflow: hidden;
+                                padding-left: 10px;
+                            }
+                        }
                     }
                 }
-
+                .message-xinput {
+                    position: absolute;
+                    bottom: 15px;
+                    left: 0px;
+                    right: 15px;
+                    textarea {
+                        border: 2px solid #ddd;
+                        border-radius: 3px;
+                        padding: 3px 7px;
+                        font-size: 13px;
+                        line-height: 20px;
+                        width: 100%;
+                        outline: none;
+                        resize: none;
+                        vertical-align: top;
+                    }
+                }
             }
 
-            .message-input input {
-                width: 83%;
-                height: 1.5em;
-                position: fixed;
-                bottom: 0px;
-                padding: .3em;
-                font-size: large;
-                border: 1px solid #aaa;
-            }
         }
     }
 }

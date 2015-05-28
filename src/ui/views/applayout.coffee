@@ -1,7 +1,9 @@
 ipc = require 'ipc'
-# status
+autosize = require 'autosize'
 
 classify = (str) -> str.replace /[^a-zA-Z0-9_]/g, ''
+
+# status
 
 statusView = (model) ->
   div class:'self', ->
@@ -61,11 +63,14 @@ messagesView = (model) ->
         messageBodyView model, message
 
 messageInput = ->
-  input onkeypress: (e) ->
+  textarea rows:1,
+  onkeypress: (e) ->
     if e.keyCode == 13
       val = e.target.value
       e.target.value = ""
       ipc.send 'message:send', val
+  , onDOMNodeInserted: (e) ->
+    setTimeout (-> autosize e.target), 10
 
 # main layout
 
@@ -79,7 +84,9 @@ module.exports = layout (model) ->
             statusView model
             conversationsListView model.conversations
       div class:'main span9', region('main'), ->
-        div class: 'message-list', ->
-          messagesView model
-        div class: 'message-input', ->
-          messageInput model
+        div class:'messages', ->
+          div class:'message-list-scroll', ->
+            div class:'message-list', ->
+              messagesView model
+          div class:'message-xinput', ->
+            messageInput model
