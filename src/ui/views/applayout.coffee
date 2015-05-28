@@ -26,21 +26,31 @@ messagesUtils =
   messageGetUsername: (model, event) =>
     chat_id = (event.sender_id || event.user_id).chat_id
     return model.identitiesById[chat_id].name
-  messageGetText: (model, event) ->
-    # Temporary doing this to get something to print
-    # while narrowing the different cases
-    text = []
-    segments = event.chat_message.message_content.segment
-    if segments
-      segments.forEach (segment) ->
-        if segment.type == "TEXT" or segment.type.k == "TEXT"
-          text.push segment.text
-        else
-          text.push "[#{JSON.stringify(segment)}]"
-    if event.chat_message.message_content.attachment
-      text.push "[ATTACHMENT]"
-    text = text.join " "
-    return text
+
+messageBodyView = (model, event) ->
+  # Temporary doing this to get something to print
+  # while narrowing the different cases
+  text = []
+  segments = event.chat_message.message_content.segment
+  if segments
+    segments.forEach (segment) ->
+      type = segment.type.k or segment.type
+      console.log type
+      if type == "TEXT"
+        span segment.text
+      else if type == "LINK"
+        console.log segment
+        link = "<a href='#{segment.link_data.link_target}'>#{segment.text}</a>"
+        a href: segment.link_data.link_target, ->
+          segment.text
+      else
+        span "[#{JSON.stringify(segments)}]"
+  if event.chat_message.message_content.attachment
+    span "ATTACHMENT: need to figure out how to parse it"
+    console.log JSON.stringify(event.chat_message.message_content.attachment, null, '  ')
+    pre "[#{JSON.stringify(event.chat_message.message_content.attachment, null, '  ')}]"
+  text = text.join " "
+  return text
 
 
 messagesView = (model) ->
@@ -48,7 +58,8 @@ messagesView = (model) ->
   messages.forEach (message) ->
     div class: 'message', ->
       div class: 'user', messagesUtils.messageGetUsername(model, message)
-      div class: 'body', messagesUtils.messageGetText(model, message)
+      div class: 'body', ->
+        messageBodyView model, message
 
 messageInput = ->
   input onkeypress: (e) ->
