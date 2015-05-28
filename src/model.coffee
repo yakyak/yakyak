@@ -18,13 +18,14 @@ class Status
     timestampDesc = (a, b) -> a.ts > a.ts
     @conversations = @conversations.sort timestampDesc
   conversationAdd: (id, name, participants, ts) ->
-    if not @conversationCurrent then @conversationCurrent = id
     object = id: id, name: name, participants: participants, timestamp: ts
     @conversations.push object
     @conversationsSort()
     @conversationsById[id] = object
   messageAdd: (event) =>
     id = event.conversation_id.id
+    if not @conversationCurrent then @conversationCurrent = id
+    @conversationCurrent = id
     @messagesByConversationId[id] = @messagesByConversationId[id] || []
     @messagesByConversationId[id].push event
 

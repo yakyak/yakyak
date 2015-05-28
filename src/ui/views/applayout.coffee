@@ -1,24 +1,26 @@
-leftItem = (fn) ->
-  opts =
-    style:
-      padding: '.5em'
-      borderBottom: '1px solid #aaa'
-  div opts, fn
+ipc = require 'ipc'
+# status
 
 statusView = (model) ->
-  leftItem ->
+  div class: 'self span2', ->
     div 'You: ' + model.self.username
     span 'Status: ' + model.connection
 
+# conversations
 
 conversationsListItemView = (conversation) ->
-  leftItem ->
-    div conversation.name
-    div conversation.timestamp
+  div class: 'conversation', conversation.name, onclick: (e) ->
+    e.preventDefault()
+    ipc.send 'conversation:select', conversation.id
 
 conversationsListView = (conversations) ->
-  (conversations || []).forEach conversationsListItemView
+  margin =
+    style:
+      marginTop: '60px'
+  div class: 'conversations', ->
+    (conversations || []).forEach conversationsListItemView
 
+# messages
 
 messagesUtils =
   messageGetUsername: (model, event) =>
@@ -44,30 +46,18 @@ messagesUtils =
 messagesView = (model) ->
   messages = model.messagesByConversationId[model.conversationCurrent] || []
   messages.forEach (message) ->
-    messageLine =
-      style:
-        display: 'block'
-        margin: '0px'
-        _backgroundColor: 'green'
-    div messageLine, ->
-      opts =
-        style:
-          display: 'inline-block'
-          width: '20%'
-          overflow: 'hidden'
-          _backgroundColor: 'red'
-          textOverflow: 'ellipsis'
-      div opts, messagesUtils.messageGetUsername(model, message)
-        
-      opts =
-        style:
-          display: 'inline-block'
-          width: '80%'
-          overflow: 'hidden'
-          _backgroundColor: '#eee'
-          paddingLeft: '10px'
-      div opts, messagesUtils.messageGetText(model, message)
+    div class: 'message', ->
+      div class: 'user', messagesUtils.messageGetUsername(model, message)
+      div class: 'body', messagesUtils.messageGetText(model, message)
 
+messageInput = ->
+  input onkeypress: (e) ->
+    if e.keyCode == 13
+      val = e.target.value
+      e.target.value = ""
+      ipc.send 'message:send', val
+
+# main layout
 
 module.exports = layout (model) ->
   console.log 'model', model
@@ -78,4 +68,7 @@ module.exports = layout (model) ->
         statusView model
         conversationsListView model.conversations
       div class:'main span10', region('main'), ->
-        messagesView model
+        div class: 'message-list', ->
+          messagesView model
+        div class: 'message-input', ->
+          messageInput model

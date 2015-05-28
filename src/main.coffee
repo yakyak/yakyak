@@ -1,6 +1,7 @@
 Client = require 'hangupsjs'
 Q      = require 'q'
 login  = require './login'
+ipc = require 'ipc'
 
 client = new Client()
 
@@ -34,6 +35,17 @@ class Controller
     @model.connection = 'connecting..'
     @client.connect(creds).then @clientConnectionSuccess.bind(@), @clientConnectionError.bind(@)
     @client.on 'chat_message', @clientonchatmessage.bind(@)
+    ipc.on 'conversation:select', @conversationSelect
+    ipc.on 'message:send', @messageSend
+  conversationSelect: (event, id) =>
+    console.log id
+    @model.conversationCurrent = id
+    @refresh()
+  messageSend: (event, message) =>
+    conversation = @model.conversationCurrent
+    console.log conversation, message
+    dfr = @client.sendchatmessage conversation, [[0, message]], null
+    dfr.then console.log, console.log
   loadAppWindow: -> @mainWindow.loadUrl 'file://' + __dirname + '/ui/index.html'
   refresh: -> @mainWindow.webContents.send 'model:update', @model
   clientConnectionSuccess: ->
@@ -75,6 +87,10 @@ class Controller
     ret.then success.bind(@), failure.bind(@)
     return ret
   clientonchatmessage: (ev) ->
+    console.log JSON.stringify ev, null, '  '
+    @model.messageAdd ev
+    @refresh()
+    return
     chat_id = (ev.sender_id || ev.user_id).chat_id
     if not ev.chat_message or not ev.chat_message.message_content.segment
       # TODO need to investigate, for now we skip
@@ -87,7 +103,6 @@ class Controller
       #console.log display_name, ':', text
     dfr = dfr.then (res) =>
       #console.log JSON.stringify res, null, '  '
-
     return dfr
     try
       text = ev.chat_message.message_content.segment[0].text

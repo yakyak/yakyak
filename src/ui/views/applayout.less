@@ -2,6 +2,8 @@
 
 .applayout {
     height: 100%;
+    padding: 0px;
+
     .top {
         position: absolute;
         top: 0;
@@ -11,19 +13,79 @@
         background: linear-gradient(to bottom, #cdcdcd, #adadad);
         border-bottom: 1px solid #9e9e9e;
     }
+
     > .row {
         height: 100%;
+
         .left {
             background: #fffcee;
             border-right: 1px solid #f0eee8;
             height: 100%;
             overflow-x: hidden;
             overflow-y: auto;
+            padding-left: 15px;
+
+            .self {
+                border-bottom: 1px solid #aaa;
+                position: fixed;
+                padding: 0px;
+                top: 0px;
+                left: 0px;
+                background-color: #ced;
+            }
+            
+            .conversations {
+              margin-top: 60px;
+
+              .conversation {
+                border-bottom: 1px solid black;
+              }
+            }
         }
+
         .main {
             height: 100%;
             overflow-x: hidden;
             overflow-y: auto;
+            padding: 0px;
+
+            .message-list {
+                border: 1px solid #aaa;
+                background-color: #eee;
+                min-height: 100%;
+                margin-bottom: 1.5em;
+
+                .message {
+                    display: block;
+                    margin: 0px;
+                    
+                    .user {
+                        display: inline-block;
+                        width: 20%;
+                        overflow: hidden;
+                        font-weight: bold;
+                        text-overflow: ellipsis;
+                    }
+
+                    .body {
+                        display: inline-block;
+                        width: 80%;
+                        overflow: hidden;
+                        padding-left: 10px;
+                    }
+                }
+                
+            }
+
+            .message-input input {
+                width: 83%;
+                height: 1.5em;
+                position: fixed;
+                bottom: 0px;
+                padding: .3em;
+                font-size: large;
+                border: 1px solid #aaa;
+            }
         }
     }
 }
