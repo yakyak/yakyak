@@ -62,7 +62,7 @@ class Status
           @identityAdd participant.id.chat_id, participant.fallback_name
           participants.push participant.id.chat_id
           names.push participant.fallback_name
-      name = names.join(", ")
+      name = conversation.name ? names.join(", ")
       @conversationAdd id, name, participants, sort_timestamp
     # extract messages
     data.conversation_state.forEach (conversation) =>
@@ -73,7 +73,7 @@ class Status
         else
           #console.log 'unhandled message type'
           #console.log JSON.stringify event, null, '  '
-      
+
 
 status = new Status()
 status.test = -> console.log 'asf'
