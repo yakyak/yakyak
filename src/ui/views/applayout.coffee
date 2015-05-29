@@ -14,6 +14,8 @@ statusView = (model) ->
 
 conversationsListItemView = (conversation) ->
   conversationName = conversation.name || 'Unknown'
+  unread = conversation.unreadCount
+  if unread then conversationName += " #{unread}"
   div class:'conversation', conversationName, onclick: (e) ->
     e.preventDefault()
     ipc.send 'conversation:select', conversation.id

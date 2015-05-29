@@ -18,7 +18,8 @@ class Status
     timestampDesc = (a, b) -> (parseInt a.ts) > (parseInt b.ts)
     @conversations = (@conversations.sort timestampDesc).reverse()
   conversationAdd: (id, name, participants, ts) ->
-    object = id: id
+    object =
+      id: id
       name: name
       participants: participants
       ts: ts / 1000
@@ -44,6 +45,8 @@ class Status
     c = @conversationsById[conversationId]
     c.scrollTop = scrollTop
     c.atBottom = atBottom
+    if (atBottom)
+      c.unreadCount = 0
 
   # utils
   loadRecentConversations: (data) ->

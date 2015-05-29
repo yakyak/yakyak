@@ -79,6 +79,7 @@ class Controller
   conversationScrollPositionSet: (e, scrollTop, atBottom) =>
     conversationId = @model.conversationCurrent
     @model.conversationScrollPositionSet conversationId, scrollTop, atBottom
+    if (atBottom) then @refresh()
   loadAppWindow: -> @mainWindow.loadUrl 'file://' + __dirname + '/ui/index.html'
   refresh: -> @mainWindow.webContents.send 'model:update', @model
   clientConnectionSuccess: ->
@@ -123,6 +124,7 @@ class Controller
     conversationCurrent = @model.conversationsById[@model.conversationCurrent]
     if conversationCurrent
       stickToBottom = conversationCurrent.atBottom
+      conversationCurrent.unreadCount += 1
     else
       console.log 'we got a message for an unknown conversation'
     @refresh()
