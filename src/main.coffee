@@ -1,6 +1,7 @@
 Client = require 'hangupsjs'
 Q      = require 'q'
 login  = require './login'
+fs     = require 'fs'
 
 client = new Client()
 
@@ -40,9 +41,7 @@ app.on 'ready', ->
         auth: -> prom
 
     client.connect(creds).then ->
-        # XXX update global var that indicates current
-        # client connection state.
-        console.log 'connected'
+        mainWindow.webContents.send 'init', client.init
     .done()
 
     # Emitted when the window is closed.

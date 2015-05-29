@@ -22,11 +22,12 @@
   },
   "homepage": "https://github.com/algesten/yakayak",
   "dependencies": {
-    "hangupsjs": "^0.5.3",
+    "hangupsjs": "^0.7.0",
     "q": "^1.4.0",
     "trifl": "0.0.7"
   },
   "devDependencies": {
+    "chai": "^2.3.0",
     "coffee-script": "^1.9.2",
     "electron-prebuilt": "^0.25.2",
     "gulp": "^3.8.11",
@@ -38,6 +39,7 @@
     "gulp-less": "^3.0.3",
     "gulp-sourcemaps": "^1.5.2",
     "gulp-util": "^3.0.4",
+    "mocha": "^2.2.5",
     "rimraf": "^2.3.3"
   }
 }

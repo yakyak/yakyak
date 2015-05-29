@@ -1,0 +1,3 @@
+global.chai   = require 'chai'
+global.assert = chai.assert
+global.eql    = chai.assert.deepEqual
