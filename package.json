@@ -23,7 +23,7 @@
   "homepage": "https://github.com/algesten/yakayak",
   "dependencies": {
     "autosize": "^3.0.6",
-    "hangupsjs": "^0.5.3",
+    "hangupsjs": "^0.7.0",
     "q": "^1.4.0",
     "trifl": "0.0.7"
   },
