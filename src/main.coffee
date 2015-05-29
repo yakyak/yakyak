@@ -120,16 +120,12 @@ class Controller
   clientonchatmessage: (ev) =>
     console.log JSON.stringify ev, null, '  '
     @model.messageAdd ev
-    stickToBottom = false
-    conversationCurrent = @model.conversationsById[@model.conversationCurrent]
-    if conversationCurrent
-      stickToBottom = conversationCurrent.atBottom
-      conversationCurrent.unreadCount += 1
-    else
-      console.log 'we got a message for an unknown conversation'
+    conversation = @model.conversationsById[ev.conversation_id.id]
+    if conversation then conversation.unreadCount += 1
     @refresh()
-    if stickToBottom
-      @mainWindow.webContents.send 'message-list:scroll', Number.MAX_VALUE
+    if ev.conversation_id.id == @model.conversationCurrent
+      if conversation.atBottom # we want to stick at bottom
+        @mainWindow.webContents.send 'message-list:scroll', Number.MAX_VALUE
     return
 
 controller = new Controller(app, model, client)
