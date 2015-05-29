@@ -49,7 +49,6 @@ messageBodyView = (model, event) ->
   text = text.join " "
   return text
 
-
 messagesView = (model) ->
   messages = model.messagesByConversationId[model.conversationCurrent] || []
   messages.forEach (message) ->
@@ -80,11 +79,20 @@ messageInput = ->
   , onDOMNodeInserted: (e) ->
     setTimeout (-> autosize e.target), 10
 
-ipc.on 'conversation:scroll', (value) ->
+ipc.on 'message-list:scroll', (value) ->
+  # we should scroll to bottom only if we were already at bottom before
   document.body.querySelector('.message-list-scroll').scrollTop = value
 
+messageListScrollOnScroll = (e) ->
+  messageListScroll = document.querySelector '.message-list-scroll'
+  content = messageListScroll.children[0]
+  heightCurrent = messageListScroll.offsetHeight + messageListScroll.scrollTop
+  threshold = 10
+  bottom = (content.offsetHeight - heightCurrent) < threshold # we are at bottom
+  ipc.send 'message-list:scroll', messageListScroll.scrollTop, bottom
 
 # main layout
+
 module.exports = layout (model) ->
   window.model = model # for debug
   if not model then return div 'Loading'
@@ -100,7 +108,8 @@ module.exports = layout (model) ->
         document.body.querySelector('.message-xinput textarea').focus()
       div class:'main span9', focusTextAreaOnClick, region('main'), ->
         div class:'messages', ->
-          div class:'message-list-scroll', ->
+          opts = onscroll: messageListScrollOnScroll
+          div class:'message-list-scroll', opts, ->
             div class:'message-list', ->
               messagesView model
           div class:'message-xinput', ->

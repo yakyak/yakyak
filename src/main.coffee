@@ -45,7 +45,6 @@ class Controller
       ]
     menu = Menu.buildFromTemplate menus
     Menu.setApplicationMenu menu
-    
     @app.on 'window-all-closed', => @app.quit() # if (process.platform != 'darwin')
     @mainWindow = new BrowserWindow
       width: 940
@@ -68,15 +67,19 @@ class Controller
     @client.on 'chat_message', @clientonchatmessage
     ipc.on 'conversation:select', @conversationSelect
     ipc.on 'message:send', @messageSend
+    ipc.on 'message-list:scroll', @conversationScrollPositionSet
   inspectorOpen: () =>
     @mainWindow.openDevTools detach: true
   conversationSelect: (event, id) =>
     @model.conversationCurrent = id
     @refresh()
-    @mainWindow.webContents.send 'conversation:scroll', Number.MAX_VALUE
+    @mainWindow.webContents.send 'message-list:scroll', Number.MAX_VALUE
   messageSend: (event, message) =>
     conversation = @model.conversationCurrent
     dfr = @client.sendchatmessage conversation, [[0, message]], null
+  conversationScrollPositionSet: (e, scrollTop, atBottom) =>
+    conversationId = @model.conversationCurrent
+    @model.conversationScrollPositionSet conversationId, scrollTop, atBottom
   loadAppWindow: -> @mainWindow.loadUrl 'file://' + __dirname + '/ui/index.html'
   refresh: -> @mainWindow.webContents.send 'model:update', @model
   clientConnectionSuccess: ->
@@ -117,8 +120,10 @@ class Controller
   clientonchatmessage: (ev) =>
     console.log JSON.stringify ev, null, '  '
     @model.messageAdd ev
+    stickToBottom = @model.conversationScrollPositionGet(@model.conversationCurrent).atBottom
     @refresh()
-    @mainWindow.webContents.send 'conversation:scroll', Number.MAX_VALUE
+    if stickToBottom
+      @mainWindow.webContents.send 'message-list:scroll', Number.MAX_VALUE
     return
 
 controller = new Controller(app, model, client)

@@ -9,6 +9,7 @@ class Status
     @conversationsById = {}
     @conversationCurrent = null
     @messagesByConversationId = {}
+    @conversationScrollPosition = {}
 
   # managing fns
   identityAdd: (id, name) ->
@@ -17,8 +18,6 @@ class Status
   conversationsSort: () ->
     timestampDesc = (a, b) -> (parseInt a.ts) > (parseInt b.ts)
     @conversations = (@conversations.sort timestampDesc).reverse()
-    @conversations.forEach (c) ->
-      console.log new Date(parseInt c.ts).toISOString(), c.name
   conversationAdd: (id, name, participants, ts) ->
     object = id: id, name: name, participants: participants, ts: ts / 1000
     @conversations.push object
@@ -36,6 +35,13 @@ class Status
     if not @conversationCurrent then @conversationCurrent = id
     @messagesByConversationId[id] = @messagesByConversationId[id] || []
     @messagesByConversationId[id].push event
+  conversationScrollPositionSet: (conversationId, scrollTop, atBottom) =>
+    @conversationScrollPosition[conversationId] =
+      scrollTop: scrollTop
+      atBottom: atBottom
+  conversationScrollPositionGet: (conversationId) ->
+    def = scrollTop: 0, atBottom: true
+    return @conversationScrollPosition[conversationId] || def
 
   # utils
   loadRecentConversations: (data) ->
