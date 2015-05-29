@@ -51,24 +51,28 @@ messageBodyView = (model, event) ->
   text = text.join " "
   return text
 
+lastuser = null
 messagesView = (model) ->
   messages = model.messagesByConversationId[model.conversationCurrent] || []
   messages.forEach (message) ->
     div class: 'message', ->
-      div class: 'user', ->
-        chat_id = (message.sender_id || message.user_id).chat_id
-        user = model.identitiesById[chat_id].name || 'Unknown'
-      div class: 'timestamp', ->
-        today = new Date()
-        date = new Date(message.timestamp / 1000)
-        if today.toLocaleDateString() == date.toLocaleDateString()
-          date = date.toLocaleTimeString()
-        else
-          date = date.toLocaleString()
-        return date
+      chat_id = (message.sender_id || message.user_id).chat_id
+      user = model.identitiesById[chat_id].name || 'Unknown'
+      if user != lastuser
+        div class: 'user', user
+        lastuser = user
         
       div class: 'body', ->
         messageBodyView model, message
+        div class: 'timestamp', ->
+          today = new Date()
+          date = new Date(message.timestamp / 1000)
+          if today.toLocaleDateString() == date.toLocaleDateString()
+            date = date.toLocaleTimeString()
+          else
+            date = date.toLocaleString()
+          return date
+        
 
 messageInput = ->
   textarea rows:1,
