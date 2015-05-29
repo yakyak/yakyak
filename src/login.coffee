@@ -4,8 +4,6 @@ Q = require 'q'
 # promise for one-time oauth token
 module.exports = (mainWindow) -> Q.Promise (rs) ->
 
-    # redirect to google oauth
-    mainWindow.loadUrl Client.OAUTH2_LOGIN_URL
     mainWindow.webContents.on 'did-finish-load', onDidFinishLoad = ->
 
         # the url that just finished loading
@@ -26,3 +24,6 @@ module.exports = (mainWindow) -> Q.Promise (rs) ->
             mainWindow.webContents.removeListener 'did-finish-load', onDidFinishLoad
             # and return it to the auth
             rs code
+
+    # redirect to google oauth
+    mainWindow.loadUrl Client.OAUTH2_LOGIN_URL
