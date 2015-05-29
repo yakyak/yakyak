@@ -4,7 +4,6 @@ login  = require './login'
 ipc = require 'ipc'
 Menu = require 'menu'
 
-
 client = new Client()
 
 app = require 'app'
@@ -120,7 +119,12 @@ class Controller
   clientonchatmessage: (ev) =>
     console.log JSON.stringify ev, null, '  '
     @model.messageAdd ev
-    stickToBottom = @model.conversationScrollPositionGet(@model.conversationCurrent).atBottom
+    stickToBottom = false
+    conversationCurrent = @model.conversationsById[@model.conversationCurrent]
+    if conversationCurrent
+      stickToBottom = conversationCurrent.atBottom
+    else
+      console.log 'we got a message for an unknown conversation'
     @refresh()
     if stickToBottom
       @mainWindow.webContents.send 'message-list:scroll', Number.MAX_VALUE

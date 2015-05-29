@@ -9,7 +9,6 @@ class Status
     @conversationsById = {}
     @conversationCurrent = null
     @messagesByConversationId = {}
-    @conversationScrollPosition = {}
 
   # managing fns
   identityAdd: (id, name) ->
@@ -19,7 +18,13 @@ class Status
     timestampDesc = (a, b) -> (parseInt a.ts) > (parseInt b.ts)
     @conversations = (@conversations.sort timestampDesc).reverse()
   conversationAdd: (id, name, participants, ts) ->
-    object = id: id, name: name, participants: participants, ts: ts / 1000
+    object = id: id
+      name: name
+      participants: participants
+      ts: ts / 1000
+      unreadCount: 0
+      scrollTop: 0
+      atBottom: true
     @conversations.push object
     @conversationsSort()
     @conversationsById[id] = object
@@ -36,12 +41,9 @@ class Status
     @messagesByConversationId[id] = @messagesByConversationId[id] || []
     @messagesByConversationId[id].push event
   conversationScrollPositionSet: (conversationId, scrollTop, atBottom) =>
-    @conversationScrollPosition[conversationId] =
-      scrollTop: scrollTop
-      atBottom: atBottom
-  conversationScrollPositionGet: (conversationId) ->
-    def = scrollTop: 0, atBottom: true
-    return @conversationScrollPosition[conversationId] || def
+    c = @conversationsById[conversationId]
+    c.scrollTop = scrollTop
+    c.atBottom = atBottom
 
   # utils
   loadRecentConversations: (data) ->
