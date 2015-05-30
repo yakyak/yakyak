@@ -4,6 +4,8 @@ class Status
     @connection = 'offline'
     @self =
       username: 'Unknown'
+      photo_url: null
+      id: null
     @identitiesById = {}
     @conversations = []
     @conversationsById = {}
@@ -61,7 +63,7 @@ class Status
       participants = []
       names = []
       conversation.participant_data.forEach (participant) =>
-        if participant.fallback_name != @self.username # TODO should be based on user id
+        if participant.id.chat_id != @self.id
           @identityAdd participant.id.chat_id, participant.fallback_name
           participants.push participant.id.chat_id
           names.push participant.fallback_name
@@ -74,8 +76,8 @@ class Status
         if event.event_type == 'REGULAR_CHAT_MESSAGE'
           @messageAdd event
         else
-          #console.log 'unhandled message type'
-          #console.log JSON.stringify event, null, '  '
+          console.log 'unhandled message type'
+          console.log JSON.stringify event, null, '  '
 
 
 status = new Status()

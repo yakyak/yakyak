@@ -94,9 +94,12 @@ class Controller
     @refresh()
   getselfinfo: ->
     ret = client.getselfinfo()
-    success = (userInfo) =>
+    success = (res) =>
       fs = require('fs')
-      @model.self.username = userInfo.self_entity.properties.display_name
+      @model.self.username = name = res.self_entity.properties.display_name
+      @model.self.photo_url = res.self_entity.properties.photo_url
+      @model.self.id = id = res.self_entity.id.chat_id
+      @model.identityAdd id, name
       @refresh()
     failure = (error) =>
       console.log 'error', error
