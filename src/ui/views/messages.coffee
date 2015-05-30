@@ -14,7 +14,7 @@ module.exports = view (models) ->
             sender = nameof entity[cid]
             clz = ['message']
             clz.push 'self' if entity.isSelf(cid)
-            div class:clz.join(' '), ->
+            div key:e.event_id, class:clz.join(' '), ->
                 a href:linkto(cid), class:'sender', sender
                 span class:'timestamp', moment(e.timestamp / 1000).format('YYYY-MM-DD HH:mm:ss')
                 format e.chat_message?.message_content
@@ -27,7 +27,7 @@ format = (cont) ->
     if cont?.attachment?.length
         console.log cont
     for seg in cont?.segment ? []
-        f = seg.formatting
+        f = seg.formatting ? {}
         href = seg?.link_data?.link_target
         ifpass(href, ((f) -> a {href}, f)) ->
             ifpass(f.bold, b) ->

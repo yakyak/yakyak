@@ -13,5 +13,9 @@ handle 'init', (init) ->
     unless viewstate.selectedConv
         viewstate.setSelectedConv conv.list()?[0]?.conversation_id
 
+
 handle 'chat_message', (msg) ->
     conv.addChatMessage msg
+
+
+handle 'selectConv', (conv) -> viewstate.setSelectedConv conv

@@ -40,9 +40,21 @@ app.on 'ready', ->
         prom.then -> loadAppWindow()
         auth: -> prom
 
-    client.connect(creds).then ->
-        mainWindow.webContents.send 'init', client.init
-    .done()
+#    client.connect(creds).then ->
+#        # when fully connected, we shuffle over the
+#        # init object to set up entities/convs
+#        mainWindow.webContents.send 'init', client.init
+#    .done()
+
+    init = require './init.json'
+    mainWindow.webContents.on 'did-finish-load', onDidFinishLoad = ->
+        url = mainWindow.getUrl()
+        if url.indexOf 'app/ui/index.html' > 0
+            mainWindow.webContents.send 'init', init
+
+    # propagate these events to the renderer
+    require('./ui/events').forEach (n) ->
+        client.on n, (e) -> mainWindow.webContents.send n, e
 
     # Emitted when the window is closed.
     mainWindow.on 'closed', ->
