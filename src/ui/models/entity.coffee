@@ -19,6 +19,8 @@ add = (entity) ->
     # handle different chat_id to gaia_id
     lookup[chat_id] = lookup[gaia_id] if chat_id != gaia_id
 
+    updated 'entity'
+
     # return the result
     lookup[chat_id]
 
@@ -26,16 +28,22 @@ funcs =
     count: ->
         c = 0; (c++ for k, v of lookup when typeof v == 'object'); c
 
+    isSelf: (chat_id) -> return lookup[chat_id] == lookup.self
+
     _reset: ->
         delete lookup[k] for k, v of lookup when typeof v == 'object'
+        updated 'entity'
+        null
 
     _initFromSelfEntity: (self) ->
+        updated 'entity'
         lookup.self = add self
 
     _initFromEntities:   (entities) ->
         c = 0
         countIf = (a) -> c++ if a
         countIf add entity for entity in entities
+        updated 'entity'
         c
 
     add: add
