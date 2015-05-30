@@ -9,7 +9,8 @@ classify = (str) -> str.replace /[^a-zA-Z0-9_]/g, ''
 
 statusView = (model) ->
   div class:'self', ->
-    img src: "http:" + model.self.photo_url
+    if model.self.photo_url
+      img src: "http:" + model.self.photo_url
     div model.self.username
     span class:"status #{classify(model.connection)}", model.connection
 
