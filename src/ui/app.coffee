@@ -3,7 +3,7 @@ trifl = require 'trifl'
 trifl.expose window
 
 # expose some selected tagg functions
-trifl.tagg.expose window, ('ul li div span a i button table thead tbody tr td th input textarea pre br'.split(' '))...
+trifl.tagg.expose window, ('ul li div span a i button table thead tbody tr td th input textarea pre br img'.split(' '))...
 
 {applayout} = require './views'
 
