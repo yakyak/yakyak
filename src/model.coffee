@@ -11,11 +11,13 @@ class Status
     @conversationsById = {}
     @conversationCurrent = null
     @messagesByConversationId = {}
-
   # managing fns
-  identityAdd: (id, name) ->
-    object = id: id, name: name
-    @identitiesById[id] = object
+  identityAdd: (id, name, photo_url) ->
+    identity = @identitiesById[id] or {}
+    identity.id = identity.id or id
+    identity.name = name or identity.name
+    identity.photo_url = photo_url or identity.photo_url
+    @identitiesById[id] = identity
   conversationsSort: () ->
     timestampDesc = (a, b) -> (parseInt a.ts) > (parseInt b.ts)
     @conversations = (@conversations.sort timestampDesc).reverse()
@@ -29,8 +31,8 @@ class Status
       scrollTop: 0
       atBottom: true
     @conversations.push object
-    @conversationsSort()
     @conversationsById[id] = object
+    @conversationsSort()
   conversationUpdateTs: (id, ts) =>
     @conversations.forEach (c) ->
       if c.id == id
@@ -45,6 +47,7 @@ class Status
     @messagesByConversationId[id].push event
   conversationScrollPositionSet: (conversationId, scrollTop, atBottom) =>
     c = @conversationsById[conversationId]
+    console.log c
     c.scrollTop = scrollTop
     c.atBottom = atBottom
     if (atBottom)
