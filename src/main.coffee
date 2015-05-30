@@ -74,8 +74,14 @@ class Controller
     @refresh()
     @mainWindow.webContents.send 'message-list:scroll', Number.MAX_VALUE
   messageSend: (event, message) =>
+    messages = message.split '\n'
+    segments = []
+    messages.forEach (message) ->
+      segments.push [0, message]
+      segments.push [1, "\n"]
+    segments.pop()
     conversation = @model.conversationCurrent
-    dfr = @client.sendchatmessage conversation, [[0, message]], null
+    dfr = @client.sendchatmessage conversation, segments, null
   conversationScrollPositionSet: (e, scrollTop, atBottom) =>
     conversationId = @model.conversationCurrent
     @model.conversationScrollPositionSet conversationId, scrollTop, atBottom

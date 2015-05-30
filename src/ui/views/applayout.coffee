@@ -18,16 +18,22 @@ statusView = (model) ->
 
 conversationsListItemView = (conversation) ->
   conversationName = conversation.name || 'Unknown'
+  if conversationName.length > 55
+    conversationName = conversationName.substr 0, 55
+    conversationName += "..."
   unread = conversation.unreadCount
   if unread then conversationName += " (#{unread})"
-  div class:'conversation', conversationName, onclick: (e) ->
+  cls = 'conversation'
+  if conversation.id == @model.conversationCurrent then cls += " selected"
+  div class: cls, conversationName, onclick: (e) ->
     e.preventDefault()
     ipc.send 'conversation:select', conversation.id
 
-conversationsListView = (conversations) ->
+conversationsListView = (conversations, model) ->
   div class:'conversations-scroll', ->
     div class:'conversations', ->
-      (conversations || []).forEach conversationsListItemView
+      (conversations || []).forEach (conversation) ->
+        conversationsListItemView conversation, model
 
 # messages
 
@@ -40,7 +46,8 @@ messageBodyView = (model, event) ->
     segments.forEach (segment) ->
       type = segment.type.k or segment.type
       if type == "TEXT"
-        span segment.text
+        cls = (k for k, v of segment.formatting when v).join ' '
+        span class: cls, segment.text
       else if type == "LINK"
         onClick = (e) ->
           e.preventDefault()
@@ -56,6 +63,7 @@ messageBodyView = (model, event) ->
     pre "#{JSON.stringify(event.chat_message.message_content.attachment, null, '  ')}"
   text = text.join " "
   return text
+
 
 lastuser = null
 messagesView = (model) ->
@@ -87,6 +95,9 @@ messageInput = ->
       e.preventDefault()
       val = e.target.value
       e.target.value = ""
+      evt = document.createEvent 'Event'
+      evt.initEvent 'autosize:update', true, false
+      e.target.dispatchEvent evt
       ipc.send 'message:send', val
   , onDOMNodeInserted: (e) ->
     setTimeout (-> autosize e.target), 10
@@ -113,7 +124,7 @@ module.exports = layout (model) ->
       div class:'left span3', region('left'), ->
         div class:'span12', ->
             statusView model
-            conversationsListView model.conversations
+            conversationsListView model.conversations, model
       focusTextAreaOnClick = onclick: (e) ->
         if window.getSelection().toString().length > 1
           return # let the user select
