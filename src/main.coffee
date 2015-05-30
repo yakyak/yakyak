@@ -83,28 +83,21 @@ class Controller
   loadAppWindow: -> @mainWindow.loadUrl 'file://' + __dirname + '/ui/index.html'
   refresh: -> @mainWindow.webContents.send 'model:update', @model
   clientConnectionSuccess: =>
+    self = @client.init.self_entity
+    @model.self =
+      id: self.id.chat_id
+      username: self.properties.display_name
+      photo_url: self.properties.photo_url
+    @model.identityAdd @model.self.id, @model.self.username, @model.self.photo_url
+    entities = @client.init.entities
+    entities.forEach (ntt) =>
+      @model.identityAdd ntt.id.chat_id, ntt.properties.display_name, ntt.properties.photo_url
     @model.connection = 'online'
     @refresh()
-    promise = @getselfinfo()
-    promise.then =>
-      @syncrecentconversations().fail (err) -> console.log 'error', err, err.stack
-    pormise.fail (err) -> console.log 'error', err, err.stack
+    @syncrecentconversations().fail (err) -> console.log 'error', err, err.stack
   clientConnectionError: =>
     @model.connection = 'error'
     @refresh()
-  getselfinfo: ->
-    ret = client.getselfinfo()
-    success = (res) =>
-      fs = require('fs')
-      @model.self.username = name = res.self_entity.properties.display_name
-      @model.self.photo_url = res.self_entity.properties.photo_url
-      @model.self.id = id = res.self_entity.id.chat_id
-      @model.identityAdd id, name
-      @refresh()
-    failure = (error) =>
-      console.log 'error', error
-    ret = ret.then success, failure
-    return ret
   syncrecentconversations: =>
     client.syncrecentconversations().then (data) =>
       @model.loadRecentConversations data
