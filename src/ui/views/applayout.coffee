@@ -1,5 +1,7 @@
 ipc = require 'ipc'
 autosize = require 'autosize'
+shell = require 'shell'
+
 
 classify = (str) -> str.replace /[^a-zA-Z0-9_]/g, ''
 
@@ -38,8 +40,10 @@ messageBodyView = (model, event) ->
       if type == "TEXT"
         span segment.text
       else if type == "LINK"
-        link = "<a href='#{segment.link_data.link_target}'>#{segment.text}</a>"
-        a href: segment.link_data.link_target, ->
+        onClick = (e) ->
+          e.preventDefault()
+          shell.openExternal segment.link_data.link_target
+        a href: segment.link_data.link_target, onclick: onClick, ->
           segment.text
       else if type == "LINE_BREAK"
         br()
