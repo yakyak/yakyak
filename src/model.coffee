@@ -54,7 +54,10 @@ class Status
     data.conversation_state.forEach (conversation) =>
       conversation = conversation.conversation
       id = conversation.id.id
-      sort_timestamp = conversation.self_conversation_state.sort_timestamp
+      # sort_timestamp = conversation.self_conversation_state.sort_timestamp
+      # active_timestamp = conversation.self_conversation_state.active_timestamp
+      # invite_timestamp = conversation.self_conversation_state.invite_timestamp
+      latest_read_timestamp = conversation.read_state.latest_read_timestamp
       participants = []
       names = []
       conversation.participant_data.forEach (participant) =>
@@ -63,7 +66,7 @@ class Status
           participants.push participant.id.chat_id
           names.push participant.fallback_name
       name = conversation.name ? names.join(", ")
-      @conversationAdd id, name, participants, sort_timestamp
+      @conversationAdd id, name, participants, latest_read_timestamp
     # extract messages
     data.conversation_state.forEach (conversation) =>
       events = conversation.event
