@@ -13,8 +13,8 @@ model = require './model' # holds the application status/model
 
 class Controller
   constructor: (@app, @model, @client) ->
-    @app.on 'ready', @appReady.bind(@)
-  appReady: ->
+    @app.on 'ready', @appReady
+  appReady: =>
     menus = []
     menus.push
       label: 'YakYak'
@@ -62,7 +62,7 @@ class Controller
       auth: -> prom
     @mainWindow.webContents.on 'did-finish-load', => @refresh()
     @model.connection = 'connecting..'
-    @client.connect(creds).then @clientConnectionSuccess.bind(@), @clientConnectionError.bind(@)
+    @client.connect(creds).then @clientConnectionSuccess, @clientConnectionError
     @client.on 'chat_message', @clientonchatmessage
     ipc.on 'conversation:select', @conversationSelect
     ipc.on 'message:send', @messageSend
@@ -82,14 +82,14 @@ class Controller
     if (atBottom) then @refresh()
   loadAppWindow: -> @mainWindow.loadUrl 'file://' + __dirname + '/ui/index.html'
   refresh: -> @mainWindow.webContents.send 'model:update', @model
-  clientConnectionSuccess: ->
+  clientConnectionSuccess: =>
     @model.connection = 'online'
     @refresh()
     promise = @getselfinfo()
     promise.then =>
       @syncrecentconversations().fail (err) -> console.log 'error', err, err.stack
     pormise.fail (err) -> console.log 'error', err, err.stack
-  clientConnectionError: ->
+  clientConnectionError: =>
     @model.connection = 'error'
     @refresh()
   getselfinfo: ->
