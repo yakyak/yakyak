@@ -14,3 +14,4 @@ document.body.appendChild applayout.el
 ipc = require 'ipc'
 ipc.on 'model:update', (model)->
   applayout model
+  console.log 'rendering occurred'

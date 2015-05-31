@@ -66,13 +66,12 @@ class Controller
     @client.on 'chat_message', @clientonchatmessage
     ipc.on 'conversation:select', @conversationSelect
     ipc.on 'message:send', @messageSend
-    ipc.on 'message-list:scroll', @conversationScrollPositionSet
   inspectorOpen: () =>
     @mainWindow.openDevTools detach: true
   conversationSelect: (event, id) =>
     @model.conversationCurrent = id
     @refresh()
-    @mainWindow.webContents.send 'message-list:scroll', Number.MAX_VALUE
+    # we want the cleint to scroll bottom
   messageSend: (event, message) =>
     messages = message.split '\n'
     segments = []
@@ -82,10 +81,6 @@ class Controller
     segments.pop()
     conversation = @model.conversationCurrent
     dfr = @client.sendchatmessage conversation, segments, null
-  conversationScrollPositionSet: (e, scrollTop, atBottom) =>
-    conversationId = @model.conversationCurrent
-    @model.conversationScrollPositionSet conversationId, scrollTop, atBottom
-    if (atBottom) then @refresh()
   loadAppWindow: -> @mainWindow.loadUrl 'file://' + __dirname + '/ui/index.html'
   refresh: -> @mainWindow.webContents.send 'model:update', @model
   clientConnectionSuccess: =>
@@ -127,7 +122,7 @@ class Controller
     @refresh()
     if ev.conversation_id.id == @model.conversationCurrent
       if conversation.atBottom # we want to stick at bottom
-        @mainWindow.webContents.send 'message-list:scroll', Number.MAX_VALUE
+        console.log 'we want the client to scroll bottom'
     return
 
 controller = new Controller(app, model, client)

@@ -28,8 +28,6 @@ class Status
       participants: participants
       ts: ts / 1000
       unreadCount: 0
-      scrollTop: 0
-      atBottom: true
     @conversations.push object
     @conversationsById[id] = object
     @conversationsSort()
@@ -45,13 +43,6 @@ class Status
     if not @conversationCurrent then @conversationCurrent = id
     @messagesByConversationId[id] = @messagesByConversationId[id] || []
     @messagesByConversationId[id].push event
-  conversationScrollPositionSet: (conversationId, scrollTop, atBottom) =>
-    c = @conversationsById[conversationId]
-    console.log c
-    c.scrollTop = scrollTop
-    c.atBottom = atBottom
-    if (atBottom)
-      c.unreadCount = 0
 
   # utils
   loadRecentConversations: (data) ->
@@ -84,7 +75,6 @@ class Status
 
 
 status = new Status()
-status.test = -> console.log 'asf'
 
 module.exports = status
 
