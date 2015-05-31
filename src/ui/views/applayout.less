@@ -59,7 +59,11 @@
                 padding: 7px 15px;
                 overflow: hidden;
                 text-overflow: ellipsis;
-                white-space: nowrap;
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 2;
+                line-height: 20px;
+                max-height: 48px;
                 &:before {
                     content: "– ";
                 }
