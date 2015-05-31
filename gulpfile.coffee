@@ -95,7 +95,7 @@ gulp.task 'clean', (cb) ->
 
 gulp.task 'default', ['package', 'coffee', 'html', 'less']
 
-gulp.task 'watch', ['reloader', 'html'], ->
+gulp.task 'watch', ['default', 'reloader', 'html'], ->
   # watch to rebuild
   sources = (v for k, v of paths)
   gulp.watch sources, ['default']
