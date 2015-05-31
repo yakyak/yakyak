@@ -64,8 +64,14 @@
                 -webkit-line-clamp: 2;
                 line-height: 20px;
                 max-height: 48px;
+                padding-left: 20px;
+                position: relative;
                 &:before {
-                    content: "– ";
+                    content: "•";
+                    font-size: 10px;
+                    position: absolute;
+                    left: 11px;
+                    top: 7px;
                 }
                 &:hover {
                     cursor: pointer;
