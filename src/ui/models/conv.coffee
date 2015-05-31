@@ -32,6 +32,8 @@ addChatMessage = (msg) ->
         }
     conv.event = [] unless conv.event
     conv.event.push msg
+    conv?.self_conversation_state?.sort_timestamp = msg.timestamp
+    console.log conv
     updated 'conv'
     conv
 

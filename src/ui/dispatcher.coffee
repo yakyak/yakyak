@@ -21,7 +21,6 @@ handle 'init', (init) ->
 
 
 handle 'chat_message', (msg) ->
-    console.log conv
     conv.addChatMessage msg
 
 
