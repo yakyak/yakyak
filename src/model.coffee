@@ -1,5 +1,5 @@
 
-class Status
+class Model
   constructor: ->
     @connection = 'offline'
     @self = undefined
@@ -8,7 +8,10 @@ class Status
     @conversationsById = {}
     @conversationCurrent = null
     @messagesByConversationId = {}
+
   # managing fns
+  connectionSet: (value) -> @connection = value
+  selfSet: (id) -> @self = id
   identityAdd: (id, name, photo_url) ->
     identity = @identitiesById[id] or {}
     identity.id = identity.id or id
@@ -75,14 +78,4 @@ class Status
           console.log JSON.stringify event, null, '  '
 
 
-status = new Status()
-
-module.exports = status
-
-if not module.parent
-  onFile = (err, data) ->
-    data = data.toString()
-    data = JSON.parse data
-    status.loadRecentConversations data
-  fs = require 'fs'
-  fs.readFile 'syncrecentconversations_response.json', onFile
+module.exports = new Model()

@@ -10,10 +10,10 @@ classify = (str) -> str.replace /[^a-zA-Z0-9_]/g, ''
 statusView = (model) ->
   div class:'self', ->
     self = model.identitiesById[model.self]
-    if not self then return
-    if self.photo_url
-      img src: "http:" + self.photo_url
-    div self.name
+    if self
+      if self.photo_url
+        img src: "http:" + self.photo_url
+      div self.name
     span class:"status #{classify(model.connection)}", model.connection
 
 # conversations
