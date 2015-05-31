@@ -20,6 +20,9 @@ copyPrebuilt = ->
   # the symlinks in the binary.
   gutil.log 'Copying prebuilt binary to', gutil.colors.magenta(outbin)
   execSync 'cp -R node_modules/electron-prebuilt/dist/Electron.app Yakayak.app'
+  gutil.log 'Change app name to Yakyak'
+  execSync 'sed -i.bak s/Electron/Yakyak/ Yakayak.app/Contents/Info.plist'
+  execSync 'mv Yakayak.app/Contents/MacOS/Electron Yakayak.app/Contents/MacOS/Yakyak'
 
 gulp.task 'pre', ->
   copyPrebuilt() unless fs.existsSync outbin
