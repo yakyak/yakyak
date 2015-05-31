@@ -97,12 +97,10 @@ messageInput = ->
       e.preventDefault()
       val = e.target.value
       e.target.value = ""
-      evt = document.createEvent 'Event'
-      evt.initEvent 'autosize:update', true, false
-      e.target.dispatchEvent evt
       ipc.send 'message:send', val
   , onDOMNodeInserted: (e) ->
-    setTimeout (-> autosize e.target), 10
+    ta = e.target
+    setTimeout (-> autosize ta), 1
 
 
 # main layout
@@ -111,22 +109,20 @@ module.exports = layout (model) ->
   window.model = model # for debug
   if not model then return div 'Loading'
   div class:'applayout', ->
-    div class:'row', ->
-      div class:'left span3', region('left'), ->
-        div class:'span12', ->
-            statusView model
-            conversationsListView model.conversations, model
-      focusTextAreaOnClick = onclick: (e) ->
-        if window.getSelection().toString().length > 1
-          return # let the user select
-        document.body.querySelector('.message-xinput textarea').focus()
-      div class:'main span9', focusTextAreaOnClick, region('main'), ->
-        div class:'messages', ->
-          div class:'message-list-scroll', ->
-            div class:'message-list', ->
-              messagesView model
-          div class:'message-xinput', ->
-            messageInput model
+    div class:'left', region('left'), ->
+      statusView model
+      conversationsListView model.conversations, model
+    focusTextAreaOnClick = onclick: (e) ->
+      if window.getSelection().toString().length > 1
+        return # let the user select
+      document.body.querySelector('.message-xinput textarea').focus()
+    div class:'main', focusTextAreaOnClick, region('main'), ->
+      div class:'messages', ->
+        div class:'message-list-scroll', ->
+          div class:'message-list', ->
+            messagesView model
+        div class:'message-xinput', ->
+          messageInput model
   setTimeout ->
     document.querySelector('.message-list-scroll')?.scrollTop = Number.MAX_VALUE
   , 10
