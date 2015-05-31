@@ -70,8 +70,8 @@ class Controller
     @mainWindow.openDevTools detach: true
   conversationSelect: (event, id) =>
     @model.conversationCurrent = id
+    @model.conversationsById[id].unreadCount = 0
     @refresh()
-    # we want the cleint to scroll bottom
   messageSend: (event, message) =>
     messages = message.split '\n'
     segments = []
@@ -118,12 +118,9 @@ class Controller
     console.log JSON.stringify ev, null, '  '
     @model.messageAdd ev
     conversation = @model.conversationsById[ev.conversation_id.id]
-    if conversation then conversation.unreadCount += 1
+    if conversation.id != @model.conversationCurrent
+      conversation.unreadCount += 1
     @refresh()
-    if ev.conversation_id.id == @model.conversationCurrent
-      if conversation.atBottom # we want to stick at bottom
-        console.log 'we want the client to scroll bottom'
-    return
 
 controller = new Controller(app, model, client)
     
