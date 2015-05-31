@@ -1,19 +1,26 @@
-@top-height: 40px;
 
 .applayout {
+    display: flex;
     height: 100%;
-    > .row {
-        height: 100%;
-        .left {
-            background: #f6f6f6;
-            height: 100%;
+    > .left {
+        background: #f0f0f0;
+        border-right: 1px solid #b4b4b4;
+        flex: none;
+        width: 200px;
+    }
+    > .right {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        > .main {
+            flex: 1;
             overflow-x: hidden;
             overflow-y: auto;
         }
-        .main {
-            height: 100%;
-            overflow-x: hidden;
-            overflow-y: auto;
+        > .foot {
+            flex: none;
+            background: #f6f6f6;
+            border-top: 1px solid #b4b4b4;
         }
     }
 }

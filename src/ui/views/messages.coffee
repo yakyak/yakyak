@@ -1,6 +1,6 @@
 moment = require 'moment'
 
-{nameof, linkto}  = require './vutil'
+{nameof, linkto, forceredraw}  = require './vutil'
 
 module.exports = view (models) ->
     {viewstate, conv, entity} = models
@@ -18,6 +18,7 @@ module.exports = view (models) ->
                 a href:linkto(cid), class:'sender', sender
                 span class:'timestamp', moment(e.timestamp / 1000).format('YYYY-MM-DD HH:mm:ss')
                 format e.chat_message?.message_content
+    forceredraw('.messages')
 
 
 pass = (v) -> if typeof v == 'function' then (v(); undefined) else v
@@ -25,7 +26,7 @@ ifpass = (t, f) -> if t then f else pass
 
 format = (cont) ->
     if cont?.attachment?.length
-        console.log cont
+        console.log 'deal with attachment', cont
     for seg in cont?.segment ? []
         f = seg.formatting ? {}
         href = seg?.link_data?.link_target
@@ -33,6 +34,6 @@ format = (cont) ->
             ifpass(f.bold, b) ->
                 ifpass(f.italics, i) ->
                     ifpass(f.underline, u) ->
-                        ifpass(f.strikethrough, strike) ->
+                        ifpass(f.strikethrough, s) ->
                             span seg.text
     null
