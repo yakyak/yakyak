@@ -75,7 +75,7 @@ messagesView = (model) ->
       if user != lastuser
         div class: 'user', user
         lastuser = user
-        
+
       div class: 'body', ->
         messageBodyView model, message
         div class: 'timestamp', ->
@@ -86,7 +86,7 @@ messagesView = (model) ->
           else
             date = date.toLocaleString()
           return date
-        
+
 
 messageInput = ->
   textarea rows:1,
@@ -137,3 +137,6 @@ module.exports = layout (model) ->
               messagesView model
           div class:'message-xinput', ->
             messageInput model
+  setTimeout ->
+    document.querySelector('.message-list-scroll')?.scrollTop = Number.MAX_VALUE
+  , 10
