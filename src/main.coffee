@@ -23,7 +23,7 @@ class Controller
     creds = =>
       prom = login(@mainWindow)
       # reinstate app window when login finishes
-      prom.then -> loadAppWindow()
+      prom.then => @loadAppWindow()
       auth: -> prom
     @client.connect(creds).then @clientConnectionSuccess, @clientConnectionError
     @client.on 'chat_message', @clientonchatmessage
@@ -87,7 +87,8 @@ class Controller
     segments.pop()
     conversation = @model.conversationCurrent
     dfr = @client.sendchatmessage conversation, segments, null
-  loadAppWindow: -> @mainWindow.loadUrl 'file://' + __dirname + '/ui/index.html' if @mainWindow
+  loadAppWindow: ->
+    @mainWindow.loadUrl 'file://' + __dirname + '/ui/index.html' if @mainWindow
   refresh: -> @mainWindow.webContents.send 'model:update', @model if @mainWindow
   clientConnectionSuccess: =>
     self = @client.init.self_entity
