@@ -1,6 +1,7 @@
 Client = require 'hangupsjs'
 Q      = require 'q'
 login  = require './login'
+ipc    = require 'ipc'
 fs     = require 'fs'
 
 client = new Client()
@@ -9,6 +10,9 @@ app = require 'app'
 BrowserWindow = require 'browser-window'
 
 mainWindow = null
+
+# recorded events
+recorded = []
 
 # Quit when all windows are closed.
 app.on 'window-all-closed', ->
@@ -40,21 +44,26 @@ app.on 'ready', ->
         prom.then -> loadAppWindow()
         auth: -> prom
 
-#    client.connect(creds).then ->
-#        # when fully connected, we shuffle over the
-#        # init object to set up entities/convs
-#        mainWindow.webContents.send 'init', client.init
-#    .done()
+    client.connect(creds).then ->
+        ipc.on 'reqinit', sendInit
+        sendInit()
+    .done()
 
-    init = require './init.json'
-    mainWindow.webContents.on 'did-finish-load', onDidFinishLoad = ->
-        url = mainWindow.getUrl()
-        if url.indexOf 'app/ui/index.html' > 0
-            mainWindow.webContents.send 'init', init
+    # sends the init structures to the client
+    sendInit = -> mainWindow.webContents.send 'init',
+        init: client.init
+        recorded: recorded
+
+    # propagate stuff client does
+    ipc.on 'sendchatmessage', (ev, conv, segs) ->
+        client.sendchatmessage conv, segs
 
     # propagate these events to the renderer
     require('./ui/events').forEach (n) ->
-        client.on n, (e) -> mainWindow.webContents.send n, e
+        client.on n, (e) ->
+          recorded.push [n, e]
+          mainWindow.webContents.send n, e
+
 
     # Emitted when the window is closed.
     mainWindow.on 'closed', ->

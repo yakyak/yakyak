@@ -6,7 +6,7 @@ lookup = {}
 
 domerge = (id, props) -> lookup[id] = merge (lookup[id] ? {}), props
 
-add = (entity) ->
+add = (entity, opts = silent:false) ->
     {gaia_id, chat_id} = entity?.id ? {}
     return null unless gaia_id or chat_id
     # dereference .properties to be on main obj
@@ -19,7 +19,7 @@ add = (entity) ->
     # handle different chat_id to gaia_id
     lookup[chat_id] = lookup[gaia_id] if chat_id != gaia_id
 
-    updated 'entity'
+    updated 'entity' unless opts.silent
 
     # return the result
     lookup[chat_id]
