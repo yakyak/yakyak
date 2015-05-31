@@ -117,9 +117,6 @@ class Controller
   clientonchatmessage: (ev) =>
     console.log JSON.stringify ev, null, '  '
     @model.messageAdd ev
-    conversation = @model.conversationsById[ev.conversation_id.id]
-    if conversation.id != @model.conversationCurrent
-      conversation.unreadCount += 1
     @refresh()
 
 controller = new Controller(app, model, client)

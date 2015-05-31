@@ -19,30 +19,33 @@ class Status
     identity.photo_url = photo_url or identity.photo_url
     @identitiesById[id] = identity
   conversationsSort: () ->
-    timestampDesc = (a, b) -> (parseInt a.ts) > (parseInt b.ts)
+    me = @self.id
+    timestampDesc = (a, b) ->
+      (parseInt a.read_states[me]) > (parseInt b.read_states[me])
     @conversations = (@conversations.sort timestampDesc).reverse()
-  conversationAdd: (id, name, participants, ts) ->
+  conversationAdd: (id, name, participants, read_states) ->
     object =
       id: id
       name: name
       participants: participants
-      ts: ts / 1000
+      read_states: read_states
       unreadCount: 0
     @conversations.push object
     @conversationsById[id] = object
     @conversationsSort()
-  conversationUpdateTs: (id, ts) =>
-    @conversations.forEach (c) ->
-      if c.id == id
-        c.ts = ts / 1000
-    @conversationsSort()
   messageAdd: (event) =>
     id = event.conversation_id.id
     ts = event.timestamp
-    @conversationUpdateTs id, ts
     if not @conversationCurrent then @conversationCurrent = id
     @messagesByConversationId[id] = @messagesByConversationId[id] || []
     @messagesByConversationId[id].push event
+    conversation = @conversationsById[id]
+    if id != @conversationCurrent
+      if (parseInt conversation.read_states[@self.id]) < (parseInt ts)
+        conversation.unreadCount += 1
+    else
+      conversation.read_states[@self.id] = ts
+      @conversationsSort()
 
   # utils
   loadRecentConversations: (data) ->
@@ -53,7 +56,9 @@ class Status
       # sort_timestamp = conversation.self_conversation_state.sort_timestamp
       # active_timestamp = conversation.self_conversation_state.active_timestamp
       # invite_timestamp = conversation.self_conversation_state.invite_timestamp
-      latest_read_timestamp = conversation.read_state.latest_read_timestamp
+      read_states = {}
+      conversation.read_state.forEach (state) ->
+        read_states[state.participant_id.chat_id] = state.latest_read_timestamp
       participants = []
       names = []
       conversation.participant_data.forEach (participant) =>
@@ -62,7 +67,7 @@ class Status
           participants.push participant.id.chat_id
           names.push participant.fallback_name
       name = conversation.name ? names.join(", ")
-      @conversationAdd id, name, participants, latest_read_timestamp
+      @conversationAdd id, name, participants, read_states
     # extract messages
     data.conversation_state.forEach (conversation) =>
       events = conversation.event
