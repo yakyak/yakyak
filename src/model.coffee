@@ -2,10 +2,7 @@
 class Status
   constructor: ->
     @connection = 'offline'
-    @self =
-      username: 'Unknown'
-      photo_url: null
-      id: null
+    @self = undefined
     @identitiesById = {}
     @conversations = []
     @conversationsById = {}
@@ -19,7 +16,7 @@ class Status
     identity.photo_url = photo_url or identity.photo_url
     @identitiesById[id] = identity
   conversationsSort: () ->
-    me = @self.id
+    me = @identitiesById[@self].id
     timestampDesc = (a, b) ->
       (parseInt a.read_states[me]) > (parseInt b.read_states[me])
     @conversations = (@conversations.sort timestampDesc).reverse()
@@ -40,11 +37,12 @@ class Status
     @messagesByConversationId[id] = @messagesByConversationId[id] || []
     @messagesByConversationId[id].push event
     conversation = @conversationsById[id]
+    self = @identitiesById[@self]
     if id != @conversationCurrent
-      if (parseInt conversation.read_states[@self.id]) < (parseInt ts)
+      if (parseInt conversation.read_states[self.id]) < (parseInt ts)
         conversation.unreadCount += 1
     else
-      conversation.read_states[@self.id] = ts
+      conversation.read_states[self.id] = ts
       @conversationsSort()
 
   # utils
@@ -53,16 +51,14 @@ class Status
     data.conversation_state.forEach (conversation) =>
       conversation = conversation.conversation
       id = conversation.id.id
-      # sort_timestamp = conversation.self_conversation_state.sort_timestamp
-      # active_timestamp = conversation.self_conversation_state.active_timestamp
-      # invite_timestamp = conversation.self_conversation_state.invite_timestamp
       read_states = {}
       conversation.read_state.forEach (state) ->
         read_states[state.participant_id.chat_id] = state.latest_read_timestamp
       participants = []
       names = []
       conversation.participant_data.forEach (participant) =>
-        if participant.id.chat_id != @self.id
+        self = @identitiesById[@self]
+        if participant.id.chat_id != self.id
           @identityAdd participant.id.chat_id, participant.fallback_name
           participants.push participant.id.chat_id
           names.push participant.fallback_name

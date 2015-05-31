@@ -85,13 +85,9 @@ class Controller
   refresh: -> @mainWindow.webContents.send 'model:update', @model
   clientConnectionSuccess: =>
     self = @client.init.self_entity
-    @model.self =
-      id: self.id.chat_id
-      username: self.properties.display_name
-      photo_url: self.properties.photo_url
-    @model.identityAdd @model.self.id, @model.self.username, @model.self.photo_url
-    entities = @client.init.entities
-    entities.forEach (ntt) =>
+    @model.self = self.id.chat_id
+    @model.identityAdd self.id.chat_id, self.properties.display_name, self.properties.photo_url
+    @client.init.entities.forEach (ntt) =>
       @model.identityAdd ntt.id.chat_id, ntt.properties.display_name, ntt.properties.photo_url
     @model.connection = 'online'
     @refresh()
@@ -103,17 +99,6 @@ class Controller
     client.syncrecentconversations().then (data) =>
       @model.loadRecentConversations data
       @refresh()
-  entityCache: {}
-  getentitybyid: (id) ->
-    if @entityCache[id]
-      return Q @entityCache[id]
-    ret = client.getentitybyid id
-    success = (data) => @entityCache[id] = data
-    failure = (err) ->
-      console.log 'error', err
-      console.log err.stack
-    ret.then success.bind(@), failure.bind(@)
-    return ret
   clientonchatmessage: (ev) =>
     console.log JSON.stringify ev, null, '  '
     @model.messageAdd ev
