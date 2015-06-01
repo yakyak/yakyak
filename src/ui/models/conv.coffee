@@ -72,6 +72,7 @@ addWatermark = (ev) ->
     }
     sr = conv?.self_conversation_state?.self_read_state
     if entity.isSelf(participant_id.chat_id) and sr
+        and latest_read_timestamp > sr.latest_read_timestamp
         sr.latest_read_timestamp = latest_read_timestamp
     updated 'conv'
 
