@@ -20,14 +20,21 @@ handle 'init', (init) ->
         viewstate.setSelectedConv conv.list()?[0]?.conversation_id
 
 
-handle 'chat_message', (msg) ->
-    conv.addChatMessage msg
+handle 'chat_message', (ev) ->
+    conv.addChatMessage ev
+
+
+handle 'watermark', (ev) ->
+    conv.addWatermark ev
 
 
 handle 'selectConv', (conv) -> viewstate.setSelectedConv conv
 
-randomid = -> Math.round Math.random() * Math.pow(2,32)
 
+# XXX too much logic here. refactor to make
+# an input parser that builds an object with all
+# params passed to server.
+randomid = -> Math.round Math.random() * Math.pow(2,32)
 handle 'sendmessage', (txt) ->
     conv_id = viewstate.selectedConv
     mb = new MessageBuilder()

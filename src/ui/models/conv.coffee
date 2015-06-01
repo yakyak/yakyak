@@ -61,6 +61,20 @@ addChatMessagePlaceholder = (conv_id, chat_id, client_generated_id, segs) ->
         timestamp:(Date.now() * 1000)
     addChatMessage ev
 
+addWatermark = (ev) ->
+    conv_id = ev?.conversation_id?.id
+    return unless conv_id and conv = lookup[conv_id]
+    conv.read_state = [] unless conv.read_state
+    {participant_id, latest_read_timestamp} = ev
+    conv.read_state.push {
+        participant_id
+        latest_read_timestamp
+    }
+    sr = conv?.self_conversation_state?.self_read_state
+    if entity.isSelf(participant_id.chat_id) and sr
+        sr.latest_read_timestamp = latest_read_timestamp
+    updated 'conv'
+
 sortby = (conv) ->
     conv?.self_conversation_state?.sort_timestamp ? 0
 
@@ -82,6 +96,7 @@ funcs =
 
     addChatMessage: addChatMessage
     addChatMessagePlaceholder: addChatMessagePlaceholder
+    addWatermark: addWatermark
 
     list: ->
         convs = (v for k, v of lookup when typeof v == 'object')

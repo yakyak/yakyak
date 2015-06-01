@@ -3,6 +3,7 @@
     padding-top: 15px;
     padding-bottom: 15px;
     .conv {
+        position: relative;
         padding: 8px 15px 8px 15px;
         text-overflow: ellipsis;
         overflow: hidden;
@@ -12,6 +13,7 @@
         line-height: 22px;
         max-height: 52px;
         cursor: pointer;
+        display: flex;
         &:hover {
             background: #bbb;
         }
@@ -21,6 +23,22 @@
         }
         &.unread {
             font-weight: 500;
+        }
+        .convname {
+            flex: 1;
+        }
+        .unreadcount {
+            margin-top: 2px;
+            flex: none;
+            font-size: 11px;
+            font-weight: 600;
+            background: #3a3a3a;
+            color: #fff;
+            width: 30px;
+            height: 18px;
+            line-height: 18px;
+            text-align: center;
+            border-radius: 20px;
         }
     }
 }

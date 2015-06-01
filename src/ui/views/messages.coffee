@@ -3,7 +3,7 @@ shell = require 'shell'
 
 {nameof, linkto, later, forceredraw}  = require './vutil'
 
-CUTOFF = 10 * 60 * 1000 * 1000 # 10 mins
+CUTOFF = 5 * 60 * 1000 * 1000 # 5 mins
 
 isAboutLink = (s) -> (/https:\/\/plus.google.com\/u\/0\/([0-9]+)\/about/.exec(s) ? [])[1]
 
