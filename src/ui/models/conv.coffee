@@ -51,6 +51,7 @@ findClientGenerated = (conv, client_generated_id) ->
 
 addChatMessagePlaceholder = (conv_id, chat_id, client_generated_id, segs) ->
     # e.self_event_state.client_generated_id
+    ts = Date.now() * 1000
     ev =
         chat_message:message_content:segment:segs
         conversation_id:id:conv_id
@@ -58,7 +59,10 @@ addChatMessagePlaceholder = (conv_id, chat_id, client_generated_id, segs) ->
         sender_id:
             chat_id:chat_id
             gaia_id:chat_id
-        timestamp:(Date.now() * 1000)
+        timestamp:ts
+    # lets say this is also read
+    sr = lookup[conv_id]?.self_conversation_state?.self_read_state
+    sr.latest_read_timestamp = ts if sr
     addChatMessage ev
 
 addWatermark = (ev) ->
@@ -71,8 +75,7 @@ addWatermark = (ev) ->
         latest_read_timestamp
     }
     sr = conv?.self_conversation_state?.self_read_state
-    if entity.isSelf(participant_id.chat_id) and sr
-        and latest_read_timestamp > sr.latest_read_timestamp
+    if entity.isSelf(participant_id.chat_id) and sr and latest_read_timestamp > sr.latest_read_timestamp
         sr.latest_read_timestamp = latest_read_timestamp
     updated 'conv'
 
