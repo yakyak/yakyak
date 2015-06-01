@@ -31,11 +31,35 @@ addChatMessage = (msg) ->
             event: []
         }
     conv.event = [] unless conv.event
-    conv.event.push msg
+    # we can add message placeholder that needs replacing when
+    # the real event drops in. if we find the same event id.
+    cpos = findClientGenerated conv, msg?.self_event_state?.client_generated_id
+    if cpos
+        # replace
+        conv.event[cpos] = msg
+    else
+        # add last
+        conv.event.push msg
     conv?.self_conversation_state?.sort_timestamp = msg.timestamp
-    console.log conv
     updated 'conv'
     conv
+
+findClientGenerated = (conv, client_generated_id) ->
+    return unless client_generated_id
+    for e, i in conv.event ? []
+        return i if e.self_event_state?.client_generated_id == client_generated_id
+
+addChatMessagePlaceholder = (conv_id, chat_id, client_generated_id, segs) ->
+    # e.self_event_state.client_generated_id
+    ev =
+        chat_message:message_content:segment:segs
+        conversation_id:id:conv_id
+        self_event_state:client_generated_id:client_generated_id
+        sender_id:
+            chat_id:chat_id
+            gaia_id:chat_id
+        timestamp:(Date.now() * 1000)
+    addChatMessage ev
 
 sortby = (conv) ->
     conv?.self_conversation_state?.sort_timestamp ? 0
@@ -57,6 +81,7 @@ funcs =
         c
 
     addChatMessage: addChatMessage
+    addChatMessagePlaceholder: addChatMessagePlaceholder
 
     list: ->
         convs = (v for k, v of lookup when typeof v == 'object')

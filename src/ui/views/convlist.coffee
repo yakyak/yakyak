@@ -15,7 +15,8 @@ module.exports = view (models) ->
                     span conv.name
                 else
                     # all entities in conversation that is not self
-                    ents = for p in conv.current_participant when not entity.isSelf p.chat_id
+                    part = conv?.current_participant ? []
+                    ents = for p in part when not entity.isSelf p.chat_id
                         entity[p.chat_id]
                     # the names of those entities
                     names = ents.map nameof

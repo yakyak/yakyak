@@ -26,9 +26,13 @@ handle 'chat_message', (msg) ->
 
 handle 'selectConv', (conv) -> viewstate.setSelectedConv conv
 
+randomid = -> Math.round Math.random() * Math.pow(2,32)
 
 handle 'sendmessage', (txt) ->
     conv_id = viewstate.selectedConv
     mb = new MessageBuilder()
     segs = mb.text(txt).toSegments()
-    ipc.send 'sendchatmessage', conv_id, segs
+    client_generated_id = randomid() + ''
+    ipc.send 'sendchatmessage', conv_id, segs, client_generated_id
+    conv.addChatMessagePlaceholder conv_id, entity.self.id,
+        client_generated_id, mb.toSegsjson()
