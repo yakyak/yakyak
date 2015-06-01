@@ -64,6 +64,10 @@ app.on 'ready', ->
         Client.OffTheRecordStatus.ON_THE_RECORD, client_generated_id).then (r) ->
                 mainWindow.webContents.send 'sendchatmessage:result', r
 
+    ipc.on 'setpresence', -> client.setpresence(true)
+    ipc.on 'updatewatermark', (ev, conv_id, time) ->
+        client.updatewatermark conv_id, time
+
     # propagate these events to the renderer
     require('./ui/events').forEach (n) ->
         client.on n, (e) ->

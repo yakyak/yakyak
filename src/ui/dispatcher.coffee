@@ -2,6 +2,8 @@ ipc = require 'ipc'
 {entity, conv, viewstate} = require './models'
 {MessageBuilder} = require 'hangupsjs'
 
+{throttle} = require './views/vutil'
+
 module.exports =
     init: ({init, recorded}) ->
         action 'init', init
@@ -27,6 +29,17 @@ handle 'chat_message', (ev) ->
 handle 'watermark', (ev) ->
     conv.addWatermark ev
 
+handle 'focus', ->
+    viewstate.setFocus true
+
+handle 'blur', ->
+    viewstate.setFocus false
+
+handle 'activity', (time) ->
+    viewstate.updateActivity time
+
+handle 'atbottom', (atbottom) ->
+    viewstate.updateAtBottom atbottom
 
 handle 'selectConv', (conv) -> viewstate.setSelectedConv conv
 
@@ -48,3 +61,21 @@ handle 'sendmessage', (txt) ->
     ipc.send 'sendchatmessage', conv_id, segs, client_generated_id
     conv.addChatMessagePlaceholder conv_id, entity.self.id,
         client_generated_id, mb.toSegsjson()
+
+sendSetPresence = throttle 10000, -> ipc.send 'setpresence'
+
+handle 'update:lastActivity', -> sendSetPresence()
+
+throttleWaterByConv = {
+}
+
+handle 'update:watermark', ->
+    conv_id = viewstate.selectedConv
+    c = conv[conv_id]
+    return unless c
+    sendWater = throttleWaterByConv[conv_id]
+    unless sendWater
+        do (conv_id) ->
+            sendWater = throttle 2000, -> ipc.send 'updatewatermark', conv_id, Date.now()
+            throttleWaterByConv[conv_id] = sendWater
+    sendWater()

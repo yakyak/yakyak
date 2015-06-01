@@ -78,6 +78,19 @@ addWatermark = (ev) ->
 sortby = (conv) ->
     conv?.self_conversation_state?.sort_timestamp ? 0
 
+# this number correlates to number of max events we get from
+# hangouts on client startup.
+MAX_UNREAD = 20
+
+unread = (conv) ->
+    t = conv?.self_conversation_state?.self_read_state?.latest_read_timestamp
+    return 0 unless t
+    c = 0
+    for e in conv?.event ? []
+        c++ if e.chat_message and e.timestamp > t
+        return MAX_UNREAD if c >= MAX_UNREAD
+    c
+
 funcs =
     count: ->
         c = 0; (c++ for k, v of lookup when typeof v == 'object'); c
@@ -97,6 +110,8 @@ funcs =
     addChatMessage: addChatMessage
     addChatMessagePlaceholder: addChatMessagePlaceholder
     addWatermark: addWatermark
+    MAX_UNREAD: MAX_UNREAD
+    unread: unread
 
     list: ->
         convs = (v for k, v of lookup when typeof v == 'object')

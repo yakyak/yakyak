@@ -1,13 +1,31 @@
 
+{throttle} = require './vutil'
+
 attached = false
 attachListeners = ->
     return if attached
     window.addEventListener 'focus', onFocus
-
+    window.addEventListener 'blur', onBlur
+    window.addEventListener 'mousemove', onActivity
+    window.addEventListener 'click', onActivity
+    window.addEventListener 'keydown', onActivity
 
 onFocus = (ev) ->
     maybeMoveFocus()
+    action 'focus'
 
+onBlur = (ev) ->
+    action 'blur'
+
+onActivity = throttle 100, (ev) ->
+    action 'activity', ev.timeStamp ? Date.now()
+
+onScroll = throttle 100, (ev) ->
+    el = ev.target
+    child = el.children[0]
+    # calculation to see whether we are at the bottom with a tolerance value
+    atbottom = (el.scrollTop + el.offsetHeight) >= (child.offsetHeight - 10)
+    action 'atbottom', atbottom
 
 maybeMoveFocus = ->
     return unless document.activeElement?.tagName == 'BODY'
@@ -22,6 +40,6 @@ module.exports = layout ->
     div class:'applayout', ->
         div class:'left', region('left')
         div class:'right', ->
-            div class:'main', region('main')
+            div class:'main', region('main'), onscroll: onScroll
             div class:'foot', region('foot')
     attachListeners()

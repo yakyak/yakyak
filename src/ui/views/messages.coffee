@@ -84,7 +84,9 @@ module.exports = view (models) ->
 
     later ->
         # ensure we're scrolled to bottom
-        document.querySelector('.main').scrollTop = Number.MAX_SAFE_INTEGER
+        el = document.querySelector('.main')
+        # to bottom
+        el.scrollTop = Number.MAX_SAFE_INTEGER
 
 
 pass = (v) -> if typeof v == 'function' then (v(); undefined) else v

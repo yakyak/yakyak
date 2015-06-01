@@ -15,6 +15,5 @@ module.exports = view (models) ->
             return if isModifierKey e
             if e.keyCode == 13
                 e.preventDefault()
-                e.stopPropagation()
                 action 'sendmessage', e.target.value
                 e.target.value = ''
