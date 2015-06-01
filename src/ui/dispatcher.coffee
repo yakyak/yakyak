@@ -1,4 +1,6 @@
 ipc = require 'ipc'
+urlRegexp = require 'url-regexp'
+normalizeUrl = require 'normalize-url'
 {entity, conv, viewstate} = require './models'
 {MessageBuilder} = require 'hangupsjs'
 
@@ -43,6 +45,11 @@ handle 'atbottom', (atbottom) ->
 
 handle 'selectConv', (conv) -> viewstate.setSelectedConv conv
 
+split_first = (str, token) ->
+  start = str.indexOf token
+  first = str.substr 0, start
+  last = str.substr start + token.length
+  [first, last]
 
 # XXX too much logic here. refactor to make
 # an input parser that builds an object with all
@@ -51,10 +58,16 @@ randomid = -> Math.round Math.random() * Math.pow(2,32)
 handle 'sendmessage', (txt) ->
     conv_id = viewstate.selectedConv
     mb = new MessageBuilder()
-    txt = txt.split '\n'
-    last = txt.length - 1
-    for index, line of txt
-      mb.text(line)
+    lines = txt.split '\n'
+    last = lines.length - 1
+    for index, line of lines
+      urls = urlRegexp.match line
+      for url in urls
+        [before, after] = split_first line, url
+        if before then mb.text(before)
+        line = after
+        mb.link (normalizeUrl url), url
+      mb.text line
       mb.linebreak() unless index is last
     segs = mb.toSegments()
     client_generated_id = randomid() + ''

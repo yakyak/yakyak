@@ -25,8 +25,10 @@
     "autosize": "^3.0.6",
     "hangupsjs": "^0.7.2",
     "moment": "^2.10.3",
+    "normalize-url": "^1.2.1",
     "q": "^1.4.0",
-    "trifl": "0.0.8"
+    "trifl": "0.0.8",
+    "url-regexp": "^1.0.2"
   },
   "devDependencies": {
     "chai": "^2.3.0",
