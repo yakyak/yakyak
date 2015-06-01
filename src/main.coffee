@@ -3,6 +3,7 @@ Q      = require 'q'
 login  = require './login'
 ipc    = require 'ipc'
 fs     = require 'fs'
+appmenu = require './appmenu'
 
 client = new Client()
 
@@ -21,6 +22,9 @@ app.on 'window-all-closed', ->
 loadAppWindow = ->
     mainWindow.loadUrl 'file://' + __dirname + '/ui/index.html'
 
+openDevTools = ->
+    mainWindow?.openDevTools detach: true
+
 app.on 'ready', ->
 
     # Create the browser window.
@@ -31,7 +35,7 @@ app.on 'ready', ->
         "min-height": 420
     }
 
-    mainWindow.openDevTools detach: true
+    appmenu.attach app, {openDevTools}
 
     # and load the index.html of the app. this may however be yanked
     # away if we must do auth.
