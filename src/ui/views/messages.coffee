@@ -7,11 +7,15 @@ CUTOFF = 5 * 60 * 1000 * 1000 # 5 mins
 
 isAboutLink = (s) -> (/https:\/\/plus.google.com\/u\/0\/([0-9]+)\/about/.exec(s) ? [])[1]
 
+# this helps fixing houts proxied with things like hangupsbot
+# the format of proxied messages are
 getProxied = (e) ->
     s = e?.chat_message?.message_content?.segment[0]
     return unless s
     return s?.formatting?.bold == 1 and isAboutLink(s?.link_data?.link_target)
 
+# and here we put entities in the entity db for
+# users found only in proxied messages.
 fixProxied = (e, proxied, entity) ->
     e.chat_message.message_content.proxied = true
     name = e?.chat_message?.message_content?.segment[0]?.text
@@ -76,7 +80,12 @@ module.exports = view (models) ->
                     clz = ['ugroup']
                     clz.push 'self' if entity.isSelf(u.cid)
                     div class:clz.join(' '), ->
-                        a href:linkto(u.cid), {onclick}, class:'sender', sender
+                        a href:linkto(u.cid), {onclick}, class:'sender', ->
+                            purl = entity[u.cid].photo_url
+                            if purl
+                                purl = "https://#{purl}" if purl.indexOf('//') == 0
+                                img src:purl if purl
+                            span sender
                         div class:'umessages', ->
                             for e in u.event
                                 div key:e.event_id, class:'message', ->
