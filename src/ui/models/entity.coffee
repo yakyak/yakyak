@@ -9,12 +9,16 @@ domerge = (id, props) -> lookup[id] = merge (lookup[id] ? {}), props
 add = (entity, opts = silent:false) ->
     {gaia_id, chat_id} = entity?.id ? {}
     return null unless gaia_id or chat_id
+
     # dereference .properties to be on main obj
     if entity.properties
         domerge gaia_id, entity.properties
+
     # merge rest of props
     clone = shallowif entity, (k) -> k not in ['id', 'properties']
     domerge gaia_id, clone
+
+    lookup[gaia_id].id = gaia_id
 
     # handle different chat_id to gaia_id
     lookup[chat_id] = lookup[gaia_id] if chat_id != gaia_id

@@ -55,8 +55,10 @@ app.on 'ready', ->
         recorded: recorded
 
     # propagate stuff client does
-    ipc.on 'sendchatmessage', (ev, conv, segs) ->
-        client.sendchatmessage conv, segs
+    ipc.on 'sendchatmessage', (ev, conv, segs, client_generated_id) ->
+        client.sendchatmessage(conv, segs, undefined,
+        Client.OffTheRecordStatus.ON_THE_RECORD, client_generated_id).then (r) ->
+                mainWindow.webContents.send 'sendchatmessage:result', r
 
     # propagate these events to the renderer
     require('./ui/events').forEach (n) ->
