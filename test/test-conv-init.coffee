@@ -20,7 +20,10 @@ describe 'conv', ->
         it 'populates entities with found entities', ->
             conv._initFromConvStates init.conv_states
             eql 326, entity.count()
-            eql entity['110994664963851875523'], {fallback_name:'Martin Algesten'}
+            eql entity['110994664963851875523'], {
+                fallback_name:'Martin Algesten'
+                id:'110994664963851875523'
+            }
 
     describe 'count', ->
 
