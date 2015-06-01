@@ -1,4 +1,5 @@
 moment = require 'moment'
+shell = require 'shell'
 
 {nameof, linkto, later, forceredraw}  = require './vutil'
 
@@ -24,6 +25,12 @@ fixProxied = (e, proxied, entity) ->
             }
             fallback_name: name
         }, silent:true
+
+onclick = (e) ->
+  e.preventDefault()
+  address = e.currentTarget.getAttribute 'href'
+  if address[0] == '/' then address = "http:" + address
+  shell.openExternal address
 
 # helper method to group events in time/user bunches
 groupEvents = (es, entity) ->
@@ -69,7 +76,7 @@ module.exports = view (models) ->
                     clz = ['ugroup']
                     clz.push 'self' if entity.isSelf(u.cid)
                     div class:clz.join(' '), ->
-                        a href:linkto(u.cid), class:'sender', sender
+                        a href:linkto(u.cid), {onclick}, class:'sender', sender
                         div class:'umessages', ->
                             for e in u.event
                                 div key:e.event_id, class:'message', ->
@@ -91,7 +98,7 @@ format = (cont) ->
         if seg.type == "LINE_BREAK" then br(); continue
         f = seg.formatting ? {}
         href = seg?.link_data?.link_target
-        ifpass(href, ((f) -> a {href}, f)) ->
+        ifpass(href, ((f) -> a {href, onclick}, f)) ->
             ifpass(f.bold, b) ->
                 ifpass(f.italics, i) ->
                     ifpass(f.underline, u) ->
