@@ -2,15 +2,26 @@
 trifl = require 'trifl'
 trifl.expose window
 
-# expose some selected tagg functions
-trifl.tagg.expose window, ('ul li div span a i button table thead tbody tr td th input textarea pre br img'.split(' '))...
+dispatcher = require './dispatcher'
 
-{applayout} = require './views'
+# expose some selected tagg functions
+trifl.tagg.expose window, ('ul li div span a i b u s button
+table thead tbody tr td th textarea'.split(' '))...
+
+ipc = require 'ipc'
+
+{applayout}    = require './views'
 
 # tie layout to DOM
 document.body.appendChild applayout.el
 
-# handle main process events
-ipc = require 'ipc'
-ipc.on 'model:update', (model)->
-  applayout model
+# wire all events to actions
+ipc.on 'init', (e) -> dispatcher.init e
+require('./events').forEach (n) -> ipc.on n, (e) -> action n, e
+
+# request init
+ipc.send 'reqinit'
+
+# init dispatcher/controller
+require './dispatcher'
+require './views/controller'

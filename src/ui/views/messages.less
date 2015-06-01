@@ -1,0 +1,54 @@
+
+.messages {
+    padding: 15px;
+    .tgroup {
+        .timestamp {
+            margin-top: 15px;
+            display: block;
+            font-size: 12px;
+            text-align: center;
+            color: #999;
+        }
+        .ugroup {
+            .sender {
+                text-decoration: none;
+                font-size: 11px;
+                color: #999;
+                padding-left: 13px;
+            }
+            @radius: 13px;
+            .umessages {
+                display: table;
+                max-width: ~"calc(100% - 80px)";
+                .message {
+                    background: #dedede;
+                    padding: 0 @radius;
+                    padding-bottom: 5px;
+                    &:first-child {
+                        padding-top: 4px;
+                        border-top-left-radius: @radius;
+                        border-top-right-radius: @radius;
+                    }
+                    &:last-child {
+                        border-bottom-left-radius: @radius;
+                        border-bottom-right-radius: @radius;
+                        padding-bottom: 4px;
+                    }
+                }
+            }
+            &.self {
+                direction: rtl;
+                .sender {
+                    padding-right: 13px;
+                }
+                .umessages {
+                    direction: ltr;
+                    .message {
+                        background: #2d97f6;
+                        color: white;
+                    }
+                }
+            }
+        }
+    }
+}

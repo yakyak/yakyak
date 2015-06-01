@@ -1,0 +1,26 @@
+
+.convlist {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    .conv {
+        padding: 8px 15px 8px 15px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        line-height: 22px;
+        max-height: 52px;
+        cursor: pointer;
+        &:hover {
+            background: #bbb;
+        }
+        &.selected {
+            background: #adf;
+            cursor: auto;
+        }
+        &.unread {
+            font-weight: 500;
+        }
+    }
+}

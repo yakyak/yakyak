@@ -38,12 +38,12 @@ paths =
 # setup package stuff (README, package.json)
 gulp.task 'package', ['pre'], ->
   gulp.src paths.README
-    .pipe changed outapp
+#    .pipe changed outapp
     .pipe gulp.dest outapp
 
   # install runtime deps
   gulp.src paths.package
-    .pipe changed outapp
+#    .pipe changed outapp
     .pipe gulp.dest outapp
     .pipe install(production:true)
 
@@ -54,7 +54,7 @@ gulp.task 'coffee', ->
     .pipe sourcemaps.init()
     .pipe coffee().on 'error', gutil.log
     .pipe sourcemaps.write()
-    .pipe changed outapp
+#    .pipe changed outapp
     .pipe gulp.dest outapp
 
 

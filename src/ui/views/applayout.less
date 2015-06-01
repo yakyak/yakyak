@@ -1,152 +1,28 @@
-@top-height: 40px;
-
-@dark: #4c3a4b;
-@darktxt: #998a98;
 
 .applayout {
-    height: 100%;
-    padding: 0px;
-    font-size: 16px;
-    line-height: 1.3em;
     display: flex;
-
-    .left {
-        height: 100%;
-        padding-right: 0;
-        background: @dark;
-        color: @darktxt;
-        display: flex;
-        flex-direction: column;
+    height: 100%;
+    > .left {
+        background: #f0f0f0;
+        border-right: 1px solid #b4b4b4;
+        flex: none;
         width: 200px;
-        flex: none;
-    }
-
-    .self {
-        order: 2;
-        flex: none;
-        box-shadow: inset 0 1px 2px rgba(0,0,0,0.3);
-        padding: 7px 15px;
-        background-color: darken(@dark, 10%);
-        height: 60px;
-        img {
-            width: 45px;
-            float: left;
-            margin-right: 8px;
-            margin-left: -6px;
-        }
-        .status {
-            &:before {
-                content: "●";
-                font-size: 18px;
-                line-height: 15px;
-                vertical-align: bottom;
-                padding-right: 3px;
-            }
-            &.online {
-                &:before {
-                    color: #69b14b;
-                }
-            }
-        }
-    }
-    .conversations-scroll {
-        order: 1;
-        flex: 1;
         overflow-x: hidden;
         overflow-y: auto;
-        .conversations {
-            .conversation {
-                padding: 7px 15px;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                display: -webkit-box;
-                -webkit-box-orient: vertical;
-                -webkit-line-clamp: 2;
-                line-height: 20px;
-                max-height: 48px;
-                padding-left: 20px;
-                position: relative;
-                &:before {
-                    content: "•";
-                    font-size: 10px;
-                    position: absolute;
-                    left: 11px;
-                    top: 7px;
-                }
-                &:hover {
-                    cursor: pointer;
-                    color: lighten(@darktxt, 10%);
-                }
-                &.selected {
-                    color: lighten(@darktxt, 20%);
-                }
-            }
-        }
     }
-    .main {
-        height: 100%;
+    > .right {
         flex: 1;
-        .messages {
-            position: relative;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            .message-list-scroll {
-                flex: 1;
-                overflow-x: hidden;
-                overflow-y: scroll;
-                .message-list {
-                    background-color: #fff;
-                    padding: 15px;
-                    padding-bottom: 0;
-                    .message {
-                        display: block;
-                        margin: 0px;
-
-                        .user {
-                            display: inline-block;
-                            font-weight: bold;
-                            text-overflow: ellipsis;
-                        }
-
-                        .timestamp {
-                            display: block;
-                            opacity: 0;
-                            font-size: x-small;
-                            color: #aaa;
-                            float: right;
-                            padding-right: 15px;
-                        }
-                        &:hover .timestamp {
-                            opacity: 1;
-                        }
-
-                        .body {
-                            display: inline-block;
-                            overflow: hidden;
-                            padding-left: 10px;
-                            width: 100%;
-                        }
-                    }
-                }
-            }
-            .message-xinput {
-                flex: none;
-                min-height: 60px;
-                padding: 15px;
-                textarea {
-                    border: 2px solid #ddd;
-                    border-radius: 3px;
-                    padding: 3px 7px;
-                    font-size: 16px;
-                    line-height: 20px;
-                    width: 100%;
-                    outline: none;
-                    resize: vertical;
-                    vertical-align: top;
-                }
-            }
+        display: flex;
+        flex-direction: column;
+        > .main {
+            flex: 1;
+            overflow-x: hidden;
+            overflow-y: auto;
         }
-
+        > .foot {
+            flex: none;
+            background: #f6f6f6;
+            border-top: 1px solid #b4b4b4;
+        }
     }
 }

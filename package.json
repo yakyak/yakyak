@@ -23,11 +23,13 @@
   "homepage": "https://github.com/algesten/yakayak",
   "dependencies": {
     "autosize": "^3.0.6",
-    "hangupsjs": "^0.7.0",
+    "hangupsjs": "^0.7.2",
+    "moment": "^2.10.3",
     "q": "^1.4.0",
     "trifl": "0.0.8"
   },
   "devDependencies": {
+    "chai": "^2.3.0",
     "coffee-script": "^1.9.2",
     "electron-prebuilt": "^0.27.1",
     "gulp": "^3.8.11",
@@ -39,6 +41,7 @@
     "gulp-less": "^3.0.3",
     "gulp-sourcemaps": "^1.5.2",
     "gulp-util": "^3.0.5",
+    "mocha": "^2.2.5",
     "rimraf": "^2.3.3"
   }
 }
