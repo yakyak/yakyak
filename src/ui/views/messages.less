@@ -12,8 +12,9 @@
         .ugroup {
             .sender {
                 text-decoration: none;
-                font-size: 13px;
+                font-size: 11px;
                 color: #999;
+                padding-left: 13px;
             }
             @radius: 13px;
             .umessages {
@@ -22,20 +23,24 @@
                 .message {
                     background: #dedede;
                     padding: 0 @radius;
+                    padding-bottom: 5px;
                     &:first-child {
-                        padding-top: @radius / 3;
+                        padding-top: 4px;
                         border-top-left-radius: @radius;
                         border-top-right-radius: @radius;
                     }
                     &:last-child {
                         border-bottom-left-radius: @radius;
                         border-bottom-right-radius: @radius;
-                        padding-bottom: @radius / 3;
+                        padding-bottom: 4px;
                     }
                 }
             }
             &.self {
                 direction: rtl;
+                .sender {
+                    padding-right: 13px;
+                }
                 .umessages {
                     direction: ltr;
                     .message {
