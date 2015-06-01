@@ -4,14 +4,8 @@
     padding-bottom: 15px;
     .conv {
         position: relative;
-        padding: 10px 15px 10px 15px;
-        text-overflow: ellipsis;
-        overflow: hidden;
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        line-height: 22px;
-        max-height: 52px;
+        padding: 10px 15px 12px;
+        line-height: 25px;
         cursor: pointer;
         display: flex;
         &:hover {
@@ -26,15 +20,21 @@
         }
         .convname {
             flex: 1;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            display: -webkit-box;
+            max-height: 50px;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
         }
         .unreadcount {
-            margin-top: 1px;
+            margin-top: 3px;
             flex: none;
             font-size: 11px;
             font-weight: 600;
             background: #3a3a3a;
             color: #fff;
-            width: 30px;
+            width: 32px;
             height: 18px;
             line-height: 18px;
             text-align: center;
