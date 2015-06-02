@@ -23,6 +23,7 @@ copyPrebuilt = ->
   gutil.log 'Change app name to Yakyak'
   execSync 'sed -i.bak s/Electron/Yakyak/ Yakyak.app/Contents/Info.plist'
   execSync 'mv Yakyak.app/Contents/MacOS/Electron Yakyak.app/Contents/MacOS/Yakyak'
+  execSync 'cp src/icons/atom.icns Yakyak.app/Contents/Resources/atom.icns'
 
 gulp.task 'pre', ->
   copyPrebuilt() unless fs.existsSync outbin
