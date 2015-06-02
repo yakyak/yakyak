@@ -12,21 +12,21 @@ historyLength = 100
 historyBackup = ""
 
 historyPush = (data) ->
-  history.push data
-  if history.length == historyLength then history.shift()
-  historyIndex = history.length
+    history.push data
+    if history.length == historyLength then history.shift()
+    historyIndex = history.length
 
 historyWalk = (el, offset) ->
-  # if we are starting to dive into history be backup current message
-  if offset is -1 and historyIndex is history.length then historyBackup = el.value
-  historyIndex = historyIndex + offset
-  # constrain index
-  if historyIndex < 0 then historyIndex = 0
-  if historyIndex > history.length then historyIndex = history.length
-  # if don't have history value restore 'current message'
-  val = history[historyIndex] or historyBackup
-  el.value = val
-  setTimeout (-> cursorToEnd el), 1
+    # if we are starting to dive into history be backup current message
+    if offset is -1 and historyIndex is history.length then historyBackup = el.value
+    historyIndex = historyIndex + offset
+    # constrain index
+    if historyIndex < 0 then historyIndex = 0
+    if historyIndex > history.length then historyIndex = history.length
+    # if don't have history value restore 'current message'
+    val = history[historyIndex] or historyBackup
+    el.value = val
+    setTimeout (-> cursorToEnd el), 1
 
 module.exports = view (models) ->
     div class:'input', -> div ->
