@@ -102,7 +102,7 @@ MAX_UNREAD = 20
 
 unread = (conv) ->
     t = conv?.self_conversation_state?.self_read_state?.latest_read_timestamp
-    return 0 unless t
+    return 0 unless typeof t == 'number'
     c = 0
     for e in conv?.event ? []
         c++ if e.chat_message and e.timestamp > t

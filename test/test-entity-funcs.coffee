@@ -10,7 +10,7 @@ describe 'entity', ->
 
         it 'counts total', ->
             added = entity._initFromEntities init.entities
-            eql 57, added
+            eql 2, added
             eql added, entity.count()
 
     describe 'isSelf', ->

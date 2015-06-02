@@ -12,13 +12,13 @@ describe 'conv', ->
     describe 'count', ->
 
         it 'counts total', ->
-            eql 35, conv.count()
+            eql 3, conv.count()
 
     describe 'unread', ->
 
         it 'counts number of unread messages', ->
-            ur = conv.unread conv['UgzqukQGmQRb3lSSTgR4AaABAQ']
-            eql 19, ur
+            ur = conv.unread conv['UxCZCVrfhlAAAQ']
+            eql 20, ur
 
     describe 'list', ->
 

@@ -10,11 +10,11 @@ describe 'entity', ->
 
         it 'populates lookup', ->
             added = entity._initFromEntities init.entities
-            eql 57, added
-            eql 57, entity.count()
-            ent = entity['110003046983028707939']
+            eql 2, added
+            eql 2, entity.count()
+            ent = entity['12230235892']
             assert.isNotNull ent
-            eql 'Inge Mandersson', ent.display_name
+            eql 'Bo André Tenström', ent.display_name
 
     describe 'initFromSelfEntity', ->
 
@@ -22,7 +22,7 @@ describe 'entity', ->
             e = entity._initFromSelfEntity init.self_entity
             assert.isNotNull e
             assert 'Martin Algesten', e.display_name
-            assert.strictEqual e, entity['110994664963851875523']
+            assert.strictEqual e, entity['10964681753']
 
         it 'adds entity as .self', ->
             e = entity._initFromSelfEntity init.self_entity
@@ -32,23 +32,16 @@ describe 'entity', ->
 
         it 'ensures isSelf works', ->
             entity._initFromSelfEntity init.self_entity
-            entity.isSelf '110994664963851875523'
+            eql true, entity.isSelf '10964681753'
 
         it 'keeps the self entity even if merged', ->
             entity._initFromSelfEntity init.self_entity
             entity.add {
-                id: {gaia_id:'110994664963851875523', chat_id:'110994664963851875523'}
+                id: {gaia_id:'10964681753', chat_id:'10964681753'}
                 testing: 'panda'
             }
-            e = entity['110994664963851875523']
+            e = entity['10964681753']
             assert.isNotNull e
             eql 'Martin Algesten', e.display_name
             eql 'panda', e.testing
-            assert.isTrue entity.isSelf '110994664963851875523'
-
-    describe 'count', ->
-
-        it 'counts total', ->
-            added = entity._initFromEntities init.entities
-            eql 57, added
-            eql added, entity.count()
+            assert.isTrue entity.isSelf '10964681753'

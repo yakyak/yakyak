@@ -12,15 +12,15 @@ describe 'conv', ->
 
         it 'populates lookup', ->
             added = conv._initFromConvStates init.conv_states
-            eql 35, added
-            c = conv['UgyjzlZlPiaXi5r-rGd4AaABAQ']
+            eql 3, added
+            c = conv['UzNxjbBsPhAAAQ']
             assert.isNotNull c
-            eql 'UgyjzlZlPiaXi5r-rGd4AaABAQ', c.conversation_id.id
+            eql 'UzNxjbBsPhAAAQ', c.conversation_id.id
 
         it 'populates entities with found entities', ->
             conv._initFromConvStates init.conv_states
-            eql 326, entity.count()
-            eql entity['110994664963851875523'], {
-                fallback_name:'Martin Algesten'
-                id:'110994664963851875523'
+            eql 8, entity.count()
+            eql entity['10964681753'], {
+                fallback_name:'John Snow'
+                id:'10964681753'
             }
