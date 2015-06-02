@@ -39,7 +39,7 @@
             "latest_read_timestamp": 1429701654611420
           },
           "status": "ACTIVE",
-          "notification_level": "RING",
+          "notification_level": "QUIET",
           "view": [
             "INBOX_VIEW"
           ],

@@ -240,3 +240,9 @@ describe 'conv', ->
                     latest_read_timestamp: 200
                 }
             ]
+
+    describe 'isQuiet', ->
+
+        it 'checks if the given conv is quiet', ->
+            eql conv.isQuiet(conv['UzNxjbBsPhAAAQ']), true
+            eql conv.isQuiet(conv['UxCZCVrfhlAAAQ']), false

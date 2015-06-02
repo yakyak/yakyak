@@ -23,7 +23,7 @@ module.exports = view (models) ->
                     # joined together in a compelling manner
                     names.join ', '
                 span class:'convname', name
-                if ur > 0
+                if ur > 0 and not conv.isQuiet(c)
                     lbl = if ur >= conv.MAX_UNREAD then "#{conv.MAX_UNREAD}+" else ur + ''
                     span class:'unreadcount', lbl
             , onclick: (ev) ->

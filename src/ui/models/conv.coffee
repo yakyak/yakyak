@@ -132,6 +132,8 @@ funcs =
     MAX_UNREAD: MAX_UNREAD
     unread: unread
 
+    isQuiet: (c) -> c?.self_conversation_state?.notification_level == 'QUIET'
+
     list: ->
         convs = (v for k, v of lookup when typeof v == 'object')
         convs.sort (e1, e2) -> sortby(e2) - sortby(e1)
