@@ -59,10 +59,9 @@ app.on 'ready', ->
         recorded: recorded
 
     # propagate stuff client does
-    ipc.on 'sendchatmessage', (ev, conv, segs, client_generated_id) ->
-        client.sendchatmessage(conv, segs, undefined,
-        Client.OffTheRecordStatus.ON_THE_RECORD, client_generated_id).then (r) ->
-                mainWindow.webContents.send 'sendchatmessage:result', r
+    ipc.on 'sendchatmessage', (ev, {conv_id, segs, client_generated_id, image_id, otr}) ->
+        client.sendchatmessage(conv_id, segs, image_id, otr, client_generated_id).then (r) ->
+            mainWindow.webContents.send 'sendchatmessage:result', r
 
     ipc.on 'setpresence', -> client.setpresence(true)
     ipc.on 'updatewatermark', (ev, conv_id, time) ->
