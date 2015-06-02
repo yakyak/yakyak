@@ -75,7 +75,8 @@ addWatermark = (ev) ->
         latest_read_timestamp
     }
     sr = conv?.self_conversation_state?.self_read_state
-    if entity.isSelf(participant_id.chat_id) and sr and latest_read_timestamp > sr.latest_read_timestamp
+    islater = latest_read_timestamp > sr.latest_read_timestamp
+    if entity.isSelf(participant_id.chat_id) and sr and islater
         sr.latest_read_timestamp = latest_read_timestamp
     updated 'conv'
 
@@ -111,6 +112,7 @@ funcs =
         updated 'conv'
         c
 
+    add:add
     addChatMessage: addChatMessage
     addChatMessagePlaceholder: addChatMessagePlaceholder
     addWatermark: addWatermark
