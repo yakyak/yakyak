@@ -1,5 +1,5 @@
-yakayak
-=======
+yakyak
+======
 
 Desktop client for Google Hangouts
 
@@ -32,5 +32,5 @@ $ electron app
 
 - `src/`: is where sources live
 - `src/ui/`: holds renderer code
-- `Yakayak.app/`: is where the app is built
-- `Yakayak.app/Contents/Resources/app/`: specifically all is compiled to here
+- `Yakyak.app/`: is where the app is built
+- `Yakyak.app/Contents/Resources/app/`: specifically all is compiled to here

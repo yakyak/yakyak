@@ -1,5 +1,5 @@
 {
-  "name": "yakayak",
+  "name": "yakyak",
   "version": "0.0.1",
   "description": "Chat client for Google Hangouts",
   "main": "main.js",
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/algesten/yakayak"
+    "url": "https://github.com/yakyak/yakyak"
   },
   "keywords": [
     "hangouts",
@@ -18,9 +18,9 @@
   "author": "Martin Algesten",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/algesten/yakayak/issues"
+    "url": "https://github.com/yakyak/yakyak/issues"
   },
-  "homepage": "https://github.com/algesten/yakayak",
+  "homepage": "https://github.com/yakyak/yakyak",
   "dependencies": {
     "autosize": "^3.0.6",
     "hangupsjs": "^0.7.3",

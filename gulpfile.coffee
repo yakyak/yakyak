@@ -11,18 +11,18 @@ concat     = require 'gulp-concat'
 autoReload = require 'gulp-auto-reload'
 changed    = require 'gulp-changed'
 
-outbin = './Yakayak.app'
-outapp = './Yakayak.app/Contents/Resources/app'
+outbin = './Yakyak.app'
+outapp = './Yakyak.app/Contents/Resources/app'
 outui  = outapp + '/ui'
 
 copyPrebuilt = ->
   # XXX this stinks, but gulp can't deal with
   # the symlinks in the binary.
   gutil.log 'Copying prebuilt binary to', gutil.colors.magenta(outbin)
-  execSync 'cp -R node_modules/electron-prebuilt/dist/Electron.app Yakayak.app'
+  execSync 'cp -R node_modules/electron-prebuilt/dist/Electron.app Yakyak.app'
   gutil.log 'Change app name to Yakyak'
-  execSync 'sed -i.bak s/Electron/Yakyak/ Yakayak.app/Contents/Info.plist'
-  execSync 'mv Yakayak.app/Contents/MacOS/Electron Yakayak.app/Contents/MacOS/Yakyak'
+  execSync 'sed -i.bak s/Electron/Yakyak/ Yakyak.app/Contents/Info.plist'
+  execSync 'mv Yakyak.app/Contents/MacOS/Electron Yakyak.app/Contents/MacOS/Yakyak'
 
 gulp.task 'pre', ->
   copyPrebuilt() unless fs.existsSync outbin
