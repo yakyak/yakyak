@@ -85,6 +85,8 @@ module.exports = view (models) ->
                             if purl
                                 purl = "https://#{purl}" if purl.indexOf('//') == 0
                                 img src:purl if purl
+                            else
+                                entity.needEntity u.cid
                             span sender
                         div class:'umessages', ->
                             for e in u.event

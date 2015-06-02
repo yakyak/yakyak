@@ -92,3 +92,9 @@ handle 'update:watermark', ->
             sendWater = throttle 2000, -> ipc.send 'updatewatermark', conv_id, Date.now()
             throttleWaterByConv[conv_id] = sendWater
     sendWater()
+
+
+handle 'getentity', (ids) -> ipc.send 'getentity', ids
+ipc.on 'getentity:result', (r) -> action 'addentities', r.entities
+handle 'addentities', (es) ->
+    entity.add e for e in es ? []

@@ -67,6 +67,8 @@ app.on 'ready', ->
     ipc.on 'setpresence', -> client.setpresence(true)
     ipc.on 'updatewatermark', (ev, conv_id, time) ->
         client.updatewatermark conv_id, time
+    ipc.on 'getentity', (ev, ids) -> client.getentitybyid(ids).then (r) ->
+        mainWindow.webContents.send 'getentity:result', r
 
     # propagate these events to the renderer
     require('./ui/events').forEach (n) ->

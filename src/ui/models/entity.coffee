@@ -28,6 +28,29 @@ add = (entity, opts = silent:false) ->
     # return the result
     lookup[chat_id]
 
+
+needEntity = do ->
+    tim = null
+    gather = []
+    fetch = ->
+        tim = null
+        action 'getentity', gather
+        gather = []
+    (id) ->
+        return if lookup[id]?.fetching
+        if lookup[id]
+            lookup[id].fetching = true
+        else
+            lookup[id] = {
+                id: id
+                fetching: true
+            }
+        clearTimeout tim if tim
+        tim = setTimeout fetch, 1000
+        gather.push id
+
+
+
 funcs =
     count: ->
         c = 0; (c++ for k, v of lookup when typeof v == 'object'); c
@@ -51,5 +74,6 @@ funcs =
         c
 
     add: add
+    needEntity: needEntity
 
 module.exports = merge lookup, funcs
