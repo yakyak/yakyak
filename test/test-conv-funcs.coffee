@@ -26,27 +26,217 @@ describe 'conv', ->
             conv._reset()
             conv.add {
                 conversation_id:id:'1'
-                self_conversation_state:sort_timestamp:'1'
+                self_conversation_state:sort_timestamp:1
             }
             conv.add {
                 conversation_id:id:'2'
-                self_conversation_state:sort_timestamp:'2'
+                self_conversation_state:sort_timestamp:2
             }
             conv.add {
                 conversation_id:id:'3'
-                self_conversation_state:sort_timestamp:'3'
+                self_conversation_state:sort_timestamp:3
             }
             eql conv.list(), [
                 {
                     conversation_id:id:'3'
-                    self_conversation_state:sort_timestamp:'3'
+                    self_conversation_state:sort_timestamp:3
                 }
                 {
                     conversation_id:id:'2'
-                    self_conversation_state:sort_timestamp:'2'
+                    self_conversation_state:sort_timestamp:2
                 }
                 {
                     conversation_id:id:'1'
-                    self_conversation_state:sort_timestamp:'1'
+                    self_conversation_state:sort_timestamp:1
+                }
+            ]
+
+    describe 'addChatMessage', ->
+
+        it 'adds the message to conv.event and updates sort_timestamp', ->
+            conv._reset()
+            conv.add {
+                conversation_id:id:'1'
+                self_conversation_state:sort_timestamp:1
+                event:[{another:'event'}]
+            }
+            conv.addChatMessage {
+                conversation_id:id:'1'
+                timestamp:2
+                event_id:'e1'
+            }
+            eql conv['1'], {
+                conversation_id:id:'1'
+                event:[
+                    {another:'event'}
+                    {
+                        conversation_id:id:'1'
+                        timestamp:2
+                        event_id:'e1'
+                    }
+                ]
+                self_conversation_state:sort_timestamp:2
+            }
+
+        it 'creates a skeletal conv if none exists', ->
+            conv._reset()
+            conv.addChatMessage {
+                conversation_id:id:'1'
+                timestamp:2
+                event_id:'e1'
+            }
+            eql conv['1'], {
+                conversation_id:id:'1'
+                event:[
+                    {
+                        conversation_id:id:'1'
+                        timestamp:2
+                        event_id:'e1'
+                    }
+                ]
+                self_conversation_state:sort_timestamp:2
+            }
+
+        it 'replaces entries based on client_generated_id', ->
+            conv._reset()
+            conv.add {
+                conversation_id:id:'1'
+                self_conversation_state:sort_timestamp:1
+                event:[
+                    {keep:'me'}
+                    {
+                        replace:'me'
+                        self_event_state:client_generated_id:'123'
+                    }
+                ]
+            }
+            conv.addChatMessage {
+                conversation_id:id:'1'
+                timestamp:2
+                event_id:'e1'
+                self_event_state:client_generated_id:'123'
+            }
+            eql conv['1'], {
+                conversation_id:id:'1'
+                event:[
+                    {keep:'me'}
+                    {
+                        conversation_id:id:'1'
+                        timestamp:2
+                        event_id:'e1'
+                        self_event_state:client_generated_id:'123'
+                    }
+                ]
+                self_conversation_state:sort_timestamp:2
+            }
+
+    describe 'addWatermark', ->
+
+        it 'adds a watermark for any participant', ->
+            conv._reset()
+            conv.add {
+                conversation_id:id:'1'
+                self_conversation_state:self_read_state:latest_read_timestamp:1
+            }
+            conv.addWatermark {
+                conversation_id:id:'1'
+                participant_id:
+                    chat_id:'b'
+                    gaia_id:'b'
+                latest_read_timestamp:2
+            }
+            eql conv['1'], {
+                conversation_id:id:'1'
+                read_state:[
+                    {
+                        participant_id:
+                            chat_id:'b'
+                            gaia_id:'b'
+                        latest_read_timestamp:2
+                    }
+                ]
+                self_conversation_state:self_read_state:latest_read_timestamp:1
+            }
+
+        it 'updates self_conversation_state.self_read_state.latest_read_timestamp if self', ->
+            entity._initFromSelfEntity {
+                id:
+                    gaia_id: "a"
+                    chat_id: "a"
+                properties:display_name:"Martin Algesten"
+            }
+            conv._reset()
+            conv.add {
+                conversation_id:id:'1'
+                self_conversation_state:self_read_state:latest_read_timestamp:1
+            }
+            conv.addWatermark {
+                conversation_id:id:'1'
+                participant_id:
+                    chat_id:'a'
+                    gaia_id:'a'
+                latest_read_timestamp:2
+            }
+            eql conv['1'], {
+                conversation_id:id:'1'
+                read_state:[
+                    {
+                        participant_id:
+                            chat_id:'a'
+                            gaia_id:'a'
+                        latest_read_timestamp:2
+                    }
+                ]
+                self_conversation_state:self_read_state:latest_read_timestamp:2
+            }
+
+        it 'packs the conv.read_state if length > 200', ->
+            conv._reset()
+            conv.add {
+                conversation_id:id:'1'
+                self_conversation_state:self_read_state:latest_read_timestamp:1
+            }
+            for i in [0...50]
+                for u in ['a','b','c','d']
+                    conv.addWatermark {
+                        conversation_id:id:'1'
+                        participant_id:
+                            chat_id:u
+                            gaia_id:u
+                        latest_read_timestamp:i
+                    }
+            eql conv['1']?.read_state?.length, 200
+            conv.addWatermark {
+                conversation_id:id:'1'
+                participant_id:
+                    chat_id:'a'
+                    gaia_id:'a'
+                latest_read_timestamp:200
+            }
+            eql conv['1']?.read_state?.length, 4
+            eql conv['1'].read_state, [
+                {
+                    participant_id:
+                        chat_id:'b'
+                        gaia_id:'b'
+                    latest_read_timestamp: 49
+                }
+                {
+                    participant_id:
+                        chat_id:'c'
+                        gaia_id:'c'
+                    latest_read_timestamp: 49
+                }
+                {
+                    participant_id:
+                        chat_id:'d'
+                        gaia_id:'d'
+                    latest_read_timestamp: 49
+                }
+                {
+                    participant_id:
+                        chat_id:'a'
+                        gaia_id:'a'
+                    latest_read_timestamp: 200
                 }
             ]

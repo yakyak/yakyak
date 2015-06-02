@@ -10,18 +10,21 @@ add = (entity, opts = silent:false) ->
     {gaia_id, chat_id} = entity?.id ? {}
     return null unless gaia_id or chat_id
 
+    # ensure there is at least something
+    lookup[chat_id] = {} unless lookup[chat_id]
+
     # dereference .properties to be on main obj
     if entity.properties
-        domerge gaia_id, entity.properties
+        domerge chat_id, entity.properties
 
     # merge rest of props
     clone = shallowif entity, (k) -> k not in ['id', 'properties']
-    domerge gaia_id, clone
+    domerge chat_id, clone
 
-    lookup[gaia_id].id = gaia_id
+    lookup[chat_id].id = chat_id
 
     # handle different chat_id to gaia_id
-    lookup[chat_id] = lookup[gaia_id] if chat_id != gaia_id
+    lookup[gaia_id] = lookup[chat_id] if chat_id != gaia_id
 
     updated 'entity' unless opts.silent
 
@@ -36,7 +39,7 @@ needEntity = do ->
         tim = null
         action 'getentity', gather
         gather = []
-    (id) ->
+    (id, wait=1000) ->
         return if lookup[id]?.fetching
         if lookup[id]
             lookup[id].fetching = true
@@ -46,7 +49,7 @@ needEntity = do ->
                 fetching: true
             }
         clearTimeout tim if tim
-        tim = setTimeout fetch, 1000
+        tim = setTimeout fetch, wait
         gather.push id
 
 
@@ -55,7 +58,7 @@ funcs =
     count: ->
         c = 0; (c++ for k, v of lookup when typeof v == 'object'); c
 
-    isSelf: (chat_id) -> return lookup[chat_id] == lookup.self
+    isSelf: (chat_id) -> return !!lookup.self and lookup[chat_id] == lookup.self
 
     _reset: ->
         delete lookup[k] for k, v of lookup when typeof v == 'object'

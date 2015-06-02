@@ -29,6 +29,7 @@ addChatMessage = (msg) ->
         conv = lookup[id] = {
             conversation_id: {id}
             event: []
+            self_conversation_state:sort_timestamp:0
         }
     conv.event = [] unless conv.event
     # we can add message placeholder that needs replacing when
@@ -40,6 +41,7 @@ addChatMessage = (msg) ->
     else
         # add last
         conv.event.push msg
+    # update the sort timestamp to list conv first
     conv?.self_conversation_state?.sort_timestamp = msg.timestamp
     updated 'conv'
     conv
@@ -49,6 +51,9 @@ findClientGenerated = (conv, client_generated_id) ->
     for e, i in conv.event ? []
         return i if e.self_event_state?.client_generated_id == client_generated_id
 
+# this is used when sending new messages, we add a placeholder with
+# the correct client_generated_id. this entry will be replaced in
+# addChatMessage when the real message arrives from the server.
 addChatMessagePlaceholder = (conv_id, chat_id, client_generated_id, segs) ->
     # e.self_event_state.client_generated_id
     ts = Date.now() * 1000
@@ -60,9 +65,11 @@ addChatMessagePlaceholder = (conv_id, chat_id, client_generated_id, segs) ->
             chat_id:chat_id
             gaia_id:chat_id
         timestamp:ts
-    # lets say this is also read
+    # lets say this is also read to avoid any badges
     sr = lookup[conv_id]?.self_conversation_state?.self_read_state
-    sr.latest_read_timestamp = ts if sr
+    islater = ts > sr.latest_read_timestamp
+    sr.latest_read_timestamp = ts if sr and islater
+    # this triggers the model update
     addChatMessage ev
 
 addWatermark = (ev) ->
@@ -74,14 +81,20 @@ addWatermark = (ev) ->
         participant_id
         latest_read_timestamp
     }
+    # pack the read_state by keeping the last of each participant_id
+    if conv.read_state.length > 200
+        rev = conv.read_state.reverse()
+        uniq = uniqfn rev, (e) -> e.participant_id.chat_id
+        conv.read_state = uniq.reverse()
     sr = conv?.self_conversation_state?.self_read_state
-    islater = latest_read_timestamp > sr.latest_read_timestamp
+    islater = latest_read_timestamp > sr?.latest_read_timestamp
     if entity.isSelf(participant_id.chat_id) and sr and islater
         sr.latest_read_timestamp = latest_read_timestamp
     updated 'conv'
 
-sortby = (conv) ->
-    conv?.self_conversation_state?.sort_timestamp ? 0
+uniqfn = (as, fn) -> bs = as.map fn; as.filter (e, i) -> bs.indexOf(bs[i]) == i
+
+sortby = (conv) -> conv?.self_conversation_state?.sort_timestamp ? 0
 
 # this number correlates to number of max events we get from
 # hangouts on client startup.

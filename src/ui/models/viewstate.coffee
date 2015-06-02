@@ -7,7 +7,7 @@ STATES =
 
 module.exports = exp = {
     state: null
-    selectedConv: null
+    selectedConv: localStorage.selectedConv
     focus: null
     lastActivity: null
 
@@ -19,7 +19,7 @@ module.exports = exp = {
     setSelectedConv: (conv) ->
         conv = conv?.conversation_id?.id ? conv.id ? conv
         return if @selectedConv == conv
-        @selectedConv = conv
+        @selectedConv = localStorage.selectedConv = conv
         updated 'viewstate'
 
     setFocus: (focus) ->

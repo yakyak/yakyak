@@ -4,3 +4,4 @@ global.eql    = chai.assert.deepEqual
 
 # trifl globals
 global.updated = ->
+global.action = ->
