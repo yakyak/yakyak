@@ -10,7 +10,7 @@ isAboutLink = (s) -> (/https:\/\/plus.google.com\/u\/0\/([0-9]+)\/about/.exec(s)
 # this helps fixing houts proxied with things like hangupsbot
 # the format of proxied messages are
 getProxied = (e) ->
-    s = e?.chat_message?.message_content?.segment[0]
+    s = e?.chat_message?.message_content?.segment?[0]
     return unless s
     return s?.formatting?.bold == 1 and isAboutLink(s?.link_data?.link_target)
 
@@ -107,7 +107,7 @@ ifpass = (t, f) -> if t then f else pass
 
 format = (cont) ->
     if cont?.attachment?.length
-        console.log 'deal with attachment', cont
+        formatAttachment cont.attachment
     for seg, i in cont?.segment ? []
         continue if cont.proxied and i < 2
         continue unless seg.text
@@ -120,3 +120,15 @@ format = (cont) ->
                         ifpass(f.strikethrough, s) ->
                             span seg.text
     null
+
+formatAttachment = (att) ->
+    {data, type_} = att?[0]?.embed_item ? {}
+    t = type_?[0]
+    return console.warn 'ignoring attachment type', t unless t == 249
+    k = Object.keys(data)?[0]
+    return unless k
+    href = data?[k]?[5]
+    thumb = data?[k]?[9]
+    return unless href
+    div class:'attach', ->
+        a {href, onclick}, -> img src:href

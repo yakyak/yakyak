@@ -5,3 +5,5 @@ viewstate = require './viewstate'
 userinput = require './userinput'
 
 module.exports = {entity, conv, viewstate, userinput}
+
+window?.models = module.exports
