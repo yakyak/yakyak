@@ -11,8 +11,8 @@ module.exports = view (models) ->
             clz.push "selected" if models.viewstate.selectedConv == cid
             clz.push "unread" if ur
             div key:cid, class:clz.join(' '), ->
-                if c.name?
-                    span class:'convname', c.name
+                name = if c.name?
+                    c.name
                 else
                     # all entities in conversation that is not self
                     part = c?.current_participant ? []
@@ -21,7 +21,9 @@ module.exports = view (models) ->
                     # the names of those entities
                     names = ents.map nameof
                     # joined together in a compelling manner
-                    span class:'convname', names.join ', '
+                    names.join ', '
+                console.log cid, name
+                span class:'convname', name
                 if ur > 0
                     lbl = if ur >= conv.MAX_UNREAD then "#{conv.MAX_UNREAD}+" else ur + ''
                     span class:'unreadcount', lbl
