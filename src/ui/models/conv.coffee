@@ -54,9 +54,8 @@ findClientGenerated = (conv, client_generated_id) ->
 # this is used when sending new messages, we add a placeholder with
 # the correct client_generated_id. this entry will be replaced in
 # addChatMessage when the real message arrives from the server.
-addChatMessagePlaceholder = (chat_id, {conv_id, client_generated_id, segsj}) ->
-    # e.self_event_state.client_generated_id
-    ts = Date.now() * 1000
+addChatMessagePlaceholder = (chat_id, {conv_id, client_generated_id, segsj, ts}) ->
+    ts = ts * 1000 # goog form
     ev =
         chat_message:message_content:segment:segsj
         conversation_id:id:conv_id
@@ -65,9 +64,10 @@ addChatMessagePlaceholder = (chat_id, {conv_id, client_generated_id, segsj}) ->
             chat_id:chat_id
             gaia_id:chat_id
         timestamp:ts
+        placeholder:true
     # lets say this is also read to avoid any badges
     sr = lookup[conv_id]?.self_conversation_state?.self_read_state
-    islater = ts > sr.latest_read_timestamp
+    islater = ts > sr?.latest_read_timestamp
     sr.latest_read_timestamp = ts if sr and islater
     # this triggers the model update
     addChatMessage ev

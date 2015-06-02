@@ -90,7 +90,9 @@ module.exports = view (models) ->
                             span sender
                         div class:'umessages', ->
                             for e in u.event
-                                div key:e.event_id, class:'message', ->
+                                mclz = ['message']
+                                mclz.push 'placeholder' if e.placeholder
+                                div key:e.event_id, class:mclz.join(' '), ->
                                     format e.chat_message?.message_content
 
     later ->

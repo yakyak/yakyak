@@ -7,23 +7,23 @@ describe 'conv', ->
     beforeEach ->
         conv._reset()
         entity._reset()
-        conv._initFromConvStates init.conv_states
 
     describe 'count', ->
 
         it 'counts total', ->
+            conv._initFromConvStates init.conv_states
             eql 3, conv.count()
 
     describe 'unread', ->
 
         it 'counts number of unread messages', ->
+            conv._initFromConvStates init.conv_states
             ur = conv.unread conv['UxCZCVrfhlAAAQ']
             eql 20, ur
 
     describe 'list', ->
 
         it 'sorts by self_conversation_state.sort_timestamp', ->
-            conv._reset()
             conv.add {
                 conversation_id:id:'1'
                 self_conversation_state:sort_timestamp:1
@@ -54,7 +54,6 @@ describe 'conv', ->
     describe 'addChatMessage', ->
 
         it 'adds the message to conv.event and updates sort_timestamp', ->
-            conv._reset()
             conv.add {
                 conversation_id:id:'1'
                 self_conversation_state:sort_timestamp:1
@@ -79,7 +78,6 @@ describe 'conv', ->
             }
 
         it 'creates a skeletal conv if none exists', ->
-            conv._reset()
             conv.addChatMessage {
                 conversation_id:id:'1'
                 timestamp:2
@@ -98,7 +96,6 @@ describe 'conv', ->
             }
 
         it 'replaces entries based on client_generated_id', ->
-            conv._reset()
             conv.add {
                 conversation_id:id:'1'
                 self_conversation_state:sort_timestamp:1
@@ -133,7 +130,6 @@ describe 'conv', ->
     describe 'addWatermark', ->
 
         it 'adds a watermark for any participant', ->
-            conv._reset()
             conv.add {
                 conversation_id:id:'1'
                 self_conversation_state:self_read_state:latest_read_timestamp:1
@@ -165,7 +161,6 @@ describe 'conv', ->
                     chat_id: "a"
                 properties:display_name:"Martin Algesten"
             }
-            conv._reset()
             conv.add {
                 conversation_id:id:'1'
                 self_conversation_state:self_read_state:latest_read_timestamp:1
@@ -191,7 +186,6 @@ describe 'conv', ->
             }
 
         it 'packs the conv.read_state if length > 200', ->
-            conv._reset()
             conv.add {
                 conversation_id:id:'1'
                 self_conversation_state:self_read_state:latest_read_timestamp:1
@@ -244,5 +238,77 @@ describe 'conv', ->
     describe 'isQuiet', ->
 
         it 'checks if the given conv is quiet', ->
+            conv._initFromConvStates init.conv_states
             eql conv.isQuiet(conv['UzNxjbBsPhAAAQ']), true
             eql conv.isQuiet(conv['UxCZCVrfhlAAAQ']), false
+
+    describe 'addChatMessagePlaceholder', ->
+
+        it 'uses the output from userinput.buildChatMessage to make a placeholder', ->
+            conv.add {
+                conversation_id:id:'1'
+                self_conversation_state:self_read_state:latest_read_timestamp:1
+            }
+            conv.addChatMessagePlaceholder 'e1', {
+                conv_id:'1'
+                ts: 12345
+                segsj: [{text:'foo',type:'TEXT'}]
+                client_generated_id: '42'
+            }
+            eql conv['1'], {
+                "conversation_id": {
+                    "id": "1"
+                },
+                "self_conversation_state": {
+                    "self_read_state": {
+                        "latest_read_timestamp": 12345000
+                    },
+                    "sort_timestamp": 12345000
+                },
+                "event": [
+                    {
+                        "chat_message": {
+                            "message_content": {
+                                segment:[{text:'foo',type:'TEXT'}]
+                            }
+                        },
+                        "conversation_id": {
+                            "id": "1"
+                        },
+                        "self_event_state": {client_generated_id:'42'},
+                        "sender_id": {
+                            "chat_id": "e1",
+                            "gaia_id": "e1"
+                        },
+                        "timestamp": 12345000,
+                        "placeholder": true
+                    }
+                ]
+            }
+
+        it 'updates the timestamp if newer', ->
+            conv.add {
+                conversation_id:id:'1'
+                self_conversation_state:self_read_state:latest_read_timestamp:5000
+            }
+            conv.addChatMessagePlaceholder 'e1', {
+                conv_id:'1'
+                ts: 6
+                segsj: [{text:'foo',type:'TEXT'}]
+                client_generated_id: '42'
+            }
+            eql conv['1'].self_conversation_state.self_read_state.latest_read_timestamp, 6000
+
+
+        it 'does not update read timestamp if older', ->
+            conv.add {
+                conversation_id:id:'1'
+                self_conversation_state:self_read_state:latest_read_timestamp:5000
+            }
+            conv.addChatMessagePlaceholder 'e1', {
+                conv_id:'1'
+                ts: 4
+                segsj: [{text:'foo',type:'TEXT'}]
+                client_generated_id: '42'
+            }
+            eql conv['1'].self_conversation_state.self_read_state.latest_read_timestamp, 5000
