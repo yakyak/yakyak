@@ -24,10 +24,3 @@ describe 'conv', ->
                 fallback_name:'Martin Algesten'
                 id:'110994664963851875523'
             }
-
-    describe 'count', ->
-
-        it 'counts total', ->
-            added = conv._initFromConvStates init.conv_states
-            eql 35, added
-            eql added, conv.count()
