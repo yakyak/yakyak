@@ -35,11 +35,11 @@ module.exports = exp = {
     updateActivity: (time) ->
         @lastActivity = time
         updated 'lastActivity'
+        return unless @focus
         c = conv[@selectedConv]
         return unless c
         ur = conv.unread c
-        if ur > 0
-            updated 'watermark'
+        updated 'watermark' if ur > 0
 
 
 }
