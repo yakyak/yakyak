@@ -13,12 +13,6 @@ $ gulp
 ## Continuous build
 
 ```
-$ gulp
-```
-
-followed by
-
-```
 $ gulp watch
 ```
 
