@@ -22,7 +22,6 @@ module.exports = view (models) ->
                     names = ents.map nameof
                     # joined together in a compelling manner
                     names.join ', '
-                console.log cid, name
                 span class:'convname', name
                 if ur > 0
                     lbl = if ur >= conv.MAX_UNREAD then "#{conv.MAX_UNREAD}+" else ur + ''
