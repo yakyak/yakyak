@@ -108,7 +108,7 @@ format = (cont) ->
         console.log 'deal with attachment', cont
     for seg, i in cont?.segment ? []
         continue if cont.proxied and i < 2
-        if seg.type == "LINE_BREAK" then br(); continue
+        continue unless seg.text
         f = seg.formatting ? {}
         href = seg?.link_data?.link_target
         ifpass(href, ((f) -> a {href, onclick}, f)) ->
