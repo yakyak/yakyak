@@ -47,6 +47,9 @@ app.on 'ready', ->
     # away if we must do auth.
     loadAppWindow()
 
+    # short hand
+    ipcsend = (as...) ->  mainWindow.webContents.send as...
+
     # callback for credentials
     creds = ->
         prom = login(mainWindow)
@@ -60,26 +63,26 @@ app.on 'ready', ->
     .done()
 
     # sends the init structures to the client
-    sendInit = -> mainWindow.webContents.send 'init',
+    sendInit = -> ipcsend 'init',
         init: client.init
         recorded: recorded
 
     # propagate stuff client does
     ipc.on 'sendchatmessage', (ev, {conv_id, segs, client_generated_id, image_id, otr}) ->
         client.sendchatmessage(conv_id, segs, image_id, otr, client_generated_id).then (r) ->
-            mainWindow.webContents.send 'sendchatmessage:result', r
+            ipcsend 'sendchatmessage:result', r
 
     ipc.on 'setpresence', -> client.setpresence(true)
     ipc.on 'updatewatermark', (ev, conv_id, time) ->
         client.updatewatermark conv_id, time
     ipc.on 'getentity', (ev, ids) -> client.getentitybyid(ids).then (r) ->
-        mainWindow.webContents.send 'getentity:result', r
+        ipcsend 'getentity:result', r
 
     # propagate these events to the renderer
     require('./ui/events').forEach (n) ->
         client.on n, (e) ->
           recorded.push [n, e]
-          mainWindow.webContents.send n, e
+          ipcsend n, e
 
 
     # Emitted when the window is closed.
