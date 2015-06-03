@@ -1,6 +1,6 @@
 remote = require 'remote'
 
-{applayout, convlist, messages, input, conninfo} = require './index'
+{applayout, convlist, messages, input, conninfo, convadd} = require './index'
 
 models      = require '../models'
 {viewstate, connection} = models
@@ -44,6 +44,11 @@ handle 'update:viewstate', ->
         applayout.left convlist
         applayout.main messages
         applayout.foot input
+    else if viewstate.state == viewstate.STATE_ADD_CONVERSATION
+        redraw()
+        applayout.left convlist
+        applayout.main convadd
+        applayout.foot null
     else
         console.log 'unknown viewstate.state', viewstate.state
 
@@ -53,7 +58,14 @@ handle 'update:entity', ->
 handle 'update:conv', ->
     redraw()
 
+handle 'update:searchedentities', ->
+  redraw()
+
+handle 'update:selectedEntities', ->
+  redraw()
+
 redraw = ->
     convlist models
     messages models
     input models
+    convadd models

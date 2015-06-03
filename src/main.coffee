@@ -142,6 +142,23 @@ app.on 'ready', ->
             client.sendchatmessage conv_id, null, image_id, null, client_generated_id
     , true
 
+    ipc.on 'searchentities', (ev, query, max_results) ->
+        promise = client.searchentities query, max_results
+        promise.then (res) ->
+            mainWindow.webContents.send 'searchentities:result', res
+    ipc.on 'createconversation', (ev, ids) ->
+        console.log 'createconversation'
+        console.log ids
+        promise = client.createconversation ids
+        promise.then (res) ->
+            console.log res # TODO: need to check payload format
+            id = res.conversation.id.chat_id
+            mainWindow.webContents.send 'createconversation:result', id
+        promise.fail (err) -> console.log 'error', err
+
+    ipc.on 'getentity', (ev, ids) -> client.getentitybyid(ids).then (r) ->
+        mainWindow.webContents.send 'getentity:result', r
+
     # propagate these events to the renderer
     require('./ui/events').forEach (n) ->
         client.on n, (e) ->

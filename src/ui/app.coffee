@@ -5,8 +5,8 @@ trifl.expose window
 dispatcher = require './dispatcher'
 
 # expose some selected tagg functions
-trifl.tagg.expose window, ('ul li div span a i b u s button
-table thead tbody tr td th textarea br pass img'.split(' '))...
+trifl.tagg.expose window, ('ul li div span a i b u s button p label
+input table thead tbody tr td th textarea br pass img h1 h2 h3 h4'.split(' '))...
 
 ipc = require 'ipc'
 

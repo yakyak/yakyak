@@ -1,8 +1,10 @@
 {nameof} = require './vutil'
 
 module.exports = view (models) ->
-    {conv, entity} = models
+    {conv, entity, viewstate} = models
     div class:'convlist', ->
+        onclick = (e) -> action 'setstate', viewstate.STATE_ADD_CONVERSATION
+        div class: 'conv', {onclick}, 'Add Conversation (+)'
         conv.list().forEach (c) ->
             cid = c?.conversation_id?.id
             ur = conv.unread c

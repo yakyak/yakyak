@@ -4,3 +4,4 @@ module.exports =
     messages:  require './messages'
     input:     require './input'
     conninfo:  require './conninfo'
+    convadd:   require './convadd'

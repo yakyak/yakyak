@@ -22,6 +22,7 @@ module.exports =
 handle 'init', (init) ->
     # set the initial view state
     viewstate.setState viewstate.STATE_NORMAL
+
     # update model from init object
     entity._initFromSelfEntity init.self_entity
     entity._initFromEntities init.entities
@@ -30,12 +31,13 @@ handle 'init', (init) ->
     unless viewstate.selectedConv
         viewstate.setSelectedConv conv.list()?[0]?.conversation_id
 
-
 handle 'chat_message', (ev) ->
     conv.addChatMessage ev
 
 handle 'watermark', (ev) ->
     conv.addWatermark ev
+
+handle 'setstate', (state) -> viewstate.setState state
 
 handle 'activity', (time) ->
     viewstate.updateActivity time
@@ -43,7 +45,9 @@ handle 'activity', (time) ->
 handle 'atbottom', (atbottom) ->
     viewstate.updateAtBottom atbottom
 
-handle 'selectConv', (conv) -> viewstate.setSelectedConv conv
+handle 'selectConv', (conv) ->
+    viewstate.setState viewstate.STATE_NORMAL
+    viewstate.setSelectedConv conv
 
 
 handle 'sendmessage', (txt) ->
@@ -95,3 +99,23 @@ handle 'moved', (pos) -> viewstate.setPosition pos
 # somewhat dirty, but img loading is done in the view
 # messages.coffee and set directly in model
 handle 'imgload', (conv_id) -> updated 'conv'
+
+handle 'searchentities', (query, max_results) ->
+  #TODO: throttle ?
+  ipc.send 'searchentities', query, max_results
+  
+ipc.on 'searchentities:result', (r) ->
+  action 'setsearchedentities', r.entity
+handle 'setsearchedentities', (r) ->
+  viewstate.setSearchedEntities r
+
+handle 'selectentity', (e) -> viewstate.addSelectedEntity e
+handle 'deselectentity', (e) -> viewstate.removeSelectedEntity e
+handle 'createconversation', ->
+    ids = (e.id.chat_id for e in viewstate.selectedEntities)
+    ipc.send 'createconversation', ids
+handle 'createconversation:result', (id) -> # TODO what if it fails
+    action 'setstate', viewstate.STATE_NORMAL
+    viewstate.setSearchedEntities []
+    viewstate.setSelectedEntities []
+    viewstate.selectedConv id
