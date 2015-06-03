@@ -3,12 +3,18 @@ Q      = require 'q'
 login  = require './login'
 ipc    = require 'ipc'
 fs     = require 'fs'
+path   = require 'path'
 appmenu = require './appmenu'
 
 client = new Client()
 
 app = require 'app'
 BrowserWindow = require 'browser-window'
+
+client = new Client
+    rtokenpath:  path.normalize path.join app.getPath('userData'), '/refreshtoken.txt'
+    cookiespath: path.normalize path.join app.getPath('userData'), '/cookies.json'
+
 
 mainWindow = null
 
