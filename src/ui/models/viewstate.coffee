@@ -5,6 +5,7 @@ merge   = (t, os...) -> t[k] = v for k,v of o when v not in [null, undefined] fo
 STATES =
     STATE_STARTUP: 'startup'
     STATE_NORMAL: 'normal'
+    STATE_ADD_CONVERSATION: 'add_conversation'
 
 module.exports = exp = {
     state: null

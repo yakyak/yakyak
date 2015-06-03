@@ -50,7 +50,7 @@ handle 'update:viewstate', ->
 handle 'update:entity', ->
     redraw()
 
-handle 'update:conv',   ->
+handle 'update:conv', ->
     redraw()
 
 redraw = ->
