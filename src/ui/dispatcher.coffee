@@ -113,8 +113,9 @@ handle 'selectentity', (e) -> viewstate.addSelectedEntity e
 handle 'deselectentity', (e) -> viewstate.removeSelectedEntity e
 handle 'createconversation', ->
     ids = (e.id.chat_id for e in viewstate.selectedEntities)
+    if ids.length == 0 then return alert 'No people selected' # TODO: handle this properly
     ipc.send 'createconversation', ids
-handle 'createconversation:result', (id) -> # TODO what if it fails
+handle 'createconversation:result', (id) -> # TODO: what if it fails?
     action 'setstate', viewstate.STATE_NORMAL
     viewstate.setSearchedEntities []
     viewstate.setSelectedEntities []

@@ -12,21 +12,21 @@ module.exports = view (models) ->
     br()
     br()
 
-    p 'find ppl'
+    p 'find ppl (type to search)'
     input fix, '', onkeyup: (e) ->
       action 'searchentities', e.currentTarget.value, 3
     br()
     br()
 
-    p 'search results'
+    p 'search results (click to select)'
     ul ->
       viewstate.searchedEntities.forEach (r) ->
         onclick = (e) -> action 'selectentity', r
         li {onclick}, JSON.stringify r.properties
     br()
     br()
-    
-    p 'selected ppl'
+
+    p 'selected ppl (click to remove)'
     ul ->
       viewstate.selectedEntities.forEach (r) ->
         onclick = (e) -> action 'deselectentity', r

@@ -65,8 +65,12 @@ module.exports = exp = {
         updated 'searchedentities'
 
     addSelectedEntity: (entity) ->
-        @selectedEntities.push entity
-        updated 'selectedEntities'
+        id = entity.id?.chat_id or entity # may pass id directly
+        exists = (e for e in @selectedEntities when e.id.chat_id == id).length != 0
+        console.log exists
+        if not exists
+          @selectedEntities.push entity
+          updated 'selectedEntities'
 
     removeSelectedEntity: (entity) ->
         id = entity.id?.chat_id or entity # may pass id directly
