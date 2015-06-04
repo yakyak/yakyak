@@ -53,7 +53,14 @@ describe 'conv', ->
 
     describe 'addChatMessage', ->
 
-        it 'adds the message to conv.event and updates sort_timestamp', ->
+        notf = null
+        beforeEach ->
+            notf = spy()
+            global.Notification = class Notification
+                constructor: (sender, {body}) ->
+                    notf sender, body
+
+        it 'adds the message to conv.event, updates sort_timestamp and notifies', ->
             conv.add {
                 conversation_id:id:'1'
                 self_conversation_state:sort_timestamp:1
@@ -76,6 +83,7 @@ describe 'conv', ->
                 ]
                 self_conversation_state:sort_timestamp:2
             }
+            eql notf.args, [["Unknown", ""]]
 
         it 'creates a skeletal conv if none exists', ->
             conv.addChatMessage {
@@ -94,6 +102,7 @@ describe 'conv', ->
                 ]
                 self_conversation_state:sort_timestamp:2
             }
+            eql notf.args, [["Unknown", ""]]
 
         it 'replaces entries based on client_generated_id', ->
             conv.add {
@@ -243,6 +252,13 @@ describe 'conv', ->
             eql conv.isQuiet(conv['UxCZCVrfhlAAAQ']), false
 
     describe 'addChatMessagePlaceholder', ->
+
+        notf = null
+        beforeEach ->
+            notf = spy()
+            global.Notification = class Notification
+                constructor: (sender, {body}) ->
+                    notf sender, body
 
         it 'uses the output from userinput.buildChatMessage to make a placeholder', ->
             conv.add {

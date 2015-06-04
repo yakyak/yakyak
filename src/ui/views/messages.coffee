@@ -1,19 +1,12 @@
 moment = require 'moment'
 shell = require 'shell'
 
-{nameof, linkto, later, forceredraw, throttle}  = require './vutil'
+{nameof, linkto, later, forceredraw, throttle, getProxiedName}  = require './vutil'
 
 CUTOFF = 5 * 60 * 1000 * 1000 # 5 mins
 
-isAboutLink = (s) -> (/https:\/\/plus.google.com\/u\/0\/([0-9]+)\/about/.exec(s) ? [])[1]
-
 # this helps fixing houts proxied with things like hangupsbot
 # the format of proxied messages are
-getProxied = (e) ->
-    s = e?.chat_message?.message_content?.segment?[0]
-    return unless s
-    return s?.formatting?.bold == 1 and isAboutLink(s?.link_data?.link_target)
-
 # and here we put entities in the entity db for
 # users found only in proxied messages.
 fixProxied = (e, proxied, entity) ->
@@ -51,7 +44,7 @@ groupEvents = (es, entity) ->
             }
             user = null
             groups.push group
-        proxied = getProxied(e)
+        proxied = getProxiedName(e)
         if proxied
             fixProxied e, proxied, entity
         cid = if proxied then proxied else e?.sender_id?.chat_id

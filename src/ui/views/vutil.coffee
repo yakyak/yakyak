@@ -19,4 +19,11 @@ throttle = (ms, f) ->
             tim = setTimeout (->g as...), d
             undefined
 
-module.exports = {nameof, linkto, later, throttle}
+isAboutLink = (s) -> (/https:\/\/plus.google.com\/u\/0\/([0-9]+)\/about/.exec(s) ? [])[1]
+
+getProxiedName = (e) ->
+    s = e?.chat_message?.message_content?.segment?[0]
+    return unless s
+    return s?.formatting?.bold == 1 and isAboutLink(s?.link_data?.link_target)
+
+module.exports = {nameof, linkto, later, throttle, isAboutLink, getProxiedName}
