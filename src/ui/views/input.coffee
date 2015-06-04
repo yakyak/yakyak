@@ -30,7 +30,7 @@ historyWalk = (el, offset) ->
 
 module.exports = view (models) ->
     div class:'input', -> div ->
-        textarea autofocus:true, placeholder:'Message', rows: 1, ''
+        textarea autofocus:true, placeholder:'Message', rows: 1, onblur:laterMaybeFocus, ''
         , onDOMNodeInserted: (e) ->
             # at this point the node is still not inserted
             ta = e.target
@@ -44,3 +44,13 @@ module.exports = view (models) ->
                 e.target.value = ''
             if e.keyIdentifier is "Up" then historyWalk e.target, -1
             if e.keyIdentifier is "Down" then historyWalk e.target, +1
+    laterMaybeFocus()
+
+laterMaybeFocus = -> later maybeFocus
+
+maybeFocus = ->
+    # no active element? or not focusing something relevant...
+    el = document.activeElement
+    if !el or not (el.nodeName in ['INPUT', 'TEXTAREA'])
+        # steal it!!!
+        document.querySelector('.input textarea').focus()

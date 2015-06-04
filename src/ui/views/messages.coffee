@@ -74,7 +74,7 @@ OBSERVE_OPTS =
 
 module.exports = view (models) ->
     {viewstate, conv, entity} = models
-    div class:'messages', observe:onMutate(viewstate), ->
+    div class:'messages', observe:onMutate(viewstate.atbottom), ->
         return unless viewstate.selectedConv
         c = conv[viewstate.selectedConv]
         return unless c?.event
@@ -103,7 +103,11 @@ module.exports = view (models) ->
                                     format e.chat_message?.message_content
 
 # when there's mutation, we scroll to bottom in case we already are at bottom
-onMutate = (viewstate) -> throttle 100, (mutts) -> scrollToBottom() if viewstate.atbottom
+onMutate = (atbottom) ->
+    if atbottom
+        throttle 100, (mutts) -> scrollToBottom()
+    else
+        ->
 
 scrollToBottom = ->
     # ensure we're scrolled to bottom
