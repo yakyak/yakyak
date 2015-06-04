@@ -104,8 +104,6 @@ handle 'searchentities', (query, max_results) ->
   #TODO: throttle ?
   ipc.send 'searchentities', query, max_results
   
-ipc.on 'searchentities:result', (r) ->
-  action 'setsearchedentities', r.entity
 handle 'setsearchedentities', (r) ->
   convsettings.setSearchedEntities r
 
@@ -115,9 +113,6 @@ handle 'createconversation', ->
     ids = (e.id.chat_id for e in convsettings.selectedEntities)
     if ids.length == 0 then return alert 'No people selected' # TODO: handle this properly
     ipc.send 'createconversation', ids
-ipc.on 'createconversation:result', (c) ->
-    action 'createconversationdone', c
-    action 'setstate', viewstate.STATE_NORMAL
 handle 'createconversationdone', (c) ->
     convsettings.setSearchedEntities []
     convsettings.setSelectedEntities []

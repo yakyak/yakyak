@@ -33,6 +33,11 @@ require('./events').forEach (n) -> ipc.on n, (e) -> action n, e
 ipc.on 'getentity:result', (r) -> action 'addentities', r.entities
 ipc.on 'resize', (dim) -> action 'resize', dim
 ipc.on 'moved', (pos)  -> action 'moved', pos
+ipc.on 'searchentities:result', (r) ->
+  action 'setsearchedentities', r.entity
+ipc.on 'createconversation:result', (c) ->
+    action 'createconversationdone', c
+    action 'setstate', viewstate.STATE_NORMAL
 
 # init dispatcher/controller
 require './dispatcher'
