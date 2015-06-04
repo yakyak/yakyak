@@ -28,6 +28,8 @@ historyWalk = (el, offset) ->
     el.value = val
     setTimeout (-> cursorToEnd el), 1
 
+lastConv = null
+
 module.exports = view (models) ->
     div class:'input', -> div ->
         textarea autofocus:true, placeholder:'Message', rows: 1, ''
@@ -44,6 +46,13 @@ module.exports = view (models) ->
                 e.target.value = ''
             if e.keyIdentifier is "Up" then historyWalk e.target, -1
             if e.keyIdentifier is "Down" then historyWalk e.target, +1
+
+    # focus when switching convs
+    if lastConv != models.viewstate.selectedConv
+        lastConv = models.viewstate.selectedConv
+        laterMaybeFocus()
+
+laterMaybeFocus = -> later maybeFocus
 
 maybeFocus = ->
     # no active element? or not focusing something relevant...
