@@ -31,6 +31,7 @@ ipc.on 'init', (e) -> dispatcher.init e
 require('./events').forEach (n) -> ipc.on n, (e) -> action n, e
 # response from getentity
 ipc.on 'getentity:result', (r) -> action 'addentities', r.entities
+ipc.on 'resize', (dim) -> action 'resize', dim
 
 # init dispatcher/controller
 require './dispatcher'

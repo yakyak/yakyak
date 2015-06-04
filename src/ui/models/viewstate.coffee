@@ -13,6 +13,7 @@ module.exports = exp = {
     focus: null
     lastActivity: null
     leftSize: localStorage.leftSize ? 200
+    size: JSON.parse(localStorage.size ? "[940, 600]")
 
     setState: (state) ->
         return if @state == state
@@ -43,6 +44,10 @@ module.exports = exp = {
         return unless c
         ur = conv.unread c
         updated 'watermark' if ur > 0
+
+    setSize: (size) ->
+        @size = localStorage.size = JSON.stringify(size)
+        updated 'viewstate'
 
     setLeftSize: (size) ->
         return if @leftSize == size

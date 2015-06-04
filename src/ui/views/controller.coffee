@@ -1,7 +1,11 @@
+remote = require 'remote'
+
 {applayout, convlist, messages, input, conninfo} = require './index'
 
 models      = require '../models'
 {viewstate, connection} = models
+
+{later} = require './vutil'
 
 showInfo = (view) ->
     applayout.info view
@@ -28,6 +32,7 @@ setLeftSize = (left) ->
 handle 'update:viewstate', ->
     setLeftSize viewstate.leftSize
     if viewstate.state == viewstate.STATE_STARTUP
+        later -> remote.getCurrentWindow().setSize viewstate.size...
         applayout.left null
         applayout.main null
         applayout.foot null

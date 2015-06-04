@@ -39,8 +39,8 @@ app.on 'ready', ->
 
     # Create the browser window.
     mainWindow = new BrowserWindow {
-        width: 940
-        height: 600
+        width: 620
+        height: 420
         "min-width": 620
         "min-height": 420
     }
@@ -76,6 +76,10 @@ app.on 'ready', ->
         client.connect(creds).then ->
             # send without being prompted on startup
             sendInit()
+
+    # client deals with window sizing
+    mainWindow.on 'resize', (ev) ->
+        ipcsend 'resize', mainWindow.getSize()
 
     # whenever it fails, we try again
     client.on 'connect_failed', -> wait(3000).then -> reconnect()
