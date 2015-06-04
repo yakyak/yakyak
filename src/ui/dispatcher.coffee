@@ -1,7 +1,12 @@
 ipc = require 'ipc'
-{entity, conv, viewstate, userinput} = require './models'
+{entity, conv, viewstate, userinput, connection} = require './models'
 
 {throttle} = require './views/vutil'
+
+'connecting connected connect_failed'.split(' ').forEach (n) ->
+    handle n, -> connection.setState n
+
+handle 'alive', (time) -> connection.setLastActive time
 
 module.exports =
     init: ({init, recorded}) ->
