@@ -93,3 +93,7 @@ handle 'drop', (files) ->
 handle 'leftresize', (size) -> viewstate.setLeftSize size
 handle 'resize', (dim) -> viewstate.setSize dim
 handle 'moved', (pos) -> viewstate.setPosition pos
+
+# somewhat dirty, but img loading is done in the view
+# messages.coffee and set directly in model
+handle 'imgload', (conv_id) -> updated 'conv'

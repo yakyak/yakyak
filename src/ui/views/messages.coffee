@@ -73,7 +73,8 @@ module.exports = view (models) ->
     {viewstate, conv, entity} = models
     div class:'messages', observe:onMutate(viewstate.atbottom), ->
         return unless viewstate.selectedConv
-        c = conv[viewstate.selectedConv]
+        conv_id = viewstate.selectedConv
+        c = conv[conv_id]
         return unless c?.event
         grouped = groupEvents c.event, models.entity
         for g in grouped
@@ -98,6 +99,7 @@ module.exports = view (models) ->
                                 mclz.push 'placeholder' if e.placeholder
                                 div key:e.event_id, class:mclz.join(' '), ->
                                     format e.chat_message?.message_content
+                                    loadImages conv_id, e.chat_message?.message_content
 
 
 # when there's mutation, we scroll to bottom in case we already are at bottom
@@ -124,12 +126,17 @@ format = (cont) ->
         continue unless seg.text
         f = seg.formatting ? {}
         href = seg?.link_data?.link_target
-        ifpass(href, ((f) -> a {href, onclick}, f)) ->
-            ifpass(f.bold, b) ->
-                ifpass(f.italics, i) ->
-                    ifpass(f.underline, u) ->
-                        ifpass(f.strikethrough, s) ->
-                            pass seg.text
+        imgel = seg?.link_data?.img # can be set by loadImages below
+        ifpass(imgel, div) ->
+            ifpass(href, ((f) -> a {href, onclick}, f)) ->
+                ifpass(f.bold, b) ->
+                    ifpass(f.italics, i) ->
+                        ifpass(f.underline, u) ->
+                            ifpass(f.strikethrough, s) ->
+                                if imgel
+                                    img src:href
+                                else
+                                    pass seg.text
     null
 
 formatAttachment = (att) ->
@@ -146,3 +153,15 @@ formatAttachment = (att) ->
             # changing the class name triggers the MutationObserver to
             # adjust the scroll position.
             ev.target.className = 'loaded'
+
+isImg = (url) -> url?.match /\.(png|jpg|gif|svg)$/i
+
+loadImages = (conv_id, cont) ->
+    for seg, i in cont?.segment ? []
+        href = seg?.link_data?.link_target
+        if isImg(href) and !seg.link_data.img
+            seg.link_data.img = imgel = document.createElement 'img'
+            imgel.src = href
+            imgel.onload = (ev) ->
+                return unless typeof img.naturalWidth == 'number'
+                action 'imgload', conv_id
