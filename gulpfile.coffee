@@ -34,7 +34,9 @@ paths =
   coffee:  './src/**/*.coffee'
   html:    './src/**/*.html'
   less:    './src/**/*.less'
-
+  css:     './src/**/*.css'
+  fonts:   ['./src/**/*.eot', './src/**/*.svg',
+            './src/**/*.ttf', './src/**/*.woff']
 
 # setup package stuff (README, package.json)
 gulp.task 'package', ['pre'], ->
@@ -79,6 +81,12 @@ gulp.task 'less', ->
     .pipe gulp.dest outapp
 
 
+# fontello/css
+gulp.task 'fontello', ->
+    gulp.src [paths.css, paths.fonts...]
+        .pipe gulp.dest outapp
+
+
 gulp.task 'reloader', ->
   # create an auto reload server instance
   reloader = autoReload()
@@ -97,7 +105,7 @@ gulp.task 'reloader', ->
 gulp.task 'clean', (cb) ->
   rimraf outbin, cb
 
-gulp.task 'default', ['package', 'coffee', 'html', 'less']
+gulp.task 'default', ['package', 'coffee', 'html', 'less', 'fontello']
 
 gulp.task 'watch', ['default', 'reloader', 'html'], ->
   # watch to rebuild
