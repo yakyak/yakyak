@@ -31,6 +31,9 @@ loadAppWindow = ->
 openDevTools = ->
     mainWindow?.openDevTools detach: true
 
+# helper wait promise
+wait = (t) -> Q.Promise (rs) -> setTimeout rs, t
+
 app.on 'ready', ->
 
     # Create the browser window.
@@ -57,15 +60,28 @@ app.on 'ready', ->
         prom.then -> loadAppWindow()
         auth: -> prom
 
-    client.connect(creds).then ->
-        ipc.on 'reqinit', sendInit
-        sendInit()
-    .done()
-
     # sends the init structures to the client
-    sendInit = -> ipcsend 'init',
-        init: client.init
-        recorded: recorded
+    sendInit = ->
+        # we have no init data before the client has connected first
+        # time.
+        return unless client?.init?.self_entity
+        ipcsend 'init',
+            init: client.init
+            recorded: recorded
+
+    # keeps trying to connec the hangupsjs and communicates those
+    # attempts to the client.
+    do reconnect = ->
+        client.connect(creds).then ->
+            # send without being prompted on startup
+            sendInit()
+
+    # whenever it fails, we try again
+    client.on 'connect_failed', -> wait(3000).then -> reconnect()
+
+    # when client requests (re-)init since the first init
+    # object is sent as soon as possible on startup
+    ipc.on 'reqinit', sendInit
 
     # propagate stuff client does
     ipc.on 'sendchatmessage', (ev, {conv_id, segs, client_generated_id, image_id, otr}) ->
@@ -81,8 +97,8 @@ app.on 'ready', ->
     # propagate these events to the renderer
     require('./ui/events').forEach (n) ->
         client.on n, (e) ->
-          recorded.push [n, e]
-          ipcsend n, e
+            recorded.push [n, e]
+            ipcsend n, e
 
 
     # Emitted when the window is closed.

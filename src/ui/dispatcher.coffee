@@ -68,6 +68,4 @@ handle 'update:watermark', do ->
 
 
 handle 'getentity', (ids) -> ipc.send 'getentity', ids
-ipc.on 'getentity:result', (r) -> action 'addentities', r.entities
-handle 'addentities', (es) ->
-    entity.add e for e in es ? []
+handle 'addentities', (es) -> entity.add e for e in es ? []

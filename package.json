@@ -23,7 +23,7 @@
   "homepage": "https://github.com/yakyak/yakyak",
   "dependencies": {
     "autosize": "^3.0.6",
-    "hangupsjs": "^0.7.4",
+    "hangupsjs": "^0.7.5",
     "moment": "^2.10.3",
     "q": "^1.4.0",
     "trifl": "0.0.8",
