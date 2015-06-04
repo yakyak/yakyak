@@ -102,15 +102,12 @@ handle 'imgload', (conv_id) -> updated 'conv'
 
 handle 'searchentities', (query, max_results) ->
   ipc.send 'searchentities', query, max_results
-  
 handle 'setsearchedentities', (r) ->
   convsettings.setSearchedEntities r
-
 handle 'selectentity', (e) -> convsettings.addSelectedEntity e
 handle 'deselectentity', (e) -> convsettings.removeSelectedEntity e
 handle 'createconversation', ->
     ids = (e.id.chat_id for e in convsettings.selectedEntities)
-    if ids.length == 0 then return alert 'No people selected' # TODO: handle this properly
     ipc.send 'createconversation', ids
 handle 'createconversationdone', (c) ->
     convsettings.setSearchedEntities []
