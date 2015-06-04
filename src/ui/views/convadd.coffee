@@ -4,6 +4,9 @@ fix =
   placeholder: ' ... ... '
 
 
+{throttle} = require './vutil'
+chilledaction = throttle 1500, action
+
 module.exports = view (models) ->
   {convsettings} = models
 
@@ -13,8 +16,7 @@ module.exports = view (models) ->
     br()
 
     p 'find ppl (type to search)'
-    input fix, '', onkeyup: (e) ->
-      action 'searchentities', e.currentTarget.value, 3
+    input fix, '', onkeyup: (e) -> chilledaction 'searchentities', e.currentTarget.value, 3
     br()
     br()
 
@@ -36,4 +38,5 @@ module.exports = view (models) ->
     
     div ->
       onclick = -> action 'createconversation'
-      button fix, {onclick}, 'create'
+      disabled = convsettings.selectedEntities.length <= 0
+      button fix, {onclick}, disabled: disabled, 'create'

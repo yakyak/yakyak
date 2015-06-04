@@ -101,7 +101,6 @@ handle 'moved', (pos) -> viewstate.setPosition pos
 handle 'imgload', (conv_id) -> updated 'conv'
 
 handle 'searchentities', (query, max_results) ->
-  #TODO: throttle ?
   ipc.send 'searchentities', query, max_results
   
 handle 'setsearchedentities', (r) ->
