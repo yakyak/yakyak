@@ -1,7 +1,7 @@
 moment = require 'moment'
 shell = require 'shell'
 
-{nameof, linkto, later, forceredraw}  = require './vutil'
+{nameof, linkto, later, forceredraw, throttle}  = require './vutil'
 
 CUTOFF = 5 * 60 * 1000 * 1000 # 5 mins
 
@@ -65,9 +65,16 @@ groupEvents = (es, entity) ->
     groups
 
 
+OBSERVE_OPTS =
+    childList:true
+    attributes:true
+    attributeOldValue:true
+    subtree:true
+
+
 module.exports = view (models) ->
     {viewstate, conv, entity} = models
-    div class:'messages', ->
+    div class:'messages', observe:onMutate(viewstate), ->
         return unless viewstate.selectedConv
         c = conv[viewstate.selectedConv]
         return unless c?.event
@@ -95,11 +102,14 @@ module.exports = view (models) ->
                                 div key:e.event_id, class:mclz.join(' '), ->
                                     format e.chat_message?.message_content
 
-    later ->
-        # ensure we're scrolled to bottom
-        el = document.querySelector('.main')
-        # to bottom
-        el.scrollTop = Number.MAX_SAFE_INTEGER
+# when there's mutation, we scroll to bottom in case we already are at bottom
+onMutate = (viewstate) -> throttle 100, (mutts) -> scrollToBottom() if viewstate.atbottom
+
+scrollToBottom = ->
+    # ensure we're scrolled to bottom
+    el = document.querySelector('.main')
+    # to bottom
+    el.scrollTop = Number.MAX_SAFE_INTEGER
 
 
 pass = (v) -> if typeof v == 'function' then (v(); undefined) else v
@@ -131,4 +141,7 @@ formatAttachment = (att) ->
     thumb = data?[k]?[9]
     return unless href
     div class:'attach', ->
-        a {href, onclick}, -> img src:href
+        a {href, onclick}, -> img src:href, onload: (ev) ->
+            # changing the class name triggers the MutationObserver to
+            # adjust the scroll position.
+            ev.target.className = 'loaded'

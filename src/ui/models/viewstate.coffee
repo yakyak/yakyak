@@ -7,6 +7,7 @@ STATES =
 
 module.exports = exp = {
     state: null
+    atbottom: true # tells whether message list is scrolled to bottom
     selectedConv: localStorage.selectedConv
     focus: null
     lastActivity: null
