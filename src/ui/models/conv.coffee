@@ -45,7 +45,7 @@ addChatMessage = (msg) ->
     # update the sort timestamp to list conv first
     conv?.self_conversation_state?.sort_timestamp = msg.timestamp
     # deal with notification.
-    unless isQuiet(conv) or entity.isSelf(msg?.sender_id?.chat_id)
+    unless document.hasFocus() or isQuiet(conv) or entity.isSelf(msg?.sender_id?.chat_id)
         proxied = getProxiedName(msg)
         cid = if proxied then proxied else msg?.sender_id?.chat_id
         sender = nameof entity[cid]

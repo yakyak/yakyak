@@ -4,18 +4,9 @@
 attached = false
 attachListeners = ->
     return if attached
-    window.addEventListener 'focus', onFocus
-    window.addEventListener 'blur', onBlur
     window.addEventListener 'mousemove', onActivity
     window.addEventListener 'click', onActivity
     window.addEventListener 'keydown', onActivity
-
-onFocus = (ev) ->
-    maybeMoveFocus()
-    action 'focus'
-
-onBlur = (ev) ->
-    action 'blur'
 
 onActivity = throttle 100, (ev) ->
     action 'activity', ev.timeStamp ? Date.now()
@@ -27,13 +18,6 @@ onScroll = throttle 100, (ev) ->
     atbottom = (el.scrollTop + el.offsetHeight) >= (child.offsetHeight - 10)
     action 'atbottom', atbottom
 
-maybeMoveFocus = ->
-    return unless document.activeElement?.tagName == 'BODY'
-    focusInput()
-
-
-focusInput = ->
-    document.querySelector('.input textarea')?.focus()
 
 
 

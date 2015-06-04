@@ -37,12 +37,6 @@ handle 'chat_message', (ev) ->
 handle 'watermark', (ev) ->
     conv.addWatermark ev
 
-handle 'focus', ->
-    viewstate.setFocus true
-
-handle 'blur', ->
-    viewstate.setFocus false
-
 handle 'activity', (time) ->
     viewstate.updateActivity time
 

@@ -10,7 +10,6 @@ module.exports = exp = {
     state: null
     atbottom: true # tells whether message list is scrolled to bottom
     selectedConv: localStorage.selectedConv
-    focus: null
     lastActivity: null
     leftSize: localStorage.leftSize ? 200
     size: JSON.parse(localStorage.size ? "[940, 600]")
@@ -27,11 +26,6 @@ module.exports = exp = {
         @selectedConv = localStorage.selectedConv = conv
         updated 'viewstate'
 
-    setFocus: (focus) ->
-        return if focus == @focus
-        @focus = focus
-        @updateActivity(Date.now()) if focus
-
     updateAtBottom: (atbottom) ->
         return if @atbottom == atbottom
         @atbottom = atbottom
@@ -40,7 +34,7 @@ module.exports = exp = {
     updateActivity: (time) ->
         @lastActivity = time
         updated 'lastActivity'
-        return unless @focus
+        return unless document.hasFocus()
         c = conv[@selectedConv]
         return unless c
         ur = conv.unread c
