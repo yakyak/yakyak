@@ -32,6 +32,7 @@ require('./events').forEach (n) -> ipc.on n, (e) -> action n, e
 # response from getentity
 ipc.on 'getentity:result', (r) -> action 'addentities', r.entities
 ipc.on 'resize', (dim) -> action 'resize', dim
+ipc.on 'moved', (pos)  -> action 'moved', pos
 
 # init dispatcher/controller
 require './dispatcher'

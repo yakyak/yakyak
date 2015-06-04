@@ -14,6 +14,7 @@ module.exports = exp = {
     lastActivity: null
     leftSize: localStorage.leftSize ? 200
     size: JSON.parse(localStorage.size ? "[940, 600]")
+    pos: JSON.parse(localStorage.pos ? "[100, 100]")
 
     setState: (state) ->
         return if @state == state
@@ -46,7 +47,13 @@ module.exports = exp = {
         updated 'watermark' if ur > 0
 
     setSize: (size) ->
-        @size = localStorage.size = JSON.stringify(size)
+        localStorage.size = JSON.stringify(size)
+        @size = size
+        updated 'viewstate'
+
+    setPosition: (pos) ->
+        localStorage.pos = JSON.stringify(pos)
+        @pos = pos
         updated 'viewstate'
 
     setLeftSize: (size) ->

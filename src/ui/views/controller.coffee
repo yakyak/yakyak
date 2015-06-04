@@ -32,7 +32,10 @@ setLeftSize = (left) ->
 handle 'update:viewstate', ->
     setLeftSize viewstate.leftSize
     if viewstate.state == viewstate.STATE_STARTUP
-        later -> remote.getCurrentWindow().setSize viewstate.size...
+        if Array.isArray viewstate.size
+            later -> remote.getCurrentWindow().setSize viewstate.size...
+        if Array.isArray viewstate.pos
+            later -> remote.getCurrentWindow().setPosition viewstate.pos...
         applayout.left null
         applayout.main null
         applayout.foot null

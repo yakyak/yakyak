@@ -97,4 +97,5 @@ handle 'drop', (files) ->
 
 
 handle 'leftresize', (size) -> viewstate.setLeftSize size
-handle 'resize', (dim)      -> viewstate.setSize dim
+handle 'resize', (dim) -> viewstate.setSize dim
+handle 'moved', (pos) -> viewstate.setPosition pos
