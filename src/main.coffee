@@ -145,16 +145,16 @@ app.on 'ready', ->
     ipc.on 'searchentities', (ev, query, max_results) ->
         promise = client.searchentities query, max_results
         promise.then (res) ->
-            mainWindow.webContents.send 'searchentities:result', res
+            ipcsend 'searchentities:result', res
     ipc.on 'createconversation', (ev, ids) ->
         promise = client.createconversation ids
         promise.then (res) ->
             conv = res.conversation
-            mainWindow.webContents.send 'createconversation:result', conv
+            ipcsend 'createconversation:result', conv
         promise.fail (err) -> console.log 'error', err
 
     ipc.on 'getentity', (ev, ids) -> client.getentitybyid(ids).then (r) ->
-        mainWindow.webContents.send 'getentity:result', r
+        ipcsend 'getentity:result', r
 
     # propagate these events to the renderer
     require('./ui/events').forEach (n) ->
