@@ -116,7 +116,6 @@ scrollToBottom = ->
     el.scrollTop = Number.MAX_SAFE_INTEGER
 
 
-pass = (v) -> if typeof v == 'function' then (v(); undefined) else v
 ifpass = (t, f) -> if t then f else pass
 
 format = (cont) ->
@@ -132,7 +131,7 @@ format = (cont) ->
                 ifpass(f.italics, i) ->
                     ifpass(f.underline, u) ->
                         ifpass(f.strikethrough, s) ->
-                            span seg.text
+                            pass seg.text
     null
 
 formatAttachment = (att) ->

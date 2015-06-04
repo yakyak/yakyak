@@ -6,4 +6,4 @@ icons =
 
 module.exports = view (connection) ->
     div ->
-        span connection.infoText(), ' ', -> span class:icons[connection.state]
+        pass connection.infoText(), ' ', -> span class:icons[connection.state]
