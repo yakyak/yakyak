@@ -108,6 +108,13 @@ app.on 'ready', ->
         client.getentitybyid(ids).then (r) -> ipcsend 'getentity:result', r
     , false
 
+    # we want to upload. in the order specified, with retry
+    ipc.on 'uploadimage', seqreq (ev, spec) ->
+        {path, conv_id, client_generated_id} = spec
+        client.uploadimage(path).then (image_id) ->
+            client.sendchatmessage conv_id, null, image_id, null, client_generated_id
+    , true
+
     # propagate these events to the renderer
     require('./ui/events').forEach (n) ->
         client.on n, (e) ->

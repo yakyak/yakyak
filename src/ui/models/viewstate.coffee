@@ -3,7 +3,7 @@ conv = require './conv'
 merge   = (t, os...) -> t[k] = v for k,v of o when v not in [null, undefined] for o in os; t
 
 STATES =
-    STATE_NORMAL = 'normal'
+    STATE_NORMAL: 'normal'
 
 module.exports = exp = {
     state: null

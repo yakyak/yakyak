@@ -78,3 +78,18 @@ handle 'update:watermark', do ->
 
 handle 'getentity', (ids) -> ipc.send 'getentity', ids
 handle 'addentities', (es) -> entity.add e for e in es ? []
+
+handle 'drop', (files) ->
+    # this may change during upload
+    conv_id = viewstate.selectedConv
+    # sense check that client is in good state
+    return unless viewstate.state == viewstate.STATE_NORMAL and conv[conv_id]
+    # ship it
+    for file in files
+        # message for a placeholder
+        msg = userinput.buildChatMessage 'uploading image'
+        {client_generated_id} = msg
+        # add a placeholder for the image
+        conv.addChatMessagePlaceholder entity.self.id, msg
+        # and begin upload
+        ipc.send 'uploadimage', {path:file.path, conv_id, client_generated_id}

@@ -36,8 +36,19 @@ focusInput = ->
     document.querySelector('.input textarea')?.focus()
 
 
+ondragover = ondragenter = (ev) ->
+    # this enables dragging at all
+    ev.preventDefault()
+    return false
+
+
+ondrop = (ev) ->
+    ev.preventDefault()
+    action 'drop', ev.dataTransfer.files
+
+
 module.exports = layout ->
-    div class:'applayout', ->
+    div class:'applayout', {ondragover, ondragenter, ondrop}, ->
         div class:'left', region('left')
         div class:'right', ->
             div class:'main', region('main'), onscroll: onScroll
