@@ -15,6 +15,7 @@ client = new Client
     rtokenpath:  path.normalize path.join app.getPath('userData'), '/refreshtoken.txt'
     cookiespath: path.normalize path.join app.getPath('userData'), '/cookies.json'
 
+seqreq = require './seqreq'
 
 mainWindow = null
 
@@ -83,16 +84,29 @@ app.on 'ready', ->
     # object is sent as soon as possible on startup
     ipc.on 'reqinit', sendInit
 
-    # propagate stuff client does
-    ipc.on 'sendchatmessage', (ev, {conv_id, segs, client_generated_id, image_id, otr}) ->
+    # sendchatmessage, executed sequentially and
+    # retried if not sent successfully
+    ipc.on 'sendchatmessage', seqreq (ev, msg) ->
+        {conv_id, segs, client_generated_id, image_id, otr} = msg
         client.sendchatmessage(conv_id, segs, image_id, otr, client_generated_id).then (r) ->
             ipcsend 'sendchatmessage:result', r
+        , true # do retry
 
-    ipc.on 'setpresence', -> client.setpresence(true)
-    ipc.on 'updatewatermark', (ev, conv_id, time) ->
+    ipc.on 'setpresence', seqreq ->
+        client.setpresence(true)
+    , false # no retry
+
+    # watermarking is only interesting for the last of each conv_id
+    # retry send and dedupe for each conv_id
+    ipc.on 'updatewatermark', seqreq (ev, conv_id, time) ->
         client.updatewatermark conv_id, time
-    ipc.on 'getentity', (ev, ids) -> client.getentitybyid(ids).then (r) ->
-        ipcsend 'getentity:result', r
+    , true, (ev, conv_id, time) -> conv_id
+
+    # getentity is not super important, the client will try again when encountering
+    # entities without photo_url. so no retry, but do execute all such reqs
+    ipc.on 'getentity', seqreq (ev, ids) ->
+        client.getentitybyid(ids).then (r) -> ipcsend 'getentity:result', r
+    , false
 
     # propagate these events to the renderer
     require('./ui/events').forEach (n) ->
