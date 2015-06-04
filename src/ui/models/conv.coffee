@@ -13,7 +13,7 @@ add = (conv) ->
         {conversation, event} = conv
         conv = conversation
         conv.event = event
-    {id} = conv.conversation_id
+    {id} = conv.conversation_id or conv.id
     domerge id, conv
     # participant_data contains entity information
     # we want in the entity lookup
