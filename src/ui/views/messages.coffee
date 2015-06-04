@@ -76,7 +76,7 @@ module.exports = view (models) ->
         conv_id = viewstate.selectedConv
         c = conv[conv_id]
         return unless c?.event
-        grouped = groupEvents c.event, models.entity
+        grouped = groupEvents c.event, entity
         for g in grouped
             div class:'tgroup', ->
                 span class:'timestamp', moment(g.start / 1000).calendar()

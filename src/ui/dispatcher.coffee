@@ -52,9 +52,7 @@ handle 'sendmessage', (txt) ->
     conv.addChatMessagePlaceholder entity.self.id, msg
 
 
-handle 'update:lastActivity', do ->
-    sendSetPresence = throttle 10000, -> ipc.send 'setpresence'
-    -> sendSetPresence()
+handle 'update:lastActivity', throttle 10000, -> ipc.send 'setpresence'
 
 
 handle 'update:watermark', do ->
