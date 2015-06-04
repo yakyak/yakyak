@@ -70,6 +70,7 @@ describe 'conv', ->
                 conversation_id:id:'1'
                 timestamp:2
                 event_id:'e1'
+                chat_message:message_content:{}
             }
             eql conv['1'], {
                 conversation_id:id:'1'
@@ -79,6 +80,7 @@ describe 'conv', ->
                         conversation_id:id:'1'
                         timestamp:2
                         event_id:'e1'
+                        chat_message:message_content:{}
                     }
                 ]
                 self_conversation_state:sort_timestamp:2
@@ -90,6 +92,7 @@ describe 'conv', ->
                 conversation_id:id:'1'
                 timestamp:2
                 event_id:'e1'
+                chat_message:message_content:{}
             }
             eql conv['1'], {
                 conversation_id:id:'1'
@@ -98,6 +101,7 @@ describe 'conv', ->
                         conversation_id:id:'1'
                         timestamp:2
                         event_id:'e1'
+                        chat_message:message_content:{}
                     }
                 ]
                 self_conversation_state:sort_timestamp:2

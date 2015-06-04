@@ -46,7 +46,7 @@ addChatMessage = (msg) ->
     conv?.self_conversation_state?.sort_timestamp = msg.timestamp
     if msg.chat_message?.message_content?
         # deal with notification.
-        unless document.hasFocus() or isQuiet(conv) or entity.isSelf(msg?.sender_id?.chat_id)
+        unless document?.hasFocus() or isQuiet(conv) or entity.isSelf(msg?.sender_id?.chat_id)
             proxied = getProxiedName(msg)
             cid = if proxied then proxied else msg?.sender_id?.chat_id
             sender = nameof entity[cid]
