@@ -25,11 +25,6 @@ do ->
             action 'alive', Date.now()
             fn as...
 
-# request init this is not happening when
-# the server is just connecting, but for
-# dev mode when we reload the page
-ipc.send 'reqinit'
-
 # wire up stuff from server
 ipc.on 'init', (e) -> dispatcher.init e
 # events from hangupsjs
@@ -40,3 +35,8 @@ ipc.on 'getentity:result', (r) -> action 'addentities', r.entities
 # init dispatcher/controller
 require './dispatcher'
 require './views/controller'
+
+# request init this is not happening when
+# the server is just connecting, but for
+# dev mode when we reload the page
+action 'reqinit'

@@ -1,7 +1,24 @@
-{applayout, convlist, messages, input} = require './index'
+{applayout, convlist, messages, input, conninfo} = require './index'
 
 models      = require '../models'
-{viewstate} = models
+{viewstate, connection} = models
+
+showInfo = (view) ->
+    applayout.info view
+hideInfo = ->
+    applayout.info null
+
+
+handle 'update:connection', ->
+    # draw view
+    conninfo connection
+
+    # place in layout
+    if connection.state == connection.CONNECTED
+        hideInfo()
+    else
+        showInfo conninfo
+
 
 handle 'update:viewstate', ->
     if viewstate.state == viewstate.STATE_NORMAL

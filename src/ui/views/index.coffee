@@ -3,3 +3,4 @@ module.exports =
     convlist:  require './convlist'
     messages:  require './messages'
     input:     require './input'
+    conninfo:  require './conninfo'

@@ -8,6 +8,10 @@ ipc = require 'ipc'
 
 handle 'alive', (time) -> connection.setLastActive time
 
+handle 'reqinit', ->
+    ipc.send 'reqinit'
+    connection.setState connection.CONNECTING
+
 module.exports =
     init: ({init, recorded}) ->
         action 'init', init
