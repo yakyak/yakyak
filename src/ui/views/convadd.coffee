@@ -5,7 +5,7 @@ fix =
 
 
 module.exports = view (models) ->
-  {viewstate} = models
+  {convsettings} = models
 
   div ->
     h1 'add new conversation'
@@ -20,7 +20,7 @@ module.exports = view (models) ->
 
     p 'search results (click to select)'
     ul ->
-      viewstate.searchedEntities.forEach (r) ->
+      convsettings.searchedEntities.forEach (r) ->
         onclick = (e) -> action 'selectentity', r
         li {onclick}, JSON.stringify r.properties
     br()
@@ -28,7 +28,7 @@ module.exports = view (models) ->
 
     p 'selected ppl (click to remove)'
     ul ->
-      viewstate.selectedEntities.forEach (r) ->
+      convsettings.selectedEntities.forEach (r) ->
         onclick = (e) -> action 'deselectentity', r
         li {onclick}, JSON.stringify r.properties
     br()

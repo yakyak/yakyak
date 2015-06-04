@@ -15,8 +15,6 @@ module.exports = exp = {
     leftSize: localStorage.leftSize ? 200
     size: JSON.parse(localStorage.size ? "[940, 600]")
     pos: JSON.parse(localStorage.pos ? "[100, 100]")
-    searchedEntities: []
-    selectedEntities: []
 
     setState: (state) ->
         return if @state == state
@@ -57,28 +55,6 @@ module.exports = exp = {
         return if @leftSize == size
         @leftSize = localStorage.leftSize = size
         updated 'viewstate'
-
-    # convadd stuff
-
-    setSearchedEntities: (entities) ->
-        @searchedEntities = entities
-        updated 'searchedentities'
-
-    addSelectedEntity: (entity) ->
-        id = entity.id?.chat_id or entity # may pass id directly
-        exists = (e for e in @selectedEntities when e.id.chat_id == id).length != 0
-        console.log exists
-        if not exists
-          @selectedEntities.push entity
-          updated 'selectedEntities'
-
-    removeSelectedEntity: (entity) ->
-        id = entity.id?.chat_id or entity # may pass id directly
-        console.log entity
-        @selectedEntities = (e for e in @selectedEntities when e.id.chat_id != id)
-        updated 'selectedEntities'
-
-    setSelectedEntities: (entities) -> @selectedEntities = entities # no need to update
 
 }
 

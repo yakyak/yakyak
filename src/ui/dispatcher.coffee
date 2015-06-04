@@ -1,5 +1,5 @@
 ipc = require 'ipc'
-{entity, conv, viewstate, userinput, connection} = require './models'
+{entity, conv, viewstate, userinput, connection, convsettings} = require './models'
 
 {throttle} = require './views/vutil'
 
@@ -107,16 +107,19 @@ handle 'searchentities', (query, max_results) ->
 ipc.on 'searchentities:result', (r) ->
   action 'setsearchedentities', r.entity
 handle 'setsearchedentities', (r) ->
-  viewstate.setSearchedEntities r
+  convsettings.setSearchedEntities r
 
-handle 'selectentity', (e) -> viewstate.addSelectedEntity e
-handle 'deselectentity', (e) -> viewstate.removeSelectedEntity e
+handle 'selectentity', (e) -> convsettings.addSelectedEntity e
+handle 'deselectentity', (e) -> convsettings.removeSelectedEntity e
 handle 'createconversation', ->
-    ids = (e.id.chat_id for e in viewstate.selectedEntities)
+    ids = (e.id.chat_id for e in convsettings.selectedEntities)
     if ids.length == 0 then return alert 'No people selected' # TODO: handle this properly
     ipc.send 'createconversation', ids
-handle 'createconversation:result', (id) -> # TODO: what if it fails?
+ipc.on 'createconversation:result', (c) ->
+    action 'createconversationdone', c
     action 'setstate', viewstate.STATE_NORMAL
-    viewstate.setSearchedEntities []
-    viewstate.setSelectedEntities []
-    viewstate.selectedConv id
+handle 'createconversationdone', (c) ->
+    convsettings.setSearchedEntities []
+    convsettings.setSelectedEntities []
+    console.log JSON.stringify c, null, '  '
+    viewstate.setSelectedConv c.id.id

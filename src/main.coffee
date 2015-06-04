@@ -147,13 +147,10 @@ app.on 'ready', ->
         promise.then (res) ->
             mainWindow.webContents.send 'searchentities:result', res
     ipc.on 'createconversation', (ev, ids) ->
-        console.log 'createconversation'
-        console.log ids
         promise = client.createconversation ids
         promise.then (res) ->
-            console.log res # TODO: need to check payload format
-            id = res.conversation.id.chat_id
-            mainWindow.webContents.send 'createconversation:result', id
+            conv = res.conversation
+            mainWindow.webContents.send 'createconversation:result', conv
         promise.fail (err) -> console.log 'error', err
 
     ipc.on 'getentity', (ev, ids) -> client.getentitybyid(ids).then (r) ->
