@@ -36,20 +36,43 @@ focusInput = ->
     document.querySelector('.input textarea')?.focus()
 
 
-ondragover = ondragenter = (ev) ->
-    # this enables dragging at all
-    ev.preventDefault()
-    return false
+
+drag = do ->
+
+    ondragover = ondragenter = (ev) ->
+        # this enables dragging at all
+        ev.preventDefault()
+        return false
+
+    ondrop = (ev) ->
+        ev.preventDefault()
+        action 'drop', ev.dataTransfer.files
+
+    {ondragover, ondragenter, ondrop}
 
 
-ondrop = (ev) ->
-    ev.preventDefault()
-    action 'drop', ev.dataTransfer.files
+resize = do ->
+    rz = null
+    {
+        onmousemove: (ev) ->
+            if rz and ev.buttons & 1
+                rz(ev)
+            else
+                rz = null
+        onmousedown: (ev) ->
+            rz = resizers[ev.target.dataset?.resize]
+        onmouseup: (ev) ->
+            rz = null
+    }
+
+resizers =
+    leftResize: (ev) -> action 'leftresize', ev.clientX
 
 
 module.exports = layout ->
-    div class:'applayout', {ondragover, ondragenter, ondrop}, ->
+    div class:'applayout', drag, resize, ->
         div class:'left', region('left')
+        div class:'leftresize', 'data-resize':'leftResize'
         div class:'right', ->
             div class:'main', region('main'), onscroll: onScroll
             div class:'foot', region('foot')

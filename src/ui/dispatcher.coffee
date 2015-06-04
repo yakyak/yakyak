@@ -11,6 +11,7 @@ handle 'alive', (time) -> connection.setLastActive time
 handle 'reqinit', ->
     ipc.send 'reqinit'
     connection.setState connection.CONNECTING
+    viewstate.setState viewstate.STATE_STARTUP
 
 module.exports =
     init: ({init, recorded}) ->
@@ -93,3 +94,6 @@ handle 'drop', (files) ->
         conv.addChatMessagePlaceholder entity.self.id, msg
         # and begin upload
         ipc.send 'uploadimage', {path:file.path, conv_id, client_generated_id}
+
+
+handle 'leftresize', (size) -> viewstate.setLeftSize size

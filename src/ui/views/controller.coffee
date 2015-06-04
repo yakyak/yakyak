@@ -20,8 +20,18 @@ handle 'update:connection', ->
         showInfo conninfo
 
 
+setLeftSize = (left) ->
+    document.querySelector('.left').style.width = left + 'px'
+    document.querySelector('.leftresize').style.left = (left - 2) + 'px'
+
+
 handle 'update:viewstate', ->
-    if viewstate.state == viewstate.STATE_NORMAL
+    setLeftSize viewstate.leftSize
+    if viewstate.state == viewstate.STATE_STARTUP
+        applayout.left null
+        applayout.main null
+        applayout.foot null
+    else if viewstate.state == viewstate.STATE_NORMAL
         redraw()
         applayout.left convlist
         applayout.main messages
