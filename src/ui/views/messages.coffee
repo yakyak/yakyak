@@ -71,8 +71,12 @@ OBSERVE_OPTS =
     attributeOldValue:true
     subtree:true
 
+firstRender = true
 
 module.exports = view (models) ->
+    # mutation events kicks in after first render
+    later scrollToBottom if firstRender
+    firstRender = false
     {viewstate, conv, entity} = models
     div class:'messages', observe:onMutate(viewstate.atbottom), ->
         return unless viewstate.selectedConv
@@ -101,6 +105,7 @@ module.exports = view (models) ->
                                 mclz.push 'placeholder' if e.placeholder
                                 div key:e.event_id, class:mclz.join(' '), ->
                                     format e.chat_message?.message_content
+
 
 # when there's mutation, we scroll to bottom in case we already are at bottom
 onMutate = (atbottom) ->
