@@ -59,4 +59,5 @@ maybeFocus = ->
     el = document.activeElement
     if !el or not (el.nodeName in ['INPUT', 'TEXTAREA'])
         # steal it!!!
-        document.querySelector('.input textarea').focus()
+        el = document.querySelector('.input textarea')
+        el.focus() if el
