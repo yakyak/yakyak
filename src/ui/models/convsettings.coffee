@@ -5,7 +5,7 @@ module.exports = exp = {
     selectedEntities: []
 
     setSearchedEntities: (entities) ->
-        @searchedEntities = entities
+        @searchedEntities = entities or []
         updated 'searchedentities'
 
     addSelectedEntity: (entity) ->
@@ -20,6 +20,6 @@ module.exports = exp = {
         @selectedEntities = (e for e in @selectedEntities when e.id.chat_id != id)
         updated 'selectedEntities'
 
-    setSelectedEntities: (entities) -> @selectedEntities = entities # no need to update
+    setSelectedEntities: (entities) -> @selectedEntities = entities or [] # no need to update
 }
 
