@@ -35,7 +35,7 @@ module.exports = exp = {
     updateActivity: (time) ->
         @lastActivity = time
         updated 'lastActivity'
-        return unless document.hasFocus()
+        return unless document.hasFocus() and @atbottom and @state == STATES.STATE_NORMAL
         c = conv[@selectedConv]
         return unless c
         ur = conv.unread c
