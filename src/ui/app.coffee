@@ -38,6 +38,7 @@ ipc.on 'moved', (pos)  -> action 'moved', pos
 ipc.on 'searchentities:result', (r) ->
   action 'setsearchedentities', r.entity
 ipc.on 'createconversation:result', (c) ->
+    c.conversation_id = c.id # fix conversation payload
     action 'createconversationdone', c
     action 'setstate', viewstate.STATE_NORMAL
 
