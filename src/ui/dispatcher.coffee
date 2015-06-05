@@ -113,4 +113,5 @@ handle 'createconversationdone', (c) ->
     convsettings.setSearchedEntities []
     convsettings.setSelectedEntities []
     console.log JSON.stringify c, null, '  '
+    conv.add c
     viewstate.setSelectedConv c.id.id
