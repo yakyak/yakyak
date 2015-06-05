@@ -1,8 +1,3 @@
-fix =
-  style:
-    fontSize: '18px'
-  placeholder: ' ... ... '
-
 
 {throttle} = require './vutil'
 chilledaction = throttle 1500, action
@@ -17,13 +12,12 @@ module.exports = view (models) ->
   {convsettings} = models
 
   div class: 'convadd', ->
-    h1 'Conversation'
-
-    p 'Search and add people to this conversation'
+    h1 'New conversation'
 
     div class: 'input', ->
         div ->
-          input fix, '', onkeyup: (e) -> chilledaction 'searchentities', e.currentTarget.value, 7
+          placeholder = 'Type here to search people and add to conversation'
+          input '', {placeholder}, onkeyup: (e) -> chilledaction 'searchentities', e.currentTarget.value, 7
 
     ul ->
       convsettings.selectedEntities.forEach (r) ->
@@ -47,5 +41,6 @@ module.exports = view (models) ->
     
     div ->
       onclick = -> action 'createconversation'
-      disabled = convsettings.selectedEntities.length <= 0
-      button fix, {onclick}, disabled: disabled, 'create'
+      disabled = null
+      if convsettings.selectedEntities.length <= 0 then disabled = disabled: 'disabled'
+      button {onclick}, disabled, 'Create'
