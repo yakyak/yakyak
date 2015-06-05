@@ -147,6 +147,11 @@ app.on 'ready', ->
         client.setconversationnotificationlevel conv_id, level
     , true, (ev, conv_id, level) -> conv_id
 
+    # retry
+    ipc.on 'deleteconversation', seqreq (ev, conv_id) ->
+        client.deleteconversation conv_id
+    , true
+
     ipc.on 'searchentities', (ev, query, max_results) ->
         promise = client.searchentities query, max_results
         promise.then (res) ->

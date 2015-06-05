@@ -22,7 +22,7 @@ module.exports = exp = {
         updated 'viewstate'
 
     setSelectedConv: (conv) ->
-        conv = conv?.conversation_id?.id ? conv.id ? conv
+        conv = conv?.conversation_id?.id ? conv?.id ? conv
         return if @selectedConv == conv
         @selectedConv = localStorage.selectedConv = conv
         updated 'viewstate'

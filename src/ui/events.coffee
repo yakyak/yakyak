@@ -12,4 +12,5 @@ focus
 typing
 watermark
 notification_level
+delete
 '.split(' ')

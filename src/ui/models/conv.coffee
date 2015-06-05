@@ -1,4 +1,5 @@
 entity = require './entity'
+viewstate = require './viewstate'
 {nameof, getProxiedName}  = require '../views/vutil'
 
 merge   = (t, os...) -> t[k] = v for k,v of o when v not in [null, undefined] for o in os; t
@@ -152,6 +153,11 @@ funcs =
     setNotificationLevel: (conv_id, level) ->
         return unless c = lookup[conv_id]
         c.self_conversation_state?.notification_level = level
+        updated 'conv'
+    deleteConv: (conv_id) ->
+        return unless c = lookup[conv_id]
+        delete lookup[conv_id]
+        viewstate.setSelectedConv null
         updated 'conv'
 
     isQuiet: isQuiet

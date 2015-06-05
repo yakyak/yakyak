@@ -132,3 +132,13 @@ handle 'togglenotif', ->
     q = conv.isQuiet(c)
     ipc.send 'setconversationnotificationlevel', conv_id, (if q then RING else QUIET)
     conv.setNotificationLevel conv_id, (if q then 'RING' else 'QUIET')
+
+handle 'delete', (a) ->
+    conv_id = a?[0]?[0]
+    return unless c = conv[conv_id]
+    conv.deleteConv conv_id
+
+handle 'deleteconv', ->
+    conv_id = viewstate.selectedConv
+    if confirm 'Really delete conversation?'
+        ipc.send 'deleteconversation', conv_id
