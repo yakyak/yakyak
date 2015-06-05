@@ -22,6 +22,7 @@ copyPrebuilt = ->
   execSync 'cp -R node_modules/electron-prebuilt/dist/Electron.app Yakyak.app'
   gutil.log 'Change app name to Yakyak'
   execSync 'sed -i.bak s/Electron/Yakyak/ Yakyak.app/Contents/Info.plist'
+  execSync 'sed -i.bak s/com\.github\.electron/com\.github\.yakyak/ Yakyak.app/Contents/Info.plist'
   execSync 'mv Yakyak.app/Contents/MacOS/Electron Yakyak.app/Contents/MacOS/Yakyak'
   execSync 'cp src/icons/atom.icns Yakyak.app/Contents/Resources/atom.icns'
 
