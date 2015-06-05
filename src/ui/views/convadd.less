@@ -7,7 +7,6 @@
   }
   hr {
     border-bottom: 1px solid #dedede;
-    margin-top: 20px;
     margin-bottom: 20px;
   }
 
@@ -40,6 +39,7 @@
   ul {
     display: block;
     overflow: hidden;
+    margin-top: 20px;
     li.selected {
       background-color: lightblue;
       border-radius: 9px;
@@ -48,6 +48,12 @@
       text-align: center;
       padding: 10px;
       width: 100px;
+      max-height: 134px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      display: -webkit-box;
       display: block;
       float: left;
       border: 3px solid white;
