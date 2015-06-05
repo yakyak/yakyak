@@ -1,6 +1,8 @@
-ipc = require 'ipc'
-{entity, conv, viewstate, userinput, connection, convsettings} = require './models'
+Client = require 'hangupsjs'
 
+ipc = require 'ipc'
+
+{entity, conv, viewstate, userinput, connection, convsettings} = require './models'
 {throttle} = require './views/vutil'
 
 'connecting connected connect_failed'.split(' ').forEach (n) ->
@@ -117,3 +119,16 @@ handle 'createconversationdone', (c) ->
     console.log JSON.stringify c, null, '  '
     conv.add c
     viewstate.setSelectedConv c.id.id
+
+handle 'notification_level', (n) ->
+    conv_id = n?[0]?[0]
+    level = if n?[1] == 10 then 'QUIET' else 'RING'
+    conv.setNotificationLevel conv_id, level if conv_id and level
+
+handle 'togglenotif', ->
+    {QUIET, RING} = Client.NotificationLevel
+    conv_id = viewstate.selectedConv
+    return unless c = conv[conv_id]
+    q = conv.isQuiet(c)
+    ipc.send 'setconversationnotificationlevel', conv_id, (if q then RING else QUIET)
+    conv.setNotificationLevel conv_id, (if q then 'RING' else 'QUIET')

@@ -149,6 +149,10 @@ funcs =
     addWatermark: addWatermark
     MAX_UNREAD: MAX_UNREAD
     unread: unread
+    setNotificationLevel: (conv_id, level) ->
+        return unless c = lookup[conv_id]
+        c.self_conversation_state?.notification_level = level
+        updated 'conv'
 
     isQuiet: isQuiet
 

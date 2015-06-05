@@ -142,6 +142,11 @@ app.on 'ready', ->
             client.sendchatmessage conv_id, null, image_id, null, client_generated_id
     , true
 
+    # retry only last per conv_id
+    ipc.on 'setconversationnotificationlevel', seqreq (ev, conv_id, level) ->
+        client.setconversationnotificationlevel conv_id, level
+    , true, (ev, conv_id, level) -> conv_id
+
     ipc.on 'searchentities', (ev, query, max_results) ->
         promise = client.searchentities query, max_results
         promise.then (res) ->
