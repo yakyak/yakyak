@@ -12,6 +12,7 @@ hr'.split(' '))...
 ipc = require 'ipc'
 
 {applayout}    = require './views'
+{viewstate}    = require './models'
 
 # tie layout to DOM
 document.body.appendChild applayout.el
