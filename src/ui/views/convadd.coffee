@@ -10,31 +10,34 @@ chilledaction = throttle 1500, action
 module.exports = view (models) ->
   {convsettings} = models
 
-  div ->
-    h1 'add new conversation'
-    br()
-    br()
+  div class: 'convadd', ->
+    h1 'Conversation'
+    hr()
 
-    p 'find ppl (type to search)'
-    input fix, '', onkeyup: (e) -> chilledaction 'searchentities', e.currentTarget.value, 3
-    br()
-    br()
+    p 'Search and add people to this conversation'
 
-    p 'search results (click to select)'
-    ul ->
-      convsettings.searchedEntities.forEach (r) ->
-        onclick = (e) -> action 'selectentity', r
-        li {onclick}, JSON.stringify r.properties
-    br()
-    br()
+    div class: 'input', ->
+        div ->
+          input fix, '', onkeyup: (e) -> chilledaction 'searchentities', e.currentTarget.value, 3
 
-    p 'selected ppl (click to remove)'
     ul ->
       convsettings.selectedEntities.forEach (r) ->
         onclick = (e) -> action 'deselectentity', r
-        li {onclick}, JSON.stringify r.properties
-    br()
-    br()
+        li {onclick}, class: 'selected', ->
+          if r.properties.photo_url
+            img src: r.properties.photo_url
+          p r.properties.display_name
+          console.log JSON.stringify r.properties, null, '  '
+      convsettings.searchedEntities.forEach (r) ->
+        onclick = (e) -> action 'selectentity', r
+        li {onclick}, ->
+          if r.properties.photo_url
+            img src: r.properties.photo_url
+          p r.properties.display_name
+          console.log JSON.stringify r.properties, null, '  '
+
+
+    hr()
     
     div ->
       onclick = -> action 'createconversation'
