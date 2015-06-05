@@ -13,8 +13,9 @@ attach = (app, delegate) ->
       { label: 'Hide Others', accelerator: 'Command+Shift+H', selector: 'hideOtherApplications:' }
       { label: 'Show All', selector: 'unhideAllApplications:' }
       { type: 'separator' }
-      { label: 'Open Inspector', accelerator: 'Command+Alt+I', click: => delegate.openDevTools() }
+      { label: 'Open Inspector', accelerator: 'Command+Alt+I', click: -> delegate.openDevTools() }
       { type: 'separator' }
+      { label: 'Logout and quit', click: -> delegate.logout() }
       { label: 'Quit', accelerator: 'Command+Q', click: -> app.quit() }
     ]
   menus.push

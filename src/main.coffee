@@ -11,9 +11,32 @@ client = new Client()
 app = require 'app'
 BrowserWindow = require 'browser-window'
 
+paths =
+    rtokenpath:  path.normalize path.join app.getPath('userData'), 'refreshtoken.txt'
+    cookiespath: path.normalize path.join app.getPath('userData'), 'cookies.json'
+    chromecookie: path.normalize path.join app.getPath('userData'), 'Cookies'
+
 client = new Client
-    rtokenpath:  path.normalize path.join app.getPath('userData'), '/refreshtoken.txt'
-    cookiespath: path.normalize path.join app.getPath('userData'), '/cookies.json'
+    rtokenpath:  paths.rtokenpath
+    cookiespath: paths.cookiespath
+
+logout = ->
+    promise = client.logout()
+    plug = (rs, rj) -> (err, val) -> if err then rj(err) else rs(val)
+    rm = (path) -> Q.Promise((rs, rj) -> fs.unlink(path, plug(rs, rj))).fail (err) ->
+        if err.code == 'ENOENT' then null else Q.reject(err)
+    promise = promise.then ->
+        rm paths.chromecookie
+    promise.fail (e) -> console.log e
+    promise.then (res) ->
+      argv = process.argv
+      spawn = require('child_process').spawn
+      spawn argv.shift(), argv,
+        cwd: process.cwd
+        env: process.env
+        stdio: 'inherit'
+      app.quit()
+    return promise # like it matters
 
 seqreq = require './seqreq'
 
@@ -45,7 +68,7 @@ app.on 'ready', ->
         "min-height": 420
     }
 
-    appmenu.attach app, {openDevTools}
+    appmenu.attach app, {openDevTools, logout}
 
     # and load the index.html of the app. this may however be yanked
     # away if we must do auth.
