@@ -37,7 +37,8 @@ handle 'chat_message', (ev) ->
 handle 'watermark', (ev) ->
     conv.addWatermark ev
 
-handle 'setstate', (state) -> viewstate.setState state
+handle 'addconversation', ->
+    viewstate.setState viewstate.STATE_ADD_CONVERSATION
 
 handle 'activity', (time) ->
     viewstate.updateActivity time
@@ -106,6 +107,7 @@ handle 'setsearchedentities', (r) ->
   convsettings.setSearchedEntities r
 handle 'selectentity', (e) -> convsettings.addSelectedEntity e
 handle 'deselectentity', (e) -> convsettings.removeSelectedEntity e
+
 handle 'createconversation', ->
     ids = (e.id.chat_id for e in convsettings.selectedEntities)
     ipc.send 'createconversation', ids

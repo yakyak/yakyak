@@ -1,6 +1,6 @@
 remote = require 'remote'
 
-{applayout, convlist, messages, input, conninfo, convadd} = require './index'
+{applayout, convlist, messages, input, conninfo, convadd, controls} = require './index'
 
 models      = require '../models'
 {viewstate, connection} = models
@@ -41,6 +41,7 @@ handle 'update:viewstate', ->
         applayout.foot null
     else if viewstate.state == viewstate.STATE_NORMAL
         redraw()
+        applayout.topleft controls
         applayout.left convlist
         applayout.main messages
         applayout.foot input
@@ -65,6 +66,7 @@ handle 'update:selectedEntities', ->
   redraw()
 
 redraw = ->
+    controls models
     convlist models
     messages models
     input models

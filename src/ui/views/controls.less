@@ -1,0 +1,30 @@
+
+
+.controls {
+    display: flex;
+    background: #fff;
+    border-bottom: 1px solid #b4b4b4;
+    > .fill {
+        flex: 1;
+    }
+    > .button {
+        flex: none;
+        width: 30px;
+        height: 30px;
+        line-height: 30px;
+        border-right: 1px solid #b4b4b4;
+        text-align: center;
+        cursor: pointer;
+        &:last-child {
+            border-right: none;
+            border-left: 1px solid #b4b4b4;
+        }
+        &:hover {
+            background: #b4b4b4;
+        }
+    }
+}
+
+.icon-bell-off-empty {
+    margin-left: -2px;
+}

@@ -2,6 +2,19 @@
 .applayout {
     display: flex;
     height: 100%;
+    > .controls {
+        flex: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        .button {
+            height: 30px;
+            width: 30px;
+            line-height: 30px;
+            text-align: center;
+            border-right: 1px solid #b4b4b4;
+        }
+    }
     > .leftresize {
         position: fixed;
         top: 0;
@@ -16,9 +29,18 @@
         background: #f0f0f0;
         border-right: 1px solid #b4b4b4;
         flex: none;
+        display: flex;
+        flex-direction: column;
         width: 200px;
-        overflow-x: hidden;
-        overflow-y: auto;
+        > .topleft {
+            flex: none;
+            height: 30px;
+        }
+        > .list {
+            flex: 1;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
     }
     > .right {
         flex: 1;

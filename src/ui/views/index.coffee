@@ -5,3 +5,4 @@ module.exports =
     input:     require './input'
     conninfo:  require './conninfo'
     convadd:   require './convadd'
+    controls:  require './controls'
