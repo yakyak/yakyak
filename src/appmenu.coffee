@@ -15,7 +15,7 @@ attach = (app, delegate) ->
       { type: 'separator' }
       { label: 'Open Inspector', accelerator: 'Command+Alt+I', click: -> delegate.openDevTools() }
       { type: 'separator' }
-      { label: 'Logout and quit', click: -> delegate.logout() }
+      { label: 'Logout', click: -> delegate.logout() }
       { label: 'Quit', accelerator: 'Command+Q', click: -> app.quit() }
     ]
   menus.push
