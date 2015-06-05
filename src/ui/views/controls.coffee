@@ -1,7 +1,8 @@
 
 convcontrols = [
-    {icon:'icon-user-add', action:'adduser'}
-    {icon:'icon-pencil',   action:'renameconv'}
+#    {icon:'icon-user-add', action:'adduser'}
+#    {icon:'icon-pencil',   action:'renameconv'}
+    {icon:'icon-cog',      action:'convsettings'}
 #    {icon:'icon-videocam', action:'videocall'}
 #    {icon:'icon-phone',    action:'voicecall'}
     {icon:'icon-cancel',   action:'removeconv'}
