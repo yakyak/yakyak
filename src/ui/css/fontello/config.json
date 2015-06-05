@@ -13,6 +13,18 @@
       "src": "fontelico"
     },
     {
+      "uid": "cd21cbfb28ad4d903cede582157f65dc",
+      "css": "bell",
+      "code": 59409,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "8a074400a056c59d389f2d0517281bd5",
+      "css": "bell-off-empty",
+      "code": 59410,
+      "src": "fontawesome"
+    },
+    {
       "uid": "6274e0601f2feef7eced89146e708de0",
       "css": "user-add",
       "code": 59395,
@@ -52,6 +64,12 @@
       "uid": "1256e3054823e304d7e452a589cf8bb8",
       "css": "minus",
       "code": 59399,
+      "src": "entypo"
+    },
+    {
+      "uid": "c77fd2fd065b5fe16d6f2b41e190b266",
+      "css": "pencil",
+      "code": 59408,
       "src": "entypo"
     },
     {
