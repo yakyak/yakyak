@@ -56,8 +56,8 @@ resizers =
 module.exports = layout ->
     div class:'applayout', drag, resize, ->
         div class:'left', ->
-            div class:'topleft', region('topleft')
             div class:'list', region('left')
+            div class:'lfoot', region('lfoot')
         div class:'leftresize', 'data-resize':'leftResize'
         div class:'right', ->
             div class:'main', region('main'), onscroll: onScroll

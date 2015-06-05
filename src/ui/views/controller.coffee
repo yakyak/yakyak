@@ -41,7 +41,7 @@ handle 'update:viewstate', ->
         applayout.foot null
     else if viewstate.state == viewstate.STATE_NORMAL
         redraw()
-        applayout.topleft controls
+        applayout.lfoot controls
         applayout.left convlist
         applayout.main messages
         applayout.foot input
