@@ -1,0 +1,55 @@
+.convadd {
+  padding: 15px;
+  h1 {
+    font-family: Helvetica Neue;
+    font-size: xx-large;
+    margin-bottom: 20px;
+  }
+  hr {
+    border-bottom: 1px solid #aaa;
+    margin-bottom: 20px;
+  }
+
+  .input {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      > div {
+          padding: 12px 15px 10px;
+          width: 100%;
+          input {
+              width: 100%;
+              resize: vertical;
+              font-size: 14px;
+              line-height: 18px;
+              outline: none;
+              border: 1px solid #dedede;
+              border-radius: 3px;
+              padding: 3px 10px;
+          }
+      }
+  }
+
+  ul {
+    display: block;
+    overflow: hidden;
+    li.selected {
+      background-color: lightblue;
+      border-radius: 9px;
+    }
+    li {
+      text-align: center;
+      padding: 10px;
+      width: 100px;
+      display: block;
+      float: left;
+      border: 3px solid white;
+      > img {
+        width: 70px;
+        border-radius: 9px;
+      }
+    }
+  }
+  
+}
+

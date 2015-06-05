@@ -7,18 +7,23 @@ fix =
 {throttle} = require './vutil'
 chilledaction = throttle 1500, action
 
+unique = (obj) ->
+  # unfortunately entities resulting from a search do not have 
+  # an unique id associated therefore we use serialized obkect
+  # to compare them
+  JSON.stringify obj
+
 module.exports = view (models) ->
   {convsettings} = models
 
   div class: 'convadd', ->
     h1 'Conversation'
-    hr()
 
     p 'Search and add people to this conversation'
 
     div class: 'input', ->
         div ->
-          input fix, '', onkeyup: (e) -> chilledaction 'searchentities', e.currentTarget.value, 3
+          input fix, '', onkeyup: (e) -> chilledaction 'searchentities', e.currentTarget.value, 7
 
     ul ->
       convsettings.selectedEntities.forEach (r) ->
@@ -27,15 +32,16 @@ module.exports = view (models) ->
           if r.properties.photo_url
             img src: r.properties.photo_url
           p r.properties.display_name
-          console.log JSON.stringify r.properties, null, '  '
+
+      selected_ids = (unique(c) for c in convsettings.selectedEntities)
+
       convsettings.searchedEntities.forEach (r) ->
+        if unique(r) in selected_ids then return
         onclick = (e) -> action 'selectentity', r
         li {onclick}, ->
           if r.properties.photo_url
-            img src: r.properties.photo_url
+            img src: r.properties.photo_url # TODO: put a default image if none
           p r.properties.display_name
-          console.log JSON.stringify r.properties, null, '  '
-
 
     hr()
     
