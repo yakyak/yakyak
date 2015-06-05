@@ -65,6 +65,7 @@ OBSERVE_OPTS =
     subtree:true
 
 firstRender = true
+lastConv = null # to detect conv switching
 
 module.exports = view (models) ->
     # mutation events kicks in after first render
@@ -101,6 +102,10 @@ module.exports = view (models) ->
                                     format e.chat_message?.message_content
                                     loadImages conv_id, e.chat_message?.message_content
 
+    # focus when switching convs
+    if lastConv != models.viewstate.selectedConv
+        lastConv = models.viewstate.selectedConv
+        scrollToBottom()
 
 # when there's mutation, we scroll to bottom in case we already are at bottom
 onMutate = (atbottom) ->
