@@ -1,7 +1,7 @@
 moment = require 'moment'
 shell = require 'shell'
 
-{nameof, linkto, later, forceredraw, throttle, getProxiedName}  = require './vutil'
+{nameof, linkto, later, forceredraw, throttle, getProxiedName}  = require '../util'
 
 CUTOFF = 5 * 60 * 1000 * 1000 # 5 mins
 

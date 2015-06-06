@@ -1,5 +1,5 @@
 
-{throttle} = require './vutil'
+{throttle} = require '../util'
 
 attached = false
 attachListeners = ->

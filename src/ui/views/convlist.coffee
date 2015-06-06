@@ -1,4 +1,4 @@
-{nameof} = require './vutil'
+{nameof} = require '../util'
 
 module.exports = view (models) ->
     {conv, entity, viewstate} = models

@@ -3,7 +3,7 @@ Client = require 'hangupsjs'
 ipc = require 'ipc'
 
 {entity, conv, viewstate, userinput, connection, convsettings} = require './models'
-{throttle} = require './views/vutil'
+{throttle} = require './util'
 
 'connecting connected connect_failed'.split(' ').forEach (n) ->
     handle n, -> connection.setState n

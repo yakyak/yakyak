@@ -1,6 +1,6 @@
 autosize = require 'autosize'
 
-{later} = require './vutil'
+{later} = require '../util'
 
 isModifierKey = (ev) -> ev.altKey || ev.ctrlKey || ev.metaKey || ev.shiftKey
 isAltCtrlMeta = (ev) -> ev.altKey || ev.ctrlKey || ev.metaKey

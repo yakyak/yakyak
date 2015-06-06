@@ -1,5 +1,5 @@
 
-{throttle} = require './vutil'
+{throttle} = require '../util'
 chilledaction = throttle 1500, action
 
 unique = (obj) ->

@@ -1,6 +1,6 @@
 entity = require './entity'
 viewstate = require './viewstate'
-{nameof, getProxiedName}  = require '../views/vutil'
+{nameof, getProxiedName}  = require '../util'
 
 merge   = (t, os...) -> t[k] = v for k,v of o when v not in [null, undefined] for o in os; t
 

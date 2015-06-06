@@ -2,7 +2,7 @@ Client = require 'hangupsjs'
 
 merge   = (t, os...) -> t[k] = v for k,v of o when v not in [null, undefined] for o in os; t
 
-{throttle, later} = require '../views/vutil'
+{throttle, later} = require '../util'
 
 STATES =
     STATE_STARTUP: 'startup'

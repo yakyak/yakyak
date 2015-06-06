@@ -5,7 +5,7 @@ remote = require 'remote'
 models      = require '../models'
 {viewstate, connection} = models
 
-{later} = require './vutil'
+{later} = require '../util'
 
 showInfo = (view) ->
     applayout.info view
