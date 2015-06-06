@@ -17,13 +17,29 @@ module.exports = view (models) ->
 
     div class: 'input', ->
         div ->
-          input value: convsettings.name, placeholder:'Conversation name', onkeyup: (e) ->
-              action 'conversationname', e.currentTarget.value
+            input
+                classn: '.name-input'
+                value: convsettings.name
+                placeholder: 'Conversation name'
+                onkeyup: (e) ->
+                    action 'conversationname', e.currentTarget.value
+            do -> # force input value update
+                el = document.querySelector '.name-input'
+                if el != null then el.value = convsettings.searchQuery
+                return null
     
     div class: 'input', ->
         div ->
-          input '', placeholder:'Search people', onkeyup: (e) ->
-              chilledaction 'searchentities', e.currentTarget.value, 7
+            input
+                class: 'search-input'
+                value: convsettings.searchQuery
+                placeholder:'Search people'
+                onkeyup: (e) ->
+                    chilledaction 'searchentities', e.currentTarget.value, 7
+            do -> # force input value update
+                el = document.querySelector '.search-input'
+                if el != null then el.value = convsettings.searchQuery
+                return null
 
     ul ->
       convsettings.selectedEntities.forEach (r) ->
@@ -41,7 +57,9 @@ module.exports = view (models) ->
         if unique(r) in selected_ids then return
         li ->
           if r.properties.photo_url
-            img src: r.properties.photo_url # TODO: put a default image if none
+            img src: r.properties.photo_url
+          else
+            img src: "images/photo.jpg"
           p r.properties.display_name
         , onclick:(e) -> action 'selectentity', r
 

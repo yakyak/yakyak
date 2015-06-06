@@ -65,6 +65,8 @@ handle 'update:searchedentities', ->
 handle 'update:selectedEntities', ->
   redraw()
 
+handle 'update:convsettings', -> redraw()
+
 redraw = ->
     controls models
     convlist models

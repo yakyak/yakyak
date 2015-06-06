@@ -40,13 +40,14 @@ handle 'watermark', (ev) ->
     conv.addWatermark ev
 
 handle 'addconversation', ->
+    convsettings.reset()
     viewstate.setState viewstate.STATE_ADD_CONVERSATION
 
 handle 'convsettings', ->
     id = viewstate.selectedConv
     return unless conv[id]
+    convsettings.reset()
     convsettings.loadConversation conv[id]
-    console.log conv[id]
     viewstate.setState viewstate.STATE_ADD_CONVERSATION
     
 handle 'activity', (time) ->
@@ -126,6 +127,7 @@ handle 'imgload', (conv_id) -> updated 'conv'
 handle 'conversationname', (name) ->
   convsettings.setName name
 handle 'searchentities', (query, max_results) ->
+  convsettings.setSearchQuery query
   ipc.send 'searchentities', query, max_results
 handle 'setsearchedentities', (r) ->
   convsettings.setSearchedEntities r
@@ -136,6 +138,7 @@ handle 'createconversation', ->
     ids = (e.id.chat_id for e in convsettings.selectedEntities)
     name = convsettings.name
     ipc.send 'createconversation', ids, name
+
 handle 'createconversationdone', (c) ->
     convsettings.reset()
     conv.add c

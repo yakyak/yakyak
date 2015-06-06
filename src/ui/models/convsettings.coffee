@@ -6,6 +6,7 @@ module.exports = exp = {
     searchedEntities: []
     selectedEntities: []
     name: ""
+    searchQuery: ""
     id: null
 
     setSearchedEntities: (entities) ->
@@ -27,9 +28,10 @@ module.exports = exp = {
     setSelectedEntities: (entities) -> @selectedEntities = entities or [] # no need to update
 
     setName: (name) -> @name = name
+
+    setSearchQuery: (query) -> @searchQuery = query
     
     loadConversation: (c) ->
-      @reset()
       c.participant_data.forEach (p) =>
         id = p.id.chat_id or p.id.gaia_id
         if entity.isSelf id then return
@@ -45,8 +47,10 @@ module.exports = exp = {
     reset: ->
       @searchedEntities = []
       @selectedEntities = []
+      @searchQuery = ""
       @name = ""
       @id = null
+      updated 'convsettings'
 
 
 }
