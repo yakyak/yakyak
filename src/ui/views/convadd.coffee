@@ -2,11 +2,7 @@
 {throttle} = require '../util'
 chilledaction = throttle 1500, action
 
-unique = (obj) ->
-  # unfortunately entities resulting from a search do not have
-  # an unique id associated therefore we use serialized obkect
-  # to compare them
-  JSON.stringify obj
+unique = (obj) -> obj.id.chat_id or obj.id.gaia_id
 
 module.exports = view (models) ->
   {convsettings} = models
