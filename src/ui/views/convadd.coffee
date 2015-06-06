@@ -15,12 +15,10 @@ inputSetValue = (sel, val) ->
 
 module.exports = view (models) ->
     {convsettings} = models
+    editing = convsettings.id != null
 
     div class: 'convadd', ->
-      if convsettings.id
-          h1 'Conversation edit'
-      else
-          h1 'New conversation'
+      if editing then h1 'Conversation edit' else h1 'New conversation'
 
       div class: 'input', ->
           div ->
@@ -65,4 +63,6 @@ module.exports = view (models) ->
       div ->
           disabled = null
           if convsettings.selectedEntities.length <= 0 then disabled = disabled: 'disabled'
-          button disabled, 'Create', onclick:-> action 'createconversation'
+          button disabled, "Save", onclick:-> action 'saveconversation'
+
+

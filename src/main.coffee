@@ -188,6 +188,16 @@ app.on 'ready', ->
             client.renameconversation conv_id, name if name
         promise = promise.then (res) ->
             ipcsend 'createconversation:result', conv, name
+    ipc.on 'editconversation', (ev, conv_id, toadd, name) ->
+        promise = Q()
+        promise = promise.then ->
+          client.adduser conv_id, toadd if toadd.length
+        promise = promise.then (res) ->
+            console.log res
+            client.renameconversation conv_id, name if name
+        promise = promise.then (res) ->
+            console.log res
+            #ipcsend 'editconversation:result', conv, name
 
     # no retries, just dedupe on the ids
     ipc.on 'getentity', seqreq (ev, ids) ->

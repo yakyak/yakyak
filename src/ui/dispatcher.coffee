@@ -132,10 +132,27 @@ handle 'setsearchedentities', (r) ->
 handle 'selectentity', (e) -> convsettings.addSelectedEntity e
 handle 'deselectentity', (e) -> convsettings.removeSelectedEntity e
 
-handle 'createconversation', ->
-    ids = (e.id.chat_id for e in convsettings.selectedEntities)
-    name = convsettings.name
-    ipc.send 'createconversation', ids, name
+handle 'saveconversation', ->
+    conv_id = convsettings.id
+    c = conv[conv_id]
+    one_to_one = c?.type?.indexOf('ONE_TO_ONE') > 0
+    if conv_id != null and not one_to_one
+      # if conversation is one to one we need to create a new one
+      # unless the only partecipant is the same as before. In that case we just
+      # update the name
+      p = conv[conv_id].participant_data
+      current = (c.id.chat_id for c in p when not entity.isSelf c.id.chat_id)
+      selected = (c.id.chat_id for c in convsettings.selectedEntities)
+      toadd = (id for id in selected when id not in current)
+      ipc.send 'editconversation', conv_id, toadd, convsettings.name
+    else #creating new conversation
+      ids = (e.id.chat_id for e in convsettings.selectedEntities)
+      name = convsettings.name
+      ipc.send 'createconversation', ids, name
+
+handle 'editconversationdone', (c) ->
+    console.log arguments
+    # TODO: update models accordingly
 
 handle 'createconversationdone', (c) ->
     convsettings.reset()

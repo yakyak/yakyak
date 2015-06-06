@@ -41,7 +41,7 @@ module.exports = exp = {
                 properties:
                     photo_url: p.photo_url
                     display_name: p.display_name or p.fallback_name
-        @id = c.conversation_id or c.id
+        @id = c.conversation_id?.id or c.id?.id
         @name = c.name or ""
         updated 'convsettings'
 
