@@ -25,6 +25,8 @@ module.exports = view (models) ->
         li class: 'selected', ->
           if r.properties.photo_url
             img src: r.properties.photo_url
+          else
+            img src: "images/photo.jpg"
           p r.properties.display_name
         , onclick:(e) -> action 'deselectentity', r
 

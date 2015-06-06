@@ -34,6 +34,7 @@ paths =
   package: './package.json'
   coffee:  './src/**/*.coffee'
   html:    './src/**/*.html'
+  images:  './src/**/images/*.*'
   less:    './src/**/*.less'
   css:     './src/**/*.css'
   fonts:   ['./src/**/*.eot', './src/**/*.svg',
@@ -71,6 +72,11 @@ gulp.task 'html', ->
     .pipe htmlInject()
     .pipe gulp.dest outapp
 
+# copy images
+gulp.task 'images', ->
+  gulp.src paths.images
+    .pipe gulp.dest outapp
+
 
 # compile less
 gulp.task 'less', ->
@@ -106,7 +112,7 @@ gulp.task 'reloader', ->
 gulp.task 'clean', (cb) ->
   rimraf outbin, cb
 
-gulp.task 'default', ['package', 'coffee', 'html', 'less', 'fontello']
+gulp.task 'default', ['package', 'coffee', 'html', 'images', 'less', 'fontello']
 
 gulp.task 'watch', ['default', 'reloader', 'html'], ->
   # watch to rebuild
