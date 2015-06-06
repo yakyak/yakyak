@@ -40,8 +40,8 @@ handle 'watermark', (ev) ->
     conv.addWatermark ev
 
 handle 'addconversation', ->
-    convsettings.reset()
     viewstate.setState viewstate.STATE_ADD_CONVERSATION
+    convsettings.reset()
 
 handle 'convsettings', ->
     id = viewstate.selectedConv

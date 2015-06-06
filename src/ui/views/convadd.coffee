@@ -18,13 +18,13 @@ module.exports = view (models) ->
       div class: 'input', ->
           div ->
               input
-                  class: '.name-input'
+                  class: 'name-input'
                   placeholder: 'Conversation name'
                   onkeyup: (e) ->
                       action 'conversationname', e.currentTarget.value
               do -> # force input value update
                   el = document.querySelector '.name-input'
-                  if el != null then el.value = convsettings.searchQuery
+                  if el != null then el.value = convsettings.name
                   return null
       
       div class: 'input', ->
