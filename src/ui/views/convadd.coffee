@@ -6,6 +6,13 @@ unique = (obj) -> obj.id.chat_id or obj.id.gaia_id
 
 photoUrlProtocolFix = (url) -> return "http:" + url if url.match /^.?\/\//; url
 
+inputSetValue = (sel, val) ->
+    setTimeout ->
+        el = document.querySelector sel
+        el.value = val if el != null
+    , 1
+    null
+
 module.exports = view (models) ->
     {convsettings} = models
 
@@ -22,10 +29,7 @@ module.exports = view (models) ->
                   placeholder: 'Conversation name'
                   onkeyup: (e) ->
                       action 'conversationname', e.currentTarget.value
-              do -> # force input value update
-                  el = document.querySelector '.name-input'
-                  if el != null then el.value = convsettings.name
-                  return null
+              inputSetValue '.name-input', convsettings.name
       
       div class: 'input', ->
           div ->
@@ -34,10 +38,7 @@ module.exports = view (models) ->
                   placeholder:'Search people'
                   onkeyup: (e) ->
                       chilledaction 'searchentities', e.currentTarget.value, 7
-              do -> # force input value update
-                  el = document.querySelector '.search-input'
-                  if el != null then el.value = convsettings.searchQuery
-                  return null
+              inputSetValue '.search-input', convsettings.searchQuery
 
       ul ->
           convsettings.selectedEntities.forEach (r) ->
