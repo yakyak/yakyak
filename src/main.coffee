@@ -43,9 +43,6 @@ seqreq = require './seqreq'
 
 mainWindow = null
 
-# recorded events
-recorded = []
-
 # Quit when all windows are closed.
 app.on 'window-all-closed', ->
     app.quit() # if (process.platform != 'darwin')
@@ -89,17 +86,18 @@ app.on 'ready', ->
     sendInit = ->
         # we have no init data before the client has connected first
         # time.
-        return unless client?.init?.self_entity
-        ipcsend 'init',
-            init: client.init
-            recorded: recorded
+        return false unless client?.init?.self_entity
+        ipcsend 'init', init: client.init
+        return true
 
     # keeps trying to connec the hangupsjs and communicates those
     # attempts to the client.
-    do reconnect = ->
-        client.connect(creds).then ->
-            # send without being prompted on startup
-            sendInit()
+    reconnect = -> client.connect(creds)
+
+    # first connect
+    reconnect().then ->
+        # send without being prompted on startup
+        sendInit()
 
     # client deals with window sizing
     mainWindow.on 'resize', (ev) -> ipcsend 'resize', mainWindow.getSize()
@@ -110,7 +108,7 @@ app.on 'ready', ->
 
     # when client requests (re-)init since the first init
     # object is sent as soon as possible on startup
-    ipc.on 'reqinit', sendInit
+    ipc.on 'reqinit', -> syncrecent() if sendInit()
 
     # sendchatmessage, executed sequentially and
     # retried if not sent successfully
@@ -204,7 +202,7 @@ app.on 'ready', ->
     , false, (ev, time) -> 1
 
     # no retry, just one single request
-    ipc.on 'syncrecentconversations', seqreq (ev) ->
+    ipc.on 'syncrecentconversations', syncrecent = seqreq (ev) ->
         client.syncrecentconversations().then (r) ->
             ipcsend 'syncrecentconversations:response', r
     , false, (ev, time) -> 1
@@ -212,7 +210,6 @@ app.on 'ready', ->
     # propagate these events to the renderer
     require('./ui/events').forEach (n) ->
         client.on n, (e) ->
-            recorded.push [n, e]
             ipcsend n, e
 
 

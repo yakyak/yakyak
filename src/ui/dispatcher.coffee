@@ -16,9 +16,7 @@ handle 'reqinit', ->
     viewstate.setState viewstate.STATE_STARTUP
 
 module.exports =
-    init: ({init, recorded}) ->
-        action 'init', init
-        action n, e for [n, e] in recorded
+    init: ({init}) -> action 'init', init
 
 
 handle 'init', (init) ->
