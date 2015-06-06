@@ -51,7 +51,7 @@ handle 'atbottom', (atbottom) ->
 handle 'selectConv', (conv) ->
     viewstate.setState viewstate.STATE_NORMAL
     viewstate.setSelectedConv conv
-
+    ipc.send 'setfocus', viewstate.selectedConv
 
 handle 'sendmessage', (txt) ->
     msg = userinput.buildChatMessage txt
@@ -59,7 +59,12 @@ handle 'sendmessage', (txt) ->
     conv.addChatMessagePlaceholder entity.self.id, msg
 
 
-handle 'update:lastActivity', throttle 10000, -> ipc.send 'setpresence'
+sendsetpresence = throttle 10000, -> ipc.send 'setpresence'
+resendfocus = throttle 15000, -> ipc.send 'setfocus', viewstate.selectedConv
+
+handle 'update:lastActivity', ->
+    sendsetpresence()
+    resendfocus() if document.hasFocus()
 
 
 handle 'update:watermark', do ->

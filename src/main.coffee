@@ -152,6 +152,11 @@ app.on 'ready', ->
         client.deleteconversation conv_id
     , true
 
+    # no retries, dedupe on conv_id
+    ipc.on 'setfocus', seqreq (ev, conv_id) ->
+        client.setfocus conv_id
+    , false, (ev, conv_id) -> conv_id
+
     ipc.on 'searchentities', (ev, query, max_results) ->
         promise = client.searchentities query, max_results
         promise.then (res) ->
