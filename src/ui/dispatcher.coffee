@@ -99,6 +99,14 @@ handle 'drop', (files) ->
         # and begin upload
         ipc.send 'uploadimage', {path:file.path, conv_id, client_generated_id}
 
+handle 'onpasteimage', ->
+    conv_id = viewstate.selectedConv
+    return unless conv_id
+    msg = userinput.buildChatMessage 'uploading image'
+    {client_generated_id} = msg
+    conv.addChatMessagePlaceholder entity.self.id, msg
+    ipc.send 'uploadclipboardimage', {conv_id, client_generated_id}
+
 
 handle 'leftresize', (size) -> viewstate.setLeftSize size
 handle 'resize', (dim) -> viewstate.setSize dim

@@ -1,4 +1,5 @@
 autosize = require 'autosize'
+clipboard = require 'clipboard'
 
 {later} = require '../util'
 
@@ -50,6 +51,8 @@ module.exports = view (models) ->
                     if e.keyIdentifier is "Up" then historyWalk e.target, -1
                     if e.keyIdentifier is "Down" then historyWalk e.target, +1
             action 'lastkeydown', Date.now() unless isAltCtrlMeta(e)
+        , onpaste: (e) -> action 'onpasteimage' if not clipboard.readImage().isEmpty()
+
 
     # focus when switching convs
     if lastConv != models.viewstate.selectedConv

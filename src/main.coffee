@@ -142,6 +142,18 @@ app.on 'ready', ->
             client.sendchatmessage conv_id, null, image_id, null, client_generated_id
     , true
 
+    # we want to upload. in the order specified, with retry
+    ipc.on 'uploadclipboardimage', seqreq (ev, spec) ->
+        {conv_id, client_generated_id} = spec
+        path = '/tmp/tmp.png'
+        clipboard = require 'clipboard'
+        pngData = clipboard.readImage().toPng()
+        fs.writeFileSync path, pngData
+        client.uploadimage(path).then (image_id) ->
+            client.sendchatmessage conv_id, null, image_id, null, client_generated_id
+    , true
+    
+
     # retry only last per conv_id
     ipc.on 'setconversationnotificationlevel', seqreq (ev, conv_id, level) ->
         client.setconversationnotificationlevel conv_id, level
