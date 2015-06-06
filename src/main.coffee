@@ -20,9 +20,10 @@ client = new Client
     rtokenpath:  paths.rtokenpath
     cookiespath: paths.cookiespath
 
+plug = (rs, rj) -> (err, val) -> if err then rj(err) else rs(val)
+
 logout = ->
     promise = client.logout()
-    plug = (rs, rj) -> (err, val) -> if err then rj(err) else rs(val)
     rm = (path) -> Q.Promise((rs, rj) -> fs.unlink(path, plug(rs, rj))).fail (err) ->
         if err.code == 'ENOENT' then null else Q.reject(err)
     promise = promise.then ->
@@ -148,11 +149,13 @@ app.on 'ready', ->
         path = '/tmp/tmp.png'
         clipboard = require 'clipboard'
         pngData = clipboard.readImage().toPng()
-        fs.writeFileSync path, pngData
-        client.uploadimage(path).then (image_id) ->
+        Q.Promise (rs, rj) ->
+            fs.writeFile path, pngData, plug(rs, rj)
+        .then ->
+            client.uploadimage(path)
+        .then (image_id) ->
             client.sendchatmessage conv_id, null, image_id, null, client_generated_id
     , true
-    
 
     # retry only last per conv_id
     ipc.on 'setconversationnotificationlevel', seqreq (ev, conv_id, level) ->
