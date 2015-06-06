@@ -39,7 +39,6 @@ addChatMessage = (msg) ->
     cpos = findClientGenerated conv, msg?.self_event_state?.client_generated_id
     unless cpos
         cpos = findByEventId conv, msg.event_id
-        console.log cpos if cpos
     if cpos
         # replace event by position
         conv.event[cpos] = msg
