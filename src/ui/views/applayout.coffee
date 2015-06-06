@@ -50,7 +50,7 @@ resize = do ->
     }
 
 resizers =
-    leftResize: (ev) -> action 'leftresize', ev.clientX
+    leftResize: (ev) -> action 'leftresize', ev.clientX if ev.clientX > 10
 
 
 module.exports = layout ->
