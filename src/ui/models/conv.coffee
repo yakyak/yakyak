@@ -37,8 +37,11 @@ addChatMessage = (msg) ->
     # we can add message placeholder that needs replacing when
     # the real event drops in. if we find the same event id.
     cpos = findClientGenerated conv, msg?.self_event_state?.client_generated_id
+    unless cpos
+        cpos = findByEventId conv, msg.event_id
+        console.log cpos if cpos
     if cpos
-        # replace
+        # replace event by position
         conv.event[cpos] = msg
     else
         # add last
@@ -67,6 +70,12 @@ findClientGenerated = (conv, client_generated_id) ->
     return unless client_generated_id
     for e, i in conv.event ? []
         return i if e.self_event_state?.client_generated_id == client_generated_id
+
+findByEventId = (conv, event_id) ->
+    return unless event_id
+    for e, i in conv.event ? []
+        return i if e.event_id == event_id
+
 
 # this is used when sending new messages, we add a placeholder with
 # the correct client_generated_id. this entry will be replaced in
@@ -159,6 +168,14 @@ funcs =
         delete lookup[conv_id]
         viewstate.setSelectedConv null
         updated 'conv'
+    replaceEventsFromStates: (states) ->
+        for st in states
+            conv_id = st?.conversation_id?.id
+            continue unless c = lookup[conv_id] and st.event
+            c.event = st.event
+        updated 'conv'
+
+
 
     isQuiet: isQuiet
 

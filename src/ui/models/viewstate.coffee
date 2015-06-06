@@ -2,7 +2,7 @@ Client = require 'hangupsjs'
 
 merge   = (t, os...) -> t[k] = v for k,v of o when v not in [null, undefined] for o in os; t
 
-{throttle, later} = require '../util'
+{throttle, later, tryparse} = require '../util'
 
 STATES =
     STATE_STARTUP: 'startup'
@@ -14,13 +14,17 @@ module.exports = exp = {
     atbottom: true # tells whether message list is scrolled to bottom
     selectedConv: localStorage.selectedConv
     lastActivity: null
-    leftSize: localStorage.leftSize ? 200
-    size: JSON.parse(localStorage.size ? "[940, 600]")
-    pos: JSON.parse(localStorage.pos ? "[100, 100]")
+    leftSize: tryparse(localStorage.leftSize) ? 200
+    size: tryparse(localStorage.size ? "[940, 600]")
+    pos: tryparse(localStorage.pos ? "[100, 100]")
 
     setState: (state) ->
         return if @state == state
         @state = state
+        if state == STATES.STATE_STARTUP
+            # set a first active timestamp to avoid requesting
+            # syncallnewevents on startup
+            require('./connection').setLastActive(Date.now(), true)
         updated 'viewstate'
 
     setSelectedConv: (c) ->
@@ -78,9 +82,13 @@ module.exports = exp = {
                     later -> action 'settyping', TYPING
                     lastEmitted = time
                 timeout = setTimeout ->
+                    # after 6 secods of no keyboard, we consider the
+                    # user took a break.
                     lastEmitted = 0
                     action 'settyping', PAUSED
                     timeout = setTimeout ->
+                        # and after another 6 seconds (12 total), we
+                        # consider the typing stopped altogether.
                         action 'settyping', STOPPED
                     , 6000
                 , 6000

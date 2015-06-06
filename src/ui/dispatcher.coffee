@@ -168,3 +168,21 @@ handle 'settyping', (v) ->
 
 handle 'typing', (t) ->
     # console.log t
+
+handle 'syncallnewevents', throttle 10000, (time) ->
+    return unless time
+    ipc.send 'syncallnewevents', time
+handle 'handlesyncedevents', (r) ->
+    states = r?.conversation_state
+    return unless states?.length
+    for st in states
+        for e in (st?.event ? [])
+            conv.addChatMessage e
+    null
+
+
+handle 'syncrecentconversations', throttle 10000, ->
+    ipc.send 'syncrecentconversations'
+handle 'handlerecentconversations', (r) ->
+    return unless st = r.conversation_state
+    conv.replaceEventsFromStates st

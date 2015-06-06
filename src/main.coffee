@@ -191,8 +191,23 @@ app.on 'ready', ->
         promise = promise.then (res) ->
             ipcsend 'createconversation:result', conv, name
 
-    ipc.on 'getentity', (ev, ids) -> client.getentitybyid(ids).then (r) ->
-        ipcsend 'getentity:result', r
+    # no retries, just dedupe on the ids
+    ipc.on 'getentity', seqreq (ev, ids) ->
+        client.getentitybyid(ids).then (r) ->
+            ipcsend 'getentity:result', r
+    , false, (ev, ids) -> ids.sort().join(',')
+
+    # no retry, just one single request
+    ipc.on 'syncallnewevents', seqreq (ev, time) ->
+        client.syncallnewevents(time).then (r) ->
+            ipcsend 'syncallnewevents:response', r
+    , false, (ev, time) -> 1
+
+    # no retry, just one single request
+    ipc.on 'syncrecentconversations', seqreq (ev) ->
+        client.syncrecentconversations().then (r) ->
+            ipcsend 'syncrecentconversations:response', r
+    , false, (ev, time) -> 1
 
     # propagate these events to the renderer
     require('./ui/events').forEach (n) ->

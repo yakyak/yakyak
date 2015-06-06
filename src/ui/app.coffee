@@ -42,6 +42,8 @@ ipc.on 'createconversation:result', (c, name) ->
     c.name = name if name
     action 'createconversationdone', c
     action 'setstate', viewstate.STATE_NORMAL
+ipc.on 'syncallnewevents:response', (r) -> action 'handlesyncedevents', r
+ipc.on 'syncrecentconversations:response', (r) -> action 'handlerecentconversations', r
 
 # init dispatcher/controller
 require './dispatcher'
