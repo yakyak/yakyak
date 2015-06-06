@@ -3,6 +3,7 @@ module.exports = exp = {
     # but we plan to make this more generic
     searchedEntities: []
     selectedEntities: []
+    name: null
 
     setSearchedEntities: (entities) ->
         @searchedEntities = entities or []
@@ -21,5 +22,7 @@ module.exports = exp = {
         updated 'selectedEntities'
 
     setSelectedEntities: (entities) -> @selectedEntities = entities or [] # no need to update
+
+    setName: (name) -> @name = name
 }
 

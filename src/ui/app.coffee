@@ -37,8 +37,9 @@ ipc.on 'resize', (dim) -> action 'resize', dim
 ipc.on 'moved', (pos)  -> action 'moved', pos
 ipc.on 'searchentities:result', (r) ->
   action 'setsearchedentities', r.entity
-ipc.on 'createconversation:result', (c) ->
+ipc.on 'createconversation:result', (c, name) ->
     c.conversation_id = c.id # fix conversation payload
+    c.name = name if name
     action 'createconversationdone', c
     action 'setstate', viewstate.STATE_NORMAL
 

@@ -16,6 +16,11 @@ module.exports = view (models) ->
 
     div class: 'input', ->
         div ->
+          input '', placeholder:'Conversation name', onkeyup: (e) ->
+              action 'conversationname', e.currentTarget.value
+    
+    div class: 'input', ->
+        div ->
           input '', placeholder:'Search people', onkeyup: (e) ->
               chilledaction 'searchentities', e.currentTarget.value, 7
 

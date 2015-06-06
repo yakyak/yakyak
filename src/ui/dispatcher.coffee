@@ -108,6 +108,8 @@ handle 'moved', (pos) -> viewstate.setPosition pos
 # messages.coffee and set directly in model
 handle 'imgload', (conv_id) -> updated 'conv'
 
+handle 'conversationname', (name) ->
+  convsettings.setName name
 handle 'searchentities', (query, max_results) ->
   ipc.send 'searchentities', query, max_results
 handle 'setsearchedentities', (r) ->
@@ -117,7 +119,8 @@ handle 'deselectentity', (e) -> convsettings.removeSelectedEntity e
 
 handle 'createconversation', ->
     ids = (e.id.chat_id for e in convsettings.selectedEntities)
-    ipc.send 'createconversation', ids
+    name = convsettings.name
+    ipc.send 'createconversation', ids, name
 handle 'createconversationdone', (c) ->
     convsettings.setSearchedEntities []
     convsettings.setSelectedEntities []

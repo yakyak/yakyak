@@ -166,12 +166,15 @@ app.on 'ready', ->
         promise = client.searchentities query, max_results
         promise.then (res) ->
             ipcsend 'searchentities:result', res
-    ipc.on 'createconversation', (ev, ids) ->
+    ipc.on 'createconversation', (ev, ids, name) ->
         promise = client.createconversation ids
+        conv = null
         promise.then (res) ->
             conv = res.conversation
-            ipcsend 'createconversation:result', conv
-        promise.fail (err) -> console.log 'error', err
+            conv_id = conv.id.id
+            client.renameconversation conv_id, name if name
+        promise = promise.then (res) ->
+            ipcsend 'createconversation:result', conv, name
 
     ipc.on 'getentity', (ev, ids) -> client.getentitybyid(ids).then (r) ->
         ipcsend 'getentity:result', r
