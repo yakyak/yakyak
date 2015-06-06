@@ -62,12 +62,12 @@ handle 'sendmessage', (txt) ->
 sendsetpresence = throttle 10000, -> ipc.send 'setpresence'
 resendfocus = throttle 15000, -> ipc.send 'setfocus', viewstate.selectedConv
 
-handle 'update:lastActivity', ->
+handle 'lastActivity', ->
     sendsetpresence()
     resendfocus() if document.hasFocus()
 
 
-handle 'update:watermark', do ->
+handle 'updatewatermark', do ->
     throttleWaterByConv = {}
     ->
         conv_id = viewstate.selectedConv
@@ -147,3 +147,13 @@ handle 'deleteconv', ->
     conv_id = viewstate.selectedConv
     if confirm 'Really delete conversation?'
         ipc.send 'deleteconversation', conv_id
+
+
+handle 'lastkeydown', (time) -> viewstate.setLastKeyDown time
+handle 'settyping', (v) ->
+    conv_id = viewstate.selectedConv
+    return unless conv_id and viewstate.state == viewstate.STATE_NORMAL
+    ipc.send 'settyping', conv_id, v
+
+handle 'typing', (t) ->
+    # console.log t

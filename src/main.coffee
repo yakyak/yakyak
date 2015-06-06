@@ -157,6 +157,11 @@ app.on 'ready', ->
         client.setfocus conv_id
     , false, (ev, conv_id) -> conv_id
 
+    # no retries, dedupe on conv_id
+    ipc.on 'settyping', seqreq (ev, conv_id, v) ->
+        client.settyping conv_id, v
+    , false, (ev, conv_id) -> conv_id
+
     ipc.on 'searchentities', (ev, query, max_results) ->
         promise = client.searchentities query, max_results
         promise.then (res) ->

@@ -2,7 +2,8 @@ autosize = require 'autosize'
 
 {later} = require './vutil'
 
-isModifierKey = (ev) -> ev.ctrlKey || ev.metaKey || ev.shiftKey
+isModifierKey = (ev) -> ev.altKey || ev.ctrlKey || ev.metaKey || ev.shiftKey
+isAltCtrlMeta = (ev) -> ev.altKey || ev.ctrlKey || ev.metaKey
 
 cursorToEnd = (el) -> el.selectionStart = el.selectionEnd = el.value.length
 
@@ -38,16 +39,17 @@ module.exports = view (models) ->
             ta = e.target
             later -> autosize ta
         , onkeydown: (e) ->
-            return if isModifierKey e
-            if e.keyCode == 13
-                e.preventDefault()
-                action 'sendmessage', e.target.value
-                historyPush e.target.value
-                e.target.value = ''
-                autosize.update e.target
-            if e.target.value == ''
-                if e.keyIdentifier is "Up" then historyWalk e.target, -1
-                if e.keyIdentifier is "Down" then historyWalk e.target, +1
+            unless isModifierKey(e)
+                if e.keyCode == 13
+                    e.preventDefault()
+                    action 'sendmessage', e.target.value
+                    historyPush e.target.value
+                    e.target.value = ''
+                    autosize.update e.target
+                if e.target.value == ''
+                    if e.keyIdentifier is "Up" then historyWalk e.target, -1
+                    if e.keyIdentifier is "Down" then historyWalk e.target, +1
+            action 'lastkeydown', Date.now() unless isAltCtrlMeta(e)
 
     # focus when switching convs
     if lastConv != models.viewstate.selectedConv

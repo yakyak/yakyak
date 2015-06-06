@@ -1,5 +1,8 @@
+Client = require 'hangupsjs'
 
 merge   = (t, os...) -> t[k] = v for k,v of o when v not in [null, undefined] for o in os; t
+
+{throttle, later} = require '../views/vutil'
 
 STATES =
     STATE_STARTUP: 'startup'
@@ -27,6 +30,7 @@ module.exports = exp = {
             conv_id = conv.list()?[0]?.conversation_id?.id
         return if @selectedConv == conv_id
         @selectedConv = localStorage.selectedConv = conv_id
+        @setLastKeyDown 0
         updated 'viewstate'
 
     updateAtBottom: (atbottom) ->
@@ -37,12 +41,13 @@ module.exports = exp = {
     updateActivity: (time) ->
         conv = require './conv' # circular
         @lastActivity = time
-        updated 'lastActivity'
+        later -> action 'lastActivity'
         return unless document.hasFocus() and @atbottom and @state == STATES.STATE_NORMAL
         c = conv[@selectedConv]
         return unless c
         ur = conv.unread c
-        updated 'watermark' if ur > 0
+        if ur > 0
+            later -> action 'updatewatermark'
 
     setSize: (size) ->
         localStorage.size = JSON.stringify(size)
@@ -58,6 +63,27 @@ module.exports = exp = {
         return if @leftSize == size
         @leftSize = localStorage.leftSize = size
         updated 'viewstate'
+
+    setLastKeyDown: do ->
+        {TYPING, PAUSED, STOPPED} = Client.TypingStatus
+        lastEmitted = 0
+        timeout = 0
+        update = throttle 500, (time) ->
+            clearTimeout timeout if timeout
+            timeout = null
+            unless time
+                lastEmitted = 0
+            else
+                if time - lastEmitted > 5000
+                    later -> action 'settyping', TYPING
+                    lastEmitted = time
+                timeout = setTimeout ->
+                    lastEmitted = 0
+                    action 'settyping', PAUSED
+                    timeout = setTimeout ->
+                        action 'settyping', STOPPED
+                    , 6000
+                , 6000
 
 }
 
