@@ -1,4 +1,3 @@
-conv = require './conv'
 
 merge   = (t, os...) -> t[k] = v for k,v of o when v not in [null, undefined] for o in os; t
 
@@ -21,10 +20,13 @@ module.exports = exp = {
         @state = state
         updated 'viewstate'
 
-    setSelectedConv: (conv) ->
-        conv = conv?.conversation_id?.id ? conv?.id ? conv
-        return if @selectedConv == conv
-        @selectedConv = localStorage.selectedConv = conv
+    setSelectedConv: (c) ->
+        conv = require './conv' # circular
+        conv_id = c?.conversation_id?.id ? c?.id ? c
+        unless conv_id
+            conv_id = conv.list()?[0]?.conversation_id?.id
+        return if @selectedConv == conv_id
+        @selectedConv = localStorage.selectedConv = conv_id
         updated 'viewstate'
 
     updateAtBottom: (atbottom) ->
@@ -33,6 +35,7 @@ module.exports = exp = {
         @updateActivity Date.now()
 
     updateActivity: (time) ->
+        conv = require './conv' # circular
         @lastActivity = time
         updated 'lastActivity'
         return unless document.hasFocus() and @atbottom and @state == STATES.STATE_NORMAL

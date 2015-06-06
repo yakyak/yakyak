@@ -30,7 +30,7 @@ handle 'init', (init) ->
     entity._initFromEntities init.entities
     conv._initFromConvStates init.conv_states
     # ensure there's a selected conv
-    unless viewstate.selectedConv
+    unless conv[viewstate.selectedConv]
         viewstate.setSelectedConv conv.list()?[0]?.conversation_id
 
 handle 'chat_message', (ev) ->
