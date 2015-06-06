@@ -43,6 +43,7 @@ module.exports = exp = {
             display_name: p.display_name or p.fallback_name
       @id = c.conversation_id or c.id
       @name = c.name or ""
+      updated 'convsettings'
 
     reset: ->
       @searchedEntities = []
