@@ -44,8 +44,10 @@ module.exports = view (models) ->
                 action 'sendmessage', e.target.value
                 historyPush e.target.value
                 e.target.value = ''
-            if e.keyIdentifier is "Up" then historyWalk e.target, -1
-            if e.keyIdentifier is "Down" then historyWalk e.target, +1
+                autosize.update e.target
+            if e.target.value == ''
+                if e.keyIdentifier is "Up" then historyWalk e.target, -1
+                if e.keyIdentifier is "Down" then historyWalk e.target, +1
 
     # focus when switching convs
     if lastConv != models.viewstate.selectedConv
