@@ -42,6 +42,13 @@ handle 'watermark', (ev) ->
 handle 'addconversation', ->
     viewstate.setState viewstate.STATE_ADD_CONVERSATION
 
+handle 'convsettings', ->
+    id = viewstate.selectedConv
+    return unless conv[id]
+    convsettings.loadConversation conv[id]
+    console.log conv[id]
+    viewstate.setState viewstate.STATE_ADD_CONVERSATION
+    
 handle 'activity', (time) ->
     viewstate.updateActivity time
 
@@ -130,9 +137,7 @@ handle 'createconversation', ->
     name = convsettings.name
     ipc.send 'createconversation', ids, name
 handle 'createconversationdone', (c) ->
-    convsettings.setSearchedEntities []
-    convsettings.setSelectedEntities []
-    console.log JSON.stringify c, null, '  '
+    convsettings.reset()
     conv.add c
     viewstate.setSelectedConv c.id.id
 

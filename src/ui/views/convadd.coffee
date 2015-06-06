@@ -4,15 +4,20 @@ chilledaction = throttle 1500, action
 
 unique = (obj) -> obj.id.chat_id or obj.id.gaia_id
 
+photoUrlProtocolFix = (url) -> return "http:" + url if url.match /^.?\/\//; url
+
 module.exports = view (models) ->
   {convsettings} = models
 
   div class: 'convadd', ->
-    h1 'New conversation'
+    if convsettings.id
+        h1 'Conversation edit'
+    else
+        h1 'New conversation'
 
     div class: 'input', ->
         div ->
-          input '', placeholder:'Conversation name', onkeyup: (e) ->
+          input value: convsettings.name, placeholder:'Conversation name', onkeyup: (e) ->
               action 'conversationname', e.currentTarget.value
     
     div class: 'input', ->
@@ -24,7 +29,7 @@ module.exports = view (models) ->
       convsettings.selectedEntities.forEach (r) ->
         li class: 'selected', ->
           if r.properties.photo_url
-            img src: r.properties.photo_url
+            img src: photoUrlProtocolFix r.properties.photo_url
           else
             img src: "images/photo.jpg"
           p r.properties.display_name

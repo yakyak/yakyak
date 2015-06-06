@@ -1,9 +1,12 @@
+entity = require './entity'
+
 module.exports = exp = {
     # Current models are dedicated to 'add conversation' functionality
     # but we plan to make this more generic
     searchedEntities: []
     selectedEntities: []
-    name: null
+    name: ""
+    id: null
 
     setSearchedEntities: (entities) ->
         @searchedEntities = entities or []
@@ -24,5 +27,27 @@ module.exports = exp = {
     setSelectedEntities: (entities) -> @selectedEntities = entities or [] # no need to update
 
     setName: (name) -> @name = name
+    
+    loadConversation: (c) ->
+      @reset()
+      c.participant_data.forEach (p) =>
+        id = p.id.chat_id or p.id.gaia_id
+        if entity.isSelf id then return
+        p = entity[id]
+        @selectedEntities.push
+          id: chat_id: id
+          properties:
+            photo_url: p.photo_url
+            display_name: p.display_name or p.fallback_name
+      @id = c.conversation_id or c.id
+      @name = c.name or ""
+
+    reset: ->
+      @searchedEntities = []
+      @selectedEntities = []
+      @name = ""
+      @id = null
+
+
 }
 
