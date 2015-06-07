@@ -173,6 +173,14 @@ funcs =
         delete lookup[conv_id]
         viewstate.setSelectedConv null
         updated 'conv'
+    removeParticipants: (conv_id, ids) ->
+        return unless c = lookup[conv_id]
+        getId = (p) -> return p.id.chat_id or p.id.gaia_id
+        c.participant_data = (p for p in c.participant_data when getId(p) not in ids)
+    addParticipant: (conv_id, participant) ->
+        return unless c = lookup[conv_id]
+        console.log 'should add', participant
+        c.participant_data.push participant
     replaceEventsFromStates: (states) ->
         for st in states
             conv_id = st?.conversation_id?.id
