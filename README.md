@@ -50,8 +50,9 @@ What doesn't it do (yet?):
 
 This is an open source project. Please help us!
 
-It is based on [hangupsjs](https://github.com/algesten/hangupsjs) and
-[eletron (atom shell)](https://github.com/atom/electron).
+It is written in coffeescript (nodejs) based on
+[hangupsjs](https://github.com/algesten/hangupsjs) and
+[electron (atom shell)](https://github.com/atom/electron).
 
 ### Setup
 
