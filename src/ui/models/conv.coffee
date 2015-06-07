@@ -179,7 +179,6 @@ funcs =
         c.participant_data = (p for p in c.participant_data when getId(p) not in ids)
     addParticipant: (conv_id, participant) ->
         return unless c = lookup[conv_id]
-        console.log 'should add', participant
         c.participant_data.push participant
     replaceEventsFromStates: (states) ->
         for st in states

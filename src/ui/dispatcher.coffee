@@ -88,7 +88,11 @@ handle 'updatewatermark', do ->
 
 
 handle 'getentity', (ids) -> ipc.send 'getentity', ids
-handle 'addentities', (es) -> entity.add e for e in es ? []
+handle 'addentities', (es, conv_id) ->
+    entity.add e for e in es ? []
+    if conv_id # auto-add these ppl to a conv
+        r.entities.forEach (p) -> conv.addParticipant conv_id, p
+        viewstate.setState viewstate.STATE_NORMAL
 
 handle 'drop', (files) ->
     # this may change during upload
@@ -168,6 +172,7 @@ handle 'createconversationdone', (c) ->
     convsettings.reset()
     conv.add c
     viewstate.setSelectedConv c.id.id
+    viewstate.setState viewstate.STATE_NORMAL
 
 handle 'notification_level', (n) ->
     conv_id = n?[0]?[0]
@@ -189,11 +194,13 @@ handle 'delete', (a) ->
 
 handle 'deleteconv', ->
     conv_id = viewstate.selectedConv
+    viewstate.setState viewstate.STATE_NORMAL
     if confirm 'Really delete conversation?'
         ipc.send 'deleteconversation', conv_id
 
 handle 'leaveconv', ->
     conv_id = viewstate.selectedConv
+    viewstate.setState viewstate.STATE_NORMAL
     if confirm 'Do you really want to leave this conversation?'
         ipc.send 'removeuser', conv_id
 
