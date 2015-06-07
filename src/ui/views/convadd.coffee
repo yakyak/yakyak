@@ -36,6 +36,7 @@ module.exports = view (models) ->
                   placeholder:'Search people'
                   onkeyup: (e) ->
                       chilledaction 'searchentities', e.currentTarget.value, 7
+                      action 'conversationquery', e.currentTarget.value, 7
               inputSetValue '.search-input', convsettings.searchQuery
 
       ul ->

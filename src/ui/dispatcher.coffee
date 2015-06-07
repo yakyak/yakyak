@@ -124,8 +124,9 @@ handle 'imgload', (conv_id) -> updated 'conv'
 
 handle 'conversationname', (name) ->
   convsettings.setName name
-handle 'searchentities', (query, max_results) ->
+handle 'conversationquery', (query) ->
   convsettings.setSearchQuery query
+handle 'searchentities', (query, max_results) ->
   ipc.send 'searchentities', query, max_results
 handle 'setsearchedentities', (r) ->
   convsettings.setSearchedEntities r
