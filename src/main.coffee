@@ -198,9 +198,9 @@ app.on 'ready', ->
         client.renameconversation conv_id, newname # will trigger conversation_rename
 
     # no retries, just dedupe on the ids
-    ipc.on 'getentity', seqreq (ev, ids) ->
+    ipc.on 'getentity', seqreq (ev, ids, data) ->
         client.getentitybyid(ids).then (r) ->
-            ipcsend 'getentity:result', r
+            ipcsend 'getentity:result', r, data
     , false, (ev, ids) -> ids.sort().join(',')
 
     # no retry, just one single request
