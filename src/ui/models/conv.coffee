@@ -21,6 +21,11 @@ add = (conv) ->
     entity.add p for p in conv?.participant_data ? []
     lookup[id]
 
+rename = (conv, newname) ->
+    {id} = conv.conversation_id
+    lookup[id].name = newname
+    updated 'conv'
+
 addChatMessage = (msg) ->
     {id} = msg.conversation_id ? {}
     return unless id
@@ -153,6 +158,7 @@ funcs =
         c
 
     add:add
+    rename: rename
     addChatMessage: addChatMessage
     addChatMessagePlaceholder: addChatMessagePlaceholder
     addWatermark: addWatermark

@@ -151,6 +151,7 @@ handle 'saveconversation', ->
     ipc.send 'adduser', conv_id, toadd if toadd.length
     ipc.send 'renameconversation', conv_id, convsettings.name if needsRename
 
+handle 'conversation_rename', (c) -> conv.rename c, c.conversation_rename.new_name
 handle 'createconversationdone', (c) ->
     convsettings.reset()
     conv.add c
