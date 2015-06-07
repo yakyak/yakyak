@@ -47,7 +47,7 @@ module.exports = view (models) ->
                   else
                       img src: "images/photo.jpg"
                   p r.properties.display_name
-              , onclick:(e) -> action 'deselectentity', r
+              , onclick:(e) -> if not editing then action 'deselectentity', r 
 
           selected_ids = (unique(c) for c in convsettings.selectedEntities)
 
