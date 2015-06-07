@@ -51,7 +51,8 @@ What doesn't it do (yet?):
 This is an open source project. Please help us!
 
 It is written in coffeescript (nodejs) based on
-[hangupsjs](https://github.com/algesten/hangupsjs) and
+[hangupsjs](https://github.com/algesten/hangupsjs) using
+[trifl](http://algesten.github.io/trifl/) on top of
 [electron (atom shell)](https://github.com/atom/electron).
 
 ### Setup
