@@ -5,28 +5,66 @@ yakyak
 
 Desktop client for Google Hangouts
 
-## Setup
+(This app is in no way associated with or endorsed by Google)
+
+## Install it
+
+This a beta. We love bug reports!
+
+Mac OS X - download the [disk image here](https://github.com/yakyak/yakyak/releases/download/v0.0.1/Yakyak.dmg.zip).
+
+What does it do:
+
+* Send/receive chat messages
+* Create/change conversations (rename, add people)
+* Leave/delete conversation
+* Notifications
+* Toggle notifications on/off
+* Drag-drop or copy-paste images
+* Hangupsbot sync room aware (no bot name, proper user pics)
+* Show inline images
+* Send presence/focus/typing to behave like a proper client
+
+What doesn't it do (yet?):
+
+* History scrollback
+* Proper video/audio integration (plan to open in chrome)
+* Focus/typing indications (mainly a design issue. keep it clean)
+* Have a serious icon
+* Windows binary (though that should be easy)
+
+![yakyak](https://cloud.githubusercontent.com/assets/227204/8025251/07d3ad20-0d4f-11e5-9d97-4e695eeb76bd.png)
+
+
+## Developing
+
+This is an open source project. Please help us!
+
+It is based on [hangupsjs](https://github.com/algesten/hangupsjs) and
+[eletron (atom shell)](https://github.com/atom/electron).
+
+### Setup
 
 ```bash
 $ npm install
 $ gulp
 ```
 
-## Continuous build
+### Continuous build
 
 ```
 $ gulp watch
 ```
 
-## Run it
+### Run it
 
 ```
 $ electron app
 ```
 
-## Structure
+### Structure
 
 - `src/`: is where sources live
-- `src/ui/`: holds renderer code
+- `src/ui/`: holds renderer code (client side)
 - `Yakyak.app/`: is where the app is built
 - `Yakyak.app/Contents/Resources/app/`: specifically all is compiled to here
