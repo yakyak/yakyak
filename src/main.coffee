@@ -192,7 +192,7 @@ app.on 'ready', ->
             client.renameconversation conv_id, name if name
         promise = promise.then (res) ->
             ipcsend 'createconversation:result', conv, name
-    ipc.on 'adduser', (ev, conv_id, toadd, name) ->
+    ipc.on 'adduser', (ev, conv_id, toadd) ->
         client.adduser conv_id, toadd # will automatically trigger membership_change
     ipc.on 'renameconversation', (ev, conv_id, newname) ->
         client.renameconversation conv_id, newname # will trigger conversation_rename
