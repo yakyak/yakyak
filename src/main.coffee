@@ -215,6 +215,10 @@ app.on 'ready', ->
         console.log 'syncrecent'
         client.syncrecentconversations().then (r) ->
             ipcsend 'syncrecentconversations:response', r
+            # this is because we use syncrecent on reqinit (dev-mode
+            # refresh). if we succeeded getting a response, we call it
+            # connected.
+            ipcsend 'connected'
     , false, (ev, time) -> 1
 
     # propagate these events to the renderer
