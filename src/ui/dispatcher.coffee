@@ -138,9 +138,10 @@ handle 'selectentity', (e) -> convsettings.addSelectedEntity e
 handle 'deselectentity', (e) -> convsettings.removeSelectedEntity e
 
 handle 'saveconversation', ->
+    viewstate.setState viewstate.STATE_NORMAL
     conv_id = convsettings.id
     c = conv[conv_id]
-    one_to_one = c?.type?.indexOf('ONE_TO_ONE') > 0
+    one_to_one = c?.type?.indexOf('ONE_TO_ONE') >= 0
     selected = (e.id.chat_id for e in convsettings.selectedEntities)
     needsRename = convsettings.name and convsettings.name != c?.name
     recreate = conv_id and one_to_one and convsettings.selectedEntities.length > 1
@@ -158,7 +159,6 @@ handle 'saveconversation', ->
 
 handle 'conversation_rename', (c) ->
     conv.rename c, c.conversation_rename.new_name
-    viewstate.setState viewstate.STATE_NORMAL
 
 handle 'membership_change', (e) ->
     conv_id = e.conversation_id.id
@@ -173,7 +173,6 @@ handle 'createconversationdone', (c) ->
     convsettings.reset()
     conv.add c
     viewstate.setSelectedConv c.id.id
-    viewstate.setState viewstate.STATE_NORMAL
 
 handle 'notification_level', (n) ->
     conv_id = n?[0]?[0]
@@ -195,7 +194,6 @@ handle 'delete', (a) ->
 
 handle 'deleteconv', (confirmed) ->
     conv_id = viewstate.selectedConv
-    viewstate.setState viewstate.STATE_NORMAL
     unless confirmed
         later -> if confirm 'Really delete conversation?'
             action 'deleteconv', true
@@ -204,7 +202,6 @@ handle 'deleteconv', (confirmed) ->
 
 handle 'leaveconv', (confirmed) ->
     conv_id = viewstate.selectedConv
-    viewstate.setState viewstate.STATE_NORMAL
     unless confirmed
         later -> if confirm 'Really leave conversation?'
             action 'leaveconv', true
@@ -239,7 +236,8 @@ handle 'handlerecentconversations', (r) ->
     return unless st = r.conversation_state
     conv.replaceEventsFromStates st
 
-handle 'client_conversation', (c) -> conv.add c
+handle 'client_conversation', (c) ->
+    conv.add c unless conv[c?.conversation_id?.id]
 
 'hangout_event conversation_notification'.split(' ').forEach (n) ->
     handle n, (as...) -> console.log n, as...

@@ -68,4 +68,4 @@ module.exports = view (models) ->
       div ->
           disabled = null
           if convsettings.selectedEntities.length <= 0 then disabled = disabled: 'disabled'
-          button disabled, "Save", onclick:-> action 'saveconversation'
+          button disabled, "OK", onclick:-> action 'saveconversation'
