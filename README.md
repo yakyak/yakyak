@@ -35,6 +35,16 @@ What doesn't it do (yet?):
 
 ![yakyak](https://cloud.githubusercontent.com/assets/227204/8025251/07d3ad20-0d4f-11e5-9d97-4e695eeb76bd.png)
 
+## Credits
+
+#### Main authors
+
+* [Davide Bertola](https://github.com/davibe)
+* [Martin Algesten](https://github.com/algesten)
+
+#### Contributors
+
+* Someone soon... (we hope)
 
 ## Developing
 
