@@ -1,10 +1,10 @@
 
-{throttle} = require '../util'
+{throttle, nameof} = require '../util'
 chilledaction = throttle 1500, action
 
 unique = (obj) -> obj.id.chat_id or obj.id.gaia_id
 
-photoUrlProtocolFix = (url) -> return "http:" + url if url.match /^.?\/\//; url
+photoUrlProtocolFix = (url) -> return "http:" + url if url?.indexOf('//') == 0
 
 inputSetValue = (sel, val) ->
     setTimeout ->
@@ -14,7 +14,7 @@ inputSetValue = (sel, val) ->
     null
 
 module.exports = view (models) ->
-    {convsettings} = models
+    {convsettings, entity} = models
     editing = convsettings.id != null
 
     div class: 'convadd', ->
@@ -28,7 +28,7 @@ module.exports = view (models) ->
                   onkeyup: (e) ->
                       action 'conversationname', e.currentTarget.value
               inputSetValue '.name-input', convsettings.name
-      
+
       div class: 'input', ->
           div ->
               input
@@ -41,23 +41,27 @@ module.exports = view (models) ->
 
       ul ->
           convsettings.selectedEntities.forEach (r) ->
+              cid = r?.id?.chat_id
               li class: 'selected', ->
-                  if r.properties.photo_url
-                      img src: photoUrlProtocolFix r.properties.photo_url
+                  if purl = r.properties.photo_url ? entity[cid].photo_url
+                      img src:photoUrlProtocolFix purl
                   else
-                      img src: "images/photo.jpg"
-                  p r.properties.display_name
-              , onclick:(e) -> if not editing then action 'deselectentity', r 
+                      img src:"images/photo.jpg"
+                      entity.needEntity cid
+                  p nameof r.properties
+              , onclick:(e) -> if not editing then action 'deselectentity', r
 
           selected_ids = (unique(c) for c in convsettings.selectedEntities)
 
           convsettings.searchedEntities.forEach (r) ->
+              cid = r?.id?.chat_id
               if unique(r) in selected_ids then return
               li ->
-                  if r.properties.photo_url
-                      img src: r.properties.photo_url
+                  if purl purl = r.properties.photo_url ? entity[cid].photo_url
+                      img src:photoUrlProtocolFix purl
                   else
-                      img src: "images/photo.jpg"
+                      img src:"images/photo.jpg"
+                      entity.needEntity cid
                   p r.properties.display_name
               , onclick:(e) -> action 'selectentity', r
 
@@ -65,5 +69,3 @@ module.exports = view (models) ->
           disabled = null
           if convsettings.selectedEntities.length <= 0 then disabled = disabled: 'disabled'
           button disabled, "Save", onclick:-> action 'saveconversation'
-
-
