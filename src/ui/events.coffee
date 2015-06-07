@@ -6,11 +6,16 @@ connected
 connect_failed
 noop
 chat_message
-membership_change
 conversation_rename
+notification_level
+delete
+membership_change
+client_conversation
+
 focus
 typing
 watermark
-notification_level
-delete
+
+hangout_event
+conversation_notification
 '.split(' ')

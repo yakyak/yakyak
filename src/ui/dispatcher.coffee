@@ -238,3 +238,8 @@ handle 'syncrecentconversations', throttle 10000, ->
 handle 'handlerecentconversations', (r) ->
     return unless st = r.conversation_state
     conv.replaceEventsFromStates st
+
+handle 'client_conversation', (c) -> conv.add c
+
+'hangout_event conversation_notification'.split(' ').forEach (n) ->
+    handle n, (as...) -> console.log n, as...
