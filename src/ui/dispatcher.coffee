@@ -1,4 +1,5 @@
 Client = require 'hangupsjs'
+shell = require 'shell'
 
 ipc = require 'ipc'
 
@@ -239,5 +240,11 @@ handle 'handlerecentconversations', (r) ->
 handle 'client_conversation', (c) ->
     conv.add c unless conv[c?.conversation_id?.id]
 
-'hangout_event conversation_notification'.split(' ').forEach (n) ->
+handle 'hangout_event', (e) ->
+    return unless e?.hangout_event?.event_type == 'START_HANGOUT'
+    return unless conv_id = e?.conversation_id?.id
+    #https://plus.google.com/hangouts/_/CONVERSATION/UgxspFf2-AM1dZ4d9lJ4AaABAQ?hl=en-GB&hscid=1433709105253579475&hpe=13g457g2acd23v&hpn=Davide%20Bertola&hisdn=Davide&hnc=0&hs=35
+    shell.openExternal "https://plus.google.com/hangouts/_/CONVERSATION/#{conv_id}"
+
+'conversation_notification'.split(' ').forEach (n) ->
     handle n, (as...) -> console.log n, as...
