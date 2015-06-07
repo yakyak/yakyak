@@ -12,7 +12,7 @@ hr'.split(' '))...
 ipc = require 'ipc'
 
 {applayout}    = require './views'
-{viewstate}    = require './models'
+{viewstate, conv}    = require './models'
 
 # tie layout to DOM
 document.body.appendChild applayout.el
@@ -32,7 +32,11 @@ ipc.on 'init', (e) -> dispatcher.init e
 # events from hangupsjs
 require('./events').forEach (n) -> ipc.on n, (e) -> action n, e
 # response from getentity
-ipc.on 'getentity:result', (r) -> action 'addentities', r.entities
+ipc.on 'getentity:result', (r, data) ->
+    action 'addentities', r.entities
+    conv_id = data?.add_to_conv
+    if conv_id then r.entities.forEach (p) -> conv.addParticipant conv_id, p
+
 ipc.on 'resize', (dim) -> action 'resize', dim
 ipc.on 'moved', (pos)  -> action 'moved', pos
 ipc.on 'searchentities:result', (r) ->
