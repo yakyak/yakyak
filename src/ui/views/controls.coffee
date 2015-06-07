@@ -19,5 +19,7 @@ module.exports = view (models) ->
         div class:'button', onclick:onclickaction('convsettings'), -> span class:'icon-cog'
         if c?.type?.indexOf('ONE_TO_ONE') > 0
             div class:'button', onclick:onclickaction('deleteconv'), -> span class:'icon-cancel'
+        else
+            div class:'button', onclick:onclickaction('leaveconv'), -> span class:'icon-cancel'
         div class:'fill'
         div class:'button', onclick:onclickaction('addconversation'), -> span class:'icon-plus'

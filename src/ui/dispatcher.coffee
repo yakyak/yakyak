@@ -180,6 +180,10 @@ handle 'deleteconv', ->
     if confirm 'Really delete conversation?'
         ipc.send 'deleteconversation', conv_id
 
+handle 'leaveconv', ->
+    conv_id = viewstate.selectedConv
+    if confirm 'Do you really want to leave this conversation?'
+        ipc.send 'removeuser', conv_id
 
 handle 'lastkeydown', (time) -> viewstate.setLastKeyDown time
 handle 'settyping', (v) ->

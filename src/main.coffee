@@ -165,6 +165,10 @@ app.on 'ready', ->
         client.deleteconversation conv_id
     , true
 
+    ipc.on 'removeuser', seqreq (ev, conv_id) ->
+        client.removeuser conv_id
+    , true
+
     # no retries, dedupe on conv_id
     ipc.on 'setfocus', seqreq (ev, conv_id) ->
         client.setfocus conv_id
