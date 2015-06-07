@@ -3,7 +3,7 @@ Client = require 'hangupsjs'
 ipc = require 'ipc'
 
 {entity, conv, viewstate, userinput, connection, convsettings} = require './models'
-{throttle} = require './util'
+{throttle, later} = require './util'
 
 'connecting connected connect_failed'.split(' ').forEach (n) ->
     handle n, -> connection.setState n
@@ -47,7 +47,7 @@ handle 'convsettings', ->
     convsettings.reset()
     convsettings.loadConversation conv[id]
     viewstate.setState viewstate.STATE_ADD_CONVERSATION
-    
+
 handle 'activity', (time) ->
     viewstate.updateActivity time
 
@@ -193,16 +193,22 @@ handle 'delete', (a) ->
     return unless c = conv[conv_id]
     conv.deleteConv conv_id
 
-handle 'deleteconv', ->
+handle 'deleteconv', (confirmed) ->
     conv_id = viewstate.selectedConv
     viewstate.setState viewstate.STATE_NORMAL
-    if confirm 'Really delete conversation?'
+    unless confirmed
+        later -> if confirm 'Really delete conversation?'
+            action 'deleteconv', true
+    else
         ipc.send 'deleteconversation', conv_id
 
-handle 'leaveconv', ->
+handle 'leaveconv', (confirmed) ->
     conv_id = viewstate.selectedConv
     viewstate.setState viewstate.STATE_NORMAL
-    if confirm 'Do you really want to leave this conversation?'
+    unless confirmed
+        later -> if confirm 'Really leave conversation?'
+            action 'leaveconv', true
+    else
         ipc.send 'removeuser', conv_id
 
 handle 'lastkeydown', (time) -> viewstate.setLastKeyDown time
@@ -213,6 +219,7 @@ handle 'settyping', (v) ->
 
 handle 'typing', (t) ->
     # console.log t
+
 
 handle 'syncallnewevents', throttle 10000, (time) ->
     return unless time

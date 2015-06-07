@@ -205,12 +205,14 @@ app.on 'ready', ->
 
     # no retry, just one single request
     ipc.on 'syncallnewevents', seqreq (ev, time) ->
+        console.log 'syncallnew'
         client.syncallnewevents(time).then (r) ->
             ipcsend 'syncallnewevents:response', r
     , false, (ev, time) -> 1
 
     # no retry, just one single request
     ipc.on 'syncrecentconversations', syncrecent = seqreq (ev) ->
+        console.log 'syncrecent'
         client.syncrecentconversations().then (r) ->
             ipcsend 'syncrecentconversations:response', r
     , false, (ev, time) -> 1
