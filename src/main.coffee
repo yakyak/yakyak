@@ -130,9 +130,9 @@ app.on 'ready', ->
 
     # getentity is not super important, the client will try again when encountering
     # entities without photo_url. so no retry, but do execute all such reqs
-    ipc.on 'getentity', seqreq (ev, ids) ->
-        client.getentitybyid(ids).then (r) -> ipcsend 'getentity:result', r
-    , false
+    # ipc.on 'getentity', seqreq (ev, ids) ->
+    #     client.getentitybyid(ids).then (r) -> ipcsend 'getentity:result', r
+    # , false
 
     # we want to upload. in the order specified, with retry
     ipc.on 'uploadimage', seqreq (ev, spec) ->
