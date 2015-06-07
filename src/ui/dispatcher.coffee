@@ -151,7 +151,9 @@ handle 'saveconversation', ->
     ipc.send 'adduser', conv_id, toadd if toadd.length
     ipc.send 'renameconversation', conv_id, convsettings.name if needsRename
 
-handle 'conversation_rename', (c) -> conv.rename c, c.conversation_rename.new_name
+handle 'conversation_rename', (c) ->
+    conv.rename c, c.conversation_rename.new_name
+
 handle 'membership_change', (e) ->
     conv_id = e.conversation_id.id
     ids = (id.chat_id or id.gaia_id for id in e.membership_change.participant_ids)
