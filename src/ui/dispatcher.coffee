@@ -152,6 +152,15 @@ handle 'saveconversation', ->
     ipc.send 'renameconversation', conv_id, convsettings.name if needsRename
 
 handle 'conversation_rename', (c) -> conv.rename c, c.conversation_rename.new_name
+handle 'membership_change', (e) ->
+    conv_id = e.conversation_id.id
+    ids = (id.chat_id or id.gaia_id for id in e.membership_change.participant_ids)
+    if e.membership_change.type == 'LEAVE'
+        if entity.self.id in ids
+            return conv.deleteConv conv_id
+        return conv.removeParticipants conv_id, ids
+    ipc.send 'getentity', ids, {add_to_conv: conv_id}
+
 handle 'createconversationdone', (c) ->
     convsettings.reset()
     conv.add c
