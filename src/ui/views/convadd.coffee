@@ -57,7 +57,7 @@ module.exports = view (models) ->
               cid = r?.id?.chat_id
               if unique(r) in selected_ids then return
               li ->
-                  if purl purl = r.properties.photo_url ? entity[cid].photo_url
+                  if purl = r.properties.photo_url ? entity[cid].photo_url
                       img src:photoUrlProtocolFix purl
                   else
                       img src:"images/photo.jpg"

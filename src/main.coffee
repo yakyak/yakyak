@@ -60,8 +60,8 @@ app.on 'ready', ->
 
     # Create the browser window.
     mainWindow = new BrowserWindow {
-        width: 620
-        height: 420
+        width: 730
+        height: 590
         "min-width": 620
         "min-height": 420
     }
