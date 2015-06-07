@@ -158,6 +158,7 @@ handle 'saveconversation', ->
 
 handle 'conversation_rename', (c) ->
     conv.rename c, c.conversation_rename.new_name
+    viewstate.setState viewstate.STATE_NORMAL
 
 handle 'membership_change', (e) ->
     conv_id = e.conversation_id.id
