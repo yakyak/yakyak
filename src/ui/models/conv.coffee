@@ -183,7 +183,7 @@ funcs =
     replaceEventsFromStates: (states) ->
         for st in states
             conv_id = st?.conversation_id?.id
-            continue unless c = lookup[conv_id] and st.event
+            continue unless (c = lookup[conv_id]) and st.event
             c.event = st.event
         updated 'conv'
 
