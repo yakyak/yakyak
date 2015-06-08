@@ -24,7 +24,7 @@ isAboutLink = (s) -> (/https:\/\/plus.google.com\/u\/0\/([0-9]+)\/about/.exec(s)
 getProxiedName = (e) ->
     s = e?.chat_message?.message_content?.segment?[0]
     return unless s
-    return s?.formatting?.bold == 1 and isAboutLink(s?.link_data?.link_target)
+    return s?.formatting?.bold and isAboutLink(s?.link_data?.link_target)
 
 tryparse = (s) -> try JSON.parse(s) catch err then undefined
 
