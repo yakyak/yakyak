@@ -164,6 +164,10 @@ funcs =
     addWatermark: addWatermark
     MAX_UNREAD: MAX_UNREAD
     unread: unread
+    unreadTotal: ->
+      sum = (a, b) -> return a + b
+      countunread = (c) -> 0 if isQuiet c; funcs.unread c
+      funcs.list().map(countunread).reduce sum
     setNotificationLevel: (conv_id, level) ->
         return unless c = lookup[conv_id]
         c.self_conversation_state?.notification_level = level

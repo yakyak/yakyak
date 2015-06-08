@@ -32,11 +32,15 @@ handle 'init', (init) ->
     unless conv[viewstate.selectedConv]
         viewstate.setSelectedConv conv.list()?[0]?.conversation_id
 
+updatebadge = throttle 3000, -> ipc.send 'updatebadge', conv.unreadTotal()
+
 handle 'chat_message', (ev) ->
     conv.addChatMessage ev
+    updatebadge()
 
 handle 'watermark', (ev) ->
     conv.addWatermark ev
+    updatebadge()
 
 handle 'addconversation', ->
     viewstate.setState viewstate.STATE_ADD_CONVERSATION
