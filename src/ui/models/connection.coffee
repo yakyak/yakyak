@@ -16,6 +16,7 @@ info =
 
 module.exports = exp =
     state: null # current connection state
+    disableLastActive: false
     lastActive: tryparse(localStorage.lastActive) ? 0 # last activity timestamp
 
     setState: (state) ->
@@ -26,6 +27,7 @@ module.exports = exp =
     infoText: -> info[@state] ? info.unknown
 
     setLastActive: (active, force) ->
+        return if @disableLastActive
         return if @lastActive == active
         timegap = active - @lastActive
         if not force and timegap > 10 * 60 * 1000
@@ -42,5 +44,7 @@ module.exports = exp =
         else
             @lastActive = localStorage.lastActive = active
         updated 'connection'
+
+    setDisableLastActive: (dis) -> @disableLastActive = dis
 
 merge exp, STATE

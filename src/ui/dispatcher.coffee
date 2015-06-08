@@ -225,21 +225,30 @@ handle 'typing', (t) ->
 
 handle 'syncallnewevents', throttle 10000, (time) ->
     return unless time
+    connection.setDisableLastActive true
     ipc.send 'syncallnewevents', time
 handle 'handlesyncedevents', (r) ->
-    states = r?.conversation_state
-    return unless states?.length
-    for st in states
-        for e in (st?.event ? [])
-            conv.addChatMessage e
-    null
+    try
+        states = r?.conversation_state
+        return unless states?.length
+        for st in states
+            for e in (st?.event ? [])
+                conv.addChatMessage e
+    finally
+        connection.setLastActive Date.now(), true
+        connection.setDisableLastActive false
 
 
 handle 'syncrecentconversations', throttle 10000, ->
+    connection.setDisableLastActive true
     ipc.send 'syncrecentconversations'
 handle 'handlerecentconversations', (r) ->
-    return unless st = r.conversation_state
-    conv.replaceEventsFromStates st
+    try
+        return unless st = r.conversation_state
+        conv.replaceEventsFromStates st
+    finally
+        connection.setLastActive Date.now(), true
+        connection.setDisableLastActive false
 
 handle 'client_conversation', (c) ->
     conv.add c unless conv[c?.conversation_id?.id]
@@ -250,5 +259,5 @@ handle 'hangout_event', (e) ->
     #https://plus.google.com/hangouts/_/CONVERSATION/UgxspFf2-AM1dZ4d9lJ4AaABAQ?hl=en-GB&hscid=1433709105253579475&hpe=13g457g2acd23v&hpn=Davide%20Bertola&hisdn=Davide&hnc=0&hs=35
     shell.openExternal "https://plus.google.com/hangouts/_/CONVERSATION/#{conv_id}"
 
-'conversation_notification'.split(' ').forEach (n) ->
+'presence reply_to_invite settings conversation_notification'.split(' ').forEach (n) ->
     handle n, (as...) -> console.log n, as...
