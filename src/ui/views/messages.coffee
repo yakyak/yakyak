@@ -145,19 +145,40 @@ format = (cont) ->
     null
 
 formatAttachment = (att) ->
-    {data, type_} = att?[0]?.embed_item ? {}
-    t = type_?[0]
-    return console.warn 'ignoring attachment type', t unless t == 249
-    k = Object.keys(data)?[0]
-    return unless k
-    href = data?[k]?[5]
-    thumb = data?[k]?[9]
+    if att?[0]?.embed_item?.type_
+        {href, thumb} = extractProtobufStyle(att)
+    else if att?[0]?.embed_item?.type
+        {href, thumb} = extractObjectStyle(att)
+    else
+        return console.warn 'ignoring attribute', att
     return unless href
     div class:'attach', ->
         a {href, onclick}, -> img src:href, onload: (ev) ->
             # changing the class name triggers the MutationObserver to
             # adjust the scroll position.
             ev.target.className = 'loaded'
+
+extractProtobufStyle = (att) ->
+    {data, type_} = att?[0]?.embed_item ? {}
+    t = type_?[0]
+    return console.warn 'ignoring (old) attachment type', att unless t == 249
+    k = Object.keys(data)?[0]
+    return unless k
+    href = data?[k]?[5]
+    thumb = data?[k]?[9]
+    {href, thumb}
+
+extractObjectStyle = (att) ->
+    eitem = att?[0]?.embed_item
+    {type} = eitem ? {}
+    if type?[0] == "PLUS_PHOTO"
+        it = eitem["embeds.PlusPhoto.plus_photo"]
+        href = it?.url
+        thumb = it?.thumbnail?.url
+        return {href, thumb}
+    else
+        console.warn 'ignoring (new) type', type
+
 
 isImg = (url) -> url?.match /\.(png|jpg|gif|svg)$/i
 
