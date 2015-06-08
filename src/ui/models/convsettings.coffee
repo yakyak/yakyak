@@ -5,6 +5,8 @@ module.exports = exp = {
     # but we plan to make this more generic
     searchedEntities: []
     selectedEntities: []
+    initialName: null
+    initialSearchQuery: null
     name: ""
     searchQuery: ""
     id: null
@@ -27,6 +29,12 @@ module.exports = exp = {
 
     setSelectedEntities: (entities) -> @selectedEntities = entities or [] # no need to update
 
+    setInitialName: (name) -> @initialName = name
+    getInitialName: -> v = @initialName; @initialName = null; v
+
+    setInitialSearchQuery: (query) -> @initialSearchQuery = query
+    getInitialSearchQuery: -> v = @initialSearchQuery; @initialSearchQuery = null; v
+
     setName: (name) -> @name = name
 
     setSearchQuery: (query) -> @searchQuery = query
@@ -42,12 +50,16 @@ module.exports = exp = {
                     photo_url: p.photo_url
                     display_name: p.display_name or p.fallback_name
         @id = c.conversation_id?.id or c.id?.id
-        @name = c.name or ""
+        @initialName = @name = c.name or ""
+        @initialSearchQuery = ""
+        
         updated 'convsettings'
 
     reset: ->
         @searchedEntities = []
         @selectedEntities = []
+        @initialName = ""
+        @initialSearchQuery = ""
         @searchQuery = ""
         @name = ""
         @id = null

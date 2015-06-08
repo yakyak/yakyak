@@ -6,6 +6,30 @@ unique = (obj) -> obj.id.chat_id or obj.id.gaia_id
 
 photoUrlProtocolFix = (url) -> if url?.indexOf('//') == 0 then "https:#{url}" else url
 
+mayRestoreInitialValues = (models) ->
+    # If there is an initial value we set it an then invalidate it
+    {convsettings} = models
+    initialName = convsettings.getInitialName()
+    if initialName != null
+        setTimeout ->
+            name = document.querySelector '.name-input'
+            name.value = initialName if name
+        , 1
+    initialSearchQuery = convsettings.getInitialSearchQuery()
+    if initialSearchQuery != null
+        setTimeout ->
+            search = document.querySelector '.search-input'
+            search.value = initialSearchQuery if search
+        , 1
+    null
+
+inputSetValue = (sel, val) ->
+    setTimeout ->
+        el = document.querySelector sel
+        el.value = val if el != null
+    , 1
+    null
+
 module.exports = view (models) ->
     {convsettings, entity} = models
     editing = convsettings.id != null
@@ -60,3 +84,5 @@ module.exports = view (models) ->
           disabled = null
           if convsettings.selectedEntities.length <= 0 then disabled = disabled: 'disabled'
           button disabled, "OK", onclick:-> action 'saveconversation'
+
+      mayRestoreInitialValues models

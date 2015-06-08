@@ -128,13 +128,13 @@ handle 'moved', (pos) -> viewstate.setPosition pos
 handle 'imgload', (conv_id) -> updated 'conv'
 
 handle 'conversationname', (name) ->
-  convsettings.setName name
+    convsettings.setName name
 handle 'conversationquery', (query) ->
-  convsettings.setSearchQuery query
+    convsettings.setSearchQuery query
 handle 'searchentities', (query, max_results) ->
-  ipc.send 'searchentities', query, max_results
+    ipc.send 'searchentities', query, max_results
 handle 'setsearchedentities', (r) ->
-  convsettings.setSearchedEntities r
+    convsettings.setSearchedEntities r
 handle 'selectentity', (e) -> convsettings.addSelectedEntity e
 handle 'deselectentity', (e) -> convsettings.removeSelectedEntity e
 
