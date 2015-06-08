@@ -125,7 +125,10 @@ ifpass = (t, f) -> if t then f else pass
 
 format = (cont) ->
     if cont?.attachment?.length
-        formatAttachment cont.attachment
+        try
+          formatAttachment cont.attachment
+        catch e
+          console.error e
     for seg, i in cont?.segment ? []
         continue if cont.proxied and i < 2
         continue unless seg.text
