@@ -6,3 +6,4 @@ module.exports =
     conninfo:  require './conninfo'
     convadd:   require './convadd'
     controls:  require './controls'
+    notifications: require './notifications'

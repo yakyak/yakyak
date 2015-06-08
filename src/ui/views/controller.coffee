@@ -1,6 +1,7 @@
 remote = require 'remote'
 
-{applayout, convlist, messages, input, conninfo, convadd, controls} = require './index'
+{applayout, convlist, messages, input, conninfo, convadd, controls,
+notifications} = require './index'
 
 models      = require '../models'
 {viewstate, connection} = models
@@ -68,6 +69,7 @@ handle 'update:selectedEntities', ->
 handle 'update:convsettings', -> redraw()
 
 redraw = ->
+    notifications models
     controls models
     convlist models
     messages models

@@ -52,23 +52,8 @@ addChatMessage = (msg) ->
         conv.event.push msg
     # update the sort timestamp to list conv first
     conv?.self_conversation_state?.sort_timestamp = msg.timestamp
-    if msg.chat_message?.message_content?
-        # deal with notification.
-        unless document?.hasFocus() or isQuiet(conv) or entity.isSelf(msg?.sender_id?.chat_id)
-            proxied = getProxiedName(msg)
-            cid = if proxied then proxied else msg?.sender_id?.chat_id
-            sender = nameof entity[cid]
-            text = textMessage msg.chat_message.message_content, proxied
-            new Notification sender, {body: text}
     updated 'conv'
     conv
-
-textMessage = (cont, proxied) ->
-    segs = for seg, i in cont?.segment ? []
-        continue if proxied and i < 2
-        continue unless seg.text
-        seg.text
-    segs.join('')
 
 findClientGenerated = (conv, client_generated_id) ->
     return unless client_generated_id
@@ -141,6 +126,8 @@ unread = (conv) ->
 
 isQuiet = (c) -> c?.self_conversation_state?.notification_level == 'QUIET'
 
+tonotify = []
+
 funcs =
     count: ->
         c = 0; (c++ for k, v of lookup when typeof v == 'object'); c
@@ -157,6 +144,12 @@ funcs =
         updated 'conv'
         c
 
+    addToNotify: (ev) -> tonotify.push ev
+    popToNotify: ->
+        return [] unless tonotify.length
+        t = tonotify
+        tonotify = []
+        return t
     add:add
     rename: rename
     addChatMessage: addChatMessage
@@ -167,7 +160,7 @@ funcs =
     unreadTotal: ->
       sum = (a, b) -> return a + b
       countunread = (c) -> 0 if isQuiet c; funcs.unread c
-      funcs.list().map(countunread).reduce sum
+      funcs.list().map(countunread).reduce(sum,0)
     setNotificationLevel: (conv_id, level) ->
         return unless c = lookup[conv_id]
         c.self_conversation_state?.notification_level = level

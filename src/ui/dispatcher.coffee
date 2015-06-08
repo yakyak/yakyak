@@ -36,6 +36,8 @@ updatebadge = throttle 3000, -> ipc.send 'updatebadge', conv.unreadTotal()
 
 handle 'chat_message', (ev) ->
     conv.addChatMessage ev
+    # these messages are to go through notifications
+    conv.addToNotify ev
     updatebadge()
 
 handle 'watermark', (ev) ->
