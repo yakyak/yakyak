@@ -263,4 +263,7 @@ handle 'hangout_event', (e) ->
 'presence reply_to_invite settings conversation_notification'.split(' ').forEach (n) ->
     handle n, (as...) -> console.log n, as...
 
-handle 'unreadtotal', (total) -> ipc.send 'updatebadge', total
+handle 'unreadtotal', (total, orMore) ->
+    value = ""
+    if total > 0 then value = total + (if orMore then "+" else "")
+    ipc.send 'updatebadge', value
