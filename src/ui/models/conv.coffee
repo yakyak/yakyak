@@ -1,6 +1,6 @@
 entity = require './entity'
 viewstate = require './viewstate'
-{nameof, getProxiedName}  = require '../util'
+{nameof, getProxiedName, later}  = require '../util'
 
 merge   = (t, os...) -> t[k] = v for k,v of o when v not in [null, undefined] for o in os; t
 
@@ -52,6 +52,7 @@ addChatMessage = (msg) ->
         conv.event.push msg
     # update the sort timestamp to list conv first
     conv?.self_conversation_state?.sort_timestamp = msg.timestamp
+    unreadTotal()
     updated 'conv'
     conv
 
@@ -105,6 +106,7 @@ addWatermark = (ev) ->
     islater = latest_read_timestamp > sr?.latest_read_timestamp
     if entity.isSelf(participant_id.chat_id) and sr and islater
         sr.latest_read_timestamp = latest_read_timestamp
+    unreadTotal()
     updated 'conv'
 
 uniqfn = (as, fn) -> bs = as.map fn; as.filter (e, i) -> bs.indexOf(bs[i]) == i
@@ -123,6 +125,16 @@ unread = (conv) ->
         c++ if e.chat_message and e.timestamp > t
         return MAX_UNREAD if c >= MAX_UNREAD
     c
+
+unreadTotal = do ->
+    current = 0
+    ->
+        sum = (a, b) -> return a + b
+        countunread = (c) -> if isQuiet(c) then 0 else funcs.unread c
+        newTotal = funcs.list(false).map(countunread).reduce(sum,0)
+        if current != newTotal
+            current = newTotal
+            later -> action 'unreadtotal', newTotal
 
 isQuiet = (c) -> c?.self_conversation_state?.notification_level == 'QUIET'
 
@@ -157,10 +169,6 @@ funcs =
     addWatermark: addWatermark
     MAX_UNREAD: MAX_UNREAD
     unread: unread
-    unreadTotal: ->
-      sum = (a, b) -> return a + b
-      countunread = (c) -> 0 if isQuiet c; funcs.unread c
-      funcs.list().map(countunread).reduce(sum,0)
     setNotificationLevel: (conv_id, level) ->
         return unless c = lookup[conv_id]
         c.self_conversation_state?.notification_level = level
@@ -188,9 +196,10 @@ funcs =
 
     isQuiet: isQuiet
 
-    list: ->
+    list: (sort = true) ->
         convs = (v for k, v of lookup when typeof v == 'object')
-        convs.sort (e1, e2) -> sortby(e2) - sortby(e1)
+        if sort
+            convs.sort (e1, e2) -> sortby(e2) - sortby(e1)
         convs
 
 

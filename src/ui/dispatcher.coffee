@@ -32,17 +32,16 @@ handle 'init', (init) ->
     unless conv[viewstate.selectedConv]
         viewstate.setSelectedConv conv.list()?[0]?.conversation_id
 
-updatebadge = throttle 3000, -> ipc.send 'updatebadge', conv.unreadTotal()
-
 handle 'chat_message', (ev) ->
     conv.addChatMessage ev
     # these messages are to go through notifications
     conv.addToNotify ev
-    updatebadge()
 
 handle 'watermark', (ev) ->
     conv.addWatermark ev
-    updatebadge()
+
+handle 'update:unreadcount', ->
+    console.log 'update'
 
 handle 'addconversation', ->
     viewstate.setState viewstate.STATE_ADD_CONVERSATION
@@ -263,3 +262,5 @@ handle 'hangout_event', (e) ->
 
 'presence reply_to_invite settings conversation_notification'.split(' ').forEach (n) ->
     handle n, (as...) -> console.log n, as...
+
+handle 'unreadtotal', (total) -> ipc.send 'updatebadge', total
