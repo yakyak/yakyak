@@ -1,10 +1,14 @@
-Client = require 'hangupsjs'
-Q      = require 'q'
-login  = require './login'
-ipc    = require 'ipc'
-fs     = require 'fs'
-path   = require 'path'
-appmenu = require './appmenu'
+Client    = require 'hangupsjs'
+Q         = require 'q'
+login     = require './login'
+ipc       = require 'ipc'
+fs        = require 'fs'
+path      = require 'path'
+tmp       = require 'tmp'
+clipboard = require 'clipboard'
+appmenu   = require './appmenu'
+
+tmp.setGracefulCleanup()
 
 client = new Client()
 
@@ -144,15 +148,16 @@ app.on 'ready', ->
     # we want to upload. in the order specified, with retry
     ipc.on 'uploadclipboardimage', seqreq (ev, spec) ->
         {conv_id, client_generated_id} = spec
-        path = '/tmp/tmp.png'
-        clipboard = require 'clipboard'
+        file = tmp.fileSync postfix: ".png"
         pngData = clipboard.readImage().toPng()
         Q.Promise (rs, rj) ->
-            fs.writeFile path, pngData, plug(rs, rj)
+            fs.writeFile file.name, pngData, plug(rs, rj)
         .then ->
-            client.uploadimage(path)
+            client.uploadimage(file.name)
         .then (image_id) ->
             client.sendchatmessage conv_id, null, image_id, null, client_generated_id
+        .then ->
+            file.removeCallback()
     , true
 
     # retry only last per conv_id
