@@ -2,7 +2,7 @@
 .convlist {
     .conv {
         position: relative;
-        padding: 10px 15px 12px;
+        padding: 10px 15px 10px;
         line-height: 25px;
         cursor: pointer;
         display: flex;
@@ -66,15 +66,64 @@
             }
 
             /* three images */
-            img:nth-child(1):nth-last-child(3),
-            img:nth-child(2):nth-last-child(2),
+            @size-three: 23px;
+            img:nth-child(1):nth-last-child(3) {
+                width: @size-three;
+                height: @size-three;
+                border-radius: 50%;
+                position: absolute;
+                top: @size-three / 2;
+                left: 21px;
+            }
+            img:nth-child(2):nth-last-child(2) {
+                width: @size-three;
+                height: @size-three;
+                border-radius: 50%;
+                position: absolute;
+                top: 35px ;
+                left: 9px;
+            }
             img:nth-child(3):nth-last-child(1){
+                width: @size-three;
+                height: @size-three;
+                border-radius: 50%;
+                position: absolute;
+                top: 35px ;
+                left: 34px;
             }
             /* four images */
-            img:nth-child(1):nth-last-child(4),
-            img:nth-child(2):nth-last-child(3),
-            img:nth-child(3):nth-last-child(2),
+            @size-four: 23px;
+            img:nth-child(1):nth-last-child(4) {
+                width: @size-four;
+                height: @size-three;
+                border-radius: 50%;
+                position: absolute;
+                top: 11px;
+                left: 10px;
+            }
+            img:nth-child(2):nth-last-child(3) {
+                width: @size-four;
+                height: @size-three;
+                border-radius: 50%;
+                position: absolute;
+                top: 11px;
+                left: 34px;
+            }
+            img:nth-child(3):nth-last-child(2) {
+                width: @size-four;
+                height: @size-three;
+                border-radius: 50%;
+                position: absolute;
+                top: 35px;
+                left: 10px;
+            }
             img:nth-child(4):nth-last-child(1) {
+                width: @size-four;
+                height: @size-three;
+                border-radius: 50%;
+                position: absolute;
+                top: 35px;
+                left: 34px;
             }
         }
         .unreadcount {

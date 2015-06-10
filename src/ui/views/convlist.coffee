@@ -29,7 +29,7 @@ module.exports = view (models) ->
                     names.join ', '
                 div class: 'thumbs', ->
                     for p, index in ents
-                        if index >= 2 then continue
+                        if index >= 4 then continue
                         if not p.photo_url then entity.needEntity p.id
                         image = 'http:' + p.photo_url
                         if not p.photo_url then image = "images/photo.jpg"
