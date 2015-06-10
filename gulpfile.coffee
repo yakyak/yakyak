@@ -57,7 +57,10 @@ gulp.task 'package', ['pre'], ->
 gulp.task 'coffee', ->
   gulp.src paths.coffee
     .pipe sourcemaps.init()
-    .pipe coffee().on 'error', gutil.log
+    .pipe coffee()
+    .on 'error', (e) ->
+        console.log e.toString()
+        @emit 'end'
     .pipe sourcemaps.write()
 #    .pipe changed outapp
     .pipe gulp.dest outapp
@@ -82,7 +85,10 @@ gulp.task 'images', ->
 gulp.task 'less', ->
   gulp.src paths.less
     .pipe sourcemaps.init()
-    .pipe less().on 'error', gutil.log
+    .pipe less()
+    .on 'error', (e) ->
+        console.log e
+        @emit 'end'
     .pipe concat('ui/app.css')
     .pipe sourcemaps.write()
     .pipe gulp.dest outapp
