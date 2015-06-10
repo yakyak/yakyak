@@ -1,5 +1,5 @@
 
-{throttle, nameof} = require '../util'
+{throttle, nameof, fixlink} = require '../util'
 chilledaction = throttle 1500, action
 
 unique = (obj) -> obj.id.chat_id or obj.id.gaia_id
@@ -59,7 +59,7 @@ module.exports = view (models) ->
               cid = r?.id?.chat_id
               li class: 'selected', ->
                   if purl = r.properties?.photo_url ? entity[cid]?.photo_url
-                      img src:photoUrlProtocolFix purl
+                      img src:fixlink(purl)
                   else
                       img src:"images/photo.jpg"
                       entity.needEntity cid
@@ -73,7 +73,7 @@ module.exports = view (models) ->
               if unique(r) in selected_ids then return
               li ->
                   if purl = r.properties?.photo_url ? entity[cid]?.photo_url
-                      img src:photoUrlProtocolFix purl
+                      img src:fixlink(purl)
                   else
                       img src:"images/photo.jpg"
                       entity.needEntity cid

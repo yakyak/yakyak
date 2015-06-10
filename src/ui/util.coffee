@@ -28,4 +28,7 @@ getProxiedName = (e) ->
 
 tryparse = (s) -> try JSON.parse(s) catch err then undefined
 
-module.exports = {nameof, linkto, later, throttle, isAboutLink, getProxiedName, tryparse}
+fixlink = (l) -> if l?[0] == '/' then "https:#{l}" else l
+
+module.exports = {nameof, linkto, later, throttle,
+isAboutLink, getProxiedName, tryparse, fixlink}

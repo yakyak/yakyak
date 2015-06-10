@@ -1,7 +1,7 @@
 moment = require 'moment'
 shell = require 'shell'
 
-{nameof, linkto, later, forceredraw, throttle, getProxiedName}  = require '../util'
+{nameof, linkto, later, forceredraw, throttle, getProxiedName, fixlink}  = require '../util'
 
 CUTOFF = 5 * 60 * 1000 * 1000 # 5 mins
 
@@ -26,8 +26,7 @@ fixProxied = (e, proxied, entity) ->
 onclick = (e) ->
   e.preventDefault()
   address = e.currentTarget.getAttribute 'href'
-  if address[0] == '/' then address = "http:" + address
-  shell.openExternal address
+  shell.openExternal fixlink(address)
 
 # helper method to group events in time/user bunches
 groupEvents = (es, entity) ->
@@ -89,8 +88,7 @@ module.exports = view (models) ->
                         a href:linkto(u.cid), {onclick}, class:'sender', ->
                             purl = entity[u.cid].photo_url
                             if purl
-                                purl = "https://#{purl}" if purl.indexOf('//') == 0
-                                img src:purl if purl
+                                img src:fixlink(purl)
                             else
                                 entity.needEntity u.cid
                             span sender

@@ -1,4 +1,4 @@
-{nameof} = require '../util'
+{nameof, fixlink} = require '../util'
 
 module.exports = view (models) ->
     {conv, entity, viewstate} = models
@@ -29,11 +29,10 @@ module.exports = view (models) ->
                     names.join ', '
                 div class: 'thumbs', ->
                     for p, index in ents
-                        if index >= 4 then continue
+                        break if index >= 4 the
                         if not p.photo_url then entity.needEntity p.id
-                        image = 'http:' + p.photo_url
                         if not p.photo_url then image = "images/photo.jpg"
-                        img src: image
+                        img src:fixlink(image)
                 span class:'convname', name
                 if ur > 0 and not conv.isQuiet(c)
                     lbl = if ur >= conv.MAX_UNREAD then "#{conv.MAX_UNREAD}+" else ur + ''
