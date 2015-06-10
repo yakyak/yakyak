@@ -246,7 +246,7 @@ handle 'syncrecentconversations', throttle 10000, ->
 handle 'handlerecentconversations', (r) ->
     try
         return unless st = r.conversation_state
-        conv.replaceEventsFromStates st
+        conv.replaceFromStates st
     finally
         connection.setLastActive Date.now(), true
         connection.setDisableLastActive false

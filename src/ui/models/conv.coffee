@@ -206,11 +206,8 @@ funcs =
     addParticipant: (conv_id, participant) ->
         return unless c = lookup[conv_id]
         c.participant_data.push participant
-    replaceEventsFromStates: (states) ->
-        for st in states
-            conv_id = st?.conversation_id?.id
-            continue unless (c = lookup[conv_id]) and st.event
-            c.event = st.event
+    replaceFromStates: (states) ->
+        add st for st in states
         updated 'conv'
 
 
