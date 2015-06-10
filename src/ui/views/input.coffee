@@ -1,5 +1,6 @@
 autosize = require 'autosize'
 clipboard = require 'clipboard'
+messages = require './messages'
 
 {later} = require '../util'
 
@@ -39,6 +40,13 @@ module.exports = view (models) ->
             # at this point the node is still not inserted
             ta = e.target
             later -> autosize ta
+            ta.addEventListener 'autosize:resized', ->
+                # we do this because the autosizing sets the height to nothing
+                # while measuring and that causes the messages scroll above to
+                # move. by pinning the div of the outer holding div, we
+                # are not moving the scroller.
+                ta.parentNode.style.height = (ta.offsetHeight + 24) + 'px'
+                messages.scrollToBottom()
         , onkeydown: (e) ->
             unless isModifierKey(e)
                 if e.keyCode == 13

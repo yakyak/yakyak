@@ -103,8 +103,8 @@ module.exports = view (models) ->
                                     loadImages conv_id, e.chat_message?.message_content
 
     # focus when switching convs
-    if lastConv != models.viewstate.selectedConv
-        lastConv = models.viewstate.selectedConv
+    if lastConv != viewstate.selectedConv
+        lastConv = viewstate.selectedConv
         scrollToBottom()
 
 # when there's mutation, we scroll to bottom in case we already are at bottom
@@ -114,7 +114,7 @@ onMutate = (atbottom) ->
     else
         ->
 
-scrollToBottom = ->
+scrollToBottom = module.exports.scrollToBottom = ->
     # ensure we're scrolled to bottom
     el = document.querySelector('.main')
     # to bottom
