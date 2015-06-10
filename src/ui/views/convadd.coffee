@@ -4,8 +4,6 @@ chilledaction = throttle 1500, action
 
 unique = (obj) -> obj.id.chat_id or obj.id.gaia_id
 
-photoUrlProtocolFix = (url) -> if url?.indexOf('//') == 0 then "https:#{url}" else url
-
 mayRestoreInitialValues = (models) ->
     # If there is an initial value we set it an then invalidate it
     {convsettings} = models

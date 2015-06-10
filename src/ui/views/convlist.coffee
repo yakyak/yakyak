@@ -29,9 +29,11 @@ module.exports = view (models) ->
                     names.join ', '
                 div class: 'thumbs', ->
                     for p, index in ents
-                        break if index >= 4 the
-                        if not p.photo_url then entity.needEntity p.id
-                        if not p.photo_url then image = "images/photo.jpg"
+                        break if index >= 4
+                        image = p.photo_url
+                        unless image
+                            entity.needEntity(p.id)
+                            image = "images/photo.jpg"
                         img src:fixlink(image)
                 span class:'convname', name
                 if ur > 0 and not conv.isQuiet(c)
