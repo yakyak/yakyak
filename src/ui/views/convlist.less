@@ -29,6 +29,54 @@
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
         }
+        .thumbs {
+            margin: 0px;
+            display: inline-block;
+            margin-left: -7px;
+            margin-right: 7px;
+            overflow: hidden;
+            height: 50px;
+            width: 50px;
+
+            /* one image */
+            @size-one: 48px;
+            img:nth-child(1):nth-last-child(1) {
+                width: @size-one;
+                height: @size-one;
+                border-radius: 50%;
+                z-index: 2;
+                position: absolute;
+            }
+
+            /* two images */
+            @size-two: 29px;
+            img:nth-child(1):nth-last-child(2) {
+                width: @size-two;
+                height: @size-two;
+                border-radius: 50%;
+                position: absolute;
+            }
+            img:nth-child(2):nth-last-child(1) {
+                width: @size-two;
+                height: @size-two;
+                border-radius: 50%;
+                position: absolute;
+                top: @size-two;
+                left: @size-two;
+            }
+
+            /* three images */
+            img:nth-child(1):nth-last-child(3),
+            img:nth-child(2):nth-last-child(2),
+            img:nth-child(3):nth-last-child(1){
+            }
+            /* four images */
+            img:nth-child(1):nth-last-child(4),
+            img:nth-child(2):nth-last-child(3),
+            img:nth-child(3):nth-last-child(2),
+            img:nth-child(4):nth-last-child(1) {
+            }
+        }
         .unreadcount {
             margin-top: 3px;
             flex: none;
