@@ -29,17 +29,20 @@
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
         }
+
+        @square: 50px;
         .thumbs {
             margin: 0px;
             display: inline-block;
             margin-left: -7px;
             margin-right: 7px;
             overflow: hidden;
-            height: 50px;
-            width: 50px;
+            height: @square;
+            width: @square;
+            position: relative;
 
             /* one image */
-            @size-one: 48px;
+            @size-one: 50px;
             img:nth-child(1):nth-last-child(1) {
                 width: @size-one;
                 height: @size-one;
@@ -49,81 +52,84 @@
             }
 
             /* two images */
-            @size-two: 29px;
+            @size-two: 28px;
             img:nth-child(1):nth-last-child(2) {
                 width: @size-two;
                 height: @size-two;
                 border-radius: 50%;
                 position: absolute;
+                top: 0px;
+                left: 0px;
             }
             img:nth-child(2):nth-last-child(1) {
                 width: @size-two;
                 height: @size-two;
                 border-radius: 50%;
                 position: absolute;
-                top: @size-two;
-                left: @size-two;
+                bottom: 0px;
+                right: 0px;
             }
 
             /* three images */
-            @size-three: 23px;
+            @size-three: 25px;
             img:nth-child(1):nth-last-child(3) {
                 width: @size-three;
                 height: @size-three;
                 border-radius: 50%;
                 position: absolute;
-                top: @size-three / 2;
-                left: 21px;
+                top: 0;
+                left: (@square - @size-three) / 2;
             }
             img:nth-child(2):nth-last-child(2) {
                 width: @size-three;
                 height: @size-three;
                 border-radius: 50%;
                 position: absolute;
-                top: 35px ;
-                left: 9px;
+                bottom: 0;
+                left: 0;
             }
             img:nth-child(3):nth-last-child(1){
                 width: @size-three;
                 height: @size-three;
                 border-radius: 50%;
                 position: absolute;
-                top: 35px ;
-                left: 34px;
+                bottom: 0;
+                left: @square - @size-three;
             }
+
             /* four images */
-            @size-four: 23px;
+            @size-four: 24px;
             img:nth-child(1):nth-last-child(4) {
                 width: @size-four;
-                height: @size-three;
+                height: @size-four;
                 border-radius: 50%;
                 position: absolute;
-                top: 11px;
-                left: 10px;
+                top: 0px;
+                left: 0px;
             }
             img:nth-child(2):nth-last-child(3) {
                 width: @size-four;
-                height: @size-three;
+                height: @size-four;
                 border-radius: 50%;
                 position: absolute;
-                top: 11px;
-                left: 34px;
+                top: 0px;
+                right: 0px;
             }
             img:nth-child(3):nth-last-child(2) {
                 width: @size-four;
-                height: @size-three;
+                height: @size-four;
                 border-radius: 50%;
                 position: absolute;
-                top: 35px;
-                left: 10px;
+                bottom: 0px;
+                left: 0px;
             }
             img:nth-child(4):nth-last-child(1) {
                 width: @size-four;
-                height: @size-three;
+                height: @size-four;
                 border-radius: 50%;
                 position: absolute;
-                top: 35px;
-                left: 34px;
+                bottom: 0px;
+                right: 0px;
             }
         }
         .unreadcount {
