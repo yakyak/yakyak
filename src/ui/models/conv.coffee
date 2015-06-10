@@ -146,6 +146,21 @@ isQuiet = (c) -> c?.self_conversation_state?.notification_level == 'QUIET'
 
 tonotify = []
 
+isEventType = (type) -> (ev) -> !!ev[type]
+
+# a "hangout" is in google terms strictly an audio/video event
+# many conversations in the conversation list are just such an
+# event with no further chat messages or activity. this function
+# tells whether a hangout only contains video/audio.
+isPureHangout = do ->
+    nots = ['chat_message', 'conversation_rename'].map(isEventType)
+    isNotHangout = (e) -> nots.some (f) -> f(e)
+    (c) ->
+        not (c?.event ? []).some isNotHangout
+
+# the time of the last added event
+lastChanged = (c) -> (c?.event[c.event.length - 1]?.timestamp ? 0) / 1000
+
 funcs =
     count: ->
         c = 0; (c++ for k, v of lookup when typeof v == 'object'); c
@@ -201,6 +216,8 @@ funcs =
 
 
     isQuiet: isQuiet
+    isPureHangout: isPureHangout
+    lastChanged: lastChanged
 
     list: (sort = true) ->
         convs = (v for k, v of lookup when typeof v == 'object')
