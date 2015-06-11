@@ -25,6 +25,7 @@
     "autosize": "^3.0.6",
     "hangupsjs": "^0.9.0",
     "moment": "^2.10.3",
+    "node-notifier": "^4.2.1",
     "q": "^1.4.0",
     "tmp": "0.0.26",
     "trifl": "0.0.10",

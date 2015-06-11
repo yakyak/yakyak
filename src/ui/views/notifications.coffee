@@ -1,3 +1,6 @@
+notifier = require 'node-notifier'
+path = require 'path'
+
 {nameof, getProxiedName} = require '../util'
 
 module.exports = (models) ->
@@ -11,8 +14,12 @@ module.exports = (models) ->
         cid = if proxied then proxied else msg?.sender_id?.chat_id
         sender = nameof entity[cid]
         text = textMessage msg.chat_message.message_content, proxied
-        nt = new Notification sender, {body: text}
-        nt.onclick = (ev) -> action 'selectConv', c
+        notifier.notify
+            title: sender
+            message: text
+            wait: true
+            icon: path.join __dirname, '../images/notification.png'
+        , (err, res) -> if res?.trim() == 'Activate' then action 'selectConv', c
 
 
 textMessage = (cont, proxied) ->

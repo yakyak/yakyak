@@ -185,7 +185,7 @@ app.on 'ready', ->
     , false, (ev, conv_id) -> conv_id
 
     ipc.on 'updatebadge', (ev, value) ->
-        app.dock.setBadge(value)
+        app.dock.setBadge(value) if app.dock
 
     ipc.on 'searchentities', (ev, query, max_results) ->
         promise = client.searchentities query, max_results
