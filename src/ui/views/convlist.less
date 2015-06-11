@@ -48,9 +48,9 @@
 
         @square: 50px;
         .thumbs {
-            margin: 0px;
             height: @square;
             width: @square;
+            flex: none;
             position: relative;
 
             img {
@@ -64,6 +64,7 @@
             img:nth-child(1):nth-last-child(1) {
                 width: @size-one;
                 height: @size-one;
+                left: 0;
             }
 
             /* two images */
@@ -71,62 +72,62 @@
             img:nth-child(1):nth-last-child(2) {
                 width: @size-two;
                 height: @size-two;
-                top: 0px;
-                left: 0px;
+                top: 0;
+                left: 0;
             }
             img:nth-child(2):nth-last-child(1) {
                 width: @size-two;
                 height: @size-two;
-                bottom: 0px;
-                left: @square / 2;
+                bottom: 0;
+                right: 0;
             }
 
             /* three images */
-            @size-three: 25px;
+            @size-three: 24.5px;
             img:nth-child(1):nth-last-child(3) {
                 width: @size-three;
                 height: @size-three;
-                top: 0;
+                top: 1.5px;
                 left: (@square - @size-three) / 2;
             }
             img:nth-child(2):nth-last-child(2) {
                 width: @size-three;
                 height: @size-three;
-                bottom: 0;
+                bottom: 1.5px;
                 left: 0;
             }
             img:nth-child(3):nth-last-child(1){
                 width: @size-three;
                 height: @size-three;
-                bottom: 0;
-                left: @square - @size-three;
+                bottom: 1.5px;
+                right: 0;
             }
 
             /* four images */
-            @size-four: 24px;
+            @size-four: 24.5px;
             img:nth-child(1):nth-last-child(4) {
                 width: @size-four;
                 height: @size-four;
-                top: 0px;
-                left: 0px;
+                top: 0;
+                left: 0;
             }
             img:nth-child(2):nth-last-child(3) {
                 width: @size-four;
                 height: @size-four;
-                top: 0px;
-                left: @square/2;
+                top: 0;
+                right: 0;
             }
             img:nth-child(3):nth-last-child(2) {
                 width: @size-four;
                 height: @size-four;
-                bottom: 0px;
-                left: 0px;
+                bottom: 0;
+                left: 0;
             }
             img:nth-child(4):nth-last-child(1) {
                 width: @size-four;
                 height: @size-four;
-                bottom: 0px;
-                left: @square / 2;
+                bottom: 0;
+                right: 0;
             }
         }
         .unreadcount {

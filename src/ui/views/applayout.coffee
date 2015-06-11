@@ -50,7 +50,7 @@ resize = do ->
     }
 
 resizers =
-    leftResize: (ev) -> action 'leftresize', (Math.max 84, ev.clientX)
+    leftResize: (ev) -> action 'leftresize', (Math.max 90, ev.clientX)
 
 
 module.exports = layout ->
