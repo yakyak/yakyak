@@ -40,6 +40,7 @@
             text-overflow: ellipsis;
             overflow: hidden;
             display: -webkit-box;
+            margin-left: 10px;
             max-height: 50px;
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
@@ -48,9 +49,6 @@
         @square: 50px;
         .thumbs {
             margin: 0px;
-            display: inline-block;
-            margin-right: 10px;
-            overflow: hidden;
             height: @square;
             width: @square;
             position: relative;
@@ -116,7 +114,7 @@
                 width: @size-four;
                 height: @size-four;
                 top: 0px;
-                right: 0px;
+                left: @square/2;
             }
             img:nth-child(3):nth-last-child(2) {
                 width: @size-four;
@@ -128,7 +126,7 @@
                 width: @size-four;
                 height: @size-four;
                 bottom: 0px;
-                right: 0px;
+                left: @square / 2;
             }
         }
         .unreadcount {
