@@ -67,18 +67,22 @@
             }
 
             /* two images */
-            @size-two: 30px;
+
+            @size-two: 41px;
             img:nth-child(1):nth-last-child(2) {
                 width: @size-two;
                 height: @size-two;
-                top: 0;
-                left: 0;
+                opacity: 0.5;
+                top: 0px;
+                left: 0px;
+                border: 1px solid #e1e1e1;
             }
             img:nth-child(2):nth-last-child(1) {
                 width: @size-two;
                 height: @size-two;
-                bottom: 0;
-                right: 0;
+                top: 9px;
+                left: 9px;
+                border: 1px solid white;
             }
 
             /* three images */
