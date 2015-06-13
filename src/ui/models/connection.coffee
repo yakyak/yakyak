@@ -6,6 +6,14 @@ STATE =
     CONNECTED:      'connected'      # exactly match corresponding event name
     CONNECT_FAILED: 'connect_failed' # exactly match corresponding event name
 
+EVENT_STATE =
+    IN_SYNC:         'in_sync'       # when we certain we have connection/events
+    MISSING_SOME:    'missing_some'  # when more than 40 secs without any event
+    MISSING_ALL:     'missing_all'   # when more than 10 minutes without any event
+
+TIME_SOME = 40 * 1000      # 40 secs
+TIME_ALL  = 10 * 60 * 1000 # 10 mins
+
 merge   = (t, os...) -> t[k] = v for k,v of o when v not in [null, undefined] for o in os; t
 
 info =
@@ -15,8 +23,8 @@ info =
     unknown:        'Unknown'
 
 module.exports = exp =
-    state: null # current connection state
-    disableLastActive: false
+    state: null       # current connection state
+    eventState: null  # current event state
     lastActive: tryparse(localStorage.lastActive) ? 0 # last activity timestamp
 
     setState: (state) ->
@@ -26,27 +34,40 @@ module.exports = exp =
 
     infoText: -> info[@state] ? info.unknown
 
-    setLastActive: (active, force) ->
-        return if @disableLastActive
+    setLastActive: (active) ->
         return if @lastActive == active
-        timegap = active - @lastActive
-        if not force and timegap > 10 * 60 * 1000
-            console.log 'syncrecent', force, timegap
-            # if we have a gap of more than 10 minutes, we will
-            # reinitialize all convs using syncrecentconversations
-            # (sort of like client startup)
-            later -> action 'syncrecentconversations'
-        else if not force and timegap > 40000
-            console.log 'syncallnew', force, timegap
+        @lastActive = localStorage.lastActive = active
+
+    setEventState: (state) ->
+        return if @eventState == state
+        @eventState = state
+        if state == EVENT_STATE.IN_SYNC
+            @setLastActive Date.now() unless @lastActive
+        else if state == EVENT_STATE.MISSING_SOME
             # if we have a gap of more than 40 seconds we try getting
             # any events we may have missed during that gap. notice
             # that we get 'noop' every 20-30 seconds, so there is no
             # reason for a gap of 40 seconds.
             later -> action 'syncallnewevents', @lastActive
-        else
-            @lastActive = localStorage.lastActive = active
+        else if state == EVENT_STATE.MISSING_ALL
+            # if we have a gap of more than 10 minutes, we will
+            # reinitialize all convs using syncrecentconversations
+            # (sort of like client startup)
+            later -> action 'syncrecentconversations'
+        checkEventState()
         updated 'connection'
 
-    setDisableLastActive: (dis) -> @disableLastActive = dis
-
 merge exp, STATE
+merge exp, EVENT_STATE
+
+checkTimer = null
+checkEventState = ->
+    elapsed = Date.now() - exp.lastActive
+    clearTimeout checkTimer if checkTimer
+    if elapsed >= TIME_ALL
+        exp.setEventState EVENT_STATE.MISSING_ALL
+    else if elapsed >= TIME_SOME
+        exp.setEventState EVENT_STATE.MISSING_SOME
+    else
+        exp.setEventState EVENT_STATE.IN_SYNC
+    checkTimer = setTimeout checkEventState, 1000

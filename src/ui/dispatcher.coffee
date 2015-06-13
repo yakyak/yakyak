@@ -225,30 +225,21 @@ handle 'typing', (t) ->
 
 handle 'syncallnewevents', throttle 10000, (time) ->
     return unless time
-    connection.setDisableLastActive true
     ipc.send 'syncallnewevents', time
 handle 'handlesyncedevents', (r) ->
-    try
-        states = r?.conversation_state
-        return unless states?.length
-        for st in states
-            for e in (st?.event ? [])
-                conv.addChatMessage e
-    finally
-        connection.setLastActive Date.now(), true
-        connection.setDisableLastActive false
-
+    states = r?.conversation_state
+    return unless states?.length
+    for st in states
+        for e in (st?.event ? [])
+            conv.addChatMessage e
+    connection.setEventState connection.IN_SYNC
 
 handle 'syncrecentconversations', throttle 10000, ->
-    connection.setDisableLastActive true
     ipc.send 'syncrecentconversations'
 handle 'handlerecentconversations', (r) ->
-    try
-        return unless st = r.conversation_state
-        conv.replaceFromStates st
-    finally
-        connection.setLastActive Date.now(), true
-        connection.setDisableLastActive false
+    return unless st = r.conversation_state
+    conv.replaceFromStates st
+    connection.setEventState connection.IN_SYNC
 
 handle 'client_conversation', (c) ->
     conv.add c unless conv[c?.conversation_id?.id]
