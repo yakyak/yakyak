@@ -1,20 +1,26 @@
+ipc = require 'ipc'
+
 # expose trifl in global scope
 trifl = require 'trifl'
 trifl.expose window
 
-dispatcher = require './dispatcher'
+# in app notification system
 window.notr = require 'notr'
 notr.defineStack 'def', 'body', {top:'3px', right:'15px'}
+
+# init trifl dispatcher
+dispatcher = require './dispatcher'
 
 # expose some selected tagg functions
 trifl.tagg.expose window, ('ul li div span a i b u s button p label
 input table thead tbody tr td th textarea br pass img h1 h2 h3 h4
 hr'.split(' '))...
 
-ipc = require 'ipc'
+{applayout}       = require './views'
+{viewstate, conv} = require './models'
 
-{applayout}    = require './views'
-{viewstate, conv}    = require './models'
+# install menu
+require('./views/menu')(viewstate)
 
 # tie layout to DOM
 document.body.appendChild applayout.el

@@ -6,7 +6,6 @@ fs        = require 'fs'
 path      = require 'path'
 tmp       = require 'tmp'
 clipboard = require 'clipboard'
-appmenu   = require './appmenu'
 
 tmp.setGracefulCleanup()
 
@@ -54,9 +53,6 @@ app.on 'window-all-closed', ->
 loadAppWindow = ->
     mainWindow.loadUrl 'file://' + __dirname + '/ui/index.html'
 
-openDevTools = ->
-    mainWindow?.openDevTools detach: true
-
 # helper wait promise
 wait = (t) -> Q.Promise (rs) -> setTimeout rs, t
 
@@ -69,8 +65,6 @@ app.on 'ready', ->
         "min-width": 620
         "min-height": 420
     }
-
-    appmenu.attach app, {openDevTools, logout}
 
     # and load the index.html of the app. this may however be yanked
     # away if we must do auth.
@@ -228,6 +222,9 @@ app.on 'ready', ->
             # connected.
             ipcsend 'connected'
     , false, (ev, time) -> 1
+
+    # bye bye
+    ipc.on 'logout', logout
 
     # propagate these events to the renderer
     require('./ui/events').forEach (n) ->

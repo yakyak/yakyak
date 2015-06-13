@@ -1,7 +1,7 @@
 Client = require 'hangupsjs'
-shell = require 'shell'
-
-ipc = require 'ipc'
+shell  = require 'shell'
+remote = require 'remote'
+ipc    = require 'ipc'
 
 {entity, conv, viewstate, userinput, connection, convsettings} = require './models'
 {throttle, later} = require './util'
@@ -267,3 +267,15 @@ handle 'unreadtotal', (total, orMore) ->
     value = ""
     if total > 0 then value = total + (if orMore then "+" else "")
     ipc.send 'updatebadge', value
+
+handle 'showconvthumbs', (doshow) ->
+    viewstate.setShowConvThumbs doshow
+
+handle 'devtools', ->
+    remote.getCurrentWindow().openDevTools detach:true
+
+handle 'quit', ->
+    remote.require('app').quit()
+
+handle 'logout', ->
+    ipc.send 'logout'

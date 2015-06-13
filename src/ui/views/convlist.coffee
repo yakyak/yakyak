@@ -2,7 +2,9 @@
 
 module.exports = view (models) ->
     {conv, entity, viewstate} = models
-    div class:'convlist', ->
+    clz = ['convlist']
+    clz.push 'showconvthumbs' if viewstate.showConvThumbs
+    div class:clz.join(' '), ->
         conv.list().forEach (c) ->
             pureHang = conv.isPureHangout(c)
             lastChanged = conv.lastChanged(c)
@@ -27,14 +29,15 @@ module.exports = view (models) ->
                     names = ents.map nameof
                     # joined together in a compelling manner
                     names.join ', '
-                div class: 'thumbs', ->
-                    for p, index in ents
-                        break if index >= 2
-                        image = p.photo_url
-                        unless image
-                            entity.needEntity(p.id)
-                            image = "images/photo.jpg"
-                        img src:fixlink(image)
+                if viewstate.showConvThumbs
+                    div class: 'thumbs', ->
+                        for p, index in ents
+                            break if index >= 2
+                            image = p.photo_url
+                            unless image
+                                entity.needEntity(p.id)
+                                image = "images/photo.jpg"
+                            img src:fixlink(image)
                 span class:'convname', name
                 if ur > 0 and not conv.isQuiet(c)
                     lbl = if ur >= conv.MAX_UNREAD then "#{conv.MAX_UNREAD}+" else ur + ''

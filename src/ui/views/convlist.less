@@ -40,7 +40,6 @@
             text-overflow: ellipsis;
             overflow: hidden;
             display: -webkit-box;
-            margin-left: 10px;
             max-height: 50px;
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
@@ -56,6 +55,7 @@
             img {
                 border-radius: 50%;
                 position: absolute;
+                box-shadow: 0 0 2px 1px #f0f0f0;
             }
 
             /* one image */
@@ -71,17 +71,14 @@
             img:nth-child(1):nth-last-child(2) {
                 width: @size-two;
                 height: @size-two;
-                opacity: 0.5;
                 top: 0px;
                 left: 0px;
-                border: 1px solid #e1e1e1;
             }
             img:nth-child(2):nth-last-child(1) {
                 width: @size-two;
                 height: @size-two;
                 top: 9px;
                 left: 9px;
-                border: 1px solid #e1e1e1;
             }
 
         }
@@ -99,5 +96,8 @@
             border-radius: 20px;
             z-index: 2;
         }
+    }
+    &.showconvthumbs .conv .convname {
+        margin-left: 10px;
     }
 }
