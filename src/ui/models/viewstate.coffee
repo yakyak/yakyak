@@ -17,7 +17,7 @@ module.exports = exp = {
     leftSize: tryparse(localStorage.leftSize) ? 200
     size: tryparse(localStorage.size ? "[940, 600]")
     pos: tryparse(localStorage.pos ? "[100, 100]")
-    showConvThumbs: tryparse(localStorage.showConvThumbs) ? true
+    showConvThumbs: tryparse(localStorage.showConvThumbs)
 
     setState: (state) ->
         return if @state == state
