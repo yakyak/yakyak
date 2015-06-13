@@ -31,11 +31,13 @@ module.exports = exp =
         return if @lastActive == active
         timegap = active - @lastActive
         if not force and timegap > 10 * 60 * 1000
+            console.log 'syncrecent', force, timegap
             # if we have a gap of more than 10 minutes, we will
             # reinitialize all convs using syncrecentconversations
             # (sort of like client startup)
             later -> action 'syncrecentconversations'
         else if not force and timegap > 40000
+            console.log 'syncallnew', force, timegap
             # if we have a gap of more than 40 seconds we try getting
             # any events we may have missed during that gap. notice
             # that we get 'noop' every 20-30 seconds, so there is no
