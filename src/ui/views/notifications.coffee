@@ -18,8 +18,6 @@ module.exports = (models) ->
             title: sender
             message: text
             wait: true
-            icon: path.join __dirname, '../images/notification.png'
-            contentImage: null
             sender: 'com.github.yakyak'
         , (err, res) -> if res?.trim() == 'Activate' then action 'selectConv', c
 
