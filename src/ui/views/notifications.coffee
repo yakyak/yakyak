@@ -4,8 +4,8 @@ path = require 'path'
 {nameof, getProxiedName} = require '../util'
 
 module.exports = (models) ->
-    {conv, entity} = models
-    tonot = conv.popToNotify()
+    {conv, notify, entity} = models
+    tonot = notify.popToNotify()
     tonot.forEach (msg) ->
         conv_id = msg?.conversation_id?.id
         c = conv[conv_id]

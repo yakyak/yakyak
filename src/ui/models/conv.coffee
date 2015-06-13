@@ -144,8 +144,6 @@ unreadTotal = do ->
 
 isQuiet = (c) -> c?.self_conversation_state?.notification_level == 'QUIET'
 
-tonotify = []
-
 isEventType = (type) -> (ev) -> !!ev[type]
 
 # a "hangout" is in google terms strictly an audio/video event
@@ -177,12 +175,6 @@ funcs =
         updated 'conv'
         c
 
-    addToNotify: (ev) -> tonotify.push ev
-    popToNotify: ->
-        return [] unless tonotify.length
-        t = tonotify
-        tonotify = []
-        return t
     add:add
     rename: rename
     addChatMessage: addChatMessage

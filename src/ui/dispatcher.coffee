@@ -3,7 +3,7 @@ shell  = require 'shell'
 remote = require 'remote'
 ipc    = require 'ipc'
 
-{entity, conv, viewstate, userinput, connection, convsettings} = require './models'
+{entity, conv, viewstate, userinput, connection, convsettings, notify} = require './models'
 {throttle, later} = require './util'
 
 'connecting connected connect_failed'.split(' ').forEach (n) ->
@@ -35,7 +35,7 @@ handle 'init', (init) ->
 handle 'chat_message', (ev) ->
     conv.addChatMessage ev
     # these messages are to go through notifications
-    conv.addToNotify ev
+    notify.addToNotify ev
 
 handle 'watermark', (ev) ->
     conv.addWatermark ev
