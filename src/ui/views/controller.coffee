@@ -8,21 +8,19 @@ models      = require '../models'
 
 {later} = require '../util'
 
-showInfo = (view) ->
-    applayout.info view
-hideInfo = ->
-    applayout.info null
 
+handle 'update:connection', do ->
+    el = null
+    ->
+        # draw view
+        conninfo connection
 
-handle 'update:connection', ->
-    # draw view
-    conninfo connection
-
-    # place in layout
-    if connection.state == connection.CONNECTED
-        hideInfo()
-    else
-        showInfo conninfo
+        # place in layout
+        if connection.state == connection.CONNECTED
+            el?.hide?()
+            el = null
+        else
+            el = notr {html:conninfo.el.innerHTML, stay:0, id:'conn'}
 
 
 setLeftSize = (left) ->

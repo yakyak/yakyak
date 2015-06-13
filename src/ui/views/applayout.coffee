@@ -62,5 +62,4 @@ module.exports = layout ->
         div class:'right', ->
             div class:'main', region('main'), onscroll: onScroll
             div class:'foot', region('foot')
-        div class:'info', region('info')
     attachListeners()

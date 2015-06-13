@@ -3,6 +3,8 @@ trifl = require 'trifl'
 trifl.expose window
 
 dispatcher = require './dispatcher'
+window.notr = require 'notr'
+notr.defineStack 'def', 'body', {top:'3px', right:'15px'}
 
 # expose some selected tagg functions
 trifl.tagg.expose window, ('ul li div span a i b u s button p label
