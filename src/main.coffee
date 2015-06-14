@@ -223,6 +223,12 @@ app.on 'ready', ->
             ipcsend 'connected'
     , false, (ev, time) -> 1
 
+    # retry, one single per conv_id
+    ipc.on 'getconversation', seqreq (ev, conv_id, timestamp, max) ->
+        client.getconversation(conv_id, timestamp, max).then (r) ->
+            ipcsend 'getconversation:response', r
+    , false, (ev, conv_id, timestamp, max) -> conv_id
+
     # bye bye
     ipc.on 'logout', logout
 

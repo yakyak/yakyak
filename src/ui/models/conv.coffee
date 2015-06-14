@@ -16,6 +16,9 @@ add = (conv) ->
         conv.event = event
     {id} = conv.conversation_id or conv.id
     domerge id, conv
+    # we mark conversations with few events to know that they definitely
+    # got no more history.
+    conv.nomorehistory = true if conv.event < 20
     # participant_data contains entity information
     # we want in the entity lookup
     entity.add p for p in conv?.participant_data ? []
@@ -159,6 +162,9 @@ isPureHangout = do ->
 # the time of the last added event
 lastChanged = (c) -> (c?.event[c.event.length - 1]?.timestamp ? 0) / 1000
 
+# the number of history events to request
+HISTORY_AMOUNT = 20
+
 funcs =
     count: ->
         c = 0; (c++ for k, v of lookup when typeof v == 'object'); c
@@ -182,31 +188,61 @@ funcs =
     addWatermark: addWatermark
     MAX_UNREAD: MAX_UNREAD
     unread: unread
+    isQuiet: isQuiet
+    isPureHangout: isPureHangout
+    lastChanged: lastChanged
+
     setNotificationLevel: (conv_id, level) ->
         return unless c = lookup[conv_id]
         c.self_conversation_state?.notification_level = level
         updated 'conv'
+
     deleteConv: (conv_id) ->
         return unless c = lookup[conv_id]
         delete lookup[conv_id]
         viewstate.setSelectedConv null
         updated 'conv'
+
     removeParticipants: (conv_id, ids) ->
         return unless c = lookup[conv_id]
         getId = (p) -> return p.id.chat_id or p.id.gaia_id
         c.participant_data = (p for p in c.participant_data when getId(p) not in ids)
+
     addParticipant: (conv_id, participant) ->
         return unless c = lookup[conv_id]
         c.participant_data.push participant
+
     replaceFromStates: (states) ->
         add st for st in states
         updated 'conv'
 
+    updateAtTop: (attop) ->
+        return unless viewstate.state == viewstate.STATE_NORMAL
+        conv_id = viewstate?.selectedConv
+        if attop and (c = lookup[conv_id]) and !c?.nomorehistory and !c?.requestinghistory
+            timestamp = (c.event?[0]?.timestamp ? 0) / 1000
+            return unless timestamp
+            c.requestinghistory = true
+            later -> action 'history', conv_id, timestamp, HISTORY_AMOUNT
+            updated 'conv'
 
+    updateHistory: (state) ->
+        conv_id = state?.conversation_id?.id
+        return unless c = lookup[conv_id]
+        c.requestinghistory = false
+        event = state?.event
+        c.event = (event ? []).concat (c.event ? [])
+        c.nomorehistory = true if (event?.length ? 0) < HISTORY_AMOUNT
 
-    isQuiet: isQuiet
-    isPureHangout: isPureHangout
-    lastChanged: lastChanged
+        # first signal is to give views a change to record the
+        # current view position before injecting new DOM
+        updated 'beforeHistory'
+        # redraw
+        updated 'conv'
+        # last signal is to move view to be at same place
+        # as when we injected DOM.
+        updated 'afterHistory'
+
 
     list: (sort = true) ->
         convs = (v for k, v of lookup when typeof v == 'object')

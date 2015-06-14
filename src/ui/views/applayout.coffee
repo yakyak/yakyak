@@ -1,5 +1,5 @@
 
-{throttle} = require '../util'
+{throttle, topof} = require '../util'
 
 attached = false
 attachListeners = ->
@@ -11,15 +11,17 @@ attachListeners = ->
 onActivity = throttle 100, (ev) ->
     action 'activity', ev.timeStamp ? Date.now()
 
-onScroll = throttle 100, (ev) ->
+onScroll = throttle 20, (ev) ->
     el = ev.target
     child = el.children[0]
+
     # calculation to see whether we are at the bottom with a tolerance value
     atbottom = (el.scrollTop + el.offsetHeight) >= (child.offsetHeight - 10)
     action 'atbottom', atbottom
 
-
-
+    # check whether we are at the top with a tolerance value
+    attop = el.scrollTop <= (el.offsetHeight / 2)
+    action 'attop', attop
 
 drag = do ->
 
@@ -53,7 +55,7 @@ resizers =
     leftResize: (ev) -> action 'leftresize', (Math.max 90, ev.clientX)
 
 
-module.exports = layout ->
+module.exports = exp = layout ->
     div class:'applayout', drag, resize, ->
         div class:'left', ->
             div class:'list', region('left')
@@ -63,3 +65,34 @@ module.exports = layout ->
             div class:'main', region('main'), onscroll: onScroll
             div class:'foot', region('foot')
     attachListeners()
+
+
+do ->
+    id = ofs = null
+
+    lastVisibleMessage = ->
+        # the viewport
+        screl = document.querySelector('.main')
+        # the pixel offset for the bottom of the viewport
+        bottom = screl.scrollTop + screl.offsetHeight
+        # all messages
+        last = null
+        last = m for m in document.querySelectorAll('.message') when topof(m) < bottom
+        return last
+
+    exp.recordMainPos = ->
+        el = lastVisibleMessage()
+        id = el?.id
+        return unless el and id
+        ofs = topof el
+
+    exp.adjustMainPos = ->
+        return unless id and ofs
+        el = document.getElementById id
+        nofs = topof el
+        # the size of the inserted elements
+        inserted = nofs - ofs
+        screl = document.querySelector('.main')
+        screl.scrollTop = screl.scrollTop + inserted
+        # reset
+        id = ofs = null

@@ -54,7 +54,7 @@ module.exports = exp =
             # reinitialize all convs using syncrecentconversations
             # (sort of like client startup)
             later -> action 'syncrecentconversations'
-        checkEventState()
+        later -> checkEventState()
         updated 'connection'
 
 merge exp, STATE
@@ -65,9 +65,13 @@ checkEventState = ->
     elapsed = Date.now() - exp.lastActive
     clearTimeout checkTimer if checkTimer
     if elapsed >= TIME_ALL
-        exp.setEventState EVENT_STATE.MISSING_ALL
+        wrapAction -> exp.setEventState EVENT_STATE.MISSING_ALL
     else if elapsed >= TIME_SOME
-        exp.setEventState EVENT_STATE.MISSING_SOME
+        wrapAction -> exp.setEventState EVENT_STATE.MISSING_SOME
     else
-        exp.setEventState EVENT_STATE.IN_SYNC
+        wrapAction -> exp.setEventState EVENT_STATE.IN_SYNC
     checkTimer = setTimeout checkEventState, 1000
+
+wrapAction = (f) ->
+    handle 'connwrap', -> f()
+    action 'connwrap'

@@ -59,6 +59,17 @@ handle 'activity', (time) ->
 handle 'atbottom', (atbottom) ->
     viewstate.updateAtBottom atbottom
 
+handle 'attop', (attop) ->
+    viewstate.updateAtTop attop
+    conv.updateAtTop attop
+
+handle 'history', (conv_id, timestamp) ->
+    ipc.send 'getconversation', conv_id, timestamp, 20
+
+handle 'handlehistory', (r) ->
+    return unless r.conversation_state
+    conv.updateHistory r.conversation_state
+
 handle 'selectConv', (conv) ->
     viewstate.setState viewstate.STATE_NORMAL
     viewstate.setSelectedConv conv
@@ -126,10 +137,6 @@ handle 'onpasteimage', ->
 handle 'leftresize', (size) -> viewstate.setLeftSize size
 handle 'resize', (dim) -> viewstate.setSize dim
 handle 'moved', (pos) -> viewstate.setPosition pos
-
-# somewhat dirty, but img loading is done in the view
-# messages.coffee and set directly in model
-handle 'imgload', (conv_id) -> updated 'conv'
 
 handle 'conversationname', (name) ->
     convsettings.setName name

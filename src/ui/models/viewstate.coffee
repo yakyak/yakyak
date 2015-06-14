@@ -11,6 +11,7 @@ STATES =
 
 module.exports = exp = {
     state: null
+    attop: false   # tells whether message list is scrolle to top
     atbottom: true # tells whether message list is scrolled to bottom
     selectedConv: localStorage.selectedConv
     lastActivity: null
@@ -36,6 +37,12 @@ module.exports = exp = {
         return if @selectedConv == conv_id
         @selectedConv = localStorage.selectedConv = conv_id
         @setLastKeyDown 0
+        updated 'viewstate'
+        updated 'switchConv'
+
+    updateAtTop: (attop) ->
+        return if @attop == attop
+        @attop = attop
         updated 'viewstate'
 
     updateAtBottom: (atbottom) ->

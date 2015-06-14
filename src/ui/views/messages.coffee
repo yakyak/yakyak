@@ -1,7 +1,10 @@
 moment = require 'moment'
 shell = require 'shell'
 
-{nameof, linkto, later, forceredraw, throttle, getProxiedName, fixlink}  = require '../util'
+{nameof, linkto, later, forceredraw, throttle,
+getProxiedName, fixlink}  = require '../util'
+
+isImg = (url) -> url?.match /\.(png|jpg|gif|svg)$/i
 
 CUTOFF = 5 * 60 * 1000 * 1000 # 5 mins
 
@@ -63,20 +66,24 @@ OBSERVE_OPTS =
     attributeOldValue:true
     subtree:true
 
-firstRender = true
-lastConv = null # to detect conv switching
+firstRender       = true
+lastConv          = null # to detect conv switching
 
 module.exports = view (models) ->
-    # mutation events kicks in after first render
-    later scrollToBottom if firstRender
-    firstRender = false
     {viewstate, conv, entity} = models
-    div class:'messages', observe:onMutate(viewstate.atbottom), ->
-        return unless viewstate.selectedConv
-        conv_id = viewstate.selectedConv
-        c = conv[conv_id]
+
+    # mutation events kicks in after first render
+    later onMutate(viewstate) if firstRender
+    firstRender = false
+
+    conv_id = viewstate?.selectedConv
+    c = conv[conv_id]
+    div class:'messages', observe:onMutate(viewstate), ->
         return unless c?.event
         grouped = groupEvents c.event, entity
+        div class:'historyinfo', ->
+            if c.requestinghistory
+                pass 'Requesting history…', -> span class:'icon-spin1 animate-spin'
         for g in grouped
             div class:'tgroup', ->
                 span class:'timestamp', moment(g.start / 1000).calendar()
@@ -96,21 +103,24 @@ module.exports = view (models) ->
                             for e in u.event
                                 mclz = ['message']
                                 mclz.push 'placeholder' if e.placeholder
-                                div key:e.event_id, class:mclz.join(' '), ->
+                                div id:e.event_id, key:e.event_id, class:mclz.join(' '), ->
                                     format e.chat_message?.message_content
-                                    loadImages conv_id, e.chat_message?.message_content
+    if lastConv != conv_id
+        lastConv = conv_id
+        later atTopIfSmall
 
-    # focus when switching convs
-    if lastConv != viewstate.selectedConv
-        lastConv = viewstate.selectedConv
-        scrollToBottom()
+
+atTopIfSmall = ->
+    screl = document.querySelector('.main')
+    msgel = document.querySelector('.messages')
+    action 'attop', msgel.offsetHeight < screl.offsetHeight
+
 
 # when there's mutation, we scroll to bottom in case we already are at bottom
-onMutate = (atbottom) ->
-    if atbottom
-        throttle 100, (mutts) -> scrollToBottom()
-    else
-        ->
+onMutate = (viewstate) -> throttle 10, ->
+    # jump to bottom to follow conv
+    scrollToBottom() if viewstate.atbottom
+
 
 scrollToBottom = module.exports.scrollToBottom = ->
     # ensure we're scrolled to bottom
@@ -132,35 +142,56 @@ format = (cont) ->
         continue unless seg.text
         f = seg.formatting ? {}
         href = seg?.link_data?.link_target
-        imgel = seg?.link_data?.img # can be set by loadImages below
-        ifpass(imgel, div) ->
-            ifpass(href, ((f) -> a {href, onclick}, f)) ->
-                ifpass(f.bold, b) ->
-                    ifpass(f.italics, i) ->
-                        ifpass(f.underline, u) ->
-                            ifpass(f.strikethrough, s) ->
-                                if imgel
-                                    img src:href
-                                else
-                                    pass seg.text
+        ifpass(href, ((f) -> a {href, onclick}, f)) ->
+            ifpass(f.bold, b) ->
+                ifpass(f.italics, i) ->
+                    ifpass(f.underline, u) ->
+                        ifpass(f.strikethrough, s) ->
+                            pass seg.text
     null
 
+
 formatAttachment = (att) ->
-    if att?[0]?.embed_item?.type_
-        {href, thumb} = extractProtobufStyle(att)
-    else if att?[0]?.embed_item?.type
-        {href, thumb} = extractObjectStyle(att)
-    else
-        return console.warn 'ignoring attribute', att
-    return unless href
-    div class:'attach', ->
-        a {href, onclick}, -> img src:href, onload: (ev) ->
-            # changing the class name triggers the MutationObserver to
-            # adjust the scroll position.
-            ev.target.className = 'loaded'
+    unless att?.imgel
+        if att?[0]?.embed_item?.type_
+            {href, thumb} = extractProtobufStyle(att)
+        else if att?[0]?.embed_item?.type
+            {href, thumb} = extractObjectStyle(att)
+        else
+            return console.warn 'ignoring attribute', att
+        return unless href
+        preload att, href
+
+    # only insert loaded images
+    if att?.imgel?.loaded
+        href = att.imgel.src
+        div class:'attach', ->
+            a {href, onclick}, -> img src:href
+
+
+preload = (att, href) ->
+    att.imgel = document.createElement 'img'
+    att.imgel.onload = ->
+        # spot whether it is finished
+        return unless typeof att.imgel.naturalWidth == 'number'
+        # signal to ui it's done
+        att.imgel.loaded = true
+        # and draw it in an orderly manner
+        later -> action 'loadedimg'
+    att.imgel.src = href
+
+handle 'loadedimg', ->
+    # allow controller to record current position
+    updated 'beforeImg'
+    # will do the redraw inserting the image
+    updated 'conv'
+    # fix the position after redraw
+    updated 'afterImg'
+
 
 extractProtobufStyle = (att) ->
-    {data, type_} = att?[0]?.embed_item ? {}
+    eitem = att?[0]?.embed_item
+    {data, type_} = eitem ? {}
     t = type_?[0]
     return console.warn 'ignoring (old) attachment type', att unless t == 249
     k = Object.keys(data)?[0]

@@ -73,3 +73,19 @@ redraw = ->
     messages models
     input models
     convadd models
+
+handle 'update:switchConv', ->
+    messages.scrollToBottom()
+
+handle 'update:beforeHistory', ->
+    applayout.recordMainPos()
+handle 'update:afterHistory', ->
+    applayout.adjustMainPos()
+
+handle 'update:beforeImg', ->
+    applayout.recordMainPos()
+handle 'update:afterImg', ->
+    if viewstate.atbottom
+        messages.scrollToBottom()
+    else
+        applayout.adjustMainPos()
