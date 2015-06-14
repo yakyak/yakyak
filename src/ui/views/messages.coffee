@@ -107,6 +107,7 @@ module.exports = view (models) ->
                                     content = e.chat_message?.message_content
                                     format content
                                     loadInlineImages content
+                                    span class:'icon-spin1 animate-spin' if e.placeholder
     if lastConv != conv_id
         lastConv = conv_id
         later atTopIfSmall

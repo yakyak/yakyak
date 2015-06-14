@@ -243,6 +243,13 @@ funcs =
         # as when we injected DOM.
         updated 'afterHistory'
 
+    updatePlaceholderImage: ({conv_id, client_generated_id, path}) ->
+        return unless c = lookup[conv_id]
+        cpos = findClientGenerated c, client_generated_id
+        ev = c.event[cpos]
+        seg = ev.chat_message.message_content.segment[0]
+        seg.link_data = link_target:path
+        updated 'conv'
 
     list: (sort = true) ->
         convs = (v for k, v of lookup when typeof v == 'object')

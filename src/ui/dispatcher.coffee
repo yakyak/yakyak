@@ -118,7 +118,7 @@ handle 'drop', (files) ->
     # ship it
     for file in files
         # message for a placeholder
-        msg = userinput.buildChatMessage 'uploading image'
+        msg = userinput.buildChatMessage 'uploading image…'
         {client_generated_id} = msg
         # add a placeholder for the image
         conv.addChatMessagePlaceholder entity.self.id, msg
@@ -128,11 +128,16 @@ handle 'drop', (files) ->
 handle 'onpasteimage', ->
     conv_id = viewstate.selectedConv
     return unless conv_id
-    msg = userinput.buildChatMessage 'uploading image'
+    msg = userinput.buildChatMessage 'uploading image…'
     {client_generated_id} = msg
     conv.addChatMessagePlaceholder entity.self.id, msg
     ipc.send 'uploadclipboardimage', {conv_id, client_generated_id}
 
+handle 'uploadingimage', (spec) ->
+    # XXX this doesn't look very good because the image
+    # shows, then flickers away before the real is loaded
+    # from the upload.
+    #conv.updatePlaceholderImage spec
 
 handle 'leftresize', (size) -> viewstate.setLeftSize size
 handle 'resize', (dim) -> viewstate.setSize dim
