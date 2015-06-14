@@ -1,4 +1,4 @@
-entity = require './entity'
+entity = require './entity'     #
 viewstate = require './viewstate'
 {nameof, getProxiedName, later}  = require '../util'
 
@@ -54,7 +54,7 @@ addChatMessage = (msg) ->
         # add last
         conv.event.push msg
     # update the sort timestamp to list conv first
-    conv?.self_conversation_state?.sort_timestamp = msg.timestamp
+    conv?.self_conversation_state?.sort_timestamp = msg.timestamp ? (Date.now() * 1000)
     unreadTotal()
     updated 'conv'
     conv
@@ -160,7 +160,7 @@ isPureHangout = do ->
         not (c?.event ? []).some isNotHangout
 
 # the time of the last added event
-lastChanged = (c) -> (c?.event[c.event.length - 1]?.timestamp ? 0) / 1000
+lastChanged = (c) -> (c?.event[c?.event?.length - 1]?.timestamp ? 0) / 1000
 
 # the number of history events to request
 HISTORY_AMOUNT = 20

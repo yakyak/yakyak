@@ -107,7 +107,7 @@ handle 'getentity', (ids) -> ipc.send 'getentity', ids
 handle 'addentities', (es, conv_id) ->
     entity.add e for e in es ? []
     if conv_id # auto-add these ppl to a conv
-        r.entities.forEach (p) -> conv.addParticipant conv_id, p
+        (es ? []).forEach (p) -> conv.addParticipant conv_id, p
         viewstate.setState viewstate.STATE_NORMAL
 
 handle 'drop', (files) ->
@@ -176,6 +176,7 @@ handle 'saveconversation', ->
 
 handle 'conversation_rename', (c) ->
     conv.rename c, c.conversation_rename.new_name
+    conv.addChatMessage c
 
 handle 'membership_change', (e) ->
     conv_id = e.conversation_id.id
@@ -184,6 +185,7 @@ handle 'membership_change', (e) ->
         if entity.self.id in ids
             return conv.deleteConv conv_id
         return conv.removeParticipants conv_id, ids
+    conv.addChatMessage e
     ipc.send 'getentity', ids, {add_to_conv: conv_id}
 
 handle 'createconversationdone', (c) ->
@@ -254,7 +256,7 @@ handle 'handlerecentconversations', (r) ->
     connection.setEventState connection.IN_SYNC
 
 handle 'client_conversation', (c) ->
-    conv.add c unless conv[c?.conversation_id?.id]
+    conv.add c
 
 handle 'hangout_event', (e) ->
     return unless e?.hangout_event?.event_type in ['START_HANGOUT', 'END_HANGOUT']

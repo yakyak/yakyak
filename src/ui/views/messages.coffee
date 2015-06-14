@@ -13,6 +13,7 @@ CUTOFF = 5 * 60 * 1000 * 1000 # 5 mins
 # and here we put entities in the entity db for
 # users found only in proxied messages.
 fixProxied = (e, proxied, entity) ->
+    return unless e?.chat_message?.message_content?
     e.chat_message.message_content.proxied = true
     name = e?.chat_message?.message_content?.segment[0]?.text
     # update fallback_name for entity database
@@ -37,7 +38,6 @@ groupEvents = (es, entity) ->
     group = null
     user = null
     for e in es
-        continue unless e.chat_message
         if e.timestamp - (group?.end ? 0) > CUTOFF
             group = {
                 byuser: []
@@ -59,6 +59,9 @@ groupEvents = (es, entity) ->
         group.end = e.timestamp
     groups
 
+# possible classes of messages
+MESSAGE_CLASSES = ['placeholder', 'chat_message',
+'conversation_rename', 'membership_change']
 
 OBSERVE_OPTS =
     childList:true
@@ -94,23 +97,39 @@ module.exports = view (models) ->
                     div class:clz.join(' '), ->
                         a href:linkto(u.cid), {onclick}, class:'sender', ->
                             purl = entity[u.cid].photo_url
-                            if purl
-                                img src:fixlink(purl)
-                            else
+                            unless purl
+                                purl = "images/photo.jpg"
                                 entity.needEntity u.cid
+                            img src:fixlink(purl)
                             span sender
                         div class:'umessages', ->
-                            for e in u.event
-                                mclz = ['message']
-                                mclz.push 'placeholder' if e.placeholder
-                                div id:e.event_id, key:e.event_id, class:mclz.join(' '), ->
-                                    content = e.chat_message?.message_content
-                                    format content
-                                    loadInlineImages content
-                                    span class:'icon-spin1 animate-spin' if e.placeholder
+                            drawMessage(e, entity) for e in u.event
+
     if lastConv != conv_id
         lastConv = conv_id
         later atTopIfSmall
+
+
+drawMessage = (e, entity) ->
+    mclz = ['message']
+    mclz.push c for c in MESSAGE_CLASSES when e[c]?
+    div id:e.event_id, key:e.event_id, class:mclz.join(' '), ->
+        if e.chat_message
+            content = e.chat_message?.message_content
+            format content
+            loadInlineImages content
+            span class:'icon-spin1 animate-spin' if e.placeholder
+        else if e.conversation_rename
+            pass "renamed conversation to #{e.conversation_rename.new_name}"
+            # {new_name: "labbot" old_name: ""}
+        else if e.membership_change
+            t = e.membership_change.type
+            ents = e.membership_change.participant_ids.map (p) -> entity[p.chat_id]
+            names = ents.map(nameof).join(', ')
+            if t == 'JOIN'
+                pass "invited #{names}"
+            else if t == 'LEAVE'
+                pass "#{names} left the conversation"
 
 
 atTopIfSmall = ->
