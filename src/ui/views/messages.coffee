@@ -104,7 +104,9 @@ module.exports = view (models) ->
                                 mclz = ['message']
                                 mclz.push 'placeholder' if e.placeholder
                                 div id:e.event_id, key:e.event_id, class:mclz.join(' '), ->
-                                    format e.chat_message?.message_content
+                                    content = e.chat_message?.message_content
+                                    format content
+                                    loadInlineImages content
     if lastConv != conv_id
         lastConv = conv_id
         later atTopIfSmall
@@ -132,7 +134,7 @@ scrollToBottom = module.exports.scrollToBottom = ->
 ifpass = (t, f) -> if t then f else pass
 
 format = (cont) ->
-    if cont?.attachment?.length
+    if cont?.attachment?
         try
           formatAttachment cont.attachment
         catch e
@@ -142,12 +144,23 @@ format = (cont) ->
         continue unless seg.text
         f = seg.formatting ? {}
         href = seg?.link_data?.link_target
-        ifpass(href, ((f) -> a {href, onclick}, f)) ->
-            ifpass(f.bold, b) ->
-                ifpass(f.italics, i) ->
-                    ifpass(f.underline, u) ->
-                        ifpass(f.strikethrough, s) ->
-                            pass seg.text
+        # these are inline links to images that we try loading
+        # as images and show. (not attachments)
+        imgel = seg?.link_data?.imgel # can be set by loadImages below
+        # if we have such image element, we wrap the segment in a div
+        # to get a new line.
+        ifpass(imgel?.loaded, div) ->
+            ifpass(href, ((f) -> a {href, onclick}, f)) ->
+                ifpass(f.bold, b) ->
+                    ifpass(f.italics, i) ->
+                        ifpass(f.underline, u) ->
+                            ifpass(f.strikethrough, s) ->
+                                if imgel?.loaded
+                                    # when we detect an inline image link
+                                    img src:href
+                                else
+                                    # otherwise show text
+                                    pass seg.text
     null
 
 
@@ -158,7 +171,8 @@ formatAttachment = (att) ->
         else if att?[0]?.embed_item?.type
             {href, thumb} = extractObjectStyle(att)
         else
-            return console.warn 'ignoring attribute', att
+            console.warn 'ignoring attachment', att unless att?.length == 0
+            return
         return unless href
         preload att, href
 
@@ -212,14 +226,10 @@ extractObjectStyle = (att) ->
         console.warn 'ignoring (new) type', type
 
 
-isImg = (url) -> url?.match /\.(png|jpg|gif|svg)$/i
-
-loadImages = (conv_id, cont) ->
+# these are images that are single segments that we detect as being
+# images (not attachments).
+loadInlineImages = (cont) ->
     for seg, i in cont?.segment ? []
         href = seg?.link_data?.link_target
-        if isImg(href) and !seg.link_data.img
-            seg.link_data.img = imgel = document.createElement 'img'
-            imgel.src = href
-            imgel.onload = (ev) ->
-                return unless typeof img.naturalWidth == 'number'
-                action 'imgload', conv_id
+        if isImg(href) and !seg.link_data.imgel
+            preload seg.link_data, href
