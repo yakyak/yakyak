@@ -232,7 +232,7 @@ funcs =
         c.requestinghistory = false
         event = state?.event
         c.event = (event ? []).concat (c.event ? [])
-        c.nomorehistory = true if (event?.length ? 0) < HISTORY_AMOUNT
+        c.nomorehistory = true if event?.length == 0
 
         # first signal is to give views a change to record the
         # current view position before injecting new DOM
