@@ -135,7 +135,7 @@ drawMessage = (e, entity) ->
 atTopIfSmall = ->
     screl = document.querySelector('.main')
     msgel = document.querySelector('.messages')
-    action 'attop', msgel.offsetHeight < screl.offsetHeight
+    action 'attop', msgel?.offsetHeight < screl?.offsetHeight
 
 
 # when there's mutation, we scroll to bottom in case we already are at bottom
