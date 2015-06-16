@@ -287,6 +287,7 @@ describe 'conv', ->
                         },
                         "timestamp": 12345000,
                         "placeholder": true
+                        "uploadimage": undefined
                     }
                 ]
             }

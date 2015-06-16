@@ -118,7 +118,8 @@ drawMessage = (e, entity) ->
             content = e.chat_message?.message_content
             format content
             loadInlineImages content
-            span class:'icon-spin1 animate-spin' if e.placeholder
+            if e.placeholder and e.uploadimage
+                span class:'icon-spin1 animate-spin'
         else if e.conversation_rename
             pass "renamed conversation to #{e.conversation_rename.new_name}"
             # {new_name: "labbot" old_name: ""}

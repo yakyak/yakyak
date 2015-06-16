@@ -121,6 +121,7 @@ handle 'drop', (files) ->
     for file in files
         # message for a placeholder
         msg = userinput.buildChatMessage 'uploading image…'
+        msg.uploadimage = true
         {client_generated_id} = msg
         # add a placeholder for the image
         conv.addChatMessagePlaceholder entity.self.id, msg
@@ -131,6 +132,7 @@ handle 'onpasteimage', ->
     conv_id = viewstate.selectedConv
     return unless conv_id
     msg = userinput.buildChatMessage 'uploading image…'
+    msg.uploadimage = true
     {client_generated_id} = msg
     conv.addChatMessagePlaceholder entity.self.id, msg
     ipc.send 'uploadclipboardimage', {conv_id, client_generated_id}
