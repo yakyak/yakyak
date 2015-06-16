@@ -258,7 +258,7 @@ handle 'handlerecentconversations', (r) ->
     connection.setEventState connection.IN_SYNC
 
 handle 'client_conversation', (c) ->
-    conv.add c
+    conv.add c unless conv[c?.conversation_id?.id]
 
 handle 'hangout_event', (e) ->
     return unless e?.hangout_event?.event_type in ['START_HANGOUT', 'END_HANGOUT']
