@@ -26,10 +26,14 @@ module.exports = exp =
     state: null       # current connection state
     eventState: null  # current event state
     lastActive: tryparse(localStorage.lastActive) ? 0 # last activity timestamp
+    wasConnected: false
 
     setState: (state) ->
         return if @state == state
         @state = state
+        if @wasConnected and state == STATE.CONNECTED
+            later -> action 'syncrecentconversations'
+        @wasConnected = @wasConnected or state == STATE.CONNECTED
         updated 'connection'
 
     infoText: -> info[@state] ? info.unknown

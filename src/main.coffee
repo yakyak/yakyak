@@ -92,10 +92,17 @@ app.on 'ready', ->
     # attempts to the client.
     reconnect = -> client.connect(creds)
 
+    # counter for reconnects
+    reconnectCount = 0
     # first connect
     reconnect().then ->
-        # send without being prompted on startup
-        sendInit()
+        console.log 'connected', reconnectCount
+        # on first connect, send init, after that only resync
+        if reconnectCount == 0
+            sendInit()
+        else
+            syncrecent()
+        reconnectCount++
 
     # client deals with window sizing
     mainWindow.on 'resize', (ev) -> ipcsend 'resize', mainWindow.getSize()
