@@ -59,7 +59,9 @@ module.exports = (models) ->
             message: text
             wait: true
             sender: 'com.github.yakyak'
-        , (err, res) -> if res?.trim() == 'Activate' then action 'selectConv', c
+        , (err, res) -> if res?.trim() == 'Activate'
+          action 'appfocus'
+          action 'selectConv', c
 
 
 textMessage = (cont, proxied) ->

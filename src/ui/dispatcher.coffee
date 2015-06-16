@@ -88,6 +88,8 @@ handle 'lastActivity', ->
     sendsetpresence()
     resendfocus() if document.hasFocus()
 
+handle 'appfocus', ->
+    ipc.send 'appfocus'
 
 handle 'updatewatermark', do ->
     throttleWaterByConv = {}

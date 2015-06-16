@@ -175,6 +175,8 @@ app.on 'ready', ->
         client.setfocus conv_id
     , false, (ev, conv_id) -> conv_id
 
+    ipc.on 'appfocus', -> app.focus()
+
     # no retries, dedupe on conv_id
     ipc.on 'settyping', seqreq (ev, conv_id, v) ->
         client.settyping conv_id, v
