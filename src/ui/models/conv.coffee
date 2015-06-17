@@ -161,7 +161,7 @@ isPureHangout = do ->
         not (c?.event ? []).some isNotHangout
 
 # the time of the last added event
-lastChanged = (c) -> (c?.event[c?.event?.length - 1]?.timestamp ? 0) / 1000
+lastChanged = (c) -> (c?.event[(c?.event?.length ? 0) - 1]?.timestamp ? 0) / 1000
 
 # the number of history events to request
 HISTORY_AMOUNT = 20
