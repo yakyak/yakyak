@@ -24,15 +24,19 @@ sed -i.bak s/com\.github\.electron/com\.github\.yakyak/ Yakyak.app/Contents/Info
 mv Yakyak.app/Contents/MacOS/Electron Yakyak.app/Contents/MacOS/Yakyak
 cp -R ../../app Yakyak.app/Contents/Resources/app
 cp ../../src/icons/atom.icns Yakyak.app/Contents/Resources/atom.icns
+zip -r ../yakyak-osx.app.zip Yakyak.app
 cd ..
 
 cd win32-ia32
 mv electron.exe yakyak.exe
 cp -R ../../app resources/app
 cd ..
+zip -r yakyak-win32-ia32.zip win32-ia32
 
 cd linux-ia32
 mv electron yakyak
 cp -R ../../app resources/app
 cd ..
+zip -r yakyak-linux-ia32.zip linux-ia32
 
+cd ..
