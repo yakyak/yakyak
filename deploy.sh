@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for dep in wget unzip sed; do
+for dep in curl unzip sed; do
   echo "checking dependency... $dep"
   test ! $(which $dep) && echo "ERROR: missing $dep" && exit 1
 done
@@ -11,10 +11,11 @@ PLATFORMS=("darwin-x64" "linux-ia32" "win32-ia32")
 mkdir -p dist
 cd dist
 for PLATFORM in ${PLATFORMS[*]}; do
-  rm -rf $PLATFORM
-  test ! -f electron-v$ELECTRON_VERSION-$PLATFORM.zip && \
-    wget https://github.com/atom/electron/releases/download/v$ELECTRON_VERSION/electron-v$ELECTRON_VERSION-$PLATFORM.zip -O electron-v$ELECTRON_VERSION-$PLATFORM.zip
-  unzip -o electron-v$ELECTRON_VERSION-$PLATFORM.zip -d $PLATFORM
+    rm -rf $PLATFORM
+    echo "https://github.com/atom/electron/releases/download/v$ELECTRON_VERSION/electron-v$ELECTRON_VERSION-$PLATFORM.zip"    
+    test ! -f electron-v$ELECTRON_VERSION-$PLATFORM.zip && \
+    curl -LO https://github.com/atom/electron/releases/download/v$ELECTRON_VERSION/electron-v$ELECTRON_VERSION-$PLATFORM.zip
+    unzip -o electron-v$ELECTRON_VERSION-$PLATFORM.zip -d $PLATFORM
 done
 
 cd darwin-x64
