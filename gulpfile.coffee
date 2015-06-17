@@ -11,23 +11,8 @@ concat     = require 'gulp-concat'
 autoReload = require 'gulp-auto-reload'
 changed    = require 'gulp-changed'
 
-#outbin = './Yakyak.app'
 outapp = './app'
 outui  = outapp + '/ui'
-
-#copyPrebuilt = ->
-#  # XXX this stinks, but gulp can't deal with
-#  # the symlinks in the binary.
-#  gutil.log 'Copying prebuilt binary to', gutil.colors.magenta(outbin)
-#  execSync 'cp -R node_modules/electron-prebuilt/dist/Electron.app Yakyak.app'
-#  gutil.log 'Change app name to Yakyak'
-#  execSync 'sed -i.bak s/Electron/Yakyak/ Yakyak.app/Contents/Info.plist'
-#  execSync 'sed -i.bak s/com\.github\.electron/com\.github\.yakyak/ Yakyak.app/Contents/Info.plist'
-#  execSync 'mv Yakyak.app/Contents/MacOS/Electron Yakyak.app/Contents/MacOS/Yakyak'
-#  execSync 'cp src/icons/atom.icns Yakyak.app/Contents/Resources/atom.icns'
-
-#gulp.task 'pre', ->
-#  copyPrebuilt() unless fs.existsSync outbin
 
 paths =
   README:  './README.md'
@@ -116,7 +101,6 @@ gulp.task 'reloader', ->
 
 
 gulp.task 'clean', (cb) ->
-#  rimraf outbin, cb
 
 gulp.task 'default', ['package', 'coffee', 'html', 'images', 'less', 'fontello']
 
