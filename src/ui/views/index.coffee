@@ -7,3 +7,4 @@ module.exports =
     convadd:   require './convadd'
     controls:  require './controls'
     notifications: require './notifications'
+    typinginfo: require './typinginfo'

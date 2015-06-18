@@ -96,7 +96,7 @@ module.exports = view (models) ->
                     clz.push 'self' if entity.isSelf(u.cid)
                     div class:clz.join(' '), ->
                         a href:linkto(u.cid), {onclick}, class:'sender', ->
-                            purl = entity[u.cid].photo_url
+                            purl = entity[u.cid]?.photo_url
                             unless purl
                                 purl = "images/photo.jpg"
                                 entity.needEntity u.cid

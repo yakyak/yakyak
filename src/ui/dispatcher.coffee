@@ -238,8 +238,9 @@ handle 'settyping', (v) ->
     ipc.send 'settyping', conv_id, v
 
 handle 'typing', (t) ->
-    # console.log t
-
+    conv.addTyping t
+handle 'pruneTyping', (conv_id) ->
+    conv.pruneTyping conv_id
 
 handle 'syncallnewevents', throttle 10000, (time) ->
     return unless time

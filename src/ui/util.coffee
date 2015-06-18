@@ -32,5 +32,9 @@ fixlink = (l) -> if l?[0] == '/' then "https:#{l}" else l
 
 topof = (el) -> el?.offsetTop + if el?.offsetParent then topof(el.offsetParent) else 0
 
-module.exports = {nameof, linkto, later, throttle,
+uniqfn = (as, fn) ->
+    fned = as.map fn
+    as.filter (v, i) -> fned.indexOf(fned[i]) == i
+
+module.exports = {nameof, linkto, later, throttle, uniqfn,
 isAboutLink, getProxiedName, tryparse, fixlink, topof}

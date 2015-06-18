@@ -1,7 +1,7 @@
 remote = require 'remote'
 
 {applayout, convlist, messages, input, conninfo, convadd, controls,
-notifications} = require './index'
+notifications, typinginfo} = require './index'
 
 models      = require '../models'
 {viewstate, connection} = models
@@ -37,17 +37,20 @@ handle 'update:viewstate', ->
             later -> remote.getCurrentWindow().setPosition viewstate.pos...
         applayout.left null
         applayout.main null
+        applayout.maininfo null
         applayout.foot null
     else if viewstate.state == viewstate.STATE_NORMAL
         redraw()
         applayout.lfoot controls
         applayout.left convlist
         applayout.main messages
+        applayout.maininfo typinginfo
         applayout.foot input
     else if viewstate.state == viewstate.STATE_ADD_CONVERSATION
         redraw()
         applayout.left convlist
         applayout.main convadd
+        applayout.maininfo null
         applayout.foot null
     else
         console.log 'unknown viewstate.state', viewstate.state
@@ -71,6 +74,7 @@ redraw = ->
     controls models
     convlist models
     messages models
+    typinginfo models
     input models
     convadd models
 
@@ -89,3 +93,7 @@ handle 'update:afterImg', ->
         messages.scrollToBottom()
     else
         applayout.adjustMainPos()
+
+handle 'update:startTyping', ->
+    if viewstate.atbottom
+        messages.scrollToBottom()

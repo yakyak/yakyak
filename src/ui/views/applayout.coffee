@@ -63,6 +63,7 @@ module.exports = exp = layout ->
         div class:'leftresize', 'data-resize':'leftResize'
         div class:'right', ->
             div class:'main', region('main'), onscroll: onScroll
+            div class:'maininfo', region('maininfo')
             div class:'foot', region('foot')
     attachListeners()
 

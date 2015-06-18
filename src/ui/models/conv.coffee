@@ -1,6 +1,6 @@
 entity = require './entity'     #
 viewstate = require './viewstate'
-{nameof, getProxiedName, later}  = require '../util'
+{nameof, getProxiedName, later, uniqfn}  = require '../util'
 
 merge   = (t, os...) -> t[k] = v for k,v of o when v not in [null, undefined] for o in os; t
 
@@ -161,10 +161,68 @@ isPureHangout = do ->
         not (c?.event ? []).some isNotHangout
 
 # the time of the last added event
-lastChanged = (c) -> (c?.event[(c?.event?.length ? 0) - 1]?.timestamp ? 0) / 1000
+lastChanged = (c) -> (c?.event?[(c?.event?.length ? 0) - 1]?.timestamp ? 0) / 1000
 
 # the number of history events to request
 HISTORY_AMOUNT = 20
+
+# add a typing entry
+addTyping = (typing) ->
+    conv_id = typing?.conversation_id?.id
+    # no typing entries for self
+    return if entity.isSelf typing.user_id.chat_id
+    # and no entries in non-existing convs
+    return unless c = lookup[conv_id]
+    c.typing = [] unless c.typing
+    # length at start
+    len = c.typing.length
+    # add new state to start of array
+    c.typing.unshift typing
+    # ensure there's only one entry in array per user
+    c.typing = uniqfn c.typing, (t) -> t.user_id.chat_id
+    # and sort it in a stable way
+    c.typing.sort (t1, t2) -> t1.user_id.chat_id - t2.user_id.chat_id
+    # schedule a pruning
+    later -> action 'pruneTyping', conv_id
+    # and mark as updated
+    updated 'conv'
+    # indiciate we just started having typing entries
+    updated 'startTyping' if len == 0
+
+# prune old typing entries
+pruneTyping = do ->
+
+    findNext = (arr) ->
+        expiry = arr.map (t) -> t.timestamp + keepFor(t)
+        next = i for t, i in expiry when !next or expiry[i] < expiry[next]
+        next
+
+    KEEP_STOPPED = 500   # time to keep STOPPED typing entries
+    KEEP_OTHERS  = 10000 # time to keep other typing entries before pruning
+
+    keepFor = (t) -> if t?.status == 'STOPPED' then KEEP_STOPPED else KEEP_OTHERS
+
+    prune = (t) -> (Date.now() - t?.timestamp / 1000) < keepFor(t)
+
+    (conv_id) ->
+        return unless c = lookup[conv_id]
+        # stop existing timer
+        c.typingtimer = clearTimeout c.typingtimer if c.typingtimer
+        # the length before prune
+        lengthBefore = c.typing.length
+        # filter out old stuff
+        c.typing = c.typing.filter(prune)
+        # maybe we changed something?
+        updated 'conv' if c.typing.length != lengthBefore
+        # when is next expiring?
+        return unless nextidx = findNext c.typing
+        # the next entry to expire
+        next = c.typing[nextidx]
+        # how long we wait until doing another prune
+        waitUntil = (keepFor(next) + next.timestamp / 1000) - Date.now()
+        return console.error 'typing prune error', waitUntil if waitUntil < 0
+        # schedule next prune
+        c.typingtimer = setTimeout (-> action 'pruneTyping', conv_id), waitUntil
 
 funcs =
     count: ->
@@ -192,6 +250,8 @@ funcs =
     isQuiet: isQuiet
     isPureHangout: isPureHangout
     lastChanged: lastChanged
+    addTyping: addTyping
+    pruneTyping: pruneTyping
 
     setNotificationLevel: (conv_id, level) ->
         return unless c = lookup[conv_id]
