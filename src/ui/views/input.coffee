@@ -79,4 +79,4 @@ maybeFocus = ->
 
 handle 'noinputkeydown', (ev) ->
     el = document.querySelector('.input textarea')
-    el.focus() if el
+    el.focus() if el and not isAltCtrlMeta(ev)
