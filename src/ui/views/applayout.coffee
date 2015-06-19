@@ -7,9 +7,13 @@ attachListeners = ->
     window.addEventListener 'mousemove', onActivity
     window.addEventListener 'click', onActivity
     window.addEventListener 'keydown', onActivity
+    window.addEventListener 'keydown', noInputKeydown
 
 onActivity = throttle 100, (ev) ->
     action 'activity', ev.timeStamp ? Date.now()
+
+noInputKeydown = (ev) ->
+    action 'noinputkeydown', ev if ev.target.tagName != 'TEXTAREA'
 
 onScroll = throttle 20, (ev) ->
     el = ev.target

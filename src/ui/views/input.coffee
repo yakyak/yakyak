@@ -76,3 +76,7 @@ maybeFocus = ->
         # steal it!!!
         el = document.querySelector('.input textarea')
         el.focus() if el
+
+handle 'noinputkeydown', (ev) ->
+    el = document.querySelector('.input textarea')
+    el.focus() if el
