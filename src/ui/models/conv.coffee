@@ -197,7 +197,7 @@ pruneTyping = do ->
         next = i for t, i in expiry when !next or expiry[i] < expiry[next]
         next
 
-    KEEP_STOPPED = 500   # time to keep STOPPED typing entries
+    KEEP_STOPPED = 1500  # time to keep STOPPED typing entries
     KEEP_OTHERS  = 10000 # time to keep other typing entries before pruning
 
     keepFor = (t) -> if t?.status == 'STOPPED' then KEEP_STOPPED else KEEP_OTHERS
