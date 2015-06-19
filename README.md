@@ -9,9 +9,13 @@ Desktop client for Google Hangouts
 
 ## Install it
 
-This a beta. We love bug reports!
+This the second beta. We love [bug reports](https://github.com/yakyak/yakyak/issues)!
 
-Mac OS X - download the [disk image here](https://github.com/yakyak/yakyak/releases/download/v0.0.1/Yakyak.dmg.zip).
+Pre-built binaries:
+
+[Mac OS X](https://github.com/yakyak/yakyak/releases/download/v0.1.0/yakyak-osx.app.zip)
+[Windows](https://github.com/yakyak/yakyak/releases/download/v0.1.0/yakyak-win32-ia32.zip)
+[Linux](https://github.com/yakyak/yakyak/releases/download/v0.1.0/yakyak-linux-ia32.zip)
 
 What does it do:
 
@@ -23,17 +27,18 @@ What does it do:
 * Drag-drop or copy-paste images
 * Hangupsbot sync room aware (no bot name, proper user pics)
 * Show inline images
-* Send presence/focus/typing to behave like a proper client
+* Send presence/focus/typing/activeclient to behave like a proper client
+* History scrollback
+* Video/audio integration (open in chrome)
+* Focus/typing indications (mainly a design issue. keep it clean)
 
 What doesn't it do (yet?):
 
-* History scrollback
-* Proper video/audio integration (plan to open in chrome)
-* Focus/typing indications (mainly a design issue. keep it clean)
 * Have a serious icon
-* Windows binary (though that should be easy)
 
 ![yakyak](https://cloud.githubusercontent.com/assets/227204/8255223/b6409032-169e-11e5-8953-488413b305b4.png)
+
+![yakyak with thumbs](https://cloud.githubusercontent.com/assets/227204/8255338/991fde08-169f-11e5-95c7-29d427cb64d8.png)
 
 ## Credits
 
