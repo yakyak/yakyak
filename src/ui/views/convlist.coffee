@@ -39,7 +39,10 @@ module.exports = view (models) ->
                                 image = "images/photo.jpg"
                             img src:fixlink(image)
                 if c.typing?.length > 0
-                    span class:'convtyping animate-growshrink', '⋮'
+                    anyTyping = c.typing.filter((t) -> t?.status == 'TYPING').length
+                    tclz = ['convtyping']
+                    tclz.push 'animate-growshrink' if anyTyping
+                    span class:tclz.join(' '), '⋮'
                 span class:'convname', name
                 if ur > 0 and not conv.isQuiet(c)
                     lbl = if ur >= conv.MAX_UNREAD then "#{conv.MAX_UNREAD}+" else ur + ''
