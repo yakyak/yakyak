@@ -38,6 +38,8 @@ module.exports = view (models) ->
                                 entity.needEntity(p.id)
                                 image = "images/photo.jpg"
                             img src:fixlink(image)
+                if c.typing?.length > 0
+                    span class:'convtyping animate-growshrink', '⋮'
                 span class:'convname', name
                 if ur > 0 and not conv.isQuiet(c)
                     lbl = if ur >= conv.MAX_UNREAD then "#{conv.MAX_UNREAD}+" else ur + ''

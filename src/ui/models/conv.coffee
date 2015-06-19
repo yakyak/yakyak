@@ -215,7 +215,7 @@ pruneTyping = do ->
         # maybe we changed something?
         updated 'conv' if c.typing.length != lengthBefore
         # when is next expiring?
-        return unless nextidx = findNext c.typing
+        return unless (nextidx = findNext c.typing) >= 0
         # the next entry to expire
         next = c.typing[nextidx]
         # how long we wait until doing another prune
