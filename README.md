@@ -38,7 +38,7 @@ What doesn't it do (yet?):
 
 ![yakyak](https://cloud.githubusercontent.com/assets/227204/8255223/b6409032-169e-11e5-8953-488413b305b4.png)
 
-![yakyak with thumbs](https://cloud.githubusercontent.com/assets/227204/8255338/991fde08-169f-11e5-95c7-29d427cb64d8.png)
+![yakyak with thumbs](https://cloud.githubusercontent.com/assets/227204/8255540/d922d252-16a0-11e5-86b2-bfec901bbdbc.png)
 
 ## Credits
 
