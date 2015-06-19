@@ -38,16 +38,16 @@ module.exports = view (models) ->
                                 entity.needEntity(p.id)
                                 image = "images/photo.jpg"
                             img src:fixlink(image)
-                if c.typing?.length > 0
-                    anyTyping = c.typing.filter((t) -> t?.status == 'TYPING').length
-                    tclz = ['convtyping']
-                    tclz.push 'animate-growshrink' if anyTyping
-                    span class:tclz.join(' '), '⋮'
                 span class:'convname', name
                 if ur > 0 and not conv.isQuiet(c)
                     lbl = if ur >= conv.MAX_UNREAD then "#{conv.MAX_UNREAD}+" else ur + ''
                     span class:'unreadcount', lbl
                 div class:'divider'
+                if c.typing?.length > 0
+                    anyTyping = c.typing.filter((t) -> t?.status == 'TYPING').length
+                    tclz = ['convtyping']
+                    tclz.push 'animate-growshrink' if anyTyping
+                    span class:tclz.join(' '), '⋮'
             , onclick: (ev) ->
                 ev.preventDefault()
                 action 'selectConv', c
