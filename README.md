@@ -33,7 +33,7 @@ What doesn't it do (yet?):
 * Have a serious icon
 * Windows binary (though that should be easy)
 
-![yakyak](https://cloud.githubusercontent.com/assets/227204/8025251/07d3ad20-0d4f-11e5-9d97-4e695eeb76bd.png)
+![yakyak](https://cloud.githubusercontent.com/assets/227204/8255223/b6409032-169e-11e5-8953-488413b305b4.png)
 
 ## Credits
 
