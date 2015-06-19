@@ -8,8 +8,7 @@ module.exports = view (models) ->
     c = conv[conv_id]
     return unless c
 
-    typing = (t for t in (c.typing or []) when t.status != 'STOPPED')
-    if typing.length
+    if c.typing?.length
         div class:'typing', ->
             for t, i in c.typing
                 name = nameof entity[t.user_id.chat_id]
