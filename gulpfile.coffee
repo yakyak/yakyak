@@ -101,6 +101,7 @@ gulp.task 'reloader', ->
 
 
 gulp.task 'clean', (cb) ->
+    rimraf outapp, cb
 
 gulp.task 'default', ['package', 'coffee', 'html', 'images', 'less', 'fontello']
 
