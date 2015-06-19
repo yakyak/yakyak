@@ -123,9 +123,15 @@ app.on 'ready', ->
             ipcsend 'sendchatmessage:result', r
         , true # do retry
 
+    # no retry, only one outstanding call
     ipc.on 'setpresence', seqreq ->
         client.setpresence(true)
-    , false # no retry
+    , false, -> 1
+
+    # no retry, only one outstanding call
+    ipc.on 'setactiveclient', seqreq (ev, active, secs) ->
+        client.setactiveclient active, secs
+    , false, -> 1
 
     # watermarking is only interesting for the last of each conv_id
     # retry send and dedupe for each conv_id

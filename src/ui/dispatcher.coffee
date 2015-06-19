@@ -81,7 +81,9 @@ handle 'sendmessage', (txt) ->
     conv.addChatMessagePlaceholder entity.self.id, msg
 
 
-sendsetpresence = throttle 10000, -> ipc.send 'setpresence'
+sendsetpresence = throttle 10000, ->
+    ipc.send 'setpresence'
+    ipc.send 'setactiveclient', true, 15
 resendfocus = throttle 15000, -> ipc.send 'setfocus', viewstate.selectedConv
 
 handle 'lastActivity', ->
