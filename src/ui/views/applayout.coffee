@@ -27,18 +27,39 @@ onScroll = throttle 20, (ev) ->
     attop = el.scrollTop <= (el.offsetHeight / 2)
     action 'attop', attop
 
+addClass = (el, cl) ->
+    return unless el
+    return if RegExp("\\s*#{cl}").exec el.className
+    el.className += if el.className then " #{cl}" else cl
+    el
+
+removeClass = (el, cl) ->
+    return unless el
+    el.className = el.className.replace RegExp("\\s*#{cl}"), ''
+    el
+
+closest = (el, cl) ->
+    return unless el
+    cl = RegExp("\\s*#{cl}") unless cl instanceof RegExp
+    if el.className.match(cl) then el else closest(el.parentNode, cl)
+
 drag = do ->
 
     ondragover = ondragenter = (ev) ->
         # this enables dragging at all
         ev.preventDefault()
+        addClass closest(ev.target, 'dragtarget'), 'dragover'
+        ev.dataTransfer.dropEffect = 'copy'
         return false
 
     ondrop = (ev) ->
         ev.preventDefault()
         action 'drop', ev.dataTransfer.files
 
-    {ondragover, ondragenter, ondrop}
+    ondragleave = (ev) ->
+        removeClass closest(ev.target, 'dragtarget'), 'dragover'
+
+    {ondragover, ondragenter, ondrop, ondragleave}
 
 
 resize = do ->
@@ -60,7 +81,7 @@ resizers =
 
 
 module.exports = exp = layout ->
-    div class:'applayout', drag, resize, ->
+    div class:'applayout dragtarget', drag, resize, ->
         div class:'left', ->
             div class:'list', region('left')
             div class:'lfoot', region('lfoot')
