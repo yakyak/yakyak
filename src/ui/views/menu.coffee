@@ -35,7 +35,28 @@ template = (viewstate) -> [{
             checked:viewstate.showConvThumbs
             click: (it) -> action 'showconvthumbs', it.checked
         }
-    ]}
+    ]},{
+    label: 'Window',
+    submenu: [
+        {
+            label: 'Minimize',
+            accelerator: 'Command+M',
+            selector: 'performMiniaturize:'
+        },
+        {
+            label: 'Close',
+            accelerator: 'Command+W',
+            selector: 'performClose:'
+        },
+        {
+            type: 'separator'
+        },
+        {
+            label: 'Bring All to Front',
+            selector: 'arrangeInFront:'
+        }
+      ]
+    }
 ]
 
 module.exports = (viewstate) ->
