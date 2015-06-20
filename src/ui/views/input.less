@@ -1,14 +1,11 @@
 
 .input {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    position: relative;
     > div {
         padding: 12px 15px 10px;
-        width: 100%;
-        display: flex;
+        width: ~"calc(100% - 28px)";
         textarea {
-            flex: 1;
             width: 100%;
             resize: vertical;
             font-size: 14px;
@@ -19,6 +16,9 @@
             padding: 3px 10px;
         }
         button {
+            position: absolute;
+            right: 12px;
+            bottom: 12px;
             flex: none;
             margin-left: 5px;
             background: white;
