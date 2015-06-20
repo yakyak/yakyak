@@ -1,7 +1,7 @@
 remote = require 'remote'
 Menu = remote.require 'menu'
 
-template = (viewstate) -> [{
+templateOsx = (viewstate) -> [{
     label: 'Yakyak'
     submenu: [
         { label: 'About YakYak', selector: 'orderFrontStandardAboutPanel:' }
@@ -63,5 +63,33 @@ template = (viewstate) -> [{
     }
 ]
 
+# TODO: find proper windows/linux accelerators
+templateOthers = (viewstate) -> [{
+    label: 'Yakyak'
+    submenu: [
+        { label: 'Open Inspector', accelerator: 'Command+Alt+I', click: -> action 'devtools' }
+        { type: 'separator' }
+        { label: 'Logout', click: -> action 'logout' }
+        { label: 'Quit', accelerator: 'Command+Q', click: -> action 'quit' }
+    ]}, {
+    label: 'View'
+    submenu: [
+        {
+            type:'checkbox'
+            label: 'Show Conversation Thumbnails'
+            checked:viewstate.showConvThumbs
+            click: (it) -> action 'showconvthumbs', it.checked
+        }, {
+            label: 'Enter Full Screen',
+            accelerator: 'Command+Control+F',
+            click: -> action 'togglefullscreen'
+        }
+    ]}
+]
+
 module.exports = (viewstate) ->
-    Menu.setApplicationMenu Menu.buildFromTemplate template(viewstate)
+    if require('os').platform() == 'darwin'
+        Menu.setApplicationMenu Menu.buildFromTemplate templateOsx(viewstate)
+    else
+        Menu.setApplicationMenu Menu.buildFromTemplate templateOthers(viewstate)
+    
