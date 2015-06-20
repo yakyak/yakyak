@@ -244,6 +244,9 @@ app.on 'ready', ->
             ipcsend 'getconversation:response', r
     , false, (ev, conv_id, timestamp, max) -> conv_id
 
+    ipc.on 'togglefullscreen', ->
+      mainWindow.setFullScreen not mainWindow.isFullScreen()
+
     # bye bye
     ipc.on 'logout', logout
 

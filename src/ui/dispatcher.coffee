@@ -287,5 +287,8 @@ handle 'devtools', ->
 handle 'quit', ->
     remote.require('app').quit()
 
+handle 'togglefullscreen', ->
+    ipc.send 'togglefullscreen'
+    
 handle 'logout', ->
     ipc.send 'logout'

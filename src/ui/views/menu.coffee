@@ -34,6 +34,10 @@ template = (viewstate) -> [{
             label: 'Show Conversation Thumbnails'
             checked:viewstate.showConvThumbs
             click: (it) -> action 'showconvthumbs', it.checked
+        }, {
+            label: 'Enter Full Screen',
+            accelerator: 'Command+Control+F',
+            click: -> action 'togglefullscreen'
         }
     ]},{
     label: 'Window',
