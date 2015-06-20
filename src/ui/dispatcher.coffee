@@ -3,7 +3,7 @@ remote = require 'remote'
 ipc    = require 'ipc'
 
 {entity, conv, viewstate, userinput, connection, convsettings, notify} = require './models'
-{throttle, later} = require './util'
+{throttle, later, isImg} = require './util'
 
 'connecting connected connect_failed'.split(' ').forEach (n) ->
     handle n, -> connection.setState n
@@ -114,13 +114,18 @@ handle 'addentities', (es, conv_id) ->
         (es ? []).forEach (p) -> conv.addParticipant conv_id, p
         viewstate.setState viewstate.STATE_NORMAL
 
-handle 'drop', (files) ->
+handle 'uploadimage', (files) ->
     # this may change during upload
     conv_id = viewstate.selectedConv
     # sense check that client is in good state
     return unless viewstate.state == viewstate.STATE_NORMAL and conv[conv_id]
     # ship it
     for file in files
+        # only images please
+        unless isImg file.path
+            [_, ext] = file.path.match(/.*(\.\w+)$/) ? []
+            notr "Ignoring file of type #{ext}"
+            continue
         # message for a placeholder
         msg = userinput.buildChatMessage 'uploading image…'
         msg.uploadimage = true
@@ -289,6 +294,6 @@ handle 'quit', ->
 
 handle 'togglefullscreen', ->
     ipc.send 'togglefullscreen'
-    
+
 handle 'logout', ->
     ipc.send 'logout'

@@ -2,9 +2,7 @@ moment = require 'moment'
 shell = require 'shell'
 
 {nameof, linkto, later, forceredraw, throttle,
-getProxiedName, fixlink}  = require '../util'
-
-isImg = (url) -> url?.match /\.(png|jpg|gif|svg)$/i
+getProxiedName, fixlink, isImg}  = require '../util'
 
 CUTOFF = 5 * 60 * 1000 * 1000 # 5 mins
 

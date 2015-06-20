@@ -59,8 +59,14 @@ module.exports = view (models) ->
                     if e.keyIdentifier is "Up" then historyWalk e.target, -1
                     if e.keyIdentifier is "Down" then historyWalk e.target, +1
             action 'lastkeydown', Date.now() unless isAltCtrlMeta(e)
-        , onpaste: (e) -> action 'onpasteimage' if not clipboard.readImage().isEmpty()
-
+        , onpaste: (e) ->
+            action 'onpasteimage' if not clipboard.readImage().isEmpty()
+        button title:'Attach image', onclick: (ev) ->
+            document.getElementById('attachFile').click()
+        , ->
+            span class:'icon-attach'
+        input type:'file', id:'attachFile', accept:'.jpg,.jpeg,.png,.gif', onchange: (ev) ->
+            action 'uploadimage', ev.target.files
 
     # focus when switching convs
     if lastConv != models.viewstate.selectedConv

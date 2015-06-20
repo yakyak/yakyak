@@ -6,7 +6,9 @@
     > div {
         padding: 12px 15px 10px;
         width: 100%;
+        display: flex;
         textarea {
+            flex: 1;
             width: 100%;
             resize: vertical;
             font-size: 14px;
@@ -15,6 +17,24 @@
             border: 1px solid #dedede;
             border-radius: 3px;
             padding: 3px 10px;
+        }
+        button {
+            flex: none;
+            margin-left: 5px;
+            background: white;
+            border: 1px solid #dedede;
+            border-radius: 3px;
+            height: 26px;
+            width: 26px;
+            padding: 0;
+            cursor: pointer;
+            span {
+                display: inline-block;
+                line-height: 24px;
+            }
+        }
+        input[type=file] {
+            display: none;
         }
     }
 }

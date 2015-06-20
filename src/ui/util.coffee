@@ -36,5 +36,7 @@ uniqfn = (as, fn) ->
     fned = as.map fn
     as.filter (v, i) -> fned.indexOf(fned[i]) == i
 
+isImg = (url) -> url?.match /\.(png|jpe?g|gif|svg)$/i
+
 module.exports = {nameof, linkto, later, throttle, uniqfn,
-isAboutLink, getProxiedName, tryparse, fixlink, topof}
+isAboutLink, getProxiedName, tryparse, fixlink, topof, isImg}

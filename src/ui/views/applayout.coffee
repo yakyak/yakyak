@@ -54,7 +54,7 @@ drag = do ->
 
     ondrop = (ev) ->
         ev.preventDefault()
-        action 'drop', ev.dataTransfer.files
+        action 'uploadimage', ev.dataTransfer.files
 
     ondragleave = (ev) ->
         removeClass closest(ev.target, 'dragtarget'), 'dragover'
