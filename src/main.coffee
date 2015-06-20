@@ -23,15 +23,13 @@ client = new Client
     rtokenpath:  paths.rtokenpath
     cookiespath: paths.cookiespath
 
+if fs.existsSync paths.chromecookie
+    fs.unlinkSync paths.chromecookie
+
 plug = (rs, rj) -> (err, val) -> if err then rj(err) else rs(val)
 
 logout = ->
     promise = client.logout()
-    rm = (path) -> Q.Promise((rs, rj) -> fs.unlink(path, plug(rs, rj))).fail (err) ->
-        if err.code == 'ENOENT' then null else Q.reject(err)
-    promise = promise.then ->
-        rm paths.chromecookie
-    promise.fail (e) -> console.log e
     promise.then (res) ->
       argv = process.argv
       spawn = require('child_process').spawn
