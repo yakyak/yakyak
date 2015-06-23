@@ -9,8 +9,6 @@ clipboard = require 'clipboard'
 
 tmp.setGracefulCleanup()
 
-client = new Client()
-
 app = require 'app'
 BrowserWindow = require 'browser-window'
 
