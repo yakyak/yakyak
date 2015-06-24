@@ -13,9 +13,11 @@ This the second beta. We love [bug reports](https://github.com/yakyak/yakyak/iss
 
 Pre-built binaries:
 
-* [Mac OS X](https://github.com/yakyak/yakyak/releases/download/v0.1.0/yakyak-osx.app.zip)
-* [Windows](https://github.com/yakyak/yakyak/releases/download/v0.1.0/yakyak-win32-ia32.zip)
-* [Linux](https://github.com/yakyak/yakyak/releases/download/v0.1.0/yakyak-linux-ia32.zip)
+* [Mac OS X](https://github.com/yakyak/yakyak/releases/download/v0.2.0/yakyak-osx.app.zip)
+* [Linux 32](https://github.com/yakyak/yakyak/releases/download/v0.2.0/yakyak-linux-ia32.zip)
+* [Linux 64](https://github.com/yakyak/yakyak/releases/download/v0.2.0/yakyak-linux-x64.zip)
+* [Windows 32](https://github.com/yakyak/yakyak/releases/download/v0.2.0/yakyak-win32-ia32.zip)
+* [Windows 64](https://github.com/yakyak/yakyak/releases/download/v0.2.0/yakyak-win32-x64.zip)
 
 What does it do:
 
