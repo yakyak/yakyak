@@ -34,10 +34,22 @@ cp -R ../../app resources/app
 cd ..
 zip -r yakyak-win32-ia32.zip win32-ia32
 
+cd win32-x64
+mv electron.exe yakyak.exe
+cp -R ../../app resources/app
+cd ..
+zip -r yakyak-win32-x64.zip win32-x64
+
 cd linux-ia32
 mv electron yakyak
 cp -R ../../app resources/app
 cd ..
 zip -r yakyak-linux-ia32.zip linux-ia32
+
+cd linux-x64
+mv electron yakyak
+cp -R ../../app resources/app
+cd ..
+zip -r yakyak-linux-x64.zip linux-x64
 
 cd ..
