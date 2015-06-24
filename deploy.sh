@@ -6,7 +6,7 @@ for dep in curl unzip sed; do
 done
 
 ELECTRON_VERSION="0.28.1"
-PLATFORMS=("darwin-x64" "linux-ia32" "win32-ia32")
+PLATFORMS=("darwin-x64" "linux-ia32" "linux-x64" "win32-ia32" "win32-x64")
 
 mkdir -p dist
 cd dist
