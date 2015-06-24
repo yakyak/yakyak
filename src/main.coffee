@@ -10,6 +10,13 @@ clipboard = require 'clipboard'
 tmp.setGracefulCleanup()
 
 app = require 'app'
+
+app.resolveProxy 'https://google.com', (proxyURL) ->
+  process.env.HTTPS_PROXY ?= proxyURL
+
+app.resolveProxy 'http://google.com', (proxyURL) ->
+  process.env.HTTP_PROXY ?= proxyURL
+
 BrowserWindow = require 'browser-window'
 
 paths =
