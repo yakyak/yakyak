@@ -59,6 +59,7 @@ module.exports = (models) ->
             message: text
             wait: true
             sender: 'com.github.yakyak'
+            sound: true
         , (err, res) -> if res?.trim() == 'Activate'
           action 'appfocus'
           action 'selectConv', c
