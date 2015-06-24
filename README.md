@@ -9,7 +9,8 @@ Desktop client for Google Hangouts
 
 ## Install it
 
-This the second beta. We love [bug reports](https://github.com/yakyak/yakyak/issues)!
+This the [third beta](https://github.com/yakyak/yakyak/releases/tag/v0.2.0).
+We love [bug reports](https://github.com/yakyak/yakyak/issues)!
 
 Pre-built binaries:
 
@@ -26,7 +27,7 @@ What does it do:
 * Leave/delete conversation
 * Notifications
 * Toggle notifications on/off
-* Drag-drop or copy-paste images
+* Drag-drop, copy-paste or attach-button for image upload.
 * Hangupsbot sync room aware (no bot name, proper user pics)
 * Show inline images
 * Send presence/focus/typing/activeclient to behave like a proper client
@@ -36,7 +37,7 @@ What does it do:
 
 What doesn't it do (yet?):
 
-* Have a serious icon
+* Have a serious icon (this is being adressed)
 
 ![yakyak](https://cloud.githubusercontent.com/assets/227204/8255223/b6409032-169e-11e5-8953-488413b305b4.png)
 
