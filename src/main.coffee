@@ -61,11 +61,11 @@ app.on 'ready', ->
 
         app.resolveProxy 'https://plus.google.com', (proxyURL) ->
             return if proxyURL is 'DIRECT'
-            process.env.HTTPS_PROXY ?= proxyURL.split(' ')[1]
+            process.env.HTTPS_PROXY ?= "http://#{proxyURL.split(' ')[1]}"
 
         app.resolveProxy 'http://plus.google.com', (proxyURL) ->
             return if proxyURL is 'DIRECT'
-            process.env.HTTP_PROXY ?= proxyURL.split(' ')[1]
+            process.env.HTTP_PROXY ?= "http://#{proxyURL.split(' ')[1]}"
 
     # Create the browser window.
     mainWindow = new BrowserWindow {
