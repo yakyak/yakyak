@@ -59,11 +59,11 @@ app.on 'ready', ->
 
         # Format of proxyURL is either "DIRECT" or "PROXY 127.0.0.1:8888"
 
-        app.resolveProxy 'https://google.com', (proxyURL) ->
+        app.resolveProxy 'https://plus.google.com', (proxyURL) ->
             return if proxyURL is 'DIRECT'
             process.env.HTTPS_PROXY ?= proxyURL.split(' ')[1]
 
-        app.resolveProxy 'http://google.com', (proxyURL) ->
+        app.resolveProxy 'http://plus.google.com', (proxyURL) ->
             return if proxyURL is 'DIRECT'
             process.env.HTTP_PROXY ?= proxyURL.split(' ')[1]
 
