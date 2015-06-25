@@ -11,12 +11,6 @@ tmp.setGracefulCleanup()
 
 app = require 'app'
 
-app.resolveProxy 'https://google.com', (proxyURL) ->
-  process.env.HTTPS_PROXY ?= proxyURL
-
-app.resolveProxy 'http://google.com', (proxyURL) ->
-  process.env.HTTP_PROXY ?= proxyURL
-
 BrowserWindow = require 'browser-window'
 
 paths =
@@ -60,6 +54,14 @@ loadAppWindow = ->
 wait = (t) -> Q.Promise (rs) -> setTimeout rs, t
 
 app.on 'ready', ->
+
+    setImmediate ->
+
+        app.resolveProxy 'http://google.com', (proxyURL) ->
+            process.env.HTTP_PROXY ?= proxyURL
+
+        app.resolveProxy 'https://google.com', (proxyURL) ->
+            process.env.HTTPS_PROXY ?= proxyURL
 
     # Create the browser window.
     mainWindow = new BrowserWindow {
