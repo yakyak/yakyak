@@ -10,6 +10,7 @@ clipboard = require 'clipboard'
 tmp.setGracefulCleanup()
 
 app = require 'app'
+
 BrowserWindow = require 'browser-window'
 
 paths =
@@ -54,6 +55,23 @@ wait = (t) -> Q.Promise (rs) -> setTimeout rs, t
 
 app.on 'ready', ->
 
+    setImmediate ->
+        proxiesReturned = 0
+
+        # Format of proxyURL is either "DIRECT" or "PROXY 127.0.0.1:8888"
+
+        app.resolveProxy 'https://plus.google.com', (proxyURL) ->
+            proxiesReturned++
+            unless proxyURL is 'DIRECT'
+                process.env.HTTPS_PROXY ?= "http://#{proxyURL.split(' ')[1]}"
+            doFirstConnection() if proxiesReturned is 2
+
+        app.resolveProxy 'http://plus.google.com', (proxyURL) ->
+            proxiesReturned++
+            unless proxyURL is 'DIRECT'
+                process.env.HTTP_PROXY ?= "http://#{proxyURL.split(' ')[1]}"
+            doFirstConnection() if proxiesReturned is 2
+
     # Create the browser window.
     mainWindow = new BrowserWindow {
         width: 730
@@ -90,15 +108,17 @@ app.on 'ready', ->
 
     # counter for reconnects
     reconnectCount = 0
-    # first connect
-    reconnect().then ->
-        console.log 'connected', reconnectCount
-        # on first connect, send init, after that only resync
-        if reconnectCount == 0
-            sendInit()
-        else
-            syncrecent()
-        reconnectCount++
+
+    doFirstConnection = ->
+        # first connect
+        reconnect().then ->
+            console.log 'connected', reconnectCount
+            # on first connect, send init, after that only resync
+            if reconnectCount == 0
+                sendInit()
+            else
+                syncrecent()
+            reconnectCount++
 
     # client deals with window sizing
     mainWindow.on 'resize', (ev) -> ipcsend 'resize', mainWindow.getSize()
