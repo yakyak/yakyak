@@ -38,6 +38,12 @@ templateOsx = (viewstate) -> [{
             label: 'Enter Full Screen',
             accelerator: 'Command+Control+F',
             click: -> action 'togglefullscreen'
+        }, {
+            label: 'Previous Conversation',
+            click: -> action 'selectConvAt', -1
+        }, {
+            label: 'Next Conversation',
+            click: -> action 'selectConvAt', +1
         }
     ]},{
     label: 'Window',
@@ -83,6 +89,12 @@ templateOthers = (viewstate) -> [{
             label: 'Enter Full Screen',
             accelerator: 'Command+Control+F',
             click: -> action 'togglefullscreen'
+        }, {
+            label: 'Previous Conversation',
+            click: -> action 'selectConvAt', -1
+        }, {
+            label: 'Next Conversation',
+            click: -> action 'selectConvAt', +1
         }
     ]}
 ]
