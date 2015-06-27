@@ -55,22 +55,23 @@ wait = (t) -> Q.Promise (rs) -> setTimeout rs, t
 
 app.on 'ready', ->
 
-    setImmediate ->
-        proxiesReturned = 0
+#    proxiesReturned = 0
 
-        # Format of proxyURL is either "DIRECT" or "PROXY 127.0.0.1:8888"
+#    # Format of proxyURL is either "DIRECT" or "PROXY 127.0.0.1:8888"
 
-        app.resolveProxy 'https://plus.google.com', (proxyURL) ->
-            proxiesReturned++
-            unless proxyURL is 'DIRECT'
-                process.env.HTTPS_PROXY ?= "http://#{proxyURL.split(' ')[1]}"
-            doFirstConnection() if proxiesReturned is 2
+#    app.resolveProxy 'https://plus.google.com', (proxyURL) ->
+#        proxiesReturned++
+#        unless proxyURL is 'DIRECT'
+#            process.env.HTTPS_PROXY ?= "http://#{proxyURL.split(' ')[1]}"
+#        doFirstConnection() if proxiesReturned is 2
 
-        app.resolveProxy 'http://plus.google.com', (proxyURL) ->
-            proxiesReturned++
-            unless proxyURL is 'DIRECT'
-                process.env.HTTP_PROXY ?= "http://#{proxyURL.split(' ')[1]}"
-            doFirstConnection() if proxiesReturned is 2
+#    app.resolveProxy 'http://plus.google.com', (proxyURL) ->
+#        proxiesReturned++
+#        unless proxyURL is 'DIRECT'
+#            process.env.HTTP_PROXY ?= "http://#{proxyURL.split(' ')[1]}"
+#        doFirstConnection() if proxiesReturned is 2
+    doFirstConnection()
+    # The above should be uncommented as soon as we upgrade to a version of Electron that incorporates https://github.com/atom/electron/pull/2054
 
     # Create the browser window.
     mainWindow = new BrowserWindow {
