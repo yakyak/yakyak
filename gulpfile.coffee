@@ -2,6 +2,7 @@ gulp   = require 'gulp'
 coffee = require 'gulp-coffee'
 less   = require 'gulp-less'
 rimraf     = require 'rimraf'
+path       = require 'path'
 fs         = require 'fs'
 gutil      = require 'gulp-util'
 sourcemaps = require 'gulp-sourcemaps'
@@ -10,6 +11,7 @@ install    = require 'gulp-install'
 concat     = require 'gulp-concat'
 autoReload = require 'gulp-auto-reload'
 changed    = require 'gulp-changed'
+rename     = require 'gulp-rename'
 
 outapp = './app'
 outui  = outapp + '/ui'
@@ -20,6 +22,7 @@ paths =
   coffee:  './src/**/*.coffee'
   html:    './src/**/*.html'
   images:  './src/**/images/*.*'
+  icons:   './src/icons'
   less:    './src/**/*.less'
   css:     './src/**/*.css'
   fonts:   ['./src/**/*.eot', './src/**/*.svg',
@@ -66,6 +69,20 @@ gulp.task 'images', ->
     .pipe gulp.dest outapp
 
 
+gulp.task 'icons', ->
+  nameMap =
+    'icon_016.png': 'icon.png'
+    'icon_032.png': 'icon@2.png'
+    'icon_048.png': 'icon@3.png'
+    'icon_128.png': 'icon@8.png'
+    'icon_256.png': 'icon@16.png'
+    'icon_512.png': 'icon@32.png'
+
+  Object.keys(nameMap).forEach (name) ->
+    gulp.src path.join paths.icons, name
+      .pipe rename nameMap[name]
+      .pipe gulp.dest path.join outapp, 'icons'
+
 # compile less
 gulp.task 'less', ->
   gulp.src paths.less
@@ -103,7 +120,7 @@ gulp.task 'reloader', ->
 gulp.task 'clean', (cb) ->
     rimraf outapp, cb
 
-gulp.task 'default', ['package', 'coffee', 'html', 'images', 'less', 'fontello']
+gulp.task 'default', ['package', 'coffee', 'html', 'images', 'icons', 'less', 'fontello']
 
 gulp.task 'watch', ['default', 'reloader', 'html'], ->
   # watch to rebuild
