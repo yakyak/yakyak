@@ -70,7 +70,6 @@ app.on 'ready', ->
 #        unless proxyURL is 'DIRECT'
 #            process.env.HTTP_PROXY ?= "http://#{proxyURL.split(' ')[1]}"
 #        doFirstConnection() if proxiesReturned is 2
-    doFirstConnection()
     # The above should be uncommented as soon as we upgrade to a version of Electron that incorporates https://github.com/atom/electron/pull/2054
 
     # Create the browser window.
@@ -79,7 +78,7 @@ app.on 'ready', ->
         height: 590
         "min-width": 620
         "min-height": 420
-        icon: path.join __dirname 'icons' 'icon.png'
+        icon: path.join __dirname, 'icons', 'icon.png'
     }
 
     # and load the index.html of the app. this may however be yanked
@@ -121,6 +120,8 @@ app.on 'ready', ->
             else
                 syncrecent()
             reconnectCount++
+
+    doFirstConnection()
 
     # client deals with window sizing
     mainWindow.on 'resize', (ev) -> ipcsend 'resize', mainWindow.getSize()
