@@ -43,6 +43,7 @@
     "gulp-concat": "^2.5.2",
     "gulp-install": "^0.4.0",
     "gulp-less": "^3.0.3",
+    "gulp-rename": "^1.2.2",
     "gulp-sourcemaps": "^1.5.2",
     "gulp-util": "^3.0.5",
     "mocha": "^2.2.5",
