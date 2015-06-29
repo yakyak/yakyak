@@ -280,7 +280,7 @@ handle 'hangout_event', (e) ->
     # trigger notifications for this
     notify.addToNotify e
 
-'presence reply_to_invite settings conversation_notification'.split(' ').forEach (n) ->
+'presence reply_to_invite settings conversation_notification invitation_watermark'.split(' ').forEach (n) ->
     handle n, (as...) -> console.log n, as...
 
 handle 'unreadtotal', (total, orMore) ->

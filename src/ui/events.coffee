@@ -18,4 +18,6 @@ watermark
 
 hangout_event
 conversation_notification
+reply_to_invite
+invitation_watermark
 '.split(' ')
