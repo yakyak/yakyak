@@ -40,6 +40,14 @@ module.exports = exp = {
         updated 'viewstate'
         updated 'switchConv'
 
+    selectNextConv: (offset = 1) ->
+        id = @selectedConv
+        list = conv.list()
+        for c, index in list
+            if id == c.conversation_id.id
+                candidate = index + offset
+                @setSelectedConv list[candidate] if list[candidate]
+
     updateAtTop: (attop) ->
         return if @attop == attop
         @attop = attop

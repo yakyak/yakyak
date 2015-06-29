@@ -75,14 +75,9 @@ handle 'selectConv', (conv) ->
     viewstate.setSelectedConv conv
     ipc.send 'setfocus', viewstate.selectedConv
 
-handle 'selectConvAt', (offset = 1) ->
+handle 'selectNextConv', (offset = 1) ->
     if viewstate.state != viewstate.STATE_NORMAL then return
-    id = viewstate.selectedConv
-    list = conv.list()
-    for c, index in list
-        if id == c.conversation_id.id
-            candidate = index + offset
-            viewstate.setSelectedConv list[candidate] if list[candidate]
+    viewstate.selectNextConv offset
     ipc.send 'setfocus', viewstate.selectedConv
 
 handle 'sendmessage', (txt) ->

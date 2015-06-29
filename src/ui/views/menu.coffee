@@ -40,10 +40,10 @@ templateOsx = (viewstate) -> [{
             click: -> action 'togglefullscreen'
         }, {
             label: 'Previous Conversation',
-            click: -> action 'selectConvAt', -1
+            click: -> action 'selectNextConv', -1
         }, {
             label: 'Next Conversation',
-            click: -> action 'selectConvAt', +1
+            click: -> action 'selectNextConv', +1
         }
     ]},{
     label: 'Window',
@@ -91,10 +91,10 @@ templateOthers = (viewstate) -> [{
             click: -> action 'togglefullscreen'
         }, {
             label: 'Previous Conversation',
-            click: -> action 'selectConvAt', -1
+            click: -> action 'selectNextConv', -1
         }, {
             label: 'Next Conversation',
-            click: -> action 'selectConvAt', +1
+            click: -> action 'selectNextConv', +1
         }
     ]}
 ]
@@ -104,4 +104,3 @@ module.exports = (viewstate) ->
         Menu.setApplicationMenu Menu.buildFromTemplate templateOsx(viewstate)
     else
         Menu.setApplicationMenu Menu.buildFromTemplate templateOthers(viewstate)
-    

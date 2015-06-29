@@ -48,8 +48,8 @@ module.exports = view (models) ->
                 ta.parentNode.style.height = (ta.offsetHeight + 24) + 'px'
                 messages.scrollToBottom()
         , onkeydown: (e) ->
-            if e.metaKey and e.keyIdentifier == 'Up' then action 'selectConvAt', -1
-            if e.metaKey and e.keyIdentifier == 'Down' then action 'selectConvAt', +1
+            if e.metaKey and e.keyIdentifier == 'Up' then action 'selectNextConv', -1
+            if e.metaKey and e.keyIdentifier == 'Down' then action 'selectNextConv', +1
             unless isModifierKey(e)
                 if e.keyCode == 13
                     e.preventDefault()
