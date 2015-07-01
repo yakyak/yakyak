@@ -47,8 +47,8 @@ gulp.task 'coffee', ->
         .pipe sourcemaps.init()
         .pipe coffee()
         .on 'error', (e) ->
-                console.log e.toString()
-                @emit 'end'
+            console.log e.toString()
+            @emit 'end'
         .pipe sourcemaps.write()
 #        .pipe changed outapp
         .pipe gulp.dest outapp
