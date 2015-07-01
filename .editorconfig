@@ -14,7 +14,7 @@ indent_style = space
 [*.coffee]
 indent_size = 4
 
-[{gulpfile.coffee,package.json,.travis.yml}]
+[{package.json,.travis.yml}]
 indent_size = 2
 
 [*.md]
