@@ -115,7 +115,7 @@ drawMessage = (e, entity) ->
         if e.chat_message
             content = e.chat_message?.message_content
             format content
-            loadInlineImages content
+            # loadInlineImages content
             if e.placeholder and e.uploadimage
                 span class:'icon-spin1 animate-spin'
         else if e.conversation_rename
