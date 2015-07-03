@@ -162,6 +162,8 @@ format = (cont) ->
         continue if cont.proxied and i < 2
         continue unless seg.text
         f = seg.formatting ? {}
+        # these are links to images that we try loading
+         # as images and show inline. (not attachments)
         href = seg?.link_data?.link_target
         imageUrl = getImageUrl href # false if can't find one
         ifpass(imageUrl, div) ->
@@ -171,6 +173,9 @@ format = (cont) ->
                         ifpass(f.underline, u) ->
                             ifpass(f.strikethrough, s) ->
                                 ifpass(imageUrl, div) ->
+                                    # preload returns whether the image
+                                    # has been loaded. redraw when it 
+                                    # loads.
                                     if (imageUrl) and (preload imageUrl)
                                         img src: imageUrl
                                     else
