@@ -2,7 +2,7 @@ moment = require 'moment'
 shell = require 'shell'
 
 {nameof, linkto, later, forceredraw, throttle,
-getProxiedName, fixlink, isImg}  = require '../util'
+getProxiedName, fixlink, isImg, getImageUrl}  = require '../util'
 
 CUTOFF = 5 * 60 * 1000 * 1000 # 5 mins
 
@@ -163,55 +163,53 @@ format = (cont) ->
         continue unless seg.text
         f = seg.formatting ? {}
         href = seg?.link_data?.link_target
-        # these are inline links to images that we try loading
-        # as images and show. (not attachments)
-        imgel = seg?.link_data?.imgel # can be set by loadImages below
-        # if we have such image element, we wrap the segment in a div
-        # to get a new line.
-        ifpass(imgel?.loaded, div) ->
+        imageUrl = getImageUrl href # false if can't find one
+        ifpass(imageUrl, div) ->
             ifpass(href, ((f) -> a {href, onclick}, f)) ->
                 ifpass(f.bold, b) ->
                     ifpass(f.italics, i) ->
                         ifpass(f.underline, u) ->
                             ifpass(f.strikethrough, s) ->
-                                if imgel?.loaded
-                                    # when we detect an inline image link
-                                    img src:href
-                                else
-                                    # otherwise show text
-                                    pass seg.text
+                                ifpass(imageUrl, div) ->
+                                    if (imageUrl) and (preload imageUrl)
+                                        img src: imageUrl
+                                    else
+                                        pass seg.text
     null
 
 
+preload_cache = {}
+
+
+preload = (href) ->
+    cache = preload_cache[href]
+    if not cache
+        el = document.createElement 'img'
+        el.onload = ->
+            return unless typeof el.naturalWidth == 'number'
+            el.loaded = true
+            later -> action 'loadedimg'
+        el.onerror = -> console.log 'error loading image', href
+        el.src = href
+        preload_cache[href] = el
+    return cache?.loaded
+
+
 formatAttachment = (att) ->
-    unless att?.imgel
-        if att?[0]?.embed_item?.type_
-            {href, thumb} = extractProtobufStyle(att)
-        else if att?[0]?.embed_item?.type
-            {href, thumb} = extractObjectStyle(att)
-        else
-            console.warn 'ignoring attachment', att unless att?.length == 0
-            return
-        return unless href
-        preload att, href
+    if att?[0]?.embed_item?.type_
+        {href, thumb} = extractProtobufStyle(att)
+    else if att?[0]?.embed_item?.type
+        {href, thumb} = extractObjectStyle(att)
+    else
+        console.warn 'ignoring attachment', att unless att?.length == 0
+        return
+    return unless href
 
-    # only insert loaded images
-    if att?.imgel?.loaded
-        href = att.imgel.src
-        div class:'attach', ->
-            a {href, onclick}, -> img src:href
+    # here we assume attachments are only images
+    if preload href
+      div class:'attach', ->
+          a {href, onclick}, -> img src:href
 
-
-preload = (att, href) ->
-    att.imgel = document.createElement 'img'
-    att.imgel.onload = ->
-        # spot whether it is finished
-        return unless typeof att.imgel.naturalWidth == 'number'
-        # signal to ui it's done
-        att.imgel.loaded = true
-        # and draw it in an orderly manner
-        later -> action 'loadedimg'
-    att.imgel.src = href
 
 handle 'loadedimg', ->
     # allow controller to record current position
@@ -243,12 +241,3 @@ extractObjectStyle = (att) ->
         return {href, thumb}
     else
         console.warn 'ignoring (new) type', type
-
-
-# these are images that are single segments that we detect as being
-# images (not attachments).
-loadInlineImages = (cont) ->
-    for seg, i in cont?.segment ? []
-        href = seg?.link_data?.link_target
-        if isImg(href) and !seg.link_data.imgel
-            preload seg.link_data, href

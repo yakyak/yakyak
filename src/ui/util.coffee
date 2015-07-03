@@ -1,3 +1,4 @@
+URL = require 'url'
 
 nameof = (e) -> e?.display_name ? e?.fallback_name ? e?.first_name ? 'Unknown'
 
@@ -38,5 +39,12 @@ uniqfn = (as, fn) ->
 
 isImg = (url) -> url?.match /\.(png|jpe?g|gif|svg)$/i
 
+getImageUrl = (url="") ->
+    return url if isImg url
+    parsed = URL.parse url, true
+    url = parsed.query.q
+    return url if isImg url
+    false
+
 module.exports = {nameof, linkto, later, throttle, uniqfn,
-isAboutLink, getProxiedName, tryparse, fixlink, topof, isImg}
+isAboutLink, getProxiedName, tryparse, fixlink, topof, isImg, getImageUrl}
