@@ -302,3 +302,10 @@ handle 'togglefullscreen', ->
 
 handle 'logout', ->
     ipc.send 'logout'
+
+handle 'wonline', (wonline) ->
+    connection.setWindowOnline wonline
+    if wonline
+        ipc.send 'hangupsConnect'
+    else
+        ipc.send 'hangupsDisconnect'

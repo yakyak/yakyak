@@ -36,6 +36,12 @@ module.exports = exp =
         @wasConnected = @wasConnected or state == STATE.CONNECTED
         updated 'connection'
 
+    setWindowOnline: (wonline) ->
+        return if @wonline == wonline
+        @wonline = wonline
+        unless @wonline
+            @setState STATE.CONNECT_FAILED
+
     infoText: -> info[@state] ? info.unknown
 
     setLastActive: (active) ->

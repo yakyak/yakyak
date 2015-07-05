@@ -110,7 +110,9 @@ app.on 'ready', ->
     # counter for reconnects
     reconnectCount = 0
 
-    doFirstConnection = ->
+    # whether to connect is dictated by the client.
+    ipc.on 'hangupsConnect', ->
+        console.log 'hconnect'
         # first connect
         reconnect().then ->
             console.log 'connected', reconnectCount
@@ -121,14 +123,19 @@ app.on 'ready', ->
                 syncrecent()
             reconnectCount++
 
-    doFirstConnection()
+    ipc.on 'hangupsDisconnect', ->
+        console.log 'hdisconnect'
+        reconnectCount = 0
+        client.disconnect()
 
     # client deals with window sizing
     mainWindow.on 'resize', (ev) -> ipcsend 'resize', mainWindow.getSize()
     mainWindow.on 'moved',  (ev) -> ipcsend 'moved', mainWindow.getPosition()
 
     # whenever it fails, we try again
-    client.on 'connect_failed', -> wait(3000).then -> reconnect()
+    client.on 'connect_failed', ->
+        console.log 'connect_failed'
+        wait(3000).then -> reconnect()
 
     # when client requests (re-)init since the first init
     # object is sent as soon as possible on startup

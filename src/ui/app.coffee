@@ -65,3 +65,9 @@ require './views/controller'
 # the server is just connecting, but for
 # dev mode when we reload the page
 action 'reqinit'
+
+# register event listeners for on/offline
+window.addEventListener 'online',  -> action 'wonline', true
+window.addEventListener 'offline', -> action 'wonline', false
+# tell the startup state
+action 'wonline', window.navigator.onLine
