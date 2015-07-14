@@ -41,6 +41,7 @@ module.exports = exp = {
         updated 'switchConv'
 
     selectNextConv: (offset = 1) ->
+        conv = require './conv'
         id = @selectedConv
         list = conv.list()
         for c, index in list
