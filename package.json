@@ -22,33 +22,33 @@
   },
   "homepage": "https://github.com/yakyak/yakyak",
   "dependencies": {
-    "autosize": "^3.0.6",
+    "autosize": "^3.0.8",
     "hangupsjs": "^1.0.1",
     "moment": "^2.10.3",
-    "node-notifier": "^4.2.1",
-    "notr": "^1.1.1",
+    "node-notifier": "^4.2.3",
+    "notr": "^1.1.2",
     "q": "^1.4.0",
     "tmp": "0.0.26",
     "trifl": "0.0.10",
     "url-regexp": "^1.0.2"
   },
   "devDependencies": {
-    "chai": "^2.3.0",
+    "chai": "^3.2.0",
     "coffee-script": "^1.9.2",
-    "electron-prebuilt": "^0.27.1",
+    "electron-prebuilt": "^0.30.1",
     "gulp": "^3.8.11",
     "gulp-auto-reload": "0.1.0",
     "gulp-changed": "^1.2.1",
     "gulp-coffee": "^2.3.1",
-    "gulp-concat": "^2.5.2",
+    "gulp-concat": "^2.6.0",
     "gulp-install": "^0.4.0",
     "gulp-less": "^3.0.3",
     "gulp-rename": "^1.2.2",
     "gulp-sourcemaps": "^1.5.2",
-    "gulp-util": "^3.0.5",
+    "gulp-util": "^3.0.6",
     "mocha": "^2.2.5",
-    "rimraf": "^2.3.3",
-    "sinon": "^1.14.1",
-    "sinon-chai": "^2.7.0"
+    "rimraf": "^2.4.2",
+    "sinon": "^1.15.4",
+    "sinon-chai": "^2.8.0"
   }
 }
