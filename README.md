@@ -9,16 +9,16 @@ Desktop client for Google Hangouts
 
 ## Install it
 
-This the [third beta](https://github.com/yakyak/yakyak/releases/tag/v0.2.0).
+This the [first release](https://github.com/yakyak/yakyak/releases/tag/v1.0.0).
 We love [bug reports](https://github.com/yakyak/yakyak/issues)!
 
 Pre-built binaries:
 
-* [Mac OS X](https://github.com/yakyak/yakyak/releases/download/v0.2.0/yakyak-osx.app.zip)
-* [Linux 32](https://github.com/yakyak/yakyak/releases/download/v0.2.0/yakyak-linux-ia32.zip)
-* [Linux 64](https://github.com/yakyak/yakyak/releases/download/v0.2.0/yakyak-linux-x64.zip)
-* [Windows 32](https://github.com/yakyak/yakyak/releases/download/v0.2.0/yakyak-win32-ia32.zip)
-* [Windows 64](https://github.com/yakyak/yakyak/releases/download/v0.2.0/yakyak-win32-x64.zip)
+* [Mac OS X](https://github.com/yakyak/yakyak/releases/download/v1.0.0/yakyak-osx.app.zip)
+* [Linux 32](https://github.com/yakyak/yakyak/releases/download/v1.0.0/yakyak-linux-ia32.zip)
+* [Linux 64](https://github.com/yakyak/yakyak/releases/download/v1.0.0/yakyak-linux-x64.zip)
+* [Windows 32](https://github.com/yakyak/yakyak/releases/download/v1.0.0/yakyak-win32-ia32.zip)
+* [Windows 64](https://github.com/yakyak/yakyak/releases/download/v1.0.0/yakyak-win32-x64.zip)
 
 What does it do:
 
@@ -52,7 +52,8 @@ What doesn't it do (yet?):
 
 #### Contributors
 
-* Someone soon... (we hope)
+* [David Banham](https://github.com/davidbanham)
+* [Max Kueng](https://github.com/maxkueng)
 
 ## Developing
 
