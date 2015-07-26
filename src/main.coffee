@@ -55,22 +55,16 @@ wait = (t) -> Q.Promise (rs) -> setTimeout rs, t
 
 app.on 'ready', ->
 
-#    proxiesReturned = 0
-
-#    # Format of proxyURL is either "DIRECT" or "PROXY 127.0.0.1:8888"
-
-#    app.resolveProxy 'https://plus.google.com', (proxyURL) ->
-#        proxiesReturned++
-#        unless proxyURL is 'DIRECT'
-#            process.env.HTTPS_PROXY ?= "http://#{proxyURL.split(' ')[1]}"
-#        doFirstConnection() if proxiesReturned is 2
-
-#    app.resolveProxy 'http://plus.google.com', (proxyURL) ->
-#        proxiesReturned++
-#        unless proxyURL is 'DIRECT'
-#            process.env.HTTP_PROXY ?= "http://#{proxyURL.split(' ')[1]}"
-#        doFirstConnection() if proxiesReturned is 2
-    # The above should be uncommented as soon as we upgrade to a version of Electron that incorporates https://github.com/atom/electron/pull/2054
+    proxycheck = ->
+        todo = [
+           {url:'http://plus.google.com',  env:'HTTP_PROXY'}
+           {url:'https://plus.google.com', env:'HTTPS_PROXY'}
+        ]
+        Q.all todo.map (t) -> Q.Promise (rs) -> app.resolveProxy t.url, (proxyURL) ->
+            # Format of proxyURL is either "DIRECT" or "PROXY 127.0.0.1:8888"
+            [_, purl] = proxyURL.split ' '
+            process.env[t.env] ?= if purl then "http://#{purl}" else ""
+            rs()
 
     # Create the browser window.
     mainWindow = new BrowserWindow {
@@ -105,7 +99,7 @@ app.on 'ready', ->
 
     # keeps trying to connec the hangupsjs and communicates those
     # attempts to the client.
-    reconnect = -> client.connect(creds)
+    reconnect = -> proxycheck().then -> client.connect(creds)
 
     # counter for reconnects
     reconnectCount = 0
