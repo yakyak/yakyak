@@ -332,7 +332,7 @@ funcs =
         if sort
             starred = (c for c in convs when isStarred(c))
             convs = (c for c in convs when not isStarred(c))
-            starred.sort (e1, e2) -> sortby(e2) - sortby(e1)
+            starred.sort (e1, e2) -> e1.name.localeCompare(e2.name)
             convs.sort (e1, e2) -> sortby(e2) - sortby(e1)
             return starred.concat convs
         convs
