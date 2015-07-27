@@ -8,7 +8,7 @@ templateOsx = (viewstate) -> [{
         { type: 'separator' }
         # { label: 'Preferences...', accelerator: 'Command+,', click: => delegate.openConfig() }
         { type: 'separator' }
-        { label: 'Hide Atom', accelerator: 'Command+H', selector: 'hide:' }
+        { label: 'Hide YakYak', accelerator: 'Command+H', selector: 'hide:' }
         { label: 'Hide Others', accelerator: 'Command+Shift+H', selector: 'hideOtherApplications:' }
         { label: 'Show All', selector: 'unhideAllApplications:' }
         { type: 'separator' }
