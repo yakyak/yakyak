@@ -222,6 +222,11 @@ handle 'togglenotif', ->
     ipc.send 'setconversationnotificationlevel', conv_id, (if q then RING else QUIET)
     conv.setNotificationLevel conv_id, (if q then 'RING' else 'QUIET')
 
+handle 'togglestar', ->
+    conv_id = viewstate.selectedConv
+    return unless c = conv[conv_id]
+    conv.toggleStar(c)
+
 handle 'delete', (a) ->
     conv_id = a?[0]?[0]
     return unless c = conv[conv_id]

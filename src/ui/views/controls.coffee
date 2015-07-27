@@ -16,6 +16,11 @@ module.exports = view (models) ->
                 span class:'icon-bell-off-empty'
             else
                 span class:'icon-bell'
+        div class:'button', title:'Star/unstar', onclick:onclickaction('togglestar'), ->
+                if not conv.isStarred(c)
+                   span class:'icon-star-empty'
+                else
+                     span class:'icon-star'
         div class:'button', title:'Conversation settings',
             onclick:onclickaction('convsettings'), -> span class:'icon-cog'
         if c?.type?.indexOf('ONE_TO_ONE') > 0

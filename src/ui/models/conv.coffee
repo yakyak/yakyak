@@ -1,6 +1,6 @@
 entity = require './entity'     #
 viewstate = require './viewstate'
-{nameof, getProxiedName, later, uniqfn}  = require '../util'
+{nameof, getProxiedName, later, uniqfn, tryparse}  = require '../util'
 
 merge   = (t, os...) -> t[k] = v for k,v of o when v not in [null, undefined] for o in os; t
 
@@ -148,6 +148,19 @@ unreadTotal = do ->
 
 isQuiet = (c) -> c?.self_conversation_state?.notification_level == 'QUIET'
 
+starredconvs = tryparse(localStorage.starredconvs) || []
+
+isStarred = (c) -> return c?.conversation_id?.id in starredconvs
+
+toggleStar = (c) ->
+    {id} = c?.conversation_id
+    if id not in starredconvs
+        starredconvs.push(id)
+    else
+        starredconvs = (i for i in starredconvs when i != id)
+    localStorage.starredconvs = JSON.stringify(starredconvs);
+    updated 'conv'
+
 isEventType = (type) -> (ev) -> !!ev[type]
 
 # a "hangout" is in google terms strictly an audio/video event
@@ -248,6 +261,8 @@ funcs =
     MAX_UNREAD: MAX_UNREAD
     unread: unread
     isQuiet: isQuiet
+    isStarred: isStarred
+    toggleStar: toggleStar
     isPureHangout: isPureHangout
     lastChanged: lastChanged
     addTyping: addTyping
@@ -315,7 +330,11 @@ funcs =
     list: (sort = true) ->
         convs = (v for k, v of lookup when typeof v == 'object')
         if sort
+            starred = (c for c in convs when isStarred(c))
+            convs = (c for c in convs when not isStarred(c))
+            starred.sort (e1, e2) -> sortby(e2) - sortby(e1)
             convs.sort (e1, e2) -> sortby(e2) - sortby(e1)
+            return starred.concat convs
         convs
 
 
