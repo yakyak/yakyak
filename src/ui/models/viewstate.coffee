@@ -43,6 +43,7 @@ module.exports = exp = {
     selectNextConv: (offset = 1) ->
         conv = require './conv'
         id = @selectedConv
+        c = conv[id]
         list = (i for i in conv.list() when not conv.isPureHangout(c))
         for c, index in list
             if id == c.conversation_id.id
