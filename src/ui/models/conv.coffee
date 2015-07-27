@@ -1,6 +1,6 @@
 entity = require './entity'     #
 viewstate = require './viewstate'
-{nameof, getProxiedName, later, uniqfn, tryparse}  = require '../util'
+{nameof, nameofconv, getProxiedName, later, uniqfn, tryparse}  = require '../util'
 
 merge   = (t, os...) -> t[k] = v for k,v of o when v not in [null, undefined] for o in os; t
 
@@ -332,7 +332,7 @@ funcs =
         if sort
             starred = (c for c in convs when isStarred(c))
             convs = (c for c in convs when not isStarred(c))
-            starred.sort (e1, e2) -> e1.name.localeCompare(e2.name)
+            starred.sort (e1, e2) -> nameofconv(e1).localeCompare(nameofconv(e2))
             convs.sort (e1, e2) -> sortby(e2) - sortby(e1)
             return starred.concat convs
         convs

@@ -1,4 +1,4 @@
-{nameof, fixlink} = require '../util'
+{nameof, nameofconv, fixlink} = require '../util'
 
 module.exports = view (models) ->
     {conv, entity, viewstate} = models
@@ -23,15 +23,7 @@ module.exports = view (models) ->
                 part = c?.current_participant ? []
                 ents = for p in part when not entity.isSelf p.chat_id
                     entity[p.chat_id]
-                one_to_one = c?.type?.indexOf('ONE_TO_ONE') >= 0
-                name = if c.name? and not one_to_one
-                    c.name
-                else
-                    # all entities in conversation that is not self
-                    # the names of those entities
-                    names = ents.map nameof
-                    # joined together in a compelling manner
-                    names.join ', '
+                name = nameofconv c
                 if viewstate.showConvThumbs
                     div class: 'thumbs', ->
                         for p, index in ents

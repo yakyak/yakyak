@@ -2,6 +2,25 @@ URL = require 'url'
 
 nameof = (e) -> e?.display_name ? e?.fallback_name ? e?.first_name ? 'Unknown'
 
+nameofconv = (c) ->
+    {entity} = require './models'
+    part = c?.current_participant ? []
+    ents = for p in part when not entity.isSelf p.chat_id
+        entity[p.chat_id]
+    entity[p.chat_id]
+    name = ""
+    if c.name?
+        name = c.name
+    else
+        # all entities in conversation that is not self
+        # the names of those entities
+        names = ents.map nameof
+        # joined together in a compelling manner
+        name = names.join ', '
+    console.log name
+    return name
+
+
 linkto = (c) -> "https://plus.google.com/u/0/#{c}/about"
 
 later = (f) -> setTimeout f, 1
@@ -46,5 +65,5 @@ getImageUrl = (url="") ->
     return url if isImg url
     false
 
-module.exports = {nameof, linkto, later, throttle, uniqfn,
+module.exports = {nameof, nameofconv, linkto, later, throttle, uniqfn,
 isAboutLink, getProxiedName, tryparse, fixlink, topof, isImg, getImageUrl}
