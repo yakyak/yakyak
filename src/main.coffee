@@ -222,8 +222,8 @@ app.on 'ready', ->
         promise = client.searchentities query, max_results
         promise.then (res) ->
             ipcsend 'searchentities:result', res
-    ipc.on 'createconversation', (ev, ids, name) ->
-        promise = client.createconversation ids
+    ipc.on 'createconversation', (ev, ids, name, forcegroup=false) ->
+        promise = client.createconversation ids, forcegroup
         conv = null
         promise.then (res) ->
             conv = res.conversation

@@ -179,7 +179,12 @@ handle 'saveconversation', ->
     needsRename = convsettings.name and convsettings.name != c?.name
     recreate = conv_id and one_to_one and convsettings.selectedEntities.length > 1
     if not conv_id or recreate
-        ipc.send 'createconversation', selected, convsettings.name
+        # If not conv_id it means we are ADDING a conversation.
+        # Creating a one_to_one conversation with the same user we already
+        # have a conversation with makes google just returns the same conversation
+        # Since we want to ADD a conversation we need to force group
+        forcegorup = true
+        ipc.send 'createconversation', selected, convsettings.name, forcegroup
         return
     if conv_id and one_to_one and convsettings.selectedEntities.length == 1 # can only rename
         ipc.send 'renameconversation', conv_id, convsettings.name if needsRename
