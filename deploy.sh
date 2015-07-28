@@ -5,7 +5,7 @@ for dep in curl unzip sed; do
   test ! $(which $dep) && echo "ERROR: missing $dep" && exit 1
 done
 
-ELECTRON_VERSION="0.28.1"
+ELECTRON_VERSION=$(npm info electron-prebuilt version)
 PLATFORMS=("darwin-x64" "linux-ia32" "linux-x64" "win32-ia32" "win32-x64")
 
 mkdir -p dist
