@@ -6,6 +6,7 @@ for dep in curl unzip sed; do
 done
 
 ELECTRON_VERSION=$(npm info electron-prebuilt version)
+VERSION=$(node -e "console.log(require('./package').version)")
 PLATFORMS=("darwin-x64" "linux-ia32" "linux-x64" "win32-ia32" "win32-x64")
 
 mkdir -p dist
@@ -20,8 +21,12 @@ done
 
 cd darwin-x64
 mv Electron.app Yakyak.app
-sed -i.bak s/Electron/Yakyak/ Yakyak.app/Contents/Info.plist
-sed -i.bak s/com\.github\.electron/com\.github\.yakyak/ Yakyak.app/Contents/Info.plist
+defaults write $(pwd)/Yakyak.app/Contents/Info.plist CFBundleDisplayName -string "Yakyak"
+defaults write $(pwd)/Yakyak.app/Contents/Info.plist CFBundleExecutable -string "Yakyak"
+defaults write $(pwd)/Yakyak.app/Contents/Info.plist CFBundleIdentifier -string "com.github.yakyak"
+defaults write $(pwd)/Yakyak.app/Contents/Info.plist CFBundleName -string "Yakyak"
+defaults write $(pwd)/Yakyak.app/Contents/Info.plist CFBundleVersion -string "$VERSION"
+plutil -convert xml1 $(pwd)/Yakyak.app/Contents/Info.plist
 mv Yakyak.app/Contents/MacOS/Electron Yakyak.app/Contents/MacOS/Yakyak
 cp -R ../../app Yakyak.app/Contents/Resources/app
 cp ../../src/icons/atom.icns Yakyak.app/Contents/Resources/atom.icns
