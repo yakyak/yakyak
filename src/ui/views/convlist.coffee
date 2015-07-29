@@ -5,10 +5,10 @@ module.exports = view (models) ->
     clz = ['convlist']
     clz.push 'showconvthumbs' if viewstate.showConvThumbs
     div class:clz.join(' '), ->
-        conv.list().forEach (c) ->
+        convs = conv.list()
+        renderConv = (c) ->
             pureHang = conv.isPureHangout(c)
             lastChanged = conv.lastChanged(c)
-            starred = conv.isStarred(c)
             # don't list pure hangouts that are older than 24h
             return if pureHang and (Date.now() - lastChanged) > 24 * 60 * 60 * 1000
             cid = c?.conversation_id?.id
@@ -18,7 +18,6 @@ module.exports = view (models) ->
             clz.push "selected" if models.viewstate.selectedConv == cid
             clz.push "unread" if ur
             clz.push "purehang" if pureHang
-            clz.push "starred" if starred
             div key:cid, class:clz.join(' '), ->
                 part = c?.current_participant ? []
                 ents = for p in part when not entity.isSelf p.chat_id
@@ -46,3 +45,10 @@ module.exports = view (models) ->
             , onclick: (ev) ->
                 ev.preventDefault()
                 action 'selectConv', c
+                
+        div class: 'starred', ->
+            starred = (c for c in convs when conv.isStarred(c))
+            starred.forEach renderConv
+        div class: 'others', ->
+            others = (c for c in convs when not conv.isStarred(c))
+            others.forEach renderConv
