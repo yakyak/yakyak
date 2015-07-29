@@ -32,6 +32,8 @@ do ->
     ipcon = ipc.on.bind(ipc)
     ipc.on = (n, fn) ->
         ipcon n, (as...) ->
+            # XXX debug to catch windows startup loop
+            console.log n if n not in ('focus typing watermark noop'.split ' ')
             action 'alive', Date.now()
             fn as...
 

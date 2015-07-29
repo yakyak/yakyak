@@ -17,9 +17,7 @@ nameofconv = (c) ->
         names = ents.map nameof
         # joined together in a compelling manner
         name = names.join ', '
-    console.log name
     return name
-
 
 linkto = (c) -> "https://plus.google.com/u/0/#{c}/about"
 
