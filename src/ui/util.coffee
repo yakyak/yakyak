@@ -20,6 +20,7 @@ nameofconv = (c) ->
         name = names.join ', '
     return name
 
+
 linkto = (c) -> "https://plus.google.com/u/0/#{c}/about"
 
 later = (f) -> setTimeout f, 1
