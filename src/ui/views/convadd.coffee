@@ -19,6 +19,9 @@ mayRestoreInitialValues = (models) ->
             search = document.querySelector '.search-input'
             search.value = initialSearchQuery if search
         , 1
+    setTimeout ->
+        group = document.querySelector '.group'
+        group.checked = convsettings.group if group
     null
 
 inputSetValue = (sel, val) ->
@@ -35,10 +38,15 @@ module.exports = view (models) ->
     div class: 'convadd', ->
       if editing then h1 'Conversation edit' else h1 'New conversation'
 
-      div class: 'input', ->
+      style = {}
+      if not convsettings.group
+          style = display: 'none'
+          
+      div class: 'input', {style}, ->
           div ->
               input
                   class: 'name-input'
+                  style: style
                   placeholder: 'Conversation name'
                   onkeyup: (e) ->
                       action 'conversationname', e.currentTarget.value
@@ -51,6 +59,20 @@ module.exports = view (models) ->
                   onkeyup: (e) ->
                       chilledaction 'searchentities', e.currentTarget.value, 7
                       action 'conversationquery', e.currentTarget.value, 7
+      
+      div class: 'input', ->
+          div ->
+              p ->
+                  opts =
+                      type: 'checkbox'
+                      class: 'group'
+                      style: { width: 'auto', 'margin-right': '5px' }
+                      onchange: (e) -> action   'togglegroup'
+                  if convsettings.selectedEntities.length != 1
+                      opts.disabled = 'disabled'
+                  input opts
+                  'Create multiuser chat'
+                  
 
       ul ->
           convsettings.selectedEntities.forEach (r) ->

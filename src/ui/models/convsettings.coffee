@@ -10,6 +10,7 @@ module.exports = exp = {
     name: ""
     searchQuery: ""
     id: null
+    group: false
 
     setSearchedEntities: (entities) ->
         @searchedEntities = entities or []
@@ -20,14 +21,22 @@ module.exports = exp = {
         exists = (e for e in @selectedEntities when e.id.chat_id == id).length != 0
         if not exists
             @selectedEntities.push entity
-            updated 'selectedEntities'
+            @group = @selectedEntities.length > 1
+            updated 'convsettings'
 
     removeSelectedEntity: (entity) ->
         id = entity.id?.chat_id or entity # may pass id directly
+        # if the conversation we are editing is one to one we don't want
+        # to remove the selected entity
         @selectedEntities = (e for e in @selectedEntities when e.id.chat_id != id)
+        @group = @selectedEntities.length > 1
         updated 'selectedEntities'
 
-    setSelectedEntities: (entities) -> @selectedEntities = entities or [] # no need to update
+    setSelectedEntities: (entities) ->
+        @group = entities.length > 1
+        @selectedEntities = entities or [] # no need to update
+    
+    setGroup: (val) -> @group = val; updated 'convsettings'
 
     setInitialName: (name) -> @initialName = name
     getInitialName: -> v = @initialName; @initialName = null; v
@@ -63,6 +72,7 @@ module.exports = exp = {
         @searchQuery = ""
         @name = ""
         @id = null
+        @group = false
         updated 'convsettings'
 
 

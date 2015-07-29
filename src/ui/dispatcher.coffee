@@ -169,6 +169,7 @@ handle 'setsearchedentities', (r) ->
     convsettings.setSearchedEntities r
 handle 'selectentity', (e) -> convsettings.addSelectedEntity e
 handle 'deselectentity', (e) -> convsettings.removeSelectedEntity e
+handle 'togglegroup', (e) -> convsettings.setGroup(!convsettings.group)
 
 handle 'saveconversation', ->
     viewstate.setState viewstate.STATE_NORMAL
@@ -176,18 +177,12 @@ handle 'saveconversation', ->
     c = conv[conv_id]
     one_to_one = c?.type?.indexOf('ONE_TO_ONE') >= 0
     selected = (e.id.chat_id for e in convsettings.selectedEntities)
-    needsRename = convsettings.name and convsettings.name != c?.name
-    recreate = conv_id and one_to_one and convsettings.selectedEntities.length > 1
+    recreate = conv_id and one_to_one and convsettings.group
+    needsRename = convsettings.group and convsettings.name and convsettings.name != c?.name
+    # remember: we don't rename one_to_ones, google web client does not do it
     if not conv_id or recreate
-        # If not conv_id it means we are ADDING a conversation.
-        # Creating a one_to_one conversation with the same user we already
-        # have a conversation with makes google just returns the same conversation
-        # Since we want to ADD a conversation we need to force group
-        forcegorup = true
-        ipc.send 'createconversation', selected, convsettings.name, forcegroup
-        return
-    if conv_id and one_to_one and convsettings.selectedEntities.length == 1 # can only rename
-        ipc.send 'renameconversation', conv_id, convsettings.name if needsRename
+        name = (convsettings.name if convsettings.group) or ""
+        ipc.send 'createconversation', selected, name, convsettings.group
         return
     p = c.participant_data
     current = (c.id.chat_id for c in p when not entity.isSelf c.id.chat_id)
