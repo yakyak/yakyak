@@ -21,7 +21,8 @@ module.exports = view (models) ->
                 part = c?.current_participant ? []
                 ents = for p in part when not entity.isSelf p.chat_id
                     entity[p.chat_id]
-                name = if c.name?
+                one_to_one = c?.type?.indexOf('ONE_TO_ONE') >= 0
+                name = if c.name? and not one_to_one
                     c.name
                 else
                     # all entities in conversation that is not self
