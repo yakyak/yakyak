@@ -47,8 +47,10 @@ module.exports = view (models) ->
                 action 'selectConv', c
                 
         div class: 'starred', ->
+            div class: 'label', 'Favorites'
             starred = (c for c in convs when conv.isStarred(c))
             starred.forEach renderConv
         div class: 'others', ->
+            div class: 'label', 'Recent'
             others = (c for c in convs when not conv.isStarred(c))
             others.forEach renderConv

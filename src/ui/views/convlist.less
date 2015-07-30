@@ -1,5 +1,20 @@
 
 .convlist {
+    .label {
+        height: 22px;
+        font-size: small;
+        padding: 1px;
+        color: white;
+        padding-left: 7px;
+        background-color: #999;
+    }
+    .starred {
+        .conv {
+            .divider:last-child {
+                display: none;
+            }
+        }
+    }
     .conv {
         position: relative;
         padding: 10px 15px 10px;
@@ -33,10 +48,6 @@
         &.purehang {
             color: #999;
             font-style: italic;
-        }
-        &.starred {
-          border-left: 2px solid #4271de;
-          font-style: italic;
         }
         .convname {
             flex: 1;
