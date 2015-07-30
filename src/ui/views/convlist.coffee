@@ -46,11 +46,11 @@ module.exports = view (models) ->
                 ev.preventDefault()
                 action 'selectConv', c
                 
+        starred = (c for c in convs when conv.isStarred(c))
+        others = (c for c in convs when not conv.isStarred(c))
         div class: 'starred', ->
-            div class: 'label', 'Favorites'
-            starred = (c for c in convs when conv.isStarred(c))
+            div class: 'label', 'Favorites' if starred.length > 0
             starred.forEach renderConv
         div class: 'others', ->
-            div class: 'label', 'Recent'
-            others = (c for c in convs when not conv.isStarred(c))
+            div class: 'label', 'Recent' if starred.length > 0
             others.forEach renderConv
