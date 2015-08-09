@@ -187,7 +187,7 @@ format = (cont) ->
 
 
 stripProxiedColon = (txt) ->
-    if txt.indexOf(": ") == 0
+    if txt?.indexOf(": ") == 0
         txt.substring(2)
     else
         txt
