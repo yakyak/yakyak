@@ -160,8 +160,7 @@ format = (cont) ->
         catch e
           console.error e
     for seg, i in cont?.segment ? []
-        continue if cont.proxied and i < 2
-        continue unless seg.text
+        continue if cont.proxied and i < 1
         f = seg.formatting ? {}
         # these are links to images that we try loading
          # as images and show inline. (not attachments)
@@ -180,9 +179,18 @@ format = (cont) ->
                                     if (imageUrl) and (preload imageUrl)
                                         img src: imageUrl
                                     else
-                                        pass seg.text
+                                        pass if cont.proxied
+                                            stripProxiedColon seg.text
+                                        else
+                                            seg.text
     null
 
+
+stripProxiedColon = (txt) ->
+    if txt.indexOf(": ") == 0
+        txt.substring(2)
+    else
+        txt
 
 preload_cache = {}
 
