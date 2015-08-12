@@ -107,7 +107,7 @@ app.on 'ready', ->
         { label: 'Hide/show', click: toggleWindowVisible }
         { label: 'Quit', click: quit}
     ]
-    tray.setToolTip 'YakYak - Hangouts client'
+    tray.setToolTip 'Yakyak - Hangouts client'
     tray.setContextMenu contextMenu
 
     # and load the index.html of the app. this may however be yanked
