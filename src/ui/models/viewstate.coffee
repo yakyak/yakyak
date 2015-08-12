@@ -19,6 +19,8 @@ module.exports = exp = {
     size: tryparse(localStorage.size ? "[940, 600]")
     pos: tryparse(localStorage.pos ? "[100, 100]")
     showConvThumbs: tryparse(localStorage.showConvThumbs)
+    minimizeToTray: null
+    startMinimized: null
 
     setState: (state) ->
         return if @state == state
@@ -115,6 +117,14 @@ module.exports = exp = {
         return if @showConvThumbs == doshow
         @showConvThumbs = localStorage.showConvThumbs = doshow
         updated 'viewstate'
+
+    setMinimizeToTray: (value) ->
+        return if @minimizeToTray == value
+        @minimizeToTray = value
+
+    setStartMinimized: (value) ->
+        return if @startMinimized == value
+        @startMinimized = value
 
 }
 

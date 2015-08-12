@@ -14,6 +14,9 @@ templateOsx = (viewstate) -> [{
         { type: 'separator' }
         { label: 'Open Inspector', accelerator: 'Command+Alt+I', click: -> action 'devtools' }
         { type: 'separator' }
+        { type:'checkbox', label: 'Keep running in the system tray when closed', checked: viewstate.minimizeToTray, click: (it) -> action 'minimizetotray', it.checked }
+        { type:'checkbox', label: 'Start minimized in the system tray', checked: viewstate.startMinimized, click: (it) -> action 'startminimized', it.checked }
+        { type: 'separator' }
         { label: 'Logout', click: -> action 'logout' }
         { label: 'Quit', accelerator: 'Command+Q', click: -> action 'quit' }
     ]},{
@@ -74,6 +77,9 @@ templateOthers = (viewstate) -> [{
     label: 'Yakyak'
     submenu: [
         { label: 'Open Inspector', accelerator: 'Control+Alt+I', click: -> action 'devtools' }
+        { type: 'separator' }
+        { type:'checkbox', label: 'Keep running in the system tray when closed', checked: viewstate.minimizeToTray, click: (it) -> action 'minimizetotray', it.checked }
+        { type:'checkbox', label: 'Start minimized in the system tray', checked: viewstate.startMinimized, click: (it) -> action 'startminimized', it.checked }
         { type: 'separator' }
         { label: 'Logout', click: -> action 'logout' }
         { label: 'Quit', accelerator: 'Control+Q', click: -> action 'quit' }
