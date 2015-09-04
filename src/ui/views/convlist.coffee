@@ -31,7 +31,8 @@ module.exports = view (models) ->
                             unless image
                                 entity.needEntity(p.id)
                                 image = "images/photo.jpg"
-                            img src:fixlink(image)
+                            img src:fixlink(image), onerror: ->
+                                this.src = fixlink("images/photo.jpg")
                 span class:'convname', name
                 if ur > 0 and not conv.isQuiet(c)
                     lbl = if ur >= conv.MAX_UNREAD then "#{conv.MAX_UNREAD}+" else ur + ''
@@ -45,7 +46,7 @@ module.exports = view (models) ->
             , onclick: (ev) ->
                 ev.preventDefault()
                 action 'selectConv', c
-                
+
         starred = (c for c in convs when conv.isStarred(c))
         others = (c for c in convs when not conv.isStarred(c))
         div class: 'starred', ->
