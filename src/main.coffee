@@ -45,7 +45,15 @@ mainWindow = null
 
 # Quit when all windows are closed.
 app.on 'window-all-closed', ->
-    app.quit() # if (process.platform != 'darwin')
+    app.quit() if (process.platform != 'darwin')
+
+# For OSX show window main window if we've hidden it.
+app.on 'activate-with-no-open-windows', ->
+    mainWindow.show() if (process.platform == 'darwin')
+
+# If we're actually trying to close the app set it to force close
+app.on 'before-quit', ->
+    mainWindow.forceClose = true
 
 loadAppWindow = ->
     mainWindow.loadUrl 'file://' + __dirname + '/ui/index.html'
@@ -278,6 +286,9 @@ app.on 'ready', ->
             ipcsend n, e
 
 
-    # Emitted when the window is closed.
-    mainWindow.on 'closed', ->
-        mainWindow = null
+    # Emitted when the window is closed, for OSX only hides the window if we're not force closing.
+    mainWindow.on 'close', (event) ->
+        mainWindow = null if (process.platform != 'darwin')
+        return if mainWindow.forceClose || process.platform != 'darwin'
+        event.preventDefault()
+        mainWindow.hide()
