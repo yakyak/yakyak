@@ -73,10 +73,10 @@ templateOsx = (viewstate) -> [{
 templateOthers = (viewstate) -> [{
     label: 'Yakyak'
     submenu: [
-        { label: 'Open Inspector', accelerator: 'Command+Alt+I', click: -> action 'devtools' }
+        { label: 'Open Inspector', accelerator: 'Control+I', click: -> action 'devtools' }
         { type: 'separator' }
         { label: 'Logout', click: -> action 'logout' }
-        { label: 'Quit', accelerator: 'Command+Q', click: -> action 'quit' }
+        { label: 'Quit', accelerator: 'Control+Q', click: -> action 'quit' }
     ]}, {
     label: 'View'
     submenu: [
@@ -87,13 +87,15 @@ templateOthers = (viewstate) -> [{
             click: (it) -> action 'showconvthumbs', it.checked
         }, {
             label: 'Enter Full Screen',
-            accelerator: 'Command+Control+F',
+            accelerator: 'Control+Alt+F',
             click: -> action 'togglefullscreen'
         }, {
             label: 'Previous Conversation',
+            accelerator: 'Control+K',
             click: -> action 'selectNextConv', -1
         }, {
             label: 'Next Conversation',
+            accelerator: 'Control+J',
             click: -> action 'selectNextConv', +1
         }
     ]}
