@@ -62,7 +62,8 @@ module.exports = view (models) ->
                     if e.keyIdentifier is "Down" then historyWalk e.target, +1
             action 'lastkeydown', Date.now() unless isAltCtrlMeta(e)
         , onpaste: (e) ->
-            action 'onpasteimage' if not clipboard.readImage().isEmpty()
+            if not clipboard.readImage().isEmpty() and not clipboard.readText()
+              action 'onpasteimage'
         button title:'Attach image', onclick: (ev) ->
             document.getElementById('attachFile').click()
         , ->
