@@ -44,6 +44,15 @@ templateOsx = (viewstate) -> [{
         }, {
             label: 'Next Conversation',
             click: -> action 'selectNextConv', +1
+        }, {
+            # seee https://github.com/atom/electron/issues/1507
+            label: 'Zoom In',
+            accelerator: 'Command+Plus',
+            click: -> action 'zoom', +0.25
+        }, {
+            label: 'Zoom Out',
+            accelerator: 'Command+-',
+            click: -> action 'zoom', -0.25
         }
     ]},{
     label: 'Window',
@@ -95,6 +104,15 @@ templateOthers = (viewstate) -> [{
         }, {
             label: 'Next Conversation',
             click: -> action 'selectNextConv', +1
+        }, {
+            # seee https://github.com/atom/electron/issues/1507
+            label: 'Zoom In',
+            accelerator: 'Command+Plus',
+            click: -> action 'zoom', +0.25
+        }, {
+            label: 'Zoom Out',
+            accelerator: 'Command+-',
+            click: -> action 'zoom', -0.25
         }
     ]}
 ]

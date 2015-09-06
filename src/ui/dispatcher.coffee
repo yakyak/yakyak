@@ -305,6 +305,9 @@ handle 'quit', ->
 handle 'togglefullscreen', ->
     ipc.send 'togglefullscreen'
 
+handle 'zoom', (step) ->
+    viewstate.setZoom (parseFloat(document.body.style.zoom) or 1.0) + step
+
 handle 'logout', ->
     ipc.send 'logout'
 
