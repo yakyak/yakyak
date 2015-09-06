@@ -53,7 +53,7 @@ app.on 'activate-with-no-open-windows', ->
 
 # If we're actually trying to close the app set it to force close
 app.on 'before-quit', ->
-    mainWindow.forceClose = true
+    mainWindow?.forceClose = true
 
 loadAppWindow = ->
     mainWindow.loadUrl 'file://' + __dirname + '/ui/index.html'
