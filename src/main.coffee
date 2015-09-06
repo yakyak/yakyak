@@ -291,6 +291,6 @@ app.on 'ready', ->
     # Emitted when the window is closed, for OSX only hides the window if we're not force closing.
     mainWindow.on 'close', (event) ->
         mainWindow = null if (process.platform != 'darwin')
-        return if mainWindow.forceClose || process.platform != 'darwin'
+        return if mainWindow?.forceClose || process.platform != 'darwin'
         event.preventDefault()
         mainWindow.hide()
