@@ -21,6 +21,7 @@ module.exports =
 
 handle 'init', (init) ->
     # set the initial view state
+    viewstate.setLoggedin true
     viewstate.setState viewstate.STATE_NORMAL
 
     # update model from init object
