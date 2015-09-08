@@ -119,11 +119,11 @@ templateOthers = (viewstate) -> [{
         }, {
             # seee https://github.com/atom/electron/issues/1507
             label: 'Zoom In',
-            accelerator: 'Command+Plus',
+            accelerator: 'Control+=',
             click: -> action 'zoom', +0.25
         }, {
             label: 'Zoom Out',
-            accelerator: 'Command+-',
+            accelerator: 'Control+-',
             click: -> action 'zoom', -0.25
         }
     ]}
