@@ -14,7 +14,11 @@ templateOsx = (viewstate) -> [{
         { type: 'separator' }
         { label: 'Open Inspector', accelerator: 'Command+Alt+I', click: -> action 'devtools' }
         { type: 'separator' }
-        { label: 'Logout', click: -> action 'logout' }
+        {
+          label: 'Logout',
+          click: -> action 'logout'
+          enabled: viewstate.loggedin
+        }
         { label: 'Quit', accelerator: 'Command+Q', click: -> action 'quit' }
     ]},{
     label: 'Edit'
@@ -33,6 +37,7 @@ templateOsx = (viewstate) -> [{
             type:'checkbox'
             label: 'Show Conversation Thumbnails'
             checked:viewstate.showConvThumbs
+            enabled: viewstate.loggedin
             click: (it) -> action 'showconvthumbs', it.checked
         }, {
             label: 'Enter Full Screen',
@@ -40,10 +45,21 @@ templateOsx = (viewstate) -> [{
             click: -> action 'togglefullscreen'
         }, {
             label: 'Previous Conversation',
+            enabled: viewstate.loggedin
             click: -> action 'selectNextConv', -1
         }, {
             label: 'Next Conversation',
+            enabled: viewstate.loggedin
             click: -> action 'selectNextConv', +1
+        }, {
+            # seee https://github.com/atom/electron/issues/1507
+            label: 'Zoom In',
+            accelerator: 'Command+Plus',
+            click: -> action 'zoom', +0.25
+        }, {
+            label: 'Zoom Out',
+            accelerator: 'Command+-',
+            click: -> action 'zoom', -0.25
         }
     ]},{
     label: 'Window',
@@ -75,7 +91,7 @@ templateOthers = (viewstate) -> [{
     submenu: [
         { label: 'Open Inspector', accelerator: 'Control+I', click: -> action 'devtools' }
         { type: 'separator' }
-        { label: 'Logout', click: -> action 'logout' }
+        { label: 'Logout', click: -> action 'logout', enabled: viewstate.loggedin }
         { label: 'Quit', accelerator: 'Control+Q', click: -> action 'quit' }
     ]}, {
     label: 'View'
@@ -84,6 +100,7 @@ templateOthers = (viewstate) -> [{
             type:'checkbox'
             label: 'Show Conversation Thumbnails'
             checked:viewstate.showConvThumbs
+            enabled: viewstate.loggedin
             click: (it) -> action 'showconvthumbs', it.checked
         }, {
             label: 'Enter Full Screen',
@@ -93,10 +110,21 @@ templateOthers = (viewstate) -> [{
             label: 'Previous Conversation',
             accelerator: 'Control+K',
             click: -> action 'selectNextConv', -1
+            enabled: viewstate.loggedin
         }, {
             label: 'Next Conversation',
             accelerator: 'Control+J',
             click: -> action 'selectNextConv', +1
+            enabled: viewstate.loggedin
+        }, {
+            # seee https://github.com/atom/electron/issues/1507
+            label: 'Zoom In',
+            accelerator: 'Command+Plus',
+            click: -> action 'zoom', +0.25
+        }, {
+            label: 'Zoom Out',
+            accelerator: 'Command+-',
+            click: -> action 'zoom', -0.25
         }
     ]}
 ]

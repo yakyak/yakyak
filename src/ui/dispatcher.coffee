@@ -21,6 +21,7 @@ module.exports =
 
 handle 'init', (init) ->
     # set the initial view state
+    viewstate.setLoggedin true
     viewstate.setState viewstate.STATE_NORMAL
 
     # update model from init object
@@ -304,6 +305,9 @@ handle 'quit', ->
 
 handle 'togglefullscreen', ->
     ipc.send 'togglefullscreen'
+
+handle 'zoom', (step) ->
+    viewstate.setZoom (parseFloat(document.body.style.zoom) or 1.0) + step
 
 handle 'logout', ->
     ipc.send 'logout'

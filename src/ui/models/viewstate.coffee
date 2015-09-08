@@ -19,6 +19,8 @@ module.exports = exp = {
     size: tryparse(localStorage.size ? "[940, 600]")
     pos: tryparse(localStorage.pos ? "[100, 100]")
     showConvThumbs: tryparse(localStorage.showConvThumbs)
+    zoom: tryparse(localStorage.zoom ? "1.0")
+    loggedin: false
 
     setState: (state) ->
         return if @state == state
@@ -85,7 +87,15 @@ module.exports = exp = {
         return if @leftSize == size
         @leftSize = localStorage.leftSize = size
         updated 'viewstate'
-
+    
+    setZoom: (zoom) ->
+        @zoom = localStorage.zoom = document.body.style.zoom = zoom
+    
+    setLoggedin: (val) ->
+        console.log 'setloggedin', val
+        @loggedin = val
+        updated 'viewstate'
+        
     setLastKeyDown: do ->
         {TYPING, PAUSED, STOPPED} = Client.TypingStatus
         lastEmitted = 0

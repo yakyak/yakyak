@@ -53,7 +53,7 @@ app.on 'activate-with-no-open-windows', ->
 
 # If we're actually trying to close the app set it to force close
 app.on 'before-quit', ->
-    mainWindow.forceClose = true
+    mainWindow?.forceClose = true
 
 loadAppWindow = ->
     mainWindow.loadUrl 'file://' + __dirname + '/ui/index.html'
@@ -216,7 +216,9 @@ app.on 'ready', ->
         client.setfocus conv_id
     , false, (ev, conv_id) -> conv_id
 
-    ipc.on 'appfocus', -> app.focus()
+    ipc.on 'appfocus', ->
+      app.focus()
+      mainWindow.focus()
 
     # no retries, dedupe on conv_id
     ipc.on 'settyping', seqreq (ev, conv_id, v) ->
@@ -289,6 +291,6 @@ app.on 'ready', ->
     # Emitted when the window is closed, for OSX only hides the window if we're not force closing.
     mainWindow.on 'close', (event) ->
         mainWindow = null if (process.platform != 'darwin')
-        return if mainWindow.forceClose || process.platform != 'darwin'
+        return if mainWindow?.forceClose || process.platform != 'darwin'
         event.preventDefault()
         mainWindow.hide()

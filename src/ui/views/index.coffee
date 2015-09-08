@@ -8,3 +8,4 @@ module.exports =
     controls:  require './controls'
     notifications: require './notifications'
     typinginfo: require './typinginfo'
+    menu: require './menu'
