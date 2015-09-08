@@ -92,7 +92,6 @@ module.exports = exp = {
         @zoom = localStorage.zoom = document.body.style.zoom = zoom
     
     setLoggedin: (val) ->
-        console.log 'setloggedin', val
         @loggedin = val
         updated 'viewstate'
         
