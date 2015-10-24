@@ -6,6 +6,8 @@ fs        = require 'fs'
 path      = require 'path'
 tmp       = require 'tmp'
 clipboard = require 'clipboard'
+Tray      = require 'tray'
+Menu      = require 'menu'
 
 tmp.setGracefulCleanup()
 
@@ -17,6 +19,7 @@ paths =
     rtokenpath:  path.normalize path.join app.getPath('userData'), 'refreshtoken.txt'
     cookiespath: path.normalize path.join app.getPath('userData'), 'cookies.json'
     chromecookie: path.normalize path.join app.getPath('userData'), 'Cookies'
+    configpath: path.normalize path.join app.getPath('userData'), 'config.json'
 
 client = new Client
     rtokenpath:  paths.rtokenpath
@@ -36,12 +39,31 @@ logout = ->
         cwd: process.cwd
         env: process.env
         stdio: 'inherit'
-      app.quit()
+      quit()
     return promise # like it matters
 
 seqreq = require './seqreq'
 
+saveConfig = ->
+    nconf.save (err) ->
+        console.log 'error while writing config.json', err if err
+
+# Load configuration
+nconf = require 'nconf'
+nconf.file { file: paths.configpath }
+nconf.defaults {
+    'startminimized': false
+    'minimizetotray': false
+}
+
 mainWindow = null
+tray = null
+
+# No more minimizing to tray, just close it
+readyToClose = false
+quit = ->
+    readyToClose = true
+    app.quit()
 
 # Quit when all windows are closed.
 app.on 'window-all-closed', ->
@@ -57,6 +79,9 @@ app.on 'before-quit', ->
 
 loadAppWindow = ->
     mainWindow.loadUrl 'file://' + __dirname + '/ui/index.html'
+
+toggleWindowVisible = ->
+    if mainWindow.isVisible() then mainWindow.hide() else mainWindow.show()
 
 # helper wait promise
 wait = (t) -> Q.Promise (rs) -> setTimeout rs, t
@@ -81,7 +106,17 @@ app.on 'ready', ->
         "min-width": 620
         "min-height": 420
         icon: path.join __dirname, 'icons', 'icon.png'
+        show: !nconf.get 'startminimized'
     }
+
+    # Create tray
+    tray = new Tray path.join __dirname, 'icons', 'icon.png'
+    contextMenu = Menu.buildFromTemplate [
+        { label: 'Hide/show', click: toggleWindowVisible }
+        { label: 'Quit', click: quit}
+    ]
+    tray.setToolTip 'Yakyak - Hangouts client'
+    tray.setContextMenu contextMenu
 
     # and load the index.html of the app. this may however be yanked
     # away if we must do auth.
@@ -282,15 +317,34 @@ app.on 'ready', ->
     # bye bye
     ipc.on 'logout', logout
 
+    ipc.on 'quit', quit
+
+    ipc.on 'getconfig', (ev, id, key) ->
+        ev.sender.send "returngetconfig", id, nconf.get key
+
+    ipc.on 'setconfig', (ev, key, value) ->
+        nconf.set key, value
+        saveConfig()
+
     # propagate these events to the renderer
     require('./ui/events').forEach (n) ->
         client.on n, (e) ->
             ipcsend n, e
 
+    # Emitted when the window is actually closed.
+    mainWindow.on 'closed', ->
+        mainWindow = null
 
-    # Emitted when the window is closed, for OSX only hides the window if we're not force closing.
-    mainWindow.on 'close', (event) ->
-        mainWindow = null if (process.platform != 'darwin')
-        return if mainWindow?.forceClose || process.platform != 'darwin'
-        event.preventDefault()
-        mainWindow.hide()
+    # Emitted when the window is about to close.
+    # For OSX only hides the window if we're not force closing.
+    # Prevent close, if minimizetotray is enabled.
+    mainWindow.on 'close', (ev) ->
+        hideToTray = !readyToClose and nconf.get 'minimizetotray'
+        darwinHideOnly process.platform == 'darwin' and not mainWindow?.forceClose
+
+        if hideToTray or darwinHideOnly
+            ev.preventDefault()
+            mainWindow.hide()
+
+    # Emitted when the tray icon is clicked
+    tray.on 'clicked', toggleWindowVisible

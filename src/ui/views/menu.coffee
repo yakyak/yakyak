@@ -89,14 +89,17 @@ templateOsx = (viewstate) -> [{
 templateOthers = (viewstate) -> [{
     label: 'Yakyak'
     submenu: [
-        { label: 'Open Inspector', accelerator: 'Command+Alt+I', click: -> action 'devtools' }
+        { label: 'Open Inspector', accelerator: 'Control+Alt+I', click: -> action 'devtools' }
+        { type: 'separator' }
+        { type:'checkbox', label: 'Keep running in the system tray when closed', checked: viewstate.minimizeToTray, click: (it) -> action 'minimizetotray', it.checked }
+        { type:'checkbox', label: 'Start minimized in the system tray', checked: viewstate.startMinimized, click: (it) -> action 'startminimized', it.checked }
         { type: 'separator' }
         {
           label: 'Logout',
           click: -> action 'logout'
           enabled: viewstate.loggedin
         }
-        { label: 'Quit', accelerator: 'Command+Q', click: -> action 'quit' }
+        { label: 'Quit', accelerator: 'Control+Q', click: -> action 'quit' }
     ]}, {
     label: 'View'
     submenu: [
@@ -108,7 +111,7 @@ templateOthers = (viewstate) -> [{
             click: (it) -> action 'showconvthumbs', it.checked
         }, {
             label: 'Enter Full Screen',
-            accelerator: 'Command+Control+F',
+            accelerator: 'Control+Control+F',
             click: -> action 'togglefullscreen'
         }, {
             label: 'Previous Conversation',
@@ -121,11 +124,11 @@ templateOthers = (viewstate) -> [{
         }, {
             # seee https://github.com/atom/electron/issues/1507
             label: 'Zoom In',
-            accelerator: 'Command+Plus',
+            accelerator: 'Control+Plus',
             click: -> action 'zoom', +0.25
         }, {
             label: 'Zoom Out',
-            accelerator: 'Command+-',
+            accelerator: 'Control+-',
             click: -> action 'zoom', -0.25
         }
     ]}
