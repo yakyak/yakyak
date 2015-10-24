@@ -21,6 +21,8 @@ module.exports = exp = {
     showConvThumbs: tryparse(localStorage.showConvThumbs)
     zoom: tryparse(localStorage.zoom ? "1.0")
     loggedin: false
+    minimizeToTray: null
+    startMinimized: null
 
     setState: (state) ->
         return if @state == state
@@ -87,14 +89,14 @@ module.exports = exp = {
         return if @leftSize == size
         @leftSize = localStorage.leftSize = size
         updated 'viewstate'
-    
+
     setZoom: (zoom) ->
         @zoom = localStorage.zoom = document.body.style.zoom = zoom
-    
+
     setLoggedin: (val) ->
         @loggedin = val
         updated 'viewstate'
-        
+
     setLastKeyDown: do ->
         {TYPING, PAUSED, STOPPED} = Client.TypingStatus
         lastEmitted = 0
@@ -124,6 +126,14 @@ module.exports = exp = {
         return if @showConvThumbs == doshow
         @showConvThumbs = localStorage.showConvThumbs = doshow
         updated 'viewstate'
+
+    setMinimizeToTray: (value) ->
+        return if @minimizeToTray == value
+        @minimizeToTray = value
+
+    setStartMinimized: (value) ->
+        return if @startMinimized == value
+        @startMinimized = value
 
 }
 

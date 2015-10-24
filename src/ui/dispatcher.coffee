@@ -5,6 +5,8 @@ ipc    = require 'ipc'
 {entity, conv, viewstate, userinput, connection, convsettings, notify} = require './models'
 {throttle, later, isImg} = require './util'
 
+config = new(require './config')
+
 'connecting connected connect_failed'.split(' ').forEach (n) ->
     handle n, -> connection.setState n
 
@@ -297,11 +299,19 @@ handle 'unreadtotal', (total, orMore) ->
 handle 'showconvthumbs', (doshow) ->
     viewstate.setShowConvThumbs doshow
 
+handle 'minimizetotray', (value) ->
+    viewstate.setMinimizeToTray value
+    config.set 'minimizetotray', value
+
+handle 'startminimized', (value) ->
+    viewstate.setStartMinimized value
+    config.set 'startminimized', value
+
 handle 'devtools', ->
     remote.getCurrentWindow().openDevTools detach:true
 
 handle 'quit', ->
-    remote.require('app').quit()
+    ipc.send 'quit'
 
 handle 'togglefullscreen', ->
     ipc.send 'togglefullscreen'
