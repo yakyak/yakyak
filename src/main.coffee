@@ -340,7 +340,7 @@ app.on 'ready', ->
     # Prevent close, if minimizetotray is enabled.
     mainWindow.on 'close', (ev) ->
         hideToTray = !readyToClose and nconf.get 'minimizetotray'
-        darwinHideOnly process.platform == 'darwin' and not mainWindow?.forceClose
+        darwinHideOnly = process.platform == 'darwin' and not mainWindow?.forceClose
 
         if hideToTray or darwinHideOnly
             ev.preventDefault()
