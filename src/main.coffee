@@ -339,7 +339,7 @@ app.on 'ready', ->
     # For OSX only hides the window if we're not force closing.
     # Prevent close, if minimizetotray is enabled.
     mainWindow.on 'close', (ev) ->
-        hideToTray = !readyToClose and nconf.get 'minimizetotray'
+        hideToTray = process.platform != 'darwin' and !readyToClose and nconf.get 'minimizetotray'
         darwinHideOnly = process.platform == 'darwin' and not mainWindow?.forceClose
 
         if hideToTray or darwinHideOnly
