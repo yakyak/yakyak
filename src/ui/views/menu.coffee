@@ -111,14 +111,16 @@ templateOthers = (viewstate) -> [{
             click: (it) -> action 'showconvthumbs', it.checked
         }, {
             label: 'Enter Full Screen',
-            accelerator: 'Control+Control+F',
+            accelerator: 'Control+Alt+F',
             click: -> action 'togglefullscreen'
         }, {
             label: 'Previous Conversation',
+            accelerator: 'Control+K',
             click: -> action 'selectNextConv', -1
             enabled: viewstate.loggedin
         }, {
             label: 'Next Conversation',
+            accelerator: 'Control+J',
             click: -> action 'selectNextConv', +1
             enabled: viewstate.loggedin
         }, {
