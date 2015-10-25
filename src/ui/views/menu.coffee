@@ -60,6 +60,10 @@ templateOsx = (viewstate) -> [{
             label: 'Zoom Out',
             accelerator: 'Command+-',
             click: -> action 'zoom', -0.25
+        }, {
+            label: 'Reset Zoom',
+            accelerator: 'Command+0',
+            click: -> action 'zoom'
         }
     ]},{
     label: 'Window',
@@ -132,6 +136,10 @@ templateOthers = (viewstate) -> [{
             label: 'Zoom Out',
             accelerator: 'Control+-',
             click: -> action 'zoom', -0.25
+        }, {
+            label: 'Reset Zoom',
+            accelerator: 'Control+0',
+            click: -> action 'zoom'
         }
     ]}
 ]
