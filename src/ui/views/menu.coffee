@@ -40,7 +40,7 @@ templateOsx = (viewstate) -> [{
             enabled: viewstate.loggedin
             click: (it) -> action 'showconvthumbs', it.checked
         }, {
-            label: 'Enter Full Screen',
+            label: 'Toggle Full Screen',
             accelerator: 'Command+Control+F',
             click: -> action 'togglefullscreen'
         }, {
@@ -110,7 +110,7 @@ templateOthers = (viewstate) -> [{
             enabled: viewstate.loggedin
             click: (it) -> action 'showconvthumbs', it.checked
         }, {
-            label: 'Enter Full Screen',
+            label: 'Toggle Full Screen',
             accelerator: 'Control+Alt+F',
             click: -> action 'togglefullscreen'
         }, {
