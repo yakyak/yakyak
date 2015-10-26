@@ -13,24 +13,24 @@ mkdir -p dist
 cd dist
 for PLATFORM in ${PLATFORMS[*]}; do
     rm -rf $PLATFORM
-    echo "https://github.com/atom/electron/releases/download/v$ELECTRON_VERSION/electron-v$ELECTRON_VERSION-$PLATFORM.zip"    
+    echo "https://github.com/atom/electron/releases/download/v$ELECTRON_VERSION/electron-v$ELECTRON_VERSION-$PLATFORM.zip"
     test ! -f electron-v$ELECTRON_VERSION-$PLATFORM.zip && \
     curl -LO https://github.com/atom/electron/releases/download/v$ELECTRON_VERSION/electron-v$ELECTRON_VERSION-$PLATFORM.zip
     unzip -o electron-v$ELECTRON_VERSION-$PLATFORM.zip -d $PLATFORM
 done
 
 cd darwin-x64
-mv Electron.app Yakyak.app
-defaults write $(pwd)/Yakyak.app/Contents/Info.plist CFBundleDisplayName -string "Yakyak"
-defaults write $(pwd)/Yakyak.app/Contents/Info.plist CFBundleExecutable -string "Yakyak"
-defaults write $(pwd)/Yakyak.app/Contents/Info.plist CFBundleIdentifier -string "com.github.yakyak"
-defaults write $(pwd)/Yakyak.app/Contents/Info.plist CFBundleName -string "Yakyak"
-defaults write $(pwd)/Yakyak.app/Contents/Info.plist CFBundleVersion -string "$VERSION"
-plutil -convert xml1 $(pwd)/Yakyak.app/Contents/Info.plist
-mv Yakyak.app/Contents/MacOS/Electron Yakyak.app/Contents/MacOS/Yakyak
-cp -R ../../app Yakyak.app/Contents/Resources/app
-cp ../../src/icons/atom.icns Yakyak.app/Contents/Resources/atom.icns
-zip -r ../yakyak-osx.app.zip Yakyak.app
+mv Electron.app YakYak.app
+defaults write $(pwd)/YakYak.app/Contents/Info.plist CFBundleDisplayName -string "YakYak"
+defaults write $(pwd)/YakYak.app/Contents/Info.plist CFBundleExecutable -string "YakYak"
+defaults write $(pwd)/YakYak.app/Contents/Info.plist CFBundleIdentifier -string "com.github.yakyak"
+defaults write $(pwd)/YakYak.app/Contents/Info.plist CFBundleName -string "YakYak"
+defaults write $(pwd)/YakYak.app/Contents/Info.plist CFBundleVersion -string "$VERSION"
+plutil -convert xml1 $(pwd)/YakYak.app/Contents/Info.plist
+mv YakYak.app/Contents/MacOS/Electron YakYak.app/Contents/MacOS/YakYak
+cp -R ../../app YakYak.app/Contents/Resources/app
+cp ../../src/icons/atom.icns YakYak.app/Contents/Resources/atom.icns
+zip -r ../yakyak-osx.app.zip YakYak.app
 cd ..
 
 cd win32-ia32

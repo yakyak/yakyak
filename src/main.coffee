@@ -118,7 +118,7 @@ app.on 'ready', ->
             { label: 'Hide/show', click: toggleWindowVisible }
             { label: 'Quit', click: quit}
         ]
-        tray.setToolTip 'Yakyak - Hangouts client'
+        tray.setToolTip 'YakYak - Hangouts client'
         tray.setContextMenu contextMenu
 
         # Emitted when the tray icon is clicked
