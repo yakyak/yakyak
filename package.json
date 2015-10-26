@@ -36,7 +36,7 @@
   "devDependencies": {
     "chai": "^3.2.0",
     "coffee-script": "^1.9.2",
-    "electron-prebuilt": "^0.30.1",
+    "electron-prebuilt": "0.34.1",
     "gulp": "^3.8.11",
     "gulp-auto-reload": "0.1.0",
     "gulp-changed": "^1.2.1",
