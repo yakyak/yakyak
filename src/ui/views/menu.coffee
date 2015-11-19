@@ -2,7 +2,7 @@ remote = require 'remote'
 Menu = remote.require 'menu'
 
 templateOsx = (viewstate) -> [{
-    label: 'Yakyak'
+    label: 'YakYak'
     submenu: [
         { label: 'About YakYak', selector: 'orderFrontStandardAboutPanel:' }
         { type: 'separator' }
@@ -89,7 +89,7 @@ templateOsx = (viewstate) -> [{
 
 # TODO: find proper windows/linux accelerators
 templateOthers = (viewstate) -> [{
-    label: 'Yakyak'
+    label: 'YakYak'
     submenu: [
         { label: 'Open Inspector', accelerator: 'Control+Alt+I', click: -> action 'devtools' }
         { type: 'separator' }

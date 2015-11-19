@@ -1,4 +1,4 @@
-yakyak
+YakYak
 ======
 
 [![Build Status](https://travis-ci.org/yakyak/yakyak.svg)](https://travis-ci.org/yakyak/yakyak) [![Gitter](https://d378bf3rn661mp.cloudfront.net/gitter.svg)](https://gitter.im/yakyak/yakyak)
@@ -39,9 +39,9 @@ What doesn't it do (yet?):
 
 * Have a serious icon (this is being adressed)
 
-![yakyak](https://cloud.githubusercontent.com/assets/227204/8255223/b6409032-169e-11e5-8953-488413b305b4.png)
+![YakYak](https://cloud.githubusercontent.com/assets/227204/8255223/b6409032-169e-11e5-8953-488413b305b4.png)
 
-![yakyak with thumbs](https://cloud.githubusercontent.com/assets/227204/8255540/d922d252-16a0-11e5-86b2-bfec901bbdbc.png)
+![YakYak with thumbs](https://cloud.githubusercontent.com/assets/227204/8255540/d922d252-16a0-11e5-86b2-bfec901bbdbc.png)
 
 ## Credits
 
@@ -87,5 +87,5 @@ $ electron app
 
 - `src/`: is where sources live
 - `src/ui/`: holds renderer code (client side)
-- `Yakyak.app/`: is where the app is built
-- `Yakyak.app/Contents/Resources/app/`: specifically all is compiled to here
+- `YakYak.app/`: is where the app is built
+- `YakYak.app/Contents/Resources/app/`: specifically all is compiled to here
