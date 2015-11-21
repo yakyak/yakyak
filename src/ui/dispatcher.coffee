@@ -33,6 +33,8 @@ handle 'init', (init) ->
     # ensure there's a selected conv
     unless conv[viewstate.selectedConv]
         viewstate.setSelectedConv conv.list()?[0]?.conversation_id
+    
+    require('./version').check()
 
 handle 'chat_message', (ev) ->
     conv.addChatMessage ev
