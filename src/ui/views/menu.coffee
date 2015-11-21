@@ -45,12 +45,10 @@ templateOsx = (viewstate) -> [{
             click: -> action 'togglefullscreen'
         }, {
             label: 'Previous Conversation',
-            accelerator: 'Command+[',
             enabled: viewstate.loggedin
             click: -> action 'selectNextConv', -1
         }, {
             label: 'Next Conversation',
-            accelerator: 'Command+]',
             enabled: viewstate.loggedin
             click: -> action 'selectNextConv', +1
         }, {
