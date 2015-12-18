@@ -110,7 +110,11 @@ app.on 'ready', ->
     }
 
     # Create the system tray
-    tray = new Tray path.join __dirname, 'icons', 'icon.png'
+    trayIcons = {
+        "read": path.join __dirname, 'icons', 'icon.png'
+        "unread": path.join __dirname, 'icons', 'icon-unread.png'
+    }
+    tray = new Tray trayIcons["read"]
     contextMenu = Menu.buildFromTemplate [
         { label: 'Hide/show', click: toggleWindowVisible }
         { label: 'Quit', click: quit}
@@ -266,9 +270,9 @@ app.on 'ready', ->
     ipc.on 'updatebadge', (ev, value) ->
         app.dock.setBadge(value) if app.dock
         if value > 0
-            tray.setImage path.join __dirname, 'icons', 'icon-unread.png'
+            tray.setImage trayIcons["unread"]
         else
-            tray.setImage path.join __dirname, 'icons', 'icon.png'
+            tray.setImage trayIcons["read"]
 
     ipc.on 'searchentities', (ev, query, max_results) ->
         promise = client.searchentities query, max_results
