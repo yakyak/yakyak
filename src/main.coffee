@@ -58,7 +58,6 @@ nconf.defaults {
 
 mainWindow = null
 tray = null
-hasTray = process.platform != 'darwin'
 
 # No more minimizing to tray, just close it
 readyToClose = false
@@ -107,22 +106,24 @@ app.on 'ready', ->
         "min-width": 620
         "min-height": 420
         icon: path.join __dirname, 'icons', 'icon.png'
-        show: !hasTray or !nconf.get 'startminimized'
+        show: !nconf.get 'startminimized'
     }
 
     # Create the system tray
-    if hasTray
-        # Create tray
-        tray = new Tray path.join __dirname, 'icons', 'icon.png'
-        contextMenu = Menu.buildFromTemplate [
-            { label: 'Hide/show', click: toggleWindowVisible }
-            { label: 'Quit', click: quit}
-        ]
-        tray.setToolTip 'YakYak - Hangouts client'
-        tray.setContextMenu contextMenu
+    trayIcons = {
+        "read": path.join __dirname, 'icons', 'icon.png'
+        "unread": path.join __dirname, 'icons', 'icon-unread.png'
+    }
+    tray = new Tray trayIcons["read"]
+    contextMenu = Menu.buildFromTemplate [
+        { label: 'Hide/show', click: toggleWindowVisible }
+        { label: 'Quit', click: quit}
+    ]
+    tray.setToolTip 'YakYak - Hangouts client'
+    tray.setContextMenu contextMenu
 
-        # Emitted when the tray icon is clicked
-        tray.on 'clicked', toggleWindowVisible
+    # Emitted when the tray icon is clicked
+    tray.on 'clicked', toggleWindowVisible
 
     # and load the index.html of the app. this may however be yanked
     # away if we must do auth.
@@ -268,6 +269,10 @@ app.on 'ready', ->
 
     ipc.on 'updatebadge', (ev, value) ->
         app.dock.setBadge(value) if app.dock
+        if value > 0
+            tray.setImage trayIcons["unread"]
+        else
+            tray.setImage trayIcons["read"]
 
     ipc.on 'searchentities', (ev, query, max_results) ->
         promise = client.searchentities query, max_results
@@ -345,7 +350,7 @@ app.on 'ready', ->
     # For OSX only hides the window if we're not force closing.
     # Prevent close, if minimizetotray is enabled.
     mainWindow.on 'close', (ev) ->
-        hideToTray = hasTray and !readyToClose and nconf.get 'minimizetotray'
+        hideToTray = !readyToClose and nconf.get 'minimizetotray'
         darwinHideOnly = process.platform == 'darwin' and not mainWindow?.forceClose
 
         if hideToTray or darwinHideOnly
