@@ -61,6 +61,7 @@ It is written in coffeescript (nodejs) based on
 ### Setup
 
 ```bash
+$ sudo npm install -g gulp
 $ npm install
 $ gulp
 ```
@@ -76,6 +77,9 @@ $ gulp watch
 ```
 $ electron app
 ```
+
+You might want to put the electron binary on your $PATH or symlink it. npm puts
+it at `node_modules/electron-prebuilt/dist/electron`.
 
 ### Structure
 
