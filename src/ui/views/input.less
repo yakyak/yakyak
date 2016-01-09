@@ -1,10 +1,28 @@
+@button-container-width: 60px;
 
 .input {
-    display: flex;
-    position: relative;
-    > div {
+    font-family: 'NotoColorEmoji';
+    > div#emoji-selector {
+        height:138px;
+        overflow-y: scroll;
+        display: none;
+        border: 1px solid #dedede;
+        border-radius: 3px;
+        width: 100%;
+        span {
+            display: inline-block;
+            width: 30px;
+            text-align: center;
+            height: 30px;
+            line-height: 30px;
+            cursor: pointer;
+            margin: 2px;
+        }
+    }
+
+    > div.input-container {
         padding: 12px 15px 10px;
-        width: ~"calc(100% - 28px)";
+        width: ~"calc(100% - @{button-container-width})";
         textarea {
             width: 100%;
             resize: vertical;
@@ -15,23 +33,35 @@
             border-radius: 3px;
             padding: 3px 10px;
         }
-        button {
+        span.button-container {
             position: absolute;
             right: 12px;
             bottom: 12px;
             flex: none;
-            margin-left: 5px;
-            background: white;
-            border: 1px solid #dedede;
             border-radius: 3px;
             height: 26px;
-            width: 26px;
             padding: 0;
-            cursor: pointer;
-            span {
+            overflow: hidden;
+
+            button {
+                // position: absolute;
                 display: inline-block;
-                font-size: 16px;
-                line-height: 24px;
+                flex: none;
+                margin-left: 5px;
+                background: white;
+                border: 1px solid #dedede;
+                border-radius: 3px;
+                height: 26px;
+                width: 26px;
+                padding: 0;
+                cursor: pointer;
+                span {
+                    display: inline-block;
+                    font-size: 16px;
+                    line-height: 24px;
+                    height: 24px;
+                    overflow: hidden
+                }
             }
         }
         input[type=file] {

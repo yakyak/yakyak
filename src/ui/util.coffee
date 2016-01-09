@@ -65,5 +65,14 @@ getImageUrl = (url="") ->
     return url if isImg url
     false
 
+toggleVisibility = (element) ->
+    console.log "FOO"
+    console.log element.style['display']
+    if element.style.display == 'block'
+        element.style.display = 'none'
+    else
+        element.style.display = 'block'
+
 module.exports = {nameof, nameofconv, linkto, later, throttle, uniqfn,
-isAboutLink, getProxiedName, tryparse, fixlink, topof, isImg, getImageUrl}
+isAboutLink, getProxiedName, tryparse, fixlink, topof, isImg, getImageUrl,
+toggleVisibility}

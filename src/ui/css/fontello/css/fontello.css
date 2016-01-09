@@ -74,5 +74,6 @@
 .icon-bell:before { content: '\e811'; } /* '' */
 .icon-bell-off-empty:before { content: '\e812'; } /* '' */
 .icon-attach:before { content: '\e813'; } /* '' */
+.icon-emoji:before { content: '\1f603'; font-family: "Helvetica Neue"} /* '' */
 .icon-star:before { content: '\e814'; } /* '' */
 .icon-star-empty:before { content: '\e815'; } /* '' */
