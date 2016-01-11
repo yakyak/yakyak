@@ -1,8 +1,9 @@
 autosize = require 'autosize'
 clipboard = require 'clipboard'
-messages = require './messages'
+{scrollToBottom, messages} = require './messages'
 
 {later, toggleVisibility} = require '../util'
+
 
 isModifierKey = (ev) -> ev.altKey || ev.ctrlKey || ev.metaKey || ev.shiftKey
 isAltCtrlMeta = (ev) -> ev.altKey || ev.ctrlKey || ev.metaKey
@@ -89,8 +90,8 @@ module.exports = view (models) ->
             span class:'button-container', ->
                 button title:'Show emoticons', onclick: (ef) ->
                     elem = document.getElementById 'emoji-selector'
-                    console.log elem
                     toggleVisibility elem
+                    scrollToBottom()
                 , ->
                     span class:'icon-emoji'
             , ->

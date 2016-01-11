@@ -66,8 +66,6 @@ getImageUrl = (url="") ->
     false
 
 toggleVisibility = (element) ->
-    console.log "FOO"
-    console.log element.style['display']
     if element.style.display == 'block'
         element.style.display = 'none'
     else
