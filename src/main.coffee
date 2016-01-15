@@ -269,10 +269,13 @@ app.on 'ready', ->
 
     ipc.on 'updatebadge', (ev, value) ->
         app.dock.setBadge(value) if app.dock
-        if value > 0
-            tray.setImage trayIcons["unread"]
-        else
-            tray.setImage trayIcons["read"]
+        try 
+          if value > 0
+              tray.setImage trayIcons["unread"]
+          else
+              tray.setImage trayIcons["read"]
+        catch e
+          console.log 'missing icons', e
 
     ipc.on 'searchentities', (ev, query, max_results) ->
         promise = client.searchentities query, max_results
