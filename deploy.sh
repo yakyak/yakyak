@@ -1,31 +1,4 @@
 #!/bin/bash
-set -o errexit
-set -o nounset
-set -o pipefail
-
-ROOT=$(dirname "${BASH_SOURCE}")
-
-function yakyak::package() {
-  local arch="$1"
-  local src="electron"
-  local dest="yakyak"
-
-  if [[ ! -f "$src" ]]; then
-    echo "Skipping packaging for $arch (source dist not found)"
-    return
-  fi
-
-  if [[ "$arch" =~ win32 ]]; then
-    src="${src}.exe"
-    dest="${dest}.exe"
-  fi
-
-  pushd $arch >/dev/null
-    mv $src $dest
-    cp -R ../../app resources/app
-  popd >/dev/null
-  zip -r yakyak-$arch.zip $arch
-}
 
 for dep in curl unzip sed; do
   echo "checking dependency... $dep"
@@ -34,8 +7,7 @@ done
 
 ELECTRON_VERSION=$(npm list --depth=0 |grep electron-prebuilt | cut -f2 -d@)
 VERSION=$(node -e "console.log(require('./package').version)")
-DEFAULT_PLATFORMS=("darwin-x64" "linux-ia32" "linux-x64" "win32-ia32" "win32-x64")
-PLATFORMS=${PLATFORMS:-$DEFAULT_PLATFORMS}
+PLATFORMS=("darwin-x64" "linux-ia32" "linux-x64" "win32-ia32" "win32-x64")
 
 mkdir -p dist
 cd dist
@@ -61,10 +33,28 @@ cp ../../src/icons/atom.icns YakYak.app/Contents/Resources/atom.icns
 zip -r ../yakyak-osx.app.zip YakYak.app
 cd ..
 
-yakyak::package win32-x64
-yakyak::package win32-ia32
-yakyak::package linux-x64
-yakyak::package linux-ia32
-yakyak::package darwin-x64
+cd win32-ia32
+mv electron.exe yakyak.exe
+cp -R ../../app resources/app
+cd ..
+zip -r yakyak-win32-ia32.zip win32-ia32
+
+cd win32-x64
+mv electron.exe yakyak.exe
+cp -R ../../app resources/app
+cd ..
+zip -r yakyak-win32-x64.zip win32-x64
+
+cd linux-ia32
+mv electron yakyak
+cp -R ../../app resources/app
+cd ..
+zip -r yakyak-linux-ia32.zip linux-ia32
+
+cd linux-x64
+mv electron yakyak
+cp -R ../../app resources/app
+cd ..
+zip -r yakyak-linux-x64.zip linux-x64
 
 cd ..
