@@ -28,7 +28,7 @@ handle 'init', (init) ->
 
     # update model from init object
     entity._initFromSelfEntity init.self_entity
-    entity._initFromEntities init.entities
+    entity._initFromEntities init.entities if init.entities
     conv._initFromConvStates init.conv_states
     # ensure there's a selected conv
     unless conv[viewstate.selectedConv]
