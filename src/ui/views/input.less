@@ -2,22 +2,50 @@
 
 .input {
     font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif, "NotoColorEmoji";
-    > div#emoji-selector {
-        height:131px;
-        overflow-y: scroll;
+
+    span.emoticon {
+        display: inline-block;
+        width: 30px;
+        height: 30px;
+        line-height: 30px;
+        font-size: 20px;
+        text-align: center;
+        cursor: pointer;
+    }
+
+    > #emoji-container {
         display: none;
-        border-bottom: 1px solid #dedede;
-        width: 100%;
-        padding: 5px 2px 5px 5px;
-        span {
-            display: inline-block;
-            width: 30px;
+        > #emoji-group-selector {
+            overflow-x: scroll;
+            border-bottom: 1px solid #dedede;
             height: 30px;
-            line-height: 30px;
-            font-size: 20px;
-            text-align: center;
-            cursor: pointer;
+
+            > .emoticon.glow {
+                background: radial-gradient(17px at 50% 50% , rgba(0, 50, 255, 0.3), rgba(0,0,0,0))
+            }
+
         }
+
+        > #emoji-group-selector::-webkit-scrollbar {
+            display: none;
+        }
+        > .emoji-selector {
+            height:131px;
+            overflow-y: scroll;
+            border-bottom: 1px solid #dedede;
+            width: 100%;
+            padding: 5px 2px 5px 5px;
+
+            > .group-content {
+                display: none;
+                padding: none;
+                margin: none;
+            }
+            > .group-content.visible {
+                display: block;
+            }
+        }
+
     }
 
     > div.input-container {

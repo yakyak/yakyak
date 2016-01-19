@@ -36,23 +36,52 @@ lastConv = null
 
 
 emoticonCodeRanges =
-    emoticons:                          [0x1F600..0x1F64F]
-    miscellaneousSymbols:               [0x2600..0x26FF]
-    miscellaneousSymbolsAndPictographs: [0x1F300..0x1F5FF]
-    supplementalSymbolsAndPictographs:  [0x1F900..0x1F9FF]
-    transportAndMapSymbols:             [0x1F680..0x1F6FF]
+    emoticons:
+        representation: 0x1F603
+        range: [0x1F600..0x1F64F]
+    miscellaneousSymbols:
+        representation: 0x2600
+        range: [0x2600..0x26FF]
+    miscellaneousSymbolsAndPictographs:
+        representation: 0x1F300
+        range: [0x1F300..0x1F5FF]
+    supplementalSymbolsAndPictographs:
+        representation: 0x1F901
+        range: [0x1F900..0x1F9FF]
+    transportAndMapSymbols:
+        representation: 0x1F681
+        range: [0x1F680..0x1F6FF]
 
-
+openByDefault = 'emoticons'
 
 module.exports = view (models) ->
     div class:'input', ->
-        div id:'emoji-selector', ->
-            for i in emoticonCodeRanges['emoticons']
-                span transposedFromCharCode(i)
-                , onclick: (e) ->
-                    value = e.target.innerHTML
-                    element = document.getElementById "message-input"
-                    insertTextAtCursor element, value
+        div id:'emoji-container', ->
+            div id:'emoji-group-selector', ->
+                for name, range of emoticonCodeRanges
+                    glow = ''
+                    if name == openByDefault
+                        glow = 'glow'
+                    span id:name+'-button'
+                    , class:'emoticon ' + glow
+                    , transposedFromCharCode(range['representation'])
+                    , onclick: do (name) -> ->
+                        console.log("Opening " + name)
+                        openEmoticonDrawer name
+
+            div class:'emoji-selector', ->
+
+                for name, range of emoticonCodeRanges
+                    visible = ''
+                    if name == openByDefault
+                        visible = 'visible'
+
+                    span id:name, class:'group-content ' + visible, ->
+                        for i in range['range']
+                            span class:'emoticon', transposedFromCharCode(i)
+                            , onclick: do (i) -> ->
+                                    element = document.getElementById "message-input"
+                                    insertTextAtCursor element, transposedFromCharCode(i)
 
         div class:'input-container', ->
             textarea id:'message-input', autofocus:true, placeholder:'Message', rows: 1, ''
@@ -89,8 +118,7 @@ module.exports = view (models) ->
 
             span class:'button-container', ->
                 button title:'Show emoticons', onclick: (ef) ->
-                    elem = document.getElementById 'emoji-selector'
-                    toggleVisibility elem
+                    toggleVisibility document.querySelector '#emoji-container'
                     scrollToBottom()
                 , ->
                     span class:'icon-emoji'
@@ -128,11 +156,28 @@ transposedFromCharCode = (codePt) ->
     else
         String.fromCharCode(codePt)
 
+openEmoticonDrawer = (range) ->
+    console.debug "Opening drawer for " + range
+    for name of emoticonCodeRanges
+        set = (name == range)
+        setClass set, (document.querySelector '#'+name), 'visible'
+        setClass set, (document.querySelector '#'+name+'-button'), 'glow'
+
+
+setClass = (boolean, element, className) ->
+    if element == undefined or element == null
+        console.error "Cannot set visibility for undefined variable"
+    else
+        if boolean
+            console.debug 'Setting ' + className + ' for', element
+            element.classList.add(className)
+        else
+            console.debug 'Removing ' + className + ' for', element
+            element.classList.remove(className)
+
 
 insertTextAtCursor = (el, text) ->
     value = el.value
-    endIndex
-    range
     doc = el.ownerDocument
     if typeof el.selectionStart == "number" and typeof el.selectionEnd == "number"
         endIndex = el.selectionEnd
