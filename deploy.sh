@@ -10,7 +10,7 @@ function yakyak::package() {
   local src="electron"
   local dest="yakyak"
 
-  if [[ ! -f "$src" ]]; then
+  if [[ ! -d "$arch" ]]; then
     echo "Skipping packaging for $arch (source dist not found)"
     return
   fi
@@ -47,19 +47,21 @@ for PLATFORM in ${PLATFORMS[*]}; do
     unzip -o electron-v$ELECTRON_VERSION-$PLATFORM.zip -d $PLATFORM
 done
 
-cd darwin-x64
-mv Electron.app YakYak.app
-defaults write $(pwd)/YakYak.app/Contents/Info.plist CFBundleDisplayName -string "YakYak"
-defaults write $(pwd)/YakYak.app/Contents/Info.plist CFBundleExecutable -string "YakYak"
-defaults write $(pwd)/YakYak.app/Contents/Info.plist CFBundleIdentifier -string "com.github.yakyak"
-defaults write $(pwd)/YakYak.app/Contents/Info.plist CFBundleName -string "YakYak"
-defaults write $(pwd)/YakYak.app/Contents/Info.plist CFBundleVersion -string "$VERSION"
-plutil -convert xml1 $(pwd)/YakYak.app/Contents/Info.plist
-mv YakYak.app/Contents/MacOS/Electron YakYak.app/Contents/MacOS/YakYak
-cp -R ../../app YakYak.app/Contents/Resources/app
-cp ../../src/icons/atom.icns YakYak.app/Contents/Resources/atom.icns
-zip -r ../yakyak-osx.app.zip YakYak.app
-cd ..
+if [ -d darwin-x64 ]; then
+	cd darwin-x64
+	mv Electron.app YakYak.app
+	defaults write $(pwd)/YakYak.app/Contents/Info.plist CFBundleDisplayName -string "YakYak"
+	defaults write $(pwd)/YakYak.app/Contents/Info.plist CFBundleExecutable -string "YakYak"
+	defaults write $(pwd)/YakYak.app/Contents/Info.plist CFBundleIdentifier -string "com.github.yakyak"
+	defaults write $(pwd)/YakYak.app/Contents/Info.plist CFBundleName -string "YakYak"
+	defaults write $(pwd)/YakYak.app/Contents/Info.plist CFBundleVersion -string "$VERSION"
+	plutil -convert xml1 $(pwd)/YakYak.app/Contents/Info.plist
+	mv YakYak.app/Contents/MacOS/Electron YakYak.app/Contents/MacOS/YakYak
+	cp -R ../../app YakYak.app/Contents/Resources/app
+	cp ../../src/icons/atom.icns YakYak.app/Contents/Resources/atom.icns
+	zip -r ../yakyak-osx.app.zip YakYak.app
+	cd ..
+fi
 
 yakyak::package win32-x64
 yakyak::package win32-ia32
