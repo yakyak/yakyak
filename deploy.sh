@@ -10,7 +10,7 @@ function yakyak::package() {
   local src="electron"
   local dest="yakyak"
 
-  if [[ ! -d "$arch" ]]; then
+  if [[ ! -d "$src" ]]; then
     echo "Skipping packaging for $arch (source dist not found)"
     return
   fi
