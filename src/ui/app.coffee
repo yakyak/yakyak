@@ -56,7 +56,7 @@ ipc.on 'getentity:result', (r, data) ->
     action 'addentities', r.entities, data?.add_to_conv
 
 ipc.on 'resize', (dim) -> action 'resize', dim
-ipc.on 'moved', (pos)  -> action 'moved', pos
+ipc.on 'move', (pos)  -> action 'move', pos
 ipc.on 'searchentities:result', (r) ->
   action 'setsearchedentities', r.entity
 ipc.on 'createconversation:result', (c, name) ->

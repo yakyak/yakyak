@@ -174,7 +174,7 @@ app.on 'ready', ->
 
     # client deals with window sizing
     mainWindow.on 'resize', (ev) -> ipcsend 'resize', mainWindow.getSize()
-    mainWindow.on 'moved',  (ev) -> ipcsend 'moved', mainWindow.getPosition()
+    mainWindow.on 'move',  (ev) -> ipcsend 'move', mainWindow.getPosition()
 
     # whenever it fails, we try again
     client.on 'connect_failed', ->
