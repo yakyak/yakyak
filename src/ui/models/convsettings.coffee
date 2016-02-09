@@ -1,8 +1,8 @@
 entity = require './entity'
 
 module.exports = exp = {
-    # Current models are dedicated to 'add conversation' functionality
-    # but we plan to make this more generic
+    # This handles the data of conversation add / edit
+    # where you can specify participants conversation name, etc
     searchedEntities: []
     selectedEntities: []
     initialName: null
