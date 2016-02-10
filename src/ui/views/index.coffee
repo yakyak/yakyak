@@ -10,3 +10,4 @@ module.exports =
     typinginfo: require './typinginfo'
     menu: require './menu'
     trayicon: require './trayicon'
+    dockicon: require './dockicon'

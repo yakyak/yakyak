@@ -96,6 +96,14 @@ handle 'toggleshowtray', ->
 handle 'togglehidedockicon', ->
     viewstate.setHideDockIcon(not viewstate.hidedockicon)
 
+handle 'togglewindow', ->
+    mainWindow = remote.getCurrentWindow() # And we hope we don't get another ;)
+    if mainWindow.isVisible() then mainWindow.hide() else mainWindow.show()
+
+handle 'showwindow', ->
+    mainWindow = remote.getCurrentWindow() # And we hope we don't get another ;)
+    mainWindow.show()
+  
 sendsetpresence = throttle 10000, ->
     ipc.send 'setpresence'
     ipc.send 'setactiveclient', true, 15
