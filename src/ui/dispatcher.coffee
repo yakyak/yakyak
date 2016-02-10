@@ -93,6 +93,9 @@ handle 'sendmessage', (txt) ->
 handle 'toggleshowtray', ->
     viewstate.setShowTray(not viewstate.showtray)
 
+handle 'togglehidedockicon', ->
+    viewstate.setHideDockIcon(not viewstate.hidedockicon)
+
 sendsetpresence = throttle 10000, ->
     ipc.send 'setpresence'
     ipc.send 'setactiveclient', true, 15

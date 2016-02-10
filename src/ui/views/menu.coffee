@@ -69,8 +69,15 @@ templateOsx = (viewstate) -> [{
         }, {
             label: 'Show tray icon'
             type: 'checkbox'
+            enabled: not viewstate.hidedockicon
             checked:  viewstate.showtray
             click: -> action 'toggleshowtray'
+        }, {
+            label: 'Hide Dock icon'
+            type: 'checkbox'
+            enabled: viewstate.showtray
+            checked:  viewstate.hidedockicon
+            click: -> action 'toggledockicon'
         }
     ]},{
     label: 'Window',
