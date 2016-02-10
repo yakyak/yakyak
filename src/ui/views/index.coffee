@@ -9,3 +9,4 @@ module.exports =
     notifications: require './notifications'
     typinginfo: require './typinginfo'
     menu: require './menu'
+    trayicon: require './trayicon'

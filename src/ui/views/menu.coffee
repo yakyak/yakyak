@@ -1,6 +1,12 @@
 remote = require 'remote'
 Menu = remote.require 'menu'
 
+Q = require 'Q'
+defer = Q.defer
+# using Q.defer for menu actions avoids doube 'actions' when redrawing the Menu
+# that is being clicked. This is visible when clicking a menu item with the app
+# window underneath the menu item itself
+
 templateOsx = (viewstate) -> [{
     label: 'YakYak'
     submenu: [
@@ -36,7 +42,7 @@ templateOsx = (viewstate) -> [{
     label: 'View'
     submenu: [
         {
-            type:'checkbox'
+            type: 'checkbox'
             label: 'Show Conversation Thumbnails'
             checked:viewstate.showConvThumbs
             enabled: viewstate.loggedin
@@ -66,6 +72,11 @@ templateOsx = (viewstate) -> [{
             label: 'Reset Zoom',
             accelerator: 'Command+0',
             click: -> action 'zoom'
+        }, {
+            label: 'Show tray icon'
+            type: 'checkbox'
+            checked:  viewstate.showtray
+            click: -> defer -> action 'toggleshowtray'
         }
     ]},{
     label: 'Window',
@@ -97,8 +108,6 @@ templateOthers = (viewstate) -> [{
     submenu: [
         { label: 'Open Inspector', accelerator: 'Control+Alt+I', click: -> action 'devtools' }
         { type: 'separator' }
-        { type:'checkbox', label: 'Keep running in the system tray when closed', checked: viewstate.minimizeToTray, click: (it) -> action 'minimizetotray', it.checked }
-        { type:'checkbox', label: 'Start minimized in the system tray', checked: viewstate.startMinimized, click: (it) -> action 'startminimized', it.checked }
         { type: 'separator' }
         {
           label: 'Logout',

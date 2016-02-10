@@ -1,7 +1,7 @@
 remote = require 'remote'
 
 {applayout, convlist, messages, input, conninfo, convadd, controls,
-notifications, typinginfo, menu} = require './index'
+notifications, typinginfo, menu, trayicon} = require './index'
 
 models      = require '../models'
 {viewstate, connection} = models
@@ -48,6 +48,7 @@ handle 'update:viewstate', ->
         applayout.maininfo typinginfo
         applayout.foot input
         menu viewstate
+        trayicon models
     else if viewstate.state == viewstate.STATE_ADD_CONVERSATION
         redraw()
         applayout.left convlist

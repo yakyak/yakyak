@@ -10,6 +10,7 @@ attachListeners = ->
     window.addEventListener 'keydown', noInputKeydown
 
 onActivity = throttle 100, (ev) ->
+    console.log ev
     action 'activity', ev.timeStamp ? Date.now()
 
 noInputKeydown = (ev) ->

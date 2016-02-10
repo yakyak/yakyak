@@ -6,7 +6,6 @@ fs        = require 'fs'
 path      = require 'path'
 tmp       = require 'tmp'
 clipboard = require 'clipboard'
-Tray      = require 'tray'
 Menu      = require 'menu'
 
 tmp.setGracefulCleanup()
@@ -57,7 +56,6 @@ nconf.defaults {
 }
 
 mainWindow = null
-tray = null
 
 # No more minimizing to tray, just close it
 readyToClose = false
@@ -120,28 +118,6 @@ app.on 'ready', ->
         show: !nconf.get 'startminimized'
     }
     
-    # Create the system tray
-    trayIcons = {
-        "read": path.join __dirname, 'icons', 'icon.png'
-        "unread": path.join __dirname, 'icons', 'icon-unread.png'
-    }
-    tray = new Tray trayIcons["read"]
-
-    templateContextMenu = [
-        { label: 'Hide/show', click: toggleWindowVisible }
-    ]
-
-    if require('os').platform() == 'darwin'
-      templateContextMenu.push { label: 'Toggle Dock Icon Visibility', click: toggleDockIcon }
-
-    templateContextMenu.push { label: 'Quit', click: quit}
-
-    contextMenu = Menu.buildFromTemplate templateContextMenu
-    tray.setToolTip 'YakYak - Hangouts client'
-    tray.setContextMenu contextMenu
-
-    # Emitted when the tray icon is clicked
-    tray.on 'clicked', toggleWindowVisible
 
     # and load the index.html of the app. this may however be yanked
     # away if we must do auth.
@@ -303,13 +279,6 @@ app.on 'ready', ->
 
     ipc.on 'updatebadge', (ev, value) ->
         app.dock.setBadge(value) if app.dock
-        try 
-          if value > 0
-              tray.setImage trayIcons["unread"]
-          else
-              tray.setImage trayIcons["read"]
-        catch e
-          console.log 'missing icons', e
 
     ipc.on 'searchentities', (ev, query, max_results) ->
         promise = client.searchentities query, max_results

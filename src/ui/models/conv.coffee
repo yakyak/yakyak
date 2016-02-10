@@ -267,6 +267,7 @@ funcs =
     lastChanged: lastChanged
     addTyping: addTyping
     pruneTyping: pruneTyping
+    unreadTotal: unreadTotal
 
     setNotificationLevel: (conv_id, level) ->
         return unless c = lookup[conv_id]

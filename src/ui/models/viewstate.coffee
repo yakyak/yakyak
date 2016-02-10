@@ -23,6 +23,7 @@ module.exports = exp = {
     loggedin: false
     minimizeToTray: null
     startMinimized: null
+    showtray: tryparse(localStorage.showtray) or false
 
     setState: (state) ->
         return if @state == state
@@ -134,6 +135,11 @@ module.exports = exp = {
     setStartMinimized: (value) ->
         return if @startMinimized == value
         @startMinimized = value
+    
+    setShowTray: (value) ->
+        @showtray = localStorage.showtray = value
+        updated 'viewstate'
+      
 
 }
 

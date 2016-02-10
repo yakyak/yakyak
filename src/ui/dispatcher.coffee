@@ -90,6 +90,8 @@ handle 'sendmessage', (txt) ->
     ipc.send 'sendchatmessage', msg
     conv.addChatMessagePlaceholder entity.self.id, msg
 
+handle 'toggleshowtray', ->
+    viewstate.setShowTray(not viewstate.showtray)
 
 sendsetpresence = throttle 10000, ->
     ipc.send 'setpresence'
