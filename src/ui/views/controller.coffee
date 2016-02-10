@@ -81,6 +81,7 @@ redraw = ->
     typinginfo models
     input models
     convadd models
+    trayicon models
 
 handle 'update:switchConv', ->
     messages.scrollToBottom()

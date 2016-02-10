@@ -141,10 +141,11 @@ unreadTotal = do ->
             count = funcs.unread c
             if count == MAX_UNREAD then orMore = true
             return count
-        newTotal = funcs.list(false).map(countunread).reduce(sum,0)
+        newTotal = funcs.list(false).map(countunread).reduce(sum, 0)
         if current != newTotal
             current = newTotal
             later -> action 'unreadtotal', newTotal, orMore
+        return newTotal
 
 isQuiet = (c) -> c?.self_conversation_state?.notification_level == 'QUIET'
 
