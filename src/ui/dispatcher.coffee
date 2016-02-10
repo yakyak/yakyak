@@ -178,7 +178,7 @@ handle 'uploadingimage', (spec) ->
 
 handle 'leftresize', (size) -> viewstate.setLeftSize size
 handle 'resize', (dim) -> viewstate.setSize dim
-handle 'moved', (pos) -> viewstate.setPosition pos
+handle 'move', (pos) -> viewstate.setPosition pos
 
 handle 'conversationname', (name) ->
     convsettings.setName name
