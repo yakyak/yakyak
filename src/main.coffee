@@ -43,17 +43,15 @@ logout = ->
 
 seqreq = require './seqreq'
 
-saveConfig = ->
-    nconf.save (err) ->
-        console.log 'error while writing config.json', err if err
-
-# Load configuration
+# serverside configuration management
 nconf = require 'nconf'
 nconf.file { file: paths.configpath }
 nconf.defaults {
     'startminimized': false
-    'minimizetotray': false
 }
+saveConfig = ->
+    nconf.save (err) ->
+        console.log 'error while writing config.json', err if err
 
 mainWindow = null
 
@@ -81,21 +79,10 @@ loadAppWindow = ->
 toggleWindowVisible = ->
     if mainWindow.isVisible() then mainWindow.hide() else mainWindow.show()
 
-toggleDockIcon = ->
-    if nconf.get 'minimizetotray'
-      app.dock.show()
-      nconf.set 'minimizetotray', false
-    else
-      app.dock.hide()
-      nconf.set 'minimizetotray', true
-    saveConfig()
-
 # helper wait promise
 wait = (t) -> Q.Promise (rs) -> setTimeout rs, t
 
 app.on 'ready', ->
-    if nconf.get 'minimizetotray'
-      app.dock.hide()
 
     proxycheck = ->
         todo = [
@@ -354,11 +341,9 @@ app.on 'ready', ->
 
     # Emitted when the window is about to close.
     # For OSX only hides the window if we're not force closing.
-    # Prevent close, if minimizetotray is enabled.
     mainWindow.on 'close', (ev) ->
-        hideToTray = !readyToClose and nconf.get 'minimizetotray'
         darwinHideOnly = process.platform == 'darwin' and not mainWindow?.forceClose
 
-        if hideToTray or darwinHideOnly
+        if darwinHideOnly
             ev.preventDefault()
             mainWindow.hide()
