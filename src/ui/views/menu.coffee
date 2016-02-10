@@ -1,12 +1,6 @@
 remote = require 'remote'
 Menu = remote.require 'menu'
 
-Q = require 'Q'
-defer = Q.defer
-# using Q.defer for menu actions avoids doube 'actions' when redrawing the Menu
-# that is being clicked. This is visible when clicking a menu item with the app
-# window underneath the menu item itself
-
 templateOsx = (viewstate) -> [{
     label: 'YakYak'
     submenu: [
@@ -76,7 +70,7 @@ templateOsx = (viewstate) -> [{
             label: 'Show tray icon'
             type: 'checkbox'
             checked:  viewstate.showtray
-            click: -> defer -> action 'toggleshowtray'
+            click: -> action 'toggleshowtray'
         }
     ]},{
     label: 'Window',

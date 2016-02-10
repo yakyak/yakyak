@@ -10,8 +10,13 @@ attachListeners = ->
     window.addEventListener 'keydown', noInputKeydown
 
 onActivity = throttle 100, (ev) ->
-    console.log ev
-    action 'activity', ev.timeStamp ? Date.now()
+    # This occasionally happens to generate error when
+    # user clicking has generated an application event
+    # that is being handled while we also receive the event
+    # Current fix: defer the action generated during the update
+    setTimeout ->
+      action 'activity', ev.timeStamp ? Date.now()
+    , 1
 
 noInputKeydown = (ev) ->
     action 'noinputkeydown', ev if ev.target.tagName != 'TEXTAREA'
