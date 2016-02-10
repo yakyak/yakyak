@@ -19,20 +19,7 @@ hr'.split(' '))...
 {applayout}       = require './views'
 {viewstate, conv} = require './models'
 
-config = new(require './config')
-console.log config
-
-# load menu relevant config flags
-config.get 'minimizetotray'
-.then (minimizetotray) ->
-    viewstate.setMinimizeToTray minimizetotray
-    config.get 'startminimized'
-.then (startminimized) ->
-    viewstate.setStartMinimized startminimized
-    # install menu
-    require('./views/menu')(viewstate)
-
-config.set 'test', false
+require('./views/menu')(viewstate)
 
 # tie layout to DOM
 document.body.appendChild applayout.el
