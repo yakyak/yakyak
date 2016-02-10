@@ -5,8 +5,6 @@ ipc    = require 'ipc'
 {entity, conv, viewstate, userinput, connection, convsettings, notify} = require './models'
 {throttle, later, isImg} = require './util'
 
-config = new(require './config')
-
 'connecting connected connect_failed'.split(' ').forEach (n) ->
     handle n, -> connection.setState n
 
