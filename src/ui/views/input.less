@@ -1,10 +1,62 @@
+@button-container-width: 60px;
 
 .input {
-    display: flex;
-    position: relative;
-    > div {
+    font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif, "NotoColorEmoji";
+
+    span.emoticon {
+        display: inline-block;
+        width: 30px;
+        height: 30px;
+        line-height: 30px;
+        font-size: 20px;
+        text-align: center;
+        cursor: pointer;
+    }
+
+    > #emoji-container {
+        display: none;
+        > #emoji-group-selector {
+            overflow-x: scroll;
+            border-bottom: 1px solid #dedede;
+            height: 33px;
+            margin-left: 5px;
+
+            > .emoticon {
+                height: 32px;
+                padding-bottom:2px;
+            }
+            > .emoticon.glow {
+                border-bottom: 2px solid #a0a0a0;
+
+            }
+
+        }
+
+        > #emoji-group-selector::-webkit-scrollbar {
+            display: none;
+        }
+        > .emoji-selector {
+            height:131px;
+            overflow-y: scroll;
+            border-bottom: 1px solid #dedede;
+            width: 100%;
+            padding: 5px 2px 5px 5px;
+
+            > .group-content {
+                display: none;
+                padding: none;
+                margin: none;
+            }
+            > .group-content.visible {
+                display: block;
+            }
+        }
+
+    }
+
+    > div.input-container {
         padding: 12px 15px 10px;
-        width: ~"calc(100% - 28px)";
+        width: ~"calc(100% - @{button-container-width})";
         textarea {
             width: 100%;
             resize: vertical;
@@ -15,23 +67,34 @@
             border-radius: 3px;
             padding: 3px 10px;
         }
-        button {
+        span.button-container {
             position: absolute;
             right: 12px;
             bottom: 12px;
             flex: none;
-            margin-left: 5px;
-            background: white;
-            border: 1px solid #dedede;
             border-radius: 3px;
             height: 26px;
-            width: 26px;
             padding: 0;
-            cursor: pointer;
-            span {
+            overflow: hidden;
+
+            button {
                 display: inline-block;
-                font-size: 16px;
-                line-height: 24px;
+                flex: none;
+                margin-left: 5px;
+                background: white;
+                border: 1px solid #dedede;
+                border-radius: 3px;
+                height: 26px;
+                width: 26px;
+                padding: 0;
+                cursor: pointer;
+                span {
+                    display: inline-block;
+                    font-size: 16px;
+                    line-height: 25px;
+                    height: 24px;
+                    overflow: hidden
+                }
             }
         }
         input[type=file] {
