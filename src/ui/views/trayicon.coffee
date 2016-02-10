@@ -57,4 +57,3 @@ module.exports = ({viewstate, conv}) ->
       update(conv.unreadTotal(), viewstate)
     else
       destroy() if tray
-    console.log 'Should update the menu with this viewstate', viewstate
