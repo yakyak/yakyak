@@ -108,7 +108,7 @@ app.on 'ready', ->
         icon: path.join __dirname, 'icons', 'icon.png'
         show: !nconf.get 'startminimized'
     }
-
+    
     # Create the system tray
     trayIcons = {
         "read": path.join __dirname, 'icons', 'icon.png'
@@ -134,9 +134,24 @@ app.on 'ready', ->
 
     # callback for credentials
     creds = ->
-        prom = login(mainWindow)
+        console.log "asking for login credentials"
+        loginWindow = new BrowserWindow {
+            width: 730
+            height: 590
+            "min-width": 620
+            "min-height": 420
+            icon: path.join __dirname, 'icons', 'icon.png'
+            show: true
+        }
+        mainWindow.hide()
+        loginWindow.focus()
         # reinstate app window when login finishes
-        prom.then -> loadAppWindow()
+        prom = login(loginWindow)
+        .then (rs) ->
+          loginWindow.forceClose = true
+          loginWindow.close()
+          mainWindow.show()
+          rs
         auth: -> prom
 
     # sends the init structures to the client
@@ -158,7 +173,8 @@ app.on 'ready', ->
     ipc.on 'hangupsConnect', ->
         console.log 'hconnect'
         # first connect
-        reconnect().then ->
+        reconnect()
+        .then ->
             console.log 'connected', reconnectCount
             # on first connect, send init, after that only resync
             if reconnectCount == 0
