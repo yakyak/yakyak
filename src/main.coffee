@@ -43,16 +43,6 @@ logout = ->
 
 seqreq = require './seqreq'
 
-# serverside configuration management
-nconf = require 'nconf'
-nconf.file { file: paths.configpath }
-nconf.defaults {
-    'startminimized': false
-}
-saveConfig = ->
-    nconf.save (err) ->
-        console.log 'error while writing config.json', err if err
-
 mainWindow = null
 
 # No more minimizing to tray, just close it
@@ -102,7 +92,7 @@ app.on 'ready', ->
         "min-width": 620
         "min-height": 420
         icon: path.join __dirname, 'icons', 'icon.png'
-        show: !nconf.get 'startminimized'
+        show: true
     }
     
 
@@ -322,13 +312,6 @@ app.on 'ready', ->
     ipc.on 'logout', logout
 
     ipc.on 'quit', quit
-
-    ipc.on 'getconfig', (ev, id, key) ->
-        ev.sender.send "returngetconfig", id, nconf.get key
-
-    ipc.on 'setconfig', (ev, key, value) ->
-        nconf.set key, value
-        saveConfig()
 
     # propagate these events to the renderer
     require('./ui/events').forEach (n) ->
