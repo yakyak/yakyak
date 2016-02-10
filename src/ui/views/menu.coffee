@@ -46,14 +46,6 @@ templateOsx = (viewstate) -> [{
             accelerator: 'Command+Control+F',
             click: -> action 'togglefullscreen'
         }, {
-            label: 'Previous Conversation',
-            enabled: viewstate.loggedin
-            click: -> action 'selectNextConv', -1
-        }, {
-            label: 'Next Conversation',
-            enabled: viewstate.loggedin
-            click: -> action 'selectNextConv', +1
-        }, {
             # seee https://github.com/atom/electron/issues/1507
             label: 'Zoom In',
             accelerator: 'Command+Plus',
@@ -67,6 +59,18 @@ templateOsx = (viewstate) -> [{
             accelerator: 'Command+0',
             click: -> action 'zoom'
         }, {
+            type: 'separator'
+        }, {
+            label: 'Previous Conversation',
+            enabled: viewstate.loggedin
+            click: -> action 'selectNextConv', -1
+        }, {
+            label: 'Next Conversation',
+            enabled: viewstate.loggedin
+            click: -> action 'selectNextConv', +1
+        }, {
+            type: 'separator'
+        }, {
             label: 'Show tray icon'
             type: 'checkbox'
             enabled: not viewstate.hidedockicon
@@ -77,7 +81,7 @@ templateOsx = (viewstate) -> [{
             type: 'checkbox'
             enabled: viewstate.showtray
             checked:  viewstate.hidedockicon
-            click: -> action 'toggledockicon'
+            click: -> action 'togglehidedockicon'
         }
     ]},{
     label: 'Window',
@@ -130,16 +134,6 @@ templateOthers = (viewstate) -> [{
             accelerator: 'Control+Alt+F',
             click: -> action 'togglefullscreen'
         }, {
-            label: 'Previous Conversation',
-            accelerator: 'Control+K',
-            click: -> action 'selectNextConv', -1
-            enabled: viewstate.loggedin
-        }, {
-            label: 'Next Conversation',
-            accelerator: 'Control+J',
-            click: -> action 'selectNextConv', +1
-            enabled: viewstate.loggedin
-        }, {
             # seee https://github.com/atom/electron/issues/1507
             label: 'Zoom In',
             accelerator: 'Control+Plus',
@@ -152,6 +146,26 @@ templateOthers = (viewstate) -> [{
             label: 'Reset Zoom',
             accelerator: 'Control+0',
             click: -> action 'zoom'
+        }, {
+          type: 'separator'
+        }, {
+            label: 'Previous Conversation',
+            accelerator: 'Control+K',
+            click: -> action 'selectNextConv', -1
+            enabled: viewstate.loggedin
+        }, {
+            label: 'Next Conversation',
+            accelerator: 'Control+J',
+            click: -> action 'selectNextConv', +1
+            enabled: viewstate.loggedin
+        }, {
+          type: 'separator'
+        }, {
+            label: 'Show tray icon'
+            type: 'checkbox'
+            enabled: not viewstate.hidedockicon
+            checked:  viewstate.showtray
+            click: -> action 'toggleshowtray'
         }
     ]}
 ]
