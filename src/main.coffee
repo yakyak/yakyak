@@ -83,10 +83,21 @@ loadAppWindow = ->
 toggleWindowVisible = ->
     if mainWindow.isVisible() then mainWindow.hide() else mainWindow.show()
 
+toggleDockIcon = ->
+    if nconf.get 'minimizetotray'
+      app.dock.show()
+      nconf.set 'minimizetotray', false
+    else
+      app.dock.hide()
+      nconf.set 'minimizetotray', true
+    saveConfig()
+
 # helper wait promise
 wait = (t) -> Q.Promise (rs) -> setTimeout rs, t
 
 app.on 'ready', ->
+    if nconf.get 'minimizetotray'
+      app.dock.hide()
 
     proxycheck = ->
         todo = [
@@ -115,10 +126,17 @@ app.on 'ready', ->
         "unread": path.join __dirname, 'icons', 'icon-unread.png'
     }
     tray = new Tray trayIcons["read"]
-    contextMenu = Menu.buildFromTemplate [
+
+    templateContextMenu = [
         { label: 'Hide/show', click: toggleWindowVisible }
-        { label: 'Quit', click: quit}
     ]
+
+    if require('os').platform() == 'darwin'
+      templateContextMenu.push { label: 'Toggle Dock Icon Visibility', click: toggleDockIcon }
+
+    templateContextMenu.push { label: 'Quit', click: quit}
+
+    contextMenu = Menu.buildFromTemplate templateContextMenu
     tray.setToolTip 'YakYak - Hangouts client'
     tray.setContextMenu contextMenu
 

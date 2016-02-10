@@ -14,6 +14,8 @@ templateOsx = (viewstate) -> [{
         { type: 'separator' }
         { label: 'Open Inspector', accelerator: 'Command+Alt+I', click: -> action 'devtools' }
         { type: 'separator' }
+        { type:'checkbox', label: 'Start minimized', checked: viewstate.startMinimized, click: (it) -> action 'startminimized', it.checked }
+        { type: 'separator' }
         {
           label: 'Logout',
           click: -> action 'logout'
