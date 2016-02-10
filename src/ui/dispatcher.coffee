@@ -100,6 +100,9 @@ handle 'togglewindow', ->
     mainWindow = remote.getCurrentWindow() # And we hope we don't get another ;)
     if mainWindow.isVisible() then mainWindow.hide() else mainWindow.show()
 
+handle 'togglestartminimizedtotray', ->
+    viewstate.setStartMinimizedToTray(not viewstate.startminimizedtotray)
+
 handle 'showwindow', ->
     mainWindow = remote.getCurrentWindow() # And we hope we don't get another ;)
     mainWindow.show()
@@ -313,14 +316,6 @@ handle 'unreadtotal', (total, orMore) ->
 
 handle 'showconvthumbs', (doshow) ->
     viewstate.setShowConvThumbs doshow
-
-handle 'minimizetotray', (value) ->
-    viewstate.setMinimizeToTray value
-    config.set 'minimizetotray', value
-
-handle 'startminimized', (value) ->
-    viewstate.setStartMinimized value
-    config.set 'startminimized', value
 
 handle 'devtools', ->
     remote.getCurrentWindow().openDevTools detach:true

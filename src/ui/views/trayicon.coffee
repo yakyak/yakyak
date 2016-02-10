@@ -25,10 +25,15 @@ update = (unreadCount, viewstate) ->
     # update menu
     templateContextMenu = [
         {
-          label: 'Hide Application'
-          type: 'checkbox'
-          checked: not remote.getCurrentWindow().isVisible()
-          click: -> action 'togglewindow' }
+          label: 'Toggle minimize to tray'
+          click: -> action 'togglewindow'
+        }
+        {
+          label: "Start minimzed to tray"
+          type: "checkbox"
+          checked: viewstate.startminimizedtotray
+          click: -> action 'togglestartminimizedtotray'
+        }
         { 
           label: 'Hide Dock icon'
           type: 'checkbox'

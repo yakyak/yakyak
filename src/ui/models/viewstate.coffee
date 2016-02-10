@@ -21,10 +21,9 @@ module.exports = exp = {
     showConvThumbs: tryparse(localStorage.showConvThumbs)
     zoom: tryparse(localStorage.zoom ? "1.0")
     loggedin: false
-    minimizeToTray: null
-    startMinimized: null
     showtray: tryparse(localStorage.showtray) or false
     hidedockicon: tryparse(localStorage.hidedockicon) or false
+    startminimizedtotray: tryparse(localStorage.startminimizedtotray) or false
 
     setState: (state) ->
         return if @state == state
@@ -129,21 +128,18 @@ module.exports = exp = {
         @showConvThumbs = localStorage.showConvThumbs = doshow
         updated 'viewstate'
 
-    setMinimizeToTray: (value) ->
-        return if @minimizeToTray == value
-        @minimizeToTray = value
-
-    setStartMinimized: (value) ->
-        return if @startMinimized == value
-        @startMinimized = value
-    
     setShowTray: (value) ->
         @showtray = localStorage.showtray = value
-        updated 'viewstate'
+        if not value then @setStartMinimizedToTray(false) else updated 'viewstate'
       
     setHideDockIcon: (value) ->
-      @hidedockicon = localStorage.hidedockicon = value
-      updated 'viewstate'
+        @hidedockicon = localStorage.hidedockicon = value
+        updated 'viewstate'
+    
+    setStartMinimizedToTray: (value) ->
+        @startminimizedtotray = localStorage.startminimizedtotray = value
+        updated 'viewstate'
+      
 
 }
 

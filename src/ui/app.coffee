@@ -20,6 +20,8 @@ hr'.split(' '))...
 {viewstate, conv} = require './models'
 
 require('./views/menu')(viewstate)
+if viewstate.startminimizedtotray
+  require('remote').getCurrentWindow().hide()
 
 # tie layout to DOM
 document.body.appendChild applayout.el
