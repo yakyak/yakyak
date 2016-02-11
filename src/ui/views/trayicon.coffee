@@ -2,6 +2,7 @@ remote = require 'remote'
 Tray = remote.require 'tray'
 Menu = remote.require 'menu'
 path = require 'path'
+_ = require 'underscore'
 
 trayIcons =
     "read": path.join __dirname, '..', '..', 'icons', 'icon.png'
@@ -23,25 +24,28 @@ destroy = ->
 
 update = (unreadCount, viewstate) ->
     # update menu
-    templateContextMenu = [
+    templateContextMenu = _.compact([
         {
           label: 'Toggle minimize to tray'
           click: -> action 'togglewindow'
         }
+        
         {
           label: "Start minimzed to tray"
           type: "checkbox"
           checked: viewstate.startminimizedtotray
           click: -> action 'togglestartminimizedtotray'
         }
+        
         { 
           label: 'Hide Dock icon'
           type: 'checkbox'
           checked: viewstate.hidedockicon
           click: -> action 'togglehidedockicon'
         } if require('os').platform() == 'darwin'
+        
         { label: 'Quit', click: -> action 'quit' }
-    ]
+    ])
 
     contextMenu = Menu.buildFromTemplate templateContextMenu
     tray.setContextMenu contextMenu
