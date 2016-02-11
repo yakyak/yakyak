@@ -16,7 +16,7 @@ create = () ->
     tray.setToolTip 'YakYak - Hangouts client'
     # Emitted when the tray icon is clicked
     tray.on 'clicked', -> action 'showwindow'
-    
+
 destroy = ->
     tray.destroy() if tray
     tray = null
@@ -34,20 +34,23 @@ update = (unreadCount, viewstate) ->
           checked: viewstate.startminimizedtotray
           click: -> action 'togglestartminimizedtotray'
         }
-        { 
+        {
           label: 'Hide Dock icon'
           type: 'checkbox'
           checked: viewstate.hidedockicon
           click: -> action 'togglehidedockicon'
-        } if require('os').platform() == 'darwin'
-        { label: 'Quit', click: -> action 'quit' }
+        }
+        {
+          label: 'Quit'
+          click: -> action 'quit'
+      }
     ]
 
     contextMenu = Menu.buildFromTemplate templateContextMenu
     tray.setContextMenu contextMenu
 
     # update icon
-    try 
+    try
       if unreadCount > 0
           tray.setImage trayIcons["unread"]
       else
