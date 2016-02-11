@@ -12,6 +12,8 @@ tray = null
 # TODO: this is all WIP
 quit = ->
 
+compact = (array) -> item for item in array when item
+
 create = () ->
     tray = new Tray trayIcons["read"]
     tray.setToolTip 'YakYak - Hangouts client'
@@ -24,7 +26,7 @@ destroy = ->
 
 update = (unreadCount, viewstate) ->
     # update menu
-    templateContextMenu = _.compact([
+    templateContextMenu = compact([
         {
           label: 'Toggle minimize to tray'
           click: -> action 'togglewindow'
