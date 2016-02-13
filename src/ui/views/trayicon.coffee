@@ -2,7 +2,6 @@ remote = require 'remote'
 Tray = remote.require 'tray'
 Menu = remote.require 'menu'
 path = require 'path'
-_ = require 'underscore'
 
 trayIcons =
     "read": path.join __dirname, '..', '..', 'icons', 'icon.png'
