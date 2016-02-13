@@ -85,7 +85,7 @@ module.exports = view (models) ->
                     # move. by pinning the div of the outer holding div, we
                     # are not moving the scroller.
                     ta.parentNode.style.height = (ta.offsetHeight + 24) + 'px'
-                    messages.scrollToBottom()
+                    messages.scrollToBottom() if messages?
             , onkeydown: (e) ->
                 if (e.metaKey or e.ctrlKey) and e.keyIdentifier == 'Up' then action 'selectNextConv', -1
                 if (e.metaKey or e.ctrlKey) and e.keyIdentifier == 'Down' then action 'selectNextConv', +1
