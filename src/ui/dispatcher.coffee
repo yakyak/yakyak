@@ -31,7 +31,7 @@ handle 'init', (init) ->
     # ensure there's a selected conv
     unless conv[viewstate.selectedConv]
         viewstate.setSelectedConv conv.list()?[0]?.conversation_id
-    
+
     require('./version').check()
 
 handle 'chat_message', (ev) ->
@@ -101,10 +101,13 @@ handle 'togglewindow', ->
 handle 'togglestartminimizedtotray', ->
     viewstate.setStartMinimizedToTray(not viewstate.startminimizedtotray)
 
+handle 'toggleclosetotray', ->
+    viewstate.setCloseToTray(not viewstate.closetotray)
+
 handle 'showwindow', ->
     mainWindow = remote.getCurrentWindow() # And we hope we don't get another ;)
     mainWindow.show()
-  
+
 sendsetpresence = throttle 10000, ->
     ipc.send 'setpresence'
     ipc.send 'setactiveclient', true, 15
