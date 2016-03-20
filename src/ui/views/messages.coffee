@@ -84,7 +84,7 @@ module.exports = view (models) ->
         grouped = groupEvents c.event, entity
         div class:'historyinfo', ->
             if c.requestinghistory
-                pass 'Requesting history…', -> span class:'icon-spin1 animate-spin'
+                pass 'Requesting history…', -> span class:'material-icons spin', 'donut_large'
         for g in grouped
             div class:'tgroup', ->
                 span class:'timestamp', moment(g.start / 1000).calendar()
@@ -116,7 +116,7 @@ drawMessage = (e, entity) ->
             format content
             # loadInlineImages content
             if e.placeholder and e.uploadimage
-                span class:'icon-spin1 animate-spin'
+                span class:'material-icons spin', 'donut_large'
         else if e.conversation_rename
             pass "renamed conversation to #{e.conversation_rename.new_name}"
             # {new_name: "labbot" old_name: ""}

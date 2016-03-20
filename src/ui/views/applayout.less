@@ -1,4 +1,11 @@
-
+@keyframes spinnerRotate
+{
+    from{transform:rotate(0deg);}
+    to{transform:rotate(360deg);}
+}
+.spin{
+    animation: spinnerRotate 2s linear infinite;
+}
 .applayout {
     display: flex;
     height: 100%;
@@ -62,14 +69,18 @@
             flex: 1;
             overflow-x: hidden;
             overflow-y: scroll;
+            padding-bottom: 20px;
         }
         > .maininfo {
             flex: none;
+            position: absolute;
+            bottom: 50px;
         }
         > .foot {
             flex: none;
             background: #f6f6f6;
             border-top: 1px solid #b4b4b4;
+            height: 50px;
         }
     }
     > .info {
