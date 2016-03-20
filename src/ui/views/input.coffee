@@ -111,12 +111,12 @@ module.exports = view (models) ->
                     toggleVisibility document.querySelector '#emoji-container'
                     scrollToBottom()
                 , ->
-                    span class:'icon-emoji'
+                    span class:'material-icons', "mood"
             , ->
                 button title:'Attach image', onclick: (ev) ->
                     document.getElementById('attachFile').click()
                 , ->
-                    span class:'icon-attach'
+                    span class:'material-icons', 'photo'
                 input type:'file', id:'attachFile', accept:'.jpg,.jpeg,.png,.gif', onchange: (ev) ->
                     action 'uploadimage', ev.target.files
 

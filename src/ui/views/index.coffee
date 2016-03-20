@@ -1,6 +1,8 @@
 module.exports =
     applayout: require './applayout'
     convlist:  require './convlist'
+    listhead:  require './listhead'
+    convhead:  require './convhead'
     messages:  require './messages'
     input:     require './input'
     conninfo:  require './conninfo'

@@ -100,9 +100,24 @@ module.exports = view (models) ->
                   p r.properties.display_name
               , onclick:(e) -> action 'selectentity', r
 
+      if editing
+        div ->
+          if c?.type?.indexOf('ONE_TO_ONE') > 0
+              div class:'button', title:'Delete conversation',
+              onclick:onclickaction('deleteconv'), ->
+                span class:'material-icons', 'close'
+                span 'Delete conversation'
+          else
+              div class:'button', title:'Leave conversation',
+              onclick:onclickaction('leaveconv'), ->
+                span class:'material-icons', 'close'
+                span 'Leave conversation'
+
       div ->
           disabled = null
           if convsettings.selectedEntities.length <= 0 then disabled = disabled: 'disabled'
           button disabled, "OK", onclick:-> action 'saveconversation'
 
       mayRestoreInitialValues models
+
+onclickaction = (a) -> (ev) -> action a

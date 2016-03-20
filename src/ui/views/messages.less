@@ -15,33 +15,53 @@
         .ugroup {
             margin-top: 17px;
             position: relative;
+            width: 66%;
+            background: #d4d4d4;
+            border-radius: 10px;
+            margin-left: 25px;
             .sender {
                 text-decoration: none;
                 font-size: 11px;
                 color: #999;
                 img {
-                    border: none;
-                    width: 35px;
-                    height: 35px;
                     object-fit: cover;
-                    position: absolute;
-                    top: 5px;
-                    left: 0;
                     border-radius: 50%;
+                    width: 50px;
+                    height: 50px;
+                    border: 5px solid #e8e8e8;
+                    position: absolute;
+                    left: -25px;
+                    top: 50%;
+                    transform: translate(0, -50%);
                 }
                 span {
                     margin-left: 45px;
                 }
             }
+            &.self{
+              background: #fff;
+              margin-left: calc(~"34% - 25px");
+                .sender img{
+                    left: auto;
+                    right: -25px;
+                }
+                .umessages{
+                    margin-left: 5px;
+                    margin-right: 30px;
+                }
+            }
             @radius: 13px;
             .umessages {
                 margin-top: -1px;
-                margin-left: 45px;
+                margin-left: 30px;
                 display: table;
                 .message {
                     font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif, "NotoColorEmoji";
-                    padding-bottom: 5px;
+                    padding: 5px;
                     white-space: pre-wrap;
+                    + .message{
+                        padding: 0 5px 5px;
+                    }
                     &.placeholder {
                         opacity: 0.5;
                     }

@@ -1,7 +1,7 @@
 moment = require 'moment'
 shell = require 'shell'
 
-{nameof, linkto, later, forceredraw, throttle,
+{nameof, nameofconv, linkto, later, forceredraw, throttle,
 getProxiedName, fixlink, isImg, getImageUrl}  = require '../util'
 
 CUTOFF = 5 * 60 * 1000 * 1000 # 5 mins
@@ -89,7 +89,6 @@ module.exports = view (models) ->
             div class:'tgroup', ->
                 span class:'timestamp', moment(g.start / 1000).calendar()
                 for u in g.byuser
-                    sender = nameof entity[u.cid]
                     clz = ['ugroup']
                     clz.push 'self' if entity.isSelf(u.cid)
                     div class:clz.join(' '), ->
@@ -99,7 +98,6 @@ module.exports = view (models) ->
                                 purl = "images/photo.jpg"
                                 entity.needEntity u.cid
                             img src:fixlink(purl)
-                            span sender
                         div class:'umessages', ->
                             drawMessage(e, entity) for e in u.event
 

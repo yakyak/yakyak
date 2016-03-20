@@ -15,10 +15,10 @@ module.exports = exp = {
     atbottom: true # tells whether message list is scrolled to bottom
     selectedConv: localStorage.selectedConv
     lastActivity: null
-    leftSize: tryparse(localStorage.leftSize) ? 200
+    leftSize: tryparse(localStorage.leftSize) ? 240
     size: tryparse(localStorage.size ? "[940, 600]")
     pos: tryparse(localStorage.pos ? "[100, 100]")
-    showConvThumbs: tryparse(localStorage.showConvThumbs)
+    showConvThumbs: tryparse(localStorage.showConvThumbs) ? true
     zoom: tryparse(localStorage.zoom ? "1.0")
     loggedin: false
     showtray: tryparse(localStorage.showtray) or false
