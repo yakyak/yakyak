@@ -9,6 +9,8 @@ module.exports = view (models) ->
 	name = nameofconv c
 	div class:'headwrap', ->
 		span class:'name', ->
+			if conv.isQuiet(c)
+		        span class:'material-icons', 'notifications_off'
 			if conv.isStarred(c)
 				span class:'material-icons', "star"
 			name
