@@ -28,16 +28,26 @@
     }
     > .left {
         -webkit-user-select: none;
-        background: #f0f0f0;
-        border-right: 1px solid #b4b4b4;
+        background: #fff;
         flex: none;
         display: flex;
         flex-direction: column;
-        width: 200px;
+        width: 240px;
+        position: relative;
+        &:after{
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            width: 0;
+            border-right: 1px solid rgba(0, 0, 0, .1);
+            display: block;
+            content: '';
+        }
         > .list {
             flex: 1;
             overflow-x: hidden;
-            overflow-y: auto;
+            overflow-y: scroll;
         }
         > .lfoot {
             flex: none;
@@ -47,10 +57,11 @@
         flex: 1;
         display: flex;
         flex-direction: column;
+        background: #e8e8e8;
         > .main {
             flex: 1;
             overflow-x: hidden;
-            overflow-y: auto;
+            overflow-y: scroll;
         }
         > .maininfo {
             flex: none;

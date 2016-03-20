@@ -1,0 +1,84 @@
+.convhead{
+	width: 100%;
+	position: relative;
+
+	.name{
+		background: #0f9d58;
+		z-index: 2;
+		position: relative;
+		width: 100%;
+		display: block;
+		color: #fff;
+		height: 50px;
+		line-height: 50px;
+		font-size: 16px;
+		font-weight: bold;
+		text-align: center;
+		.material-icons{
+			font-size: 13px;
+			margin-right: 2px;
+		}
+	}
+	.headwrap > .button{
+		position: absolute;
+		right: 5px;
+		top: 0;
+		width: 50px;
+		cursor: pointer;
+		z-index: 2;
+		color: #fff;
+		line-height: 50px;
+		height: 50px;
+		text-align: center;
+		.material-icons{
+			position: relative;
+			top: 7px;
+		}
+	}
+
+	.convoptions{
+		background: #fff;
+		width: 100%;
+		height: 40px;
+		line-height: 40px;
+		position: relative;
+		z-index: 1;
+		border-bottom: 1px solid #d4d4d4;
+		text-align: right;
+		transition: all .3s ease;
+		transform: translate(0, -100%);
+		&.open{
+			transform: translate(0, 0);
+		}
+		.button{
+			position: relative;
+			display: inline-block;
+			vertical-align: top;
+			color: #777;
+			height: 40px;
+			line-height: 40px;
+			width: auto;
+			padding: 0 10px;
+			cursor: pointer;
+			&:hover{
+				color: #444;
+			}
+			&:last-child{
+				border: none;
+			}
+			.material-icons{
+				font-size: 20px;
+				display: inline-block;
+				position: relative;
+				top: 5px;
+			}
+			.option-label{
+				font-size: 13px;
+				font-weight: normal;
+				display: inline-block;
+				width: auto;
+				margin-left: 4px;
+			}
+		}
+	}
+}

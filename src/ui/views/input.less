@@ -63,9 +63,12 @@
             font-size: 14px;
             line-height: 18px;
             outline: none;
-            border: 1px solid #dedede;
-            border-radius: 3px;
+            border: none;
+            background: none;
             padding: 3px 10px;
+            &::-webkit-input-placeholder{
+                color: #b7b7b7;
+            }
         }
         span.button-container {
             position: absolute;
@@ -82,12 +85,13 @@
                 flex: none;
                 margin-left: 5px;
                 background: white;
-                border: 1px solid #dedede;
-                border-radius: 3px;
+                border: none;
+                background: none;
                 height: 26px;
                 width: 26px;
                 padding: 0;
                 cursor: pointer;
+                color: #777;
                 span {
                     display: inline-block;
                     font-size: 16px;

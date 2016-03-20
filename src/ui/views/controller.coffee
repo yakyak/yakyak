@@ -1,6 +1,6 @@
 remote = require('electron').remote
 
-{applayout, convlist, messages, input, conninfo, convadd, controls,
+{applayout, convlist, listhead, messages, convhead, input, conninfo, convadd, controls,
 notifications, typinginfo, menu, trayicon, dockicon } = require './index'
 
 models      = require '../models'
@@ -36,6 +36,7 @@ handle 'update:viewstate', ->
         if Array.isArray viewstate.pos
             later -> remote.getCurrentWindow().setPosition viewstate.pos...
         applayout.left null
+        applayout.convhead null
         applayout.main null
         applayout.maininfo null
         applayout.foot null
@@ -43,7 +44,9 @@ handle 'update:viewstate', ->
     else if viewstate.state == viewstate.STATE_NORMAL
         redraw()
         applayout.lfoot controls
+        applayout.listhead listhead
         applayout.left convlist
+        applayout.convhead convhead
         applayout.main messages
         applayout.maininfo typinginfo
         applayout.foot input
@@ -75,8 +78,10 @@ handle 'update:convsettings', -> redraw()
 
 redraw = ->
     notifications models
+    convhead models
     controls models
     convlist models
+    listhead models
     messages models
     typinginfo models
     input models

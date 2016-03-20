@@ -89,10 +89,12 @@ resizers =
 module.exports = exp = layout ->
     div class:'applayout dragtarget', drag, resize, ->
         div class:'left', ->
+            div class:'listhead', region('listhead')
             div class:'list', region('left')
             div class:'lfoot', region('lfoot')
         div class:'leftresize', 'data-resize':'leftResize'
         div class:'right', ->
+            div class:'convhead', region('convhead')
             div class:'main', region('main'), onscroll: onScroll
             div class:'maininfo', region('maininfo')
             div class:'foot', region('foot')

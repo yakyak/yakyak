@@ -1,29 +1,26 @@
-
-
 .controls {
-    display: flex;
-    background: #fff;
-    height: 31px;
-    border-top: 1px solid #b4b4b4;
-    > .fill {
-        flex: 1;
-    }
-    > .button {
-        flex: none;
-        width: 30px;
-        height: 31px;
-        line-height: 28px;
-        border-right: 1px solid #b4b4b4;
+    position: relative;
+    .button{
+        position: absolute;
+        right: 35px;
+        bottom: 20px;
+        border: none;
+        background: #0f9d58;
+        color: #fff;
+        height: 50px;
+        line-height: 44px;
+        font-size: 20px;
+        width: 50px;
+        border-radius: 100%;
+        box-shadow: 0 3px 3px 0 rgba(0, 0, 0, .4);
         text-align: center;
         cursor: pointer;
-        align-content: center;
-        &:last-child {
-            border-right: none;
-            border-left: 1px solid #b4b4b4;
+        transition: all .3s ease;
+        &:hover{
+            box-shadow: 0 0 0 0 rgba(0, 0, 0, .6);
+        }
+        .material-icons{
+            vertical-align: middle;
         }
     }
-}
-
-.icon-bell-off-empty {
-    margin-left: -2px;
 }
