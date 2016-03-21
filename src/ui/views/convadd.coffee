@@ -101,7 +101,7 @@ module.exports = view (models) ->
               , onclick:(e) -> action 'selectentity', r
 
       if editing
-        div ->
+        div class:'leave', ->
           if c?.type?.indexOf('ONE_TO_ONE') > 0
               div class:'button', title:'Delete conversation',
               onclick:onclickaction('deleteconv'), ->
@@ -113,10 +113,12 @@ module.exports = view (models) ->
                 span class:'material-icons', 'close'
                 span 'Leave conversation'
 
-      div ->
+      div class:'validate', ->
           disabled = null
           if convsettings.selectedEntities.length <= 0 then disabled = disabled: 'disabled'
-          button disabled, "OK", onclick:-> action 'saveconversation'
+          div disabled, class:'button', onclick:onclickaction('saveconversation'), ->
+            span class:'material-icons', 'done'
+            span "OK"
 
       mayRestoreInitialValues models
 
