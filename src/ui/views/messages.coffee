@@ -89,10 +89,11 @@ module.exports = view (models) ->
             div class:'tgroup', ->
                 span class:'timestamp', moment(g.start / 1000).calendar()
                 for u in g.byuser
+                    sender = nameof entity[u.cid]
                     clz = ['ugroup']
                     clz.push 'self' if entity.isSelf(u.cid)
                     div class:clz.join(' '), ->
-                        a href:linkto(u.cid), {onclick}, class:'sender', ->
+                        a href:linkto(u.cid), title:sender, {onclick}, class:'sender', ->
                             purl = entity[u.cid]?.photo_url
                             unless purl
                                 purl = "images/photo.jpg"

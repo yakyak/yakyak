@@ -15,6 +15,8 @@ client_conversation
 focus
 typing
 watermark
+presence
+self_presence
 
 hangout_event
 conversation_notification
