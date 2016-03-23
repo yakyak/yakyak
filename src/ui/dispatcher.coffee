@@ -31,6 +31,8 @@ handle 'init', (init) ->
     # ensure there's a selected conv
     unless conv[viewstate.selectedConv]
         viewstate.setSelectedConv conv.list()?[0]?.conversation_id
+
+    ipc.send 'initpresence', entity.list()
     
     require('./version').check()
 
@@ -41,6 +43,19 @@ handle 'chat_message', (ev) ->
 
 handle 'watermark', (ev) ->
     conv.addWatermark ev
+
+handle 'presence', (ev) ->
+    entity.presence ev[0][0][0][0], if ev[0][0][1][1] == 1 then true else false
+
+# handle 'self_presence', (ev) ->
+#     console.log 'self_presence', ev
+
+handle 'querypresence', (id) ->
+    ipc.send 'querypresence', id
+
+handle 'setpresence', (r) ->
+    entity.presence r.user_id.chat_id, r.presence.available
+    updated 'conv'
 
 handle 'update:unreadcount', ->
     console.log 'update'
@@ -304,7 +319,7 @@ handle 'hangout_event', (e) ->
     # trigger notifications for this
     notify.addToNotify e
 
-'presence reply_to_invite settings conversation_notification invitation_watermark'.split(' ').forEach (n) ->
+'reply_to_invite settings conversation_notification invitation_watermark'.split(' ').forEach (n) ->
     handle n, (as...) -> console.log n, as...
 
 handle 'unreadtotal', (total, orMore) ->

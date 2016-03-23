@@ -57,6 +57,7 @@ ipc.on 'syncallnewevents:response', (r) -> action 'handlesyncedevents', r
 ipc.on 'syncrecentconversations:response', (r) -> action 'handlerecentconversations', r
 ipc.on 'getconversation:response', (r) -> action 'handlehistory', r
 ipc.on 'uploadingimage', (spec) -> action 'uploadingimage', spec
+ipc.on 'querypresence:result', (r) -> action 'setpresence', r
 
 # init dispatcher/controller
 require './dispatcher'

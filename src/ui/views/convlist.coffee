@@ -25,21 +25,28 @@ module.exports = view (models) ->
                     entity[p.chat_id]
                 name = nameofconv c
                 if viewstate.showConvThumbs
-                    div class: 'thumbs', ->
+                    div class: 'thumbs thumbs-'+(if ents.length>4 then '4' else ents.length), ->
                         for p, index in ents
-                            break if index >= 2
+                            break if index >= 4
                             image = p.photo_url
                             unless image
                                 entity.needEntity(p.id)
                                 image = "images/photo.jpg"
                             img src:fixlink(image), onerror: ->
                                 this.src = fixlink("images/photo.jpg")
+                        if ents.length>4
+                            div class:'moreuser', ents.length
                         if ur > 0 and not conv.isQuiet(c)
                             lbl = if ur >= conv.MAX_UNREAD then "#{conv.MAX_UNREAD}+" else ur + ''
                             span class:'unreadcount', lbl
-                else if ur > 0 and not conv.isQuiet(c)
-                    lbl = if ur >= conv.MAX_UNREAD then "#{conv.MAX_UNREAD}+" else ur + ''
-                    span class:'unreadcount', lbl
+                        if ents.length == 1
+                            div class:'presence '+ents[0].presence
+                else
+                    if ur > 0 and not conv.isQuiet(c)
+                        lbl = if ur >= conv.MAX_UNREAD then "#{conv.MAX_UNREAD}+" else ur + ''
+                        span class:'unreadcount', lbl
+                    if ents.length == 1
+                        div class:'presence '+ents[0].presence
                 div class:'convinfos', ->
                     span class:'lasttime', moment(conv.lastChanged(c)).calendar()
                     span class:'convname', name

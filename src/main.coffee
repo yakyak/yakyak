@@ -180,6 +180,19 @@ app.on 'ready', ->
             ipcsend 'sendchatmessage:result', r
         , true # do retry
 
+    # sendchatmessage, executed sequentially and
+    # retried if not sent successfully
+    ipc.on 'querypresence', seqreq (ev, id) ->
+        client.querypresence(id).then (r) ->
+            ipcsend 'querypresence:result', r.presence_result[0]
+        , false, -> 1
+
+    ipc.on 'initpresence', (ev, l) ->
+        for p, i in l when p != null
+            client.querypresence(p.id).then (r) ->
+                ipcsend 'querypresence:result', r.presence_result[0]
+            , false, -> 1
+
     # no retry, only one outstanding call
     ipc.on 'setpresence', seqreq ->
         client.setpresence(true)

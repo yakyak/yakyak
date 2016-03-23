@@ -52,11 +52,18 @@ needEntity = do ->
         tim = setTimeout fetch, wait
         gather.push id
 
+list = ->
+    v for k, v of lookup when typeof v == 'object'
+
 
 
 funcs =
     count: ->
         c = 0; (c++ for k, v of lookup when typeof v == 'object'); c
+
+    list: list
+
+    presence: (id, p) -> lookup[id].presence = p
 
     isSelf: (chat_id) -> return !!lookup.self and lookup[chat_id] == lookup.self
 
