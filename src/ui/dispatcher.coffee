@@ -45,7 +45,7 @@ handle 'watermark', (ev) ->
     conv.addWatermark ev
 
 handle 'presence', (ev) ->
-    entity.presence ev[0][0][0][0], if ev[0][0][1][1] == 1 then true else false
+    entity.setPresence ev[0][0][0][0], if ev[0][0][1][1] == 1 then true else false
 
 # handle 'self_presence', (ev) ->
 #     console.log 'self_presence', ev
@@ -54,8 +54,7 @@ handle 'querypresence', (id) ->
     ipc.send 'querypresence', id
 
 handle 'setpresence', (r) ->
-    entity.presence r.user_id.chat_id, r.presence.available
-    updated 'conv'
+    entity.setPresence r.user_id.chat_id, r.presence.available
 
 handle 'update:unreadcount', ->
     console.log 'update'

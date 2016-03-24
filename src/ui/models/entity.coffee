@@ -63,7 +63,9 @@ funcs =
 
     list: list
 
-    presence: (id, p) -> lookup[id].presence = p
+    setPresence: (id, p) ->
+        lookup[id].presence = p
+        updated 'entity'
 
     isSelf: (chat_id) -> return !!lookup.self and lookup[chat_id] == lookup.self
 
