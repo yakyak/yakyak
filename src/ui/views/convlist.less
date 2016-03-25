@@ -24,6 +24,9 @@
         align-items: center;
         &:hover{
             background: #f4f4f4;
+            .thumbs .presence.true{
+                border-color: #f4f4f4;
+            }
         }
         .divider {
             position: absolute;
@@ -35,16 +38,23 @@
             display: none;
         }
         &.selected {
-            background: #1e8fe8;
-            color: #fff;
+            background: #e8e8e8;
             cursor: auto;
-            .convinfos{
-                .lasttime, .convname{
-                    color: #fff;
-                }
+            &:before{
+                content: '';
+                display: block;
+                position: absolute;
+                width: 3px;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                background: #0f9d58;
             }
             .divider {
                 display: none;
+            }
+            .thumbs .presence.true{
+                border-color: #e8e8e8;
             }
         }
         &.unread {
@@ -124,6 +134,7 @@
                 right: -1px;
                 &.true{
                     background: #0f9d58;
+                    border: 2px solid #fff;
                 }
             }
             .moreuser{
