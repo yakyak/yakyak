@@ -105,7 +105,7 @@ module.exports = view (models) ->
 
             span class:'button-container', ->
                 button title:'Show emoticons', onclick: (ef) ->
-                    toggleVisibility document.querySelector '#emoji-container'
+                    document.querySelector('#emoji-container').classList.toggle('open');
                     scrollToBottom()
                 , ->
                     span class:'material-icons', "mood"

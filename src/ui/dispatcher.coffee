@@ -23,6 +23,7 @@ handle 'init', (init) ->
     # set the initial view state
     viewstate.setLoggedin true
     viewstate.setState viewstate.STATE_NORMAL
+    viewstate.setColorScheme viewstate.colorScheme
 
     # update model from init object
     entity._initFromSelfEntity init.self_entity
@@ -331,6 +332,9 @@ handle 'unreadtotal', (total, orMore) ->
 
 handle 'showconvthumbs', (doshow) ->
     viewstate.setShowConvThumbs doshow
+
+handle 'changetheme', (colorscheme) ->
+    viewstate.setColorScheme colorscheme
 
 handle 'devtools', ->
     remote.getCurrentWindow().openDevTools detach:true

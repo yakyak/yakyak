@@ -1,6 +1,3 @@
-@import 'roboto-fontface/css/roboto-fontface.less';
-@roboto-font-path: 'css/roboto-fontface/fonts';
-
 // minimal reset
 * {
     padding: 0;
@@ -22,6 +19,7 @@ html, body {
 body {
     background: #fff;
     font-family: 'Roboto', "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+    color: var(--black);
     font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: subpixel-antialiased;
@@ -47,30 +45,8 @@ input, textarea {
   font-family: inherit;
 }
 
-@brand-primary:         #1269b0; // dark blue
-@brand-success:         #5cb85c; // green
-@brand-warning:         #c94646; // red
-@brand-danger:          #ffed00; // yellow
-@brand-info:            #5bc0de; // light blue
-
-.brand-primary {
-    color: @brand-primary;
-}
-.brand-success {
-    color: @brand-success;
-}
-.brand-warning {
-    color: @brand-warning;
-}
-.brand-danger {
-    color: @brand-danger;
-}
-.brand-info {
-    color: @brand-info;
-}
-
 a {
-    color: #3879d9;
+    color: var(--link);
     text-decoration: none;
 }
 

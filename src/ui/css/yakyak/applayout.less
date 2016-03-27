@@ -19,7 +19,7 @@
             width: 30px;
             line-height: 30px;
             text-align: center;
-            border-right: 1px solid #b4b4b4;
+            border-right: 1px solid var(--grey);
         }
     }
     > .leftresize {
@@ -35,7 +35,7 @@
     }
     > .left {
         -webkit-user-select: none;
-        background: #fff;
+        background: var(--white);
         flex: none;
         display: flex;
         flex-direction: column;
@@ -64,7 +64,7 @@
         flex: 1;
         display: flex;
         flex-direction: column;
-        background: #e8e8e8;
+        background: var(--lightgrey);
         > .main {
             flex: 1;
             overflow-x: hidden;
@@ -78,8 +78,8 @@
         }
         > .foot {
             flex: none;
-            background: #f6f6f6;
-            border-top: 1px solid #b4b4b4;
+            background: var(--white);
+            border-top: 1px solid rgba(0, 0, 0, .1);
         }
     }
     > .info {
@@ -88,7 +88,7 @@
         right: 15px;
         > div {
             padding: 5px 10px;
-            border: 1px solid #b4b4b4;
+            border: 1px solid var(--grey);
             border-top: none;
             background: white;
         }
@@ -100,5 +100,5 @@
 }
  
 ::-webkit-scrollbar-thumb {
-    background: #b4b4b4;
+    background: var(--grey);
 }

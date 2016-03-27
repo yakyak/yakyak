@@ -23,7 +23,8 @@ paths =
     html:    './src/**/*.html'
     images:  './src/**/images/*.*'
     icons:   './src/icons'
-    less:    './src/**/*.less'
+    less:    './src/ui/css/manifest.less'
+    lessd:   './src/ui/css/**/*.less'
     css:     './src/**/*.css'
     fonts:   ['./src/**/*.eot', './src/**/*.svg',
               './src/**/*.ttf', './src/**/*.woff']

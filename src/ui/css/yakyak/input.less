@@ -1,7 +1,8 @@
 @button-container-width: 60px;
 
 .input {
-    font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif, "NotoColorEmoji";
+    font-family: 'Roboto', "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif, "NotoColorEmoji";
+    position: relative;
 
     span.emoticon {
         display: inline-block;
@@ -14,10 +15,18 @@
     }
 
     > #emoji-container {
-        display: none;
+        position: absolute;
+        z-index: 0;
+        top: 0;
+        transform: translate3d(0, 0, 0);
+        transition: all .3s ease;
+        background: var(--white);
+        &.open{
+            transform: translate3d(0, -100%, 0);
+        }
         > #emoji-group-selector {
             overflow-x: scroll;
-            border-bottom: 1px solid #dedede;
+            border-bottom: 1px solid var(--lightgrey);
             height: 33px;
             margin-left: 5px;
 
@@ -26,7 +35,7 @@
                 padding-bottom:2px;
             }
             > .emoticon.glow {
-                border-bottom: 2px solid #a0a0a0;
+                border-bottom: 2px solid var(--grey);
 
             }
 
@@ -38,7 +47,7 @@
         > .emoji-selector {
             height:131px;
             overflow-y: scroll;
-            border-bottom: 1px solid #dedede;
+            border-bottom: 1px solid var(--lightgrey);
             width: 100%;
             padding: 5px 2px 5px 5px;
 
@@ -56,7 +65,11 @@
 
     > div.input-container {
         padding: 12px 15px 10px;
-        width: ~"calc(100% - @{button-container-width})";
+        width: 100%;
+        background: var(--white);
+        z-index: 1;
+        position: relative;
+        height: 49px;
         textarea {
             width: 100%;
             resize: vertical;
@@ -65,9 +78,9 @@
             outline: none;
             border: none;
             background: none;
-            padding: 3px 10px;
+            padding: 3px 60px 3px 10px;
             &::-webkit-input-placeholder{
-                color: #b7b7b7;
+                color: var(--grey);
             }
         }
         span.button-container {
@@ -91,7 +104,10 @@
                 width: 26px;
                 padding: 0;
                 cursor: pointer;
-                color: #777;
+                color: var(--darkgrey);
+                &:hover{
+                    color: var(--lightblack);
+                }
                 span {
                     display: inline-block;
                     font-size: 16px;
