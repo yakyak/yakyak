@@ -40,6 +40,26 @@ templateOsx = (viewstate) -> [{
             enabled: viewstate.loggedin
             click: (it) -> action 'showconvthumbs', it.checked
         }, {
+            label: 'Color scheme'
+            submenu: [
+                {
+                    label: 'Default'
+                    type: 'radio'
+                    checked: viewstate.colorScheme == 'default'
+                    click: -> action 'changetheme', 'default'
+                }, {
+                    label: 'Dark'
+                    type: 'radio'
+                    checked: viewstate.colorScheme == 'dark'
+                    click: -> action 'changetheme', 'dark'
+                }, {
+                    label: 'Blue'
+                    type: 'radio'
+                    checked: viewstate.colorScheme == 'blue'
+                    click: -> action 'changetheme', 'blue'
+                }
+            ]
+        }, {
             label: 'Toggle Full Screen',
             accelerator: 'Command+Control+F',
             click: -> action 'togglefullscreen'

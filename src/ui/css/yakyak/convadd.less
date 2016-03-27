@@ -7,7 +7,7 @@
     font-weight: normal;
     text-transform: initial;
     letter-spacing: 0;
-    color: #444;
+    color: var(--lightblack);
   }
   .input {
       display: flex;
@@ -23,7 +23,7 @@
               font-size: 16px;
               line-height: 22px;
               outline: none;
-              border: 1px solid #b4b4b4;
+              border: 1px solid var(--grey);
               margin-bottom: 1em;
           }
       }
@@ -36,7 +36,7 @@
     font-weight: 300;
     width: 150px;
     padding: 8px;
-    background: #e9e9e9;
+    background: var(--lightgrey);
     &:enabled {
         cursor: pointer;
     }
@@ -48,7 +48,7 @@
     flex-wrap: wrap;
     margin: 10px -4px 20px -4px;
     li.selected {
-      background-color: #adf;
+      background-color: var(--altgrey);
     }
     li {
       text-align: center;
@@ -59,9 +59,9 @@
       margin: 4px;
       overflow: hidden;
       border-radius: 5px;
-      background: #f0f0f0;
+      background: var(--white);
       &:hover {
-          background: #b4b4b4;
+          background: var(--ghostwhite);
       }
       display: flex;
       flex-flow: column;
@@ -85,8 +85,8 @@
 
   .button{
     width: 100%;
-    background: #0f9d58;
-    color: #fff;
+    background: var(--green);
+    color: var(--white);
     margin-bottom: 10px;
     height: 40px;
     line-height: 40px;
@@ -94,7 +94,7 @@
     border-radius: 10px;
     cursor: pointer;
     &:hover{
-      background: #0c7e47;
+      background: var(--darkgreen);
     }
     .material-icons{
       font-size: 20px;
@@ -106,9 +106,9 @@
   }
 
   .leave .button{
-    background: #F44336 ;
+    background: var(--red);
     &:hover{
-      background: #f22516;
+      background: var(--darkred);
     }
   }
 

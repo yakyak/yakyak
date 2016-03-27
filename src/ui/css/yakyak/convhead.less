@@ -4,12 +4,12 @@
 	height: 50px;
 
 	.name{
-		background: #0f9d58;
+		background: var(--green);
 		z-index: 2;
 		position: relative;
 		width: 100%;
 		display: block;
-		color: #fff;
+		color: var(--white);
 		height: 50px;
 		line-height: 50px;
 		font-size: 16px;
@@ -27,7 +27,7 @@
 		width: 50px;
 		cursor: pointer;
 		z-index: 2;
-		color: #fff;
+		color: var(--white);
 		line-height: 50px;
 		height: 50px;
 		text-align: center;
@@ -38,31 +38,31 @@
 	}
 
 	.convoptions{
-		background: #fff;
+		background: var(--white);
 		width: 100%;
 		height: 40px;
 		line-height: 40px;
 		position: relative;
 		z-index: 1;
-		border-bottom: 1px solid #d4d4d4;
+		border-bottom: 1px solid rgba(0, 0, 0, .1);
 		text-align: right;
 		transition: all .3s ease;
-		transform: translate(0, -100%);
+		transform: translate3d(0, -100%, 0);
 		&.open{
-			transform: translate(0, 0);
+			transform: translate3d(0, 0, 0);
 		}
 		.button{
 			position: relative;
 			display: inline-block;
 			vertical-align: top;
-			color: #777;
+			color: var(--darkgrey);
 			height: 40px;
 			line-height: 40px;
 			width: auto;
 			padding: 0 10px;
 			cursor: pointer;
 			&:hover{
-				color: #444;
+				color: var(--lightblack);
 			}
 			&:last-child{
 				border: none;

@@ -19,6 +19,7 @@ module.exports = exp = {
     size: tryparse(localStorage.size ? "[940, 600]")
     pos: tryparse(localStorage.pos ? "[100, 100]")
     showConvThumbs: tryparse(localStorage.showConvThumbs) ? true
+    colorScheme: localStorage.colorScheme or 'default'
     zoom: tryparse(localStorage.zoom ? "1.0")
     loggedin: false
     showtray: tryparse(localStorage.showtray) or false
@@ -127,6 +128,12 @@ module.exports = exp = {
         return if @showConvThumbs == doshow
         @showConvThumbs = localStorage.showConvThumbs = doshow
         updated 'viewstate'
+
+    setColorScheme: (colorscheme) ->
+        @colorScheme = localStorage.colorScheme = colorscheme
+        while document.querySelector('html').classList.length > 0
+            document.querySelector('html').classList.remove document.querySelector('html').classList.item(0)
+        document.querySelector('html').classList.add(colorscheme)
 
     setShowTray: (value) ->
         @showtray = localStorage.showtray = value

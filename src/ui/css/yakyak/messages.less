@@ -13,7 +13,7 @@
             display: block;
             font-size: 12px;
             text-align: center;
-            color: #999;
+            color: var(--darkgrey);
         }
         .ugroup {
             margin-top: 17px;
@@ -23,14 +23,14 @@
             .sender {
                 text-decoration: none;
                 font-size: 11px;
-                color: #999;
+                color: var(--darkgrey);
                 img {
                     object-fit: cover;
                     border-radius: 50%;
                     width: 50px;
                     height: 50px;
-                    border: 5px solid #e8e8e8;
-                    background: #fff;
+                    border: 5px solid var(--lightgrey);
+                    background: var(--white);
                     position: absolute;
                     left: -25px;
                     top: -10px;
@@ -45,14 +45,13 @@
                 .sender img{
                     left: auto;
                     right: -25px;
-                    background: #C5CED4;
+                    background: var(--altgrey);
                 }
                 .umessages{
                     margin-left: 5px;
                     padding-left: 5px;
                     padding-right: 30px;
-                    background: #C5CED4;
-                    color: #263238;
+                    background: var(--altgrey);
                 }
             }
             @radius: 13px;
@@ -62,7 +61,7 @@
                 padding-right: 5px;
                 display: table;
                 border-radius: 10px;
-                background: #fff;
+                background: var(--white);
                 display: inline-block;
                 text-align: left;
                 .message {
@@ -89,18 +88,8 @@
                     &.conversation_rename,
                     &.membership_change {
                         font-style: italic;
-                        color: #999;
+                        color: var(--darkgrey);
                         font-size: 0.9em;
-                    }
-                }
-            }
-            &.self {
-                //direction: rtl;
-                .sender {
-                }
-                .umessages {
-                    //direction: ltr;
-                    .message {
                     }
                 }
             }
