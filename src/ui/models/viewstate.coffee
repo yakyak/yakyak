@@ -26,6 +26,7 @@ module.exports = exp = {
     hidedockicon: tryparse(localStorage.hidedockicon) or false
     startminimizedtotray: tryparse(localStorage.startminimizedtotray) or false
     closetotray: tryparse(localStorage.closetotray) or false
+    showDockOnce: true
 
     setState: (state) ->
         return if @state == state
@@ -152,6 +153,10 @@ module.exports = exp = {
     setStartMinimizedToTray: (value) ->
         @startminimizedtotray = localStorage.startminimizedtotray = value
         updated 'viewstate'
+
+    setShowDockIconOnce: (value) ->
+        @showDockIconOnce = value
+
 
     setCloseToTray: (value) ->
         @closetotray = localStorage.closetotray = !!value
