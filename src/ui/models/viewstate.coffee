@@ -24,7 +24,7 @@ module.exports = exp = {
     showtray: tryparse(localStorage.showtray) or false
     hidedockicon: tryparse(localStorage.hidedockicon) or false
     startminimizedtotray: tryparse(localStorage.startminimizedtotray) or false
-    theme: tryparse(localStorage.theme) or 'light-theme'
+    theme: localStorage.theme or 'light-theme'
 
     setState: (state) ->
         return if @state == state
