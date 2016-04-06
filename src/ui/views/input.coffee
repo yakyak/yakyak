@@ -40,10 +40,8 @@ module.exports = view (models) ->
     div class:'input', ->
         div id:'emoji-container', ->
             div id:'emoji-group-selector', ->
-                console.debug("Why is this running multiple times?")
                 for range in emojiCategories
                     name = range['title']
-                    console.debug("Creating selector for " + name)
                     glow = ''
                     if name == openByDefault
                         glow = 'glow'
@@ -140,7 +138,6 @@ handle 'noinputkeydown', (ev) ->
     el.focus() if el and not isAltCtrlMeta(ev)
 
 openEmoticonDrawer = (drawerName) ->
-    console.debug "Opening drawer for " + drawerName
     for range in emojiCategories
         set = (range['title'] == drawerName)
         setClass set, (document.querySelector '#'+range['title']), 'visible'
@@ -152,10 +149,8 @@ setClass = (boolean, element, className) ->
         console.error "Cannot set visibility for undefined variable"
     else
         if boolean
-            console.debug 'Setting ' + className + ' for', element
             element.classList.add(className)
         else
-            console.debug 'Removing ' + className + ' for', element
             element.classList.remove(className)
 
 
