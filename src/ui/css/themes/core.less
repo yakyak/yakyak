@@ -1,0 +1,163 @@
+
+/*
+dark theme
+*/
+
+//global.less
+body {
+  background: @theme-background;
+  color: @theme-font-color;
+}
+
+::-webkit-input-placeholder {
+  color: @theme-font-color-accent;
+}
+
+a{
+  color: @theme-link;
+}
+
+//applayout.less, controls.less
+input, textarea {
+  background-color: @theme-background-secondary;
+  color: @theme-font-color;
+}
+.applayout {
+
+  .left {
+    background: @theme-background-secondary;
+    border-color: @theme-border;
+  }
+  .right {
+    > .foot {
+      background: @theme-background-secondary;
+      border-color: @theme-border;
+    }
+  }
+  .info {
+    > div{
+      border-color: @theme-border;
+      background: @theme-background;
+    }
+  }
+}
+
+ .controls {
+    background: @theme-background;
+    border-color: @theme-border;
+    .button {
+      border-color: @theme-border;
+      &:last-child {
+        border-color: @theme-border;
+      }
+    }
+
+ }
+
+//convadd.less
+.convadd {
+  .input {
+    > div {
+      input {
+        border-color: @theme-border;
+      }
+    }
+  }
+  button {
+    background: @theme-button;
+  }
+  ul {
+    li {
+      background: @theme-background-secondary;
+      &.selected{
+        background: @theme-selected;
+      }
+      &:hover{
+        background: @theme-hover;
+      }
+    }
+
+  }
+}
+
+.convlist {
+  .label {
+    color: @theme-font-color-accent;
+    background: @theme-background-accent;
+  }
+  .conv {
+    .divider {
+      background: @theme-background-accent;
+    }
+    &.selected {
+      background: @theme-link; //TODO: check if this should be ;
+      color: @theme-font-color-invert;
+      .convtyping {
+        color: @theme-font-color-invert;
+      }
+    }
+    &.purehang {
+      color: @theme-font-color-accent;
+    }
+    .convtyping {
+      color: @theme-font-color-accent;
+    }
+    .unreadcount {
+      color: @theme-badge-font-color;
+      background: @theme-badge;
+    }
+  }
+}
+.input {
+  > #emoji-container {
+    > #emoji-group-selector {
+      border-color: @theme-background-accent;
+      > .emoticon.glow {
+        border-color: @theme-badge;
+      }
+    }
+    > .emoji-selector{
+      border-color: @theme-background-accent;
+    }
+  }
+
+  > div.input-container {
+    textarea {
+      border-color: @theme-background-accent;
+      background-color: @theme-background;
+      color: @theme-font-color;
+    }
+
+    span.button-container {
+      button {
+        border-color: @theme-background-accent;
+        background-color: @theme-button;
+      }
+    }
+  }
+}
+
+.messages {
+  .tgroup {
+    .timestamp {
+      color: @theme-font-color-secondary;
+    }
+    .ugroup {
+      .sender {
+        color: @theme-font-color-secondary;
+      }
+      .umessages {
+        .message {
+          &.conversation_rename,
+          &.membership_change {
+            color: @theme-font-color-secondary;
+          }
+        }
+      }
+    }
+  }
+}
+
+.typing {
+  color: @theme-font-color-secondary;
+}

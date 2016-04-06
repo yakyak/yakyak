@@ -69,6 +69,21 @@ templateOsx = (viewstate) -> [{
         }, {
             type: 'separator'
         }, {
+            label: 'Theme',
+            submenu: [
+                {
+                    label: 'Light Theme',
+                    type: 'checkbox',
+                    checked: viewstate.theme == 'light-theme',
+                    click: -> action 'toggletheme', 'light-theme'
+                },{
+                    label: 'Dark Theme',
+                    type: 'checkbox',
+                    checked: viewstate.theme == 'dark-theme',
+                    click: -> action 'toggletheme', 'dark-theme'
+                }
+            ]
+        }, {
             label: 'Show tray icon'
             type: 'checkbox'
             enabled: not viewstate.hidedockicon
@@ -158,6 +173,21 @@ templateOthers = (viewstate) -> [{
             enabled: viewstate.loggedin
         }, {
           type: 'separator'
+        }, {
+            label: 'Theme',
+            submenu: [
+                {
+                    label: 'Light Theme',
+                    type: 'checkbox',
+                    checked: viewstate.theme == 'light-theme',
+                    click: -> action 'toggletheme', 'light-theme'
+                },{
+                    label: 'Dark Theme',
+                    type: 'checkbox',
+                    checked: viewstate.theme == 'dark-theme',
+                    click: -> action 'toggletheme', 'dark-theme'
+                }
+            ]
         }, {
             label: 'Show tray icon'
             type: 'checkbox'
