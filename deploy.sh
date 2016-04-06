@@ -29,7 +29,7 @@ defaults write $(pwd)/YakYak.app/Contents/Info.plist CFBundleVersion -string "$V
 plutil -convert xml1 $(pwd)/YakYak.app/Contents/Info.plist
 mv YakYak.app/Contents/MacOS/Electron YakYak.app/Contents/MacOS/YakYak
 cp -R ../../app YakYak.app/Contents/Resources/app
-cp ../../src/icons/atom.icns YakYak.app/Contents/Resources/atom.icns
+cp ../../src/icons/electron.icns YakYak.app/Contents/Resources/electron.icns
 zip -r ../yakyak-osx.app.zip YakYak.app
 cd ..
 
