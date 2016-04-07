@@ -24,7 +24,6 @@ module.exports = exp = {
     showtray: tryparse(localStorage.showtray) or false
     hidedockicon: tryparse(localStorage.hidedockicon) or false
     startminimizedtotray: tryparse(localStorage.startminimizedtotray) or false
-    theme: localStorage.theme or 'light-theme'
 
     setState: (state) ->
         return if @state == state
@@ -139,10 +138,6 @@ module.exports = exp = {
 
     setStartMinimizedToTray: (value) ->
         @startminimizedtotray = localStorage.startminimizedtotray = value
-        updated 'viewstate'
-
-    setTheme: (value) ->
-        @theme= localStorage.theme = value
         updated 'viewstate'
 
 

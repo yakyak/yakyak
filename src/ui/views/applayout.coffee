@@ -1,7 +1,5 @@
 
 {throttle, topof} = require '../util'
-models      = require '../models'
-{viewstate} = models
 
 attached = false
 attachListeners = ->
@@ -98,7 +96,6 @@ module.exports = exp = layout ->
             div class:'main', region('main'), onscroll: onScroll
             div class:'maininfo', region('maininfo')
             div class:'foot', region('foot')
-            div class: 'theme', region('theme')
     attachListeners()
 
 

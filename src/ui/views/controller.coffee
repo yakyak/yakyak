@@ -1,7 +1,7 @@
 remote = require 'remote'
 
 {applayout, convlist, messages, input, conninfo, convadd, controls,
-notifications, typinginfo, menu, trayicon, dockicon, theme } = require './index'
+notifications, typinginfo, menu, trayicon, dockicon } = require './index'
 
 models      = require '../models'
 {viewstate, connection} = models
@@ -39,7 +39,6 @@ handle 'update:viewstate', ->
         applayout.main null
         applayout.maininfo null
         applayout.foot null
-        applayout.theme null
         document.body.style.zoom = viewstate.zoom
     else if viewstate.state == viewstate.STATE_NORMAL
         redraw()
@@ -48,7 +47,6 @@ handle 'update:viewstate', ->
         applayout.main messages
         applayout.maininfo typinginfo
         applayout.foot input
-        applayout.theme theme
         menu viewstate
         trayicon models
         dockicon viewstate
@@ -58,7 +56,6 @@ handle 'update:viewstate', ->
         applayout.main convadd
         applayout.maininfo null
         applayout.foot null
-        applayout.theme theme
     else
         console.log 'unknown viewstate.state', viewstate.state
 
@@ -85,7 +82,6 @@ redraw = ->
     input models
     convadd models
     trayicon models
-    theme viewstate
 
 handle 'update:switchConv', ->
     messages.scrollToBottom()

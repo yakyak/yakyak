@@ -11,4 +11,3 @@ module.exports =
     menu: require './menu'
     trayicon: require './trayicon'
     dockicon: require './dockicon'
-    theme: require './theme'
