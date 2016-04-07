@@ -23,9 +23,7 @@ paths =
     html:    './src/**/*.html'
     images:  './src/**/images/*.*'
     icons:   './src/icons'
-    less:    ['./src/**/*.less', '!./src/ui/css/themes/*']
-    themes:  './src/ui/css/themes/*-theme.less'
-    themecore: './src/ui/css/themes/core.less'
+    less:    './src/**/*.less'
     css:     './src/**/*.css'
     fonts:   ['./src/**/*.eot', './src/**/*.svg',
               './src/**/*.ttf', './src/**/*.woff']
@@ -86,17 +84,6 @@ gulp.task 'icons', ->
             .pipe rename nameMap[name]
             .pipe gulp.dest path.join outapp, 'icons'
 
-gulp.task 'less-themes', ->
-    gulp.src paths.themes
-        .pipe sourcemaps.init()
-        .pipe less
-            paths: [paths.themecore]
-        .on 'error', (e) ->
-            console.log e
-            @emit 'end'
-        .pipe sourcemaps.write()
-        .pipe gulp.dest outui
-
 # compile less
 gulp.task 'less', ->
     gulp.src paths.less
@@ -134,7 +121,7 @@ gulp.task 'reloader', ->
 gulp.task 'clean', (cb) ->
     rimraf outapp, cb
 
-gulp.task 'default', ['package', 'coffee', 'html', 'images', 'icons', 'less', 'less-themes', 'fontello']
+gulp.task 'default', ['package', 'coffee', 'html', 'images', 'icons', 'less', 'fontello']
 
 gulp.task 'watch', ['default', 'reloader', 'html'], ->
     # watch to rebuild
