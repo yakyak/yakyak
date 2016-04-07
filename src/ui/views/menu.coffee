@@ -48,15 +48,20 @@ templateOsx = (viewstate) -> [{
                     checked: viewstate.colorScheme == 'default'
                     click: -> action 'changetheme', 'default'
                 }, {
+                    label: 'Blue'
+                    type: 'radio'
+                    checked: viewstate.colorScheme == 'blue'
+                    click: -> action 'changetheme', 'blue'
+                }, {
                     label: 'Dark'
                     type: 'radio'
                     checked: viewstate.colorScheme == 'dark'
                     click: -> action 'changetheme', 'dark'
                 }, {
-                    label: 'Blue'
+                    label: 'Material'
                     type: 'radio'
-                    checked: viewstate.colorScheme == 'blue'
-                    click: -> action 'changetheme', 'blue'
+                    checked: viewstate.colorScheme == 'material'
+                    click: -> action 'changetheme', 'material'
                 }
             ]
         }, {
