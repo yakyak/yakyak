@@ -14,7 +14,7 @@
               font-size: 16px;
               line-height: 22px;
               outline: none;
-              border: 1px solid;
+              border: 1px solid #b4b4b4;
               margin-bottom: 1em;
           }
       }
@@ -27,6 +27,7 @@
     font-weight: 300;
     width: 150px;
     padding: 8px;
+    background: #e9e9e9;
     &:enabled {
         cursor: pointer;
     }
@@ -36,6 +37,9 @@
     display: flex;
     flex-wrap: wrap;
     margin: 20px -4px 20px -4px;
+    li.selected {
+      background-color: #adf;
+    }
     li {
       text-align: center;
       padding: 10px;
@@ -45,6 +49,10 @@
       margin: 4px;
       overflow: hidden;
       border-radius: 5px;
+      background: #f0f0f0;
+      &:hover {
+          background: #b4b4b4;
+      }
       display: flex;
       flex-flow: column;
       align-items: center;
