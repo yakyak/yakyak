@@ -1,6 +1,8 @@
 @theme-background: #fff;
 @theme-background-secondary: #f0f0f0;
 @theme-background-accent: #e3e3e3;
+@theme-sidebar: #f0f0f0;
+@theme-footer: #f6f6f6;
 
 @theme-badge: #3a3a3a;
 @theme-badge-font-color: #fff;
@@ -25,7 +27,7 @@ body {
 }
 
 ::-webkit-input-placeholder {
-  color: @theme-font-color-accent;
+  color: @theme-placeholder;
 }
 
 a{
@@ -33,10 +35,6 @@ a{
 }
 
 //applayout.less, controls.less
-input, textarea {
-  background-color: @theme-background-secondary;
-  color: @theme-font-color;
-}
 .applayout {
 
   .left {
@@ -45,7 +43,7 @@ input, textarea {
   }
   .right {
     > .foot {
-      background: @theme-background-secondary;
+      background: @theme-footer;
       border-color: @theme-border;
     }
   }
@@ -83,7 +81,7 @@ input, textarea {
   }
   ul {
     li {
-      background: @theme-background-secondary;
+      background: @theme-sidebar;
       &.selected{
         background: @theme-selected;
       }
@@ -139,14 +137,11 @@ input, textarea {
   > div.input-container {
     textarea {
       border-color: @theme-background-accent;
-      background-color: @theme-background;
-      color: @theme-font-color;
     }
 
-    span.button-container {
+    .button-container {
       button {
         border-color: @theme-background-accent;
-        background-color: @theme-button;
       }
     }
   }
