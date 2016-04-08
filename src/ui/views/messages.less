@@ -15,6 +15,11 @@
         .ugroup {
             margin-top: 17px;
             position: relative;
+            &::after{
+                content: '';
+                display: block;
+                clear: both;
+            }
             .sender {
                 text-decoration: none;
                 font-size: 11px;
@@ -70,8 +75,31 @@
                 .sender {
                 }
                 .umessages {
+                    float: right;
                     //direction: ltr;
                     .message {
+                        background-color: #eee;
+                        border-radius: 5px;
+                        padding-left: 5px;
+                        padding-right: 5px;
+                        margin-left: 20px;
+                        margin-right: 0px;
+                    }
+                    .message-top {
+                        border-radius: 5px 5px 0px 0px;
+                    }
+                    .message-mid {
+                        border-radius: 0px;
+                    }
+                    .message-bot {
+                        border-radius: 0px 0px 5px 5px;
+                    }
+                }
+            }
+            &.notself {
+                .umessages {
+                    .message {
+                        margin-right: 20px;
                     }
                 }
             }

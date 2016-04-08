@@ -53,6 +53,7 @@ groupEvents = (es, entity) ->
                 cid: cid
                 event: []
             }
+        e.group_index = user.event.length
         user.event.push e
         group.end = e.timestamp
     groups
@@ -91,7 +92,10 @@ module.exports = view (models) ->
                 for u in g.byuser
                     sender = nameof entity[u.cid]
                     clz = ['ugroup']
-                    clz.push 'self' if entity.isSelf(u.cid)
+                    if entity.isSelf(u.cid)
+                        clz.push 'self'
+                    else
+                        clz.push 'notself'
                     div class:clz.join(' '), ->
                         a href:linkto(u.cid), {onclick}, class:'sender', ->
                             purl = entity[u.cid]?.photo_url
@@ -99,18 +103,24 @@ module.exports = view (models) ->
                                 purl = "images/photo.jpg"
                                 entity.needEntity u.cid
                             img src:fixlink(purl)
-                            span sender
+                            span sender if not entity.isSelf(u.cid)
                         div class:'umessages', ->
-                            drawMessage(e, entity) for e in u.event
+                            drawMessage(e, entity, u.event.length) for e in u.event
 
     if lastConv != conv_id
         lastConv = conv_id
         later atTopIfSmall
 
 
-drawMessage = (e, entity) ->
+drawMessage = (e, entity, group_length) ->
     mclz = ['message']
     mclz.push c for c in MESSAGE_CLASSES when e[c]?
+    if (group_length > 1) and (e.group_index == 0)
+        mclz.push 'message-top'
+    else if (group_length > 1) and (e.group_index == (group_length - 1))
+        mclz.push 'message-bot'
+    else if (group_length > 1)
+        mclz.push 'message-mid'
     title = if e.timestamp then moment(e.timestamp / 1000).calendar() else null
     div id:e.event_id, key:e.event_id, class:mclz.join(' '), title:title, ->
         if e.chat_message
