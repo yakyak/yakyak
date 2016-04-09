@@ -45,6 +45,15 @@ seqreq = require './seqreq'
 
 mainWindow = null
 
+# Only allow a single active instance
+shouldQuit = app.makeSingleInstance ->
+    mainWindow.show() if mainWindow
+    return true;
+
+if shouldQuit
+    app.quit();
+    return;
+
 # No more minimizing to tray, just close it
 readyToClose = false
 quit = ->
@@ -94,7 +103,7 @@ app.on 'ready', ->
         icon: path.join __dirname, 'icons', 'icon.png'
         show: true
     }
-    
+
 
     # and load the index.html of the app. this may however be yanked
     # away if we must do auth.
