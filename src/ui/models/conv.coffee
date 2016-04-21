@@ -13,7 +13,9 @@ add = (conv) ->
     if conv?.conversation?.conversation_id?.id
         {conversation, event} = conv
         conv = conversation
-        conv.event = event
+        # remove observed events
+        conv.event = (e for e in event when !e.event_id.match(/observed_/))
+
     {id} = conv.conversation_id or conv.id
     domerge id, conv
     # we mark conversations with few events to know that they definitely
@@ -32,6 +34,8 @@ rename = (conv, newname) ->
 addChatMessage = (msg) ->
     {id} = msg.conversation_id ? {}
     return unless id
+    # ignore observed events
+    return if msg.event_id?.match(/observed_/)
     conv = lookup[id]
     unless conv
         # a chat message that belongs to no conversation. curious.
