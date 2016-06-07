@@ -24,6 +24,7 @@ module.exports = exp = {
     showtray: tryparse(localStorage.showtray) or false
     hidedockicon: tryparse(localStorage.hidedockicon) or false
     startminimizedtotray: tryparse(localStorage.startminimizedtotray) or false
+    closetotray: tryparse(localStorage.closetotray) or false
 
     setState: (state) ->
         return if @state == state
@@ -130,7 +131,12 @@ module.exports = exp = {
 
     setShowTray: (value) ->
         @showtray = localStorage.showtray = value
-        if not value then @setStartMinimizedToTray(false) else updated 'viewstate'
+
+        if not @showtray
+            @setCloseToTray(false)
+            @setStartMinimizedToTray(false)
+        else
+            updated 'viewstate'
 
     setHideDockIcon: (value) ->
         @hidedockicon = localStorage.hidedockicon = value
@@ -140,7 +146,9 @@ module.exports = exp = {
         @startminimizedtotray = localStorage.startminimizedtotray = value
         updated 'viewstate'
 
-
+    setCloseToTray: (value) ->
+        @closetotray = localStorage.closetotray = !!value
+        updated 'viewstate'
 }
 
 merge exp, STATES

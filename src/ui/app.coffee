@@ -11,6 +11,8 @@ notr.defineStack 'def', 'body', {top:'3px', right:'15px'}
 # init trifl dispatcher
 dispatcher = require './dispatcher'
 
+remote = require 'remote';
+
 # expose some selected tagg functions
 trifl.tagg.expose window, ('ul li div span a i b u s button p label
 input table thead tbody tr td th textarea br pass img h1 h2 h3 h4
@@ -21,7 +23,7 @@ hr'.split(' '))...
 
 require('./views/menu')(viewstate)
 if viewstate.startminimizedtotray
-  require('remote').getCurrentWindow().hide()
+  remote.getCurrentWindow().hide()
 
 # tie layout to DOM
 document.body.appendChild applayout.el
@@ -70,5 +72,23 @@ action 'reqinit'
 # register event listeners for on/offline
 window.addEventListener 'online',  -> action 'wonline', true
 window.addEventListener 'offline', -> action 'wonline', false
+
+# Listen to close and quit events
+window.addEventListener 'beforeunload', (e) ->
+    if remote.getGlobal('forceClose')
+        return
+
+    hide = (
+        # Mac os and the dock have a special relationship
+        (process.platform == 'darwin' && !viewstate.hidedockicon) ||
+        # Handle the close to tray action
+        viewstate.closetotray
+    )
+
+    if hide
+        e.returnValue = false
+        remote.getCurrentWindow().hide()
+    return
+
 # tell the startup state
 action 'wonline', window.navigator.onLine

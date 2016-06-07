@@ -55,22 +55,20 @@ if shouldQuit
     return;
 
 # No more minimizing to tray, just close it
-readyToClose = false
+global.forceClose = false;
 quit = ->
-    readyToClose = true
+    global.forceClose = true;
     app.quit()
+    return
 
-# Quit when all windows are closed.
-app.on 'window-all-closed', ->
-    app.quit() if (process.platform != 'darwin')
+app.on 'before-quit', ->
+    global.forceClose = true;
+    return
 
 # For OSX show window main window if we've hidden it.
-app.on 'activate-with-no-open-windows', ->
-    mainWindow.show() if (process.platform == 'darwin')
-
-# If we're actually trying to close the app set it to force close
-app.on 'before-quit', ->
-    mainWindow?.forceClose = true
+# https://github.com/electron/electron/blob/master/docs/api/app.md#event-activate-os-x
+app.on 'activate', ->
+    mainWindow.show()
 
 loadAppWindow = ->
     mainWindow.loadUrl 'file://' + __dirname + '/ui/index.html'
@@ -128,7 +126,7 @@ app.on 'ready', ->
         # reinstate app window when login finishes
         prom = login(loginWindow)
         .then (rs) ->
-          loginWindow.forceClose = true
+          global.forceClose = true
           loginWindow.close()
           mainWindow.show()
           rs
@@ -330,12 +328,7 @@ app.on 'ready', ->
     # Emitted when the window is actually closed.
     mainWindow.on 'closed', ->
         mainWindow = null
+        # Close the application when we have no main window
+        app.quit()
+        return
 
-    # Emitted when the window is about to close.
-    # For OSX only hides the window if we're not force closing.
-    mainWindow.on 'close', (ev) ->
-        darwinHideOnly = process.platform == 'darwin' and not mainWindow?.forceClose
-
-        if darwinHideOnly
-            ev.preventDefault()
-            mainWindow.hide()
