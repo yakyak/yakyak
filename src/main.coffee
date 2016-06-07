@@ -1,18 +1,18 @@
 Client    = require 'hangupsjs'
 Q         = require 'q'
 login     = require './login'
-ipc       = require 'ipc'
+ipc       = require('electron').ipcMain
 fs        = require 'fs'
 path      = require 'path'
 tmp       = require 'tmp'
-clipboard = require 'clipboard'
-Menu      = require 'menu'
+clipboard = require('electron').clipboard
+Menu      = require('electron').menu
 
 tmp.setGracefulCleanup()
 
-app = require 'app'
+app = require('electron').app
 
-BrowserWindow = require 'browser-window'
+BrowserWindow = require('electron').BrowserWindow
 
 paths =
     rtokenpath:  path.normalize path.join app.getPath('userData'), 'refreshtoken.txt'
@@ -71,7 +71,7 @@ app.on 'activate', ->
     mainWindow.show()
 
 loadAppWindow = ->
-    mainWindow.loadUrl 'file://' + __dirname + '/ui/index.html'
+    mainWindow.loadURL 'file://' + __dirname + '/ui/index.html'
 
 toggleWindowVisible = ->
     if mainWindow.isVisible() then mainWindow.hide() else mainWindow.show()
@@ -86,11 +86,13 @@ app.on 'ready', ->
            {url:'http://plus.google.com',  env:'HTTP_PROXY'}
            {url:'https://plus.google.com', env:'HTTPS_PROXY'}
         ]
-        Q.all todo.map (t) -> Q.Promise (rs) -> app.resolveProxy t.url, (proxyURL) ->
-            # Format of proxyURL is either "DIRECT" or "PROXY 127.0.0.1:8888"
-            [_, purl] = proxyURL.split ' '
-            process.env[t.env] ?= if purl then "http://#{purl}" else ""
-            rs()
+        Q.all todo.map (t) -> Q.Promise (rs) ->
+            session = require('electron').session
+            session.defaultSession.resolveProxy t.url, (proxyURL) ->
+                # Format of proxyURL is either "DIRECT" or "PROXY 127.0.0.1:8888"
+                [_, purl] = proxyURL.split ' '
+                process.env[t.env] ?= if purl then "http://#{purl}" else ""
+                rs()
 
     # Create the browser window.
     mainWindow = new BrowserWindow {
@@ -142,7 +144,9 @@ app.on 'ready', ->
 
     # keeps trying to connec the hangupsjs and communicates those
     # attempts to the client.
-    reconnect = -> proxycheck().then -> client.connect(creds)
+    reconnect = ->
+      proxycheck().then ->
+        client.connect(creds)
 
     # counter for reconnects
     reconnectCount = 0
@@ -160,6 +164,8 @@ app.on 'ready', ->
             else
                 syncrecent()
             reconnectCount++
+        .catch (e) -> console.log 'error connecting', e
+
 
     ipc.on 'hangupsDisconnect', ->
         console.log 'hdisconnect'
@@ -331,4 +337,3 @@ app.on 'ready', ->
         # Close the application when we have no main window
         app.quit()
         return
-

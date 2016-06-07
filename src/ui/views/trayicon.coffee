@@ -1,6 +1,6 @@
-remote = require 'remote'
-Tray = remote.require 'tray'
-Menu = remote.require 'menu'
+remote = require('electron').remote
+Tray = remote.Tray
+Menu = remote.Menu
 path = require 'path'
 
 trayIcons =

@@ -1,4 +1,4 @@
-ipc = require 'ipc'
+ipc       = require('electron').ipcRenderer
 
 # expose trifl in global scope
 trifl = require 'trifl'
@@ -11,7 +11,7 @@ notr.defineStack 'def', 'body', {top:'3px', right:'15px'}
 # init trifl dispatcher
 dispatcher = require './dispatcher'
 
-remote = require 'remote';
+remote = require('electron').remote
 
 # expose some selected tagg functions
 trifl.tagg.expose window, ('ul li div span a i b u s button p label
@@ -26,6 +26,7 @@ if viewstate.startminimizedtotray
   remote.getCurrentWindow().hide()
 
 # tie layout to DOM
+
 document.body.appendChild applayout.el
 
 # intercept every event we listen to
@@ -39,26 +40,27 @@ do ->
             fn as...
 
 # wire up stuff from server
-ipc.on 'init', (e) -> dispatcher.init e
+ipc.on 'init', (ev, data) -> dispatcher.init data
 # events from hangupsjs
-require('./events').forEach (n) -> ipc.on n, (e) -> action n, e
+require('./events').forEach (n) -> ipc.on n, (ev, data) -> action n, data
 # response from getentity
 ipc.on 'getentity:result', (r, data) ->
     action 'addentities', r.entities, data?.add_to_conv
 
-ipc.on 'resize', (dim) -> action 'resize', dim
-ipc.on 'move', (pos)  -> action 'move', pos
-ipc.on 'searchentities:result', (r) ->
-  action 'setsearchedentities', r.entity
-ipc.on 'createconversation:result', (c, name) ->
+ipc.on 'resize', (ev, dim) -> action 'resize', dim
+
+ipc.on 'move', (ev, pos)  -> action 'move', pos
+ipc.on 'searchentities:result', (ev, r) ->
+    action 'setsearchedentities', r.entity
+ipc.on 'createconversation:result', (ev, c, name) ->
     c.conversation_id = c.id # fix conversation payload
     c.name = name if name
     action 'createconversationdone', c
     action 'setstate', viewstate.STATE_NORMAL
-ipc.on 'syncallnewevents:response', (r) -> action 'handlesyncedevents', r
-ipc.on 'syncrecentconversations:response', (r) -> action 'handlerecentconversations', r
-ipc.on 'getconversation:response', (r) -> action 'handlehistory', r
-ipc.on 'uploadingimage', (spec) -> action 'uploadingimage', spec
+ipc.on 'syncallnewevents:response', (ev, r) -> action 'handlesyncedevents', r
+ipc.on 'syncrecentconversations:response', (ev, r) -> action 'handlerecentconversations', r
+ipc.on 'getconversation:response', (ev, r) -> action 'handlehistory', r
+ipc.on 'uploadingimage', (ev, spec) -> action 'uploadingimage', spec
 
 # init dispatcher/controller
 require './dispatcher'

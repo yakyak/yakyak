@@ -1,6 +1,6 @@
 Client = require 'hangupsjs'
-remote = require 'remote'
-ipc    = require 'ipc'
+remote = require('electron').remote
+ipc    = require('electron').ipcRenderer
 
 {entity, conv, viewstate, userinput, connection, convsettings, notify} = require './models'
 {throttle, later, isImg} = require './util'

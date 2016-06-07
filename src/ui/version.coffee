@@ -11,7 +11,7 @@ check = ->
     body = JSON.parse body
     tag = body.tag_name
     releasedVersion = tag.substr(1) # remove first "v" char
-    localVersion = require('remote').require('app').getVersion()
+    localVersion = require('electron').remote.require('electron').app.getVersion()
     versionAdvertised = window.localStorage.versionAdvertised or null
     if (releasedVersion isnt localVersion) and (releasedVersion isnt versionAdvertised)
       window.localStorage.versionAdvertised = releasedVersion

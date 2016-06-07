@@ -1,5 +1,5 @@
 autosize = require 'autosize'
-clipboard = require 'clipboard'
+clipboard = require('electron').clipboard
 {scrollToBottom, messages} = require './messages'
 {later, toggleVisibility} = require '../util'
 

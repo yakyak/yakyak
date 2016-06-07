@@ -1,5 +1,5 @@
-remote = require 'remote'
-Menu = remote.require 'menu'
+remote = require('electron').remote
+Menu = remote.Menu
 
 templateOsx = (viewstate) -> [{
     label: 'YakYak'

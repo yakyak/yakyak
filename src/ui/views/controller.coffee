@@ -1,4 +1,4 @@
-remote = require 'remote'
+remote = require('electron').remote
 
 {applayout, convlist, messages, input, conninfo, convadd, controls,
 notifications, typinginfo, menu, trayicon, dockicon } = require './index'

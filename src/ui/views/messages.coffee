@@ -1,5 +1,5 @@
 moment = require 'moment'
-shell = require 'shell'
+shell = require('electron').shell
 
 {nameof, linkto, later, forceredraw, throttle,
 getProxiedName, fixlink, isImg, getImageUrl}  = require '../util'

@@ -1,5 +1,5 @@
 notifier = require 'node-notifier'
-shell    = require 'shell'
+shell    = require('electron').shell
 path     = require 'path'
 
 {nameof, getProxiedName} = require '../util'

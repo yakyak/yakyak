@@ -1,4 +1,4 @@
-app = require('remote').require('app')
+app = require('electron').remote.require('electron').app
 
 module.exports = (viewstate) ->
   if require('os').platform() isnt 'darwin' then return
