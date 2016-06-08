@@ -7,7 +7,7 @@ module.exports = (mainWindow) -> Q.Promise (rs) ->
     mainWindow.webContents.on 'did-finish-load', onDidFinishLoad = ->
 
         # the url that just finished loading
-        url = mainWindow.getUrl()
+        url = mainWindow.getURL()
 
         # when we find this part of the url, we must progress page to /approval
         if url.indexOf('&response_type=code') > 0
@@ -26,4 +26,4 @@ module.exports = (mainWindow) -> Q.Promise (rs) ->
             rs code
 
     # redirect to google oauth
-    mainWindow.loadUrl Client.OAUTH2_LOGIN_URL
+    mainWindow.loadURL Client.OAUTH2_LOGIN_URL
