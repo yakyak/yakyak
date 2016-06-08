@@ -44,7 +44,7 @@ ipc.on 'init', (ev, data) -> dispatcher.init data
 # events from hangupsjs
 require('./events').forEach (n) -> ipc.on n, (ev, data) -> action n, data
 # response from getentity
-ipc.on 'getentity:result', (r, data) ->
+ipc.on 'getentity:result', (ev, r, data) ->
     action 'addentities', r.entities, data?.add_to_conv
 
 ipc.on 'resize', (ev, dim) -> action 'resize', dim
