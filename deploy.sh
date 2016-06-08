@@ -30,31 +30,36 @@ plutil -convert xml1 $(pwd)/YakYak.app/Contents/Info.plist
 mv YakYak.app/Contents/MacOS/Electron YakYak.app/Contents/MacOS/YakYak
 cp -R ../../app YakYak.app/Contents/Resources/app
 cp ../../src/icons/electron.icns YakYak.app/Contents/Resources/electron.icns
-zip -r ../yakyak-osx.app.zip YakYak.app
+# zip -9 -r ../yakyak-osx.app.zip YakYak.app
+ditto -c -k --rsrc --extattr --keepParent YakYak.app ../yakyak-osx.app.zip
 cd ..
 
 cd win32-ia32
 mv electron.exe yakyak.exe
 cp -R ../../app resources/app
 cd ..
-zip -r yakyak-win32-ia32.zip win32-ia32
+# zip -9 -r yakyak-win32-ia32.zip win32-ia32
+ditto -c -k --rsrc --extattr --keepParent win32-ia32 yakyak-win32-ia32.zip
+
 
 cd win32-x64
 mv electron.exe yakyak.exe
 cp -R ../../app resources/app
 cd ..
-zip -r yakyak-win32-x64.zip win32-x64
+#zip -9 -r yakyak-win32-x64.zip win32-x64
+ditto -c -k --rsrc --extattr --keepParent win32-x64 yakyak-win32-x64.zip
 
 cd linux-ia32
 mv electron yakyak
 cp -R ../../app resources/app
 cd ..
-zip -r yakyak-linux-ia32.zip linux-ia32
+#zip -9 -r yakyak-linux-ia32.zip linux-ia32
+ditto -c -k --rsrc --extattr --keepParent linux-ia32 yakyak-linux-ia32.zip
 
 cd linux-x64
 mv electron yakyak
 cp -R ../../app resources/app
 cd ..
-zip -r yakyak-linux-x64.zip linux-x64
-
+#zip -9 -r yakyak-linux-x64.zip linux-x64
+ditto -c -k --rsrc --extattr --keepParent linux-x64 yakyak-linux-x64.zip
 cd ..
