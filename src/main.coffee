@@ -14,15 +14,19 @@ app = require('electron').app
 
 BrowserWindow = require('electron').BrowserWindow
 
-paths =
-    rtokenpath:  path.normalize path.join app.getPath('userData'), 'refreshtoken.txt'
-    cookiespath: path.normalize path.join app.getPath('userData'), 'cookies.json'
-    chromecookie: path.normalize path.join app.getPath('userData'), 'Cookies'
-    configpath: path.normalize path.join app.getPath('userData'), 'config.json'
+userData = path.normalize(app.getPath('userData'))
+fs.mkdirSync(userData) if not fs.existsSync userData
 
-client = new Client
-    rtokenpath:  paths.rtokenpath
+paths =
+    rtokenpath: path.join(userData, 'refreshtoken.txt')
+    cookiespath: path.join(userData, 'cookies.json')
+    chromecookie: path.join(userData, 'Cookies')
+    configpath: path.join(userData, 'config.json')
+
+client = new Client(
+    rtokenpath: paths.rtokenpath
     cookiespath: paths.cookiespath
+)
 
 if fs.existsSync paths.chromecookie
     fs.unlinkSync paths.chromecookie
