@@ -7,6 +7,7 @@ path      = require 'path'
 tmp       = require 'tmp'
 clipboard = require('electron').clipboard
 Menu      = require('electron').menu
+session = require('electron').session
 
 tmp.setGracefulCleanup()
 
@@ -91,8 +92,9 @@ app.on 'ready', ->
            {url:'https://plus.google.com', env:'HTTPS_PROXY'}
         ]
         Q.all todo.map (t) -> Q.Promise (rs) ->
-            session = require('electron').session
+            console.log "resolving proxy #{t.url}"
             session.defaultSession.resolveProxy t.url, (proxyURL) ->
+                console.log "resolved proxy #{proxyURL}"
                 # Format of proxyURL is either "DIRECT" or "PROXY 127.0.0.1:8888"
                 [_, purl] = proxyURL.split ' '
                 process.env[t.env] ?= if purl then "http://#{purl}" else ""
@@ -149,8 +151,18 @@ app.on 'ready', ->
     # keeps trying to connec the hangupsjs and communicates those
     # attempts to the client.
     reconnect = ->
+      console.log 'reconnecting', reconnectCount
       proxycheck().then ->
-        client.connect(creds)
+          client.connect(creds)
+          .then ->
+              console.log 'connected', reconnectCount
+              # on first connect, send init, after that only resync
+              if reconnectCount == 0
+                  sendInit()
+              else
+                  syncrecent()
+              reconnectCount++
+          .catch (e) -> console.log 'error connecting', e
 
     # counter for reconnects
     reconnectCount = 0
@@ -158,18 +170,7 @@ app.on 'ready', ->
     # whether to connect is dictated by the client.
     ipc.on 'hangupsConnect', ->
         console.log 'hconnect'
-        # first connect
         reconnect()
-        .then ->
-            console.log 'connected', reconnectCount
-            # on first connect, send init, after that only resync
-            if reconnectCount == 0
-                sendInit()
-            else
-                syncrecent()
-            reconnectCount++
-        .catch (e) -> console.log 'error connecting', e
-
 
     ipc.on 'hangupsDisconnect', ->
         console.log 'hdisconnect'
@@ -181,8 +182,8 @@ app.on 'ready', ->
     mainWindow.on 'move',  (ev) -> ipcsend 'move', mainWindow.getPosition()
 
     # whenever it fails, we try again
-    client.on 'connect_failed', ->
-        console.log 'connect_failed'
+    client.on 'connect_failed', (e) ->
+        console.log 'connect_failed', e
         wait(3000).then -> reconnect()
 
     # when client requests (re-)init since the first init
