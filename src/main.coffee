@@ -128,6 +128,9 @@ app.on 'ready', ->
             "min-height": 420
             icon: path.join __dirname, 'icons', 'icon.png'
             show: true
+            webPreferences: {
+                nodeIntegration: false
+            }
         }
         mainWindow.hide()
         loginWindow.focus()
