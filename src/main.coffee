@@ -132,12 +132,16 @@ app.on 'ready', ->
                 nodeIntegration: false
             }
         }
+
+        loginWindow.on 'closed', quit
+
         mainWindow.hide()
         loginWindow.focus()
         # reinstate app window when login finishes
         prom = login(loginWindow)
         .then (rs) ->
           global.forceClose = true
+          loginWindow.removeAllListeners 'closed'
           loginWindow.close()
           mainWindow.show()
           rs
@@ -342,6 +346,4 @@ app.on 'ready', ->
     # Emitted when the window is actually closed.
     mainWindow.on 'closed', ->
         mainWindow = null
-        # Close the application when we have no main window
-        app.quit()
-        return
+        quit()
