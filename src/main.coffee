@@ -359,7 +359,7 @@ app.on 'ready', ->
     # Emitted when the window is about to close.
     # For OSX only hides the window if we're not force closing.
     mainWindow.on 'close', (ev) ->
-        darwinHideOnly = process.platform == 'darwin' and not mainWindow?.forceClose
+        darwinHideOnly = process.platform == 'darwin' and not global.forceClose
 
         if darwinHideOnly
             ev.preventDefault()
