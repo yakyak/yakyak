@@ -2,15 +2,15 @@
     position: relative;
     .button{
         position: absolute;
-        right: 35px;
-        bottom: 20px;
+        right: 15px;
+        bottom: 15px;
         border: none;
         background: var(--green);
         color: var(--white);
-        height: 50px;
+        height: var(--headerbarheight);
         line-height: 44px;
         font-size: 20px;
-        width: 50px;
+        width: var(--headerbarheight);
         border-radius: 100%;
         box-shadow: 0 3px 3px 0 rgba(0, 0, 0, .4);
         text-align: center;
@@ -19,8 +19,9 @@
         &:hover{
             box-shadow: 0 0 0 0 rgba(0, 0, 0, .4);
         }
-        .material-icons{
+        .material-icons {
             vertical-align: middle;
+            height: 100%;
         }
     }
 }

@@ -64,6 +64,7 @@ funcs =
     list: list
 
     setPresence: (id, p) ->
+        return needEntity(id) if not lookup[id]
         lookup[id].presence = p
         updated 'entity'
 

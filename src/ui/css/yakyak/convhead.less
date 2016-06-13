@@ -1,7 +1,7 @@
 .convhead{
 	width: 100%;
 	position: relative;
-	height: 50px;
+	height: var(--headerbarheight);
 
 	.name{
 		background: var(--green);
@@ -10,11 +10,13 @@
 		width: 100%;
 		display: block;
 		color: var(--white);
-		height: 50px;
-		line-height: 50px;
+		height: pvar(--headerbarheight)x;
+		line-height: var(--headerbarheight);
 		font-size: 16px;
 		font-weight: bold;
 		text-align: center;
+		-webkit-app-region: drag;
+		-webkit-user-select: none;
 		.material-icons{
 			font-size: 13px;
 			margin-right: 2px;
@@ -28,8 +30,8 @@
 		cursor: pointer;
 		z-index: 2;
 		color: var(--white);
-		line-height: 50px;
-		height: 50px;
+		line-height: var(--headerbarheight);
+		height: var(--headerbarheight);
 		text-align: center;
 		.material-icons{
 			position: relative;
@@ -40,8 +42,8 @@
 	.convoptions{
 		background: var(--white);
 		width: 100%;
-		height: 40px;
-		line-height: 40px;
+		height: var(--headerbarheight);
+		line-height: var(--headerbarheight);
 		position: relative;
 		z-index: 1;
 		border-bottom: 1px solid rgba(0, 0, 0, .1);
@@ -56,8 +58,8 @@
 			display: inline-block;
 			vertical-align: top;
 			color: var(--darkgrey);
-			height: 40px;
-			line-height: 40px;
+			height: var(--headerbarheight);
+			line-height: var(--headerbarheight);
 			width: auto;
 			padding: 0 10px;
 			cursor: pointer;

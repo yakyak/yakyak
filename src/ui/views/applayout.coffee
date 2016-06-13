@@ -87,7 +87,8 @@ resizers =
 
 
 module.exports = exp = layout ->
-    div class:'applayout dragtarget', drag, resize, ->
+    platform = if process.platform is 'darwin' then 'osx' else ''
+    div class:'applayout dragtarget ' + platform, drag, resize, ->
         div class:'left', ->
             div class:'listhead', region('listhead')
             div class:'list', region('left')
