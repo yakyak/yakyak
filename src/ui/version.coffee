@@ -8,6 +8,7 @@ options =
 
 check = ->
   request.get options,  (err, res, body) ->
+    return console.log err if err
     body = JSON.parse body
     tag = body.tag_name
     releasedVersion = tag.substr(1) # remove first "v" char
