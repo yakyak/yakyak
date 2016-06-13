@@ -64,13 +64,15 @@
             color: #999;
             font-style: italic;
         }
-        .convinfos{
+        .convinfos {
             width: 100%;
             line-height: 1;
             .lasttime{
                 font-size: 10px;
                 width: 100%;
-                color: var(--lightblack);
+                display: block;
+                padding-bottom: 4px;
+                color: #aaa;
             }
             .convname {
                 flex: 1;
@@ -79,7 +81,6 @@
                 white-space: nowrap;
                 display: -webkit-box;
                 -webkit-box-orient: vertical;
-                font-weight: bold;
                 display: block;
                 margin-bottom: 4px;
                 color: var(--lightblack);
@@ -90,6 +91,13 @@
                     text-overflow: ellipsis;
                     white-space: nowrap;
                     font-size: 12px;
+                }
+            }
+        }
+        &.unread {
+            .convinfos {
+                .convname {
+                    font-weight: bold;
                 }
             }
         }
