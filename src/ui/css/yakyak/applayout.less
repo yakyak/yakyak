@@ -64,7 +64,7 @@
         flex: 1;
         display: flex;
         flex-direction: column;
-        background: var(--lightgrey);
+        background: linear-gradient(var(--green), var(--green) var(--headerbarheight), var(--lightgrey) var(--headerbarheight));
         > .main {
             flex: 1;
             overflow-x: hidden;
@@ -95,10 +95,10 @@
     }
 }
 
-// ::-webkit-scrollbar {
-//     width: 4px;
-// }
-//
-// ::-webkit-scrollbar-thumb {
-//     background: var(--grey);
-// }
+.applayout:not(.osx) ::-webkit-scrollbar {
+    width: 6px;
+}
+
+.applayout:not(.osx) ::-webkit-scrollbar-thumb {
+    background: var(--grey);
+}
