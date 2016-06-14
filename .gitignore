@@ -23,5 +23,4 @@ doc
 Yakyak.app
 app
 dist
-deploy.sh
 scrape-emojipedia.org.py
