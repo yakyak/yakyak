@@ -49,6 +49,7 @@ What does it do:
 * [David Banham](https://github.com/davidbanham)
 * [Max Kueng](https://github.com/maxkueng)
 * [Arnaud Riu](https://github.com/arnriu)
+* [Austin Guevara](https://github.com/austin-guevara)
 
 ## Developing
 
