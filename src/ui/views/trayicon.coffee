@@ -4,7 +4,7 @@ Menu = remote.Menu
 path = require 'path'
 
 trayIcons =
-    "read": path.join __dirname, '..', '..', 'icons', 'icon.png'
+    "read": path.join __dirname, '..', '..', 'icons', 'icon-read.png'
     "unread": path.join __dirname, '..', '..', 'icons', 'icon-unread.png'
 tray = null
 
