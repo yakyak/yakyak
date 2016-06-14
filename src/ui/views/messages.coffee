@@ -129,6 +129,17 @@ drawMessage = (e, entity) ->
                 pass "invited #{names}"
             else if t == 'LEAVE'
                 pass "#{names} left the conversation"
+        else if e.hangout_event
+          hangout_event = e.hangout_event
+          style = 'vertical-align': 'middle'
+          if hangout_event.event_type is 'START_HANGOUT'
+              span { class: 'material-icons', style }, 'call_made_small'
+              pass ' Call started'
+          else if hangout_event.event_type is 'END_HANGOUT'
+              span { class:'material-icons small', style }, 'call_end'
+              pass ' Call ended'
+        else
+          console.log 'unhandled event type', e, entity
 
 
 atTopIfSmall = ->
