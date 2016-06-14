@@ -5,9 +5,7 @@ YakYak
 
 Desktop client for Google Hangouts
 
-![Yak](https://cloud.githubusercontent.com/assets/227204/14331529/03d53a72-fc46-11e5-941a-e4080571a982.png)
-
-Cows are go!
+![sshot](https://cloud.githubusercontent.com/assets/123929/16032313/cdba46c2-3204-11e6-912f-a72fef60563a.png)
 
 (This app is in no way associated with or endorsed by Google)
 
@@ -32,14 +30,12 @@ What does it do:
 * History scrollback
 * Video/audio integration (open in chrome)
 * Focus/typing indications (mainly a design issue. keep it clean)
+* Offer alternative color schemes
 
-What doesn't it do (yet?):
+![sshot1](https://cloud.githubusercontent.com/assets/123929/16032393/991d63f8-3205-11e6-98bf-31f1b57cdc96.png)
 
-* Have a serious icon (this is being adressed)
+![sshot2](https://cloud.githubusercontent.com/assets/123929/16032394/9e2ac08e-3205-11e6-81cc-fd4cb37441b5.png)
 
-![YakYak](https://cloud.githubusercontent.com/assets/227204/8255223/b6409032-169e-11e5-8953-488413b305b4.png)
-
-![YakYak with thumbs](https://cloud.githubusercontent.com/assets/227204/8255540/d922d252-16a0-11e5-86b2-bfec901bbdbc.png)
 
 ## Credits
 
@@ -52,6 +48,7 @@ What doesn't it do (yet?):
 
 * [David Banham](https://github.com/davidbanham)
 * [Max Kueng](https://github.com/maxkueng)
+* [Arnaud Riu](https://github.com/arnriu)
 
 ## Developing
 
