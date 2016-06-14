@@ -220,6 +220,7 @@ preload = (href) ->
 
 
 formatAttachment = (att) ->
+    console.log 'attachment', att if att.length > 0
     if att?[0]?.embed_item?.type_
         {href, thumb} = extractProtobufStyle(att)
     else if att?[0]?.embed_item?.type
@@ -253,6 +254,10 @@ extractProtobufStyle = (att) ->
     return unless k
     href = data?[k]?[5]
     thumb = data?[k]?[9]
+    if not thumb
+      href = data?[k]?[4]
+      thumb = data?[k]?[5]
+
     {href, thumb}
 
 extractObjectStyle = (att) ->
