@@ -48,10 +48,12 @@ module.exports = view (models) ->
                     if ents.length == 1
                         div class:'presence '+ents[0].presence
                 div class:'convinfos', ->
-                    span class:'lasttime', moment(conv.lastChanged(c)).calendar()
+                    if viewstate.showConvTime
+                        span class:'lasttime', moment(conv.lastChanged(c)).calendar()
                     span class:'convname', name
-                    div class:'lastmessage', ->
-                        drawMessage(c?.event?.slice(-1)[0], entity)
+                    if viewstate.showConvLast
+                        div class:'lastmessage', ->
+                            drawMessage(c?.event?.slice(-1)[0], entity)
                 div class:'divider'
             , onclick: (ev) ->
                 ev.preventDefault()

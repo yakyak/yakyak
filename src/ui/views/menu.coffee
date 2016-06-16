@@ -40,6 +40,18 @@ templateOsx = (viewstate) -> [{
             enabled: viewstate.loggedin
             click: (it) -> action 'showconvthumbs', it.checked
         }, {
+            type: 'checkbox'
+            label: 'Show Conversation Timestamp'
+            checked:viewstate.showConvTime
+            enabled: viewstate.loggedin
+            click: (it) -> action 'showconvtime', it.checked
+        }, {
+            type: 'checkbox'
+            label: 'Show Conversation Last Message'
+            checked:viewstate.showConvLast
+            enabled: viewstate.loggedin
+            click: (it) -> action 'showconvlast', it.checked
+        }, {
             label: 'Color scheme'
             submenu: [
                 {
@@ -152,6 +164,18 @@ templateOthers = (viewstate) -> [{
             checked:viewstate.showConvThumbs
             enabled: viewstate.loggedin
             click: (it) -> action 'showconvthumbs', it.checked
+        }, {
+            type: 'checkbox'
+            label: 'Show Conversation Timestamp'
+            checked:viewstate.showConvTime
+            enabled: viewstate.loggedin
+            click: (it) -> action 'showconvtime', it.checked
+        }, {
+            type: 'checkbox'
+            label: 'Show Conversation Last Message'
+            checked:viewstate.showConvLast
+            enabled: viewstate.loggedin
+            click: (it) -> action 'showconvlast', it.checked
         }, {
             label: 'Toggle Full Screen',
             accelerator: 'Control+Alt+F',

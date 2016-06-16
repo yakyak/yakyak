@@ -333,6 +333,12 @@ handle 'unreadtotal', (total, orMore) ->
 handle 'showconvthumbs', (doshow) ->
     viewstate.setShowConvThumbs doshow
 
+handle 'showconvtime', (doshow) ->
+    viewstate.setShowConvTime doshow
+
+handle 'showconvlast', (doshow) ->
+    viewstate.setShowConvLast doshow
+
 handle 'changetheme', (colorscheme) ->
     viewstate.setColorScheme colorscheme
 
