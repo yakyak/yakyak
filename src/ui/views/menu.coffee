@@ -190,7 +190,33 @@ templateOthers = (viewstate) -> [{
             checked:  viewstate.showtray
             click: -> action 'toggleshowtray'
         }
-    ]}
+    ]},
+    {
+            label: 'Color scheme'
+            submenu: [
+                {
+                    label: 'Default'
+                    type: 'radio'
+                    checked: viewstate.colorScheme == 'default'
+                    click: -> action 'changetheme', 'default'
+                }, {
+                    label: 'Blue'
+                    type: 'radio'
+                    checked: viewstate.colorScheme == 'blue'
+                    click: -> action 'changetheme', 'blue'
+                }, {
+                    label: 'Dark'
+                    type: 'radio'
+                    checked: viewstate.colorScheme == 'dark'
+                    click: -> action 'changetheme', 'dark'
+                }, {
+                    label: 'Material'
+                    type: 'radio'
+                    checked: viewstate.colorScheme == 'material'
+                    click: -> action 'changetheme', 'material'
+                }
+            ]
+        }
 ]
 
 module.exports = (viewstate) ->
