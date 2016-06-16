@@ -30,7 +30,7 @@ plutil -convert xml1 $(pwd)/YakYak.app/Contents/Info.plist
 mv YakYak.app/Contents/MacOS/Electron YakYak.app/Contents/MacOS/YakYak
 cp -R ../../app YakYak.app/Contents/Resources/app
 cp ../../src/icons/icon.icns YakYak.app/Contents/Resources/electron.icns
-zip -r ../yakyak-osx.app.zip YakYak.app
+zip -r -y -X ../yakyak-osx.app.zip YakYak.app
 # ditto -c -k --rsrc --extattr --keepParent YakYak.app ../yakyak-osx.app.zip
 cd ..
 
