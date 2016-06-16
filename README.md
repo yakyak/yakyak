@@ -63,25 +63,27 @@ It is written in coffeescript (nodejs) based on
 ### Setup
 
 ```bash
-$ sudo npm install -g gulp
 $ npm install
-$ gulp
+$ npm run gulp
 ```
 
 ### Continuous build
 
 ```
-$ gulp watch
+$ npm run gulp watch
 ```
 
 ### Run it
 
 ```
-$ electron app
+$ npm run electron app
 ```
 
-You might want to put the electron binary on your $PATH or symlink it. npm puts
-it at `node_modules/electron-prebuilt/dist/electron`.
+### Build Binaries for Deployment
+
+```
+$ npm run deploy
+```
 
 ### Structure
 
