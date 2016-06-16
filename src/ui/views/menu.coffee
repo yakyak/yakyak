@@ -216,7 +216,7 @@ templateOthers = (viewstate) -> [{
         }
     ]},
     {
-            label: 'Color scheme'
+            label: 'Color Scheme'
             submenu: [
                 {
                     label: 'Default'
