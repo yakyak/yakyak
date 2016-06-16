@@ -52,7 +52,7 @@ templateOsx = (viewstate) -> [{
             enabled: viewstate.loggedin
             click: (it) -> action 'showconvlast', it.checked
         }, {
-            label: 'Color scheme'
+            label: 'Color Scheme'
             submenu: [
                 {
                     label: 'Default'
