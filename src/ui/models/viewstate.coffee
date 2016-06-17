@@ -84,12 +84,12 @@ module.exports = exp = {
     setSize: (size) ->
         localStorage.size = JSON.stringify(size)
         @size = size
-        updated 'viewstate'
+        # updated 'viewstate'
 
     setPosition: (pos) ->
         localStorage.pos = JSON.stringify(pos)
         @pos = pos
-        updated 'viewstate'
+        # updated 'viewstate'
 
     setLeftSize: (size) ->
         return if @leftSize == size
