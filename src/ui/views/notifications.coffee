@@ -1,6 +1,7 @@
 notifier = require 'node-notifier'
 shell    = require('electron').shell
 path     = require 'path'
+remote   = require('electron').remote
 
 {nameof, getProxiedName} = require '../util'
 
@@ -64,7 +65,9 @@ module.exports = (models) ->
           if res?.trim().match(/Activate/)
             action 'appfocus'
             action 'selectConv', c
-
+            
+        mainWindow = remote.getCurrentWindow() # And we hope we don't get another ;)            
+        mainWindow.flashFrame(true)
 
 textMessage = (cont, proxied) ->
     segs = for seg, i in cont?.segment ? []
