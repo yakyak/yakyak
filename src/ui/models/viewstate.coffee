@@ -11,7 +11,7 @@ STATES =
 
 module.exports = exp = {
     state: null
-    attop: false   # tells whether message list is scrolle to top
+    attop: false   # tells whether message list is scrolled to top
     atbottom: true # tells whether message list is scrolled to bottom
     selectedConv: localStorage.selectedConv
     lastActivity: null

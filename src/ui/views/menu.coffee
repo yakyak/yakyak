@@ -118,7 +118,7 @@ templateOsx = (viewstate) -> [{
             checked:  viewstate.hidedockicon
             click: -> action 'togglehidedockicon'
         }
-    ]},{
+    ]}, {
     label: 'Window',
     submenu: [
         {
@@ -146,6 +146,8 @@ templateOsx = (viewstate) -> [{
 templateOthers = (viewstate) -> [{
     label: 'YakYak'
     submenu: [
+        { label: 'Hide YakYak', accelerator: 'Control+H', role: 'minimize' }
+        { type: 'separator' }
         { label: 'Open Inspector', accelerator: 'Control+Alt+I', click: -> action 'devtools' }
         { type: 'separator' }
         { type: 'separator' }
@@ -155,6 +157,16 @@ templateOthers = (viewstate) -> [{
           enabled: viewstate.loggedin
         }
         { label: 'Quit', accelerator: 'Control+Q', click: -> action 'quit' }
+    ]}, {
+    label: 'Edit'
+    submenu: [
+        { label: 'Undo', accelerator: 'Control+Z', role: 'undo' }
+        { label: 'Redo', accelerator: 'Control+Shift+Z', role: 'redo' }
+        { type: 'separator' }
+        { label: 'Cut', accelerator: 'Control+X', role: 'cut' }
+        { label: 'Copy', accelerator: 'Control+C', role: 'copy' }
+        { label: 'Paste', accelerator: 'Control+V', role: 'paste' }
+        { label: 'Select All', accelerator: 'Control+A', role: 'selectall' }
     ]}, {
     label: 'View'
     submenu: [
