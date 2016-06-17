@@ -14,9 +14,9 @@ check = ->
     releasedVersion = tag.substr(1) # remove first "v" char
     localVersion = require('electron').remote.require('electron').app.getVersion()
     versionAdvertised = window.localStorage.versionAdvertised or null
-    if (releasedVersion isnt localVersion) and (releasedVersion isnt versionAdvertised)
+    if (localVersion < releasedVersion)
       window.localStorage.versionAdvertised = releasedVersion
-      alert "A new yakyak version is available, please upgrade #{localVersion} => #{releasedVersion}"
+      alert "A new yakyak version is available, please upgrade #{localVersion} < #{releasedVersion}"
     else
       console.log "YakYak local version is #{localVersion}, released version is #{releasedVersion}"
 
