@@ -87,6 +87,9 @@ module.exports = view (models) ->
                 if (e.metaKey or e.ctrlKey) and e.keyIdentifier == 'Up' then action 'selectNextConv', -1
                 if (e.metaKey or e.ctrlKey) and e.keyIdentifier == 'Down' then action 'selectNextConv', +1
                 unless isModifierKey(e)
+                    if e.keyCode == 27
+                        e.preventDefault()
+                        action 'hideWindow'
                     if e.keyCode == 13
                         e.preventDefault()
                         action 'sendmessage', e.target.value
