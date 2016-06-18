@@ -64,7 +64,7 @@
         flex: 1;
         display: flex;
         flex-direction: column;
-        background: linear-gradient(var(--green), var(--green) var(--headerbarheight), var(--lightgrey) var(--headerbarheight));
+        background: linear-gradient(var(--green), var(--green) ~"calc(var(--headerbarheight) / var(--zoom))", var(--lightgrey) ~"calc(var(--headerbarheight) / var(--zoom))");
         > .main {
             flex: 1;
             overflow-x: hidden;

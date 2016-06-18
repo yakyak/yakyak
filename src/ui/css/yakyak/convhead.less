@@ -1,7 +1,7 @@
 .convhead{
 	width: 100%;
 	position: relative;
-	height: var(--headerbarheight);
+	height: ~"calc(var(--headerbarheight) / var(--zoom))";
 
 	.name{
 		background: var(--green);
@@ -10,15 +10,15 @@
 		width: 100%;
 		display: block;
 		color: var(--white);
-		height: pvar(--headerbarheight)x;
-		line-height: var(--headerbarheight);
-		font-size: 16px;
+		height: ~"calc(var(--headerbarheight) / var(--zoom))";
+		line-height: ~"calc(var(--headerbarheight) / var(--zoom))";
+		font-size: ~"calc(16px / var(--zoom))";
 		font-weight: bold;
 		text-align: center;
 		-webkit-app-region: drag;
 		-webkit-user-select: none;
 		.material-icons{
-			font-size: 13px;
+			font-size: .82em;
 			margin-right: 2px;
 		}
 	}
@@ -30,20 +30,21 @@
 		cursor: pointer;
 		z-index: 2;
 		color: var(--white);
-		line-height: var(--headerbarheight);
-		height: var(--headerbarheight);
+		line-height: ~"calc(var(--headerbarheight) / var(--zoom))";
+		height: ~"calc(var(--headerbarheight) / var(--zoom))";
 		text-align: center;
 		.material-icons{
 			position: relative;
 			top: 7px;
+			font-size: ~"calc(24px / var(--zoom))";
 		}
 	}
 
 	.convoptions{
 		background: var(--white);
 		width: 100%;
-		height: var(--headerbarheight);
-		line-height: var(--headerbarheight);
+		height: ~"calc(var(--headerbarheight) / var(--zoom))";
+		line-height: ~"calc(var(--headerbarheight) / var(--zoom))";
 		position: relative;
 		z-index: 1;
 		border-bottom: 1px solid rgba(0, 0, 0, .1);
@@ -58,8 +59,8 @@
 			display: inline-block;
 			vertical-align: top;
 			color: var(--darkgrey);
-			height: var(--headerbarheight);
-			line-height: var(--headerbarheight);
+			height: ~"calc(var(--headerbarheight) / var(--zoom))";
+			line-height: ~"calc(var(--headerbarheight) / var(--zoom))";
 			width: auto;
 			padding: 0 10px;
 			cursor: pointer;
