@@ -41,6 +41,7 @@ handle 'update:viewstate', ->
         applayout.maininfo null
         applayout.foot null
         document.body.style.zoom = viewstate.zoom
+        document.body.style.setProperty('--zoom', viewstate.zoom)
     else if viewstate.state == viewstate.STATE_NORMAL
         redraw()
         applayout.lfoot controls

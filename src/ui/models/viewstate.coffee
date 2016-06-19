@@ -84,20 +84,21 @@ module.exports = exp = {
     setSize: (size) ->
         localStorage.size = JSON.stringify(size)
         @size = size
-        updated 'viewstate'
+        # updated 'viewstate'
 
     setPosition: (pos) ->
         localStorage.pos = JSON.stringify(pos)
         @pos = pos
-        updated 'viewstate'
+        # updated 'viewstate'
 
     setLeftSize: (size) ->
-        return if @leftSize == size
+        return if @leftSize == size or size < 180
         @leftSize = localStorage.leftSize = size
         updated 'viewstate'
 
     setZoom: (zoom) ->
         @zoom = localStorage.zoom = document.body.style.zoom = zoom
+        document.body.style.setProperty('--zoom', zoom)
 
     setLoggedin: (val) ->
         @loggedin = val

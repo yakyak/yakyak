@@ -106,6 +106,10 @@ handle 'sendmessage', (txt) ->
 handle 'toggleshowtray', ->
     viewstate.setShowTray(not viewstate.showtray)
 
+handle 'togglemenu', ->
+    mainWindow = remote.getCurrentWindow()
+    if mainWindow.isMenuBarVisible() then mainWindow.setMenuBarVisibility(false) else mainWindow.setMenuBarVisibility(true)
+
 handle 'togglehidedockicon', ->
     viewstate.setHideDockIcon(not viewstate.hidedockicon)
 
@@ -353,7 +357,7 @@ handle 'togglefullscreen', ->
 
 handle 'zoom', (step) ->
     if step?
-        return viewstate.setZoom (parseFloat(document.body.style.zoom) or 1.0) + step
+        return viewstate.setZoom (parseFloat(document.body.style.zoom.replace(',', '.')) or 1.0) + step
     viewstate.setZoom 1
 
 handle 'logout', ->
