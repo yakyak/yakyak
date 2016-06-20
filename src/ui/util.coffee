@@ -70,6 +70,19 @@ toggleVisibility = (element) ->
     else
         element.style.display = 'block'
 
+emotiToEmoji = (text) ->
+    shortcode = require './emojishortcode'
+    shortcodePattern = /:([a-zA-Z0-9_\+-]+):/g
+    
+    # Find every possible shortcode in text
+    matches = while (match = shortcodePattern.exec text) != null
+        match
+
+    # Find all unicode for all actual emojis
+    result = ({colonText: match[0], unicode: shortcode[match[1]]} for match in matches when shortcode[match[1]])
+
+    return result
+    
 module.exports = {nameof, nameofconv, linkto, later, throttle, uniqfn,
 isAboutLink, getProxiedName, tryparse, fixlink, topof, isImg, getImageUrl,
-toggleVisibility}
+toggleVisibility, emotiToEmoji}

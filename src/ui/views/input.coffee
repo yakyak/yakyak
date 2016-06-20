@@ -1,7 +1,7 @@
 autosize = require 'autosize'
 clipboard = require('electron').clipboard
 {scrollToBottom, messages} = require './messages'
-{later, toggleVisibility} = require '../util'
+{later, toggleVisibility, emotiToEmoji} = require '../util'
 
 isModifierKey = (ev) -> ev.altKey || ev.ctrlKey || ev.metaKey || ev.shiftKey
 isAltCtrlMeta = (ev) -> ev.altKey || ev.ctrlKey || ev.metaKey
@@ -97,6 +97,12 @@ module.exports = view (models) ->
                         if e.keyIdentifier is "Up" then historyWalk e.target, -1
                         if e.keyIdentifier is "Down" then historyWalk e.target, +1
                 action 'lastkeydown', Date.now() unless isAltCtrlMeta(e)
+            , onkeyup: (e) ->
+                element = document.getElementById "message-input"
+                # Converts emoji shortcode (e.g. :smile:) to unicode 
+                matches = emotiToEmoji(element.value.toLowerCase())                
+
+                element.value = element.value.replace(new RegExp(match.colonText,'i'), match.unicode) for match in matches                                                                            
             , onpaste: (e) ->
                 setTimeout () ->
                     if not clipboard.readImage().isEmpty() and not clipboard.readText()
