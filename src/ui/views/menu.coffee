@@ -162,11 +162,11 @@ templateOthers = (viewstate) -> [{
     submenu: [
         { label: 'Undo', accelerator: 'Control+Z', role: 'undo' }
         { label: 'Redo', accelerator: 'Control+Shift+Z', role: 'redo' }
-        { type: 'separator' }
-        { label: 'Cut', accelerator: 'Control+X', role: 'cut' }
-        { label: 'Copy', accelerator: 'Control+C', role: 'copy' }
-        { label: 'Paste', accelerator: 'Control+V', role: 'paste' }
-        { label: 'Select All', accelerator: 'Control+A', role: 'selectall' }
+       # { type: 'separator' }
+       # { label: 'Cut', accelerator: 'Control+X', role: 'cut' }
+       # { label: 'Copy', accelerator: 'Control+C', role: 'copy' }
+       # { label: 'Paste', accelerator: 'Control+V', role: 'paste' }
+       # { label: 'Select All', accelerator: 'Control+A', role: 'selectall' }
     ]}, {
     label: 'View'
     submenu: [
