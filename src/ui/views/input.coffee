@@ -98,11 +98,11 @@ module.exports = view (models) ->
                         if e.keyIdentifier is "Down" then historyWalk e.target, +1
                 action 'lastkeydown', Date.now() unless isAltCtrlMeta(e)
             , onkeyup: (e) ->
-                element = document.getElementById "message-input"
-                # Converts emoji shortcode (e.g. :smile:) to unicode 
-                matches = emotiToEmoji(element.value.toLowerCase())                
-
-                element.value = element.value.replace(new RegExp(match.colonText,'i'), match.unicode) for match in matches                                                                            
+                #check for emojis after pressing space
+                if e.keyCode == 32
+                    element = document.getElementById "message-input"
+                    # Converts emojicodes (e.g. :smile:, :-) ) to unicode 
+                    element.value = convertEmoji(element.value)                
             , onpaste: (e) ->
                 setTimeout () ->
                     if not clipboard.readImage().isEmpty() and not clipboard.readText()

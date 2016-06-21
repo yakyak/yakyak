@@ -70,18 +70,22 @@ toggleVisibility = (element) ->
     else
         element.style.display = 'block'
 
-emotiToEmoji = (text) ->
-    shortcode = require './emojishortcode'
-    shortcodePattern = /:([a-zA-Z0-9_\+-]+):/g
+convertEmoji = (text) ->
+    unicodeMap = require './emojishortcode'
+
+    patterns = [
+        ":[a-zA-Z0-9_\+-]+:",
+        ":\\(:\\)|:\\(\\|\\)|:X\\)|:3|\\(=\\^\\.\\.\\^=\\)|\\(=\\^\\.\\^=\\)|=\\^_\\^=|x_x|X-O|X-o|X\\(|X-\\(|O\\.O|:O|:-O|=O|o\\.o|:o|:-o|=o|D:|>_<|T_T|:'\\(|;_;|='\\(|>\\.<|>:\\(|>:-\\(|>=\\(|:\\(|:-\\(|=\\(|;P|;-P|;p|;-p|:P|:-P|=P|:p|:-p|=p|;\\*|;-\\*|:\\*|:-\\*|:S|:-S|:s|:-s|=\\/|=\\\\|:-\\/|:-\\\\|:\\/|:\\\\|u_u|o_o;|-_-|=\\||:\\||:-\\||B-\\)|B\\)|;-\\)|;\\)|}=\\)|}:-\\)|}:\\)|O=\\)|O:-\\)|O:\\)|\\^_\\^;;|=D|\\^_\\^|:-D|:D|~@~|<3|<\\/3|<\\\\3|\\(]:{|-<@%|:\\)|:-\\)|=\\)"
+    ]
     
-    # Find every possible shortcode in text
-    matches = while (match = shortcodePattern.exec text) != null
-        match
+    emojiCodeRegex = new RegExp(patterns.join('|'),'g')
 
-    # Find all unicode for all actual emojis
-    result = ({colonText: match[0], unicode: shortcode[match[1]]} for match in matches when shortcode[match[1]])
+    text = text.replace(emojiCodeRegex, (emoji) ->            
+        unicode = unicodeMap[emoji]
+        return unicode if !!unicode
+        emoji        
 
-    return result
+    return text
     
 module.exports = {nameof, nameofconv, linkto, later, throttle, uniqfn,
 isAboutLink, getProxiedName, tryparse, fixlink, topof, isImg, getImageUrl,
