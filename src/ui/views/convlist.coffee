@@ -30,7 +30,7 @@ module.exports = view (models) ->
                         for p, index in ents
                             break if index >= 4
                             image = p.photo_url
-                            if image and viewstate.showAnimatedThumbs
+                            if image and !viewstate.showAnimatedThumbs
                                 image += "?sz=50"
                             unless image
                                 entity.needEntity(p.id)
