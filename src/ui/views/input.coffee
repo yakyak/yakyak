@@ -1,7 +1,7 @@
 autosize = require 'autosize'
 clipboard = require('electron').clipboard
 {scrollToBottom, messages} = require './messages'
-{later, toggleVisibility, emotiToEmoji} = require '../util'
+{later, toggleVisibility, convertEmoji} = require '../util'
 
 isModifierKey = (ev) -> ev.altKey || ev.ctrlKey || ev.metaKey || ev.shiftKey
 isAltCtrlMeta = (ev) -> ev.altKey || ev.ctrlKey || ev.metaKey

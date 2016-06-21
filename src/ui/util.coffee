@@ -88,4 +88,4 @@ convertEmoji = (text) ->
     return text    
 module.exports = {nameof, nameofconv, linkto, later, throttle, uniqfn,
 isAboutLink, getProxiedName, tryparse, fixlink, topof, isImg, getImageUrl,
-toggleVisibility, emotiToEmoji}
+toggleVisibility, convertEmoji}
