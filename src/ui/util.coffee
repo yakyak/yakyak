@@ -83,10 +83,9 @@ convertEmoji = (text) ->
     text = text.replace(emojiCodeRegex, (emoji) ->            
         unicode = unicodeMap[emoji]
         return unicode if !!unicode
-        emoji        
-
-    return text
-    
+        emoji
+    )        
+    return text    
 module.exports = {nameof, nameofconv, linkto, later, throttle, uniqfn,
 isAboutLink, getProxiedName, tryparse, fixlink, topof, isImg, getImageUrl,
 toggleVisibility, emotiToEmoji}
