@@ -77,6 +77,37 @@ templateOsx = (viewstate) -> [{
                 }
             ]
         }, {
+            label: 'Font Size'
+            submenu: [
+                {
+                    label: 'Extra Small'
+                    type: 'radio'
+                    checked: viewstate.fontSize == 'x-small'
+                    click: -> action 'changefontsize', 'x-small'
+                }, {
+                    label: 'Small'
+                    type: 'radio'
+                    checked: viewstate.fontSize == 'small'
+                    click: -> action 'changefontsize', 'small'
+                }, {
+                    label: 'Medium'
+                    type: 'radio'
+                    checked: viewstate.fontSize == 'medium'
+                    click: -> action 'changefontsize', 'medium'
+                }, {
+                    label: 'Large'
+                    type: 'radio'
+                    checked: viewstate.fontSize == 'large'
+                    click: -> action 'changefontsize', 'large'
+                }, {
+                    label: 'Extra Large'
+                    type: 'radio'
+                    checked: viewstate.fontSize == 'x-large'
+                    click: -> action 'changefontsize', 'x-large'
+                }
+            ]
+        
+        }, {
             label: 'Toggle Full Screen',
             accelerator: 'Command+Control+F',
             click: -> action 'togglefullscreen'

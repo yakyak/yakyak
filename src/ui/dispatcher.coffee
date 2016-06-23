@@ -24,6 +24,7 @@ handle 'init', (init) ->
     viewstate.setLoggedin true
     viewstate.setState viewstate.STATE_NORMAL
     viewstate.setColorScheme viewstate.colorScheme
+    viewstate.setFontSize viewstate.fontSize
 
     # update model from init object
     entity._initFromSelfEntity init.self_entity
@@ -345,6 +346,9 @@ handle 'showconvlast', (doshow) ->
 
 handle 'changetheme', (colorscheme) ->
     viewstate.setColorScheme colorscheme
+
+handle 'changefontsize', (fontsize) ->
+    viewstate.setFontSize fontsize
 
 handle 'devtools', ->
     remote.getCurrentWindow().openDevTools detach:true
