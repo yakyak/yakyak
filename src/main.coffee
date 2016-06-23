@@ -287,7 +287,10 @@ app.on 'ready', ->
 
     ipc.on 'appfocus', ->
       app.focus()
-      mainWindow.focus()
+      if mainWindow.isVisible()
+        mainWindow.focus()
+      else
+        mainWindow.show()
 
     # no retries, dedupe on conv_id
     ipc.on 'settyping', seqreq (ev, conv_id, v) ->
