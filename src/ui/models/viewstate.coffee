@@ -23,6 +23,7 @@ module.exports = exp = {
     showConvTime: tryparse(localStorage.showConvTime) ? true
     showConvLast: tryparse(localStorage.showConvLast) ? true
     colorScheme: localStorage.colorScheme or 'default'
+    fontSize: localStorage.fontSize or 'medium'
     zoom: tryparse(localStorage.zoom ? "1.0")
     loggedin: false
     showtray: tryparse(localStorage.showtray) or false
@@ -155,6 +156,13 @@ module.exports = exp = {
         while document.querySelector('html').classList.length > 0
             document.querySelector('html').classList.remove document.querySelector('html').classList.item(0)
         document.querySelector('html').classList.add(colorscheme)
+
+    setFontSize: (fontsize) ->
+        @fontSize = localStorage.fontSize = fontsize
+        while document.querySelector('html').classList.length > 0
+            document.querySelector('html').classList.remove document.querySelector('html').classList.item(0)
+        document.querySelector('html').classList.add(localStorage.colorScheme)
+        document.querySelector('html').classList.add(fontsize)
 
     setShowTray: (value) ->
         @showtray = localStorage.showtray = value
