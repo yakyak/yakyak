@@ -171,8 +171,8 @@ format = (cont) ->
           formatAttachment cont.attachment
         catch e
           console.error e
-    for seg, i in cont?.segment ? []
-        continue if cont.proxied and i < 1
+    for seg, j in cont?.segment ? []
+        continue if cont.proxied and j < 1
         f = seg.formatting ? {}
         # these are links to images that we try loading
          # as images and show inline. (not attachments)
@@ -181,7 +181,7 @@ format = (cont) ->
         ifpass(imageUrl, div) ->
             ifpass(href, ((f) -> a {href, onclick}, f)) ->
                 ifpass(f.bold, b) ->
-                    ifpass(f.italics, i) ->
+                    ifpass(f.italic, i) ->
                         ifpass(f.underline, u) ->
                             ifpass(f.strikethrough, s) ->
                                 ifpass(imageUrl, div) ->
