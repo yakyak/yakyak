@@ -199,6 +199,17 @@ formatters = [
         if imageUrl and preload imageUrl
             div ->
                 img src: imageUrl
+    # twitter preview
+    (seg) ->
+        href = seg?.text
+        if /^https?:\/\/twitter.com\/.+\/status/.test href
+            node = preloadTweet href
+            if node
+                div class:'tweet', ->
+                    p ->
+                        node.text
+                    if node.img
+                        img src: node.img
 ]
 
 stripProxiedColon = (txt) ->
@@ -223,6 +234,24 @@ preload = (href) ->
         preload_cache[href] = el
     return cache?.loaded
 
+preloadTweet = (href) ->
+    cache = preload_cache[href]
+    if not cache
+        fetch href
+        .then (response) ->
+            response.text()
+        .then (html) ->
+            frag = document.createElement 'div'
+            frag.innerHTML = html
+            container = frag.querySelector '[data-associated-tweet-id]'
+            textNode = container.querySelector ('.tweet-text')
+            image = container.querySelector ('[data-image-url]')
+            preload_cache[href] = {
+                text: textNode.textContent
+                img: image?.dataset.imageUrl
+            }
+            later -> action 'loadedimg'
+    return cache
 
 formatAttachment = (att) ->
     console.log 'attachment', att if att.length > 0
