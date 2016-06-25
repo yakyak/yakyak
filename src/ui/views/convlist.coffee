@@ -5,6 +5,7 @@ module.exports = view (models) ->
     {conv, entity, viewstate} = models
     clz = ['convlist']
     clz.push 'showconvthumbs' if viewstate.showConvThumbs
+    clz.push 'showanimatedthumbs' if viewstate.showAnimatedThumbs
     div class:clz.join(' '), ->
         convs = conv.list()
         renderConv = (c) ->
@@ -29,6 +30,8 @@ module.exports = view (models) ->
                         for p, index in ents
                             break if index >= 4
                             image = p.photo_url
+                            if image and !viewstate.showAnimatedThumbs
+                                image += "?sz=50"
                             unless image
                                 entity.needEntity(p.id)
                                 image = "images/photo.jpg"

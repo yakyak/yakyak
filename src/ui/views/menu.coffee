@@ -41,6 +41,12 @@ templateOsx = (viewstate) -> [{
             click: (it) -> action 'showconvthumbs', it.checked
         }, {
             type: 'checkbox'
+            label: 'Show Animated Thumbnails'
+            checked:viewstate.showAnimatedThumbs
+            enabled: viewstate.loggedin && viewstate.showConvThumbs
+            click: (it) -> action 'showanimatedthumbs', it.checked
+        }, {
+            type: 'checkbox'
             label: 'Show Conversation Timestamp'
             checked:viewstate.showConvTime
             enabled: viewstate.loggedin
@@ -176,6 +182,12 @@ templateOthers = (viewstate) -> [{
             checked:viewstate.showConvThumbs
             enabled: viewstate.loggedin
             click: (it) -> action 'showconvthumbs', it.checked
+        }, {
+            type: 'checkbox'
+            label: 'Show Animated Thumbnails'
+            checked:viewstate.showAnimatedThumbs
+            enabled: viewstate.loggedin && viewstate.showConvThumbs
+            click: (it) -> action 'showanimatedthumbs', it.checked
         }, {
             type: 'checkbox'
             label: 'Show Conversation Timestamp'

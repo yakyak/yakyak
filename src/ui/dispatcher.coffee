@@ -341,6 +341,9 @@ handle 'unreadtotal', (total, orMore) ->
 handle 'showconvthumbs', (doshow) ->
     viewstate.setShowConvThumbs doshow
 
+handle 'showanimatedthumbs', (doshow) ->
+    viewstate.setShowAnimatedThumbs doshow
+
 handle 'showconvtime', (doshow) ->
     viewstate.setShowConvTime doshow
 

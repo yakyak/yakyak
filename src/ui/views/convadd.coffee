@@ -32,7 +32,7 @@ inputSetValue = (sel, val) ->
     null
 
 module.exports = view (models) ->
-    {convsettings, entity} = models
+    {viewstate, convsettings, entity} = models
     editing = convsettings.id != null
 
     div class: 'convadd', ->
@@ -41,7 +41,7 @@ module.exports = view (models) ->
       style = {}
       if not convsettings.group
           style = display: 'none'
-          
+
       div class: 'input', {style}, ->
           div ->
               input
@@ -59,7 +59,7 @@ module.exports = view (models) ->
                   onkeyup: (e) ->
                       chilledaction 'searchentities', e.currentTarget.value, 7
                       action 'conversationquery', e.currentTarget.value, 7
-      
+
       div class: 'input', ->
           div ->
               p ->
@@ -72,14 +72,15 @@ module.exports = view (models) ->
                       opts.disabled = 'disabled'
                   input opts
                   'Create multiuser chat'
-                  
+
 
       ul ->
           convsettings.selectedEntities.forEach (r) ->
               cid = r?.id?.chat_id
               li class: 'selected', ->
                   if purl = r.properties?.photo_url ? entity[cid]?.photo_url
-                      img src:fixlink(purl)
+                    purl += "?sz=50" unless viewstate?.showAnimatedThumbs
+                    img src:fixlink(purl)
                   else
                       img src:"images/photo.jpg"
                       entity.needEntity cid
@@ -93,7 +94,8 @@ module.exports = view (models) ->
               if unique(r) in selected_ids then return
               li ->
                   if purl = r.properties?.photo_url ? entity[cid]?.photo_url
-                      img src:fixlink(purl)
+                    purl += "?sz=50" unless viewstate?.showAnimatedThumbs
+                    img src:fixlink(purl)
                   else
                       img src:"images/photo.jpg"
                       entity.needEntity cid

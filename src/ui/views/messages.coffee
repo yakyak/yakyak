@@ -95,6 +95,8 @@ module.exports = view (models) ->
                     div class:clz.join(' '), ->
                         a href:linkto(u.cid), title:sender, {onclick}, class:'sender', ->
                             purl = entity[u.cid]?.photo_url
+                            if purl and !viewstate?.showAnimatedThumbs
+                                purl += "?sz=50"
                             unless purl
                                 purl = "images/photo.jpg"
                                 entity.needEntity u.cid
