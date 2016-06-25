@@ -62,7 +62,7 @@ module.exports = (models) ->
             sender: 'com.github.yakyak'
             sound: true
         , (err, res) ->
-          if res?.trim().match(/Activate/)
+          if res?.trim().match(/Activate/i)
             action 'appfocus'
             action 'selectConv', c
             
