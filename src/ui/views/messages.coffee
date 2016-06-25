@@ -171,32 +171,46 @@ format = (cont) ->
           formatAttachment cont.attachment
         catch e
           console.error e
-    for seg, j in cont?.segment ? []
-        continue if cont.proxied and j < 1
-        f = seg.formatting ? {}
-        # these are links to images that we try loading
-         # as images and show inline. (not attachments)
-        href = seg?.link_data?.link_target
-        imageUrl = getImageUrl href # false if can't find one
-        ifpass(imageUrl, div) ->
-            ifpass(href, ((f) -> a {href, onclick}, f)) ->
-                ifpass(f.bold, b) ->
-                    ifpass(f.italic, i) ->
-                        ifpass(f.underline, u) ->
-                            ifpass(f.strikethrough, s) ->
-                                ifpass(imageUrl, div) ->
-                                    # preload returns whether the image
-                                    # has been loaded. redraw when it
-                                    # loads.
-                                    if (imageUrl) and (preload imageUrl)
-                                        img src: imageUrl
-                                    else
-                                        pass if cont.proxied
-                                            stripProxiedColon seg.text
-                                        else
-                                            seg.text
+    for seg, i in cont?.segment ? []
+        continue if cont.proxied and i < 1
+        formatters.forEach (fn) ->
+            fn seg, cont
     null
 
+
+formatters = [
+    # text formatter
+    (seg, cont) ->
+        f = seg.formatting ? {}
+        href = seg?.link_data?.link_target
+        ifpass(href, ((f) -> a {href, onclick}, f)) ->
+            ifpass(f.bold, b) ->
+                ifpass(f.italic, i) ->
+                    ifpass(f.underline, u) ->
+                        ifpass(f.strikethrough, s) ->
+                            pass if cont.proxied
+                                stripProxiedColon seg.text
+                            else
+                                seg.text
+    # image formatter
+    (seg) ->
+        href = seg?.link_data?.link_target
+        imageUrl = getImageUrl href # false if can't find one
+        if imageUrl and preload imageUrl
+            div ->
+                img src: imageUrl
+    # twitter preview
+    (seg) ->
+        href = seg?.text
+        if /^https?:\/\/twitter.com\/.+\/status/.test href
+            node = preloadTweet href
+            if node
+                div class:'tweet', ->
+                    p ->
+                        node.text
+                    if node.img
+                        img src: node.img
+]
 
 stripProxiedColon = (txt) ->
     if txt?.indexOf(": ") == 0
@@ -220,6 +234,24 @@ preload = (href) ->
         preload_cache[href] = el
     return cache?.loaded
 
+preloadTweet = (href) ->
+    cache = preload_cache[href]
+    if not cache
+        fetch href
+        .then (response) ->
+            response.text()
+        .then (html) ->
+            frag = document.createElement 'div'
+            frag.innerHTML = html
+            container = frag.querySelector '[data-associated-tweet-id]'
+            textNode = container.querySelector ('.tweet-text')
+            image = container.querySelector ('[data-image-url]')
+            preload_cache[href] = {
+                text: textNode.textContent
+                img: image?.dataset.imageUrl
+            }
+            later -> action 'loadedimg'
+    return cache
 
 formatAttachment = (att) ->
     console.log 'attachment', att if att.length > 0
