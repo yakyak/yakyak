@@ -39,9 +39,12 @@ handle 'init', (init) ->
 
     require('./version').check()
 
-    spellchecker.setDictionary(navigator.language)
     require('electron').webFrame.setSpellCheckProvider navigator.language, true, spellCheck: (text) ->
-        spellchecker.isMisspelled(text) != false
+        for dictionary in spellchecker.getAvailableDictionaries()
+            spellchecker.setDictionary(dictionary)
+            if spellchecker.isMisspelled(text) != false
+                return true
+        return false
 
 handle 'chat_message', (ev) ->
     conv.addChatMessage ev
