@@ -364,6 +364,9 @@ app.on 'ready', ->
     # Emitted when the window is about to close.
     # For OSX only hides the window if we're not force closing.
     mainWindow.on 'close', (ev) ->
+        if mainWindow.isFullScreen()
+            mainWindow.setFullScreen false
+
         darwinHideOnly = process.platform == 'darwin' and not global.forceClose
 
         if darwinHideOnly
