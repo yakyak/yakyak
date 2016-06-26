@@ -1,7 +1,6 @@
 Client = require 'hangupsjs'
 remote = require('electron').remote
 ipc    = require('electron').ipcRenderer
-spellchecker = require('spellchecker')
 
 {entity, conv, viewstate, userinput, connection, convsettings, notify} = require './models'
 {throttle, later, isImg} = require './util'
@@ -38,13 +37,6 @@ handle 'init', (init) ->
     ipc.send 'initpresence', entity.list()
 
     require('./version').check()
-
-    require('electron').webFrame.setSpellCheckProvider navigator.language, true, spellCheck: (text) ->
-        for dictionary in spellchecker.getAvailableDictionaries()
-            spellchecker.setDictionary(dictionary)
-            if spellchecker.isMisspelled(text) != false
-                return true
-        return false
 
 handle 'chat_message', (ev) ->
     conv.addChatMessage ev
