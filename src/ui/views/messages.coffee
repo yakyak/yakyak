@@ -203,13 +203,14 @@ formatters = [
     (seg) ->
         href = seg?.text
         if /^https?:\/\/twitter.com\/.+\/status/.test href
-            node = preloadTweet href
-            if node
+            data = preloadTweet href
+            if data
                 div class:'tweet', ->
-                    p ->
-                        node.text
-                    if node.img
-                        img src: node.img
+                    if data.text
+                        p ->
+                            data.text
+                    if data.imageUrl and preload data.imageUrl
+                        img src: data.imageUrl
 ]
 
 stripProxiedColon = (txt) ->
@@ -237,6 +238,7 @@ preload = (href) ->
 preloadTweet = (href) ->
     cache = preload_cache[href]
     if not cache
+        preload_cache[href] = {}
         fetch href
         .then (response) ->
             response.text()
@@ -246,11 +248,9 @@ preloadTweet = (href) ->
             container = frag.querySelector '[data-associated-tweet-id]'
             textNode = container.querySelector ('.tweet-text')
             image = container.querySelector ('[data-image-url]')
-            preload_cache[href] = {
-                text: textNode.textContent
-                img: image?.dataset.imageUrl
-            }
-            later -> action 'loadedimg'
+            preload_cache[href].text = textNode.textContent
+            preload_cache[href].imageUrl = image?.dataset.imageUrl
+            later -> action 'loadedtweet'
     return cache
 
 formatAttachment = (att) ->
@@ -278,6 +278,8 @@ handle 'loadedimg', ->
     # fix the position after redraw
     updated 'afterImg'
 
+handle 'loadedtweet', ->
+    updated 'conv'
 
 extractProtobufStyle = (att) ->
     eitem = att?[0]?.embed_item
