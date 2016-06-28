@@ -202,15 +202,20 @@ formatters = [
     # twitter preview
     (seg) ->
         href = seg?.text
-        if /^https?:\/\/twitter.com\/.+\/status/.test href
-            data = preloadTweet href
-            if data
-                div class:'tweet', ->
-                    if data.text
-                        p ->
-                            data.text
-                    if data.imageUrl and preload data.imageUrl
-                        img src: data.imageUrl
+        if !href
+            return
+        matches = href.match /^(https?:\/\/)(.+\.)?(twitter.com\/.+\/status\/.+)/
+        if !matches
+            return
+        data = preloadTweet matches[1] + matches[3]
+        if !data
+            return
+        div class:'tweet', ->
+            if data.text
+                p ->
+                    data.text
+            if data.imageUrl and preload data.imageUrl
+                img src: data.imageUrl
 ]
 
 stripProxiedColon = (txt) ->
