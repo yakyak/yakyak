@@ -93,6 +93,7 @@ module.exports = view (models) ->
                     if e.keyCode == 13
                         e.preventDefault()
                         action 'sendmessage', e.target.value
+                        document.querySelector('#emoji-container').classList.remove('open');
                         historyPush e.target.value
                         e.target.value = ''
                         autosize.update e.target
