@@ -99,7 +99,8 @@ handle 'selectNextConv', (offset = 1) ->
     viewstate.selectNextConv offset
     ipc.send 'setfocus', viewstate.selectedConv
 
-handle 'sendmessage', (txt) ->
+handle 'sendmessage', (txt = '') ->
+    if !txt.trim() then return
     msg = userinput.buildChatMessage txt
     ipc.send 'sendchatmessage', msg
     conv.addChatMessagePlaceholder entity.self.id, msg
