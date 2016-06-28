@@ -93,6 +93,7 @@ module.exports = view (models) ->
                     if e.keyCode == 13
                         e.preventDefault()
                         action 'sendmessage', e.target.value
+                        document.querySelector('#emoji-container').classList.remove('open');
                         historyPush e.target.value
                         e.target.value = ''
                         autosize.update e.target
@@ -104,8 +105,8 @@ module.exports = view (models) ->
                 #check for emojis after pressing space
                 if e.keyCode == 32
                     element = document.getElementById "message-input"
-                    # Converts emojicodes (e.g. :smile:, :-) ) to unicode 
-                    element.value = convertEmoji(element.value)                
+                    # Converts emojicodes (e.g. :smile:, :-) ) to unicode
+                    element.value = convertEmoji(element.value)
             , onpaste: (e) ->
                 setTimeout () ->
                     if not clipboard.readImage().isEmpty() and not clipboard.readText()
@@ -169,6 +170,7 @@ insertTextAtCursor = (el, text) ->
         endIndex = el.selectionEnd
         el.value = value.slice(0, endIndex) + text + value.slice(endIndex)
         el.selectionStart = el.selectionEnd = endIndex + text.length
+        el.focus()
     else if doc.selection != "undefined" and doc.selection.createRange
         el.focus()
         range = doc.selection.createRange()
