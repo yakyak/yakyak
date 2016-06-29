@@ -44,6 +44,19 @@ else
         PLATFORMS=${ALLPLATFORMS[*]}
         break
         ;;
+      -h|--help|--usage)
+        echo "Usage: bash deploy.sh [platforms]"
+        echo "  platforms:"
+        echo "    --all : all platforms, equivalent to no argument"
+        echo "    --darwin-x64 : Mac OSX 64 bits"
+        echo "    --win32-x64 : Windows 64 bits"
+        echo "    --win32-ia32 : Windows 32 bits"
+        echo "    --linux-x64 : Linux 64 bits"
+        echo "    --linux-ia32 : Linux 32 bits"
+        echo ""
+        echo "  --help or -h or --usage : show this help"
+        exit
+        ;;
       *)
         # unknown option
         echo "unknown: $key"
