@@ -1,5 +1,5 @@
 moment = require 'moment'
-{nameof, nameofconv, fixlink} = require '../util'
+{nameof, initialsof, nameofconv, fixlink} = require '../util'
 
 module.exports = view (models) ->
     {conv, entity, viewstate} = models
@@ -32,11 +32,14 @@ module.exports = view (models) ->
                             image = p.photo_url
                             if image and !viewstate.showAnimatedThumbs
                                 image += "?sz=50"
-                            unless image
-                                entity.needEntity(p.id)
-                                image = "images/photo.jpg"
-                            img src:fixlink(image), onerror: ->
-                                this.src = fixlink("images/photo.jpg")
+                            if image
+                                img src:fixlink(image), onerror: ->
+                                    this.src = fixlink("images/photo.jpg")
+                            else
+                                test = entity.needEntity(p.id)
+                                initials = initialsof entity[p.id]
+                                div class:'initials', initials
+
                         if ents.length>4
                             div class:'moreuser', ents.length
                         if ur > 0 and not conv.isQuiet(c)
