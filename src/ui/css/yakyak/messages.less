@@ -38,6 +38,9 @@
                 font-size: 15px;
                 line-height: 41px;
                 text-transform: uppercase;
+                display: flex;
+                justify-content: center;
+                align-items: center;
             }
             span {
                 margin-left: 45px;
@@ -59,6 +62,20 @@
                     margin: 10px -34px -5px -10px;
                 }
             }
+        }
+        &.me {
+          .sender img, .sender .initials {
+            width: 36px;
+            height: 36px;
+            top: -4px;
+            left: -25px;
+            font-size: 12px;
+          }
+          .message {
+            padding: 4px 0 4px 12px;
+            font-style: italic;
+            font-size: 0.9em;
+          }
         }
         @radius: 13px;
         .umessages {
