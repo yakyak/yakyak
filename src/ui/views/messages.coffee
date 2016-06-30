@@ -92,30 +92,27 @@ module.exports = view (models) ->
             if c.requestinghistory
                 pass 'Requesting history…', -> span class:'material-icons spin', 'donut_large'
         for g in grouped
-            div class:'tgroup', ->
-                span class:'timestamp', moment(g.start / 1000).calendar()
-                for u in g.byuser
-                    sender = nameof entity[u.cid]
-                    initials = initialsof entity[u.cid]
-                    clz = ['ugroup']
-                    clz.push 'self' if entity.isSelf(u.cid)
-                    div class:clz.join(' '), ->
-                        a href:linkto(u.cid), title:sender, {onclick}, class:'sender', ->
-                            purl = entity[u.cid]?.photo_url
-                            if purl and !viewstate?.showAnimatedThumbs
-                                purl += "?sz=50"
-                            if purl
-                                img src:fixlink(purl)
-                            else
-                                entity.needEntity(u.cid)
-                                initials = initialsof entity[u.cid]
-                                div class:'initials', initials
+            span class:'timestamp', moment(g.start / 1000).calendar()
+            for u in g.byuser
+                sender = nameof entity[u.cid]
+                initials = initialsof entity[u.cid]
+                clz = ['ugroup']
+                clz.push 'self' if entity.isSelf(u.cid)
+                div class:clz.join(' '), ->
+                    a href:linkto(u.cid), title:sender, {onclick}, class:'sender', ->
+                        purl = entity[u.cid]?.photo_url
+                        if purl and !viewstate?.showAnimatedThumbs
+                            purl += "?sz=50"
+                        if purl
+                            img src:fixlink(purl)
+                        else
+                            div class:'initials', initials
 
 
-                        div class:'umessages', ->
-                            drawMessage(e, entity) for e in u.event
-                        , onDOMSubtreeModified: (e) ->
-                            window.twemoji?.parse e.target if process.platform == 'win32'
+                    div class:'umessages', ->
+                        drawMessage(e, entity) for e in u.event
+                    , onDOMSubtreeModified: (e) ->
+                        window.twemoji?.parse e.target if process.platform == 'win32'
 
     if lastConv != conv_id
         lastConv = conv_id
