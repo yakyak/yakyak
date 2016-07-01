@@ -28,6 +28,9 @@ fixProxied = (e, proxied, entity) ->
 onclick = (e) ->
   e.preventDefault()
   address = e.currentTarget.getAttribute 'href'
+  pre = 'https://www.google.com/url?q='
+  address = address.slice(pre.length)
+  address = unescape(address)
   shell.openExternal fixlink(address)
 
 # helper method to group events in time/user bunches
