@@ -60,6 +60,8 @@ module.exports = view (models) ->
                     if viewstate.showConvLast
                         div class:'lastmessage', ->
                             drawMessage(c?.event?.slice(-1)[0], entity)
+                        , onDOMSubtreeModified: (e) ->
+                            twemoji.parse e.target if process.platform == 'win32'
                 div class:'divider'
             , onclick: (ev) ->
                 ev.preventDefault()

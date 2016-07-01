@@ -106,6 +106,8 @@ module.exports = view (models) ->
 
                         div class:'umessages', ->
                             drawMessage(e, entity) for e in u.event
+                        , onDOMSubtreeModified: (e) ->
+                            twemoji.parse e.target if process.platform == 'win32'
 
     if lastConv != conv_id
         lastConv = conv_id
