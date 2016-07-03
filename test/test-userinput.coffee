@@ -7,10 +7,12 @@ describe 'userinput', ->
     describe 'buildChatMessage', ->
 
         it 'takes a text and does good', ->
+            sender = { firstName: 'John' }
             viewstate.selectedConv = 'c123'
-            msg = userinput.buildChatMessage 'foo'
+            msg = userinput.buildChatMessage sender, 'foo'
             eql msg.conv_id, 'c123'
             eql msg.image_id, undefined
+            eql msg.message_action_type, [[MessageActionType.NONE, '']]
             eql msg.segs, [[0,'foo']]
             eql msg.segsj, [{text:'foo', type:'TEXT'}]
             assert.isNotNull msg.client_generated_id
@@ -19,7 +21,7 @@ describe 'userinput', ->
 
         it 'recognizes /me messages', ->
             sender = { first_name: 'John' }
-            msg = userinput.buildChatMessage '/me says hello', sender
+            msg = userinput.buildChatMessage sender, '/me says hello'
             eql msg.message_action_type, [[MessageActionType.ME_ACTION, '']]
             eql msg.segs, [[0,'John says hello']]
             eql msg.segsj, [{text:'John says hello', type:'TEXT'}]

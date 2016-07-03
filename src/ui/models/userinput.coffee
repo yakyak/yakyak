@@ -25,7 +25,7 @@ parse = (mb, txt) ->
         mb.linebreak() unless index is last
     null
 
-buildChatMessage = (txt, sender) ->
+buildChatMessage = (sender, txt) ->
     conv_id = viewstate.selectedConv
     action = null
     if /^\/me\s/.test txt
