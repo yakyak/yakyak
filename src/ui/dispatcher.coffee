@@ -106,7 +106,7 @@ handle 'selectConvIndex', (index = 0) ->
 
 handle 'sendmessage', (txt = '') ->
     if !txt.trim() then return
-    msg = userinput.buildChatMessage txt
+    msg = userinput.buildChatMessage txt, entity.self
     ipc.send 'sendchatmessage', msg
     conv.addChatMessagePlaceholder entity.self.id, msg
 

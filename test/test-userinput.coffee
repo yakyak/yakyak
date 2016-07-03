@@ -1,3 +1,4 @@
+{ MessageActionType } = require 'hangupsjs'
 viewstate = require '../src/ui/models/viewstate'
 userinput = require '../src/ui/models/userinput'
 
@@ -15,6 +16,13 @@ describe 'userinput', ->
             assert.isNotNull msg.client_generated_id
             assert.isNotNull msg.ts
             eql msg.otr, 2
+
+        it 'recognizes /me messages', ->
+            sender = { first_name: 'John' }
+            msg = userinput.buildChatMessage '/me says hello', sender
+            eql msg.message_action_type, [[MessageActionType.ME_ACTION, '']]
+            eql msg.segs, [[0,'John says hello']]
+            eql msg.segsj, [{text:'John says hello', type:'TEXT'}]
 
     describe 'parse', ->
 
