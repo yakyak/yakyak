@@ -28,9 +28,11 @@ fixProxied = (e, proxied, entity) ->
 onclick = (e) ->
   e.preventDefault()
   address = e.currentTarget.getAttribute 'href'
-  pre = 'https://www.google.com/url?q='
-  address = address.slice(pre.length)
-  address = unescape(address)
+  alert address
+  patt = new RegExp("^http(s)?[:][/][/]www[.]google[.](com|[a-z][a-z])[/]url[?]q[=]")
+  if patt.test(address)
+    address = address.replace(patt, '')
+    address = unescape(address)
   shell.openExternal fixlink(address)
 
 # helper method to group events in time/user bunches
