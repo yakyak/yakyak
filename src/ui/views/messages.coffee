@@ -28,10 +28,9 @@ fixProxied = (e, proxied, entity) ->
 onclick = (e) ->
   e.preventDefault()
   address = e.currentTarget.getAttribute 'href'
-  alert address
-  patt = new RegExp("^http(s)?[:][/][/]www[.]google[.](com|[a-z][a-z])[/]url[?]q[=]")
+  patt = new RegExp("^(https?[:][/][/]www[.]google[.](com|[a-z][a-z])[/]url[?]q[=])([^&]+)(&.+)*")
   if patt.test(address)
-    address = address.replace(patt, '')
+    address = address.replace(patt, '$3')
     address = unescape(address)
   shell.openExternal fixlink(address)
 
