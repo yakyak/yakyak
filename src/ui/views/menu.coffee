@@ -134,10 +134,12 @@ templateOsx = (viewstate) -> [{
             type: 'separator'
         }, {
             label: 'Previous Conversation',
+            accelerator: 'Control+Shift+Tab'
             enabled: viewstate.loggedin
             click: -> action 'selectNextConv', -1
         }, {
             label: 'Next Conversation',
+            accelerator: 'Control+Tab'
             enabled: viewstate.loggedin
             click: -> action 'selectNextConv', +1
         }, {
