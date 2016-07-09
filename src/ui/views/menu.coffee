@@ -143,6 +143,56 @@ templateOsx = (viewstate) -> [{
             enabled: viewstate.loggedin
             click: -> action 'selectNextConv', +1
         }, {
+            label: 'Select Conversation',
+            enabled: viewstate.loggedin
+            submenu: [
+              {
+                label: 'Conversation 1'
+                accelerator: 'Command+1'
+                click: -> action 'selectConvIndex', 0
+              },
+              {
+                label: 'Conversation 2'
+                accelerator: 'Command+2'
+                click: -> action 'selectConvIndex', 1
+              },
+              {
+                label: 'Conversation 3'
+                accelerator: 'Command+3'
+                click: -> action 'selectConvIndex', 2
+              },
+              {
+                label: 'Conversation 4'
+                accelerator: 'Command+4'
+                click: -> action 'selectConvIndex', 3
+              },
+              {
+                label: 'Conversation 5'
+                accelerator: 'Command+5'
+                click: -> action 'selectConvIndex', 4
+              },
+              {
+                label: 'Conversation 6'
+                accelerator: 'Command+6'
+                click: -> action 'selectConvIndex', 5
+              },
+              {
+                label: 'Conversation 7'
+                accelerator: 'Command+7'
+                click: -> action 'selectConvIndex', 6
+              },
+              {
+                label: 'Conversation 8'
+                accelerator: 'Command+8'
+                click: -> action 'selectConvIndex', 7
+              },
+              {
+                label: 'Conversation 9'
+                accelerator: 'Command+9'
+                click: -> action 'selectConvIndex', 8
+              }
+            ]
+        }, {
             type: 'separator'
         }, {
             label: 'Show tray icon'
@@ -293,6 +343,56 @@ templateOthers = (viewstate) -> [{
             accelerator: 'Control+J',
             click: -> action 'selectNextConv', +1
             enabled: viewstate.loggedin
+        }, {
+            label: 'Select Conversation',
+            enabled: viewstate.loggedin
+            submenu: [
+              {
+                label: 'Conversation 1'
+                accelerator: 'Alt+1'
+                click: -> action 'selectConvIndex', 0
+              },
+              {
+                label: 'Conversation 2'
+                accelerator: 'Alt+2'
+                click: -> action 'selectConvIndex', 1
+              },
+              {
+                label: 'Conversation 3'
+                accelerator: 'Alt+3'
+                click: -> action 'selectConvIndex', 2
+              },
+              {
+                label: 'Conversation 4'
+                accelerator: 'Alt+4'
+                click: -> action 'selectConvIndex', 3
+              },
+              {
+                label: 'Conversation 5'
+                accelerator: 'Alt+5'
+                click: -> action 'selectConvIndex', 4
+              },
+              {
+                label: 'Conversation 6'
+                accelerator: 'Alt+6'
+                click: -> action 'selectConvIndex', 5
+              },
+              {
+                label: 'Conversation 7'
+                accelerator: 'Alt+7'
+                click: -> action 'selectConvIndex', 6
+              },
+              {
+                label: 'Conversation 8'
+                accelerator: 'Alt+8'
+                click: -> action 'selectConvIndex', 7
+              },
+              {
+                label: 'Conversation 9'
+                accelerator: 'Alt+9'
+                click: -> action 'selectConvIndex', 8
+              }
+            ]
         }, {
           type: 'separator'
         }, {

@@ -99,6 +99,11 @@ handle 'selectNextConv', (offset = 1) ->
     viewstate.selectNextConv offset
     ipc.send 'setfocus', viewstate.selectedConv
 
+handle 'selectConvIndex', (index = 0) ->
+    if viewstate.state != viewstate.STATE_NORMAL then return
+    viewstate.selectConvIndex index
+    ipc.send 'setfocus', viewstate.selectedConv
+
 handle 'sendmessage', (txt = '') ->
     if !txt.trim() then return
     msg = userinput.buildChatMessage txt
