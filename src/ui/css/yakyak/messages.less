@@ -24,16 +24,21 @@
                 text-decoration: none;
                 font-size: 11px;
                 color: var(--darkgrey);
-                img {
+                img, .initials {
                     object-fit: cover;
                     border-radius: 50%;
                     width: 50px;
                     height: 50px;
                     border: 5px solid var(--lightgrey);
-                    background: var(--white);
+                    color: var(--white);
+                    background: var(--grey);
                     position: absolute;
                     left: -25px;
                     top: -10px;
+                    text-align: center;
+                    font-size: 15px;
+                    line-height: 41px;
+                    text-transform: uppercase;
                 }
                 span {
                     margin-left: 45px;
@@ -42,16 +47,18 @@
             &.self{
               margin-left: calc(~"34% - 25px");
               text-align: right;
-                .sender img{
+                .sender img, .sender .initials{
                     left: auto;
                     right: -25px;
-                    background: var(--altgrey);
                 }
                 .umessages{
                     margin-left: 5px;
                     padding-left: 5px;
                     padding-right: 30px;
                     background: var(--altgrey);
+                    .message .tweet{
+                        margin: 10px -34px -5px -10px;
+                    }
                 }
             }
             @radius: 13px;
@@ -64,6 +71,7 @@
                 background: var(--white);
                 display: inline-block;
                 text-align: left;
+                overflow: hidden;
                 .message {
                     font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif, "NotoColorEmoji";
                     padding: 5px;
@@ -93,13 +101,20 @@
                         font-size: 0.9em;
                     }
                     .tweet {
-                      padding: 8px 8px 2px;
-                      font-size: 0.9em;
-                      background-color: var(--lightgrey);
-                      border-radius: 8px;
-                      p + img {
-                        margin-top: 5px
-                      }
+                        font-size: 0.9em;
+                        background-color: var(--lightgrey);
+                        background: var(--tweetbg);
+                        color: var(--tweettext);
+                        font-size: 14px;
+                        margin: 10px -10px -5px -34px;
+                        p{
+                            padding: 10px 20px;
+                        }
+                        img {
+                            border-radius: 0;
+                            display: block;
+                            max-height: none;
+                        }
                     }
                 }
             }

@@ -1,7 +1,7 @@
 moment = require 'moment'
 shell = require('electron').shell
 
-{nameof, nameofconv, linkto, later, forceredraw, throttle,
+{nameof, initialsof, nameofconv, linkto, later, forceredraw, throttle,
 getProxiedName, fixlink, isImg, getImageUrl}  = require '../util'
 
 CUTOFF = 5 * 60 * 1000 * 1000 # 5 mins
@@ -90,6 +90,7 @@ module.exports = view (models) ->
                 span class:'timestamp', moment(g.start / 1000).calendar()
                 for u in g.byuser
                     sender = nameof entity[u.cid]
+                    initials = initialsof entity[u.cid]
                     clz = ['ugroup']
                     clz.push 'self' if entity.isSelf(u.cid)
                     div class:clz.join(' '), ->
@@ -97,12 +98,16 @@ module.exports = view (models) ->
                             purl = entity[u.cid]?.photo_url
                             if purl and !viewstate?.showAnimatedThumbs
                                 purl += "?sz=50"
-                            unless purl
-                                purl = "images/photo.jpg"
-                                entity.needEntity u.cid
-                            img src:fixlink(purl)
+                            if purl
+                                img src:fixlink(purl)
+                            else
+                                div class:'initials', initials
+
+
                         div class:'umessages', ->
                             drawMessage(e, entity) for e in u.event
+                        , onDOMSubtreeModified: (e) ->
+                            twemoji.parse e.target if process.platform == 'win32'
 
     if lastConv != conv_id
         lastConv = conv_id

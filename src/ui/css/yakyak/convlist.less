@@ -130,9 +130,17 @@
             + .convinfos{
                 width: calc(~"100% - 60px");
             }
-            img {
+            img, .initials {
                 border-radius: 50%;
                 position: absolute;
+                width: 50px;
+                height: 50px;
+                text-align: center;
+                font-size: 17px;
+                line-height: 50px;
+                color: var(--white);
+                background: var(--grey);
+                text-transform: uppercase;
             }
             .presence{
                 position: absolute;
@@ -153,7 +161,7 @@
                 position: absolute;
                 bottom: 0;
                 right: 0;
-                background: var(--lightblack);
+                background: var(--darkgrey);
                 border-radius: 100%;
                 color: var(--white);
                 text-align: center;
@@ -162,16 +170,19 @@
 
             /* one image */
             @size-one: 50px;
-            img:nth-child(1):nth-last-of-type(1) {
+            img:nth-child(1):nth-last-of-type(1),
+            .initials:nth-child(1):nth-last-of-type(1) {
                 width: @size-one;
                 height: @size-one;
                 left: 0;
             }
 
             &.thumbs-2{
-                img{
+                img, .initials{
                     width: 29px;
                     height: 29px;
+                    font-size: 11px;
+                    line-height: 29px;
                     &:nth-child(1){
                         top: 0;
                         left: 0;
@@ -183,9 +194,11 @@
                 }
             }
             &.thumbs-3{
-                img{
+                img, .initials{
                     width: 25px;
                     height: 25px;
+                    font-size: 11px;
+                    line-height: 25px;
                     &:nth-child(1){
                         top: 1px;
                         left: 25%;
@@ -201,9 +214,11 @@
                 }
             }
             &.thumbs-4{
-                img{
+                img, .initials{
                     width: 25px;
                     height: 25px;
+                    font-size: 11px;
+                    line-height: 25px;
                     &:nth-child(1){
                         top: 0;
                         left: 0;
