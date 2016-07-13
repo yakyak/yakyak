@@ -266,9 +266,13 @@ preloadTweet = (href) ->
 formatAttachment = (att) ->
     console.log 'attachment', att if att.length > 0
     if att?[0]?.embed_item?.type_
-        {href, thumb} = extractProtobufStyle(att)
+        data = extractProtobufStyle(att)
+        return if not data
+        {href, thumb} = data
     else if att?[0]?.embed_item?.type
-        {href, thumb} = extractObjectStyle(att)
+        data = extractProtobufStyle(att)
+        return if not data
+        {href, thumb} = data
     else
         console.warn 'ignoring attachment', att unless att?.length == 0
         return
