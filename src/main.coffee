@@ -201,11 +201,19 @@ app.on 'ready', ->
 
     # sendchatmessage, executed sequentially and
     # retried if not sent successfully
-    ipc.on 'sendchatmessage', seqreq (ev, msg) ->
+    messageQueue = Q()
+    ipc.on 'sendchatmessage', (ev, msg) ->
         {conv_id, segs, client_generated_id, image_id, otr} = msg
-        client.sendchatmessage(conv_id, segs, image_id, otr, client_generated_id).then (r) ->
-            ipcsend 'sendchatmessage:result', r
-        , true # do retry
+        sendForSure = -> Q.promise (resolve, reject, notify) ->
+            attempt = ->
+                # console.log 'sendchatmessage', client_generated_id
+                client.sendchatmessage(conv_id, segs, image_id, otr, client_generated_id).then (r) ->
+                      # console.log 'sendchatmessage:result', r?.created_event?.self_event_state?.client_generated_id
+                      ipcsend 'sendchatmessage:result', r
+                      resolve()
+            attempt()
+        messageQueue = messageQueue.then ->
+            sendForSure()
 
     # sendchatmessage, executed sequentially and
     # retried if not sent successfully
