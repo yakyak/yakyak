@@ -17,7 +17,7 @@ nameofconv = (c) ->
         entity[p.chat_id]
     name = ""
     one_to_one = c?.type?.indexOf('ONE_TO_ONE') >= 0
-    if c.name? and not one_to_one
+    if c?.name? and not one_to_one
         name = c.name
     else
         # all entities in conversation that is not self

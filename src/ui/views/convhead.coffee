@@ -6,6 +6,7 @@ module.exports = view (models) ->
 	{conv, viewstate} = models
 	conv_id = viewstate?.selectedConv
 	c = conv[conv_id]
+	return if not c
 	name = nameofconv c
 	div class:'headwrap', ->
 		span class:'name', ->
