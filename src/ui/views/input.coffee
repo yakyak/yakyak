@@ -127,7 +127,7 @@ module.exports = view (models) ->
                 input type:'file', id:'attachFile', accept:'.jpg,.jpeg,.png,.gif', onchange: (ev) ->
                     action 'uploadimage', ev.target.files
     , onDOMNodeInserted: (e) ->
-            twemoji.parse e.target
+            window.twemoji?.parse e.target
 
     # focus when switching convs
     if lastConv != models.viewstate.selectedConv
