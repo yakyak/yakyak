@@ -13,7 +13,6 @@ historyIndex = 0
 historyLength = 100
 historyBackup = ""
 
-message = if models.viewstate.ctrlToSend then "Message (Ctrl + Enter to Send)" else "Message"
 
 historyPush = (data) ->
     history.push data
@@ -73,7 +72,7 @@ module.exports = view (models) ->
                                     insertTextAtCursor element, emoji
 
         div class:'input-container', ->
-            textarea id:'message-input', autofocus:true, placeholder: message, rows: 1, ''
+            textarea id:'message-input', autofocus:true, placeholder: "Message", rows: 1, ''
             , onDOMNodeInserted: (e) ->
                 # at this point the node is still not inserted
                 ta = e.target
@@ -88,7 +87,7 @@ module.exports = view (models) ->
             , onkeydown: (e) ->
                 if (e.metaKey or e.ctrlKey) and e.keyIdentifier == 'Up' then action 'selectNextConv', -1
                 if (e.metaKey or e.ctrlKey) and e.keyIdentifier == 'Down' then action 'selectNextConv', +1
-                if (e.ctrlKey) and e.keyCode == 13 and models.viewstate.ctrlToSend
+                if (e.ctrlKey) and e.keyCode == 13
                     sendMessage(e)
                 unless isModifierKey(e)
                     if e.keyCode == 27
@@ -125,14 +124,6 @@ module.exports = view (models) ->
                     span class:'material-icons', 'photo'
                 input type:'file', id:'attachFile', accept:'.jpg,.jpeg,.png,.gif', onchange: (ev) ->
                     action 'uploadimage', ev.target.files
-                button title: 'Ctrl + Enter to send', onclick: (ef) ->
-                    models.viewstate.toggleCtrlToSend()
-                    if models.viewstate.ctrlToSend
-                        document.getElementById('message-input').placeholder = 'Message (Ctrl + Enter Enabled)'
-                    else
-                        document.getElementById('message-input').placeholder = 'Message'
-                , ->
-                    span class:'material-icons', 'input'
     , onDOMNodeInserted: (e) ->
             window.twemoji?.parse e.target
 

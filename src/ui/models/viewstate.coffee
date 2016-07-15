@@ -31,13 +31,6 @@ module.exports = exp = {
     startminimizedtotray: tryparse(localStorage.startminimizedtotray) or false
     closetotray: tryparse(localStorage.closetotray) or false
     showDockOnce: true
-    ctrlToSend: tryparse(localStorage.ctrlToSend) or false
-
-    toggleCtrlToSend: ->
-        @ctrlToSend = !@ctrlToSend
-        localStorage.ctrlToSend = @ctrlToSend
-        console.log('toggled')
-        console.log(localStorage.ctrlToSend)
 
     setState: (state) ->
         return if @state == state
