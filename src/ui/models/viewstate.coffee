@@ -36,8 +36,6 @@ module.exports = exp = {
     toggleCtrlToSend: ->
         @ctrlToSend = !@ctrlToSend
         localStorage.ctrlToSend = @ctrlToSend
-        console.log('toggled')
-        console.log(localStorage.ctrlToSend)
 
     setState: (state) ->
         return if @state == state
