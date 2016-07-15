@@ -94,7 +94,7 @@ module.exports = view (models) ->
                     if e.keyCode == 27
                         e.preventDefault()
                         action 'hideWindow'
-                    if e.keyCode == 13 and !models.viewstate.ctrlToSend
+                    if e.keyCode == 13
                         sendMessage(e)
                     if e.target.value == ''
                         if e.keyIdentifier is "Up" then historyWalk e.target, -1
@@ -128,7 +128,7 @@ module.exports = view (models) ->
                 button title: 'Ctrl + Enter to send', onclick: (ef) ->
                     models.viewstate.toggleCtrlToSend()
                     if models.viewstate.ctrlToSend
-                        document.getElementById('message-input').placeholder = 'Message (Ctrl + Enter to Send)'
+                        document.getElementById('message-input').placeholder = 'Message (Ctrl + Enter Enabled)'
                     else
                         document.getElementById('message-input').placeholder = 'Message'
                 , ->
