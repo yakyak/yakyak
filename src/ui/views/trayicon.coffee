@@ -35,7 +35,7 @@ update = (unreadCount, viewstate) ->
     # update menu
     templateContextMenu = compact([
         {
-          label: 'Toggle minimize to tray'
+          label: 'Activate'
           click: -> action 'togglewindow'
         }
 
