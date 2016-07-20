@@ -2,10 +2,18 @@ remote = require('electron').remote
 Tray = remote.Tray
 Menu = remote.Menu
 path = require 'path'
+os = require 'os'
 
-trayIcons =
-    "read": path.join __dirname, '..', '..', 'icons', 'icon-read.png'
-    "unread": path.join __dirname, '..', '..', 'icons', 'icon-unread.png'
+trayIcons = null
+
+if os.platform() == 'darwin'
+    trayIcons =
+        "read": path.join __dirname, '..', '..', 'icons', 'osx-icon-read.png'
+        "unread": path.join __dirname, '..', '..', 'icons', 'osx-icon-unread.png'
+else
+    trayIcons =
+        "read": path.join __dirname, '..', '..', 'icons', 'icon-read.png'
+        "unread": path.join __dirname, '..', '..', 'icons', 'icon-unread.png'
 tray = null
 
 # TODO: this is all WIP
@@ -50,7 +58,7 @@ update = (unreadCount, viewstate) ->
           type: 'checkbox'
           checked: viewstate.hidedockicon
           click: -> action 'togglehidedockicon'
-        } if require('os').platform() == 'darwin'
+        } if os.platform() == 'darwin'
 
         { label: 'Quit', click: -> action 'quit' }
     ])
