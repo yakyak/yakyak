@@ -75,7 +75,9 @@ gulp.task 'icons', ->
     nameMap =
         'icon_016.png': 'icon.png'
         'icon-unread.png': 'icon-unread.png'
+        'icon-unread@2x.png': 'icon-unread@2x.png'
         'icon-read.png': 'icon-read.png'
+        'icon-read@2x.png': 'icon-read@2x.png'
         'osx-icon-unread-Template.png': 'osx-icon-unread-Template.png'
         'osx-icon-unread-Template@2x.png': 'osx-icon-unread-Template@2x.png'
         'osx-icon-read-Template.png': 'osx-icon-read-Template.png'
