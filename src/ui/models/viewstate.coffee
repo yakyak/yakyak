@@ -22,6 +22,7 @@ module.exports = exp = {
     showAnimatedThumbs: tryparse(localStorage.showAnimatedThumbs) ? true
     showConvTime: tryparse(localStorage.showConvTime) ? true
     showConvLast: tryparse(localStorage.showConvLast) ? true
+    showPopUpNotifications: tryparse(localStorage.showPopUpNotifications) ? true
     colorScheme: localStorage.colorScheme or 'default'
     fontSize: localStorage.fontSize or 'medium'
     zoom: tryparse(localStorage.zoom ? "1.0")
@@ -149,6 +150,11 @@ module.exports = exp = {
     setShowConvLast: (doshow) ->
         return if @showConvLast == doshow
         @showConvLast = localStorage.showConvLast = doshow
+        updated 'viewstate'
+
+    setShowPopUpNotifications: (doshow) ->
+        return if @showPopUpNotifications == doshow
+        @showPopUpNotifications = localStorage.showPopUpNotifications = doshow
         updated 'viewstate'
 
     setColorScheme: (colorscheme) ->

@@ -352,6 +352,9 @@ handle 'showconvtime', (doshow) ->
 handle 'showconvlast', (doshow) ->
     viewstate.setShowConvLast doshow
 
+handle 'showpopupnotifications', (doshow) ->
+    viewstate.setShowPopUpNotifications doshow
+
 handle 'changetheme', (colorscheme) ->
     viewstate.setColorScheme colorscheme
 
