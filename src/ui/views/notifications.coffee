@@ -9,7 +9,7 @@ remote   = require('electron').remote
 callNeedAnswer = {}
 
 module.exports = (models) ->
-    {conv, notify, entity} = models
+    {conv, notify, entity, viewstate} = models
     tonot = notify.popToNotify()
 
     quietIf = (c, chat_id) -> document?.hasFocus() or conv.isQuiet(c) or entity.isSelf(chat_id)
@@ -55,18 +55,19 @@ module.exports = (models) ->
 
         # maybe trigger OS notification
         return if !text or quietIf(c, chat_id)
-        notifier.notify
-            title: sender
-            message: text
-            wait: true
-            sender: 'com.github.yakyak'
-            sound: true
-        , (err, res) ->
-          if res?.trim().match(/Activate/i)
-            action 'appfocus'
-            action 'selectConv', c
-            
-        mainWindow = remote.getCurrentWindow() # And we hope we don't get another ;)            
+        if viewstate.showPopUpNotifications
+            notifier.notify
+                title: sender
+                message: text
+                wait: true
+                sender: 'com.github.yakyak'
+                sound: true
+            , (err, res) ->
+              if res?.trim().match(/Activate/i)
+                action 'appfocus'
+                action 'selectConv', c
+
+        mainWindow = remote.getCurrentWindow() # And we hope we don't get another ;)
         mainWindow.flashFrame(true)
 
 textMessage = (cont, proxied) ->

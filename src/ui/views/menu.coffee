@@ -77,6 +77,12 @@ templateOsx = (viewstate) -> [{
             click: (it) -> action 'convertemoji', it.checked
         },
          {
+            type: 'checkbox'
+            label: 'Show Pop-Up (Toast) Notifications'
+            checked: viewstate.showPopUpNotifications
+            enabled: viewstate.loggedin
+            click: (it) -> action 'showpopupnotifications', it.checked
+        }, {
             label: 'Color Scheme'
             submenu: [
                 {
@@ -347,6 +353,12 @@ templateOthers = (viewstate) -> [{
             ]
         },
          {
+            type: 'checkbox'
+            label: 'Show Pop-Up (Toast) Notifications'
+            checked: viewstate.showPopUpNotifications
+            enabled: viewstate.loggedin
+            click: (it) -> action 'showpopupnotifications', it.checked
+        }, {
             label: 'Font Size'
             submenu: [
                 {

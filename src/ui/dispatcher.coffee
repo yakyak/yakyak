@@ -365,6 +365,9 @@ handle 'showconvlast', (doshow) ->
 handle 'convertemoji', (doshow) ->
     viewstate.setConvertEmoji doshow
 
+handle 'showpopupnotifications', (doshow) ->
+    viewstate.setShowPopUpNotifications doshow
+
 handle 'changetheme', (colorscheme) ->
     viewstate.setColorScheme colorscheme
 

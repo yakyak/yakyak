@@ -24,6 +24,7 @@ module.exports = exp = {
     showConvTime: tryparse(localStorage.showConvTime) ? true
     showConvLast: tryparse(localStorage.showConvLast) ? true
     convertEmoji: tryparse(localStorage.convertEmoji) ? true
+    showPopUpNotifications: tryparse(localStorage.showPopUpNotifications) ? true
     colorScheme: localStorage.colorScheme or 'default'
     fontSize: localStorage.fontSize or 'medium'
     zoom: tryparse(localStorage.zoom ? "1.0")
@@ -137,7 +138,7 @@ module.exports = exp = {
                         action 'settyping', STOPPED
                     , 6000
                 , 6000
-    
+
     setShowConvMin: (doshow) ->
         return if @showConvMin == doshow
         @showConvMin = localStorage.showConvMin = doshow
@@ -170,6 +171,10 @@ module.exports = exp = {
     setConvertEmoji: (doshow) ->
         return if @convertEmoji == doshow
         @convertEmoji = localStorage.convertEmoji = doshow
+
+    setShowPopUpNotifications: (doshow) ->
+        return if @showPopUpNotifications == doshow
+        @showPopUpNotifications = localStorage.showPopUpNotifications = doshow
         updated 'viewstate'
 
     setColorScheme: (colorscheme) ->
