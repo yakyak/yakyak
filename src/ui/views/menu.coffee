@@ -58,6 +58,12 @@ templateOsx = (viewstate) -> [{
             enabled: viewstate.loggedin
             click: (it) -> action 'showconvlast', it.checked
         }, {
+            type: 'checkbox'
+            label: 'Show Pop-Up (Toast) Notifications'
+            checked: viewstate.showPopUpNotifications
+            enabled: viewstate.loggedin
+            click: (it) -> action 'showpopupnotifications', it.checked
+        }, {
             label: 'Color Scheme'
             submenu: [
                 {
@@ -231,6 +237,12 @@ templateOthers = (viewstate) -> [{
             checked:viewstate.showConvLast
             enabled: viewstate.loggedin
             click: (it) -> action 'showconvlast', it.checked
+        }, {
+            type: 'checkbox'
+            label: 'Show Pop-Up (Toast) Notifications'
+            checked: viewstate.showPopUpNotifications
+            enabled: viewstate.loggedin
+            click: (it) -> action 'showpopupnotifications', it.checked
         }, {
             label: 'Font Size'
             submenu: [
