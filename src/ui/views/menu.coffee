@@ -112,7 +112,7 @@ templateOsx = (viewstate) -> [{
                     click: -> action 'changefontsize', 'x-large'
                 }
             ]
-        
+
         }, {
             label: 'Toggle Full Screen',
             accelerator: 'Command+Control+F',
@@ -232,6 +232,31 @@ templateOthers = (viewstate) -> [{
             enabled: viewstate.loggedin
             click: (it) -> action 'showconvlast', it.checked
         }, {
+            label: 'Color Scheme'
+            submenu: [
+                {
+                    label: 'Default'
+                    type: 'radio'
+                    checked: viewstate.colorScheme == 'default'
+                    click: -> action 'changetheme', 'default'
+                }, {
+                    label: 'Blue'
+                    type: 'radio'
+                    checked: viewstate.colorScheme == 'blue'
+                    click: -> action 'changetheme', 'blue'
+                }, {
+                    label: 'Dark'
+                    type: 'radio'
+                    checked: viewstate.colorScheme == 'dark'
+                    click: -> action 'changetheme', 'dark'
+                }, {
+                    label: 'Material'
+                    type: 'radio'
+                    checked: viewstate.colorScheme == 'material'
+                    click: -> action 'changetheme', 'material'
+                }
+            ]
+        }, {
             label: 'Font Size'
             submenu: [
                 {
@@ -261,7 +286,6 @@ templateOthers = (viewstate) -> [{
                     click: -> action 'changefontsize', 'x-large'
                 }
             ]
-        
         }, {
             label: 'Toggle Full Screen',
             accelerator: 'Control+Alt+F',
@@ -300,33 +324,7 @@ templateOthers = (viewstate) -> [{
             checked:  viewstate.showtray
             click: -> action 'toggleshowtray'
         }
-    ]},
-    {
-            label: 'Color Scheme'
-            submenu: [
-                {
-                    label: 'Default'
-                    type: 'radio'
-                    checked: viewstate.colorScheme == 'default'
-                    click: -> action 'changetheme', 'default'
-                }, {
-                    label: 'Blue'
-                    type: 'radio'
-                    checked: viewstate.colorScheme == 'blue'
-                    click: -> action 'changetheme', 'blue'
-                }, {
-                    label: 'Dark'
-                    type: 'radio'
-                    checked: viewstate.colorScheme == 'dark'
-                    click: -> action 'changetheme', 'dark'
-                }, {
-                    label: 'Material'
-                    type: 'radio'
-                    checked: viewstate.colorScheme == 'material'
-                    click: -> action 'changetheme', 'material'
-                }
-            ]
-        }
+    ]}
 ]
 
 module.exports = (viewstate) ->
