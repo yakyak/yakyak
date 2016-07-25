@@ -82,16 +82,21 @@ convertEmoji = (text) ->
     unicodeMap = require './emojishortcode'
 
     patterns = [
-        ":[a-zA-Z0-9_\+-]+:",
-        ":\\(:\\)|:\\(\\|\\)|:X\\)|:3|\\(=\\^\\.\\.\\^=\\)|\\(=\\^\\.\\^=\\)|=\\^_\\^=|x_x|X-O|X-o|X\\(|X-\\(|O\\.O|:O|:-O|=O|o\\.o|:o|:-o|=o|D:|>_<|T_T|:'\\(|;_;|='\\(|>\\.<|>:\\(|>:-\\(|>=\\(|:\\(|:-\\(|=\\(|;P|;-P|;p|;-p|:P|:-P|=P|:p|:-p|=p|;\\*|;-\\*|:\\*|:-\\*|:S|:-S|:s|:-s|=\\/|=\\\\|:-\\/|:-\\\\|:\\/|:\\\\|u_u|o_o;|-_-|=\\||:\\||:-\\||B-\\)|B\\)|;-\\)|;\\)|}=\\)|}:-\\)|}:\\)|O=\\)|O:-\\)|O:\\)|\\^_\\^;;|=D|\\^_\\^|:-D|:D|~@~|<3|<\\/3|<\\\\3|\\(]:{|-<@%|:\\)|:-\\)|=\\)"
+        "(^|[ ])(:[a-zA-Z0-9_\+-]+:)([ ]$)",
+        "(^|[ ])(:\\(:\\)|:\\(\\|\\)|:X\\)|:3|\\(=\\^\\.\\.\\^=\\)|\\(=\\^\\.\\^=\\)|=\\^_\\^=|x_x|X-O|X-o|X\\(|X-\\(|O\\.O|:O|:-O|=O|o\\.o|:o|:-o|=o|D:|>_<|T_T|:'\\(|;_;|='\\(|>\\.<|>:\\(|>:-\\(|>=\\(|:\\(|:-\\(|=\\(|;P|;-P|;p|;-p|:P|:-P|=P|:p|:-p|=p|;\\*|;-\\*|:\\*|:-\\*|:S|:-S|:s|:-s|=\\/|=\\\\|:-\\/|:-\\\\|:\\/|:\\\\|u_u|o_o;|-_-|=\\||:\\||:-\\||B-\\)|B\\)|;-\\)|;\\)|}=\\)|}:-\\)|}:\\)|O=\\)|O:-\\)|O:\\)|\\^_\\^;;|=D|\\^_\\^|:-D|:D|~@~|<3|<\\/3|<\\\\3|\\(]:{|-<@%|:\\)|:-\\)|=\\))([ ]|$)"
+
     ]
 
     emojiCodeRegex = new RegExp(patterns.join('|'),'g')
 
     text = text.replace(emojiCodeRegex, (emoji) ->
-        unicode = unicodeMap[emoji]
-        return unicode if !!unicode
-        emoji
+        emojiTrim = emoji.trim()
+        trail = if emoji.length > emojiTrim.length
+                    emoji.slice(emojiTrim.length)
+                else
+                    ""
+        unicode = unicodeMap[emojiTrim]
+        return unicode + trail if !!unicode
     )
     return text
 module.exports = {nameof, initialsof, nameofconv, linkto, later, throttle, uniqfn,
