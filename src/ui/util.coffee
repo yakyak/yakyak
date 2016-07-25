@@ -90,13 +90,10 @@ convertEmoji = (text) ->
     emojiCodeRegex = new RegExp(patterns.join('|'),'g')
 
     text = text.replace(emojiCodeRegex, (emoji) ->
-        emojiTrim = emoji.trim()
-        trail = if emoji.length > emojiTrim.length
-                    emoji.slice(emojiTrim.length)
-                else
-                    ""
-        unicode = unicodeMap[emojiTrim]
-        return unicode + trail if !!unicode
+        suffix = emoji.slice(emoji.trimRight().length)
+        prefix = emoji.slice(0, emoji.length - emoji.trimLeft().length)
+        unicode = unicodeMap[emoji.trim()]
+        return prefix + unicode + suffix if !!unicode
     )
     return text
 module.exports = {nameof, initialsof, nameofconv, linkto, later, throttle, uniqfn,
