@@ -359,6 +359,9 @@ handle 'showconvtime', (doshow) ->
 handle 'showconvlast', (doshow) ->
     viewstate.setShowConvLast doshow
 
+handle 'convertemoji', (doshow) ->
+    viewstate.setConvertEmoji doshow
+
 handle 'changetheme', (colorscheme) ->
     viewstate.setColorScheme colorscheme
 

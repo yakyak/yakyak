@@ -58,6 +58,13 @@ templateOsx = (viewstate) -> [{
             enabled: viewstate.loggedin
             click: (it) -> action 'showconvlast', it.checked
         }, {
+            type: 'checkbox'
+            label: 'Convert to emoji as you type'
+            checked:viewstate.convertEmoji
+            enabled: viewstate.loggedin
+            click: (it) -> action 'convertemoji', it.checked
+        },
+         {
             label: 'Color Scheme'
             submenu: [
                 {
@@ -309,6 +316,13 @@ templateOthers = (viewstate) -> [{
                 }
             ]
         }, {
+            type: 'checkbox'
+            label: 'Convert to emoji as you type'
+            checked:viewstate.convertEmoji
+            enabled: viewstate.loggedin
+            click: (it) -> action 'convertemoji', it.checked
+        },
+         {
             label: 'Font Size'
             submenu: [
                 {
