@@ -13,6 +13,7 @@ historyIndex = 0
 historyLength = 100
 historyBackup = ""
 
+
 historyPush = (data) ->
     history.push data
     if history.length == historyLength then history.shift()
@@ -71,7 +72,7 @@ module.exports = view (models) ->
                                     insertTextAtCursor element, emoji
 
         div class:'input-container', ->
-            textarea id:'message-input', autofocus:true, placeholder:'Message', rows: 1, ''
+            textarea id:'message-input', autofocus:true, placeholder: "Message", rows: 1, ''
             , onDOMNodeInserted: (e) ->
                 # at this point the node is still not inserted
                 ta = e.target
@@ -86,17 +87,14 @@ module.exports = view (models) ->
             , onkeydown: (e) ->
                 if (e.metaKey or e.ctrlKey) and e.keyIdentifier == 'Up' then action 'selectNextConv', -1
                 if (e.metaKey or e.ctrlKey) and e.keyIdentifier == 'Down' then action 'selectNextConv', +1
+                if (e.ctrlKey) and e.keyCode == 13
+                    sendMessage(e)
                 unless isModifierKey(e)
                     if e.keyCode == 27
                         e.preventDefault()
                         action 'hideWindow'
                     if e.keyCode == 13
-                        e.preventDefault()
-                        action 'sendmessage', e.target.value
-                        document.querySelector('#emoji-container').classList.remove('open');
-                        historyPush e.target.value
-                        e.target.value = ''
-                        autosize.update e.target
+                        sendMessage(e)
                     if e.target.value == ''
                         if e.keyIdentifier is "Up" then historyWalk e.target, -1
                         if e.keyIdentifier is "Down" then historyWalk e.target, +1
@@ -153,6 +151,14 @@ openEmoticonDrawer = (drawerName) ->
         set = (range['title'] == drawerName)
         setClass set, (document.querySelector '#'+range['title']), 'visible'
         setClass set, (document.querySelector '#'+range['title']+'-button'), 'glow'
+
+sendMessage = (e) ->
+    e.preventDefault()
+    action 'sendmessage', e.target.value
+    document.querySelector('#emoji-container').classList.remove('open');
+    historyPush e.target.value
+    e.target.value = ''
+    autosize.update e.target
 
 
 setClass = (boolean, element, className) ->
