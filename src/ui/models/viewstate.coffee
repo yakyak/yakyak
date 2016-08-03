@@ -62,6 +62,11 @@ module.exports = exp = {
                 candidate = index + offset
                 @setSelectedConv list[candidate] if list[candidate]
 
+    selectConvIndex: (index = 0) ->
+        conv = require './conv'
+        list = (i for i in conv.list() when not conv.isPureHangout(i))
+        @setSelectedConv list[index]
+
     updateAtTop: (attop) ->
         return if @attop == attop
         @attop = attop
