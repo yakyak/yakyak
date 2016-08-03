@@ -92,6 +92,11 @@ module.exports = view (models) ->
                         action 'hideWindow'
                     if e.keyCode == 13
                         e.preventDefault()
+                        # before sending message, check for emoji
+                        element = document.getElementById "message-input"
+                        # Converts emojicodes (e.g. :smile:, :-) ) to unicode
+                        element.value = convertEmoji(element.value)
+                        #
                         action 'sendmessage', e.target.value
                         document.querySelector('#emoji-container').classList.remove('open');
                         historyPush e.target.value
