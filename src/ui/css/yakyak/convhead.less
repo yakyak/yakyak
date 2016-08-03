@@ -3,6 +3,8 @@
 	position: relative;
 	height: ~"calc(var(--headerbarheight) / var(--zoom))";
 	cursor: default;
+	-webkit-app-region: drag;
+	-webkit-user-select: none;
 
 	.name{
 		background: var(--green);
@@ -16,8 +18,6 @@
 		font-size: ~"calc(16px / var(--zoom))";
 		font-weight: bold;
 		text-align: center;
-		-webkit-app-region: drag;
-		-webkit-user-select: none;
 		.material-icons{
 			font-size: .82em;
 			margin-right: 2px;
