@@ -32,8 +32,10 @@ inputSetValue = (sel, val) ->
     null
 
 module.exports = view (models) ->
-    {viewstate, convsettings, entity} = models
+    {viewstate, convsettings, entity, conv} = models
+
     editing = convsettings.id != null
+    conversation = conv[viewstate.selectedConv]
 
     div class: 'convadd', ->
       if editing then h1 'Conversation edit' else h1 'New conversation'
@@ -104,7 +106,8 @@ module.exports = view (models) ->
 
       if editing
         div class:'leave', ->
-          if c?.type?.indexOf('ONE_TO_ONE') > 0
+          console.log conversation
+          if conversation?.type?.indexOf('ONE_TO_ONE') > 0
               div class:'button', title:'Delete conversation',
               onclick:onclickaction('deleteconv'), ->
                 span class:'material-icons', 'close'

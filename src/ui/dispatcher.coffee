@@ -299,12 +299,14 @@ handle 'leaveconv', (confirmed) ->
             action 'leaveconv', true
     else
         ipc.send 'removeuser', conv_id
+        viewstate.setState(viewstate.STATE_NORMAL)
 
 handle 'lastkeydown', (time) -> viewstate.setLastKeyDown time
 handle 'settyping', (v) ->
     conv_id = viewstate.selectedConv
     return unless conv_id and viewstate.state == viewstate.STATE_NORMAL
     ipc.send 'settyping', conv_id, v
+    viewstate.setState(viewstate.STATE_NORMAL)
 
 handle 'typing', (t) ->
     conv.addTyping t
