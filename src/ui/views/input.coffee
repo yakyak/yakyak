@@ -110,8 +110,14 @@ module.exports = view (models) ->
                 #check for emojis after pressing space
                 if e.keyCode == 32
                     element = document.getElementById "message-input"
+                    # get cursor position
+                    startSel = element.selectionStart
+                    endSel  = element.selectionEnd
                     # Converts emojicodes (e.g. :smile:, :-) ) to unicode
                     element.value = convertEmoji(element.value)
+                    # Set cursor position (otherwise it would go to end of inpu)
+                    element.selectionStart = startSel
+                    element.selectionEnd = endSel
             , onpaste: (e) ->
                 setTimeout () ->
                     if not clipboard.readImage().isEmpty() and not clipboard.readText()
