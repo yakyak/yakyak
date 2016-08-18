@@ -315,12 +315,6 @@ templateOthers = (viewstate) -> [{
                     click: -> action 'changetheme', 'material'
                 }
             ]
-        }, {
-            type: 'checkbox'
-            label: 'Convert to emoji as you type'
-            checked:viewstate.convertEmoji
-            enabled: viewstate.loggedin
-            click: (it) -> action 'convertemoji', it.checked
         },
          {
             label: 'Font Size'
