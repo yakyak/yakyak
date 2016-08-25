@@ -275,25 +275,25 @@ templateOthers = (viewstate) -> [{
             type:'checkbox'
             label: 'Show Conversation Thumbnails'
             checked:viewstate.showConvThumbs
-            enabled: viewstate.loggedin
+            enabled: viewstate.loggedin && !viewstate.showConvMin
             click: (it) -> action 'showconvthumbs', it.checked
         }, {
             type: 'checkbox'
             label: 'Show Animated Thumbnails'
             checked:viewstate.showAnimatedThumbs
-            enabled: viewstate.loggedin && viewstate.showConvThumbs
+            enabled: viewstate.loggedin && viewstate.showConvThumbs && !viewstate.showConvMin
             click: (it) -> action 'showanimatedthumbs', it.checked
         }, {
             type: 'checkbox'
             label: 'Show Conversation Timestamp'
             checked:viewstate.showConvTime
-            enabled: viewstate.loggedin
+            enabled: viewstate.loggedin && !viewstate.showConvMin
             click: (it) -> action 'showconvtime', it.checked
         }, {
             type: 'checkbox'
             label: 'Show Conversation Last Message'
             checked:viewstate.showConvLast
-            enabled: viewstate.loggedin
+            enabled: viewstate.loggedin && !viewstate.showConvMin
             click: (it) -> action 'showconvlast', it.checked
         }, {
             label: 'Color Scheme'
