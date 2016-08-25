@@ -18,6 +18,7 @@ module.exports = exp = {
     leftSize: tryparse(localStorage.leftSize) ? 240
     size: tryparse(localStorage.size ? "[940, 600]")
     pos: tryparse(localStorage.pos ? "[100, 100]")
+    showConvMin: tryparse(localStorage.showConvMin) ? false
     showConvThumbs: tryparse(localStorage.showConvThumbs) ? true
     showAnimatedThumbs: tryparse(localStorage.showAnimatedThumbs) ? true
     showConvTime: tryparse(localStorage.showConvTime) ? true
@@ -135,6 +136,11 @@ module.exports = exp = {
                         action 'settyping', STOPPED
                     , 6000
                 , 6000
+    
+    setShowConvMin: (doshow) ->
+        return if @showConvMin == doshow
+        @showConvMin = localStorage.showConvMin = doshow
+        updated 'viewstate'
 
     setShowConvThumbs: (doshow) ->
         return if @showConvThumbs == doshow

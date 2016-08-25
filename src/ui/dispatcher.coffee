@@ -347,6 +347,9 @@ handle 'unreadtotal', (total, orMore) ->
     if total > 0 then value = total + (if orMore then "+" else "")
     ipc.send 'updatebadge', value
 
+handle 'showconvmin', (doshow) ->
+    viewstate.setShowConvMin doshow
+
 handle 'showconvthumbs', (doshow) ->
     viewstate.setShowConvThumbs doshow
 
