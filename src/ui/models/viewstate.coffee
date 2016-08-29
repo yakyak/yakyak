@@ -140,11 +140,15 @@ module.exports = exp = {
     setShowConvMin: (doshow) ->
         return if @showConvMin == doshow
         @showConvMin = localStorage.showConvMin = doshow
+        if doshow
+            this.setShowConvThumbs(true)
         updated 'viewstate'
 
     setShowConvThumbs: (doshow) ->
         return if @showConvThumbs == doshow
         @showConvThumbs = localStorage.showConvThumbs = doshow
+        unless doshow
+            this.setShowConvMin(false)
         updated 'viewstate'
 
     setShowAnimatedThumbs: (doshow) ->
