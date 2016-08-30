@@ -27,7 +27,8 @@ paths =
     lessd:   './src/ui/css/**/*.less'
     css:     './src/**/*.css'
     fonts:   ['./src/**/*.eot', './src/**/*.svg',
-              './src/**/*.ttf', './src/**/*.woff']
+              './src/**/*.ttf', './src/**/*.woff',
+              './src/**/*.woff2']
 
 # setup package stuff (README, package.json)
 gulp.task 'package', ->
