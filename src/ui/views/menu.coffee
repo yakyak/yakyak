@@ -59,7 +59,7 @@ templateOsx = (viewstate) -> [{
             click: (it) -> action 'showconvlast', it.checked
         }, {
             type: 'checkbox'
-            label: 'Convert to emoji as you type'
+            label: 'Convert text to emoji'
             checked:viewstate.convertEmoji
             enabled: viewstate.loggedin
             click: (it) -> action 'convertemoji', it.checked
