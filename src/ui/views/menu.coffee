@@ -60,7 +60,7 @@ templateOsx = (viewstate) -> [{
         }, {
             type: 'checkbox'
             label: 'Convert text to emoji'
-            checked:viewstate.convertEmoji
+            checked: viewstate.convertEmoji
             enabled: viewstate.loggedin
             click: (it) -> action 'convertemoji', it.checked
         },
@@ -290,6 +290,12 @@ templateOthers = (viewstate) -> [{
             checked:viewstate.showConvLast
             enabled: viewstate.loggedin
             click: (it) -> action 'showconvlast', it.checked
+        }, {
+            type: 'checkbox'
+            label: 'Convert text to emoji'
+            checked: viewstate.convertEmoji
+            enabled: viewstate.loggedin
+            click: (it) -> action 'convertemoji', it.checked
         }, {
             label: 'Color Scheme'
             submenu: [
