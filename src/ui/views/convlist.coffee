@@ -36,7 +36,7 @@ module.exports = view (models) ->
                                 img src:fixlink(image), onerror: ->
                                     this.src = fixlink("images/photo.jpg")
                             else
-                                test = entity.needEntity(p.id)
+                                entity.needEntity(p.id)
                                 initials = initialsof entity[p.id]
                                 div class:'initials', initials
 
