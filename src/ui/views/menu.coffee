@@ -52,7 +52,7 @@ templateOsx = (viewstate) -> [{
                     type: 'checkbox'
                     label: 'Show Animated Thumbnails'
                     checked:viewstate.showAnimatedThumbs
-                    enabled: viewstate.loggedin && viewstate.showConvThumbs
+                    enabled: viewstate.loggedin
                     click: (it) -> action 'showanimatedthumbs', it.checked
                 }, {
                     type: 'checkbox'
@@ -290,7 +290,7 @@ templateOthers = (viewstate) -> [{
                     type: 'checkbox'
                     label: 'Show Animated Thumbnails'
                     checked:viewstate.showAnimatedThumbs
-                    enabled: viewstate.loggedin && viewstate.showConvThumbs
+                    enabled: viewstate.loggedin
                     click: (it) -> action 'showanimatedthumbs', it.checked
                 }, {
                     type: 'checkbox'
