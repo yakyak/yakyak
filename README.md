@@ -63,7 +63,8 @@ It is written in coffeescript (nodejs) based on
 ### Setup
 
 ```bash
-$ npm install
+$ npm init -y
+$ npm install gulp
 $ npm run gulp
 ```
 
