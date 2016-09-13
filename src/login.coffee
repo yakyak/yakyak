@@ -16,14 +16,14 @@ module.exports = (mainWindow) -> Q.Promise (rs) ->
         console.log 'login: did-finish-load', url
 
         if url.indexOf('/o/oauth2/programmatic_auth') > 0
-          console.log 'login: programmatic auth'
-          # get the cookie from browser session, it has to be there
-          session.defaultSession.cookies.get {}, (err, values=[]) ->
-            oauth_code = false
-            for value in values
-              if value.name is 'oauth_code'
-                oauth_code = value.value
-            rs(oauth_code) if oauth_code
+            console.log 'login: programmatic auth'
+            # get the cookie from browser session, it has to be there
+            session.defaultSession.cookies.get {}, (err, values=[]) ->
+                oauth_code = false
+                for value in values
+                    if value.name is 'oauth_code'
+                        oauth_code = value.value
+                rs(oauth_code) if oauth_code
 
     # redirect to google oauth
     mainWindow.loadURL LOGIN_URL
