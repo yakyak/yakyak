@@ -27,9 +27,16 @@ setLeftSize = (left) ->
     document.querySelector('.left').style.width = left + 'px'
     document.querySelector('.leftresize').style.left = (left - 2) + 'px'
 
+setConvMin = (convmin) ->
+    if convmin
+        document.querySelector('.left').classList.add("minimal")
+    else
+        document.querySelector('.left').classList.remove("minimal")
+
 
 handle 'update:viewstate', ->
     setLeftSize viewstate.leftSize
+    setConvMin viewstate.showConvMin
     if viewstate.state == viewstate.STATE_STARTUP
         if Array.isArray viewstate.size
             later -> remote.getCurrentWindow().setSize viewstate.size...

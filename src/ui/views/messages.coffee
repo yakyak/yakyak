@@ -101,6 +101,8 @@ module.exports = view (models) ->
                             if purl
                                 img src:fixlink(purl)
                             else
+                                entity.needEntity(u.cid)
+                                initials = initialsof entity[u.cid]
                                 div class:'initials', initials
 
 
