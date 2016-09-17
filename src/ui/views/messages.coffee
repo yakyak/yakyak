@@ -83,6 +83,8 @@ module.exports = view (models) ->
 
     conv_id = viewstate?.selectedConv
     c = conv[conv_id]
+    for participant in c.current_participant
+      entity.needEntity participant.chat_id
     div class:'messages', observe:onMutate(viewstate), ->
         return unless c?.event
         grouped = groupEvents c.event, entity
