@@ -21,6 +21,7 @@ hr'.split(' '))...
 {applayout}       = require './views'
 {viewstate, conv} = require './models'
 
+contextmenu = require('./views/contextmenu')
 require('./views/menu')(viewstate)
 if viewstate.startminimizedtotray
   remote.getCurrentWindow().hide()
@@ -92,6 +93,12 @@ window.addEventListener 'beforeunload', (e) ->
         e.returnValue = false
         remote.getCurrentWindow().hide()
     return
+
+window.addEventListener 'contextmenu', ((e) ->
+      e.preventDefault()
+      contextmenu.popup remote.getCurrentWindow()
+      return
+), false
 
 # tell the startup state
 action 'wonline', window.navigator.onLine

@@ -111,14 +111,15 @@
             height: 18px;
             line-height: 18px;
             text-align: center;
-            border-radius: 20px;
             z-index: 2;
             position: absolute;
-            top: -3px;
-            right: -3px;
             width: auto;
             min-width: 18px;
             background: var(--red);
+            top: 0;
+            right: 0;
+            border-radius: 0 0 0 40%;
+            border: none
         }
         @square: 50px;
         .thumbs {
@@ -166,6 +167,13 @@
                 color: var(--white);
                 text-align: center;
                 font-size: 11px;
+            }
+
+            .unreadcount {
+                border: 1px solid var(--white);
+                border-radius: 100%;
+                top: -3px;
+                right: -3px;
             }
 
             /* one image */

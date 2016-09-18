@@ -8,8 +8,8 @@ trayIcons = null
 
 if os.platform() == 'darwin'
     trayIcons =
-        "read": path.join __dirname, '..', '..', 'icons', 'osx-icon-read.png'
-        "unread": path.join __dirname, '..', '..', 'icons', 'osx-icon-unread.png'
+        "read": path.join __dirname, '..', '..', 'icons', 'osx-icon-read-Template.png'
+        "unread": path.join __dirname, '..', '..', 'icons', 'osx-icon-unread-Template.png'
 else
     trayIcons =
         "read": path.join __dirname, '..', '..', 'icons', 'icon-read.png'

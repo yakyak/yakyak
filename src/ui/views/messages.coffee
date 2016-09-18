@@ -6,6 +6,20 @@ getProxiedName, fixlink, isImg, getImageUrl}  = require '../util'
 
 CUTOFF = 5 * 60 * 1000 * 1000 # 5 mins
 
+# chat_message:
+#   {
+#     annotation: [
+#       [4, ""]
+#     ]
+#     message_content: {
+#       attachement: []
+#       segment: [{ ... }]
+#     }
+#   }
+HANGOUT_ANNOTATION_TYPE = {
+    me_message: 4
+}
+
 # this helps fixing houts proxied with things like hangupsbot
 # the format of proxied messages are
 # and here we put entities in the entity db for
@@ -28,6 +42,10 @@ fixProxied = (e, proxied, entity) ->
 onclick = (e) ->
   e.preventDefault()
   address = e.currentTarget.getAttribute 'href'
+  patt = new RegExp("^(https?[:][/][/]www[.]google[.](com|[a-z][a-z])[/]url[?]q[=])([^&]+)(&.+)*")
+  if patt.test(address)
+    address = address.replace(patt, '$3')
+    address = unescape(address)
   shell.openExternal fixlink(address)
 
 # helper method to group events in time/user bunches
@@ -79,6 +97,8 @@ module.exports = view (models) ->
 
     conv_id = viewstate?.selectedConv
     c = conv[conv_id]
+    for participant in c.current_participant
+      entity.needEntity participant.chat_id
     div class:'messages', observe:onMutate(viewstate), ->
         return unless c?.event
         grouped = groupEvents c.event, entity
@@ -86,33 +106,63 @@ module.exports = view (models) ->
             if c.requestinghistory
                 pass 'Requesting history…', -> span class:'material-icons spin', 'donut_large'
         for g in grouped
-            div class:'tgroup', ->
-                span class:'timestamp', moment(g.start / 1000).calendar()
-                for u in g.byuser
-                    sender = nameof entity[u.cid]
-                    initials = initialsof entity[u.cid]
-                    clz = ['ugroup']
-                    clz.push 'self' if entity.isSelf(u.cid)
-                    div class:clz.join(' '), ->
-                        a href:linkto(u.cid), title:sender, {onclick}, class:'sender', ->
-                            purl = entity[u.cid]?.photo_url
-                            if purl and !viewstate?.showAnimatedThumbs
-                                purl += "?sz=50"
-                            if purl
-                                img src:fixlink(purl)
-                            else
-                                div class:'initials', initials
-
-
-                        div class:'umessages', ->
-                            drawMessage(e, entity) for e in u.event
-                        , onDOMSubtreeModified: (e) ->
-                            window.twemoji?.parse e.target if process.platform == 'win32'
+            div class:'timestamp', moment(g.start / 1000).calendar()
+            for u in g.byuser
+                sender = nameof entity[u.cid]
+                for events in groupEventsByMessageType u.event
+                    if isMeMessage events[0]
+                        # all items are /me messages if the first one is due to grouping above
+                        div class:'ugroup me', ->
+                            drawAvatar u, sender, viewstate, entity
+                            drawMeMessage e for e in events
+                    else
+                        clz = ['ugroup']
+                        clz.push 'self' if entity.isSelf(u.cid)
+                        div class:clz.join(' '), ->
+                            drawAvatar u, sender, viewstate, entity
+                            div class:'umessages', ->
+                                drawMessage(e, entity) for e in events
+                            , onDOMSubtreeModified: (e) ->
+                                window.twemoji?.parse e.target if process.platform == 'win32'
 
     if lastConv != conv_id
         lastConv = conv_id
         later atTopIfSmall
 
+
+groupEventsByMessageType = (event) ->
+    res = []
+    index = 0
+    prevWasMe = true
+    for e in event
+        if isMeMessage e
+            index = res.push [e]
+            prevWasMe = true
+        else
+            if prevWasMe
+                index = res.push [e]
+            else
+                res[index - 1].push e
+            prevWasMe = false
+    return res
+
+isMeMessage = (e) ->
+    e?.chat_message?.annotation?[0]?[0] == HANGOUT_ANNOTATION_TYPE.me_message
+
+drawAvatar = (u, sender, viewstate, entity) ->
+    initials = initialsof entity[u.cid]
+    a href:linkto(u.cid), title:sender, {onclick}, class:'sender', ->
+        purl = entity[u.cid]?.photo_url
+        if purl and !viewstate?.showAnimatedThumbs
+            purl += "?sz=50"
+        if purl
+            img src:fixlink(purl)
+        else
+            div class:'initials', initials
+
+drawMeMessage = (e) ->
+    div class:'message', ->
+        e.chat_message?.message_content.segment[0].text
 
 drawMessage = (e, entity) ->
     mclz = ['message']
@@ -221,6 +271,23 @@ formatters = [
                     data.text
             if data.imageUrl and preload data.imageUrl
                 img src: data.imageUrl
+    # instagram preview
+    (seg) ->
+        href = seg?.text
+        if !href
+            return
+        matches = href.match /^(https?:\/\/)(.+\.)?(instagram.com\/p\/.+)/
+        if !matches
+            return
+        data = preloadInstagramPhoto 'https://api.instagram.com/oembed/?url=' + href
+        if !data
+            return
+        div class:'instagram', ->
+            if data.text
+                p ->
+                    data.text
+            if data.imageUrl and preload data.imageUrl
+                img src: data.imageUrl
 ]
 
 stripProxiedColon = (txt) ->
@@ -263,6 +330,19 @@ preloadTweet = (href) ->
             later -> action 'loadedtweet'
     return cache
 
+preloadInstagramPhoto = (href) ->
+    cache = preload_cache[href]
+    if not cache
+        preload_cache[href] = {}
+        fetch href
+        .then (response) ->
+            response.json()
+        .then (json) ->
+            preload_cache[href].text = json.title
+            preload_cache[href].imageUrl = json.thumbnail_url
+            later -> action 'loadedinstagramphoto'
+    return cache
+
 formatAttachment = (att) ->
     console.log 'attachment', att if att.length > 0
     if att?[0]?.embed_item?.type_
@@ -293,6 +373,9 @@ handle 'loadedimg', ->
     updated 'afterImg'
 
 handle 'loadedtweet', ->
+    updated 'conv'
+
+handle 'loadedinstagramphoto', ->
     updated 'conv'
 
 extractProtobufStyle = (att) ->

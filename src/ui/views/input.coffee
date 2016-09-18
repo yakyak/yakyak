@@ -92,10 +92,11 @@ module.exports = view (models) ->
                         action 'hideWindow'
                     if e.keyCode == 13
                         e.preventDefault()
-                        # before sending message, check for emoji
-                        element = document.getElementById "message-input"
-                        # Converts emojicodes (e.g. :smile:, :-) ) to unicode
-                        element.value = convertEmoji(element.value)
+                        if models.viewstate.convertEmoji
+                            # before sending message, check for emoji
+                            element = document.getElementById "message-input"
+                            # Converts emojicodes (e.g. :smile:, :-) ) to unicode
+                            element.value = convertEmoji(element.value)
                         #
                         action 'sendmessage', e.target.value
                         document.querySelector('#emoji-container').classList.remove('open');
@@ -114,7 +115,8 @@ module.exports = view (models) ->
                     startSel = element.selectionStart
                     endSel  = element.selectionEnd
                     # Converts emojicodes (e.g. :smile:, :-) ) to unicode
-                    element.value = convertEmoji(element.value)
+                    if models.viewstate.convertEmoji
+                        element.value = convertEmoji(element.value)
                     # Set cursor position (otherwise it would go to end of inpu)
                     element.selectionStart = startSel
                     element.selectionEnd = endSel

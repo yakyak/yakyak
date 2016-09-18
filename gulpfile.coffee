@@ -27,7 +27,8 @@ paths =
     lessd:   './src/ui/css/**/*.less'
     css:     './src/**/*.css'
     fonts:   ['./src/**/*.eot', './src/**/*.svg',
-              './src/**/*.ttf', './src/**/*.woff']
+              './src/**/*.ttf', './src/**/*.woff',
+              './src/**/*.woff2']
 
 # setup package stuff (README, package.json)
 gulp.task 'package', ->
@@ -74,11 +75,13 @@ gulp.task 'icons', ->
     nameMap =
         'icon_016.png': 'icon.png'
         'icon-unread.png': 'icon-unread.png'
+        'icon-unread@2x.png': 'icon-unread@2x.png'
         'icon-read.png': 'icon-read.png'
-        'osx-icon-unread.png': 'osx-icon-unread.png'
-        'osx-icon-unread@2x.png': 'osx-icon-unread@2x.png'
-        'osx-icon-read.png': 'osx-icon-read.png'
-        'osx-icon-read@2x.png': 'osx-icon-read@2x.png'
+        'icon-read@2x.png': 'icon-read@2x.png'
+        'osx-icon-unread-Template.png': 'osx-icon-unread-Template.png'
+        'osx-icon-unread-Template@2x.png': 'osx-icon-unread-Template@2x.png'
+        'osx-icon-read-Template.png': 'osx-icon-read-Template.png'
+        'osx-icon-read-Template@2x.png': 'osx-icon-read-Template@2x.png'
         'icon_032.png': 'icon@2.png'
         'icon_048.png': 'icon@3.png'
         'icon_128.png': 'icon@8.png'

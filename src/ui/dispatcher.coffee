@@ -106,7 +106,7 @@ handle 'selectConvIndex', (index = 0) ->
 
 handle 'sendmessage', (txt = '') ->
     if !txt.trim() then return
-    msg = userinput.buildChatMessage txt
+    msg = userinput.buildChatMessage entity.self, txt
     ipc.send 'sendchatmessage', msg
     conv.addChatMessagePlaceholder entity.self.id, msg
 
@@ -184,7 +184,7 @@ handle 'uploadimage', (files) ->
             notr "Ignoring file of type #{ext}"
             continue
         # message for a placeholder
-        msg = userinput.buildChatMessage 'uploading image…'
+        msg = userinput.buildChatMessage entity.self, 'uploading image…'
         msg.uploadimage = true
         {client_generated_id} = msg
         # add a placeholder for the image
@@ -195,7 +195,7 @@ handle 'uploadimage', (files) ->
 handle 'onpasteimage', ->
     conv_id = viewstate.selectedConv
     return unless conv_id
-    msg = userinput.buildChatMessage 'uploading image…'
+    msg = userinput.buildChatMessage entity.self, 'uploading image…'
     msg.uploadimage = true
     {client_generated_id} = msg
     conv.addChatMessagePlaceholder entity.self.id, msg
@@ -347,6 +347,9 @@ handle 'unreadtotal', (total, orMore) ->
     if total > 0 then value = total + (if orMore then "+" else "")
     ipc.send 'updatebadge', value
 
+handle 'showconvmin', (doshow) ->
+    viewstate.setShowConvMin doshow
+
 handle 'showconvthumbs', (doshow) ->
     viewstate.setShowConvThumbs doshow
 
@@ -358,6 +361,9 @@ handle 'showconvtime', (doshow) ->
 
 handle 'showconvlast', (doshow) ->
     viewstate.setShowConvLast doshow
+
+handle 'convertemoji', (doshow) ->
+    viewstate.setConvertEmoji doshow
 
 handle 'changetheme', (colorscheme) ->
     viewstate.setColorScheme colorscheme
