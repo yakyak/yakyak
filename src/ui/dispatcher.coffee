@@ -106,7 +106,7 @@ handle 'selectConvIndex', (index = 0) ->
 
 handle 'sendmessage', (txt = '') ->
     if !txt.trim() then return
-    msg = userinput.buildChatMessage txt
+    msg = userinput.buildChatMessage entity.self, txt
     ipc.send 'sendchatmessage', msg
     conv.addChatMessagePlaceholder entity.self.id, msg
 
@@ -184,7 +184,7 @@ handle 'uploadimage', (files) ->
             notr "Ignoring file of type #{ext}"
             continue
         # message for a placeholder
-        msg = userinput.buildChatMessage 'uploading image…'
+        msg = userinput.buildChatMessage entity.self, 'uploading image…'
         msg.uploadimage = true
         {client_generated_id} = msg
         # add a placeholder for the image
@@ -195,7 +195,7 @@ handle 'uploadimage', (files) ->
 handle 'onpasteimage', ->
     conv_id = viewstate.selectedConv
     return unless conv_id
-    msg = userinput.buildChatMessage 'uploading image…'
+    msg = userinput.buildChatMessage entity.self, 'uploading image…'
     msg.uploadimage = true
     {client_generated_id} = msg
     conv.addChatMessagePlaceholder entity.self.id, msg

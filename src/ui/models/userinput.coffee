@@ -1,5 +1,5 @@
 urlRegexp        = require 'url-regexp'
-{MessageBuilder, OffTheRecordStatus} = require 'hangupsjs'
+{MessageBuilder, OffTheRecordStatus,MessageActionType} = require 'hangupsjs'
 
 viewstate = require './viewstate'
 
@@ -25,12 +25,17 @@ parse = (mb, txt) ->
         mb.linebreak() unless index is last
     null
 
-buildChatMessage = (txt) ->
+buildChatMessage = (sender, txt) ->
     conv_id = viewstate.selectedConv
-    mb = new MessageBuilder()
+    action = null
+    if /^\/me\s/.test txt
+        txt = txt.replace /^\/me/, sender.first_name
+        action = MessageActionType.ME_ACTION
+    mb = new MessageBuilder(action)
     parse mb, txt
     segs  = mb.toSegments()
     segsj = mb.toSegsjson()
+    message_action_type = mb.toMessageActionType()
     client_generated_id = String randomid()
     ts = Date.now()
     {
@@ -41,6 +46,7 @@ buildChatMessage = (txt) ->
         ts
         image_id: undefined
         otr: OffTheRecordStatus.ON_THE_RECORD
+        message_action_type
     }
 
 module.exports = {

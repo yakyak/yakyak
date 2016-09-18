@@ -77,10 +77,12 @@ findByEventId = (conv, event_id) ->
 # this is used when sending new messages, we add a placeholder with
 # the correct client_generated_id. this entry will be replaced in
 # addChatMessage when the real message arrives from the server.
-addChatMessagePlaceholder = (chat_id, {conv_id, client_generated_id, segsj, ts, uploadimage}) ->
+addChatMessagePlaceholder = (chat_id, {conv_id, client_generated_id, segsj, ts, uploadimage, message_action_type}) ->
     ts = ts * 1000 # goog form
     ev =
-        chat_message:message_content:segment:segsj
+        chat_message:
+            annotation:message_action_type
+            message_content:segment:segsj
         conversation_id:id:conv_id
         self_event_state:client_generated_id:client_generated_id
         sender_id:
