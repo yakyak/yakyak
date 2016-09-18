@@ -58,8 +58,9 @@
                 padding-left: 5px;
                 padding-right: 30px;
                 background: var(--altgrey);
-                .message .tweet{
-                    margin: 10px -34px -5px -10px;
+                .message .tweet,
+                .message .instagram {
+                    margin: 10px -35px 3px -10px;
                 }
             }
         }
@@ -117,19 +118,32 @@
                     font-size: 0.9em;
                 }
                 .tweet {
-                    font-size: 0.9em;
-                    background-color: var(--lightgrey);
                     background: var(--tweetbg);
                     color: var(--tweettext);
+                }
+                .instagram {
+                    background: var(--instagrambg);
+                    color: var(--instagramtext);
+                }
+                .tweet,
+                .instagram {
+                    font-size: 0.9em;
                     font-size: 14px;
-                    margin: 10px -10px -5px -34px;
-                    p{
+                    margin: 10px -10px 3px -35px;
+                    p {
                         padding: 10px 20px;
                     }
                     img {
                         border-radius: 0;
                         display: block;
                         max-height: none;
+                        width: 100%;
+                    }
+                }
+                &:last-child {
+                    .tweet,
+                    .instagram {
+                        margin-bottom: -5px;
                     }
                 }
             }

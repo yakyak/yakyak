@@ -271,6 +271,23 @@ formatters = [
                     data.text
             if data.imageUrl and preload data.imageUrl
                 img src: data.imageUrl
+    # instagram preview
+    (seg) ->
+        href = seg?.text
+        if !href
+            return
+        matches = href.match /^(https?:\/\/)(.+\.)?(instagram.com\/p\/.+)/
+        if !matches
+            return
+        data = preloadInstagramPhoto 'https://api.instagram.com/oembed/?url=' + href
+        if !data
+            return
+        div class:'instagram', ->
+            if data.text
+                p ->
+                    data.text
+            if data.imageUrl and preload data.imageUrl
+                img src: data.imageUrl
 ]
 
 stripProxiedColon = (txt) ->
@@ -313,6 +330,19 @@ preloadTweet = (href) ->
             later -> action 'loadedtweet'
     return cache
 
+preloadInstagramPhoto = (href) ->
+    cache = preload_cache[href]
+    if not cache
+        preload_cache[href] = {}
+        fetch href
+        .then (response) ->
+            response.json()
+        .then (json) ->
+            preload_cache[href].text = json.title
+            preload_cache[href].imageUrl = json.thumbnail_url
+            later -> action 'loadedinstagramphoto'
+    return cache
+
 formatAttachment = (att) ->
     console.log 'attachment', att if att.length > 0
     if att?[0]?.embed_item?.type_
@@ -343,6 +373,9 @@ handle 'loadedimg', ->
     updated 'afterImg'
 
 handle 'loadedtweet', ->
+    updated 'conv'
+
+handle 'loadedinstagramphoto', ->
     updated 'conv'
 
 extractProtobufStyle = (att) ->
