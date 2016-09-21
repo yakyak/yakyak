@@ -142,7 +142,7 @@ app.on 'ready', ->
         # reinstate app window when login finishes
         prom = login(loginWindow)
         .then (rs) ->
-          global.forceClose = true
+          global.forceClose = false
           loginWindow.removeAllListeners 'closed'
           loginWindow.close()
           mainWindow.show()
