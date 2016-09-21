@@ -374,7 +374,7 @@ app.on 'ready', ->
     # For OSX only hides the window if we're not force closing.
     mainWindow.on 'close', (ev) ->
         if process.platform == 'darwin'
-            if mainWindow.isFullScreen()
+            if mainWindow?.isFullScreen()
                 mainWindow.setFullScreen false
             if not global.forceClose
                 ev.preventDefault()
