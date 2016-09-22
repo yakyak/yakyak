@@ -55,11 +55,11 @@ module.exports = (models) ->
 
         # maybe trigger OS notification
         return if !text or quietIf(c, chat_id)
-        
+
         if viewstate.showPopUpNotifications
             notifier.notify
                 title: sender
-                message: text
+                message: if viewstate.showMessageInNotification then text else ' '
                 wait: true
                 sender: 'com.github.yakyak'
                 sound: true

@@ -77,12 +77,23 @@ templateOsx = (viewstate) -> [{
             click: (it) -> action 'convertemoji', it.checked
         },
          {
-            type: 'checkbox'
-            label: 'Show Pop-Up Notifications'
-            checked: viewstate.showPopUpNotifications
-            enabled: viewstate.loggedin
-            click: (it) -> action 'showpopupnotifications', it.checked
-        }, {
+           label: 'Pop-Up Notification'
+           submenu: [
+             {
+                type: 'checkbox'
+                label: 'Show Notifications'
+                checked: viewstate.showPopUpNotifications
+                enabled: viewstate.loggedin
+                click: (it) -> action 'showpopupnotifications', it.checked
+            }, {
+                type: 'checkbox'
+                label: 'Show message in notifications'
+                checked: viewstate.showMessageInNotification
+                enabled: viewstate.loggedin && viewstate.showPopUpNotifications
+                click: (it) -> action 'showmesssageinnotification', it.checked
+            }
+           ]
+         }, {
             label: 'Color Scheme'
             submenu: [
                 {
@@ -327,6 +338,23 @@ templateOthers = (viewstate) -> [{
             enabled: viewstate.loggedin
             click: (it) -> action 'convertemoji', it.checked
         }, {
+          label: 'Pop-Up Notification'
+          submenu: [
+            {
+               type: 'checkbox'
+               label: 'Show Notifications'
+               checked: viewstate.showPopUpNotifications
+               enabled: viewstate.loggedin
+               click: (it) -> action 'showpopupnotifications', it.checked
+           }, {
+               type: 'checkbox'
+               label: 'Show message in notifications'
+               checked: viewstate.showMessageInNotification
+               enabled: viewstate.loggedin && viewstate.showPopUpNotifications
+               click: (it) -> action 'showmesssageinnotification', it.checked
+           }
+          ]
+        }, {
             label: 'Color Scheme'
             submenu: [
                 {
@@ -351,13 +379,6 @@ templateOthers = (viewstate) -> [{
                     click: -> action 'changetheme', 'material'
                 }
             ]
-        },
-         {
-            type: 'checkbox'
-            label: 'Show Pop-Up Notifications'
-            checked: viewstate.showPopUpNotifications
-            enabled: viewstate.loggedin
-            click: (it) -> action 'showpopupnotifications', it.checked
         }, {
             label: 'Font Size'
             submenu: [
