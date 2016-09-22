@@ -362,6 +362,9 @@ handle 'showconvtime', (doshow) ->
 handle 'showconvlast', (doshow) ->
     viewstate.setShowConvLast doshow
 
+handle 'showpopupnotifications', (doshow) ->
+    viewstate.setShowPopUpNotifications doshow
+
 handle 'convertemoji', (doshow) ->
     viewstate.setConvertEmoji doshow
 

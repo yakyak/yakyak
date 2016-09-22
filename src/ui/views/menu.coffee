@@ -71,6 +71,12 @@ templateOsx = (viewstate) -> [{
 
         }, {
             type: 'checkbox'
+            label: 'Show Pop-Up (Toast) Notifications'
+            checked: viewstate.showPopUpNotifications
+            enabled: viewstate.loggedin
+            click: (it) -> action 'showpopupnotifications', it.checked
+        }, {
+            type: 'checkbox'
             label: 'Convert text to emoji'
             checked: viewstate.convertEmoji
             enabled: viewstate.loggedin
@@ -314,6 +320,12 @@ templateOthers = (viewstate) -> [{
                 }
             ]
 
+        }, {
+            type: 'checkbox'
+            label: 'Show Pop-Up (Toast) Notifications'
+            checked: viewstate.showPopUpNotifications
+            enabled: viewstate.loggedin
+            click: (it) -> action 'showpopupnotifications', it.checked
         }, {
             type: 'checkbox'
             label: 'Convert text to emoji'
