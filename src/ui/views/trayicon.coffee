@@ -54,7 +54,7 @@ update = (unreadCount, viewstate) ->
         }
 
         {
-            label: "Show Notifications"
+            label: 'Show pop-up (toast) notifications'
             type: "checkbox"
             checked: viewstate.showPopUpNotifications
             click: -> action 'toggleshowpopupnotifications'
