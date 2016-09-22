@@ -25,7 +25,7 @@ module.exports = view (models) ->
                 ents = for p in part when not entity.isSelf p.chat_id
                     entity[p.chat_id]
                 name = nameofconv c
-                if viewstate.showConvThumbs
+                if viewstate.showConvThumbs or viewstate.showConvMin
                     div class: 'thumbs thumbs-'+(if ents.length>4 then '4' else ents.length), ->
                         for p, index in ents
                             break if index >= 4
@@ -36,7 +36,7 @@ module.exports = view (models) ->
                                 img src:fixlink(image), onerror: ->
                                     this.src = fixlink("images/photo.jpg")
                             else
-                                test = entity.needEntity(p.id)
+                                entity.needEntity(p.id)
                                 initials = initialsof entity[p.id]
                                 div class:'initials', initials
 
@@ -53,15 +53,16 @@ module.exports = view (models) ->
                         span class:'unreadcount', lbl
                     if ents.length == 1
                         div class:'presence '+ents[0].presence
-                div class:'convinfos', ->
-                    if viewstate.showConvTime
-                        span class:'lasttime', moment(conv.lastChanged(c)).calendar()
-                    span class:'convname', name
-                    if viewstate.showConvLast
-                        div class:'lastmessage', ->
-                            drawMessage(c?.event?.slice(-1)[0], entity)
-                        , onDOMSubtreeModified: (e) ->
-                            window.twemoji?.parse e.target if process.platform == 'win32'
+                unless viewstate.showConvMin
+                    div class:'convinfos', ->
+                        if viewstate.showConvTime
+                            span class:'lasttime', moment(conv.lastChanged(c)).calendar()
+                        span class:'convname', name
+                        if viewstate.showConvLast
+                            div class:'lastmessage', ->
+                                drawMessage(c?.event?.slice(-1)[0], entity)
+                            , onDOMSubtreeModified: (e) ->
+                                window.twemoji?.parse e.target if process.platform == 'win32'
                 div class:'divider'
             , onclick: (ev) ->
                 ev.preventDefault()

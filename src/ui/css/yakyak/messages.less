@@ -7,114 +7,143 @@
             vertical-align: top;
         }
     }
-    .tgroup {
-        .timestamp {
-            margin-top: 15px;
-            display: block;
-            font-size: 12px;
-            text-align: center;
+    .timestamp {
+        margin-top: 15px;
+        display: block;
+        font-size: 12px;
+        text-align: center;
+        color: var(--darkgrey);
+    }
+    .ugroup {
+        margin-top: 17px;
+        position: relative;
+        width: 66%;
+        margin-left: 25px;
+        .sender {
+            text-decoration: none;
+            font-size: 11px;
             color: var(--darkgrey);
+            img, .initials {
+                object-fit: cover;
+                border-radius: 50%;
+                width: 50px;
+                height: 50px;
+                border: 5px solid var(--lightgrey);
+                color: var(--white);
+                background: var(--grey);
+                position: absolute;
+                left: -25px;
+                top: -10px;
+                text-align: center;
+                font-size: 15px;
+                line-height: 41px;
+                text-transform: uppercase;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            span {
+                margin-left: 45px;
+            }
         }
-        .ugroup {
-            margin-top: 17px;
-            position: relative;
-            width: 66%;
-            margin-left: 25px;
-            .sender {
-                text-decoration: none;
-                font-size: 11px;
-                color: var(--darkgrey);
-                img, .initials {
-                    object-fit: cover;
-                    border-radius: 50%;
-                    width: 50px;
-                    height: 50px;
-                    border: 5px solid var(--lightgrey);
-                    color: var(--white);
-                    background: var(--grey);
-                    position: absolute;
-                    left: -25px;
-                    top: -10px;
-                    text-align: center;
-                    font-size: 15px;
-                    line-height: 41px;
-                    text-transform: uppercase;
-                }
-                span {
-                    margin-left: 45px;
+        &.self{
+          margin-left: calc(~"34% - 25px");
+          text-align: right;
+            .sender img, .sender .initials{
+                left: auto;
+                right: -25px;
+            }
+            .umessages{
+                margin-left: 5px;
+                padding-left: 5px;
+                padding-right: 30px;
+                background: var(--altgrey);
+                .message .tweet,
+                .message .instagram {
+                    margin: 10px -35px 3px -10px;
                 }
             }
-            &.self{
-              margin-left: calc(~"34% - 25px");
-              text-align: right;
-                .sender img, .sender .initials{
-                    left: auto;
-                    right: -25px;
+        }
+        &.me {
+          .sender img, .sender .initials {
+            width: 36px;
+            height: 36px;
+            top: -4px;
+            left: -25px;
+            font-size: 12px;
+          }
+          .message {
+            padding: 4px 0 4px 12px;
+            font-style: italic;
+            font-size: 0.9em;
+          }
+        }
+        @radius: 13px;
+        .umessages {
+            margin-top: -1px;
+            padding-left: 30px;
+            padding-right: 5px;
+            display: table;
+            border-radius: 10px;
+            background: var(--white);
+            display: inline-block;
+            text-align: left;
+            overflow: hidden;
+            .message {
+                font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif, "NotoColorEmoji";
+                padding: 5px;
+                white-space: pre-wrap;
+                word-break: break-word;
+                + .message{
+                    padding: 0 5px 5px;
                 }
-                .umessages{
-                    margin-left: 5px;
-                    padding-left: 5px;
-                    padding-right: 30px;
-                    background: var(--altgrey);
-                    .message .tweet{
-                        margin: 10px -34px -5px -10px;
-                    }
+                &.placeholder {
+                    opacity: 0.5;
                 }
-            }
-            @radius: 13px;
-            .umessages {
-                margin-top: -1px;
-                padding-left: 30px;
-                padding-right: 5px;
-                display: table;
-                border-radius: 10px;
-                background: var(--white);
-                display: inline-block;
-                text-align: left;
-                overflow: hidden;
-                .message {
-                    font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif, "NotoColorEmoji";
-                    padding: 5px;
-                    white-space: pre-wrap;
+                .attach {
+                    margin-top: 4px;
+                }
+                img {
+                    max-height: 350px;
+                    max-width: 100%;
+                    border-radius: 8px;
+                }
+                a {
                     word-break: break-word;
-                    + .message{
-                        padding: 0 5px 5px;
-                    }
-                    &.placeholder {
-                        opacity: 0.5;
-                    }
-                    .attach {
-                        margin-top: 4px;
+                }
+                &.conversation_rename,
+                &.membership_change {
+                    font-style: italic;
+                    color: var(--darkgrey);
+                    font-size: 0.9em;
+                }
+                .tweet {
+                    background: var(--tweetbg);
+                    color: var(--tweettext);
+                }
+                .instagram {
+                    background: var(--instagrambg);
+                    color: var(--instagramtext);
+                }
+                .tweet,
+                .instagram {
+                    font-size: 0.9em;
+                    font-size: 14px;
+                    margin: 10px -10px 3px -35px;
+                    p {
+                        padding: 10px 20px;
                     }
                     img {
-                        max-height: 350px;
-                        max-width: 100%;
-                        border-radius: 8px;
+                        border-radius: 0;
+                        display: block;
+                        max-height: none;
+                        width: 100%;
                     }
-                    a {
-                        word-break: break-word;
-                    }
-                    &.conversation_rename,
-                    &.membership_change {
-                        font-style: italic;
-                        color: var(--darkgrey);
-                        font-size: 0.9em;
-                    }
-                    .tweet {
-                        font-size: 0.9em;
-                        background-color: var(--lightgrey);
-                        background: var(--tweetbg);
-                        color: var(--tweettext);
-                        font-size: 14px;
-                        margin: 10px -10px -5px -34px;
-                        p{
-                            padding: 10px 20px;
-                        }
-                        img {
-                            border-radius: 0;
-                            display: block;
-                            max-height: none;
-                        }
+                }
+                &:last-child {
+                    .tweet,
+                    .instagram {
+                        margin-bottom: -5px;
                     }
                 }
             }

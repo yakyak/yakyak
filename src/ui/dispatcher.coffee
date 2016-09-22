@@ -99,9 +99,14 @@ handle 'selectNextConv', (offset = 1) ->
     viewstate.selectNextConv offset
     ipc.send 'setfocus', viewstate.selectedConv
 
+handle 'selectConvIndex', (index = 0) ->
+    if viewstate.state != viewstate.STATE_NORMAL then return
+    viewstate.selectConvIndex index
+    ipc.send 'setfocus', viewstate.selectedConv
+
 handle 'sendmessage', (txt = '') ->
     if !txt.trim() then return
-    msg = userinput.buildChatMessage txt
+    msg = userinput.buildChatMessage entity.self, txt
     ipc.send 'sendchatmessage', msg
     conv.addChatMessagePlaceholder entity.self.id, msg
 
@@ -179,7 +184,7 @@ handle 'uploadimage', (files) ->
             notr "Ignoring file of type #{ext}"
             continue
         # message for a placeholder
-        msg = userinput.buildChatMessage 'uploading image…'
+        msg = userinput.buildChatMessage entity.self, 'uploading image…'
         msg.uploadimage = true
         {client_generated_id} = msg
         # add a placeholder for the image
@@ -190,7 +195,7 @@ handle 'uploadimage', (files) ->
 handle 'onpasteimage', ->
     conv_id = viewstate.selectedConv
     return unless conv_id
-    msg = userinput.buildChatMessage 'uploading image…'
+    msg = userinput.buildChatMessage entity.self, 'uploading image…'
     msg.uploadimage = true
     {client_generated_id} = msg
     conv.addChatMessagePlaceholder entity.self.id, msg
@@ -294,12 +299,14 @@ handle 'leaveconv', (confirmed) ->
             action 'leaveconv', true
     else
         ipc.send 'removeuser', conv_id
+        viewstate.setState(viewstate.STATE_NORMAL)
 
 handle 'lastkeydown', (time) -> viewstate.setLastKeyDown time
 handle 'settyping', (v) ->
     conv_id = viewstate.selectedConv
     return unless conv_id and viewstate.state == viewstate.STATE_NORMAL
     ipc.send 'settyping', conv_id, v
+    viewstate.setState(viewstate.STATE_NORMAL)
 
 handle 'typing', (t) ->
     conv.addTyping t
@@ -340,6 +347,9 @@ handle 'unreadtotal', (total, orMore) ->
     if total > 0 then value = total + (if orMore then "+" else "")
     ipc.send 'updatebadge', value
 
+handle 'showconvmin', (doshow) ->
+    viewstate.setShowConvMin doshow
+
 handle 'showconvthumbs', (doshow) ->
     viewstate.setShowConvThumbs doshow
 
@@ -354,6 +364,9 @@ handle 'showconvlast', (doshow) ->
 
 handle 'showpopupnotifications', (doshow) ->
     viewstate.setShowPopUpNotifications doshow
+
+handle 'convertemoji', (doshow) ->
+    viewstate.setConvertEmoji doshow
 
 handle 'changetheme', (colorscheme) ->
     viewstate.setColorScheme colorscheme

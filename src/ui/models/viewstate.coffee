@@ -18,11 +18,13 @@ module.exports = exp = {
     leftSize: tryparse(localStorage.leftSize) ? 240
     size: tryparse(localStorage.size ? "[940, 600]")
     pos: tryparse(localStorage.pos ? "[100, 100]")
+    showConvMin: tryparse(localStorage.showConvMin) ? false
     showConvThumbs: tryparse(localStorage.showConvThumbs) ? true
     showAnimatedThumbs: tryparse(localStorage.showAnimatedThumbs) ? true
     showConvTime: tryparse(localStorage.showConvTime) ? true
     showConvLast: tryparse(localStorage.showConvLast) ? true
     showPopUpNotifications: tryparse(localStorage.showPopUpNotifications) ? true
+    convertEmoji: tryparse(localStorage.convertEmoji) ? true
     colorScheme: localStorage.colorScheme or 'default'
     fontSize: localStorage.fontSize or 'medium'
     zoom: tryparse(localStorage.zoom ? "1.0")
@@ -62,6 +64,11 @@ module.exports = exp = {
             if id == c.conversation_id.id
                 candidate = index + offset
                 @setSelectedConv list[candidate] if list[candidate]
+
+    selectConvIndex: (index = 0) ->
+        conv = require './conv'
+        list = (i for i in conv.list() when not conv.isPureHangout(i))
+        @setSelectedConv list[index]
 
     updateAtTop: (attop) ->
         return if @attop == attop
@@ -131,10 +138,19 @@ module.exports = exp = {
                         action 'settyping', STOPPED
                     , 6000
                 , 6000
+    
+    setShowConvMin: (doshow) ->
+        return if @showConvMin == doshow
+        @showConvMin = localStorage.showConvMin = doshow
+        if doshow
+            this.setShowConvThumbs(true)
+        updated 'viewstate'
 
     setShowConvThumbs: (doshow) ->
         return if @showConvThumbs == doshow
         @showConvThumbs = localStorage.showConvThumbs = doshow
+        unless doshow
+            this.setShowConvMin(false)
         updated 'viewstate'
 
     setShowAnimatedThumbs: (doshow) ->
@@ -155,6 +171,11 @@ module.exports = exp = {
     setShowPopUpNotifications: (doshow) ->
         return if @showPopUpNotifications == doshow
         @showPopUpNotifications = localStorage.showPopUpNotifications = doshow
+        updated 'viewstate'
+
+    setConvertEmoji: (doshow) ->
+        return if @convertEmoji == doshow
+        @convertEmoji = localStorage.convertEmoji = doshow
         updated 'viewstate'
 
     setColorScheme: (colorscheme) ->

@@ -259,6 +259,7 @@ describe 'conv', ->
                 ts: 12345
                 segsj: [{text:'foo',type:'TEXT'}]
                 client_generated_id: '42'
+                message_action_type: [[4, ""]]
             }
             eql conv['1'], {
                 "conversation_id": {
@@ -273,6 +274,9 @@ describe 'conv', ->
                 "event": [
                     {
                         "chat_message": {
+                            "annotation": [
+                                [4, ""]
+                            ],
                             "message_content": {
                                 segment:[{text:'foo',type:'TEXT'}]
                             }

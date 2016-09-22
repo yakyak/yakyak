@@ -10,6 +10,7 @@
     cursor: default;
     -webkit-app-region: drag;
     -webkit-user-select: none;
+    z-index: 2; // hides the separator in the header
     button{
         background: none;
         color: var(--white);
@@ -21,6 +22,10 @@
         .material-icon{
             font-size: ~"calc(24px / var(--zoom))";
         }
+    }
+
+    .minimal & span{
+        display: none;
     }
 }
 

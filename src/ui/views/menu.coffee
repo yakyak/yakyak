@@ -34,29 +34,41 @@ templateOsx = (viewstate) -> [{
     label: 'View'
     submenu: [
         {
-            type: 'checkbox'
-            label: 'Show Conversation Thumbnails'
-            checked:viewstate.showConvThumbs
-            enabled: viewstate.loggedin
-            click: (it) -> action 'showconvthumbs', it.checked
-        }, {
-            type: 'checkbox'
-            label: 'Show Animated Thumbnails'
-            checked:viewstate.showAnimatedThumbs
-            enabled: viewstate.loggedin && viewstate.showConvThumbs
-            click: (it) -> action 'showanimatedthumbs', it.checked
-        }, {
-            type: 'checkbox'
-            label: 'Show Conversation Timestamp'
-            checked:viewstate.showConvTime
-            enabled: viewstate.loggedin
-            click: (it) -> action 'showconvtime', it.checked
-        }, {
-            type: 'checkbox'
-            label: 'Show Conversation Last Message'
-            checked:viewstate.showConvLast
-            enabled: viewstate.loggedin
-            click: (it) -> action 'showconvlast', it.checked
+            label: 'Conversation List'
+            submenu: [
+                {
+                    type: 'checkbox'
+                    label: 'Show Thumbnails'
+                    checked:viewstate.showConvThumbs
+                    enabled: viewstate.loggedin
+                    click: (it) -> action 'showconvthumbs', it.checked
+                }, {
+                    type: 'checkbox'
+                    label: 'Show Thumbnails Only'
+                    checked:viewstate.showConvMin
+                    enabled: viewstate.loggedin
+                    click: (it) -> action 'showconvmin', it.checked
+                }, {
+                    type: 'checkbox'
+                    label: 'Show Animated Thumbnails'
+                    checked:viewstate.showAnimatedThumbs
+                    enabled: viewstate.loggedin
+                    click: (it) -> action 'showanimatedthumbs', it.checked
+                }, {
+                    type: 'checkbox'
+                    label: 'Show Conversation Timestamp'
+                    checked:viewstate.showConvTime
+                    enabled: viewstate.loggedin && !viewstate.showConvMin
+                    click: (it) -> action 'showconvtime', it.checked
+                }, {
+                    type: 'checkbox'
+                    label: 'Show Conversation Last Message'
+                    checked:viewstate.showConvLast
+                    enabled: viewstate.loggedin && !viewstate.showConvMin
+                    click: (it) -> action 'showconvlast', it.checked
+                }
+            ]
+
         }, {
             type: 'checkbox'
             label: 'Show Pop-Up (Toast) Notifications'
@@ -64,6 +76,13 @@ templateOsx = (viewstate) -> [{
             enabled: viewstate.loggedin
             click: (it) -> action 'showpopupnotifications', it.checked
         }, {
+            type: 'checkbox'
+            label: 'Convert text to emoji'
+            checked: viewstate.convertEmoji
+            enabled: viewstate.loggedin
+            click: (it) -> action 'convertemoji', it.checked
+        },
+         {
             label: 'Color Scheme'
             submenu: [
                 {
@@ -118,7 +137,7 @@ templateOsx = (viewstate) -> [{
                     click: -> action 'changefontsize', 'x-large'
                 }
             ]
-        
+
         }, {
             label: 'Toggle Full Screen',
             accelerator: 'Command+Control+F',
@@ -140,12 +159,64 @@ templateOsx = (viewstate) -> [{
             type: 'separator'
         }, {
             label: 'Previous Conversation',
+            accelerator: 'Control+Shift+Tab'
             enabled: viewstate.loggedin
             click: -> action 'selectNextConv', -1
         }, {
             label: 'Next Conversation',
+            accelerator: 'Control+Tab'
             enabled: viewstate.loggedin
             click: -> action 'selectNextConv', +1
+        }, {
+            label: 'Select Conversation',
+            enabled: viewstate.loggedin
+            submenu: [
+              {
+                label: 'Conversation 1'
+                accelerator: 'Command+1'
+                click: -> action 'selectConvIndex', 0
+              },
+              {
+                label: 'Conversation 2'
+                accelerator: 'Command+2'
+                click: -> action 'selectConvIndex', 1
+              },
+              {
+                label: 'Conversation 3'
+                accelerator: 'Command+3'
+                click: -> action 'selectConvIndex', 2
+              },
+              {
+                label: 'Conversation 4'
+                accelerator: 'Command+4'
+                click: -> action 'selectConvIndex', 3
+              },
+              {
+                label: 'Conversation 5'
+                accelerator: 'Command+5'
+                click: -> action 'selectConvIndex', 4
+              },
+              {
+                label: 'Conversation 6'
+                accelerator: 'Command+6'
+                click: -> action 'selectConvIndex', 5
+              },
+              {
+                label: 'Conversation 7'
+                accelerator: 'Command+7'
+                click: -> action 'selectConvIndex', 6
+              },
+              {
+                label: 'Conversation 8'
+                accelerator: 'Command+8'
+                click: -> action 'selectConvIndex', 7
+              },
+              {
+                label: 'Conversation 9'
+                accelerator: 'Command+9'
+                click: -> action 'selectConvIndex', 8
+              }
+            ]
         }, {
             type: 'separator'
         }, {
@@ -214,29 +285,41 @@ templateOthers = (viewstate) -> [{
     label: 'View'
     submenu: [
         {
-            type:'checkbox'
-            label: 'Show Conversation Thumbnails'
-            checked:viewstate.showConvThumbs
-            enabled: viewstate.loggedin
-            click: (it) -> action 'showconvthumbs', it.checked
-        }, {
-            type: 'checkbox'
-            label: 'Show Animated Thumbnails'
-            checked:viewstate.showAnimatedThumbs
-            enabled: viewstate.loggedin && viewstate.showConvThumbs
-            click: (it) -> action 'showanimatedthumbs', it.checked
-        }, {
-            type: 'checkbox'
-            label: 'Show Conversation Timestamp'
-            checked:viewstate.showConvTime
-            enabled: viewstate.loggedin
-            click: (it) -> action 'showconvtime', it.checked
-        }, {
-            type: 'checkbox'
-            label: 'Show Conversation Last Message'
-            checked:viewstate.showConvLast
-            enabled: viewstate.loggedin
-            click: (it) -> action 'showconvlast', it.checked
+            label: 'Conversation List'
+            submenu: [
+                {
+                    type: 'checkbox'
+                    label: 'Show Thumbnails'
+                    checked:viewstate.showConvThumbs
+                    enabled: viewstate.loggedin
+                    click: (it) -> action 'showconvthumbs', it.checked
+                }, {
+                    type: 'checkbox'
+                    label: 'Show Thumbnails Only'
+                    checked:viewstate.showConvMin
+                    enabled: viewstate.loggedin
+                    click: (it) -> action 'showconvmin', it.checked
+                }, {
+                    type: 'checkbox'
+                    label: 'Show Animated Thumbnails'
+                    checked:viewstate.showAnimatedThumbs
+                    enabled: viewstate.loggedin
+                    click: (it) -> action 'showanimatedthumbs', it.checked
+                }, {
+                    type: 'checkbox'
+                    label: 'Show Conversation Timestamp'
+                    checked:viewstate.showConvTime
+                    enabled: viewstate.loggedin && !viewstate.showConvMin
+                    click: (it) -> action 'showconvtime', it.checked
+                }, {
+                    type: 'checkbox'
+                    label: 'Show Conversation Last Message'
+                    checked:viewstate.showConvLast
+                    enabled: viewstate.loggedin && !viewstate.showConvMin
+                    click: (it) -> action 'showconvlast', it.checked
+                }
+            ]
+
         }, {
             type: 'checkbox'
             label: 'Show Pop-Up (Toast) Notifications'
@@ -244,6 +327,38 @@ templateOthers = (viewstate) -> [{
             enabled: viewstate.loggedin
             click: (it) -> action 'showpopupnotifications', it.checked
         }, {
+            type: 'checkbox'
+            label: 'Convert text to emoji'
+            checked: viewstate.convertEmoji
+            enabled: viewstate.loggedin
+            click: (it) -> action 'convertemoji', it.checked
+        }, {
+            label: 'Color Scheme'
+            submenu: [
+                {
+                    label: 'Default'
+                    type: 'radio'
+                    checked: viewstate.colorScheme == 'default'
+                    click: -> action 'changetheme', 'default'
+                }, {
+                    label: 'Blue'
+                    type: 'radio'
+                    checked: viewstate.colorScheme == 'blue'
+                    click: -> action 'changetheme', 'blue'
+                }, {
+                    label: 'Dark'
+                    type: 'radio'
+                    checked: viewstate.colorScheme == 'dark'
+                    click: -> action 'changetheme', 'dark'
+                }, {
+                    label: 'Material'
+                    type: 'radio'
+                    checked: viewstate.colorScheme == 'material'
+                    click: -> action 'changetheme', 'material'
+                }
+            ]
+        },
+         {
             label: 'Font Size'
             submenu: [
                 {
@@ -273,7 +388,6 @@ templateOthers = (viewstate) -> [{
                     click: -> action 'changefontsize', 'x-large'
                 }
             ]
-        
         }, {
             label: 'Toggle Full Screen',
             accelerator: 'Control+Alt+F',
@@ -304,6 +418,56 @@ templateOthers = (viewstate) -> [{
             click: -> action 'selectNextConv', +1
             enabled: viewstate.loggedin
         }, {
+            label: 'Select Conversation',
+            enabled: viewstate.loggedin
+            submenu: [
+              {
+                label: 'Conversation 1'
+                accelerator: 'Alt+1'
+                click: -> action 'selectConvIndex', 0
+              },
+              {
+                label: 'Conversation 2'
+                accelerator: 'Alt+2'
+                click: -> action 'selectConvIndex', 1
+              },
+              {
+                label: 'Conversation 3'
+                accelerator: 'Alt+3'
+                click: -> action 'selectConvIndex', 2
+              },
+              {
+                label: 'Conversation 4'
+                accelerator: 'Alt+4'
+                click: -> action 'selectConvIndex', 3
+              },
+              {
+                label: 'Conversation 5'
+                accelerator: 'Alt+5'
+                click: -> action 'selectConvIndex', 4
+              },
+              {
+                label: 'Conversation 6'
+                accelerator: 'Alt+6'
+                click: -> action 'selectConvIndex', 5
+              },
+              {
+                label: 'Conversation 7'
+                accelerator: 'Alt+7'
+                click: -> action 'selectConvIndex', 6
+              },
+              {
+                label: 'Conversation 8'
+                accelerator: 'Alt+8'
+                click: -> action 'selectConvIndex', 7
+              },
+              {
+                label: 'Conversation 9'
+                accelerator: 'Alt+9'
+                click: -> action 'selectConvIndex', 8
+              }
+            ]
+        }, {
           type: 'separator'
         }, {
             label: 'Show tray icon'
@@ -312,33 +476,7 @@ templateOthers = (viewstate) -> [{
             checked:  viewstate.showtray
             click: -> action 'toggleshowtray'
         }
-    ]},
-    {
-            label: 'Color Scheme'
-            submenu: [
-                {
-                    label: 'Default'
-                    type: 'radio'
-                    checked: viewstate.colorScheme == 'default'
-                    click: -> action 'changetheme', 'default'
-                }, {
-                    label: 'Blue'
-                    type: 'radio'
-                    checked: viewstate.colorScheme == 'blue'
-                    click: -> action 'changetheme', 'blue'
-                }, {
-                    label: 'Dark'
-                    type: 'radio'
-                    checked: viewstate.colorScheme == 'dark'
-                    click: -> action 'changetheme', 'dark'
-                }, {
-                    label: 'Material'
-                    type: 'radio'
-                    checked: viewstate.colorScheme == 'material'
-                    click: -> action 'changetheme', 'material'
-                }
-            ]
-        }
+    ]}
 ]
 
 module.exports = (viewstate) ->
