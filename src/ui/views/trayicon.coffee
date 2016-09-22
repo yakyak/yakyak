@@ -54,6 +54,13 @@ update = (unreadCount, viewstate) ->
         }
 
         {
+            label: "Show Notifications"
+            type: "checkbox"
+            checked: viewstate.showPopUpNotifications
+            click: -> action 'toggleshowpopupnotifications'
+        }
+
+        {
           label: 'Hide Dock icon'
           type: 'checkbox'
           checked: viewstate.hidedockicon

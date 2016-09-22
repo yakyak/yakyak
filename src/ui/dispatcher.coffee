@@ -120,6 +120,9 @@ handle 'togglemenu', ->
 handle 'togglehidedockicon', ->
     viewstate.setHideDockIcon(not viewstate.hidedockicon)
 
+handle 'toggleshowpopupnotifications', ->
+    viewstate.setShowPopUpNotifications(not viewstate.setShowPopUpNotifications)
+
 handle 'hideWindow', ->
     mainWindow = remote.getCurrentWindow() # And we hope we don't get another ;)
     mainWindow.hide()
