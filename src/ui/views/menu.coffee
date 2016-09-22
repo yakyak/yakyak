@@ -81,7 +81,7 @@ templateOsx = (viewstate) -> [{
            submenu: [
              {
                 type: 'checkbox'
-                label: 'Show Notifications'
+                label: 'Show notifications'
                 checked: viewstate.showPopUpNotifications
                 enabled: viewstate.loggedin
                 click: (it) -> action 'showpopupnotifications', it.checked
@@ -342,7 +342,7 @@ templateOthers = (viewstate) -> [{
           submenu: [
             {
                type: 'checkbox'
-               label: 'Show Notifications'
+               label: 'Show notifications'
                checked: viewstate.showPopUpNotifications
                enabled: viewstate.loggedin
                click: (it) -> action 'showpopupnotifications', it.checked
