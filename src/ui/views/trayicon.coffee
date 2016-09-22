@@ -40,7 +40,7 @@ update = (unreadCount, viewstate) ->
         }
 
         {
-          label: "Start minimzed to tray"
+          label: "Start minimized to tray"
           type: "checkbox"
           checked: viewstate.startminimizedtotray
           click: -> action 'togglestartminimizedtotray'
