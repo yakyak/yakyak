@@ -35,6 +35,7 @@
     "moment": "^2.10.3",
     "node-notifier": "^4.2.3",
     "notr": "^1.1.2",
+    "open-graph-scraper": "^2.3.2",
     "q": "^1.4.0",
     "request": "^2.67.0",
     "tmp": "0.0.28",

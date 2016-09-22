@@ -58,9 +58,8 @@
                 padding-left: 5px;
                 padding-right: 30px;
                 background: var(--altgrey);
-                .message .tweet,
-                .message .instagram {
-                    margin: 10px -35px 3px -10px;
+                .message .open-graph{
+                    margin: 5px -35px 5px -10px;
                 }
             }
         }
@@ -117,34 +116,57 @@
                     color: var(--darkgrey);
                     font-size: 0.9em;
                 }
-                .tweet {
-                    background: var(--tweetbg);
-                    color: var(--tweettext);
-                }
-                .instagram {
-                    background: var(--instagrambg);
-                    color: var(--instagramtext);
-                }
-                .tweet,
-                .instagram {
+                .open-graph{
                     font-size: 0.9em;
                     font-size: 14px;
-                    margin: 10px -10px 3px -35px;
-                    p {
-                        padding: 10px 20px;
+                    margin: 5px -10px 5px -35px;
+                    background: var(--opengraphbg);
+                    &:first-child{
+                        margin-top: -5px;
                     }
-                    img {
+                    &:last-child {
+                        margin-bottom: -5px;
+                    }
+                    p {
+                        padding: 5px 20px 15px;
+                        color: var(--opengraphdesc);
+                        &.url{
+                            font-style: italic;
+                            font-size: .8em;
+                            padding: 5px 20px 0;
+                            color: var(--opengraphlink);
+                            line-height: 1.2
+                        }
+                        &.title{
+                            font-size: 1.2em;
+                            padding: 5px 20px 0;
+                            font-weight: 500;
+                            color: var(--opengraphtitle);
+                        }
+                    }
+                    img{
                         border-radius: 0;
                         display: block;
                         max-height: none;
                         width: 100%;
                     }
-                }
-                &:last-child {
-                    .tweet,
-                    .instagram {
-                        margin-bottom: -5px;
+                    .video-wrapper{
+                        padding-bottom: 56.25%;
+                        position: relative;
+                        height: 0;
+                        width: 100%;
+                        iframe{
+                            width: 100%;
+                            height: 100%;
+                            position: absolute;
+                            top: 0;
+                            left: 0;
+                        }
                     }
+                }
+
+                +.message .open-graph:first-child{
+                    margin-top: 0
                 }
             }
         }

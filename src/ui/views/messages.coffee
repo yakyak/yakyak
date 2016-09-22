@@ -1,4 +1,5 @@
 moment = require 'moment'
+ogs = require 'open-graph-scraper'
 shell = require('electron').shell
 
 {nameof, initialsof, nameofconv, linkto, later, forceredraw, throttle,
@@ -238,15 +239,16 @@ formatters = [
     (seg, cont) ->
         f = seg.formatting ? {}
         href = seg?.link_data?.link_target
-        ifpass(href, ((f) -> a {href, onclick}, f)) ->
-            ifpass(f.bold, b) ->
-                ifpass(f.italic, i) ->
-                    ifpass(f.underline, u) ->
-                        ifpass(f.strikethrough, s) ->
-                            pass if cont.proxied
-                                stripProxiedColon seg.text
-                            else
-                                seg.text
+        ifpass(href, ((f) -> f)) ->
+            span ->
+                ifpass(f.bold, b) ->
+                    ifpass(f.italic, i) ->
+                        ifpass(f.underline, u) ->
+                            ifpass(f.strikethrough, s) ->
+                                pass if cont.proxied
+                                    stripProxiedColon seg.text
+                                else
+                                    seg.text
     # image formatter
     (seg) ->
         href = seg?.link_data?.link_target
@@ -254,40 +256,47 @@ formatters = [
         if imageUrl and preload imageUrl
             div ->
                 img src: imageUrl
-    # twitter preview
+        # links preview
     (seg) ->
         href = seg?.text
         if !href
             return
-        matches = href.match /^(https?:\/\/)(.+\.)?(twitter.com\/.+\/status\/.+)/
-        if !matches
-            return
-        data = preloadTweet matches[1] + matches[3]
-        if !data
-            return
-        div class:'tweet', ->
-            if data.text
-                p ->
-                    data.text
-            if data.imageUrl and preload data.imageUrl
-                img src: data.imageUrl
-    # instagram preview
-    (seg) ->
-        href = seg?.text
-        if !href
-            return
-        matches = href.match /^(https?:\/\/)(.+\.)?(instagram.com\/p\/.+)/
-        if !matches
-            return
-        data = preloadInstagramPhoto 'https://api.instagram.com/oembed/?url=' + href
-        if !data
-            return
-        div class:'instagram', ->
-            if data.text
-                p ->
-                    data.text
-            if data.imageUrl and preload data.imageUrl
-                img src: data.imageUrl
+
+        {viewstate} = models
+        if viewstate.showSnippets
+            data = preloadOpenGraph href
+            if !data || Object.keys(data).length == 0
+                href = seg?.link_data?.link_target
+                ifpass(href, ((f) -> a {href, onclick}, f))
+            else
+                div class:'open-graph', ->
+                    a {href, onclick}, ->
+                        p class:'url', -> href
+                        if data.ogTitle
+                            p class:'title', ->
+                                data.ogTitle
+                        if data.ogDescription
+                            p class:'description', ->
+                                data.ogDescription
+                        if data.ogVideo?.url
+                            p class:'video-wrapper', ->
+                                iframe src: data.ogVideo.url, autoplay:'false'
+                        else if data.ogImage?.url
+                            imglink = data.ogImage?.url
+                            tmp = document.createElement('a')
+                            tmp.href = data.ogImage.url
+
+                            if tmp.hostname == ""
+                                tmp.href = href
+                                imglink = tmp.protocol + "//" + tmp.hostname + imglink
+
+                            if preload imglink
+                                img src:imglink
+                            
+        else
+            href = seg?.link_data?.link_target
+            a {href, onclick}, ->
+                href
 ]
 
 stripProxiedColon = (txt) ->
@@ -312,35 +321,17 @@ preload = (href) ->
         preload_cache[href] = el
     return cache?.loaded
 
-preloadTweet = (href) ->
+preloadOpenGraph = (href) ->
     cache = preload_cache[href]
     if not cache
         preload_cache[href] = {}
-        fetch href
-        .then (response) ->
-            response.text()
-        .then (html) ->
-            frag = document.createElement 'div'
-            frag.innerHTML = html
-            container = frag.querySelector '[data-associated-tweet-id]'
-            textNode = container.querySelector ('.tweet-text')
-            image = container.querySelector ('[data-image-url]')
-            preload_cache[href].text = textNode.textContent
-            preload_cache[href].imageUrl = image?.dataset.imageUrl
-            later -> action 'loadedtweet'
-    return cache
-
-preloadInstagramPhoto = (href) ->
-    cache = preload_cache[href]
-    if not cache
-        preload_cache[href] = {}
-        fetch href
-        .then (response) ->
-            response.json()
-        .then (json) ->
-            preload_cache[href].text = json.title
-            preload_cache[href].imageUrl = json.thumbnail_url
-            later -> action 'loadedinstagramphoto'
+        ogs {url: href}
+        .then (results) ->
+            if results.success
+                preload_cache[href] = results.data
+                later -> action 'loadededExt'
+        .catch (err) ->
+            return
     return cache
 
 formatAttachment = (att) ->
@@ -372,10 +363,7 @@ handle 'loadedimg', ->
     # fix the position after redraw
     updated 'afterImg'
 
-handle 'loadedtweet', ->
-    updated 'conv'
-
-handle 'loadedinstagramphoto', ->
+handle 'loadededExt', ->
     updated 'conv'
 
 extractProtobufStyle = (att) ->
