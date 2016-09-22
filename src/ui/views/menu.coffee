@@ -78,7 +78,7 @@ templateOsx = (viewstate) -> [{
         },
          {
             type: 'checkbox'
-            label: 'Show Pop-Up (Toast) Notifications'
+            label: 'Show Pop-Up Notifications'
             checked: viewstate.showPopUpNotifications
             enabled: viewstate.loggedin
             click: (it) -> action 'showpopupnotifications', it.checked
@@ -354,7 +354,7 @@ templateOthers = (viewstate) -> [{
         },
          {
             type: 'checkbox'
-            label: 'Show Pop-Up (Toast) Notifications'
+            label: 'Show Pop-Up Notifications'
             checked: viewstate.showPopUpNotifications
             enabled: viewstate.loggedin
             click: (it) -> action 'showpopupnotifications', it.checked
