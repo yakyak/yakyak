@@ -1,5 +1,4 @@
 remote = require('electron').remote
-os = require('os')
 Menu = remote.Menu
 
 acceleratorMap = {
@@ -33,9 +32,9 @@ acceleratorMap = {
     close:                {others: '', osx: 'Command+W'}
 }
 
-templateYakYak = (viewstate) ->
+templateYakYak = (viewstate, os) ->
     tmpl = []
-    if os.platform() == 'darwin'
+    if os == 'darwin'
         tmpl.push [
             { label: 'About YakYak', selector: 'orderFrontStandardAboutPanel:' }
             #{ type: 'separator' }
@@ -51,7 +50,7 @@ templateYakYak = (viewstate) ->
         }
     ]
 
-    if os.platform() == 'darwin'
+    if os == 'darwin'
         tmpl.push [{
               label: 'Hide Others'
               accelerator: acceleratorMap['hideother'][os]
@@ -79,12 +78,12 @@ templateYakYak = (viewstate) ->
       }
   ]
 
-templateEdit = (viewstate) ->
+templateEdit = (viewstate, os) ->
     tmpl = [
         { label: 'Undo', accelerator: acceleratorMap['undo'][os], selector: 'undo:' }
         { label: 'Redo', accelerator: acceleratorMap['redo'][os], selector: 'redo:' }
     ]
-    if os.platform() == 'darwin'
+    if os == 'darwin'
         tmpl.push [
           { type: 'separator' }
           { label: 'Cut', accelerator: acceleratorMap['cut'][os], selector: 'cut:' }
@@ -94,7 +93,7 @@ templateEdit = (viewstate) ->
         ]
     tmpl
 
-templateView = (viewstate) ->
+templateView = (viewstate, os) ->
     tmpl = [
         {
             label: 'Conversation List'
@@ -279,7 +278,7 @@ templateView = (viewstate) ->
             click: -> action 'toggleshowtray'
         }
     ]
-    if os.platform() == 'darwin'
+    if os == 'darwin'
         tmpl.push {
             label: 'Hide Dock icon'
             type: 'checkbox'
@@ -289,7 +288,7 @@ templateView = (viewstate) ->
         }
     tmpl
 
-templateWindow = (viewstate) -> [
+templateWindow = (viewstate, os) -> [
     {
         label: 'Minimize'
         accelerator: acceleratorMap['minimize'][os]
@@ -307,21 +306,22 @@ templateWindow = (viewstate) -> [
 ]
 
 templateMenu = (viewstate) ->
+    os = if require('os').platform() == 'darwin' then 'darwin' else 'others'
     tmpl = [{
             label: 'YakYak'
-            submenu: templateYakYak viewstate
+            submenu: templateYakYak viewstate, os
         }, {
             label: 'Edit'
-            submenu: templateEdit viewstate
+            submenu: templateEdit viewstate, os
         },{
             label: 'View'
-            submenu: templateView viewstate
+            submenu: templateView viewstate, os
         }
     ]
-    if os.platform() == 'darwin'
+    if os == 'darwin'
         tmpl.push {
             label: 'Window'
-            submenu: templateWindow viewstate
+            submenu: templateWindow viewstate, os
         }
     tmpl
 
