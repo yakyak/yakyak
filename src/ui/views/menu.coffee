@@ -34,16 +34,16 @@ acceleratorMap = {
 }
 
 templateYakYak = (viewstate) ->
-    tmp = []
+    tmpl = []
     if os.platform() == 'darwin'
-        tmp = tmp.concat [
+        tmpl.push [
             { label: 'About YakYak', selector: 'orderFrontStandardAboutPanel:' }
             #{ type: 'separator' }
             # { label: 'Preferences...', accelerator: 'Command+,',
             # click: => delegate.openConfig() }
             { type: 'separator' }
         ]
-    tmp = tmp.concat [
+    tmpl.push [
         {
             label: 'Hide YakYak'
             accelerator: acceleratorMap['hideyakyak'][os]
@@ -52,14 +52,14 @@ templateYakYak = (viewstate) ->
     ]
 
     if os.platform() == 'darwin'
-        tmp = tmp.concat [{
+        tmpl.push [{
               label: 'Hide Others'
               accelerator: acceleratorMap['hideother'][os]
               selector: 'hideOtherApplications:'
         }
         { label: 'Show All', selector: 'unhideAllApplications:' }
         ]
-    tmp.concat [
+    tmpl.push [
       { type: 'separator' }
       {
           label: 'Open Inspector'
@@ -80,22 +80,22 @@ templateYakYak = (viewstate) ->
   ]
 
 templateEdit = (viewstate) ->
-    tmp = [
+    tmpl = [
         { label: 'Undo', accelerator: acceleratorMap['undo'][os], selector: 'undo:' }
         { label: 'Redo', accelerator: acceleratorMap['redo'][os], selector: 'redo:' }
     ]
     if os.platform() == 'darwin'
-        tmp = tmp.concat [
+        tmpl.push [
           { type: 'separator' }
           { label: 'Cut', accelerator: acceleratorMap['cut'][os], selector: 'cut:' }
           { label: 'Copy', accelerator: acceleratorMap['copy'][os], selector: 'copy:' }
           { label: 'Paste', accelerator: acceleratorMap['paste'][os], selector: 'paste:' }
           { label: 'Select All', accelerator: acceleratorMap['selectall'][os], selector: 'selectAll:' }
         ]
-    tmp
+    tmpl
 
 templateView = (viewstate) ->
-    tmp = [
+    tmpl = [
         {
             label: 'Conversation List'
             submenu: [
@@ -280,17 +280,17 @@ templateView = (viewstate) ->
         }
     ]
     if os.platform() == 'darwin'
-        tmp = tmp.concat {
+        tmpl.push {
             label: 'Hide Dock icon'
             type: 'checkbox'
             enabled: viewstate.showtray
             checked:  viewstate.hidedockicon
             click: -> action 'togglehidedockicon'
         }
-    tmp
+    tmpl
 
 templateWindow = (viewstate, os) ->
-    tmp = [
+    tmpl = [
         {
             label: 'Minimize'
             accelerator: acceleratorMap['minimize'][os]
@@ -307,37 +307,24 @@ templateWindow = (viewstate, os) ->
         }
     ]
 
-templateOsx = (viewstate) -> [
-    {
-        label: 'YakYak'
-        submenu: templateYakYak viewstate
-    }, {
-        label: 'Edit'
-        submenu: templateEdit viewstate
-    },{
-        label: 'View'
-        submenu: templateView viewstate
-    }, {
-        label: 'Window'
-        submenu: templateWindow viewstate
-    }
-  ]
-
-templateOthers = (viewstate) -> [
-    {
-        label: 'YakYak'
-        submenu: templateYakYak viewstate
-    }, {
-        label: 'Edit'
-        submenu: templateEdit viewstate
-    },{
-        label: 'View'
-        submenu: templateView viewstate
-    }
-  ]
+templateMenu = (viewstate) ->
+    tmpl = [{
+            label: 'YakYak'
+            submenu: templateYakYak viewstate
+        }, {
+            label: 'Edit'
+            submenu: templateEdit viewstate
+        },{
+            label: 'View'
+            submenu: templateView viewstate
+        }
+    ]
+    if os.platform() == 'darwin'
+        tmpl.push {
+            label: 'Window'
+            submenu: templateWindow viewstate
+        }
+    tmpl
 
 module.exports = (viewstate) ->
-    if os.platform() == 'darwin'
-        Menu.setApplicationMenu Menu.buildFromTemplate templateOsx(viewstate)
-    else
-        Menu.setApplicationMenu Menu.buildFromTemplate templateOthers(viewstate)
+    Menu.setApplicationMenu Menu.buildFromTemplate templateMenu(viewstate)
