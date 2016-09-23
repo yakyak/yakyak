@@ -282,7 +282,7 @@ formatters = [
                             p class:'video-wrapper', ->
                                 iframe src: data.ogVideo.url, autoplay:'false'
                         else if data.ogImage?.url
-                            imglink = data.ogImage?.url
+                            imglink = data.ogImage.url
                             tmp = document.createElement('a')
                             tmp.href = data.ogImage.url
 

@@ -339,6 +339,12 @@ templateOthers = (viewstate) -> [{
             enabled: viewstate.loggedin
             click: (it) -> action 'convertemoji', it.checked
         }, {
+            type: 'checkbox'
+            label: 'Links snippets'
+            checked: viewstate.showSnippets
+            enabled: viewstate.loggedin
+            click: (it) -> action 'showsnippets', it.checked
+        }, {
             label: 'Color Scheme'
             submenu: [
                 {
