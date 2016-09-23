@@ -289,23 +289,22 @@ templateView = (viewstate) ->
         }
     tmpl
 
-templateWindow = (viewstate, os) ->
-    tmpl = [
-        {
-            label: 'Minimize'
-            accelerator: acceleratorMap['minimize'][os]
-            selector: 'performMiniaturize:'
-        }, {
-            label: 'Close'
-            accelerator: acceleratorMap['close'][os]
-            selector: 'performClose:'
-        }, {
-            type: 'separator'
-        }, {
-            label: 'Bring All to Front',
-            selector: 'arrangeInFront:'
-        }
-    ]
+templateWindow = (viewstate) -> [
+    {
+        label: 'Minimize'
+        accelerator: acceleratorMap['minimize'][os]
+        selector: 'performMiniaturize:'
+    }, {
+        label: 'Close'
+        accelerator: acceleratorMap['close'][os]
+        selector: 'performClose:'
+    }, {
+        type: 'separator'
+    }, {
+        label: 'Bring All to Front',
+        selector: 'arrangeInFront:'
+    }
+]
 
 templateMenu = (viewstate) ->
     tmpl = [{
