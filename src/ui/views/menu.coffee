@@ -2,98 +2,125 @@ remote = require('electron').remote
 Menu = remote.Menu
 
 acceleratorMap = {
-    hideyakyak:           {others: 'Control+H', osx: 'Command+H'}
-    hideothers:           {others: '', osx: 'Command+Shift+H'}
-    showall:              {others: '', osx: ''}
-    openinspector:        {others: 'Control+Alt+I', osx: 'Command+Alt+I'}
-    quit:                 {others: 'Control+Q', osx: 'Command+Q'}
-    undo:                 {others: 'Control+Z', osx: 'Command+Z'}
-    redo:                 {others: 'Control+Shift+Z', osx: 'Command+Shift+Z'}
-    cut:                  {others: '', osx: 'Command+X'}
-    copy:                 {others: '', osx: 'Command+C'}
-    paste:                {others: '', osx: 'Command+V'}
-    selectall:            {others: '', osx: 'Command+A'}
-    togglefullscreen:     {others: 'Control+Alt+F', osx: 'Command+Control+F'}
-    zoomin:               {others: 'Control+Plus', osx: 'Command+Plus'}
-    zoomout:              {others: 'Control+-', osx: 'Command+-'}
-    resetzoom:            {others: 'Control+0', osx: 'Command+0'}
-    previousconversation: {others: 'Control+K', osx: 'Command+Shift+Tab'}
-    nextconversation:     {others: 'Control+J', osx: 'Command+Tab'}
-    conversation1:        {others: 'Alt+1', osx: 'Command+1'}
-    conversation2:        {others: 'Alt+2', osx: 'Command+2'}
-    conversation3:        {others: 'Alt+3', osx: 'Command+3'}
-    conversation4:        {others: 'Alt+4', osx: 'Command+4'}
-    conversation5:        {others: 'Alt+5', osx: 'Command+5'}
-    conversation6:        {others: 'Alt+6', osx: 'Command+6'}
-    conversation7:        {others: 'Alt+7', osx: 'Command+7'}
-    conversation8:        {others: 'Alt+8', osx: 'Command+8'}
-    conversation9:        {others: 'Alt+9', osx: 'Command+9'}
-    minimize:             {others: '', osx: 'Command+M'}
-    close:                {others: '', osx: 'Command+W'}
+    hideyakyak:           {others: 'Control+H', darwin:'Command+H'}
+    hideothers:           {others: '', darwin:'Command+Shift+H'}
+    showall:              {others: '', darwin:''}
+    openinspector:        {others: 'Control+Alt+I', darwin:'Command+Alt+I'}
+    quit:                 {others: 'Control+Q', darwin:'Command+Q'}
+    undo:                 {others: 'Control+Z', darwin:'Command+Z'}
+    redo:                 {others: 'Control+Shift+Z', darwin:'Command+Shift+Z'}
+    cut:                  {others: '', darwin:'Command+X'}
+    copy:                 {others: '', darwin:'Command+C'}
+    paste:                {others: '', darwin:'Command+V'}
+    selectall:            {others: '', darwin:'Command+A'}
+    togglefullscreen:     {others: 'Control+Alt+F', darwin:'Command+Control+F'}
+    zoomin:               {others: 'Control+Plus', darwin:'Command+Plus'}
+    zoomout:              {others: 'Control+-', darwin:'Command+-'}
+    resetzoom:            {others: 'Control+0', darwin:'Command+0'}
+    previousconversation: {others: 'Control+K', darwin:'Command+Shift+Tab'}
+    nextconversation:     {others: 'Control+J', darwin:'Command+Tab'}
+    conversation1:        {others: 'Alt+1', darwin:'Command+1'}
+    conversation2:        {others: 'Alt+2', darwin:'Command+2'}
+    conversation3:        {others: 'Alt+3', darwin:'Command+3'}
+    conversation4:        {others: 'Alt+4', darwin:'Command+4'}
+    conversation5:        {others: 'Alt+5', darwin:'Command+5'}
+    conversation6:        {others: 'Alt+6', darwin:'Command+6'}
+    conversation7:        {others: 'Alt+7', darwin:'Command+7'}
+    conversation8:        {others: 'Alt+8', darwin:'Command+8'}
+    conversation9:        {others: 'Alt+9', darwin:'Command+9'}
+    minimize:             {others: '', darwin:'Command+M'}
+    close:                {others: '', darwin:'Command+W'}
 }
 
-templateYakYak = (viewstate, os) ->
+templateYakYak = (viewstate, platform) ->
     tmpl = []
-    if os == 'darwin'
-        tmpl.push [
+    if platform == 'darwin'
+        tmpl.concat [
             { label: 'About YakYak', selector: 'orderFrontStandardAboutPanel:' }
             #{ type: 'separator' }
             # { label: 'Preferences...', accelerator: 'Command+,',
             # click: => delegate.openConfig() }
             { type: 'separator' }
         ]
-    tmpl.push [
-        {
-            label: 'Hide YakYak'
-            accelerator: acceleratorMap['hideyakyak'][os]
-            selector: 'hide:'
-        }
-    ]
+    tmpl.push {
+        label: 'Hide YakYak'
+        accelerator: acceleratorMap['hideyakyak'][platform]
+        selector: 'hide:' if platform == 'darwin'
+        role: 'minimize' if platform == 'others'
+    }
 
-    if os == 'darwin'
+    if platform == 'darwin'
         tmpl.push [{
-              label: 'Hide Others'
-              accelerator: acceleratorMap['hideother'][os]
-              selector: 'hideOtherApplications:'
-        }
-        { label: 'Show All', selector: 'unhideAllApplications:' }
+                label: 'Hide Others'
+                accelerator: acceleratorMap['hideother'][platform]
+                selector: 'hideOtherApplications:' if platform == 'darwin'
+            }
+            {
+                label: 'Show All'
+                selector: 'unhideAllApplications:' if platform == 'darwin'
+            }
         ]
     tmpl.push [
-      { type: 'separator' }
-      {
-          label: 'Open Inspector'
-          accelerator: acceleratorMap['openinspector'][os]
-          click: -> action 'devtools'
-      }
-      { type: 'separator' }
-      {
-          label: 'Logout',
-          click: -> action 'logout'
-          enabled: viewstate.loggedin
-      }
-      {
-          label: 'Quit'
-          accelerator: acceleratorMap['quit'][os]
-          click: -> action 'quit'
-      }
-  ]
-
-templateEdit = (viewstate, os) ->
-    tmpl = [
-        { label: 'Undo', accelerator: acceleratorMap['undo'][os], selector: 'undo:' }
-        { label: 'Redo', accelerator: acceleratorMap['redo'][os], selector: 'redo:' }
+        { type: 'separator' }
+        {
+            label: 'Open Inspector'
+            accelerator: acceleratorMap['openinspector'][platform]
+            click: -> action 'devtools'
+        }
+        { type: 'separator' }
+        {
+            label: 'Logout',
+            click: -> action 'logout'
+            enabled: viewstate.loggedin
+        }
+        {
+            label: 'Quit'
+            accelerator: acceleratorMap['quit'][platform]
+            click: -> action 'quit'
+        }
     ]
-    if os == 'darwin'
+    tmpl
+
+templateEdit = (viewstate, platform) ->
+    tmpl = [
+        {
+          label: 'Undo'
+          accelerator: acceleratorMap['undo'][platform]
+          selector: 'undo:' if platform == 'darwin'
+        }
+        {
+          label: 'Redo'
+          accelerator: acceleratorMap['redo'][platform]
+          selector: 'redo:' if platform == 'darwin'
+        }
+    ]
+    if platform == 'darwin'
         tmpl.push [
           { type: 'separator' }
-          { label: 'Cut', accelerator: acceleratorMap['cut'][os], selector: 'cut:' }
-          { label: 'Copy', accelerator: acceleratorMap['copy'][os], selector: 'copy:' }
-          { label: 'Paste', accelerator: acceleratorMap['paste'][os], selector: 'paste:' }
-          { label: 'Select All', accelerator: acceleratorMap['selectall'][os], selector: 'selectAll:' }
+          {
+            label: 'Cut'
+            accelerator: acceleratorMap['cut'][platform]
+            selector: 'cut:' if platform == 'darwin'
+          }
+          {
+            label: 'Copy'
+            accelerator: acceleratorMap['copy'][platform]
+            selector: 'copy:' if platform == 'darwin'
+          }
+          {
+            label: 'Paste'
+            accelerator: acceleratorMap['paste'][platform]
+            selector: 'paste:' if platform == 'darwin'
+          }
+          {
+            label: 'Select All'
+            accelerator: acceleratorMap['selectall'][platform]
+            selector: 'selectAll:' if platform == 'darwin'
+          }
         ]
     tmpl
 
-templateView = (viewstate, os) ->
+templateView = (viewstate, platform) ->
     tmpl = [
         {
             label: 'Conversation List'
@@ -199,31 +226,31 @@ templateView = (viewstate, os) ->
             ]
         }, {
             label: 'Toggle Full Screen',
-            accelerator: acceleratorMap['togglefullscreen'][os],
+            accelerator: acceleratorMap['togglefullscreen'][platform],
             click: -> action 'togglefullscreen'
         }, {
             # seee https://github.com/atom/electron/issues/1507
             label: 'Zoom In',
-            accelerator: acceleratorMap['zoomin'][os],
+            accelerator: acceleratorMap['zoomin'][platform],
             click: -> action 'zoom', +0.25
         }, {
             label: 'Zoom Out',
-            accelerator: acceleratorMap['zoomout'][os],
+            accelerator: acceleratorMap['zoomout'][platform],
             click: -> action 'zoom', -0.25
         }, {
             label: 'Reset Zoom',
-            accelerator: acceleratorMap['resetzoom'][os],
+            accelerator: acceleratorMap['resetzoom'][platform],
             click: -> action 'zoom'
         }, {
             type: 'separator'
         }, {
             label: 'Previous Conversation',
-            accelerator: acceleratorMap['previousconversation'][os]
+            accelerator: acceleratorMap['previousconversation'][platform]
             enabled: viewstate.loggedin
             click: -> action 'selectNextConv', -1
         }, {
             label: 'Next Conversation',
-            accelerator: acceleratorMap['nextconversation'][os]
+            accelerator: acceleratorMap['nextconversation'][platform]
             enabled: viewstate.loggedin
             click: -> action 'selectNextConv', +1
         }, {
@@ -232,39 +259,39 @@ templateView = (viewstate, os) ->
             submenu: [
               {
                   label: 'Conversation 1'
-                  accelerator: acceleratorMap['conversation1'][os]
+                  accelerator: acceleratorMap['conversation1'][platform]
                   click: -> action 'selectConvIndex', 0
               }, {
                   label: 'Conversation 2'
-                  accelerator: acceleratorMap['conversation2'][os]
+                  accelerator: acceleratorMap['conversation2'][platform]
                   click: -> action 'selectConvIndex', 1
               }, {
                   label: 'Conversation 3'
-                  accelerator: acceleratorMap['conversation3'][os]
+                  accelerator: acceleratorMap['conversation3'][platform]
                   click: -> action 'selectConvIndex', 2
               }, {
                   label: 'Conversation 4'
-                  accelerator: acceleratorMap['conversation4'][os]
+                  accelerator: acceleratorMap['conversation4'][platform]
                   click: -> action 'selectConvIndex', 3
               }, {
                   label: 'Conversation 5'
-                  accelerator: acceleratorMap['conversation5'][os]
+                  accelerator: acceleratorMap['conversation5'][platform]
                   click: -> action 'selectConvIndex', 4
               }, {
                   label: 'Conversation 6'
-                  accelerator: acceleratorMap['conversation6'][os]
+                  accelerator: acceleratorMap['conversation6'][platform]
                   click: -> action 'selectConvIndex', 5
               }, {
                   label: 'Conversation 7'
-                  accelerator: acceleratorMap['conversation7'][os]
+                  accelerator: acceleratorMap['conversation7'][platform]
                   click: -> action 'selectConvIndex', 6
               }, {
                   label: 'Conversation 8'
-                  accelerator: acceleratorMap['conversation8'][os]
+                  accelerator: acceleratorMap['conversation8'][platform]
                   click: -> action 'selectConvIndex', 7
               }, {
                   label: 'Conversation 9'
-                  accelerator: acceleratorMap['conversation9'][os]
+                  accelerator: acceleratorMap['conversation9'][platform]
                   click: -> action 'selectConvIndex', 8
               }
             ]
@@ -278,7 +305,7 @@ templateView = (viewstate, os) ->
             click: -> action 'toggleshowtray'
         }
     ]
-    if os == 'darwin'
+    if platform == 'darwin'
         tmpl.push {
             label: 'Hide Dock icon'
             type: 'checkbox'
@@ -288,42 +315,44 @@ templateView = (viewstate, os) ->
         }
     tmpl
 
-templateWindow = (viewstate, os) -> [
+templateWindow = (viewstate, platform) -> [
     {
         label: 'Minimize'
-        accelerator: acceleratorMap['minimize'][os]
-        selector: 'performMiniaturize:'
+        accelerator: acceleratorMap['minimize'][platform]
+        selector: 'performMiniaturize:' if platform == 'darwin'
     }, {
         label: 'Close'
-        accelerator: acceleratorMap['close'][os]
-        selector: 'performClose:'
+        accelerator: acceleratorMap['close'][platform]
+        selector: 'performClose:' if platform == 'darwin'
     }, {
         type: 'separator'
     }, {
         label: 'Bring All to Front',
-        selector: 'arrangeInFront:'
+        selector: 'arrangeInFront:' if platform == 'darwin'
     }
 ]
 
 templateMenu = (viewstate) ->
-    os = if require('os').platform() == 'darwin' then 'darwin' else 'others'
+    platform = if require('os').platform() == 'darwin' then 'darwin' else 'others'
     tmpl = [{
             label: 'YakYak'
-            submenu: templateYakYak viewstate, os
+            submenu: templateYakYak viewstate, platform
         }, {
             label: 'Edit'
-            submenu: templateEdit viewstate, os
+            submenu: templateEdit viewstate, platform
         },{
             label: 'View'
-            submenu: templateView viewstate, os
+            submenu: templateView viewstate, platform
         }
     ]
-    if os == 'darwin'
+    if platform == 'darwin'
         tmpl.push {
             label: 'Window'
-            submenu: templateWindow viewstate, os
+            submenu: templateWindow viewstate, platform
         }
     tmpl
 
 module.exports = (viewstate) ->
+    console.log "b4"
     Menu.setApplicationMenu Menu.buildFromTemplate templateMenu(viewstate)
+    console.log "done!"
