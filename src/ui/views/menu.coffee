@@ -87,11 +87,13 @@ templateEdit = (viewstate, platform) ->
           label: 'Undo'
           accelerator: acceleratorMap['undo'][platform]
           selector: 'undo:' if platform == 'darwin'
+          role: 'undo' if platform == 'others'
         }
         {
           label: 'Redo'
           accelerator: acceleratorMap['redo'][platform]
           selector: 'redo:' if platform == 'darwin'
+          role: 'redo' if platform == 'others'
         }
     ]
     if platform == 'darwin'
@@ -101,21 +103,25 @@ templateEdit = (viewstate, platform) ->
             label: 'Cut'
             accelerator: acceleratorMap['cut'][platform]
             selector: 'cut:' if platform == 'darwin'
+            role: 'cut' if platform == 'others'
           }
           {
             label: 'Copy'
             accelerator: acceleratorMap['copy'][platform]
             selector: 'copy:' if platform == 'darwin'
+            role: 'copy' if platform == 'others'
           }
           {
             label: 'Paste'
             accelerator: acceleratorMap['paste'][platform]
             selector: 'paste:' if platform == 'darwin'
+            role: 'paste' if platform == 'others'
           }
           {
             label: 'Select All'
             accelerator: acceleratorMap['selectall'][platform]
             selector: 'selectAll:' if platform == 'darwin'
+            role: 'selectall' if platform == 'others'
           }
         ]
     tmpl
