@@ -3,6 +3,7 @@ remote = require('electron').remote
 ipc    = require('electron').ipcRenderer
 
 clipboard = require('electron').clipboard
+nativeImage = require('electron').nativeImage
 
 {entity, conv, viewstate, userinput, connection, convsettings, notify} = require './models'
 {throttle, later, isImg} = require './util'
@@ -195,16 +196,26 @@ handle 'uploadimage', (files) ->
         ipc.send 'uploadimage', {path:file.path, conv_id, client_generated_id}
 
 handle 'onpasteimage', ->
-    conv_id = viewstate.selectedConv
-    return unless conv_id
     element = document.getElementById 'preview-img'
     element.src = clipboard.readImage().toDataURL()
     document.querySelector('#preview-container').classList.toggle('open')
+
+handle 'uploadpreviewimage', ->
+    conv_id = viewstate.selectedConv
+    return unless conv_id
     msg = userinput.buildChatMessage entity.self, 'uploading image…'
     msg.uploadimage = true
     {client_generated_id} = msg
     conv.addChatMessagePlaceholder entity.self.id, msg
-    # ipc.send 'uploadclipboardimage', {conv_id, client_generated_id}
+    # find preview element
+    element = document.getElementById 'preview-img'
+    # build PNG image from what is on preview
+    pngData = nativeImage.createFromDataURL(element.src).toPNG()
+    # reset field and close preview pane
+    document.querySelector('#preview-container').classList.toggle('open')
+    element.src = ''
+    #
+    ipc.send 'uploadclipboardimage', {pngData, conv_id, client_generated_id}
 
 handle 'uploadingimage', (spec) ->
     # XXX this doesn't look very good because the image

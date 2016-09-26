@@ -38,12 +38,17 @@ openByDefault = 'people'
 module.exports = view (models) ->
     div class:'input', ->
         div id: 'preview-container', ->
-            div class: 'relative', ->
-                img id: 'preview-img', src: ''
-                div class: 'after material-icons', ->
-                    span ''
-                div class: 'close-preview', ->
-                    span ''
+            div class: 'relative'
+                , onclick: (e) ->
+                    console.log 'going to upload preview image'
+                    action 'uploadpreviewimage'
+                , ->
+                    img id: 'preview-img', src: ''
+                    div class: 'after material-icons'
+                        , ->
+                          span ''
+                    div class: 'close-preview', ->
+                        span ''
 
         div class: 'relative', ->
             div id:'emoji-container', ->
