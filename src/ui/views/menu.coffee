@@ -90,7 +90,13 @@ templateOsx = (viewstate) -> [{
                 label: 'Show message in notifications'
                 checked: viewstate.showMessageInNotification
                 enabled: viewstate.loggedin && viewstate.showPopUpNotifications
-                click: (it) -> action 'showmesssageinnotification', it.checked
+                click: (it) -> action 'showmessageinnotification', it.checked
+            }, {
+                type: 'checkbox'
+                label: 'Show username in notifications'
+                checked: viewstate.showMessageInNotification
+                enabled: viewstate.loggedin && viewstate.showPopUpNotifications
+                click: (it) -> action 'showusernameinnotification', it.checked
             }
            ]
          }, {
@@ -351,7 +357,13 @@ templateOthers = (viewstate) -> [{
                label: 'Show message in notifications'
                checked: viewstate.showMessageInNotification
                enabled: viewstate.loggedin && viewstate.showPopUpNotifications
-               click: (it) -> action 'showmesssageinnotification', it.checked
+               click: (it) -> action 'showmessageinnotification', it.checked
+           }, {
+               type: 'checkbox'
+               label: 'Show username in notifications'
+               checked: viewstate.showUsernameInNotification
+               enabled: viewstate.loggedin && viewstate.showPopUpNotifications
+               click: (it) -> action 'showusernameinnotification', it.checked
            }
           ]
         }, {

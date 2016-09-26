@@ -58,11 +58,14 @@ module.exports = (models) ->
 
         if viewstate.showPopUpNotifications
             notifier.notify
-                title: sender
+                title: if viewstate.showUsernameInNotification
+                           sender
+                       else
+                           'YakYak'
                 message: if viewstate.showMessageInNotification
                              text
                          else
-                             '(new message)'
+                             'New Message'
                 wait: true
                 sender: 'com.github.yakyak'
                 sound: true

@@ -183,6 +183,11 @@ module.exports = exp = {
         @showMessageInNotification = localStorage.showMessageInNotification = doshow
         updated 'viewstate'
 
+    setShowUsernameInNotification: (doshow) ->
+        return if @showUsernameInNotification == doshow
+        @setShowUsernameInNotification = localStorage.setShowUsernameInNotification = doshow
+        updated 'viewstate'
+
     setColorScheme: (colorscheme) ->
         @colorScheme = localStorage.colorScheme = colorscheme
         while document.querySelector('html').classList.length > 0
