@@ -340,7 +340,9 @@ templateWindow = (viewstate, platform) -> [
 ]
 
 templateMenu = (viewstate) ->
-    platform = if require('os').platform() == 'darwin' then 'darwin' else 'others'
+    platform = if require('os').platform() == 'darwin' then 'darwin' else
+        'others'
+
     tmpl = [{
             label: 'YakYak'
             submenu: templateYakYak viewstate, platform
