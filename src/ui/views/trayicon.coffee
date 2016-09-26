@@ -47,6 +47,14 @@ update = (unreadCount, viewstate) ->
         }
 
         {
+          label: 'Show pop-up notifications'
+          type: "checkbox"
+          checked: viewstate.showPopUpNotifications
+          click: -> action 'showpopupnotifications',
+              !viewstate.showPopUpNotifications
+        }
+
+        {
             label: "Close to tray"
             type: "checkbox"
             checked: viewstate.closetotray
