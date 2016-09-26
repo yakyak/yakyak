@@ -35,7 +35,7 @@ acceleratorMap = {
 templateYakYak = (viewstate, platform) ->
     tmpl = []
     if platform == 'darwin'
-        tmpl.concat [
+        tmpl.push.apply tmpl,  [
             { label: 'About YakYak', selector: 'orderFrontStandardAboutPanel:' }
             #{ type: 'separator' }
             # { label: 'Preferences...', accelerator: 'Command+,',
@@ -50,7 +50,7 @@ templateYakYak = (viewstate, platform) ->
     }
 
     if platform == 'darwin'
-        tmpl.push [{
+        tmpl.push.apply tmpl, [{
                 label: 'Hide Others'
                 accelerator: acceleratorMap['hideother'][platform]
                 selector: 'hideOtherApplications:' if platform == 'darwin'
@@ -60,7 +60,7 @@ templateYakYak = (viewstate, platform) ->
                 selector: 'unhideAllApplications:' if platform == 'darwin'
             }
         ]
-    tmpl.push [
+    tmpl.push.apply tmpl, [
         { type: 'separator' }
         {
             label: 'Open Inspector'
@@ -97,7 +97,7 @@ templateEdit = (viewstate, platform) ->
         }
     ]
     if platform == 'darwin'
-        tmpl.push [
+        tmpl.push.apply tmpl, [
           { type: 'separator' }
           {
             label: 'Cut'
