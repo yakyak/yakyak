@@ -105,6 +105,7 @@ module.exports = view (models) ->
         div class:'historyinfo', ->
             if c.requestinghistory
                 pass 'Requesting history…', -> span class:'material-icons spin', 'donut_large'
+        moment.locale(window.navigator.language)
         for g in grouped
             div class:'timestamp', moment(g.start / 1000).calendar()
             for u in g.byuser
