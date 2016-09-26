@@ -2,6 +2,8 @@ Client = require 'hangupsjs'
 remote = require('electron').remote
 ipc    = require('electron').ipcRenderer
 
+clipboard = require('electron').clipboard
+
 {entity, conv, viewstate, userinput, connection, convsettings, notify} = require './models'
 {throttle, later, isImg} = require './util'
 
@@ -195,11 +197,14 @@ handle 'uploadimage', (files) ->
 handle 'onpasteimage', ->
     conv_id = viewstate.selectedConv
     return unless conv_id
+    element = document.getElementById 'preview-img'
+    element.src = clipboard.readImage().toDataURL()
+    document.querySelector('#preview-container').classList.toggle('open')
     msg = userinput.buildChatMessage entity.self, 'uploading image…'
     msg.uploadimage = true
     {client_generated_id} = msg
     conv.addChatMessagePlaceholder entity.self.id, msg
-    ipc.send 'uploadclipboardimage', {conv_id, client_generated_id}
+    # ipc.send 'uploadclipboardimage', {conv_id, client_generated_id}
 
 handle 'uploadingimage', (spec) ->
     # XXX this doesn't look very good because the image

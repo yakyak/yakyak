@@ -4,6 +4,47 @@
     font-family: 'Roboto', "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif, "NotoColorEmoji";
     position: relative;
 
+    #preview-container {
+        padding-top: 1em;
+        background: var(--white);
+        width: 100%;
+        text-align: center;
+        div.relative {
+            display: inline-block;
+        }
+        //
+        position: absolute;
+        z-index: 0;
+        top: 0;
+        transform: translate3d(0, 0, 0);
+        transition: all .3s ease;
+        background: var(--white);
+        &.open{
+            transform: translate3d(0, -100%, 0);
+        }
+        //
+        .after {
+            background-color: rgba(119, 119, 119, .4);
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            text-align: center;
+            color: rgb(0,240,0);
+            span {
+                top: 30%;
+                position: relative;
+                font-size: 3em;
+            }
+        }
+        .img {
+          text-align: center;
+          max-height:200px;
+        }
+    }
+
     span.emoticon {
         display: inline-block;
         width: 30px;
@@ -14,53 +55,56 @@
         cursor: pointer;
     }
 
-    > #emoji-container {
-        position: absolute;
-        z-index: 0;
-        top: 0;
-        transform: translate3d(0, 0, 0);
-        transition: all .3s ease;
-        background: var(--white);
-        &.open{
-            transform: translate3d(0, -100%, 0);
-        }
-        > #emoji-group-selector {
-            overflow-x: scroll;
-            border-bottom: 1px solid var(--lightgrey);
-            height: 33px;
-            margin-left: 5px;
-
-            > .emoticon {
-                height: 32px;
-                padding-bottom:2px;
+    div.relative {
+        position: relative;
+        > #emoji-container {
+            position: absolute;
+            z-index: 0;
+            top: 0;
+            transform: translate3d(0, 0, 0);
+            transition: all .3s ease;
+            background: var(--white);
+            &.open{
+                transform: translate3d(0, -100%, 0);
             }
-            > .emoticon.glow {
-                border-bottom: 2px solid var(--grey);
+            > #emoji-group-selector {
+                overflow-x: scroll;
+                border-bottom: 1px solid var(--lightgrey);
+                height: 33px;
+                margin-left: 5px;
+
+                > .emoticon {
+                    height: 32px;
+                    padding-bottom:2px;
+                }
+                > .emoticon.glow {
+                    border-bottom: 2px solid var(--grey);
+
+                }
 
             }
 
-        }
-
-        > #emoji-group-selector::-webkit-scrollbar {
-            display: none;
-        }
-        > .emoji-selector {
-            height:131px;
-            overflow-y: scroll;
-            border-bottom: 1px solid var(--lightgrey);
-            width: 100%;
-            padding: 5px 2px 5px 5px;
-
-            > .group-content {
+            > #emoji-group-selector::-webkit-scrollbar {
                 display: none;
-                padding: none;
-                margin: none;
             }
-            > .group-content.visible {
-                display: block;
-            }
-        }
+            > .emoji-selector {
+                height:131px;
+                overflow-y: scroll;
+                border-bottom: 1px solid var(--lightgrey);
+                width: 100%;
+                padding: 5px 2px 5px 5px;
 
+                > .group-content {
+                    display: none;
+                    padding: none;
+                    margin: none;
+                }
+                > .group-content.visible {
+                    display: block;
+                }
+            }
+
+        }
     }
 
     > div.input-container {
@@ -69,7 +113,7 @@
         background: var(--white);
         z-index: 1;
         position: relative;
-        height: 49px;
+        min-height: 49px;
         textarea {
             width: 100%;
             resize: vertical;

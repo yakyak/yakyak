@@ -37,38 +37,47 @@ openByDefault = 'people'
 
 module.exports = view (models) ->
     div class:'input', ->
-        div id:'emoji-container', ->
-            div id:'emoji-group-selector', ->
-                for range in emojiCategories
-                    name = range['title']
-                    glow = ''
-                    if name == openByDefault
-                        glow = 'glow'
-                    span id:name+'-button'
-                    , title:name
-                    , class:'emoticon ' + glow
-                    , range['representation']
-                    , onclick: do (name) -> ->
-                        console.log("Opening " + name)
-                        openEmoticonDrawer name
+        div id: 'preview-container', ->
+            div class: 'relative', ->
+                img id: 'preview-img', src: ''
+                div class: 'after material-icons', ->
+                    span ''
+                div class: 'close-preview', ->
+                    span ''
 
-            div class:'emoji-selector', ->
-                for range in emojiCategories
-                    name = range['title']
-                    visible = ''
-                    if name == openByDefault
-                        visible = 'visible'
+        div class: 'relative', ->
+            div id:'emoji-container', ->
+                div id:'emoji-group-selector', ->
+                    for range in emojiCategories
+                        name = range['title']
+                        glow = ''
+                        if name == openByDefault
+                            glow = 'glow'
+                        span id:name+'-button'
+                        , title:name
+                        , class:'emoticon ' + glow
+                        , range['representation']
+                        , onclick: do (name) -> ->
+                            console.log("Opening " + name)
+                            openEmoticonDrawer name
 
-                    span id:name, class:'group-content ' + visible, ->
-                        for emoji in range['range']
-                            if emoji.indexOf("\u200d") >= 0
-                                # FIXME For now, ignore characters that have the "glue" character in them;
-                                # they don't render properly
-                                continue
-                            span class:'emoticon', emoji
-                            , onclick: do (emoji) -> ->
-                                    element = document.getElementById "message-input"
-                                    insertTextAtCursor element, emoji
+                div class:'emoji-selector', ->
+                    for range in emojiCategories
+                        name = range['title']
+                        visible = ''
+                        if name == openByDefault
+                            visible = 'visible'
+
+                        span id:name, class:'group-content ' + visible, ->
+                            for emoji in range['range']
+                                if emoji.indexOf("\u200d") >= 0
+                                    # FIXME For now, ignore characters that have the "glue" character in them;
+                                    # they don't render properly
+                                    continue
+                                span class:'emoticon', emoji
+                                , onclick: do (emoji) -> ->
+                                        element = document.getElementById "message-input"
+                                        insertTextAtCursor element, emoji
 
         div class:'input-container', ->
             textarea id:'message-input', autofocus:true, placeholder:'Message', rows: 1, ''
