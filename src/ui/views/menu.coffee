@@ -311,6 +311,7 @@ templateView = (viewstate, platform) ->
             click: -> action 'toggleshowtray'
         }
     ]
+    #
     if platform == 'darwin'
         tmpl.push {
             label: 'Hide Dock icon'
@@ -359,6 +360,4 @@ templateMenu = (viewstate) ->
     tmpl
 
 module.exports = (viewstate) ->
-    console.log "b4"
     Menu.setApplicationMenu Menu.buildFromTemplate templateMenu(viewstate)
-    console.log "done!"
