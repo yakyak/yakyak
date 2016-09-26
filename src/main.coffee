@@ -371,8 +371,8 @@ app.on 'ready', ->
             ipcsend n, e
 
     # Emitted when the window is about to close.
-    # For OSX only hides the window if we're not force closing.
-    mainWindow.on 'close', (ev) ->
+    # Hides the window if we're not force closing.
+    mainWindow.on 'unload', (ev) ->
         if process.platform == 'darwin'
             if mainWindow.isFullScreen()
                 mainWindow.setFullScreen false
