@@ -92,7 +92,7 @@ templateOsx = (viewstate) -> [{
                 }, {
                     type: 'checkbox'
                     label: 'Show username in notifications'
-                    checked: viewstate.showMessageInNotification
+                    checked: viewstate.showUsernameInNotification
                     enabled: viewstate.loggedin && viewstate.showPopUpNotifications
                     click: (it) -> action 'showusernameinnotification', it.checked
                 }
