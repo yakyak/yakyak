@@ -41,7 +41,9 @@ module.exports = view (models) ->
             div class: 'relative'
                 , onclick: (e) ->
                     console.log 'going to upload preview image'
-                    action 'uploadpreviewimage'
+                    element = document.getElementById "message-input"
+                    # send text
+                    preparemessage element
                 , ->
                     img id: 'preview-img', src: ''
                     div class: 'after material-icons'
@@ -106,17 +108,7 @@ module.exports = view (models) ->
                         action 'hideWindow'
                     if e.keyCode == 13
                         e.preventDefault()
-                        if models.viewstate.convertEmoji
-                            # before sending message, check for emoji
-                            element = document.getElementById "message-input"
-                            # Converts emojicodes (e.g. :smile:, :-) ) to unicode
-                            element.value = convertEmoji(element.value)
-                        #
-                        action 'sendmessage', e.target.value
-                        document.querySelector('#emoji-container').classList.remove('open');
-                        historyPush e.target.value
-                        e.target.value = ''
-                        autosize.update e.target
+                        preparemessage e.target
                     if e.target.value == ''
                         if e.keyIdentifier is "Up" then historyWalk e.target, -1
                         if e.keyIdentifier is "Down" then historyWalk e.target, +1
@@ -170,6 +162,24 @@ maybeFocus = ->
         # steal it!!!
         el = document.querySelector('.input textarea')
         el.focus() if el
+
+preparemessage = (ev) ->
+    if models.viewstate.convertEmoji
+        # before sending message, check for emoji
+        element = document.getElementById "message-input"
+        # Converts emojicodes (e.g. :smile:, :-) ) to unicode
+        element.value = convertEmoji(element.value)
+    #
+    action 'sendmessage', ev.value
+    #
+    # check if there is an image in preview
+    img = document.getElementById "preview-img"
+    action 'uploadpreviewimage' if img.getAttribute('src') != ''
+    #
+    document.querySelector('#emoji-container').classList.remove('open');
+    historyPush ev.value
+    ev.value = ''
+    autosize.update ev
 
 handle 'noinputkeydown', (ev) ->
     el = document.querySelector('.input textarea')

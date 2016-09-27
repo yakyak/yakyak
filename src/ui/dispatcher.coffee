@@ -5,6 +5,8 @@ ipc    = require('electron').ipcRenderer
 clipboard = require('electron').clipboard
 nativeImage = require('electron').nativeImage
 
+{convertEmoji} = require './util'
+
 {entity, conv, viewstate, userinput, connection, convsettings, notify} = require './models'
 {throttle, later, isImg} = require './util'
 
@@ -212,10 +214,19 @@ handle 'uploadpreviewimage', ->
     # build PNG image from what is on preview
     pngData = nativeImage.createFromDataURL(element.src).toPNG()
     # reset field and close preview pane
-    document.querySelector('#preview-container').classList.toggle('open')
+    document.querySelector('#preview-container').classList.remove('open')
+    document.querySelector('#emoji-container').classList.remove('open')
     element.src = ''
     #
-    ipc.send 'uploadclipboardimage', {pngData, conv_id, client_generated_id}
+    element = document.getElementById "message-input"
+    if models.viewstate.convertEmoji
+        # before sending message, check for emoji
+        # Converts emojicodes (e.g. :smile:, :-) ) to unicode
+        element.value = convertEmoji(element.value)
+    #
+    msg = userinput.buildChatMessage entity.self, element.value
+    #
+    ipc.send 'uploadclipboardimage', {pngData, segs: msg.segs, otr: msg.otr, conv_id, client_generated_id}
 
 handle 'uploadingimage', (spec) ->
     # XXX this doesn't look very good because the image
