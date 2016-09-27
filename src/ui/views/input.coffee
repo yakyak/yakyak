@@ -38,6 +38,14 @@ openByDefault = 'people'
 module.exports = view (models) ->
     div class:'input', ->
         div id: 'preview-container', ->
+            div class: 'close-preview material-icons'
+                , onclick: (e) ->
+                    element = document.getElementById 'preview-img'
+                    element.src = ''
+                    document.querySelector('#preview-container')
+                        .classList.toggle('open')
+                , ->
+                    span ''
             div class: 'relative'
                 , onclick: (e) ->
                     console.log 'going to upload preview image'
@@ -49,8 +57,6 @@ module.exports = view (models) ->
                     div class: 'after material-icons'
                         , ->
                           span ''
-                    div class: 'close-preview', ->
-                        span ''
 
         div class: 'relative', ->
             div id:'emoji-container', ->
@@ -134,7 +140,7 @@ module.exports = view (models) ->
 
             span class:'button-container', ->
                 button title:'Show emoticons', onclick: (ef) ->
-                    document.querySelector('#emoji-container').classList.toggle('open');
+                    document.querySelector('#emoji-container').classList.toggle('open')
                     scrollToBottom()
                 , ->
                     span class:'material-icons', "mood"
