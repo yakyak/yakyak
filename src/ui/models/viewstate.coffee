@@ -26,6 +26,7 @@ module.exports = exp = {
     convertEmoji: tryparse(localStorage.convertEmoji) ? true
     showPopUpNotifications: tryparse(localStorage.showPopUpNotifications) ? true
     showMessageInNotification: tryparse(localStorage.showMessageInNotification) ? true
+    showUsernameInNotification: tryparse(localStorage.showUsernameInNotification) ? true
     colorScheme: localStorage.colorScheme or 'default'
     fontSize: localStorage.fontSize or 'medium'
     zoom: tryparse(localStorage.zoom ? "1.0")
