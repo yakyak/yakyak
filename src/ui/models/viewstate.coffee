@@ -23,10 +23,10 @@ module.exports = exp = {
     showAnimatedThumbs: tryparse(localStorage.showAnimatedThumbs) ? true
     showConvTime: tryparse(localStorage.showConvTime) ? true
     showConvLast: tryparse(localStorage.showConvLast) ? true
-    convertEmoji: tryparse(localStorage.convertEmoji) ? true
     showPopUpNotifications: tryparse(localStorage.showPopUpNotifications) ? true
     showMessageInNotification: tryparse(localStorage.showMessageInNotification) ? true
     showUsernameInNotification: tryparse(localStorage.showUsernameInNotification) ? true
+    convertEmoji: tryparse(localStorage.convertEmoji) ? true
     colorScheme: localStorage.colorScheme or 'default'
     fontSize: localStorage.fontSize or 'medium'
     zoom: tryparse(localStorage.zoom ? "1.0")
@@ -170,10 +170,6 @@ module.exports = exp = {
         @showConvLast = localStorage.showConvLast = doshow
         updated 'viewstate'
 
-    setConvertEmoji: (doshow) ->
-        return if @convertEmoji == doshow
-        @convertEmoji = localStorage.convertEmoji = doshow
-
     setShowPopUpNotifications: (doshow) ->
         return if @showPopUpNotifications == doshow
         @showPopUpNotifications = localStorage.showPopUpNotifications = doshow
@@ -187,6 +183,11 @@ module.exports = exp = {
     setShowUsernameInNotification: (doshow) ->
         return if @showUsernameInNotification == doshow
         @showUsernameInNotification = localStorage.setShowUsernameInNotification = doshow
+        updated 'viewstate'
+    
+    setConvertEmoji: (doshow) ->
+        return if @convertEmoji == doshow
+        @convertEmoji = localStorage.convertEmoji = doshow
         updated 'viewstate'
 
     setColorScheme: (colorscheme) ->

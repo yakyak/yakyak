@@ -25,7 +25,7 @@ create = () ->
     tray = new Tray trayIcons["read"]
     tray.setToolTip 'YakYak - Hangouts client'
     # Emitted when the tray icon is clicked
-    tray.on 'clicked', -> action 'showwindow'
+    tray.on 'click', -> action 'togglewindow'
 
 destroy = ->
     tray.destroy() if tray
@@ -40,17 +40,10 @@ update = (unreadCount, viewstate) ->
         }
 
         {
-          label: "Start minimzed to tray"
+          label: "Start minimized to tray"
           type: "checkbox"
           checked: viewstate.startminimizedtotray
           click: -> action 'togglestartminimizedtotray'
-        }
-
-        {
-            label: 'Show pop-up notifications'
-            type: "checkbox"
-            checked: viewstate.showPopUpNotifications
-            click: -> action 'toggleshowpopupnotifications'
         }
 
         {

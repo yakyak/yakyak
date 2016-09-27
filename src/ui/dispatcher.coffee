@@ -120,9 +120,6 @@ handle 'togglemenu', ->
 handle 'togglehidedockicon', ->
     viewstate.setHideDockIcon(not viewstate.hidedockicon)
 
-handle 'toggleshowpopupnotifications', ->
-    viewstate.setShowPopUpNotifications(not viewstate.setShowPopUpNotifications)
-
 handle 'hideWindow', ->
     mainWindow = remote.getCurrentWindow() # And we hope we don't get another ;)
     mainWindow.hide()
@@ -365,9 +362,6 @@ handle 'showconvtime', (doshow) ->
 handle 'showconvlast', (doshow) ->
     viewstate.setShowConvLast doshow
 
-handle 'convertemoji', (doshow) ->
-    viewstate.setConvertEmoji doshow
-
 handle 'showpopupnotifications', (doshow) ->
     viewstate.setShowPopUpNotifications doshow
 
@@ -376,6 +370,9 @@ handle 'showmessageinnotification', (doshow) ->
 
 handle 'showusernameinnotification', (doshow) ->
     viewstate.setShowUsernameInNotification doshow
+
+handle 'convertemoji', (doshow) ->
+    viewstate.setConvertEmoji doshow
 
 handle 'changetheme', (colorscheme) ->
     viewstate.setColorScheme colorscheme

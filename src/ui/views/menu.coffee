@@ -69,12 +69,6 @@ templateOsx = (viewstate) -> [{
                 }
             ]
         }, {
-            type: 'checkbox'
-            label: 'Convert text to emoji'
-            checked: viewstate.convertEmoji
-            enabled: viewstate.loggedin
-            click: (it) -> action 'convertemoji', it.checked
-        }, {
             label: 'Pop-Up Notification'
             submenu: [
                 {
@@ -90,13 +84,19 @@ templateOsx = (viewstate) -> [{
                     enabled: viewstate.loggedin && viewstate.showPopUpNotifications
                     click: (it) -> action 'showmessageinnotification', it.checked
                 }, {
-                    type: 'checkbox'
-                    label: 'Show username in notifications'
-                    checked: viewstate.showUsernameInNotification
-                    enabled: viewstate.loggedin && viewstate.showPopUpNotifications
-                    click: (it) -> action 'showusernameinnotification', it.checked
+                        type: 'checkbox'
+                        label: 'Show username in notifications'
+                        checked: viewstate.showUsernameInNotification
+                        enabled: viewstate.loggedin && viewstate.showPopUpNotifications
+                        click: (it) -> action 'showusernameinnotification', it.checked
                 }
             ]
+        }, {
+            type: 'checkbox'
+            label: 'Convert text to emoji'
+            checked: viewstate.convertEmoji
+            enabled: viewstate.loggedin
+            click: (it) -> action 'convertemoji', it.checked
         }, {
             label: 'Color Scheme'
             submenu: [
@@ -152,6 +152,7 @@ templateOsx = (viewstate) -> [{
                     click: -> action 'changefontsize', 'x-large'
                 }
             ]
+
         }, {
             label: 'Toggle Full Screen',
             accelerator: 'Command+Control+F',
@@ -335,12 +336,6 @@ templateOthers = (viewstate) -> [{
             ]
 
         }, {
-            type: 'checkbox'
-            label: 'Convert text to emoji'
-            checked: viewstate.convertEmoji
-            enabled: viewstate.loggedin
-            click: (it) -> action 'convertemoji', it.checked
-        }, {
             label: 'Pop-Up Notification'
             submenu: [
                 {
@@ -363,6 +358,12 @@ templateOthers = (viewstate) -> [{
                     click: (it) -> action 'showusernameinnotification', it.checked
                 }
             ]
+        }, {
+            type: 'checkbox'
+            label: 'Convert text to emoji'
+            checked: viewstate.convertEmoji
+            enabled: viewstate.loggedin
+            click: (it) -> action 'convertemoji', it.checked
         }, {
             label: 'Color Scheme'
             submenu: [
@@ -388,7 +389,8 @@ templateOthers = (viewstate) -> [{
                     click: -> action 'changetheme', 'material'
                 }
             ]
-        }, {
+        },
+         {
             label: 'Font Size'
             submenu: [
                 {

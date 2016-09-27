@@ -55,7 +55,7 @@ module.exports = (models) ->
 
         # maybe trigger OS notification
         return if !text or quietIf(c, chat_id)
-
+        
         if viewstate.showPopUpNotifications
             notifier.notify
                 title: if viewstate.showUsernameInNotification
