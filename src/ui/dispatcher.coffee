@@ -192,6 +192,9 @@ handle 'uploadimage', (files) ->
             notr "Ignoring file of type #{ext}"
             return
         # store image in preview-container and open it
+        #  I think it is better to embed than reference path as user should
+        #   see exactly what he is sending. (using the path would require
+        #   polling)
         element.src = nativeImage.createFromPath(file.path).toDataURL()
         document.querySelector('#preview-container').classList.toggle('open')
     else
