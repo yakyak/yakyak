@@ -68,38 +68,36 @@ templateOsx = (viewstate) -> [{
                     click: (it) -> action 'showconvlast', it.checked
                 }
             ]
-
         }, {
             type: 'checkbox'
             label: 'Convert text to emoji'
             checked: viewstate.convertEmoji
             enabled: viewstate.loggedin
             click: (it) -> action 'convertemoji', it.checked
-        },
-         {
-           label: 'Pop-Up Notification'
-           submenu: [
-             {
-                type: 'checkbox'
-                label: 'Show notifications'
-                checked: viewstate.showPopUpNotifications
-                enabled: viewstate.loggedin
-                click: (it) -> action 'showpopupnotifications', it.checked
-            }, {
-                type: 'checkbox'
-                label: 'Show message in notifications'
-                checked: viewstate.showMessageInNotification
-                enabled: viewstate.loggedin && viewstate.showPopUpNotifications
-                click: (it) -> action 'showmessageinnotification', it.checked
-            }, {
-                type: 'checkbox'
-                label: 'Show username in notifications'
-                checked: viewstate.showMessageInNotification
-                enabled: viewstate.loggedin && viewstate.showPopUpNotifications
-                click: (it) -> action 'showusernameinnotification', it.checked
-            }
-           ]
-         }, {
+        }, {
+            label: 'Pop-Up Notification'
+            submenu: [
+                {
+                    type: 'checkbox'
+                    label: 'Show notifications'
+                    checked: viewstate.showPopUpNotifications
+                    enabled: viewstate.loggedin
+                    click: (it) -> action 'showpopupnotifications', it.checked
+                }, {
+                    type: 'checkbox'
+                    label: 'Show message in notifications'
+                    checked: viewstate.showMessageInNotification
+                    enabled: viewstate.loggedin && viewstate.showPopUpNotifications
+                    click: (it) -> action 'showmessageinnotification', it.checked
+                }, {
+                    type: 'checkbox'
+                    label: 'Show username in notifications'
+                    checked: viewstate.showMessageInNotification
+                    enabled: viewstate.loggedin && viewstate.showPopUpNotifications
+                    click: (it) -> action 'showusernameinnotification', it.checked
+                }
+            ]
+        }, {
             label: 'Color Scheme'
             submenu: [
                 {
@@ -154,7 +152,6 @@ templateOsx = (viewstate) -> [{
                     click: -> action 'changefontsize', 'x-large'
                 }
             ]
-
         }, {
             label: 'Toggle Full Screen',
             accelerator: 'Command+Control+F',
@@ -344,28 +341,28 @@ templateOthers = (viewstate) -> [{
             enabled: viewstate.loggedin
             click: (it) -> action 'convertemoji', it.checked
         }, {
-          label: 'Pop-Up Notification'
-          submenu: [
-            {
-               type: 'checkbox'
-               label: 'Show notifications'
-               checked: viewstate.showPopUpNotifications
-               enabled: viewstate.loggedin
-               click: (it) -> action 'showpopupnotifications', it.checked
-           }, {
-               type: 'checkbox'
-               label: 'Show message in notifications'
-               checked: viewstate.showMessageInNotification
-               enabled: viewstate.loggedin && viewstate.showPopUpNotifications
-               click: (it) -> action 'showmessageinnotification', it.checked
-           }, {
-               type: 'checkbox'
-               label: 'Show username in notifications'
-               checked: viewstate.showUsernameInNotification
-               enabled: viewstate.loggedin && viewstate.showPopUpNotifications
-               click: (it) -> action 'showusernameinnotification', it.checked
-           }
-          ]
+            label: 'Pop-Up Notification'
+            submenu: [
+                {
+                    type: 'checkbox'
+                    label: 'Show notifications'
+                    checked: viewstate.showPopUpNotifications
+                    enabled: viewstate.loggedin
+                    click: (it) -> action 'showpopupnotifications', it.checked
+                }, {
+                    type: 'checkbox'
+                    label: 'Show message in notifications'
+                    checked: viewstate.showMessageInNotification
+                    enabled: viewstate.loggedin && viewstate.showPopUpNotifications
+                    click: (it) -> action 'showmessageinnotification', it.checked
+                }, {
+                    type: 'checkbox'
+                    label: 'Show username in notifications'
+                    checked: viewstate.showUsernameInNotification
+                    enabled: viewstate.loggedin && viewstate.showPopUpNotifications
+                    click: (it) -> action 'showusernameinnotification', it.checked
+                }
+            ]
         }, {
             label: 'Color Scheme'
             submenu: [
