@@ -186,7 +186,7 @@ module.exports = exp = {
 
     setShowUsernameInNotification: (doshow) ->
         return if @showUsernameInNotification == doshow
-        @setShowUsernameInNotification = localStorage.setShowUsernameInNotification = doshow
+        @showUsernameInNotification = localStorage.setShowUsernameInNotification = doshow
         updated 'viewstate'
 
     setColorScheme: (colorscheme) ->
