@@ -196,7 +196,7 @@ handle 'uploadimage', (files) ->
         #   see exactly what he is sending. (using the path would require
         #   polling)
         element.src = nativeImage.createFromPath(file.path).toDataURL()
-        document.querySelector('#preview-container').classList.toggle('open')
+        document.querySelector('#preview-container').classList.add('open')
     else
         for file in files
             # only images please
@@ -216,7 +216,7 @@ handle 'uploadimage', (files) ->
 handle 'onpasteimage', ->
     element = document.getElementById 'preview-img'
     element.src = clipboard.readImage().toDataURL()
-    document.querySelector('#preview-container').classList.toggle('open')
+    document.querySelector('#preview-container').classList.add('open')
 
 handle 'uploadpreviewimage', ->
     conv_id = viewstate.selectedConv

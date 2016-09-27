@@ -43,7 +43,7 @@ module.exports = view (models) ->
                     element = document.getElementById 'preview-img'
                     element.src = ''
                     document.querySelector('#preview-container')
-                        .classList.toggle('open')
+                        .classList.remove('open')
                 , ->
                     span ''
             div class: 'relative'
