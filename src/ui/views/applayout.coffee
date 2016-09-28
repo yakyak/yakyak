@@ -55,15 +55,27 @@ drag = do ->
         # this enables dragging at all
         ev.preventDefault()
         addClass closest(ev.target, 'dragtarget'), 'dragover'
+        removeClass closest(ev.target, 'dragtarget'), 'drag-timeout'
         ev.dataTransfer.dropEffect = 'copy'
         return false
 
     ondrop = (ev) ->
         ev.preventDefault()
+        removeClass closest(ev.target, 'dragtarget'), 'dragover'
+        removeClass closest(ev.target, 'dragtarget'), 'drag-timeout'
         action 'uploadimage', ev.dataTransfer.files
 
     ondragleave = (ev) ->
-        removeClass closest(ev.target, 'dragtarget'), 'dragover'
+        if !ev.clientX && !ev.clientY
+            # it was firing the leave event while dragging, had to
+            #  use a timeout to check if it was a "real" event
+            #  by remaining out
+            addClass closest(ev.target, 'dragtarget'), 'drag-timeout'
+            setTimeout ->
+                if ev.target.classList.contains('drag-timeout')
+                    removeClass closest(ev.target, 'dragtarget'), 'dragover'
+                    removeClass closest(ev.target, 'dragtarget'), 'drag-timeout'
+            , 200
 
     {ondragover, ondragenter, ondrop, ondragleave}
 
@@ -85,7 +97,6 @@ resize = do ->
 resizers =
     leftResize: (ev) -> action 'leftresize', (Math.max 90, ev.clientX)
 
-
 module.exports = exp = layout ->
     platform = if process.platform is 'darwin' then 'osx' else ''
     div class:'applayout dragtarget ' + platform, drag, resize, ->
@@ -99,6 +110,8 @@ module.exports = exp = layout ->
             div class:'main', region('main'), onscroll: onScroll
             div class:'maininfo', region('maininfo')
             div class:'foot', region('foot')
+        div id: 'drop-overlay', ->
+            div 'Drop image here.'
     attachListeners()
 
 
