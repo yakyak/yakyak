@@ -7,7 +7,6 @@
     animation: spinnerRotate 2s linear infinite;
 }
 .applayout {
-    * {pointer-events: none;}
     display: flex;
     height: 100%;
     > .controls {
@@ -23,13 +22,12 @@
             border-right: 1px solid var(--grey);
         }
     }
-
     &.dragover > #drop-overlay {
-        display: table;
-        z-index: 1;
+        display: block;
     }
 
     > #drop-overlay {
+        z-index: 1;
         top: 0;
         left: 0;
         display: none;
@@ -40,9 +38,20 @@
         margin-top: auto;
         background-color: rgba(119, 119, 119, .4);
         font-size: 5em;
-        & div {
-          display: table-cell;
-          vertical-align: middle;
+        & div.inner-overlay {
+          display: table;
+          height: 70%;
+          width: 70%;
+          position: relative;
+          margin: auto auto;
+          top: 15%;
+          border: 13px dashed rgba(100,100,100,1);
+          border-radius: 10px;
+          color: white;
+          div {
+            display: table-cell;
+            vertical-align: middle;
+          }
         }
     }
 

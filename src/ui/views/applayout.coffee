@@ -72,7 +72,7 @@ drag = do ->
             #  by remaining out
             addClass closest(ev.target, 'dragtarget'), 'drag-timeout'
             setTimeout ->
-                if ev.target.classList.contains('drag-timeout')
+                if closest(ev.target, 'dragtarget').classList.contains('drag-timeout')
                     removeClass closest(ev.target, 'dragtarget'), 'dragover'
                     removeClass closest(ev.target, 'dragtarget'), 'drag-timeout'
             , 200
@@ -111,7 +111,8 @@ module.exports = exp = layout ->
             div class:'maininfo', region('maininfo')
             div class:'foot', region('foot')
         div id: 'drop-overlay', ->
-            div 'Drop image here.'
+            div class: 'inner-overlay', () ->
+                div 'Drop image here.'
     attachListeners()
 
 
