@@ -112,7 +112,7 @@ module.exports = exp = layout ->
             div class:'foot', region('foot')
         div id: 'drop-overlay', ->
             div class: 'inner-overlay', () ->
-                div 'Drop image here.'
+                div 'Drop file here.'
     attachListeners()
 
 
