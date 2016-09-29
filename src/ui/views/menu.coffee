@@ -313,7 +313,7 @@ templateView = (viewstate) ->
             checked:  viewstate.showtray
             click: -> action 'toggleshowtray'
         }, {
-          label: 'Pressing escape...'
+          label: 'Escape key behavior'
           submenu: [
               {
                   label: 'Hides window'
