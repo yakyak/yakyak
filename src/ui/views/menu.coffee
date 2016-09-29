@@ -312,6 +312,12 @@ templateView = (viewstate) ->
             enabled: not viewstate.hidedockicon
             checked:  viewstate.showtray
             click: -> action 'toggleshowtray'
+        }, {
+          label: 'Escape key hides YakYak to tray'
+          type: 'checkbox'
+          enabled: viewstate.showtray
+          checked: viewstate.escapeClosesWindow
+          click: -> action 'toggleescapecloseswindow'
         }
         if isDarwin
             {
