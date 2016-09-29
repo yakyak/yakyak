@@ -22,8 +22,12 @@
             border-right: 1px solid var(--grey);
         }
     }
-    &.dragover #drop-overlay {
+    .dragover #drop-overlay {
         display: block;
+    }
+
+    .dragover * {
+      pointer-events: none;
     }
 
     #drop-overlay {
