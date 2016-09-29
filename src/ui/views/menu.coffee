@@ -317,14 +317,14 @@ templateView = (viewstate) ->
           submenu: [
               {
                   label: 'Hides window'
-                  type: 'checkbox'
+                  type: 'radio'
                   enabled: viewstate.showtray
                   checked: viewstate.showtray && !viewstate.escapeClearsInput
                   click: -> action 'setescapeclearsinput', false
               }
               {
-                  label: 'Clears input' + if !viewstate.showtray then ' (default when tray is not showing)'
-                  type: 'checkbox'
+                  label: 'Clears input' + if !viewstate.showtray then ' (default when tray is not showing)' else ''
+                  type: 'radio'
                   enabled: viewstate.showtray
                   checked: !viewstate.showtray || viewstate.escapeClearsInput
                   click: -> action 'setescapeclearsinput', true
