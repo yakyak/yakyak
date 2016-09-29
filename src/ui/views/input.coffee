@@ -56,7 +56,7 @@ module.exports = view (models) ->
                     img id: 'preview-img', src: ''
                     div class: 'after material-icons'
                         , ->
-                          span ''
+                            span 'send'
 
         div class: 'relative', ->
             div id:'emoji-container', ->
