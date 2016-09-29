@@ -106,13 +106,13 @@ module.exports = exp = layout ->
             div class:'lfoot', region('lfoot')
         div class:'leftresize', 'data-resize':'leftResize'
         div class:'right', ->
+            div id: 'drop-overlay', ->
+                div class: 'inner-overlay', () ->
+                    div 'Drop file here.'
             div class:'convhead', region('convhead')
             div class:'main', region('main'), onscroll: onScroll
             div class:'maininfo', region('maininfo')
             div class:'foot', region('foot')
-        div id: 'drop-overlay', ->
-            div class: 'inner-overlay', () ->
-                div 'Drop file here.'
     attachListeners()
 
 

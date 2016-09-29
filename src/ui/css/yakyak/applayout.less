@@ -22,12 +22,12 @@
             border-right: 1px solid var(--grey);
         }
     }
-    &.dragover > #drop-overlay {
+    &.dragover #drop-overlay {
         display: block;
     }
 
-    > #drop-overlay {
-        z-index: 1;
+    #drop-overlay {
+        z-index: 2;
         top: 0;
         left: 0;
         display: none;
@@ -37,16 +37,16 @@
         text-align: center;
         margin-top: auto;
         background-color: rgba(119, 119, 119, .4);
-        font-size: 4em;
+        font-size: 3em;
         & div.inner-overlay {
-          top: 15%;
-          height: 70%;
-          width: 70%;
+          top: ~"calc(var(--headerbarheight) * 1.5 / var(--zoom))";
+          height: 85%;
+          width: 85%;
           display: table;
           position: relative;
           margin: auto auto;
-          border: 13px dashed rgba(100,100,100,1);
-          border-radius: 10px;
+          border: 5px dashed rgba(100,100,100,1);
+          border-radius: 12px;
           color: rgba(100,100,100,1);
           div {
             display: table-cell;
@@ -97,6 +97,7 @@
         }
     }
     > .right {
+        position: relative;
         flex: 1;
         display: flex;
         flex-direction: column;
