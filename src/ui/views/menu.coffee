@@ -313,11 +313,23 @@ templateView = (viewstate) ->
             checked:  viewstate.showtray
             click: -> action 'toggleshowtray'
         }, {
-          label: 'Escape key hides YakYak to tray'
-          type: 'checkbox'
-          enabled: viewstate.showtray
-          checked: viewstate.escapeClosesWindow
-          click: -> action 'toggleescapecloseswindow'
+          label: 'Pressing escape...'
+          submenu: [
+              {
+                  label: 'Hides window'
+                  type: 'checkbox'
+                  enabled: viewstate.showtray
+                  checked: viewstate.showtray && !viewstate.escapeClearsInput
+                  click: -> action 'setescapeclearsinput', false
+              }
+              {
+                  label: 'Clears input' + if !viewstate.showtray then ' (default when tray is not showing)'
+                  type: 'checkbox'
+                  enabled: viewstate.showtray
+                  checked: !viewstate.showtray || viewstate.escapeClearsInput
+                  click: -> action 'setescapeclearsinput', true
+              }
+          ]
         }
         if isDarwin
             {

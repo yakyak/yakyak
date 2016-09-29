@@ -117,8 +117,8 @@ handle 'togglemenu', ->
     mainWindow = remote.getCurrentWindow()
     if mainWindow.isMenuBarVisible() then mainWindow.setMenuBarVisibility(false) else mainWindow.setMenuBarVisibility(true)
 
-handle 'toggleescapecloseswindow', ->
-    viewstate.setEscapeClosesWindow(not viewstate.escapeClosesWindow)
+handle 'setescapeclearsinput', (value) ->
+    viewstate.setEscapeClearsInput(value)
 
 handle 'togglehidedockicon', ->
     viewstate.setHideDockIcon(not viewstate.hidedockicon)

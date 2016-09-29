@@ -29,7 +29,7 @@ module.exports = exp = {
     fontSize: localStorage.fontSize or 'medium'
     zoom: tryparse(localStorage.zoom ? "1.0")
     loggedin: false
-    escapeClosesWindow: tryparse(localStorage.escapeClosesWindow) or true
+    escapeClearsInput: tryparse(localStorage.escapeClearsInput) or false
     showtray: tryparse(localStorage.showtray) or false
     hidedockicon: tryparse(localStorage.hidedockicon) or false
     startminimizedtotray: tryparse(localStorage.startminimizedtotray) or false
@@ -192,10 +192,8 @@ module.exports = exp = {
         document.querySelector('html').classList.add(localStorage.colorScheme)
         document.querySelector('html').classList.add(fontsize)
 
-    setEscapeClosesWindow: (value) ->
-        @escapeClosesWindow = localStorage.escapeClosesWindow = value
-        if @escapeClosesWindow
-            @setEscapeClearsInput(false)
+    setEscapeClearsInput: (value) ->
+        @escapeClearsInput = localStorage.escapeClearsInput = value
         updated 'viewstate'
 
     setShowTray: (value) ->
