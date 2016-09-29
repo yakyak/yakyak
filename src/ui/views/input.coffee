@@ -87,7 +87,7 @@ module.exports = view (models) ->
                 if (e.metaKey or e.ctrlKey) and e.keyIdentifier == 'Up' then action 'selectNextConv', -1
                 if (e.metaKey or e.ctrlKey) and e.keyIdentifier == 'Down' then action 'selectNextConv', +1
                 unless isModifierKey(e)
-                    if e.keyCode == 27
+                    if e.keyCode == 27 && models.viewstate.showtray && models.viewstate.escapeClosesWindow
                         e.preventDefault()
                         action 'hideWindow'
                     if e.keyCode == 13

@@ -29,6 +29,7 @@ module.exports = exp = {
     fontSize: localStorage.fontSize or 'medium'
     zoom: tryparse(localStorage.zoom ? "1.0")
     loggedin: false
+    escapeClosesWindow: tryparse(localStorage.escapeClosesWindow) or true
     showtray: tryparse(localStorage.showtray) or false
     hidedockicon: tryparse(localStorage.hidedockicon) or false
     startminimizedtotray: tryparse(localStorage.startminimizedtotray) or false
@@ -138,7 +139,7 @@ module.exports = exp = {
                         action 'settyping', STOPPED
                     , 6000
                 , 6000
-    
+
     setShowConvMin: (doshow) ->
         return if @showConvMin == doshow
         @showConvMin = localStorage.showConvMin = doshow
@@ -190,6 +191,12 @@ module.exports = exp = {
             document.querySelector('html').classList.remove document.querySelector('html').classList.item(0)
         document.querySelector('html').classList.add(localStorage.colorScheme)
         document.querySelector('html').classList.add(fontsize)
+
+    setEscapeClosesWindow: (value) ->
+        @escapeClosesWindow = localStorage.escapeClosesWindow = value
+        if @escapeClosesWindow
+            @setEscapeClearsInput(false)
+        updated 'viewstate'
 
     setShowTray: (value) ->
         @showtray = localStorage.showtray = value
