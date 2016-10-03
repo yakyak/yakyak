@@ -182,11 +182,11 @@ templateView = (viewstate) ->
                     enabled: viewstate.loggedin && viewstate.showPopUpNotifications
                     click: (it) -> action 'showmessageinnotification', it.checked
                 }, {
-                        type: 'checkbox'
-                        label: 'Show username in notifications'
-                        checked: viewstate.showUsernameInNotification
-                        enabled: viewstate.loggedin && viewstate.showPopUpNotifications
-                        click: (it) -> action 'showusernameinnotification', it.checked
+                    type: 'checkbox'
+                    label: 'Show username in notifications'
+                    checked: viewstate.showUsernameInNotification
+                    enabled: viewstate.loggedin && viewstate.showPopUpNotifications
+                    click: (it) -> action 'showusernameinnotification', it.checked
                 }
             ]
         }, {
