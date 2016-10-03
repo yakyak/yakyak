@@ -182,7 +182,7 @@ module.exports = exp = {
 
     setShowUsernameInNotification: (doshow) ->
         return if @showUsernameInNotification == doshow
-        @showUsernameInNotification = localStorage.setShowUsernameInNotification = doshow
+        @showUsernameInNotification = localStorage.showUsernameInNotification = doshow
         updated 'viewstate'
     
     setConvertEmoji: (doshow) ->
