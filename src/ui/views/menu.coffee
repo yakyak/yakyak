@@ -60,7 +60,7 @@ templateYakYak = (viewstate) ->
         if isDarwin
             {
                 label: 'Hide Others'
-                accelerator: getAccelerator('hideother')
+                accelerator: getAccelerator('hideothers')
                 selector: 'hideOtherApplications:' if isDarwin
             }
 
