@@ -60,7 +60,7 @@ templateYakYak = (viewstate) ->
         if isDarwin
             {
                 label: 'Hide Others'
-                accelerator: getAccelerator('hideother')
+                accelerator: getAccelerator('hideothers')
                 selector: 'hideOtherApplications:' if isDarwin
             }
 
@@ -285,39 +285,39 @@ templateView = (viewstate) ->
             submenu: [
               {
                   label: 'Conversation 1'
-                  accelerator: getAccelarator('conversation1')
+                  accelerator: getAccelerator('conversation1')
                   click: -> action 'selectConvIndex', 0
               }, {
                   label: 'Conversation 2'
-                  accelerator: getAccelarator('conversation2')
+                  accelerator: getAccelerator('conversation2')
                   click: -> action 'selectConvIndex', 1
               }, {
                   label: 'Conversation 3'
-                  accelerator: getAccelarator('conversation3')
+                  accelerator: getAccelerator('conversation3')
                   click: -> action 'selectConvIndex', 2
               }, {
                   label: 'Conversation 4'
-                  accelerator: getAccelarator('conversation4')
+                  accelerator: getAccelerator('conversation4')
                   click: -> action 'selectConvIndex', 3
               }, {
                   label: 'Conversation 5'
-                  accelerator: getAccelarator('conversation5')
+                  accelerator: getAccelerator('conversation5')
                   click: -> action 'selectConvIndex', 4
               }, {
                   label: 'Conversation 6'
-                  accelerator: getAccelarator('conversation6')
+                  accelerator: getAccelerator('conversation6')
                   click: -> action 'selectConvIndex', 5
               }, {
                   label: 'Conversation 7'
-                  accelerator: getAccelarator('conversation7')
+                  accelerator: getAccelerator('conversation7')
                   click: -> action 'selectConvIndex', 6
               }, {
                   label: 'Conversation 8'
-                  accelerator: getAccelarator('conversation8')
+                  accelerator: getAccelerator('conversation8')
                   click: -> action 'selectConvIndex', 7
               }, {
                   label: 'Conversation 9'
-                  accelerator: getAccelarator('conversation9')
+                  accelerator: getAccelerator('conversation9')
                   click: -> action 'selectConvIndex', 8
               }
             ]
