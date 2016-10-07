@@ -372,14 +372,4 @@ app.on 'ready', ->
 
     # Emitted when the window is about to close.
     # Hides the window if we're not force closing.
-    mainWindow.on 'unload', (ev) ->
-        if process.platform == 'darwin'
-            if mainWindow.isFullScreen()
-                mainWindow.setFullScreen false
-            if not global.forceClose
-                ev.preventDefault()
-                mainWindow.hide()
-                return
-
-        mainWindow = null
-        quit()
+    #  IMPORTANT: moved to app.coffee
