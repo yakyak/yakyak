@@ -2,6 +2,10 @@ Client = require 'hangupsjs'
 remote = require('electron').remote
 ipc    = require('electron').ipcRenderer
 
+
+fs = require('fs')
+mmm = require('mmmagic')
+
 clipboard = require('electron').clipboard
 nativeImage = require('electron').nativeImage
 
@@ -195,8 +199,16 @@ handle 'uploadimage', (files) ->
         #  I think it is better to embed than reference path as user should
         #   see exactly what he is sending. (using the path would require
         #   polling)
-        element.src = nativeImage.createFromPath(file.path).toDataURL()
-        document.querySelector('#preview-container').classList.add('open')
+        fs.readFile file.path, (err, original_data) ->
+            binaryImage = new Buffer(original_data, 'binary')
+            base64Image = binaryImage.toString('base64')
+            mimeType = new mmm.Magic(mmm.MAGIC_MYME_TYPE)
+            mimeType.detectFile binaryImage, (err, result) ->
+                if err
+                    throw err
+                element.src = 'data:' + result + ';base64,' + base64Image
+                element.data-type = 'url'
+                document.querySelector('#preview-container').classList.add('open')
     else
         for file in files
             # only images please
@@ -216,6 +228,7 @@ handle 'uploadimage', (files) ->
 handle 'onpasteimage', ->
     element = document.getElementById 'preview-img'
     element.src = clipboard.readImage().toDataURL()
+    element.data-type = 'base64'
     document.querySelector('#preview-container').classList.add('open')
 
 handle 'uploadpreviewimage', ->
@@ -228,7 +241,10 @@ handle 'uploadpreviewimage', ->
     # find preview element
     element = document.getElementById 'preview-img'
     # build PNG image from what is on preview
-    pngData = nativeImage.createFromDataURL(element.src).toPNG()
+    if element.data-type == 'base64'
+        pngData = nativeImage.createFromDataURL(element.src).toPNG()
+    else
+        pngData = fs.readFile(element.src)
     # reset field and close preview pane
     document.querySelector('#preview-container').classList.remove('open')
     document.querySelector('#emoji-container').classList.remove('open')
