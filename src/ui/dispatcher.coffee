@@ -204,7 +204,6 @@ handle 'uploadimage', (files) ->
             base64Image = binaryImage.toString('base64')
             mimeType = mime.lookup file.path
             element.src = 'data:' + mimeType + ';base64,' + base64Image
-            element.data-type = 'url'
             document.querySelector('#preview-container').classList.add('open')
     else
         for file in files
@@ -225,7 +224,6 @@ handle 'uploadimage', (files) ->
 handle 'onpasteimage', ->
     element = document.getElementById 'preview-img'
     element.src = clipboard.readImage().toDataURL()
-    element.data-type = 'base64'
     document.querySelector('#preview-container').classList.add('open')
 
 handle 'uploadpreviewimage', ->
@@ -237,12 +235,9 @@ handle 'uploadpreviewimage', ->
     conv.addChatMessagePlaceholder entity.self.id, msg
     # find preview element
     element = document.getElementById 'preview-img'
-    # build PNG image from what is on preview
-    if element.data-type == 'base64'
-        pngData = nativeImage.createFromDataURL(element.src).toPNG()
-    else
-        pngData = fs.readFile(element.src)
-    # reset field and close preview pane
+    # build image from what is on preview
+    pngData = element.src.replace /data:image\/(png|jpe?g|gif|svg);base64,/, ''
+    pngData = new Buffer(pngData, 'base64')
     document.querySelector('#preview-container').classList.remove('open')
     document.querySelector('#emoji-container').classList.remove('open')
     element.src = ''
