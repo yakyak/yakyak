@@ -224,6 +224,7 @@ handle 'uploadimage', (files) ->
 handle 'onpasteimage', ->
     element = document.getElementById 'preview-img'
     element.src = clipboard.readImage().toDataURL()
+    element.src = element.src.replace /image\/png/, 'image/gif'
     document.querySelector('#preview-container').classList.add('open')
 
 handle 'uploadpreviewimage', ->
