@@ -4,7 +4,7 @@ ipc    = require('electron').ipcRenderer
 
 
 fs = require('fs')
-mmm = require('mmmagic')
+mime = require('mime-types')
 
 clipboard = require('electron').clipboard
 nativeImage = require('electron').nativeImage
@@ -202,13 +202,10 @@ handle 'uploadimage', (files) ->
         fs.readFile file.path, (err, original_data) ->
             binaryImage = new Buffer(original_data, 'binary')
             base64Image = binaryImage.toString('base64')
-            mimeType = new mmm.Magic(mmm.MAGIC_MYME_TYPE)
-            mimeType.detectFile binaryImage, (err, result) ->
-                if err
-                    throw err
-                element.src = 'data:' + result + ';base64,' + base64Image
-                element.data-type = 'url'
-                document.querySelector('#preview-container').classList.add('open')
+            mimeType = mime.lookup file.path
+            element.src = 'data:' + mimeType + ';base64,' + base64Image
+            element.data-type = 'url'
+            document.querySelector('#preview-container').classList.add('open')
     else
         for file in files
             # only images please
