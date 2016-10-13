@@ -89,5 +89,4 @@ $ npm run deploy
 
 - `src/`: is where sources live
 - `src/ui/`: holds renderer code (client side)
-- `YakYak.app/`: is where the app is built
-- `YakYak.app/Contents/Resources/app/`: specifically all is compiled to here
+- `dist/`: everything is compiled to this directory
