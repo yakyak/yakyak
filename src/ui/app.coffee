@@ -21,6 +21,9 @@ hr'.split(' '))...
 {applayout}       = require './views'
 {viewstate, conv} = require './models'
 
+# show tray icon as soon as browser window appers
+{ trayicon } = require './views/index'
+
 contextmenu = require('./views/contextmenu')
 require('./views/menu')(viewstate)
 if viewstate.startminimizedtotray
