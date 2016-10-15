@@ -77,6 +77,10 @@ app.on 'activate', ->
 
 loadAppWindow = ->
     mainWindow.loadURL 'file://' + __dirname + '/ui/index.html'
+    # Only show window when it has some content
+    mainWindow.once 'ready-to-show', () ->
+        mainWindow.show()
+    # short hand
 
 toggleWindowVisible = ->
     if mainWindow.isVisible() then mainWindow.hide() else mainWindow.show()
@@ -107,7 +111,7 @@ app.on 'ready', ->
         "min-width": 620
         "min-height": 420
         icon: path.join __dirname, 'icons', 'icon.png'
-        show: true
+        show: false
         titleBarStyle: 'hidden-inset' if process.platform is 'darwin'
         autoHideMenuBar : true unless process.platform is 'darwin'
     }

@@ -28,6 +28,9 @@ if viewstate.startminimizedtotray
 
 # tie layout to DOM
 
+# restore last position of window
+remote.getCurrentWindow().setPosition viewstate.pos...
+
 document.body.appendChild applayout.el
 
 # intercept every event we listen to
