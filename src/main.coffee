@@ -60,14 +60,14 @@ if shouldQuit
     return;
 
 # No more minimizing to tray, just close it
-global.forceClose = false;
+global.forceClose = false
 quit = ->
-    global.forceClose = true;
+    global.forceClose = true
     app.quit()
     return
 
 app.on 'before-quit', ->
-    global.forceClose = true;
+    global.forceClose = true
     return
 
 # For OSX show window main window if we've hidden it.
@@ -79,7 +79,8 @@ loadAppWindow = ->
     mainWindow.loadURL 'file://' + __dirname + '/ui/index.html'
     # Only show window when it has some content
     mainWindow.once 'ready-to-show', () ->
-        mainWindow.show()
+        if !global.windowHideWhileCred? || global.windowHideWhileCred != true
+            mainWindow.show()
     # short hand
 
 toggleWindowVisible = ->
@@ -141,6 +142,7 @@ app.on 'ready', ->
 
         loginWindow.on 'closed', quit
 
+        global.windowHideWhileCred = true
         mainWindow.hide()
         loginWindow.focus()
         # reinstate app window when login finishes
