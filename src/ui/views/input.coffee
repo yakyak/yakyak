@@ -84,8 +84,8 @@ module.exports = view (models) ->
                     ta.parentNode.style.height = (ta.offsetHeight + 24) + 'px'
                     messages.scrollToBottom() if messages?
             , onkeydown: (e) ->
-                if (e.metaKey or e.ctrlKey) and e.keyIdentifier == 'Up' then action 'selectNextConv', -1
-                if (e.metaKey or e.ctrlKey) and e.keyIdentifier == 'Down' then action 'selectNextConv', +1
+                if (e.metaKey or e.ctrlKey) and e.key == 'Up' then action 'selectNextConv', -1
+                if (e.metaKey or e.ctrlKey) and e.key == 'Down' then action 'selectNextConv', +1
                 unless isModifierKey(e)
                     if e.keyCode == 27
                         e.preventDefault()
@@ -104,8 +104,8 @@ module.exports = view (models) ->
                         e.target.value = ''
                         autosize.update e.target
                     if e.target.value == ''
-                        if e.keyIdentifier is "Up" then historyWalk e.target, -1
-                        if e.keyIdentifier is "Down" then historyWalk e.target, +1
+                        if e.key is "Up" then historyWalk e.target, -1
+                        if e.key is "Down" then historyWalk e.target, +1
                 action 'lastkeydown', Date.now() unless isAltCtrlMeta(e)
             , onkeyup: (e) ->
                 #check for emojis after pressing space
