@@ -18,6 +18,8 @@ handle 'update:connection', do ->
         # place in layout
         if connection.state == connection.CONNECTED
             el?.hide?()
+            document.querySelector('.state_connecting').classList.add("hide")
+            document.querySelector('.state_contacts').classList.remove("hide")
             el = null
         else
             el = notr {html:conninfo.el.innerHTML, stay:0, id:'conn'}
