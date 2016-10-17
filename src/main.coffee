@@ -401,4 +401,5 @@ app.on 'ready', ->
                 mainWindow.hide()
                 return
 
+        mainWindow = null
         quit()
