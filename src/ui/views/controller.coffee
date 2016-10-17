@@ -30,8 +30,10 @@ setLeftSize = (left) ->
 setConvMin = (convmin) ->
     if convmin
         document.querySelector('.left').classList.add("minimal")
+        document.querySelector('.leftresize').classList.add("minimal")
     else
         document.querySelector('.left').classList.remove("minimal")
+        document.querySelector('.leftresize').classList.remove("minimal")
 
 
 handle 'update:viewstate', ->
