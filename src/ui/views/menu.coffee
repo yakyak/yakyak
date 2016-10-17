@@ -363,6 +363,15 @@ templateMenu = (viewstate) ->
                 label: 'Window'
                 submenu: templateWindow viewstate
             }
+        , {
+          label: "Help"
+          submenu: [
+            {
+              label: 'About'
+              click: () -> action 'show-about'
+            }
+          ]
+        }
     ].filter (n) -> n != undefined
 
 module.exports = (viewstate) ->
