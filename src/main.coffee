@@ -116,7 +116,6 @@ app.on 'ready', ->
       width: 500
       height: 500
       show: false
-      modal: true
       parent: mainWindow
     }
 
