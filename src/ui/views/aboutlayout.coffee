@@ -17,6 +17,7 @@ attachListeners = ->
     return
     # do nothing
 
+check(true)
 releasedVersion = window.localStorage.versionAdvertised
 localVersion = remote.require('electron').app.getVersion()
 
