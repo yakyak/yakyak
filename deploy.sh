@@ -146,4 +146,4 @@ build_linux_x64 () {
 [[ $PLATFORMS =~ $LINUX_IA32 ]] && build_linux_ia32
 [[ $PLATFORMS =~ $LINUX_X64 ]] && build_linux_x64
 
-
+true
