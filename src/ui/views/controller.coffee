@@ -22,7 +22,12 @@ handle 'update:connection', do ->
             document.querySelector('.state_contacts').classList.remove("hide")
             el = null
         else
-            el = notr {html:conninfo.el.innerHTML, stay:0, id:'conn'}
+            document.querySelector('.state_connecting').innerHTML = connection.infoText().replace('…','')
+            if document.querySelector('.connecting.hide')?
+                el = notr {html:conninfo.el.innerHTML, stay:0, id:'conn'}
+            else
+                document.querySelector('.state_connecting').classList.remove("hide")
+                document.querySelector('.state_contacts').classList.add("hide")
 
 
 setLeftSize = (left) ->
