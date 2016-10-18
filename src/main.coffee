@@ -49,6 +49,7 @@ logout = ->
 seqreq = require './seqreq'
 
 mainWindow = null
+aboutWindow = null
 
 # Only allow a single active instance
 shouldQuit = app.makeSingleInstance ->
@@ -62,7 +63,10 @@ if shouldQuit
 # No more minimizing to tray, just close it
 global.forceClose = false;
 quit = ->
-    global.forceClose = true;
+    global.forceClose = true
+    # force all windows to close
+    aboutWindow.destroy()
+    mainWindow.destroy()
     app.quit()
     return
 
