@@ -51,7 +51,7 @@ module.exports = exp = layout ->
                     li 'Arnaud Riu'
                     li 'Austin Guevara'
         div class: 'home', ->
-            href = "https://github/yakyak/yakyak"
+            href = "https://github.com/yakyak/yakyak"
             a href: href
             , onclick: (ev) ->
                 ev.preventDefault()
