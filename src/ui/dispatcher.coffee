@@ -154,9 +154,8 @@ handle 'hideWindow', ->
     mainWindow = remote.getCurrentWindow() # And we hope we don't get another ;)
     mainWindow.hide()
 
-handle 'togglewindow', ->
+handle 'showwindow', ->
     mainWindow = remote.getCurrentWindow() # And we hope we don't get another ;)
-    # if mainWindow.isVisible() then mainWindow.hide() else mainWindow.show()
     mainWindow.show()
 
 handle 'togglestartminimizedtotray', ->

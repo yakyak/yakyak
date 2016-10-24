@@ -25,7 +25,7 @@ create = () ->
     tray = new Tray trayIcons["read"]
     tray.setToolTip 'YakYak - Hangouts client'
     # Emitted when the tray icon is clicked
-    tray.on 'click', -> action 'togglewindow'
+    tray.on 'click', -> action 'showwindow'
 
 destroy = ->
     tray.destroy() if tray
