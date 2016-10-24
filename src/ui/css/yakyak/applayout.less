@@ -163,6 +163,9 @@
         flex-direction: column;
         width: 240px;
         position: relative;
+        &:hover > .list {
+            overflow-y: scroll;
+        }
         &.minimal{
             width: 81px !important;
         }
@@ -179,7 +182,7 @@
         > .list {
             flex: 1;
             overflow-x: hidden;
-            overflow-y: scroll;
+            overflow-y: hidden;
         }
         > .lfoot {
             flex: none;
@@ -192,9 +195,12 @@
         flex-direction: column;
         background: linear-gradient(var(--green), var(--green) ~"calc(var(--headerbarheight) / var(--zoom))", var(--lightgrey) ~"calc(var(--headerbarheight) / var(--zoom))");
         > .main {
+            &:hover {
+                overflow-y: scroll;
+            }
             flex: 1;
             overflow-x: hidden;
-            overflow-y: scroll;
+            overflow-y: hidden;
             padding-bottom: 35px;
             display: flex;
             flex-flow: column-reverse;
