@@ -121,6 +121,7 @@ app.on 'ready', ->
       height: 500
       show: false
       parent: mainWindow
+      resizable: false
     }
 
     aboutWindow.loadURL 'file://' + __dirname + '/ui/about.html'
