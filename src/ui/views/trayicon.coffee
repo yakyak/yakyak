@@ -36,7 +36,7 @@ update = (unreadCount, viewstate) ->
     templateContextMenu = compact([
         {
           label: 'Show window'
-          click: -> action 'togglewindow'
+          click: -> action 'showwindow'
         }
 
         {
