@@ -80,6 +80,8 @@ loadAppWindow = ->
     # Only show window when it has some content
     mainWindow.once 'ready-to-show', () ->
         if !global.windowHideWhileCred? || global.windowHideWhileCred != true
+            unless process.platform is 'darwin'
+                mainWindow.setAutoHideMenuBar(true)
             mainWindow.show()
     # short hand
 
@@ -114,7 +116,7 @@ app.on 'ready', ->
         icon: path.join __dirname, 'icons', 'icon.png'
         show: false
         titleBarStyle: 'hidden-inset' if process.platform is 'darwin'
-        autoHideMenuBar : true unless process.platform is 'darwin'
+        # autoHideMenuBar : true unless process.platform is 'darwin'
     }
 
 
