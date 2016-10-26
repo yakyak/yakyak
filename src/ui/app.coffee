@@ -13,6 +13,10 @@ dispatcher = require './dispatcher'
 
 remote = require('electron').remote
 
+window.onerror = (msg, url, lineNo, columnNo, error) ->
+    hash = {msg, url, lineNo, columnNo, error}
+    ipc.send 'errorInWindow', hash
+
 # expose some selected tagg functions
 trifl.tagg.expose window, ('ul li div span a i b u s button p label
 input table thead tbody tr td th textarea br pass img h1 h2 h3 h4
