@@ -16,6 +16,7 @@ WIN32_X64="win32-x64"
 
 ALLPLATFORMS=($DARWIN_X64 $LINUX_X64 $LINUX_IA32 $WIN32_IA32 $WIN32_X64)
 PLATFORMS=()
+NOZIP=false
 
 if [[ $# -eq 0 ]]; then
   PLATFORMS=${ALLPLATFORMS[*]}
@@ -25,6 +26,9 @@ else
     key="$1"
 
     case $key in
+      --no-zip)
+        NOZIP=true
+        ;;
       --darwin-x64)
         PLATFORMS=("${PLATFORMS[@]}" $DARWIN_X64)
         ;;
@@ -107,7 +111,9 @@ build_win32_ia32 () {
   mv electron.exe yakyak.exe
   cp -R ../../app resources/app
   cd ..
-  zip -r yakyak-win32-ia32.zip win32-ia32
+  if [ $NOZIP = false ]; then
+    zip -r yakyak-win32-ia32.zip win32-ia32
+  fi
   # ditto -c -k --rsrc --extattr --keepParent win32-ia32 yakyak-win32-ia32.zip
 }
 
@@ -116,7 +122,9 @@ build_win32_x64 () {
   mv electron.exe yakyak.exe
   cp -R ../../app resources/app
   cd ..
-  zip -r yakyak-win32-x64.zip win32-x64
+  if [ $NOZIP = false ]; then
+    zip -r yakyak-win32-x64.zip win32-x64
+  fi
   # ditto -c -k --rsrc --extattr --keepParent win32-x64 yakyak-win32-x64.zip
 }
 
@@ -125,7 +133,9 @@ build_linux_ia32 () {
   mv electron yakyak
   cp -R ../../app resources/app
   cd ..
-  zip -r yakyak-linux-ia32.zip linux-ia32
+  if [ $NOZIP = false ]; then
+    zip -r yakyak-linux-ia32.zip linux-ia32
+  fi
   # ditto -c -k --rsrc --extattr --keepParent linux-ia32 yakyak-linux-ia32.zip
 }
 
@@ -134,7 +144,9 @@ build_linux_x64 () {
   mv electron yakyak
   cp -R ../../app resources/app
   cd ..
-  zip -r yakyak-linux-x64.zip linux-x64
+  if [ $NOZIP = false ]; then
+    zip -r yakyak-linux-x64.zip linux-x64
+  fi
   # ditto -c -k --rsrc --extattr --keepParent linux-x64 yakyak-linux-x64.zip
   cd ..
 }
@@ -146,4 +158,4 @@ build_linux_x64 () {
 [[ $PLATFORMS =~ $LINUX_IA32 ]] && build_linux_ia32
 [[ $PLATFORMS =~ $LINUX_X64 ]] && build_linux_x64
 
-
+true
