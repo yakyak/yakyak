@@ -365,6 +365,10 @@ app.on 'ready', ->
 
     ipc.on 'quit', quit
 
+    ipc.on 'errorInWindow', (ev, error) ->
+        console.log "Error on YakYak window:\n", error
+        console.log "--- End of error message."
+
     # propagate these events to the renderer
     require('./ui/events').forEach (n) ->
         client.on n, (e) ->
