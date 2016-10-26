@@ -79,11 +79,7 @@ loadAppWindow = ->
     mainWindow.loadURL 'file://' + __dirname + '/ui/index.html'
     # Only show window when it has some content
     mainWindow.once 'ready-to-show', () ->
-        if !global.windowHideWhileCred? || global.windowHideWhileCred != true
-            unless process.platform is 'darwin'
-                mainWindow.setAutoHideMenuBar(true)
-            mainWindow.show()
-    # short hand
+        mainWindow.webContents.send 'ready-to-show'
 
 toggleWindowVisible = ->
     if mainWindow.isVisible() then mainWindow.hide() else mainWindow.show()
