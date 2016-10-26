@@ -49,6 +49,7 @@ logout = ->
 seqreq = require './seqreq'
 
 mainWindow = null
+aboutWindow = null
 
 # Only allow a single active instance
 shouldQuit = app.makeSingleInstance ->
@@ -63,6 +64,9 @@ if shouldQuit
 global.forceClose = false
 quit = ->
     global.forceClose = true
+    # force all windows to close
+    aboutWindow.destroy()
+    mainWindow.destroy()
     app.quit()
     return
 
@@ -119,6 +123,15 @@ app.on 'ready', ->
         # autoHideMenuBar : true unless process.platform is 'darwin'
     }
 
+    aboutWindow = new BrowserWindow {
+      width: 500
+      height: 500
+      show: false
+      parent: mainWindow
+      resizable: false
+    }
+
+    aboutWindow.loadURL 'file://' + __dirname + '/ui/about.html'
 
     # and load the index.html of the app. this may however be yanked
     # away if we must do auth.
@@ -372,10 +385,22 @@ app.on 'ready', ->
 
     ipc.on 'quit', quit
 
+    # Help -> About opens the about window
+    ipc.on 'show-about', ->
+        aboutWindow.setMenu(null)
+        aboutWindow.show()
+
     # propagate these events to the renderer
     require('./ui/events').forEach (n) ->
         client.on n, (e) ->
             ipcsend n, e
+
+    # Emitted when about window is about to close and prevents it,
+    #  instead it hides the window.
+    aboutWindow.on 'close', (ev) ->
+        aboutWindow.hide()
+        ev.preventDefault()
+        return false
 
     # Emitted when the window is about to close.
     # Hides the window if we're not force closing.

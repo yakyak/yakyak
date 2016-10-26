@@ -1,4 +1,5 @@
 module.exports =
+    aboutlayout: require './aboutlayout'
     applayout: require './applayout'
     convlist:  require './convlist'
     listhead:  require './listhead'
