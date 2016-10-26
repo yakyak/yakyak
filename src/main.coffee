@@ -261,9 +261,8 @@ app.on 'ready', ->
 
     # we want to upload. in the order specified, with retry
     ipc.on 'uploadclipboardimage', seqreq (ev, spec) ->
-        {conv_id, client_generated_id} = spec
+        {pngData, conv_id, client_generated_id} = spec
         file = tmp.fileSync postfix: ".png"
-        pngData = clipboard.readImage().toPng()
         ipcsend 'uploadingimage', {conv_id, client_generated_id, path:file.name}
         Q.Promise (rs, rj) ->
             fs.writeFile file.name, pngData, plug(rs, rj)

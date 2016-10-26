@@ -2,6 +2,15 @@ Client = require 'hangupsjs'
 remote = require('electron').remote
 ipc    = require('electron').ipcRenderer
 
+
+fs = require('fs')
+mime = require('mime-types')
+
+clipboard = require('electron').clipboard
+nativeImage = require('electron').nativeImage
+
+{convertEmoji} = require './util'
+
 {entity, conv, viewstate, userinput, connection, convsettings, notify} = require './models'
 {throttle, later, isImg} = require './util'
 
@@ -176,30 +185,65 @@ handle 'uploadimage', (files) ->
     conv_id = viewstate.selectedConv
     # sense check that client is in good state
     return unless viewstate.state == viewstate.STATE_NORMAL and conv[conv_id]
-    # ship it
-    for file in files
-        # only images please
+    # if only one file is selected, then it shows as preview before sending
+    #  otherwise, it will upload all of them immediatly
+    if files.length == 1
+        file = files[0] # get first and only file
+        element = document.getElementById 'preview-img'
+        # show error message and return if is not an image
         unless isImg file.path
             [_, ext] = file.path.match(/.*(\.\w+)$/) ? []
             notr "Ignoring file of type #{ext}"
-            continue
-        # message for a placeholder
-        msg = userinput.buildChatMessage entity.self, 'uploading image…'
-        msg.uploadimage = true
-        {client_generated_id} = msg
-        # add a placeholder for the image
-        conv.addChatMessagePlaceholder entity.self.id, msg
-        # and begin upload
-        ipc.send 'uploadimage', {path:file.path, conv_id, client_generated_id}
+            return
+        # store image in preview-container and open it
+        #  I think it is better to embed than reference path as user should
+        #   see exactly what he is sending. (using the path would require
+        #   polling)
+        fs.readFile file.path, (err, original_data) ->
+            binaryImage = new Buffer(original_data, 'binary')
+            base64Image = binaryImage.toString('base64')
+            mimeType = mime.lookup file.path
+            element.src = 'data:' + mimeType + ';base64,' + base64Image
+            document.querySelector('#preview-container').classList.add('open')
+    else
+        for file in files
+            # only images please
+            unless isImg file.path
+                [_, ext] = file.path.match(/.*(\.\w+)$/) ? []
+                notr "Ignoring file of type #{ext}"
+                continue
+            # message for a placeholder
+            msg = userinput.buildChatMessage entity.self, 'uploading image…'
+            msg.uploadimage = true
+            {client_generated_id} = msg
+            # add a placeholder for the image
+            conv.addChatMessagePlaceholder entity.self.id, msg
+            # and begin upload
+            ipc.send 'uploadimage', {path:file.path, conv_id, client_generated_id}
 
 handle 'onpasteimage', ->
+    element = document.getElementById 'preview-img'
+    element.src = clipboard.readImage().toDataURL()
+    element.src = element.src.replace /image\/png/, 'image/gif'
+    document.querySelector('#preview-container').classList.add('open')
+
+handle 'uploadpreviewimage', ->
     conv_id = viewstate.selectedConv
     return unless conv_id
     msg = userinput.buildChatMessage entity.self, 'uploading image…'
     msg.uploadimage = true
     {client_generated_id} = msg
     conv.addChatMessagePlaceholder entity.self.id, msg
-    ipc.send 'uploadclipboardimage', {conv_id, client_generated_id}
+    # find preview element
+    element = document.getElementById 'preview-img'
+    # build image from what is on preview
+    pngData = element.src.replace /data:image\/(png|jpe?g|gif|svg);base64,/, ''
+    pngData = new Buffer(pngData, 'base64')
+    document.querySelector('#preview-container').classList.remove('open')
+    document.querySelector('#emoji-container').classList.remove('open')
+    element.src = ''
+    #
+    ipc.send 'uploadclipboardimage', {pngData, conv_id, client_generated_id}
 
 handle 'uploadingimage', (spec) ->
     # XXX this doesn't look very good because the image
