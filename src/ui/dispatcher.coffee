@@ -409,6 +409,12 @@ handle 'showconvlast', (doshow) ->
 handle 'showpopupnotifications', (doshow) ->
     viewstate.setShowPopUpNotifications doshow
 
+handle 'showmessageinnotification', (doshow) ->
+    viewstate.setShowMessageInNotification doshow
+
+handle 'showusernameinnotification', (doshow) ->
+    viewstate.setShowUsernameInNotification doshow
+
 handle 'convertemoji', (doshow) ->
     viewstate.setConvertEmoji doshow
 

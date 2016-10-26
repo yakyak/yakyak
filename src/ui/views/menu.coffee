@@ -38,8 +38,8 @@ acceleratorMap = {
 }
 
 getAccelerator = (key) ->
-    if (retVal = acceleratorMap[key][platform])?
-        retVal
+    if (acceleratorMap[key][platform])?
+        acceleratorMap[key][platform]
     else
         acceleratorMap[key]['default']
 
@@ -167,11 +167,28 @@ templateView = (viewstate) ->
               }
           ]
         }, {
-            type: 'checkbox'
-            label: 'Show Pop-Up (Toast) Notifications'
-            checked: viewstate.showPopUpNotifications
-            enabled: viewstate.loggedin
-            click: (it) -> action 'showpopupnotifications', it.checked
+            label: 'Pop-Up Notification'
+            submenu: [
+                {
+                    type: 'checkbox'
+                    label: 'Show notifications'
+                    checked: viewstate.showPopUpNotifications
+                    enabled: viewstate.loggedin
+                    click: (it) -> action 'showpopupnotifications', it.checked
+                }, {
+                    type: 'checkbox'
+                    label: 'Show message in notifications'
+                    checked: viewstate.showMessageInNotification
+                    enabled: viewstate.loggedin && viewstate.showPopUpNotifications
+                    click: (it) -> action 'showmessageinnotification', it.checked
+                }, {
+                    type: 'checkbox'
+                    label: 'Show username in notifications'
+                    checked: viewstate.showUsernameInNotification
+                    enabled: viewstate.loggedin && viewstate.showPopUpNotifications
+                    click: (it) -> action 'showusernameinnotification', it.checked
+                }
+            ]
         }, {
             type: 'checkbox'
             label: 'Convert text to emoji'
