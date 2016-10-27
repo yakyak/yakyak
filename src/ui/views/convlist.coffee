@@ -34,7 +34,11 @@ module.exports = view (models) ->
                                 image += "?sz=50"
                             if image
                                 img src:fixlink(image), onerror: ->
-                                    this.src = fixlink("images/photo.jpg")
+                                    # in case the image is not available, it
+                                    #  fallbacks to initials
+                                    entity.needEntity(p.id)
+                                    initials = initialsof entity[p.id]
+                                    this.outerHTML = div class:'initials', initials
                             else
                                 entity.needEntity(p.id)
                                 initials = initialsof entity[p.id]
