@@ -120,15 +120,29 @@ module.exports = view (models) ->
                         clz.push 'self' if entity.isSelf(u.cid)
                         div class:clz.join(' '), ->
                             drawAvatar u, sender, viewstate, entity
+                            if entity.isSelf(u.cid)
+                                drawSeenElement(c, u, entity, g)
                             div class:'umessages', ->
                                 drawMessage(e, entity) for e in events
                             , onDOMSubtreeModified: (e) ->
                                 window.twemoji?.parse e.target if process.platform == 'win32'
+                            unless entity.isSelf(u.cid)
+                                drawSeenElement(c, u, entity, g)
 
     if lastConv != conv_id
         lastConv = conv_id
         later atTopIfSmall
 
+drawSeenElement = (c, u, entity, g) ->
+    temp_set = new Set()
+    for contacts in c.read_state
+        other = contacts.participant_id.chat_id
+        if other != u.cid &&
+           !entity.isSelf(other) &&
+           contacts.latest_read_timestamp >= g.end
+            if !temp_set.has(entity[other].id)
+                temp_set.add entity[other].id
+                drawSeenAvatar entity[other]
 
 groupEventsByMessageType = (event) ->
     res = []
@@ -148,6 +162,18 @@ groupEventsByMessageType = (event) ->
 
 isMeMessage = (e) ->
     e?.chat_message?.annotation?[0]?[0] == HANGOUT_ANNOTATION_TYPE.me_message
+
+drawSeenAvatar = (u) ->
+    initials = initialsof u
+    span class: "seen", style: "", "data-id": u.id, title: u.display_name, ->
+        purl = u?.photo_url
+        if purl and !viewstate?.showAnimatedThumbs
+            purl += "?sz=25"
+        if purl
+            img src:fixlink(purl)
+        else
+            div class:'initials', initials
+
 
 drawAvatar = (u, sender, viewstate, entity) ->
     initials = initialsof entity[u.cid]
