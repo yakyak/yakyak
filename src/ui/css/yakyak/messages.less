@@ -14,6 +14,14 @@
         text-align: center;
         color: var(--darkgrey);
     }
+    &.fallback-on .ugroup .sender {
+        img {
+            display: none;
+        }
+        .initials.fallback {
+            display:inherit;
+        }
+    }
     .ugroup {
         margin-top: 17px;
         position: relative;
@@ -41,6 +49,9 @@
                 display: flex;
                 justify-content: center;
                 align-items: center;
+                &.fallback {
+                    display:none;
+                }
             }
             span {
                 margin-left: 45px;

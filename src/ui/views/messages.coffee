@@ -156,7 +156,13 @@ drawAvatar = (u, sender, viewstate, entity) ->
         if purl and !viewstate?.showAnimatedThumbs
             purl += "?sz=50"
         if purl
-            img src:fixlink(purl)
+            img src:fixlink(purl), "data-id": u.cid, "data-initials": initials,  onerror: ->
+                # in case the image is not available, it
+                #  fallbacks to initials
+                document.querySelector('.messages').classList.add "fallback-on"
+            , onload: ->
+                document.querySelector('.messages').classList.remove "fallback-on"
+            div class:'initials fallback', "data-id": u.cid, initials
         else
             div class:'initials', initials
 
