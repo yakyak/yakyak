@@ -121,25 +121,26 @@ module.exports = view (models) ->
                         div class:clz.join(' '), ->
                             drawAvatar u, sender, viewstate, entity
                             if entity.isSelf(u.cid)
-                                drawSeenElement(c, u, entity, g)
+                                drawSeenElement(c, u, entity, events)
                             div class:'umessages', ->
                                 drawMessage(e, entity) for e in events
                             , onDOMSubtreeModified: (e) ->
                                 window.twemoji?.parse e.target if process.platform == 'win32'
                             unless entity.isSelf(u.cid)
-                                drawSeenElement(c, u, entity, g)
+                                drawSeenElement(c, u, entity, events)
 
     if lastConv != conv_id
         lastConv = conv_id
         later atTopIfSmall
 
-drawSeenElement = (c, u, entity, g) ->
+drawSeenElement = (c, u, entity, events) ->
     temp_set = new Set()
     for contacts in c.read_state
         other = contacts.participant_id.chat_id
         if other != u.cid &&
            !entity.isSelf(other) &&
-           contacts.latest_read_timestamp >= g.end
+           # only add "seen" avatar if last message from group is seen
+           contacts.latest_read_timestamp >= events[events.length - 1].timestamp
             if !temp_set.has(entity[other].id)
                 temp_set.add entity[other].id
                 drawSeenAvatar entity[other]
