@@ -30,19 +30,27 @@ module.exports = view (models) ->
                         for p, index in ents
                             break if index >= 4
                             image = p.photo_url
+                            # write initials as data-initials in img elements
+                            entity.needEntity(p.id)
+                            initials = initialsof entity[p.id]
                             if image and !viewstate.showAnimatedThumbs
                                 image += "?sz=50"
                             if image
-                                img src:fixlink(image), onerror: ->
+                                img src:fixlink(image)
+                                , "data-initials": initials
+                                , "data-id": p.id
+                                , onerror: ->
                                     # in case the image is not available, it
                                     #  fallbacks to initials
-                                    entity.needEntity(p.id)
-                                    initials = initialsof entity[p.id]
-                                    this.outerHTML = div class:'initials', initials
+                                    this.outerHTML = div class:'initials'
+                                    , "data-initials": this.dataset.initials
+                                    , "data-id": this.dataset.id
+                                    , this.dataset.initials
                             else
-                                entity.needEntity(p.id)
-                                initials = initialsof entity[p.id]
-                                div class:'initials', initials
+                                div class: 'initials'
+                                , "data-id": p.id
+                                , "data-initials": initials
+                                , initials
 
                         if ents.length>4
                             div class:'moreuser', ents.length

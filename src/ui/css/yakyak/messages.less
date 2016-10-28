@@ -14,14 +14,6 @@
         text-align: center;
         color: var(--darkgrey);
     }
-    &.fallback-on .ugroup .sender {
-        img {
-            display: none;
-        }
-        .initials.fallback {
-            display:inherit;
-        }
-    }
     .ugroup {
         margin-top: 17px;
         position: relative;
@@ -52,6 +44,12 @@
                 &.fallback {
                     display:none;
                 }
+            }
+            img.fallback-on {
+                display: none;
+            }
+            .initials.fallback.fallback-on {
+                display: inherit;
             }
             span {
                 margin-left: 45px;
