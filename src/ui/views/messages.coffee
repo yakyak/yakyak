@@ -121,7 +121,7 @@ module.exports = view (models) ->
                         div class:clz.join(' '), ->
                             drawAvatar u, sender, viewstate, entity
                             if entity.isSelf(u.cid)
-                                drawSeenElement(c, u, entity, events)
+                                drawSeenElement(c, u, entity, events, viewstate)
                             div class:'umessages', ->
                                 drawMessage(e, entity) for e in events
                             , onDOMSubtreeModified: (e) ->
@@ -133,17 +133,18 @@ module.exports = view (models) ->
         lastConv = conv_id
         later atTopIfSmall
 
-drawSeenElement = (c, u, entity, events) ->
-    temp_set = new Set()
-    for contacts in c.read_state
-        other = contacts.participant_id.chat_id
-        if other != u.cid &&
-           !entity.isSelf(other) &&
-           # only add "seen" avatar if last message from group is seen
-           contacts.latest_read_timestamp >= events[events.length - 1].timestamp
-            if !temp_set.has(entity[other].id)
-                temp_set.add entity[other].id
-                drawSeenAvatar entity[other]
+drawSeenElement = (c, u, entity, events, viewstate) ->
+    if viewstate?.showSeenStatus
+        temp_set = new Set()
+        for contacts in c.read_state
+            other = contacts.participant_id.chat_id
+            if other != u.cid &&
+               !entity.isSelf(other) &&
+               # only add "seen" avatar if last message from group is seen
+               contacts.latest_read_timestamp >= events[events.length - 1].timestamp
+                if !temp_set.has(entity[other].id)
+                    temp_set.add entity[other].id
+                    drawSeenAvatar entity[other]
 
 groupEventsByMessageType = (event) ->
     res = []
@@ -166,7 +167,10 @@ isMeMessage = (e) ->
 
 drawSeenAvatar = (u) ->
     initials = initialsof u
-    span class: "seen", style: "", "data-id": u.id, title: u.display_name, ->
+    span class: "seen"
+    , "data-id": u.id
+    , title: u.display_name
+    , ->
         purl = u?.photo_url
         if purl and !viewstate?.showAnimatedThumbs
             purl += "?sz=25"
@@ -174,7 +178,6 @@ drawSeenAvatar = (u) ->
             img src:fixlink(purl)
         else
             div class:'initials', initials
-
 
 drawAvatar = (u, sender, viewstate, entity) ->
     initials = initialsof entity[u.cid]

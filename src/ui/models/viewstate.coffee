@@ -34,6 +34,7 @@ module.exports = exp = {
     startminimizedtotray: tryparse(localStorage.startminimizedtotray) or false
     closetotray: tryparse(localStorage.closetotray) or false
     showDockOnce: true
+    showSeenStatus: tryparse(localStorage.showseenstatus) or false
 
     setState: (state) ->
         return if @state == state
@@ -114,6 +115,10 @@ module.exports = exp = {
         @loggedin = val
         updated 'viewstate'
 
+    setShowSeenStatus: (val) ->
+        @showSeenStatus = val
+        updated 'viewstate'
+
     setLastKeyDown: do ->
         {TYPING, PAUSED, STOPPED} = Client.TypingStatus
         lastEmitted = 0
@@ -138,7 +143,7 @@ module.exports = exp = {
                         action 'settyping', STOPPED
                     , 6000
                 , 6000
-    
+
     setShowConvMin: (doshow) ->
         return if @showConvMin == doshow
         @showConvMin = localStorage.showConvMin = doshow
