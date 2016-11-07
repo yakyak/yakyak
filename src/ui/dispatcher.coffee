@@ -114,7 +114,7 @@ handle 'toggleshowtray', ->
     viewstate.setShowTray(not viewstate.showtray)
 
 handle 'toggleshowseenstatus', ->
-    viewstate.setShowSeenStatus(not viewstate.showSeenStatus)
+    viewstate.setShowSeenStatus(not viewstate.showseenstatus)
 
 handle 'togglemenu', ->
     mainWindow = remote.getCurrentWindow()

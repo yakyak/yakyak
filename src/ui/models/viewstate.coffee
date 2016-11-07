@@ -34,7 +34,7 @@ module.exports = exp = {
     startminimizedtotray: tryparse(localStorage.startminimizedtotray) or false
     closetotray: tryparse(localStorage.closetotray) or false
     showDockOnce: true
-    showSeenStatus: tryparse(localStorage.showseenstatus) or false
+    showseenstatus: tryparse(localStorage.showseenstatus) or false
 
     setState: (state) ->
         return if @state == state
@@ -116,7 +116,7 @@ module.exports = exp = {
         updated 'viewstate'
 
     setShowSeenStatus: (val) ->
-        @showSeenStatus = val
+        @showseenstatus = val
         updated 'viewstate'
 
     setLastKeyDown: do ->
