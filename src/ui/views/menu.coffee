@@ -328,7 +328,7 @@ templateView = (viewstate) ->
                     label: 'Show seen status in messages'
                     type: 'checkbox'
                     enabled: viewstate.loggedin
-                    checked: viewstate.showSeenStatus
+                    checked: viewstate.showseenstatus
                     click: -> action 'toggleshowseenstatus'
                 }
             ]
