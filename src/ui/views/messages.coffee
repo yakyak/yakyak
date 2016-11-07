@@ -134,7 +134,7 @@ module.exports = view (models) ->
         later atTopIfSmall
 
 drawSeenElement = (c, u, entity, events, viewstate) ->
-    if viewstate?.showSeenStatus
+    if viewstate?.showseenstatus
         temp_set = new Set()
         for contacts in c.read_state
             other = contacts.participant_id.chat_id
