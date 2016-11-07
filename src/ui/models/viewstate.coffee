@@ -116,7 +116,7 @@ module.exports = exp = {
         updated 'viewstate'
 
     setShowSeenStatus: (val) ->
-        @showseenstatus = localStorage.showseenstatus = !!value
+        @showseenstatus = localStorage.showseenstatus = !!val
         updated 'viewstate'
 
     setLastKeyDown: do ->
