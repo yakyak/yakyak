@@ -371,15 +371,24 @@ templateMenu = (viewstate) ->
         }, {
             label: 'Edit'
             submenu: templateEdit viewstate
-        },{
+        }, {
             label: 'View'
             submenu: templateView viewstate
+        }, {
+          label: "Help"
+          submenu: [
+            {
+              label: 'About'
+              click: () -> action 'show-about'
+            }
+          ]
         }
         if isDarwin
             {
                 label: 'Window'
                 submenu: templateWindow viewstate
             }
+
     ].filter (n) -> n != undefined
 
 module.exports = (viewstate) ->
