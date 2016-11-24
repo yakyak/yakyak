@@ -7,7 +7,7 @@
     "gulp": "gulp",
     "electron": "electron",
     "test": "mocha",
-    "deploy": "bash ./deploy.sh",
+    "deploy": "gulp && bash ./deploy.sh",
     "deploy:linux-x64": "bash ./deploy.sh --linux-x64",
     "deploy:linux-ia32": "bash ./deploy.sh --linux-ia32",
     "deploy:win32-x64": "bash ./deploy.sh --win32-x64",
