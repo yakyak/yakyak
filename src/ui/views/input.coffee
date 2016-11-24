@@ -111,7 +111,15 @@ module.exports = view (models) ->
                 unless isModifierKey(e)
                     if e.keyCode == 27
                         e.preventDefault()
-                        action 'hideWindow'
+                        if models.viewstate.showtray && !models.viewstate.escapeClearsInput
+                            action 'hideWindow'
+                        else
+                            # must focus on field and then execute:
+                            #  - select all text in input
+                            #  - replace them with an empty string
+                            document.getElementById("message-input").focus()
+                            document.execCommand("selectAll", false)
+                            document.execCommand("insertText", false, "")
                     if e.keyCode == 13
                         e.preventDefault()
                         preparemessage e.target
