@@ -27,7 +27,11 @@ module.exports = exp = layout ->
             img src: path.join __dirname, '..', '..', 'icons', 'yakyak-logo.svg'
         div class: 'name', ->
             h2 'YakYak v' + localVersion
-        if (versionToInt(releasedVersion) > versionToInt(localVersion))
+        # TODO: if objects are undefined then it should check again on next
+        #        time about window is opened
+        if (releasedVersion? &&
+            localVersion? &&
+            versionToInt(releasedVersion) > versionToInt(localVersion))
             div class: 'update', ->
                 span 'A newer version is available, please upgrade from ' +
                      localVersion + ' to ' + releasedVersion
