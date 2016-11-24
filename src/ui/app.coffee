@@ -77,6 +77,19 @@ action 'reqinit'
 window.addEventListener 'online',  -> action 'wonline', true
 window.addEventListener 'offline', -> action 'wonline', false
 
+#
+window.addEventListener 'unload', (ev) ->
+    if process.platform == 'darwin'
+        if window.isFullScreen()
+            window.setFullScreen false
+        if not remote.getGlobal('forceClose')
+            ev.preventDefault()
+            window.hide()
+            return
+
+    window = null
+    action 'quit'
+
 # Listen to close and quit events
 window.addEventListener 'beforeunload', (e) ->
     if remote.getGlobal('forceClose')
