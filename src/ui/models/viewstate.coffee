@@ -36,6 +36,7 @@ module.exports = exp = {
     startminimizedtotray: tryparse(localStorage.startminimizedtotray) or false
     closetotray: tryparse(localStorage.closetotray) or false
     showDockOnce: true
+    showseenstatus: tryparse(localStorage.showseenstatus) or false
 
     setState: (state) ->
         return if @state == state
@@ -114,6 +115,10 @@ module.exports = exp = {
 
     setLoggedin: (val) ->
         @loggedin = val
+        updated 'viewstate'
+
+    setShowSeenStatus: (val) ->
+        @showseenstatus = localStorage.showseenstatus = !!val
         updated 'viewstate'
 
     setLastKeyDown: do ->

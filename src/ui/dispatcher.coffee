@@ -122,6 +122,9 @@ handle 'sendmessage', (txt = '') ->
 handle 'toggleshowtray', ->
     viewstate.setShowTray(not viewstate.showtray)
 
+handle 'toggleshowseenstatus', ->
+    viewstate.setShowSeenStatus(not viewstate.showseenstatus)
+
 handle 'togglemenu', ->
     mainWindow = remote.getCurrentWindow()
     if mainWindow.isMenuBarVisible() then mainWindow.setMenuBarVisibility(false) else mainWindow.setMenuBarVisibility(true)
