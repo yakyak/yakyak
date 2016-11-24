@@ -60,14 +60,14 @@ if shouldQuit
     return;
 
 # No more minimizing to tray, just close it
-global.forceClose = false;
+global.forceClose = false
 quit = ->
-    global.forceClose = true;
+    global.forceClose = true
     app.quit()
     return
 
 app.on 'before-quit', ->
-    global.forceClose = true;
+    global.forceClose = true
     return
 
 # For OSX show window main window if we've hidden it.
@@ -77,6 +77,9 @@ app.on 'activate', ->
 
 loadAppWindow = ->
     mainWindow.loadURL 'file://' + __dirname + '/ui/index.html'
+    # Only show window when it has some content
+    mainWindow.once 'ready-to-show', () ->
+        mainWindow.webContents.send 'ready-to-show'
 
 toggleWindowVisible = ->
     if mainWindow.isVisible() then mainWindow.hide() else mainWindow.show()
@@ -107,9 +110,9 @@ app.on 'ready', ->
         "min-width": 620
         "min-height": 420
         icon: path.join __dirname, 'icons', 'icon.png'
-        show: true
+        show: false
         titleBarStyle: 'hidden-inset' if process.platform is 'darwin'
-        autoHideMenuBar : true unless process.platform is 'darwin'
+        # autoHideMenuBar : true unless process.platform is 'darwin'
     }
 
 
@@ -137,6 +140,7 @@ app.on 'ready', ->
 
         loginWindow.on 'closed', quit
 
+        global.windowHideWhileCred = true
         mainWindow.hide()
         loginWindow.focus()
         # reinstate app window when login finishes

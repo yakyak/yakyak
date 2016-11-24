@@ -23,10 +23,11 @@ hr'.split(' '))...
 
 contextmenu = require('./views/contextmenu')
 require('./views/menu')(viewstate)
-if viewstate.startminimizedtotray
-  remote.getCurrentWindow().hide()
 
 # tie layout to DOM
+
+# restore last position of window
+remote.getCurrentWindow().setPosition viewstate.pos...
 
 document.body.appendChild applayout.el
 
@@ -39,6 +40,16 @@ do ->
         ipcon n, (as...) ->
             action 'alive', Date.now()
             fn as...
+
+# called when window is ready to show
+#  note: could not use event here, as it must be defined
+#  before
+ipc.on 'ready-to-show', () ->
+    if viewstate.startminimizedtotray
+        remote.getCurrentWindow().hide()
+    else if !remote.getGlobal('windowHideWhileCred')? ||
+             remote.getGlobal('windowHideWhileCred') != true
+        remote.getCurrentWindow().show()
 
 # wire up stuff from server
 ipc.on 'init', (ev, data) -> dispatcher.init data
