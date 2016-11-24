@@ -1,5 +1,5 @@
 
-{throttle, nameof, fixlink} = require '../util'
+{initialsof, throttle, nameof, fixlink} = require '../util'
 chilledaction = throttle 1500, action
 
 unique = (obj) -> obj.id.chat_id or obj.id.gaia_id
@@ -82,10 +82,10 @@ module.exports = view (models) ->
               li class: 'selected', ->
                   if purl = r.properties?.photo_url ? entity[cid]?.photo_url
                     purl += "?sz=50" unless viewstate?.showAnimatedThumbs
-                    img src:fixlink(purl)
+                    img src:fixlink(purl), onerror: ->
+                        this.outerHTML = drawInitials(entity, cid)
                   else
-                      img src:"images/photo.jpg"
-                      entity.needEntity cid
+                      drawInitials(entity, cid)
                   p nameof r.properties
               , onclick:(e) -> if not editing then action 'deselectentity', r
 
@@ -97,10 +97,12 @@ module.exports = view (models) ->
               li ->
                   if purl = r.properties?.photo_url ? entity[cid]?.photo_url
                     purl += "?sz=50" unless viewstate?.showAnimatedThumbs
-                    img src:fixlink(purl)
+                    img src:fixlink(purl), onerror: ->
+                        this.outerHTML = drawInitials(entity, cid)
                   else
-                      img src:"images/photo.jpg"
-                      entity.needEntity cid
+                      # in case the image is not available, it
+                      #  fallbacks to initials
+                      drawInitials(entity, cid)
                   p r.properties.display_name
               , onclick:(e) -> action 'selectentity', r
 
@@ -126,5 +128,10 @@ module.exports = view (models) ->
             span "OK"
 
       mayRestoreInitialValues models
+
+drawInitials = (entity, cid) ->
+    entity.needEntity(cid)
+    initials = initialsof entity[cid]
+    div class:'initials', initials
 
 onclickaction = (a) -> (ev) -> action a
