@@ -29,9 +29,7 @@ module.exports = exp = layout ->
             h2 'YakYak v' + localVersion
         # TODO: if objects are undefined then it should check again on next
         #        time about window is opened
-        if (releasedVersion? &&
-            localVersion? &&
-            versionToInt(releasedVersion) > versionToInt(localVersion))
+        if releasedVersion? && localVersion? && versionToInt(releasedVersion) > versionToInt(localVersion)
             div class: 'update', ->
                 span 'A newer version is available, please upgrade from ' +
                      localVersion + ' to ' + releasedVersion
