@@ -421,7 +421,11 @@ handle 'loadedinstagramphoto', ->
 
 extractProtobufStyle = (att) ->
     eitem = att?[0]?.embed_item
-    {data, type_} = eitem ? {}
+    {plus_photo, data, type_} = eitem ? {}
+    if plus_photo?
+        thumb = plus_photo.data?.thumbnail?.image_url
+        href  = plus_photo.data?.url
+        return {href, thumb}
     t = type_?[0]
     return console.warn 'ignoring (old) attachment type', att unless t == 249
     k = Object.keys(data)?[0]
