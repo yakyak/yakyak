@@ -15,6 +15,7 @@ acceleratorMap = {
     close: { default: '', darwin:'Command+W' }
     # Common shortcuts
     quit: { default: 'CmdOrCtrl+Q' }
+    zoomin: { default: 'CmdOrCtrl+Plus' }
     # Platform specific
     previousconversation: { default: 'Ctrl+K', darwin:'Command+Shift+Tab' }
     nextconversation:  { default: 'Control+J', darwin:'Command+Tab' }
@@ -205,7 +206,10 @@ templateView = (viewstate) ->
             ]
         }
         { role: 'togglefullscreen' }
-        { role: 'zoomin' }
+        {
+          # seee https://github.com/atom/electron/issues/1507
+          role: 'zoomin'
+        }
         { role: 'zoomout' }
         { role: 'resetzoom' }
         { type: 'separator' }
