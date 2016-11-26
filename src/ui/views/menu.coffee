@@ -8,25 +8,25 @@ isNotDarwin = platform != 'darwin'
 
 acceleratorMap = {
     # MacOSX specific
-    hideyakyak: {default: 'CmdOrCtrl+H'}
-    hideothers: {default: '', darwin:'Command+Shift+H'}
-    showall: {default: '', darwin:''}
-    openinspector: {default: 'CmdOrCtrl+Alt+I'}
-    close: {default: '', darwin:'Command+W'}
+    hideyakyak: { default: 'CmdOrCtrl+H' }
+    hideothers: { default: '', darwin:'Command+Shift+H' }
+    showall: { default: '', darwin:'' }
+    openinspector: { default: 'CmdOrCtrl+Alt+I' }
+    close: { default: '', darwin:'Command+W' }
     # Common shortcuts
-    quit: {default: 'CmdOrCtrl+Q'}
+    quit: { default: 'CmdOrCtrl+Q' }
     # Platform specific
-    previousconversation: {default: 'Ctrl+K', darwin:'Command+Shift+Tab'}
-    nextconversation:  {default: 'Control+J', darwin:'Command+Tab'}
-    conversation1: {default: 'Alt+1', darwin:'Command+1'}
-    conversation2: {default: 'Alt+2', darwin:'Command+2'}
-    conversation3: {default: 'Alt+3', darwin:'Command+3'}
-    conversation4: {default: 'Alt+4', darwin:'Command+4'}
-    conversation5: {default: 'Alt+5', darwin:'Command+5'}
-    conversation6: {default: 'Alt+6', darwin:'Command+6'}
-    conversation7: {default: 'Alt+7', darwin:'Command+7'}
-    conversation8: {default: 'Alt+8', darwin:'Command+8'}
-    conversation9: {default: 'Alt+9', darwin:'Command+9'}
+    previousconversation: { default: 'Ctrl+K', darwin:'Command+Shift+Tab' }
+    nextconversation:  { default: 'Control+J', darwin:'Command+Tab' }
+    conversation1: { default: 'Alt+1', darwin:'Command+1' }
+    conversation2: { default: 'Alt+2', darwin:'Command+2' }
+    conversation3: { default: 'Alt+3', darwin:'Command+3' }
+    conversation4: { default: 'Alt+4', darwin:'Command+4' }
+    conversation5: { default: 'Alt+5', darwin:'Command+5' }
+    conversation6: { default: 'Alt+6', darwin:'Command+6' }
+    conversation7: { default: 'Alt+7', darwin:'Command+7' }
+    conversation8: { default: 'Alt+8', darwin:'Command+8' }
+    conversation9: { default: 'Alt+9', darwin:'Command+9' }
 }
 
 getAccelerator = (key) ->
@@ -46,7 +46,7 @@ templateYakYak = (viewstate) ->
         {
             label: 'Hide YakYak'
             accelerator: getAccelerator('hideyakyak')
-            role: (isDarwin ? 'hide' : 'minimize')
+            role: if isDarwin then 'hide' else 'minimize'
         }
         {
             label: 'Hide Others'
@@ -55,7 +55,11 @@ templateYakYak = (viewstate) ->
         } if isDarwin
         { role: 'unhide' } if isDarwin # old show all
         { type: 'separator' }
-        { role: 'toggledevtools' }
+        {
+          label: 'Open Inspector'
+          accelerator: getAccelerator('openinspector')
+          click: -> action 'devtools'
+        }
         { type: 'separator' }
         {
             label: 'Logout',
@@ -294,7 +298,7 @@ templateWindow = (viewstate) -> [
     }
     { type: 'separator' }
     {
-        label: 'Bring All to Front',
+        label: 'Bring All to Front'
         role: 'front'
     }
 ]
@@ -310,10 +314,12 @@ templateMenu = (viewstate) ->
         {
             label: 'YakYak'
             submenu: templateYakYak viewstate
-        }, {
+        }
+        {
             label: 'Edit'
             submenu: templateEdit viewstate
-        },{
+        }
+        {
             label: 'View'
             submenu: templateView viewstate
         }
