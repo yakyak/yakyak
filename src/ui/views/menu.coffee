@@ -39,7 +39,10 @@ getAccelerator = (key) ->
 templateYakYak = (viewstate) ->
 
     [
-        { label: 'About YakYak', role: 'about' } if isDarwin
+        {
+            label: 'About YakYak',
+            click: (it) -> action 'show-about'
+        } if isDarwin
         #{ type: 'separator' }
         # { label: 'Preferences...', accelerator: 'Command+,',
         # click: => delegate.openConfig() }
@@ -383,7 +386,7 @@ templateMenu = (viewstate) ->
               click: () -> action 'show-about'
             }
           ]
-        }
+        } if isDarwin
         {
             label: 'Window'
             submenu: templateWindow viewstate
