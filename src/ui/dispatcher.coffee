@@ -196,27 +196,30 @@ handle 'uploadimage', (files) ->
     # this may change during upload
     conv_id = viewstate.selectedConv
     # sense check that client is in good state
-    return unless viewstate.state == viewstate.STATE_NORMAL and conv[conv_id]
+    unless viewstate.state == viewstate.STATE_NORMAL and conv[conv_id]
+        # clear value for upload image input
+        document.getElementById('attachFile').value = ''
+        return
     # if only one file is selected, then it shows as preview before sending
     #  otherwise, it will upload all of them immediatly
     if files.length == 1
         file = files[0] # get first and only file
         element = document.getElementById 'preview-img'
         # show error message and return if is not an image
-        unless isImg file.path
+        if isImg file.path
+            # store image in preview-container and open it
+            #  I think it is better to embed than reference path as user should
+            #   see exactly what he is sending. (using the path would require
+            #   polling)
+            fs.readFile file.path, (err, original_data) ->
+                binaryImage = new Buffer(original_data, 'binary')
+                base64Image = binaryImage.toString('base64')
+                mimeType = mime.lookup file.path
+                element.src = 'data:' + mimeType + ';base64,' + base64Image
+                document.querySelector('#preview-container').classList.add('open')
+        else
             [_, ext] = file.path.match(/.*(\.\w+)$/) ? []
             notr "Ignoring file of type #{ext}"
-            return
-        # store image in preview-container and open it
-        #  I think it is better to embed than reference path as user should
-        #   see exactly what he is sending. (using the path would require
-        #   polling)
-        fs.readFile file.path, (err, original_data) ->
-            binaryImage = new Buffer(original_data, 'binary')
-            base64Image = binaryImage.toString('base64')
-            mimeType = mime.lookup file.path
-            element.src = 'data:' + mimeType + ';base64,' + base64Image
-            document.querySelector('#preview-container').classList.add('open')
     else
         for file in files
             # only images please
@@ -232,6 +235,8 @@ handle 'uploadimage', (files) ->
             conv.addChatMessagePlaceholder entity.self.id, msg
             # and begin upload
             ipc.send 'uploadimage', {path:file.path, conv_id, client_generated_id}
+    # clear value for upload image input
+    document.getElementById('attachFile').value = ''
 
 handle 'onpasteimage', ->
     element = document.getElementById 'preview-img'
