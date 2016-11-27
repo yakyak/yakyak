@@ -369,11 +369,10 @@ templateMenu = (viewstate) ->
             }
           ]
         } if isDarwin
-        if isDarwin
-            {
-                label: 'Window'
-                submenu: templateWindow viewstate
-            }
+        {
+            label: 'Window'
+            submenu: templateWindow viewstate
+        } if isDarwin
 
     ].filter (n) -> n != undefined
 
