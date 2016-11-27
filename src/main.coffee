@@ -65,8 +65,8 @@ global.forceClose = false
 quit = ->
     global.forceClose = true
     # force all windows to close
-    aboutWindow.destroy()
-    mainWindow.destroy()
+    aboutWindow.destroy() if aboutWindow?
+    mainWindow.destroy() if mainWindow?
     app.quit()
     return
 
@@ -118,16 +118,6 @@ app.on 'ready', ->
         titleBarStyle: 'hidden-inset' if process.platform is 'darwin'
         # autoHideMenuBar : true unless process.platform is 'darwin'
     }
-
-    aboutWindow = new BrowserWindow {
-      width: 500
-      height: 500
-      show: false
-      parent: mainWindow
-      resizable: false
-    }
-
-    aboutWindow.loadURL 'file://' + __dirname + '/ui/about.html'
 
     # and load the index.html of the app. this may however be yanked
     # away if we must do auth.
@@ -383,8 +373,18 @@ app.on 'ready', ->
 
     # Help -> About opens the about window
     ipc.on 'show-about', ->
-        aboutWindow.setMenu(null)
-        aboutWindow.show()
+        aboutWindow = new BrowserWindow {
+          width: 500
+          height: 500
+          show: false
+          parent: mainWindow
+          resizable: false
+        }
+
+        aboutWindow.loadURL 'file://' + __dirname + '/ui/about.html'
+        aboutWindow.once 'ready-to-show', () ->
+            aboutWindow.setMenu(null)
+            aboutWindow.show()
 
     ipc.on 'errorInWindow', (ev, error) ->
         console.log "Error on YakYak window:\n", error, "\n--- End of error message in YakYak window."
@@ -393,13 +393,6 @@ app.on 'ready', ->
     require('./ui/events').forEach (n) ->
         client.on n, (e) ->
             ipcsend n, e
-
-    # Emitted when about window is about to close and prevents it,
-    #  instead it hides the window.
-    aboutWindow.on 'close', (ev) ->
-        aboutWindow.hide()
-        ev.preventDefault()
-        return false
 
     # Emitted when the window is about to close.
     # Hides the window if we're not force closing.
