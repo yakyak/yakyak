@@ -8,6 +8,13 @@ remote   = require('electron').remote
 # conv_id markers for call notifications
 callNeedAnswer = {}
 
+# sound to hear
+audioFile = path.join __dirname, '..', '..', 'media',
+'new_message.wav'
+audioEl = new Audio(audioFile)
+audioEl.volume = .4
+
+
 module.exports = (models) ->
     {conv, notify, entity, viewstate} = models
     tonot = notify.popToNotify()
@@ -55,6 +62,7 @@ module.exports = (models) ->
 
         # maybe trigger OS notification
         return if !text or quietIf(c, chat_id)
+
         if viewstate.showPopUpNotifications
             isDarwin = require('os').platform() == 'darwin'
             #
@@ -86,7 +94,10 @@ module.exports = (models) ->
                 action 'appfocus'
                 action 'selectConv', c
 
-        mainWindow = remote.getCurrentWindow() # And we hope we don't get another ;)
+        # only play if it is not playing already
+        audioEl.play() if audioEl.paused
+        # And we hope we don't get another 'currentWindow' ;)
+        mainWindow = remote.getCurrentWindow()
         mainWindow.flashFrame(true)
 
 textMessage = (cont, proxied) ->

@@ -33,6 +33,7 @@ paths =
     html:    './src/**/*.html'
     images:  './src/**/images/*.*'
     icons:   './src/icons'
+    media:   './src/media/*.*'
     less:    './src/ui/css/manifest.less'
     lessd:   './src/ui/css/**/*.less'
     css:     './src/**/*.css'
@@ -105,6 +106,11 @@ gulp.task 'html', ->
         .pipe gulp.dest outapp
 
 # copy images
+gulp.task 'media', ->
+    gulp.src paths.media
+        .pipe gulp.dest path.join outapp, 'media'
+
+# copy images
 gulp.task 'images', ->
     gulp.src paths.images
         .pipe gulp.dest outapp
@@ -172,7 +178,7 @@ gulp.task 'reloader', ->
 gulp.task 'clean', (cb) ->
     rimraf outapp, cb
 
-gulp.task 'default', ['package', 'coffee', 'html', 'images',
+gulp.task 'default', ['package', 'coffee', 'html', 'images', 'media',
                       'icons', 'less', 'fontello']
 
 gulp.task 'watch', ['default', 'reloader', 'html'], ->
