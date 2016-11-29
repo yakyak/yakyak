@@ -13,6 +13,10 @@ dispatcher = require './dispatcher'
 
 remote = require('electron').remote
 
+window.onerror = (msg, url, lineNo, columnNo, error) ->
+    hash = {msg, url, lineNo, columnNo, error}
+    ipc.send 'errorInWindow', hash
+
 # expose some selected tagg functions
 trifl.tagg.expose window, ('ul li div span a i b u s button p label
 input table thead tbody tr td th textarea br pass img h1 h2 h3 h4
@@ -21,12 +25,16 @@ hr'.split(' '))...
 {applayout}       = require './views'
 {viewstate, conv} = require './models'
 
+# show tray icon as soon as browser window appers
+{ trayicon } = require './views/index'
+
 contextmenu = require('./views/contextmenu')
 require('./views/menu')(viewstate)
-if viewstate.startminimizedtotray
-  remote.getCurrentWindow().hide()
 
 # tie layout to DOM
+
+# restore last position of window
+remote.getCurrentWindow().setPosition viewstate.pos...
 
 document.body.appendChild applayout.el
 
@@ -39,6 +47,16 @@ do ->
         ipcon n, (as...) ->
             action 'alive', Date.now()
             fn as...
+
+# called when window is ready to show
+#  note: could not use event here, as it must be defined
+#  before
+ipc.on 'ready-to-show', () ->
+    if viewstate.startminimizedtotray
+        remote.getCurrentWindow().hide()
+    else if !remote.getGlobal('windowHideWhileCred')? ||
+             remote.getGlobal('windowHideWhileCred') != true
+        remote.getCurrentWindow().show()
 
 # wire up stuff from server
 ipc.on 'init', (ev, data) -> dispatcher.init data
@@ -76,6 +94,19 @@ action 'reqinit'
 # register event listeners for on/offline
 window.addEventListener 'online',  -> action 'wonline', true
 window.addEventListener 'offline', -> action 'wonline', false
+
+#
+window.addEventListener 'unload', (ev) ->
+    if process.platform == 'darwin'
+        if window.isFullScreen()
+            window.setFullScreen false
+        if not remote.getGlobal('forceClose')
+            ev.preventDefault()
+            window.hide()
+            return
+
+    window = null
+    action 'quit'
 
 # Listen to close and quit events
 window.addEventListener 'beforeunload', (e) ->

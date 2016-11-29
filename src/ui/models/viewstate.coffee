@@ -24,16 +24,20 @@ module.exports = exp = {
     showConvTime: tryparse(localStorage.showConvTime) ? true
     showConvLast: tryparse(localStorage.showConvLast) ? true
     showPopUpNotifications: tryparse(localStorage.showPopUpNotifications) ? true
+    showMessageInNotification: tryparse(localStorage.showMessageInNotification) ? true
+    showUsernameInNotification: tryparse(localStorage.showUsernameInNotification) ? true
     convertEmoji: tryparse(localStorage.convertEmoji) ? true
     colorScheme: localStorage.colorScheme or 'default'
     fontSize: localStorage.fontSize or 'medium'
     zoom: tryparse(localStorage.zoom ? "1.0")
     loggedin: false
+    escapeClearsInput: tryparse(localStorage.escapeClearsInput) or false
     showtray: tryparse(localStorage.showtray) or false
     hidedockicon: tryparse(localStorage.hidedockicon) or false
     startminimizedtotray: tryparse(localStorage.startminimizedtotray) or false
     closetotray: tryparse(localStorage.closetotray) or false
     showDockOnce: true
+    showseenstatus: tryparse(localStorage.showseenstatus) or false
 
     setState: (state) ->
         return if @state == state
@@ -114,6 +118,10 @@ module.exports = exp = {
         @loggedin = val
         updated 'viewstate'
 
+    setShowSeenStatus: (val) ->
+        @showseenstatus = localStorage.showseenstatus = !!val
+        updated 'viewstate'
+
     setLastKeyDown: do ->
         {TYPING, PAUSED, STOPPED} = Client.TypingStatus
         lastEmitted = 0
@@ -138,7 +146,7 @@ module.exports = exp = {
                         action 'settyping', STOPPED
                     , 6000
                 , 6000
-    
+
     setShowConvMin: (doshow) ->
         return if @showConvMin == doshow
         @showConvMin = localStorage.showConvMin = doshow
@@ -173,6 +181,16 @@ module.exports = exp = {
         @showPopUpNotifications = localStorage.showPopUpNotifications = doshow
         updated 'viewstate'
 
+    setShowMessageInNotification: (doshow) ->
+        return if @showMessageInNotification == doshow
+        @showMessageInNotification = localStorage.showMessageInNotification = doshow
+        updated 'viewstate'
+
+    setShowUsernameInNotification: (doshow) ->
+        return if @showUsernameInNotification == doshow
+        @showUsernameInNotification = localStorage.showUsernameInNotification = doshow
+        updated 'viewstate'
+    
     setConvertEmoji: (doshow) ->
         return if @convertEmoji == doshow
         @convertEmoji = localStorage.convertEmoji = doshow
@@ -190,6 +208,10 @@ module.exports = exp = {
             document.querySelector('html').classList.remove document.querySelector('html').classList.item(0)
         document.querySelector('html').classList.add(localStorage.colorScheme)
         document.querySelector('html').classList.add(fontsize)
+
+    setEscapeClearsInput: (value) ->
+        @escapeClearsInput = localStorage.escapeClearsInput = value
+        updated 'viewstate'
 
     setShowTray: (value) ->
         @showtray = localStorage.showtray = value

@@ -97,14 +97,16 @@ module.exports = view (models) ->
 
     conv_id = viewstate?.selectedConv
     c = conv[conv_id]
-    for participant in c.current_participant
-      entity.needEntity participant.chat_id
+    if c.current_participant?
+        for participant in c.current_participant
+          entity.needEntity participant.chat_id
     div class:'messages', observe:onMutate(viewstate), ->
         return unless c?.event
         grouped = groupEvents c.event, entity
         div class:'historyinfo', ->
             if c.requestinghistory
                 pass 'Requesting history…', -> span class:'material-icons spin', 'donut_large'
+        moment.locale(window.navigator.language)
         for g in grouped
             div class:'timestamp', moment(g.start / 1000).calendar()
             for u in g.byuser
@@ -120,15 +122,31 @@ module.exports = view (models) ->
                         clz.push 'self' if entity.isSelf(u.cid)
                         div class:clz.join(' '), ->
                             drawAvatar u, sender, viewstate, entity
+                            if entity.isSelf(u.cid)
+                                drawSeenElement(c, u, entity, events, viewstate)
                             div class:'umessages', ->
                                 drawMessage(e, entity) for e in events
                             , onDOMSubtreeModified: (e) ->
                                 window.twemoji?.parse e.target if process.platform == 'win32'
+                            unless entity.isSelf(u.cid)
+                                drawSeenElement(c, u, entity, events)
 
     if lastConv != conv_id
         lastConv = conv_id
         later atTopIfSmall
 
+drawSeenElement = (c, u, entity, events, viewstate) ->
+    if viewstate?.showseenstatus
+        temp_set = new Set()
+        for contacts in c.read_state
+            other = contacts.participant_id.chat_id
+            if other != u.cid &&
+               !entity.isSelf(other) &&
+               # only add "seen" avatar if last message from group is seen
+               contacts.latest_read_timestamp >= events[events.length - 1].timestamp
+                if !temp_set.has(entity[other].id)
+                    temp_set.add entity[other].id
+                    drawSeenAvatar entity[other]
 
 groupEventsByMessageType = (event) ->
     res = []
@@ -149,6 +167,20 @@ groupEventsByMessageType = (event) ->
 isMeMessage = (e) ->
     e?.chat_message?.annotation?[0]?[0] == HANGOUT_ANNOTATION_TYPE.me_message
 
+drawSeenAvatar = (u) ->
+    initials = initialsof u
+    span class: "seen"
+    , "data-id": u.id
+    , title: u.display_name
+    , ->
+        purl = u?.photo_url
+        if purl and !viewstate?.showAnimatedThumbs
+            purl += "?sz=25"
+        if purl
+            img src:fixlink(purl)
+        else
+            div class:'initials', initials
+
 drawAvatar = (u, sender, viewstate, entity) ->
     initials = initialsof entity[u.cid]
     a href:linkto(u.cid), title:sender, {onclick}, class:'sender', ->
@@ -156,7 +188,16 @@ drawAvatar = (u, sender, viewstate, entity) ->
         if purl and !viewstate?.showAnimatedThumbs
             purl += "?sz=50"
         if purl
-            img src:fixlink(purl)
+            img src:fixlink(purl), "data-id": u.cid, "data-initials": initials,  onerror: ->
+                # in case the image is not available, it
+                #  fallbacks to initials
+                document.querySelectorAll('*[data-id="' + this.dataset.id + '"]').forEach (el) ->
+                    el.classList.add "fallback-on"
+            , onload: ->
+                # when loading successfuly, update again all other imgs
+                document.querySelectorAll('*[data-id="' + this.dataset.id + '"]').forEach (el) ->
+                    el.classList.remove "fallback-on"
+            div class:'initials fallback', "data-id": u.cid, initials
         else
             div class:'initials', initials
 
@@ -380,7 +421,11 @@ handle 'loadedinstagramphoto', ->
 
 extractProtobufStyle = (att) ->
     eitem = att?[0]?.embed_item
-    {data, type_} = eitem ? {}
+    {plus_photo, data, type_} = eitem ? {}
+    if plus_photo?
+        thumb = plus_photo.data?.thumbnail?.image_url
+        href  = plus_photo.data?.url
+        return {href, thumb}
     t = type_?[0]
     return console.warn 'ignoring (old) attachment type', att unless t == 249
     k = Object.keys(data)?[0]

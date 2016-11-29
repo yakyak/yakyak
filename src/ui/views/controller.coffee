@@ -15,13 +15,26 @@ handle 'update:connection', do ->
         # draw view
         conninfo connection
 
+        startupConnEl = document.querySelector('.state_connecting')
+        startupLoadEl = document.querySelector('.state_contacts')
         # place in layout
         if connection.state == connection.CONNECTED
             el?.hide?()
+            startupConnEl.classList.add("hide")
+            startupLoadEl.classList.remove("hide")
             el = null
         else
-            el = notr {html:conninfo.el.innerHTML, stay:0, id:'conn'}
-
+            startupConnEl.innerHTML = connection.infoText()
+                # replace three dots
+                .replace '…',''
+                # add check connection to "Not Connected"
+                .replace /(Not connected)/,
+                         '$1 (check connection)'
+            if document.querySelector('.connecting.hide')?
+                el = notr {html:conninfo.el.innerHTML, stay:0, id:'conn'}
+            else
+                startupConnEl.classList.remove("hide")
+                startupLoadEl.classList.add("hide")
 
 setLeftSize = (left) ->
     document.querySelector('.left').style.width = left + 'px'
@@ -30,8 +43,10 @@ setLeftSize = (left) ->
 setConvMin = (convmin) ->
     if convmin
         document.querySelector('.left').classList.add("minimal")
+        document.querySelector('.leftresize').classList.add("minimal")
     else
         document.querySelector('.left').classList.remove("minimal")
+        document.querySelector('.leftresize').classList.remove("minimal")
 
 
 handle 'update:viewstate', ->

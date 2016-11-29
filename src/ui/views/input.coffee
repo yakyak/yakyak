@@ -37,38 +37,60 @@ openByDefault = 'people'
 
 module.exports = view (models) ->
     div class:'input', ->
-        div id:'emoji-container', ->
-            div id:'emoji-group-selector', ->
-                for range in emojiCategories
-                    name = range['title']
-                    glow = ''
-                    if name == openByDefault
-                        glow = 'glow'
-                    span id:name+'-button'
-                    , title:name
-                    , class:'emoticon ' + glow
-                    , range['representation']
-                    , onclick: do (name) -> ->
-                        console.log("Opening " + name)
-                        openEmoticonDrawer name
+        div id: 'preview-container', ->
+            div class: 'close-preview material-icons'
+                , onclick: (e) ->
+                    element = document.getElementById 'preview-img'
+                    element.src = ''
+                    document.querySelector('#preview-container')
+                        .classList.remove('open')
+                , ->
+                    span ''
+            div class: 'relative'
+                , onclick: (e) ->
+                    console.log 'going to upload preview image'
+                    element = document.getElementById "message-input"
+                    # send text
+                    preparemessage element
+                , ->
+                    img id: 'preview-img', src: ''
+                    div class: 'after material-icons'
+                        , ->
+                            span 'send'
 
-            div class:'emoji-selector', ->
-                for range in emojiCategories
-                    name = range['title']
-                    visible = ''
-                    if name == openByDefault
-                        visible = 'visible'
+        div class: 'relative', ->
+            div id:'emoji-container', ->
+                div id:'emoji-group-selector', ->
+                    for range in emojiCategories
+                        name = range['title']
+                        glow = ''
+                        if name == openByDefault
+                            glow = 'glow'
+                        span id:name+'-button'
+                        , title:name
+                        , class:'emoticon ' + glow
+                        , range['representation']
+                        , onclick: do (name) -> ->
+                            console.log("Opening " + name)
+                            openEmoticonDrawer name
 
-                    span id:name, class:'group-content ' + visible, ->
-                        for emoji in range['range']
-                            if emoji.indexOf("\u200d") >= 0
-                                # FIXME For now, ignore characters that have the "glue" character in them;
-                                # they don't render properly
-                                continue
-                            span class:'emoticon', emoji
-                            , onclick: do (emoji) -> ->
-                                    element = document.getElementById "message-input"
-                                    insertTextAtCursor element, emoji
+                div class:'emoji-selector', ->
+                    for range in emojiCategories
+                        name = range['title']
+                        visible = ''
+                        if name == openByDefault
+                            visible = 'visible'
+
+                        span id:name, class:'group-content ' + visible, ->
+                            for emoji in range['range']
+                                if emoji.indexOf("\u200d") >= 0
+                                    # FIXME For now, ignore characters that have the "glue" character in them;
+                                    # they don't render properly
+                                    continue
+                                span class:'emoticon', emoji
+                                , onclick: do (emoji) -> ->
+                                        element = document.getElementById "message-input"
+                                        insertTextAtCursor element, emoji
 
         div class:'input-container', ->
             textarea id:'message-input', autofocus:true, placeholder:'Message', rows: 1, ''
@@ -84,42 +106,41 @@ module.exports = view (models) ->
                     ta.parentNode.style.height = (ta.offsetHeight + 24) + 'px'
                     messages.scrollToBottom() if messages?
             , onkeydown: (e) ->
-                if (e.metaKey or e.ctrlKey) and e.keyIdentifier == 'Up' then action 'selectNextConv', -1
-                if (e.metaKey or e.ctrlKey) and e.keyIdentifier == 'Down' then action 'selectNextConv', +1
+                if (e.metaKey or e.ctrlKey) and e.key == 'ArrowUp' then action 'selectNextConv', -1
+                if (e.metaKey or e.ctrlKey) and e.key == 'ArrowDown' then action 'selectNextConv', +1
                 unless isModifierKey(e)
                     if e.keyCode == 27
                         e.preventDefault()
-                        action 'hideWindow'
+                        if models.viewstate.showtray && !models.viewstate.escapeClearsInput
+                            action 'hideWindow'
+                        else
+                            # must focus on field and then execute:
+                            #  - select all text in input
+                            #  - replace them with an empty string
+                            document.getElementById("message-input").focus()
+                            document.execCommand("selectAll", false)
+                            document.execCommand("insertText", false, "")
                     if e.keyCode == 13
                         e.preventDefault()
-                        if models.viewstate.convertEmoji
-                            # before sending message, check for emoji
-                            element = document.getElementById "message-input"
-                            # Converts emojicodes (e.g. :smile:, :-) ) to unicode
-                            element.value = convertEmoji(element.value)
-                        #
-                        action 'sendmessage', e.target.value
-                        document.querySelector('#emoji-container').classList.remove('open');
-                        historyPush e.target.value
-                        e.target.value = ''
-                        autosize.update e.target
+                        preparemessage e.target
                     if e.target.value == ''
-                        if e.keyIdentifier is "Up" then historyWalk e.target, -1
-                        if e.keyIdentifier is "Down" then historyWalk e.target, +1
+                        if e.key is 'ArrowUp' then historyWalk e.target, -1
+                        if e.key is 'ArrowDown' then historyWalk e.target, +1
                 action 'lastkeydown', Date.now() unless isAltCtrlMeta(e)
             , onkeyup: (e) ->
                 #check for emojis after pressing space
                 if e.keyCode == 32
                     element = document.getElementById "message-input"
-                    # get cursor position
-                    startSel = element.selectionStart
-                    endSel  = element.selectionEnd
                     # Converts emojicodes (e.g. :smile:, :-) ) to unicode
                     if models.viewstate.convertEmoji
+                        # get cursor position
+                        startSel = element.selectionStart
+                        len = element.value.length
                         element.value = convertEmoji(element.value)
-                    # Set cursor position (otherwise it would go to end of inpu)
-                    element.selectionStart = startSel
-                    element.selectionEnd = endSel
+                        # Set cursor position (otherwise it would go to end of inpu)
+                        lenAfter = element.value.length
+                        element.selectionStart = startSel - (len - lenAfter)
+                        element.selectionEnd = element.selectionStart
             , onpaste: (e) ->
                 setTimeout () ->
                     if not clipboard.readImage().isEmpty() and not clipboard.readText()
@@ -128,7 +149,7 @@ module.exports = view (models) ->
 
             span class:'button-container', ->
                 button title:'Show emoticons', onclick: (ef) ->
-                    document.querySelector('#emoji-container').classList.toggle('open');
+                    document.querySelector('#emoji-container').classList.toggle('open')
                     scrollToBottom()
                 , ->
                     span class:'material-icons', "mood"
@@ -156,6 +177,24 @@ maybeFocus = ->
         # steal it!!!
         el = document.querySelector('.input textarea')
         el.focus() if el
+
+preparemessage = (ev) ->
+    if models.viewstate.convertEmoji
+        # before sending message, check for emoji
+        element = document.getElementById "message-input"
+        # Converts emojicodes (e.g. :smile:, :-) ) to unicode
+        element.value = convertEmoji(element.value)
+    #
+    action 'sendmessage', ev.value
+    #
+    # check if there is an image in preview
+    img = document.getElementById "preview-img"
+    action 'uploadpreviewimage' if img.getAttribute('src') != ''
+    #
+    document.querySelector('#emoji-container').classList.remove('open');
+    historyPush ev.value
+    ev.value = ''
+    autosize.update ev
 
 handle 'noinputkeydown', (ev) ->
     el = document.querySelector('.input textarea')

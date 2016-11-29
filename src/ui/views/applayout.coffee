@@ -1,6 +1,8 @@
 
 {throttle, topof} = require '../util'
 
+path = require 'path'
+
 attached = false
 attachListeners = ->
     return if attached
@@ -55,15 +57,26 @@ drag = do ->
         # this enables dragging at all
         ev.preventDefault()
         addClass closest(ev.target, 'dragtarget'), 'dragover'
+        removeClass closest(ev.target, 'dragtarget'), 'drag-timeout'
         ev.dataTransfer.dropEffect = 'copy'
         return false
 
     ondrop = (ev) ->
         ev.preventDefault()
+        removeClass closest(ev.target, 'dragtarget'), 'dragover'
+        removeClass closest(ev.target, 'dragtarget'), 'drag-timeout'
         action 'uploadimage', ev.dataTransfer.files
 
     ondragleave = (ev) ->
-        removeClass closest(ev.target, 'dragtarget'), 'dragover'
+        # it was firing the leave event while dragging, had to
+        #  use a timeout to check if it was a "real" event
+        #  by remaining out
+        addClass closest(ev.target, 'dragtarget'), 'drag-timeout'
+        setTimeout ->
+            if closest(ev.target, 'dragtarget').classList.contains('drag-timeout')
+                removeClass closest(ev.target, 'dragtarget'), 'dragover'
+                removeClass closest(ev.target, 'dragtarget'), 'drag-timeout'
+        , 200
 
     {ondragover, ondragenter, ondrop, ondragleave}
 
@@ -85,16 +98,29 @@ resize = do ->
 resizers =
     leftResize: (ev) -> action 'leftresize', (Math.max 90, ev.clientX)
 
-
 module.exports = exp = layout ->
     platform = if process.platform is 'darwin' then 'osx' else ''
-    div class:'applayout dragtarget ' + platform, drag, resize, ->
+    div class:'applayout ' + platform, resize, ->
+        div class: 'connecting',  ->
+            div ->
+                div () ->
+                    img src: path.join __dirname, '..', '..', 'icons', 'yakyak-logo.svg'
+                div ->
+                    span class: 'text state_connecting', 'Connecting'
+                    span class: 'text state_contacts hide', 'Loading contacts'
+                div class: 'spinner', ->
+                    div class: 'bounce1', ''
+                    div class: 'bounce2', ''
+                    div class: 'bounce3', ''
         div class:'left', ->
             div class:'listhead', region('listhead')
             div class:'list', region('left')
             div class:'lfoot', region('lfoot')
         div class:'leftresize', 'data-resize':'leftResize'
-        div class:'right', ->
+        div class:'right dragtarget ', drag, ->
+            div id: 'drop-overlay', ->
+                div class: 'inner-overlay', () ->
+                    div 'Drop file here.'
             div class:'convhead', region('convhead')
             div class:'main', region('main'), onscroll: onScroll
             div class:'maininfo', region('maininfo')

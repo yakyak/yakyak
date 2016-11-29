@@ -1,13 +1,13 @@
 {
   "name": "yakyak",
-  "version": "1.3.3",
+  "version": "1.4.0",
   "description": "Chat client for Google Hangouts",
   "main": "main.js",
   "scripts": {
     "gulp": "gulp",
     "electron": "electron",
     "test": "mocha",
-    "deploy": "bash ./deploy.sh",
+    "deploy": "gulp && bash ./deploy.sh",
     "deploy:linux-x64": "bash ./deploy.sh --linux-x64",
     "deploy:linux-ia32": "bash ./deploy.sh --linux-ia32",
     "deploy:win32-x64": "bash ./deploy.sh --win32-x64",
@@ -31,7 +31,8 @@
   "homepage": "https://github.com/yakyak/yakyak",
   "dependencies": {
     "autosize": "^3.0.8",
-    "hangupsjs": "^1.3.2",
+    "hangupsjs": "https://github.com/averissimo/hangupsjs.git#1.3.3",
+    "mime-types": "^2.1.12",
     "moment": "^2.10.3",
     "node-notifier": "^4.2.3",
     "notr": "^1.1.2",

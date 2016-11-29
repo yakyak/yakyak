@@ -49,6 +49,7 @@ logout = ->
 seqreq = require './seqreq'
 
 mainWindow = null
+aboutWindow = null
 
 # Only allow a single active instance
 shouldQuit = app.makeSingleInstance ->
@@ -60,14 +61,17 @@ if shouldQuit
     return;
 
 # No more minimizing to tray, just close it
-global.forceClose = false;
+global.forceClose = false
 quit = ->
-    global.forceClose = true;
+    global.forceClose = true
+    # force all windows to close
+    aboutWindow.destroy()
+    mainWindow.destroy()
     app.quit()
     return
 
 app.on 'before-quit', ->
-    global.forceClose = true;
+    global.forceClose = true
     return
 
 # For OSX show window main window if we've hidden it.
@@ -77,6 +81,9 @@ app.on 'activate', ->
 
 loadAppWindow = ->
     mainWindow.loadURL 'file://' + __dirname + '/ui/index.html'
+    # Only show window when it has some content
+    mainWindow.once 'ready-to-show', () ->
+        mainWindow.webContents.send 'ready-to-show'
 
 toggleWindowVisible = ->
     if mainWindow.isVisible() then mainWindow.hide() else mainWindow.show()
@@ -107,11 +114,20 @@ app.on 'ready', ->
         "min-width": 620
         "min-height": 420
         icon: path.join __dirname, 'icons', 'icon.png'
-        show: true
+        show: false
         titleBarStyle: 'hidden-inset' if process.platform is 'darwin'
-        autoHideMenuBar : true unless process.platform is 'darwin'
+        # autoHideMenuBar : true unless process.platform is 'darwin'
     }
 
+    aboutWindow = new BrowserWindow {
+      width: 500
+      height: 500
+      show: false
+      parent: mainWindow
+      resizable: false
+    }
+
+    aboutWindow.loadURL 'file://' + __dirname + '/ui/about.html'
 
     # and load the index.html of the app. this may however be yanked
     # away if we must do auth.
@@ -137,6 +153,7 @@ app.on 'ready', ->
 
         loginWindow.on 'closed', quit
 
+        global.windowHideWhileCred = true
         mainWindow.hide()
         loginWindow.focus()
         # reinstate app window when login finishes
@@ -261,9 +278,8 @@ app.on 'ready', ->
 
     # we want to upload. in the order specified, with retry
     ipc.on 'uploadclipboardimage', seqreq (ev, spec) ->
-        {conv_id, client_generated_id} = spec
+        {pngData, conv_id, client_generated_id} = spec
         file = tmp.fileSync postfix: ".png"
-        pngData = clipboard.readImage().toPng()
         ipcsend 'uploadingimage', {conv_id, client_generated_id, path:file.name}
         Q.Promise (rs, rj) ->
             fs.writeFile file.name, pngData, plug(rs, rj)
@@ -365,21 +381,26 @@ app.on 'ready', ->
 
     ipc.on 'quit', quit
 
+    # Help -> About opens the about window
+    ipc.on 'show-about', ->
+        aboutWindow.setMenu(null)
+        aboutWindow.show()
+
+    ipc.on 'errorInWindow', (ev, error) ->
+        console.log "Error on YakYak window:\n", error, "\n--- End of error message in YakYak window."
+
     # propagate these events to the renderer
     require('./ui/events').forEach (n) ->
         client.on n, (e) ->
             ipcsend n, e
 
-    # Emitted when the window is about to close.
-    # For OSX only hides the window if we're not force closing.
-    mainWindow.on 'close', (ev) ->
-        if process.platform == 'darwin'
-            if mainWindow.isFullScreen()
-                mainWindow.setFullScreen false
-            if not global.forceClose
-                ev.preventDefault()
-                mainWindow.hide()
-                return
+    # Emitted when about window is about to close and prevents it,
+    #  instead it hides the window.
+    aboutWindow.on 'close', (ev) ->
+        aboutWindow.hide()
+        ev.preventDefault()
+        return false
 
-        mainWindow = null
-        quit()
+    # Emitted when the window is about to close.
+    # Hides the window if we're not force closing.
+    #  IMPORTANT: moved to app.coffee
