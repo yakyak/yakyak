@@ -98,11 +98,11 @@ window.addEventListener 'offline', -> action 'wonline', false
 #
 window.addEventListener 'unload', (ev) ->
     if process.platform == 'darwin'
-        if window.isFullScreen()
+        if window?.isFullScreen()
             window.setFullScreen false
         if not remote.getGlobal('forceClose')
             ev.preventDefault()
-            window.hide()
+            window?.hide()
             return
 
     window = null
