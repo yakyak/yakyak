@@ -47,6 +47,16 @@ update = (unreadCount, viewstate) ->
         }
 
         {
+          label: 'Show pop-up notifications'
+          type: "checkbox"
+          checked: viewstate.showPopUpNotifications
+          # usage of already existing method and implements same logic
+          #  as other toggle... methods
+          click: -> action 'showpopupnotifications',
+              !viewstate.showPopUpNotifications
+        }
+
+        {
             label: "Close to tray"
             type: "checkbox"
             checked: viewstate.closetotray
