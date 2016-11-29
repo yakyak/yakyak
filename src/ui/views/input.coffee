@@ -42,6 +42,7 @@ module.exports = view (models) ->
                 , onclick: (e) ->
                     element = document.getElementById 'preview-img'
                     element.src = ''
+                    document.getElementById('attachFile').value = ''
                     document.querySelector('#preview-container')
                         .classList.remove('open')
                 , ->

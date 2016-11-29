@@ -386,7 +386,7 @@ templateMenu = (viewstate) ->
               click: () -> action 'show-about'
             }
           ]
-        } if isDarwin
+        } if !isDarwin
         {
             label: 'Window'
             submenu: templateWindow viewstate
