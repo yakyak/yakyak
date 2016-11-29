@@ -171,6 +171,9 @@ handle 'addentities', (es, conv_id) ->
         (es ? []).forEach (p) -> conv.addParticipant conv_id, p
         viewstate.setState viewstate.STATE_NORMAL
 
+    # Best place to check if everyone is added
+    document.querySelector('.connecting').classList.add("hide")
+
 handle 'uploadimage', (files) ->
     # this may change during upload
     conv_id = viewstate.selectedConv

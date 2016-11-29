@@ -1,6 +1,8 @@
 
 {throttle, topof} = require '../util'
 
+path = require 'path'
+
 attached = false
 attachListeners = ->
     return if attached
@@ -89,6 +91,18 @@ resizers =
 module.exports = exp = layout ->
     platform = if process.platform is 'darwin' then 'osx' else ''
     div class:'applayout dragtarget ' + platform, drag, resize, ->
+        div class: 'connecting',  ->
+            div ->
+                div () ->
+                    img src: path.join __dirname, '..', '..', 'icons', 'yakyak-logo.svg'
+                div ->
+                    span class: 'text state_connecting', 'Connecting'
+                    span class: 'text state_contacts hide', 'Loading contacts'
+                div class: 'spinner', ->
+                    div class: 'bounce1', ''
+                    div class: 'bounce2', ''
+                    div class: 'bounce3', ''
+
         div class:'left', ->
             div class:'listhead', region('listhead')
             div class:'list', region('left')
