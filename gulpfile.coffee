@@ -113,10 +113,13 @@ gulp.task 'icons', ->
         'icon_256.png': 'icon@16.png'
         'icon_512.png': 'icon@32.png'
 
-    Object.keys(nameMap).forEach (name) ->
-        gulp.src path.join paths.icons, name
-            .pipe rename nameMap[name]
-            .pipe gulp.dest path.join outapp, 'icons'
+    # gulp 4 requires async notification!
+    new Promise (resolve, reject)->
+        Object.keys(nameMap).forEach (name) ->
+            gulp.src path.join paths.icons, name
+                .pipe rename nameMap[name]
+                .pipe gulp.dest path.join outapp, 'icons'
+        resolve()
 
 # compile less
 gulp.task 'less', ->
@@ -173,41 +176,45 @@ gulp.task 'watch', gulp.series('default', 'reloader', 'html'), ->
 buildDeployTask = (platform, arch) ->
     # create a task per platform
     taskname = "deploy:#{platform}-#{arch}"
-    gulp.task taskname, ()->
-        deferred = Q.defer()
-        deploy platform, arch, () ->
-            deferred.resolve()
-        deferred.promise
-    taskname
-
-#
-# create tasks for different platforms and architectures supported
-platformOpts.map (plat) ->
+    tasknameNoDep = "#{taskname}:nodep"
+    # set internal task with _ (does not have dependencies)
+    gulp.task tasknameNoDep, ()->
+        deploy platform, arch
+    # set task with dependencies
+    gulp.task taskname, gulp.series('default', tasknameNoDep)
     #
-    names = []
-    archOpts.map (arch) ->
-        # create a task per platform/architecture
-        names.push buildDeployTask(plat, arch)
-    #
-    # create arch-independet task
-    gulp.task "deploy:#{plat}", gulp.parallel(names)
+    tasknameNoDep
 
 #
 # task to deploy all
-gulp.task 'deploy', ->
-    platformOpts.map (plat) ->
-        archOpts.map (arch) ->
-        deploy(plat, arch)
+allNames = []
+#
+# create tasks for different platforms and architectures supported
+platformOpts.map (plat) ->
+    names = []
+    archOpts.map (arch) ->
+        # create a task per platform/architecture
+        taskName = buildDeployTask(plat, arch)
+        names.push taskName
+        allNames.push taskName
+    #
+    # create arch-independet task
+    gulp.task "deploy:#{plat}", gulp.series('default', gulp.parallel(names))
+    #
+gulp.task 'deploy', gulp.series('default', allNames)
 
 #
 #
-deploy = (platform, arch, fun) ->
+deploy = (platform, arch) ->
+    deferred = Q.defer()
     opts = deploy_options
     opts.platform = platform
     opts.arch = arch
     #
     # restriction darwin won't compile ia32
-    return if platform == 'darwin' && arch == 'ia32'
+    if platform == 'darwin' && arch == 'ia32'
+        deferred.resolve()
+        deferred.promise
     #
     # necessary to add a callback to pipe (which is used to signal end of task)
     gulpCallback = (obj) ->
@@ -230,4 +237,5 @@ deploy = (platform, arch, fun) ->
                 .pipe zip "yakyak-#{platform}-#{arch}-#{json.version}.zip"
                 .pipe gulp.dest outdeploy
                 .pipe gulpCallback ()->
-                    fun()
+                    deferred.resolve()
+    deferred.promise
