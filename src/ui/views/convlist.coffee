@@ -1,5 +1,5 @@
 moment = require 'moment'
-{nameof, initialsof, nameofconv, fixlink} = require '../util'
+{nameof, initialsof, nameofconv, fixlink, drawAvatar} = require '../util'
 
 module.exports = view (models) ->
     {conv, entity, viewstate} = models
@@ -29,28 +29,8 @@ module.exports = view (models) ->
                     div class: 'thumbs thumbs-'+(if ents.length>4 then '4' else ents.length), ->
                         for p, index in ents
                             break if index >= 4
-                            image = p.photo_url
-                            # write initials as data-initials in img elements
                             entity.needEntity(p.id)
-                            initials = initialsof entity[p.id]
-                            if image and !viewstate.showAnimatedThumbs
-                                image += "?sz=50"
-                            if image
-                                img src:fixlink(image)
-                                , "data-initials": initials
-                                , "data-id": p.id
-                                , onerror: ->
-                                    # in case the image is not available, it
-                                    #  fallbacks to initials
-                                    this.outerHTML = div class:'initials'
-                                    , "data-initials": this.dataset.initials
-                                    , "data-id": this.dataset.id
-                                    , this.dataset.initials
-                            else
-                                div class: 'initials'
-                                , "data-id": p.id
-                                , "data-initials": initials
-                                , initials
+                            drawAvatar(p.id, viewstate, entity)
 
                         if ents.length>4
                             div class:'moreuser', ents.length
