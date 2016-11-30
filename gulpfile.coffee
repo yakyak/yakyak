@@ -56,20 +56,13 @@ deploy_options = {
 }
 
 #
-# extension to gulp to get the current task name
-gulp.Gulp.prototype.__runTask = gulp.Gulp.prototype._runTask
-gulp.Gulp.prototype._runTask = (task) ->
-    this.currentTask = task
-    this.__runTask(task)
-#
 # create tasks for different platforms and architectures supported
 platformOpts.map (plat) ->
     # create a task per platform
     gulp.task "deploy:#{plat}", ->
-        args = this.currentTask.name.replace('deploy:', '')
         deferred = Q.defer()
         archOpts.map (arch) ->
-            deploy args, arch, () ->
+            deploy plat, arch, () ->
                 deferred.resolve()
         deferred.promise
     #
@@ -78,8 +71,7 @@ platformOpts.map (plat) ->
         # create a task per platform/architecture
         gulp.task "deploy:#{plat}-#{arch}", ->
             deferred = Q.defer()
-            args = this.currentTask.name.replace('deploy:', '').split('-')
-            deploy args[0], args[1], () ->
+            deploy plat, arch, () ->
                 deferred.resolve()
             deferred.promise
 #
@@ -94,6 +86,9 @@ deploy = (platform, arch, fun) ->
     opts.platform = platform
     opts.arch = arch
     #
+    # restriction darwin won't compile ia32
+    return if platform == 'darwin' && arch == 'ia32'
+    #
     # necessary to add a callback to pipe (which is used to signal end of task)
     gulpCallback = (obj) ->
         "use strict"
@@ -107,10 +102,9 @@ deploy = (platform, arch, fun) ->
     packager opts, (err, appPaths) ->
         if err?
             console.log ('Error: ' + err) if err?
-        else
+        else if appPaths?.length > 0
             json = JSON.parse(fs.readFileSync('./package.json'))
-            zippaths = appPaths.map (filePath) ->
-                filePath + '/*'
+            zippaths = appPaths.map (filePath) -> filePath + '/**'
             console.log "Compressing #{zippaths.join(', ')}"
             gulp.src zippaths
                 .pipe zip "yakyak-#{platform}-#{arch}-#{json.version}.zip"
@@ -218,9 +212,9 @@ gulp.task 'reloader', ->
 gulp.task 'clean', (cb) ->
     rimraf outapp, cb
 
-gulp.task 'default', ['package', 'coffee', 'html', 'images', 'icons', 'less', 'fontello']
+gulp.task 'default', gulp.series('package', 'coffee', 'html', 'images', 'icons', 'less', 'fontello')
 
-gulp.task 'watch', ['default', 'reloader', 'html'], ->
+gulp.task 'watch', gulp.series('default', 'reloader', 'html'), ->
     # watch to rebuild
     sources = (v for k, v of paths)
     gulp.watch sources, ['default']
