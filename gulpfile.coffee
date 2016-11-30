@@ -231,7 +231,7 @@ deploy = (platform, arch) ->
             console.log ('Error: ' + err) if err?
         else if appPaths?.length > 0
             json = JSON.parse(fs.readFileSync('./package.json'))
-            zippaths = [appPaths[0] + '**/**', "!appPaths[0]*"]
+            zippaths = [appPaths[0] + '**/**', "!#{appPaths[0]}*"]
             console.log "Compressing #{zippaths.join(', ')}"
             gulp.src zippaths
                 .pipe zip "yakyak-#{json.version}-#{platform}-#{arch}.zip"
