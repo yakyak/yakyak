@@ -10,15 +10,21 @@ initialsof = (e) ->
     else
         return '?'
 
-drawAvatar = (user_id, viewstate, entity) ->
-    initials = initialsof entity[user_id]
+drawAvatar = (user_id, viewstate, entity, image = null, email = null, initials = null) ->
+    #
+    entity.needEntity(user_id) unless entity[user_id]?
+    #
+    initials = initialsof entity[user_id] unless initials
+    email = entity[user_id]?.email?[0] unless email?
+    #
     div class: 'avatar', 'data-id': user_id, ->
-        image = entity[user_id]?.photo_url
+        image = entity[user_id]?.photo_url unless image?
         if image
             if !viewstate?.showAnimatedThumbs
                 image += "?sz=50"
             #
             img src:fixlink(image), "data-initials": initials
+            , title: email
             ,  onerror: (ev) ->
                 # in case the image is not available, it
                 #  fallbacks to initials
