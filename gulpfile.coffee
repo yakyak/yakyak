@@ -42,7 +42,7 @@ platformOpts = ['linux', 'darwin', 'win32']
 archOpts =      ['x64','ia32']
 
 deploy_options = {
-    dir: __dirname
+    dir: path.join __dirname, 'app'
     asar: false
     icon: path.join __dirname, 'ui', 'icons', 'icon'
     out: path.join __dirname, 'dist'
@@ -54,63 +54,6 @@ deploy_options = {
     arch:     archOpts.join ','
     platform: platformOpts.join ','
 }
-
-#
-# create tasks for different platforms and architectures supported
-platformOpts.map (plat) ->
-    # create a task per platform
-    gulp.task "deploy:#{plat}", ->
-        deferred = Q.defer()
-        archOpts.map (arch) ->
-            deploy plat, arch, () ->
-                deferred.resolve()
-        deferred.promise
-    #
-    #
-    archOpts.map (arch) ->
-        # create a task per platform/architecture
-        gulp.task "deploy:#{plat}-#{arch}", ->
-            deferred = Q.defer()
-            deploy plat, arch, () ->
-                deferred.resolve()
-            deferred.promise
-#
-# task to deploy all
-gulp.task 'deploy', ->
-    platformOpts.map (plat) ->
-        archOpts.map (arch) ->
-        deploy(plat, arch)
-
-deploy = (platform, arch, fun) ->
-    opts = deploy_options
-    opts.platform = platform
-    opts.arch = arch
-    #
-    # restriction darwin won't compile ia32
-    return if platform == 'darwin' && arch == 'ia32'
-    #
-    # necessary to add a callback to pipe (which is used to signal end of task)
-    gulpCallback = (obj) ->
-        "use strict"
-        stream = new Stream.Transform({objectMode: true})
-        stream._transform = (file, unused, callback) ->
-            obj()
-            callback(null, file)
-        stream
-    #
-    # package the app and create a zip
-    packager opts, (err, appPaths) ->
-        if err?
-            console.log ('Error: ' + err) if err?
-        else if appPaths?.length > 0
-            json = JSON.parse(fs.readFileSync('./package.json'))
-            zippaths = appPaths.map (filePath) -> filePath + '/**'
-            console.log "Compressing #{zippaths.join(', ')}"
-            gulp.src zippaths
-                .pipe zip "yakyak-#{platform}-#{arch}-#{json.version}.zip"
-                .pipe gulp.dest outdeploy
-                .pipe gulpCallback ()->
-                    fun()
 
 # setup package stuff (README, package.json)
 gulp.task 'package', ->
@@ -212,9 +155,79 @@ gulp.task 'reloader', ->
 gulp.task 'clean', (cb) ->
     rimraf outapp, cb
 
-gulp.task 'default', gulp.series('package', 'coffee', 'html', 'images', 'icons', 'less', 'fontello')
+gulp.task 'default', gulp.series('package', 'coffee', 'html', 'images',
+                                 'icons', 'less', 'fontello')
 
 gulp.task 'watch', gulp.series('default', 'reloader', 'html'), ->
     # watch to rebuild
     sources = (v for k, v of paths)
     gulp.watch sources, ['default']
+
+#
+#
+#
+# Deployment related tasks
+
+#
+#
+buildDeployTask = (platform, arch) ->
+    # create a task per platform
+    taskname = "deploy:#{platform}-#{arch}"
+    gulp.task taskname, ()->
+        deferred = Q.defer()
+        deploy platform, arch, () ->
+            deferred.resolve()
+        deferred.promise
+    taskname
+
+#
+# create tasks for different platforms and architectures supported
+platformOpts.map (plat) ->
+    #
+    names = []
+    archOpts.map (arch) ->
+        # create a task per platform/architecture
+        names.push buildDeployTask(plat, arch)
+    #
+    # create arch-independet task
+    gulp.task "deploy:#{plat}", gulp.parallel(names)
+
+#
+# task to deploy all
+gulp.task 'deploy', ->
+    platformOpts.map (plat) ->
+        archOpts.map (arch) ->
+        deploy(plat, arch)
+
+#
+#
+deploy = (platform, arch, fun) ->
+    opts = deploy_options
+    opts.platform = platform
+    opts.arch = arch
+    #
+    # restriction darwin won't compile ia32
+    return if platform == 'darwin' && arch == 'ia32'
+    #
+    # necessary to add a callback to pipe (which is used to signal end of task)
+    gulpCallback = (obj) ->
+        "use strict"
+        stream = new Stream.Transform({objectMode: true})
+        stream._transform = (file, unused, callback) ->
+            obj()
+            callback(null, file)
+        stream
+    #
+    # package the app and create a zip
+    packager opts, (err, appPaths) ->
+        if err?
+            console.log ('Error: ' + err) if err?
+        else if appPaths?.length > 0
+            json = JSON.parse(fs.readFileSync('./package.json'))
+            zippaths = appPaths.map (filePath) -> filePath + '/**'
+            console.log "Compressing #{zippaths.join(', ')}"
+            gulp.src zippaths
+                .pipe zip "yakyak-#{platform}-#{arch}-#{json.version}.zip"
+                .pipe gulp.dest outdeploy
+                .pipe gulpCallback ()->
+                    fun()
