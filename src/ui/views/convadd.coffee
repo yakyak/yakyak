@@ -121,9 +121,4 @@ module.exports = view (models) ->
 
         mayRestoreInitialValues models
 
-drawInitials = (entity, cid) ->
-    entity.needEntity(cid)
-    initials = initialsof entity[cid]
-    div class:'initials', initials
-
 onclickaction = (a) -> (ev) -> action a
