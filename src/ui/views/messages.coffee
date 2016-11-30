@@ -2,7 +2,7 @@ moment = require 'moment'
 shell = require('electron').shell
 
 {nameof, initialsof, nameofconv, linkto, later, forceredraw, throttle,
-getProxiedName, fixlink, isImg, getImageUrl}  = require '../util'
+getProxiedName, fixlink, isImg, getImageUrl, drawAvatar}  = require '../util'
 
 CUTOFF = 5 * 60 * 1000 * 1000 # 5 mins
 
@@ -115,13 +115,13 @@ module.exports = view (models) ->
                     if isMeMessage events[0]
                         # all items are /me messages if the first one is due to grouping above
                         div class:'ugroup me', ->
-                            drawAvatar u, sender, viewstate, entity
+                            drawMessageAvatar u, sender, viewstate, entity
                             drawMeMessage e for e in events
                     else
                         clz = ['ugroup']
                         clz.push 'self' if entity.isSelf(u.cid)
                         div class:clz.join(' '), ->
-                            drawAvatar u, sender, viewstate, entity
+                            drawMessageAvatar u, sender, viewstate, entity
                             if entity.isSelf(u.cid)
                                 drawSeenElement(c, u, entity, events, viewstate)
                             div class:'umessages', ->
@@ -134,6 +134,10 @@ module.exports = view (models) ->
     if lastConv != conv_id
         lastConv = conv_id
         later atTopIfSmall
+
+drawMessageAvatar = (u, sender, viewstate, entity) ->
+    a href:linkto(u.cid), title: sender, {onclick}, class:'sender', ->
+        drawAvatar(u.cid, viewstate, entity)
 
 drawSeenElement = (c, u, entity, events, viewstate) ->
     if viewstate?.showseenstatus
@@ -178,26 +182,6 @@ drawSeenAvatar = (u) ->
             purl += "?sz=25"
         if purl
             img src:fixlink(purl)
-        else
-            div class:'initials', initials
-
-drawAvatar = (u, sender, viewstate, entity) ->
-    initials = initialsof entity[u.cid]
-    a href:linkto(u.cid), title:sender, {onclick}, class:'sender', ->
-        purl = entity[u.cid]?.photo_url
-        if purl and !viewstate?.showAnimatedThumbs
-            purl += "?sz=50"
-        if purl
-            img src:fixlink(purl), "data-id": u.cid, "data-initials": initials,  onerror: ->
-                # in case the image is not available, it
-                #  fallbacks to initials
-                document.querySelectorAll('*[data-id="' + this.dataset.id + '"]').forEach (el) ->
-                    el.classList.add "fallback-on"
-            , onload: ->
-                # when loading successfuly, update again all other imgs
-                document.querySelectorAll('*[data-id="' + this.dataset.id + '"]').forEach (el) ->
-                    el.classList.remove "fallback-on"
-            div class:'initials fallback', "data-id": u.cid, initials
         else
             div class:'initials', initials
 

@@ -130,18 +130,9 @@
             + .convinfos{
                 width: calc(~"100% - 60px");
             }
-            img, .initials {
-                object-fit: cover;
-                border-radius: 50%;
-                position: absolute;
-                width: 50px;
-                height: 50px;
-                text-align: center;
+            .avatar img, .avatar .initials {
                 font-size: 17px;
                 line-height: 50px;
-                color: var(--white);
-                background: var(--grey);
-                text-transform: uppercase;
             }
             .presence{
                 position: absolute;
@@ -178,71 +169,89 @@
 
             /* one image */
             @size-one: 50px;
-            img:nth-child(1):nth-last-of-type(1),
-            .initials:nth-child(1):nth-last-of-type(1) {
+            .avatar:nth-child(1):nth-last-of-type(1) img,
+            .avatar:nth-child(1):nth-last-of-type(1) .initials {
                 width: @size-one;
                 height: @size-one;
                 left: 0;
             }
 
-            &.thumbs-2{
+            &.thumbs-2 .avatar{
+                &:nth-child(1){
+                    img, .initials {
+                        top: 0;
+                        left: 0;
+                    }
+                }
+                &:nth-child(2){
+                    img, .initials {
+                        bottom: 0;
+                        right: 0;
+                    }
+                }
                 img, .initials{
                     width: 29px;
                     height: 29px;
                     font-size: 11px;
                     line-height: 29px;
-                    &:nth-child(1){
-                        top: 0;
-                        left: 0;
-                    }
-                    &:nth-child(2){
-                        bottom: 0;
-                        right: 0;
-                    }
                 }
             }
-            &.thumbs-3{
+            &.thumbs-3 .avatar{
                 img, .initials{
                     width: 25px;
                     height: 25px;
                     font-size: 11px;
                     line-height: 25px;
-                    &:nth-child(1){
+                }
+                &:nth-child(1){
+                    img, .initials{
                         top: 1px;
                         left: 25%;
                     }
-                    &:nth-child(2){
+                }
+                &:nth-child(2){
+                    img, .initials{
                         bottom: 1px;
                         left: 0;
                     }
-                    &:nth-child(3){
+                }
+                &:nth-child(3){
+                    img, .initials{
                         bottom: 1px;
                         right: 0;
                     }
                 }
             }
-            &.thumbs-4{
+            &.thumbs-4 .avatar{
+                &:nth-child(1){
+                    img, .initials{
+                        top: 0;
+                        left: 0;
+                    }
+                }
+                &:nth-child(2){
+                    img, .initials{
+                        top: 0;
+                        right: 0;
+                    }
+                }
+                &:nth-child(3){
+                    img, .initials{
+                        bottom: 0;
+                        left: 0;
+                    }
+                }
+                &:nth-child(4){
+                    img, .initials{
+                        bottom: 0;
+                        right: 0;
+                    }
+                }
                 img, .initials{
                     width: 25px;
                     height: 25px;
                     font-size: 11px;
                     line-height: 25px;
-                    &:nth-child(1){
-                        top: 0;
-                        left: 0;
-                    }
-                    &:nth-child(2){
-                        top: 0;
-                        right: 0;
-                    }
-                    &:nth-child(3){
-                        bottom: 0;
-                        left: 0;
-                    }
-                    &:nth-child(4){
-                        bottom: 0;
-                        right: 0;
-                    }
                 }
             }
         }
