@@ -39,7 +39,7 @@ paths =
 outdeploy = path.join __dirname, 'dist'
 
 platformOpts = ['linux', 'darwin', 'win32']
-archOpts =      ['x64','ia32']
+archOpts =     ['x64','ia32']
 
 deploy_options = {
     dir: path.join __dirname, 'app'
