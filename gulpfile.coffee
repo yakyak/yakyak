@@ -51,6 +51,7 @@ deploy_options = {
         CompanyName: 'Yakyak'
         ProductName: 'Yakyak'
     }
+    'osx-sign': true
     arch:     archOpts.join ','
     platform: platformOpts.join ','
 }
