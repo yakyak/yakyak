@@ -12,11 +12,17 @@ concat     = require 'gulp-concat'
 autoReload = require 'gulp-auto-reload'
 changed    = require 'gulp-changed'
 rename     = require 'gulp-rename'
+packager   = require 'electron-packager'
+zip        = require 'gulp-zip'
+filter     = require 'gulp-filter'
+Q          = require 'q'
+Stream     = require 'stream'
 
 outapp = './app'
 outui  = outapp + '/ui'
 
 paths =
+    deploy:  './dist/'
     README:  './README.md'
     package: './package.json'
     coffee:  './src/**/*.coffee'
@@ -29,6 +35,26 @@ paths =
     fonts:   ['./src/**/*.eot', './src/**/*.svg',
               './src/**/*.ttf', './src/**/*.woff',
               './src/**/*.woff2']
+
+outdeploy = path.join __dirname, 'dist'
+
+platformOpts = ['linux', 'darwin', 'win32']
+archOpts =     ['x64','ia32']
+
+deploy_options = {
+    dir: path.join __dirname, 'app'
+    asar: false
+    icon: path.join __dirname, 'ui', 'icons', 'icon'
+    out: outdeploy
+    overwrite: true
+    win32metadata: {
+        CompanyName: 'Yakyak'
+        ProductName: 'Yakyak'
+    }
+    'osx-sign': true
+    arch:     archOpts.join ','
+    platform: platformOpts.join ','
+}
 
 # setup package stuff (README, package.json)
 gulp.task 'package', ->
@@ -88,10 +114,13 @@ gulp.task 'icons', ->
         'icon_256.png': 'icon@16.png'
         'icon_512.png': 'icon@32.png'
 
-    Object.keys(nameMap).forEach (name) ->
-        gulp.src path.join paths.icons, name
-            .pipe rename nameMap[name]
-            .pipe gulp.dest path.join outapp, 'icons'
+    # gulp 4 requires async notification!
+    new Promise (resolve, reject)->
+        Object.keys(nameMap).forEach (name) ->
+            gulp.src path.join paths.icons, name
+                .pipe rename nameMap[name]
+                .pipe gulp.dest path.join outapp, 'icons'
+        resolve()
 
 # compile less
 gulp.task 'less', ->
@@ -130,9 +159,84 @@ gulp.task 'reloader', ->
 gulp.task 'clean', (cb) ->
     rimraf outapp, cb
 
-gulp.task 'default', ['package', 'coffee', 'html', 'images', 'icons', 'less', 'fontello']
+gulp.task 'default', gulp.series('package', 'coffee', 'html', 'images',
+                                 'icons', 'less', 'fontello')
 
-gulp.task 'watch', ['default', 'reloader', 'html'], ->
+gulp.task 'watch', gulp.series('default', 'reloader', 'html'), ->
     # watch to rebuild
     sources = (v for k, v of paths)
     gulp.watch sources, ['default']
+
+#
+#
+#
+# Deployment related tasks
+
+#
+#
+buildDeployTask = (platform, arch) ->
+    # create a task per platform
+    taskname = "deploy:#{platform}-#{arch}"
+    tasknameNoDep = "#{taskname}:nodep"
+    # set internal task with _ (does not have dependencies)
+    gulp.task tasknameNoDep, ()->
+        deploy platform, arch
+    # set task with dependencies
+    gulp.task taskname, gulp.series('default', tasknameNoDep)
+    #
+    tasknameNoDep
+
+#
+# task to deploy all
+allNames = []
+#
+# create tasks for different platforms and architectures supported
+platformOpts.map (plat) ->
+    names = []
+    archOpts.map (arch) ->
+        # create a task per platform/architecture
+        taskName = buildDeployTask(plat, arch)
+        names.push taskName
+        allNames.push taskName
+    #
+    # create arch-independet task
+    gulp.task "deploy:#{plat}", gulp.series('default', gulp.parallel(names))
+    #
+gulp.task 'deploy', gulp.series('default', allNames)
+
+#
+#
+deploy = (platform, arch) ->
+    deferred = Q.defer()
+    opts = deploy_options
+    opts.platform = platform
+    opts.arch = arch
+    #
+    # restriction darwin won't compile ia32
+    if platform == 'darwin' && arch == 'ia32'
+        deferred.resolve()
+        deferred.promise
+    #
+    # necessary to add a callback to pipe (which is used to signal end of task)
+    gulpCallback = (obj) ->
+        "use strict"
+        stream = new Stream.Transform({objectMode: true})
+        stream._transform = (file, unused, callback) ->
+            obj()
+            callback(null, file)
+        stream
+    #
+    # package the app and create a zip
+    packager opts, (err, appPaths) ->
+        if err?
+            console.log ('Error: ' + err) if err?
+        else if appPaths?.length > 0
+            json = JSON.parse(fs.readFileSync('./package.json'))
+            zippaths = [appPaths[0] + '**/**', "!#{appPaths[0]}*"]
+            console.log "Compressing #{zippaths.join(', ')}"
+            gulp.src zippaths
+                .pipe zip "yakyak-#{json.version}-#{platform}-#{arch}.zip"
+                .pipe gulp.dest outdeploy
+                .pipe gulpCallback ()->
+                    deferred.resolve()
+    deferred.promise
