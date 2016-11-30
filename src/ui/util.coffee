@@ -7,6 +7,17 @@ initialsof = (e) ->
         name = nameof e
         firstname = e?.first_name
         return  firstname.charAt(0) + name.replace(firstname, "").charAt(1)
+    else if e?.display_name
+        name_splitted = e.display_name.split(' ')
+        firstname = name_splitted[0].charAt(0)
+        if name_splitted.length == 1
+            return firstname.charAt(0)
+        # just in case something strange
+        else if name_splitted?.length == 0
+            return '?'
+        else
+            lastname = name_splitted[name_splitted.length - 1]
+            return firstname.charAt(0) + lastname.charAt(0)
     else
         return '?'
 
@@ -14,12 +25,13 @@ drawAvatar = (user_id, viewstate, entity, image = null, email = null, initials =
     #
     entity.needEntity(user_id) unless entity[user_id]?
     #
-    initials = initialsof entity[user_id] unless initials
-    email = entity[user_id]?.email?[0] unless email?
+    # overwrites if entity is cached
+    initials = initialsof entity[user_id] if entity[user_id]?
+    email    = entity[user_id]?.email?[0] unless entity[user_id]?.email?[0]?
+    image    = entity[user_id]?.photo_url if entity[user_id]?.photo_url?
     #
     div class: 'avatar', 'data-id': user_id, ->
-        image = entity[user_id]?.photo_url unless image?
-        if image
+        if image?
             if !viewstate?.showAnimatedThumbs
                 image += "?sz=50"
             #
@@ -32,9 +44,7 @@ drawAvatar = (user_id, viewstate, entity, image = null, email = null, initials =
             , onload: (ev) ->
                 # when loading successfuly, update again all other imgs
                 ev.target.parentElement.classList.remove "fallback-on"
-            div class:'initials fallback', initials
-        else
-            div class:'initials', initials
+        div class: "initials #{if image? then 'fallback'}", initials
 
 nameofconv = (c) ->
     {entity} = require './models'
