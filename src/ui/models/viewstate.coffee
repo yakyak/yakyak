@@ -38,6 +38,7 @@ module.exports = exp = {
     closetotray: tryparse(localStorage.closetotray) or false
     showDockOnce: true
     showseenstatus: tryparse(localStorage.showseenstatus) or false
+    messageMemory: {}
 
     setState: (state) ->
         return if @state == state
@@ -48,12 +49,27 @@ module.exports = exp = {
             require('./connection').setLastActive(Date.now(), true)
         updated 'viewstate'
 
+    switchInput: (next_conversation_id) ->
+        # if conversation is changing, save input
+        el = document.getElementById('message-input')
+        # save current input
+        @messageMemory[@selectedConv] = el.value
+        # either reset or fetch previous input of the new conv
+        if @messageMemory[next_conversation_id]?
+            el.value = @messageMemory[next_conversation_id]
+            # once old conversation is retrieved memory is wiped
+            @messageMemory[next_conversation_id] = ""
+        else
+            el.value = ''
+        #
+
     setSelectedConv: (c) ->
         conv = require './conv' # circular
         conv_id = c?.conversation_id?.id ? c?.id ? c
         unless conv_id
             conv_id = conv.list()?[0]?.conversation_id?.id
         return if @selectedConv == conv_id
+        @switchInput(conv_id)
         @selectedConv = localStorage.selectedConv = conv_id
         @setLastKeyDown 0
         updated 'viewstate'
@@ -190,7 +206,7 @@ module.exports = exp = {
         return if @showUsernameInNotification == doshow
         @showUsernameInNotification = localStorage.showUsernameInNotification = doshow
         updated 'viewstate'
-    
+
     setConvertEmoji: (doshow) ->
         return if @convertEmoji == doshow
         @convertEmoji = localStorage.convertEmoji = doshow
