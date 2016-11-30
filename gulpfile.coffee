@@ -15,7 +15,6 @@ rename     = require 'gulp-rename'
 packager   = require 'electron-packager'
 zip        = require 'gulp-zip'
 Q          = require 'q'
-tap        = require 'gulp-tap'
 Stream     = require 'stream'
 
 outapp = './app'
