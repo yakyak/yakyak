@@ -31,7 +31,6 @@
   "homepage": "https://github.com/yakyak/yakyak",
   "dependencies": {
     "autosize": "^3.0.8",
-    "electron-prebuilt": "^1.4.10",
     "hangupsjs": "https://github.com/averissimo/hangupsjs.git#1.3.3",
     "mime-types": "^2.1.12",
     "moment": "^2.10.3",
@@ -46,7 +45,7 @@
   "devDependencies": {
     "chai": "^3.2.0",
     "coffee-script": "^1.9.2",
-    "electron-prebuilt": "^1.2.1",
+    "electron-prebuilt": "^1.4.10",
     "gulp": "^3.8.11",
     "gulp-auto-reload": "0.1.0",
     "gulp-changed": "^1.2.1",
