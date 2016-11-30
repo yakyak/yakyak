@@ -38,90 +38,88 @@ module.exports = view (models) ->
     conversation = conv[viewstate.selectedConv]
 
     div class: 'convadd', ->
-      if editing then h1 'Conversation edit' else h1 'New conversation'
+        if editing then h1 'Conversation edit' else h1 'New conversation'
 
-      style = {}
-      if not convsettings.group
-          style = display: 'none'
+        style = {}
+        if not convsettings.group
+            style = display: 'none'
 
-      div class: 'input', {style}, ->
-          div ->
-              input
-                  class: 'name-input'
-                  style: style
-                  placeholder: 'Conversation name'
-                  onkeyup: (e) ->
-                      action 'conversationname', e.currentTarget.value
+        div class: 'input', {style}, ->
+            div ->
+                input
+                    class: 'name-input'
+                    style: style
+                    placeholder: 'Conversation name'
+                    onkeyup: (e) ->
+                        action 'conversationname', e.currentTarget.value
 
-      div class: 'input', ->
-          div ->
-              input
-                  class: 'search-input'
-                  placeholder:'Search people'
-                  onkeyup: (e) ->
-                      chilledaction 'searchentities', e.currentTarget.value, 7
-                      action 'conversationquery', e.currentTarget.value, 7
+        div class: 'input', ->
+            div ->
+                input
+                    class: 'search-input'
+                    placeholder:'Search people'
+                    onkeyup: (e) ->
+                        chilledaction 'searchentities', e.currentTarget.value, 7
+                        action 'conversationquery', e.currentTarget.value, 7
 
-      div class: 'input', ->
-          div ->
-              p ->
-                  opts =
-                      type: 'checkbox'
-                      class: 'group'
-                      style: { width: 'auto', 'margin-right': '5px' }
-                      onchange: (e) -> action   'togglegroup'
-                  if convsettings.selectedEntities.length != 1
-                      opts.disabled = 'disabled'
-                  input opts
-                  'Create multiuser chat'
+        div class: 'input', ->
+            div ->
+                p ->
+                    opts =
+                        type: 'checkbox'
+                        class: 'group'
+                        style: { width: 'auto', 'margin-right': '5px' }
+                        onchange: (e) -> action   'togglegroup'
+                    if convsettings.selectedEntities.length != 1
+                        opts.disabled = 'disabled'
+                    input opts
+                    'Create multiuser chat'
 
 
-      ul ->
-          convsettings.selectedEntities.forEach (r) ->
-              cid = r?.id?.chat_id
-              li class: 'selected', ->
-                  drawAvatar(cid, viewstate, entity)
-                  p nameof r.properties
-              , onclick:(e) -> if not editing then action 'deselectentity', r
+        ul ->
+            convsettings.selectedEntities.forEach (r) ->
+                cid = r?.id?.chat_id
+                li class: 'selected', ->
+                    drawAvatar(cid, viewstate, entity)
+                    p nameof r.properties
+                , onclick:(e) -> if not editing then action 'deselectentity', r
 
-          selected_ids = (unique(c) for c in convsettings.selectedEntities)
+            selected_ids = (unique(c) for c in convsettings.selectedEntities)
 
-          convsettings.searchedEntities.forEach (r) ->
-              cid = r?.id?.chat_id
-              if unique(r) in selected_ids then return
-              li ->
-                  if purl = r.properties?.photo_url ? entity[cid]?.photo_url
-                    purl += "?sz=50" unless viewstate?.showAnimatedThumbs
-                    img src:fixlink(purl), onerror: ->
-                        this.outerHTML = drawInitials(entity, cid)
-                  else
-                      # in case the image is not available, it
-                      #  fallbacks to initials
-                      drawInitials(entity, cid)
-                  p r.properties.display_name
-              , onclick:(e) -> action 'selectentity', r
+            convsettings.searchedEntities.forEach (r) ->
+                cid = r?.id?.chat_id
+                if unique(r) in selected_ids then return
+                li ->
+                    drawAvatar cid, viewstate, entity
+                    , (r.properties?.photo_url ? entity[cid]?.photo_url)
+                    , (r.properties?.email?[0] ? entity[cid]?.email?[0])
+                    , (if r.properties? then initialsof r.properties?)
+                    p r.properties.display_name
+                , onclick:(e) -> action 'selectentity', r
 
-      if editing
-        div class:'leave', ->
-          if conversation?.type?.indexOf('ONE_TO_ONE') > 0
-              div class:'button', title:'Delete conversation',
-              onclick:onclickaction('deleteconv'), ->
-                span class:'material-icons', 'close'
-                span 'Delete conversation'
-          else
-              div class:'button', title:'Leave conversation',
-              onclick:onclickaction('leaveconv'), ->
-                span class:'material-icons', 'close'
-                span 'Leave conversation'
+        if editing
+            div class:'leave', ->
+                if conversation?.type?.indexOf('ONE_TO_ONE') > 0
+                    div class:'button', title:'Delete conversation'
+                    , onclick:onclickaction('deleteconv'), ->
+                        span class:'material-icons', 'close'
+                        span 'Delete conversation'
+                else
+                    div class:'button', title:'Leave conversation'
+                    , onclick:onclickaction('leaveconv'), ->
+                        span class:'material-icons', 'close'
+                        span 'Leave conversation'
 
-      div class:'validate', ->
-          disabled = null
-          if convsettings.selectedEntities.length <= 0 then disabled = disabled: 'disabled'
-          div disabled, class:'button', onclick:onclickaction('saveconversation'), ->
-            span class:'material-icons', 'done'
-            span "OK"
+        div class:'validate', ->
+            disabled = null
+            if convsettings.selectedEntities.length <= 0
+                disabled =  disabled: 'disabled'
+            div disabled, class:'button'
+            , onclick:onclickaction('saveconversation'), ->
+                span class:'material-icons', 'done'
+                span "OK"
 
-      mayRestoreInitialValues models
+        mayRestoreInitialValues models
 
 drawInitials = (entity, cid) ->
     entity.needEntity(cid)
