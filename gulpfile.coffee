@@ -12,11 +12,32 @@ concat     = require 'gulp-concat'
 autoReload = require 'gulp-auto-reload'
 changed    = require 'gulp-changed'
 rename     = require 'gulp-rename'
+packager   = require 'electron-packager'
+zip        = require 'gulp-zip'
+Q          = require 'q'
+tap        = require 'gulp-tap'
+Stream     = require 'stream'
+#
+#
+# necessary functions for deployment
+gulpCallback = (obj) ->
+    "use strict"
+    stream = new Stream.Transform({objectMode: true})
+    stream._transform = (file, unused, callback) ->
+        obj()
+        callback(null, file)
+    stream
+
+gulp.Gulp.prototype.__runTask = gulp.Gulp.prototype._runTask
+gulp.Gulp.prototype._runTask = (task) ->
+    this.currentTask = task
+    this.__runTask(task)
 
 outapp = './app'
 outui  = outapp + '/ui'
 
 paths =
+    deploy:  './dist/'
     README:  './README.md'
     package: './package.json'
     coffee:  './src/**/*.coffee'
@@ -29,6 +50,71 @@ paths =
     fonts:   ['./src/**/*.eot', './src/**/*.svg',
               './src/**/*.ttf', './src/**/*.woff',
               './src/**/*.woff2']
+
+outdeploy = './dist'
+
+platformOpts = ['linux', 'darwin', 'win32']
+archOpts =      ['x64','ia32']
+
+deploy_options = {
+    dir: __dirname
+    asar: false
+    icon: path.join __dirname, 'ui', 'icons', 'icon'
+    out: path.join __dirname, 'dist'
+    overwrite: true
+    win32metadata: {
+        CompanyName: 'Yakyak'
+        ProductName: 'Yakyak'
+    }
+    arch:     archOpts.join ','
+    platform: platformOpts.join ','
+}
+
+#
+# create tasks for different platforms and architectures supported
+platformOpts.map (plat) ->
+    gulp.task "deploy:#{plat}", ->
+        args = this.currentTask.name.replace('deploy:', '')
+        deferred = Q.defer()
+        archOpts.map (arch) ->
+            deploy args, arch, () ->
+                deferred.resolve()
+        deferred.promise
+    #
+    #
+    archOpts.map (arch) ->
+        gulp.task "deploy:#{plat}-#{arch}", ->
+            deferred = Q.defer()
+            args = this.currentTask.name.replace('deploy:', '').split('-')
+            deploy args[0], args[1], () ->
+                deferred.resolve()
+            deferred.promise
+
+#
+# task to deploy all
+gulp.task 'deploy', ->
+    platformOpts.map (plat) ->
+        archOpts.map (arch) ->
+        deploy(plat, arch)
+
+deploy = (platform, arch, fun) ->
+    opts = deploy_options
+    opts.platform = platform
+    opts.arch = arch
+    #
+    packager opts, (err, appPaths) ->
+        if err?
+            console.log ('Error: ' + err) if err?
+        else
+            json = JSON.parse(fs.readFileSync('./package.json'))
+            zippaths = appPaths.map (filePath) ->
+                filePath + '/*'
+            console.log "Compressing #{zippaths.join(', ')}"
+            gulp.src zippaths
+                .pipe zip "yakyak-#{platform}-#{arch}-#{json.version}.zip"
+                .pipe gulp.dest outdeploy
+                .pipe gulpCallback ()->
+                    fun()
 
 # setup package stuff (README, package.json)
 gulp.task 'package', ->
