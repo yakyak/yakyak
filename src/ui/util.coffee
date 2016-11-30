@@ -21,6 +21,26 @@ initialsof = (e) ->
     else
         return '?'
 
+drawAvatar = (user_id, viewstate, entity) ->
+    initials = initialsof entity[user_id]
+    div class: 'avatar', 'data-id': user_id, ->
+        image = entity[user_id]?.photo_url
+        if image
+            if !viewstate?.showAnimatedThumbs
+                image += "?sz=50"
+            #
+            img src:fixlink(image), "data-initials": initials
+            ,  onerror: (ev) ->
+                # in case the image is not available, it
+                #  fallbacks to initials
+                ev.target.parentElement.classList.add "fallback-on"
+            , onload: (ev) ->
+                # when loading successfuly, update again all other imgs
+                ev.target.parentElement.classList.remove "fallback-on"
+            div class:'initials fallback', initials
+        else
+            div class:'initials', initials
+
 nameofconv = (c) ->
     {entity} = require './models'
     part = c?.current_participant ? []
@@ -109,6 +129,8 @@ convertEmoji = (text) ->
             emoji
     )
     return text
-module.exports = {nameof, initialsof, nameofconv, linkto, later, throttle, uniqfn,
-isAboutLink, getProxiedName, tryparse, fixlink, topof, isImg, getImageUrl,
-toggleVisibility, convertEmoji, notificationCenterSupportsSound}
+
+module.exports = {nameof, initialsof, nameofconv, linkto, later,
+                  throttle, uniqfn, isAboutLink, getProxiedName, tryparse,
+                  fixlink, topof, isImg, getImageUrl, toggleVisibility,
+                  convertEmoji, drawAvatar, notificationCenterSupportsSound}
