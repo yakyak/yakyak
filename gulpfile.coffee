@@ -36,7 +36,7 @@ paths =
               './src/**/*.ttf', './src/**/*.woff',
               './src/**/*.woff2']
 
-outdeploy = './dist'
+outdeploy = path.join __dirname, 'dist'
 
 platformOpts = ['linux', 'darwin', 'win32']
 archOpts =      ['x64','ia32']
@@ -45,7 +45,7 @@ deploy_options = {
     dir: path.join __dirname, 'app'
     asar: false
     icon: path.join __dirname, 'ui', 'icons', 'icon'
-    out: path.join __dirname, 'dist'
+    out: outdeploy
     overwrite: true
     win32metadata: {
         CompanyName: 'Yakyak'
