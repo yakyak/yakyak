@@ -17,21 +17,6 @@ zip        = require 'gulp-zip'
 Q          = require 'q'
 tap        = require 'gulp-tap'
 Stream     = require 'stream'
-#
-#
-# necessary functions for deployment
-gulpCallback = (obj) ->
-    "use strict"
-    stream = new Stream.Transform({objectMode: true})
-    stream._transform = (file, unused, callback) ->
-        obj()
-        callback(null, file)
-    stream
-
-gulp.Gulp.prototype.__runTask = gulp.Gulp.prototype._runTask
-gulp.Gulp.prototype._runTask = (task) ->
-    this.currentTask = task
-    this.__runTask(task)
 
 outapp = './app'
 outui  = outapp + '/ui'
@@ -71,8 +56,15 @@ deploy_options = {
 }
 
 #
+# extension to gulp to get the current task name
+gulp.Gulp.prototype.__runTask = gulp.Gulp.prototype._runTask
+gulp.Gulp.prototype._runTask = (task) ->
+    this.currentTask = task
+    this.__runTask(task)
+#
 # create tasks for different platforms and architectures supported
 platformOpts.map (plat) ->
+    # create a task per platform
     gulp.task "deploy:#{plat}", ->
         args = this.currentTask.name.replace('deploy:', '')
         deferred = Q.defer()
@@ -83,13 +75,13 @@ platformOpts.map (plat) ->
     #
     #
     archOpts.map (arch) ->
+        # create a task per platform/architecture
         gulp.task "deploy:#{plat}-#{arch}", ->
             deferred = Q.defer()
             args = this.currentTask.name.replace('deploy:', '').split('-')
             deploy args[0], args[1], () ->
                 deferred.resolve()
             deferred.promise
-
 #
 # task to deploy all
 gulp.task 'deploy', ->
@@ -102,6 +94,16 @@ deploy = (platform, arch, fun) ->
     opts.platform = platform
     opts.arch = arch
     #
+    # necessary to add a callback to pipe (which is used to signal end of task)
+    gulpCallback = (obj) ->
+        "use strict"
+        stream = new Stream.Transform({objectMode: true})
+        stream._transform = (file, unused, callback) ->
+            obj()
+            callback(null, file)
+        stream
+    #
+    # package the app and create a zip
     packager opts, (err, appPaths) ->
         if err?
             console.log ('Error: ' + err) if err?
