@@ -113,7 +113,7 @@ app.on 'ready', ->
         height: 590
         "min-width": 620
         "min-height": 420
-        icon: path.join __dirname, 'icons', 'icon.png'
+        icon: path.join __dirname, 'icons', 'icon@32.png'
         show: false
         titleBarStyle: 'hidden-inset' if process.platform is 'darwin'
         # autoHideMenuBar : true unless process.platform is 'darwin'
