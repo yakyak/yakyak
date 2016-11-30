@@ -14,6 +14,7 @@ changed    = require 'gulp-changed'
 rename     = require 'gulp-rename'
 packager   = require 'electron-packager'
 zip        = require 'gulp-zip'
+filter     = require 'gulp-filter'
 Q          = require 'q'
 Stream     = require 'stream'
 
@@ -230,10 +231,10 @@ deploy = (platform, arch) ->
             console.log ('Error: ' + err) if err?
         else if appPaths?.length > 0
             json = JSON.parse(fs.readFileSync('./package.json'))
-            zippaths = appPaths.map (filePath) -> filePath + '/**'
+            zippaths = [appPaths[0] + '**/**', "!appPaths[0]*"]
             console.log "Compressing #{zippaths.join(', ')}"
             gulp.src zippaths
-                .pipe zip "yakyak-#{platform}-#{arch}-#{json.version}.zip"
+                .pipe zip "yakyak-#{json.version}-#{platform}-#{arch}.zip"
                 .pipe gulp.dest outdeploy
                 .pipe gulpCallback ()->
                     deferred.resolve()
