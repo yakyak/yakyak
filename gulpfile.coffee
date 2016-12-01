@@ -52,7 +52,7 @@ archOpts =     ['x64','ia32']
 deploy_options = {
     dir: path.join __dirname, 'app'
     asar: false
-    icon: path.join __dirname, 'ui', 'icons', 'icon'
+    icon: path.join __dirname, 'src', 'icons', 'icon'
     out: outdeploy
     overwrite: true
     win32metadata: {
