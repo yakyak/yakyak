@@ -13,10 +13,14 @@ autoReload = require 'gulp-auto-reload'
 changed    = require 'gulp-changed'
 rename     = require 'gulp-rename'
 packager   = require 'electron-packager'
-zip        = require 'gulp-zip'
 filter     = require 'gulp-filter'
 Q          = require 'q'
 Stream     = require 'stream'
+spawn      = require('child_process').spawn
+
+#
+#
+# Options
 
 outapp = './app'
 outui  = outapp + '/ui'
@@ -36,6 +40,10 @@ paths =
               './src/**/*.ttf', './src/**/*.woff',
               './src/**/*.woff2']
 
+#
+#
+# Options for packaging app
+#
 outdeploy = path.join __dirname, 'dist'
 
 platformOpts = ['linux', 'darwin', 'win32']
@@ -55,6 +63,10 @@ deploy_options = {
     arch:     archOpts.join ','
     platform: platformOpts.join ','
 }
+
+#
+#
+# End of options
 
 # setup package stuff (README, package.json)
 gulp.task 'package', ->
@@ -204,6 +216,51 @@ platformOpts.map (plat) ->
     #
 gulp.task 'deploy', gulp.series('default', allNames)
 
+zipIt = (folder, filePrefix, done) ->
+    ext = 'zip'
+    zipName = path.join outdeploy, "#{filePrefix}.#{ext}"
+    folder = path.basename folder
+    #
+    args = ['-r', '-q', '-y', '-X', zipName, folder]
+    opts = {
+        cwd: outdeploy
+        stdio: [0, 1, 'pipe']
+    }
+    compressIt('zip', args, opts, zipName, done)
+
+tarIt = (folder, filePrefix, done) ->
+    ext = 'tar.gz'
+    zipName = path.join outdeploy, "#{filePrefix}.#{ext}"
+    folder = path.basename folder
+    #
+    args = ['-czf', zipName, folder]
+    opts = {
+        cwd: outdeploy
+        stdio: [0, 1, 'pipe']
+    }
+    compressIt('tar', args, opts, zipName, done)
+
+compressIt = (cmd, args, opts, zipName, done) ->
+    #
+    # create child process
+    child = spawn cmd
+    , args
+    , opts
+    # log all errors
+    child.on 'error', (err) ->
+        console.log 'Error: ' + err
+        process.exit(1)
+    # show err
+    child.on 'exit', (code) ->
+        if code == 0
+            console.log "Created archive (#{zipName})"
+            done()
+        else
+            console.log "Possible problem with archive #{zipname} " +
+                "-- (exit with #{code})"
+            done()
+            process.exit(1)
+
 #
 #
 deploy = (platform, arch) ->
@@ -232,11 +289,11 @@ deploy = (platform, arch) ->
             console.log ('Error: ' + err) if err?
         else if appPaths?.length > 0
             json = JSON.parse(fs.readFileSync('./package.json'))
-            zippaths = [appPaths[0] + '**/**', "!#{appPaths[0]}*"]
-            console.log "Compressing #{zippaths.join(', ')}"
-            gulp.src zippaths
-                .pipe zip "yakyak-#{json.version}-#{platform}-#{arch}.zip"
-                .pipe gulp.dest outdeploy
-                .pipe gulpCallback ()->
-                    deferred.resolve()
+            zippath = "#{appPaths[0]}/"
+            fileprefix = "yakyak-#{json.version}-#{platform}-#{arch}"
+
+            if platform == 'linux'
+                tarIt zippath, fileprefix, -> deferred.resolve()
+            else
+                zipIt zippath, fileprefix, -> deferred.resolve()
     deferred.promise
