@@ -12,7 +12,7 @@ callNeedAnswer = {}
 # check if sound should be played via notification
 #  documentation says that only WindowsToaster and
 #  NotificationCenter supports sound
-playSoundIn = ['WindowsToaster', 'NotificationCenter', 'NotifySend']
+playSoundIn = ['WindowsToaster', 'NotificationCenter']
 # check if currect notifier supports sound
 notifierSupportsSound = playSoundIn.find( (str) ->
     str == notifier.constructor.name
