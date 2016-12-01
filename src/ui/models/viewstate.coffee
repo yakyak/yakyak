@@ -33,15 +33,15 @@ module.exports = exp = {
     fontSize: localStorage.fontSize or 'medium'
     zoom: tryparse(localStorage.zoom ? "1.0")
     loggedin: false
-    escapeClearsInput: tryparse(localStorage.escapeClearsInput) or false
-    showtray: tryparse(localStorage.showtray) or false
-    hidedockicon: tryparse(localStorage.hidedockicon) or false
-    startminimizedtotray: tryparse(localStorage.startminimizedtotray) or false
-    closetotray: tryparse(localStorage.closetotray) or false
+    escapeClearsInput: tryparse(localStorage.escapeClearsInput) ? false
+    showtray: tryparse(localStorage.showtray) ? false
+    hidedockicon: tryparse(localStorage.hidedockicon) ? false
+    startminimizedtotray: tryparse(localStorage.startminimizedtotray) ? false
+    closetotray: tryparse(localStorage.closetotray) ? false
     showDockOnce: true
-    showseenstatus: tryparse(localStorage.showseenstatus) or false
-    showIconNotification: tryparse(localStorage.showIconNotification) or true
-    muteSoundNotification: tryparse(localStorage.muteSoundNotification) or false
+    showseenstatus: tryparse(localStorage.showseenstatus) ? false
+    showIconNotification: tryparse(localStorage.showIconNotification) ? true
+    muteSoundNotification: tryparse(localStorage.muteSoundNotification) ? false
     messageMemory: {}
 
     setState: (state) ->

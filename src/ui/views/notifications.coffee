@@ -58,10 +58,11 @@ module.exports = (models) ->
         if viewstate.showPopUpNotifications
             isDarwin = require('os').platform() == 'darwin'
             #
-            if isDarwin
-                icon = fixlink entity[cid]?.photo_url?
+            icon = path.join __dirname, '..', '..', 'icons', 'icon@8.png'
+            if isDarwin && viewstate.showIconNotification
+                contentImage = fixlink entity[cid]?.photo_url
             else
-                icon = path.join __dirname, '..', '..', 'icons', 'icon@8.png'
+                contentImage = undefined
             #
             notifier.notify
                 title: if viewstate.showUsernameInNotification
@@ -78,7 +79,8 @@ module.exports = (models) ->
                 wait: true
                 sender: 'com.github.yakyak'
                 sound: !viewstate.muteSoundNotification
-                icon: icon if viewstate.showIconNotification
+                icon: icon if !isDarwin && viewstate.showIconNotification
+                contentImage: contentImage
             , (err, res) ->
               if res?.trim().match(/Activate/i)
                 action 'appfocus'

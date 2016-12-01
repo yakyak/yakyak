@@ -154,7 +154,7 @@ templateView = (viewstate) ->
                 }
                 {
                   type: 'checkbox'
-                  label: "Show #{if isDarwin then 'User' else 'YakYak'} icon in notifications"
+                  label: "Show #{if isDarwin then 'User avatar' else 'YakYak'} icon in notifications"
                   enabled: viewstate.loggedin && viewstate.showPopUpNotifications
                   checked: viewstate.showIconNotification
                   click: (it) -> action 'showiconnotification', it.checked
