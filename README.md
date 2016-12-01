@@ -50,6 +50,7 @@ What does it do:
 * [Max Kueng](https://github.com/maxkueng)
 * [Arnaud Riu](https://github.com/arnriu)
 * [Austin Guevara](https://github.com/austin-guevara)
+* [André Veríssimo](https://github.com/averissimo)
 
 ## Developing
 
@@ -58,9 +59,13 @@ This is an open source project. Please help us!
 It is written in coffeescript (nodejs) based on
 [hangupsjs](https://github.com/algesten/hangupsjs) using
 [trifl](http://algesten.github.io/trifl/) on top of
-[electron (atom shell)](https://github.com/atom/electron).
+[electron (atom shell)](https://github.com/electron/electron).
 
 ### Setup
+
+Requirements:
+
+- Node.js (v4 or v6)
 
 ```bash
 $ npm install
@@ -81,12 +86,26 @@ $ npm run electron app
 
 ### Build Binaries for Deployment
 
+*Supported platforms:* Windows (*win32*), Mac OS X (*darwin*), Linux (*linux*)
+
+*Suported architectures:* 64-bits (*x64*), 32-bits (*ia32*)
+
 ```
+# Building for all platforms and architectures
 $ npm run deploy
+
+# You can also build specific builds by using
+#  deploy:<platform>-<architecture>
+# example:
+$ npm run deploy:darwin-x64
 ```
+
+*note:* if you are building *Windows* binaries in *Linux* or *Mac OS X*, Wine (1.6 or higher) must be installed. It also requires a 32-bit Wine installation when building Windows 32-bit binary.
 
 ### Structure
 
-- `src/`: is where sources live
-- `src/ui/`: holds renderer code (client side)
-- `dist/`: everything is compiled to this directory
+| Location  | Description                              |
+|-----------|------------------------------------------|
+| `src/`    | Is where sources live                    |
+| `src/ui/` | Holds renderer code (client side)        |
+| `dist/`   | Everything is compiled to this directory |

@@ -52,6 +52,7 @@ module.exports = exp = layout ->
                     li 'Max Kueng'
                     li 'Arnaud Riu'
                     li 'Austin Guevara'
+                    li 'André Veríssimo'
         div class: 'home', ->
             href = "https://github.com/yakyak/yakyak"
             a href: href
