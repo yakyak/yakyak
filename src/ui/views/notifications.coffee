@@ -8,11 +8,22 @@ remote   = require('electron').remote
 # conv_id markers for call notifications
 callNeedAnswer = {}
 
-# sound to hear
-audioFile = path.join __dirname, '..', '..', 'media',
-'new_message.ogg'
-audioEl = new Audio(audioFile)
-audioEl.volume = .4
+
+# check if sound should be played via notification
+#  documentation says that only WindowsToaster and
+#  NotificationCenter supports sound
+playSoundIn = ['WindowsToaster', 'NotificationCenter', 'NotifySend']
+# check if currect notifier supports sound
+notifierSupportsSound = playSoundIn.find( (str) ->
+    str == notifier.constructor.name
+)?
+
+unless notifierSupportsSound
+    # sound to hear
+    audioFile = path.join __dirname, '..', '..', 'media',
+    'new_message.ogg'
+    audioEl = new Audio(audioFile)
+    audioEl.volume = .4
 
 
 module.exports = (models) ->
@@ -86,7 +97,7 @@ module.exports = (models) ->
                           'New Message'
                 wait: true
                 sender: 'com.github.yakyak'
-                sound: !viewstate.muteSoundNotification
+                sound: !viewstate.muteSoundNotification && notifierSupportsSound
                 icon: icon if !isDarwin && viewstate.showIconNotification
                 contentImage: contentImage
             , (err, res) ->
@@ -95,7 +106,8 @@ module.exports = (models) ->
                 action 'selectConv', c
 
         # only play if it is not playing already
-        audioEl.play() if audioEl.paused
+        if !notifierSupportsSound && !viewstate.muteSoundNotification
+            audioEl.play() if audioEl.paused
         # And we hope we don't get another 'currentWindow' ;)
         mainWindow = remote.getCurrentWindow()
         mainWindow.flashFrame(true)
