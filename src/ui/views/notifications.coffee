@@ -68,8 +68,8 @@ module.exports = (models) ->
                              'New Message'
                 wait: true
                 sender: 'com.github.yakyak'
-                sound: true
-                icon: path.join __dirname, '..', '..', 'icons', 'icon@8.png'
+                sound: !viewstate.muteSoundNotification
+                icon: path.join __dirname, '..', '..', 'icons', 'icon@8.png' if viewstate.showIconNotification
             , (err, res) ->
               if res?.trim().match(/Activate/i)
                 action 'appfocus'

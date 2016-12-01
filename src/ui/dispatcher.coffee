@@ -119,8 +119,14 @@ handle 'sendmessage', (txt = '') ->
     ipc.send 'sendchatmessage', msg
     conv.addChatMessagePlaceholder entity.self.id, msg
 
-handle 'toggleshowtray', ->
-    viewstate.setShowTray(not viewstate.showtray)
+handle 'toggleshowtray', (value) ->
+    viewstate.setShowTray(value)
+
+handle 'showiconnotification', (value) ->
+    viewstate.setShowIconNotification(value)
+
+handle 'mutesoundnotification', ->
+    viewstate.setMuteSoundNotification(not viewstate.muteSoundNotification)
 
 handle 'toggleshowseenstatus', ->
     viewstate.setShowSeenStatus(not viewstate.showseenstatus)

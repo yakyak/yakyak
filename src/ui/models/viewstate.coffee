@@ -39,6 +39,8 @@ module.exports = exp = {
     showDockOnce: true
     showseenstatus: tryparse(localStorage.showseenstatus) or false
     messageMemory: {}
+    showIconNotification: tryparse(localStorage.showiconnotification) or true
+    muteSoundNotification: tryparse(localStorage.mutesoundnotification) or false
 
     setState: (state) ->
         return if @state == state
@@ -208,6 +210,16 @@ module.exports = exp = {
     setShowUsernameInNotification: (doshow) ->
         return if @showUsernameInNotification == doshow
         @showUsernameInNotification = localStorage.showUsernameInNotification = doshow
+        updated 'viewstate'
+
+    setShowIconNotification: (doshow) ->
+        return if @showIconNotification == doshow
+        @showIconNotification = localStorage.showiconnotification = doshow
+        updated 'viewstate'
+
+    setMuteSoundNotification: (doshow) ->
+        return if @muteSoundNotification == doshow
+        @muteSoundNotification = localStorage.mutesoundnotification = doshow
         updated 'viewstate'
 
     setConvertEmoji: (doshow) ->

@@ -152,6 +152,18 @@ templateView = (viewstate) ->
                     enabled: viewstate.loggedin && viewstate.showPopUpNotifications
                     click: (it) -> action 'showusernameinnotification', it.checked
                 }
+                {
+                  type: 'checkbox'
+                  label: 'Show YakYak icon in notifications'
+                  checked: viewstate.showIconNotification
+                  click: (it) -> action 'showiconnotification', it.checked
+                }
+                {
+                  type: 'checkbox'
+                  label: 'Disable sound in notifications'
+                  checked: viewstate.muteSoundNotification
+                  click: (it) -> action 'mutesoundnotification', it.checked
+                }
             ]
         }
         {
