@@ -55,6 +55,7 @@ deploy_options = {
     icon: path.join __dirname, 'src', 'icons', 'icon'
     out: outdeploy
     overwrite: true
+    'app-bundle-id': 'com.github.yakyak'
     win32metadata: {
         CompanyName: 'Yakyak'
         ProductName: 'Yakyak'
@@ -284,7 +285,10 @@ deploy = (platform, arch) ->
         stream
     #
     # package the app and create a zip
-    packager opts, (err, appPaths) ->
+    packOpts = opts
+    if platform == 'darwin'
+        packOpts.name = 'YakYak'
+    packager packOpts, (err, appPaths) ->
         if err?
             console.log ('Error: ' + err) if err?
         else if appPaths?.length > 0
