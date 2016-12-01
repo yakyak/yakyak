@@ -55,7 +55,7 @@ module.exports = (models) ->
 
         # maybe trigger OS notification
         return if !text or quietIf(c, chat_id)
-        
+
         if viewstate.showPopUpNotifications
             notifier.notify
                 title: if viewstate.showUsernameInNotification
@@ -69,6 +69,7 @@ module.exports = (models) ->
                 wait: true
                 sender: 'com.github.yakyak'
                 sound: true
+                icon: path.join __dirname, '..', '..', 'icons', 'icon@8.png'
             , (err, res) ->
               if res?.trim().match(/Activate/i)
                 action 'appfocus'
