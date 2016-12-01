@@ -52,6 +52,9 @@ module.exports = exp = {
     switchInput: (next_conversation_id) ->
         # if conversation is changing, save input
         el = document.getElementById('message-input')
+        if !el?
+            console.log 'Warning: could not retrieve message input to store.'
+            return
         # save current input
         @messageMemory[@selectedConv] = el.value
         # either reset or fetch previous input of the new conv
