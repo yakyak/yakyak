@@ -171,10 +171,10 @@ gulp.task 'reloader', ->
 gulp.task 'clean', (cb) ->
     rimraf outapp, cb
 
-gulp.task 'default', gulp.series('package', 'coffee', 'html', 'images',
-                                 'icons', 'less', 'fontello')
+gulp.task 'default', ['package', 'coffee', 'html', 'images',
+                      'icons', 'less', 'fontello']
 
-gulp.task 'watch', gulp.series('default', 'reloader', 'html'), ->
+gulp.task 'watch', ['default', 'reloader', 'html'], ->
     # watch to rebuild
     sources = (v for k, v of paths)
     gulp.watch sources, ['default']
@@ -194,7 +194,7 @@ buildDeployTask = (platform, arch) ->
     gulp.task tasknameNoDep, ()->
         deploy platform, arch
     # set task with dependencies
-    gulp.task taskname, gulp.series('default', tasknameNoDep)
+    gulp.task taskname, ['default'].concat tasknameNoDep
     #
     tasknameNoDep
 
@@ -212,9 +212,9 @@ platformOpts.map (plat) ->
         allNames.push taskName
     #
     # create arch-independet task
-    gulp.task "deploy:#{plat}", gulp.series('default', gulp.parallel(names))
+    gulp.task "deploy:#{plat}", ['default'].concat names
     #
-gulp.task 'deploy', gulp.series('default', allNames)
+gulp.task 'deploy', ['default'].concat allNames
 
 zipIt = (folder, filePrefix, done) ->
     ext = 'zip'
