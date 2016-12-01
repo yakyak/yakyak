@@ -74,13 +74,13 @@ $ npm run gulp
 
 ### Continuous build
 
-```
+```bash
 $ npm run gulp watch
 ```
 
 ### Run it
 
-```
+```bash
 $ npm run electron app
 ```
 
@@ -90,7 +90,7 @@ $ npm run electron app
 
 *Suported architectures:* 64-bits (*x64*), 32-bits (*ia32*)
 
-```
+```bash
 # Building for all platforms and architectures
 $ npm run deploy
 
