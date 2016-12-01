@@ -10,7 +10,7 @@ callNeedAnswer = {}
 
 # sound to hear
 audioFile = path.join __dirname, '..', '..', 'media',
-'new_message.wav'
+'new_message.ogg'
 audioEl = new Audio(audioFile)
 audioEl.volume = .4
 
