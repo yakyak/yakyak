@@ -12,11 +12,21 @@ concat     = require 'gulp-concat'
 autoReload = require 'gulp-auto-reload'
 changed    = require 'gulp-changed'
 rename     = require 'gulp-rename'
+packager   = require 'electron-packager'
+filter     = require 'gulp-filter'
+Q          = require 'q'
+Stream     = require 'stream'
+spawn      = require('child_process').spawn
+
+#
+#
+# Options
 
 outapp = './app'
 outui  = outapp + '/ui'
 
 paths =
+    deploy:  './dist/'
     README:  './README.md'
     package: './package.json'
     coffee:  './src/**/*.coffee'
@@ -29,6 +39,35 @@ paths =
     fonts:   ['./src/**/*.eot', './src/**/*.svg',
               './src/**/*.ttf', './src/**/*.woff',
               './src/**/*.woff2']
+
+#
+#
+# Options for packaging app
+#
+outdeploy = path.join __dirname, 'dist'
+
+platformOpts = ['linux', 'darwin', 'win32']
+archOpts =     ['x64','ia32']
+
+deploy_options = {
+    dir: path.join __dirname, 'app'
+    asar: false
+    icon: path.join __dirname, 'src', 'icons', 'icon'
+    out: outdeploy
+    overwrite: true
+    'app-bundle-id': 'com.github.yakyak'
+    win32metadata: {
+        CompanyName: 'Yakyak'
+        ProductName: 'Yakyak'
+    }
+    'osx-sign': true
+    arch:     archOpts.join ','
+    platform: platformOpts.join ','
+}
+
+#
+#
+# End of options
 
 # setup package stuff (README, package.json)
 gulp.task 'package', ->
@@ -88,10 +127,13 @@ gulp.task 'icons', ->
         'icon_256.png': 'icon@16.png'
         'icon_512.png': 'icon@32.png'
 
-    Object.keys(nameMap).forEach (name) ->
-        gulp.src path.join paths.icons, name
-            .pipe rename nameMap[name]
-            .pipe gulp.dest path.join outapp, 'icons'
+    # gulp 4 requires async notification!
+    new Promise (resolve, reject)->
+        Object.keys(nameMap).forEach (name) ->
+            gulp.src path.join paths.icons, name
+                .pipe rename nameMap[name]
+                .pipe gulp.dest path.join outapp, 'icons'
+        resolve()
 
 # compile less
 gulp.task 'less', ->
@@ -130,9 +172,132 @@ gulp.task 'reloader', ->
 gulp.task 'clean', (cb) ->
     rimraf outapp, cb
 
-gulp.task 'default', ['package', 'coffee', 'html', 'images', 'icons', 'less', 'fontello']
+gulp.task 'default', ['package', 'coffee', 'html', 'images',
+                      'icons', 'less', 'fontello']
 
 gulp.task 'watch', ['default', 'reloader', 'html'], ->
     # watch to rebuild
     sources = (v for k, v of paths)
     gulp.watch sources, ['default']
+
+#
+#
+#
+# Deployment related tasks
+
+#
+#
+buildDeployTask = (platform, arch) ->
+    # create a task per platform
+    taskname = "deploy:#{platform}-#{arch}"
+    tasknameNoDep = "#{taskname}:nodep"
+    # set internal task with _ (does not have dependencies)
+    gulp.task tasknameNoDep, ()->
+        deploy platform, arch
+    # set task with dependencies
+    gulp.task taskname, ['default'].concat tasknameNoDep
+    #
+    tasknameNoDep
+
+#
+# task to deploy all
+allNames = []
+#
+# create tasks for different platforms and architectures supported
+platformOpts.map (plat) ->
+    names = []
+    archOpts.map (arch) ->
+        # create a task per platform/architecture
+        taskName = buildDeployTask(plat, arch)
+        names.push taskName
+        allNames.push taskName
+    #
+    # create arch-independet task
+    gulp.task "deploy:#{plat}", ['default'].concat names
+    #
+gulp.task 'deploy', ['default'].concat allNames
+
+zipIt = (folder, filePrefix, done) ->
+    ext = 'zip'
+    zipName = path.join outdeploy, "#{filePrefix}.#{ext}"
+    folder = path.basename folder
+    #
+    args = ['-r', '-q', '-y', '-X', zipName, folder]
+    opts = {
+        cwd: outdeploy
+        stdio: [0, 1, 'pipe']
+    }
+    compressIt('zip', args, opts, zipName, done)
+
+tarIt = (folder, filePrefix, done) ->
+    ext = 'tar.gz'
+    zipName = path.join outdeploy, "#{filePrefix}.#{ext}"
+    folder = path.basename folder
+    #
+    args = ['-czf', zipName, folder]
+    opts = {
+        cwd: outdeploy
+        stdio: [0, 1, 'pipe']
+    }
+    compressIt('tar', args, opts, zipName, done)
+
+compressIt = (cmd, args, opts, zipName, done) ->
+    #
+    # create child process
+    child = spawn cmd
+    , args
+    , opts
+    # log all errors
+    child.on 'error', (err) ->
+        console.log 'Error: ' + err
+        process.exit(1)
+    # show err
+    child.on 'exit', (code) ->
+        if code == 0
+            console.log "Created archive (#{zipName})"
+            done()
+        else
+            console.log "Possible problem with archive #{zipname} " +
+                "-- (exit with #{code})"
+            done()
+            process.exit(1)
+
+#
+#
+deploy = (platform, arch) ->
+    deferred = Q.defer()
+    opts = deploy_options
+    opts.platform = platform
+    opts.arch = arch
+    #
+    # restriction darwin won't compile ia32
+    if platform == 'darwin' && arch == 'ia32'
+        deferred.resolve()
+        deferred.promise
+    #
+    # necessary to add a callback to pipe (which is used to signal end of task)
+    gulpCallback = (obj) ->
+        "use strict"
+        stream = new Stream.Transform({objectMode: true})
+        stream._transform = (file, unused, callback) ->
+            obj()
+            callback(null, file)
+        stream
+    #
+    # package the app and create a zip
+    packOpts = opts
+    if platform == 'darwin'
+        packOpts.name = 'YakYak'
+    packager packOpts, (err, appPaths) ->
+        if err?
+            console.log ('Error: ' + err) if err?
+        else if appPaths?.length > 0
+            json = JSON.parse(fs.readFileSync('./package.json'))
+            zippath = "#{appPaths[0]}/"
+            fileprefix = "yakyak-#{json.version}-#{platform}-#{arch}"
+
+            if platform == 'linux'
+                tarIt zippath, fileprefix, -> deferred.resolve()
+            else
+                zipIt zippath, fileprefix, -> deferred.resolve()
+    deferred.promise
