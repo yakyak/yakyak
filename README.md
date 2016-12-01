@@ -109,3 +109,8 @@ $ npm run deploy:darwin-x64
 | `src/`    | Is where sources live                    |
 | `src/ui/` | Holds renderer code (client side)        |
 | `dist/`   | Everything is compiled to this directory |
+
+### Acknowledgement 
+
+- All the users and developers of YakYak
+- ["You wouldn't believe"](https://notificationsounds.com/notification-sounds/you-wouldnt-believe-510) as the 'new message' sound for some platforms and is licensed under CC
