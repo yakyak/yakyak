@@ -154,15 +154,16 @@ templateView = (viewstate) ->
                 }
                 {
                   type: 'checkbox'
-                  label: 'Show YakYak icon in notifications'
-                  enabled: !isDarwin
+                  label: "Show #{if isDarwin then 'User' else 'YakYak'} icon in notifications"
+                  enabled: viewstate.loggedin && viewstate.showPopUpNotifications
                   checked: viewstate.showIconNotification
                   click: (it) -> action 'showiconnotification', it.checked
-                } !if isDarwin
+                }
                 {
                   type: 'checkbox'
                   label: 'Disable sound in notifications'
                   checked: viewstate.muteSoundNotification
+                  enabled: viewstate.loggedin && viewstate.showPopUpNotifications
                   click: (it) -> action 'mutesoundnotification', it.checked
                 }
             ]

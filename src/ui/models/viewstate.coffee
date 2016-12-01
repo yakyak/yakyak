@@ -9,6 +9,8 @@ STATES =
     STATE_NORMAL: 'normal'
     STATE_ADD_CONVERSATION: 'add_conversation'
 
+console.log tryparse(localStorage.muteSoundNotification), localStorage
+
 module.exports = exp = {
     state: null
     attop: false   # tells whether message list is scrolled to top
@@ -38,9 +40,9 @@ module.exports = exp = {
     closetotray: tryparse(localStorage.closetotray) or false
     showDockOnce: true
     showseenstatus: tryparse(localStorage.showseenstatus) or false
+    showIconNotification: tryparse(localStorage.showIconNotification) or true
+    muteSoundNotification: tryparse(localStorage.muteSoundNotification) or false
     messageMemory: {}
-    showIconNotification: tryparse(localStorage.showiconnotification) or true
-    muteSoundNotification: tryparse(localStorage.mutesoundnotification) or false
 
     setState: (state) ->
         return if @state == state
@@ -213,13 +215,13 @@ module.exports = exp = {
         updated 'viewstate'
 
     setShowIconNotification: (doshow) ->
-        return if @showIconNotification == doshow
-        @showIconNotification = localStorage.showiconnotification = doshow
+        return if localStorage.showIconNotification == doshow
+        @showIconNotification = localStorage.showIconNotification = doshow
         updated 'viewstate'
 
     setMuteSoundNotification: (doshow) ->
-        return if @muteSoundNotification == doshow
-        @muteSoundNotification = localStorage.mutesoundnotification = doshow
+        return if localStorage.muteSoundNotification == doshow
+        @muteSoundNotification = localStorage.muteSoundNotification = doshow
         updated 'viewstate'
 
     setConvertEmoji: (doshow) ->

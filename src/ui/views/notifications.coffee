@@ -3,7 +3,7 @@ shell    = require('electron').shell
 path     = require 'path'
 remote   = require('electron').remote
 
-{nameof, getProxiedName} = require '../util'
+{nameof, getProxiedName, fixlink} = require '../util'
 
 # conv_id markers for call notifications
 callNeedAnswer = {}
@@ -55,21 +55,30 @@ module.exports = (models) ->
 
         # maybe trigger OS notification
         return if !text or quietIf(c, chat_id)
-        console.log 'plt', remote.platform
         if viewstate.showPopUpNotifications
+            isDarwin = require('os').platform() == 'darwin'
+            #
+            if isDarwin
+                icon = fixlink entity[cid]?.photo_url?
+            else
+                icon = path.join __dirname, '..', '..', 'icons', 'icon@8.png'
+            #
             notifier.notify
                 title: if viewstate.showUsernameInNotification
-                           sender
+                           if !isDarwin && !viewstate.showIconNotification
+                               "#{sender} (via YakYak)"
+                           else
+                               sender
                        else
                            'YakYak'
                 message: if viewstate.showMessageInNotification
-                             text
-                         else
-                             'New Message'
+                          text
+                      else
+                          'New Message'
                 wait: true
                 sender: 'com.github.yakyak'
                 sound: !viewstate.muteSoundNotification
-                icon: path.join __dirname, '..', '..', 'icons', 'icon@8.png' if viewstate.showIconNotification unless remote.platform == 'darwin'
+                icon: icon if viewstate.showIconNotification
             , (err, res) ->
               if res?.trim().match(/Activate/i)
                 action 'appfocus'
