@@ -9,8 +9,6 @@ STATES =
     STATE_NORMAL: 'normal'
     STATE_ADD_CONVERSATION: 'add_conversation'
 
-console.log tryparse(localStorage.muteSoundNotification), localStorage
-
 module.exports = exp = {
     state: null
     attop: false   # tells whether message list is scrolled to top
