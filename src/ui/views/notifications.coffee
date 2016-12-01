@@ -55,7 +55,7 @@ module.exports = (models) ->
 
         # maybe trigger OS notification
         return if !text or quietIf(c, chat_id)
-
+        console.log 'plt', remote.platform
         if viewstate.showPopUpNotifications
             notifier.notify
                 title: if viewstate.showUsernameInNotification
@@ -69,7 +69,7 @@ module.exports = (models) ->
                 wait: true
                 sender: 'com.github.yakyak'
                 sound: !viewstate.muteSoundNotification
-                icon: path.join __dirname, '..', '..', 'icons', 'icon@8.png' if viewstate.showIconNotification
+                icon: path.join __dirname, '..', '..', 'icons', 'icon@8.png' if viewstate.showIconNotification unless remote.platform == 'darwin'
             , (err, res) ->
               if res?.trim().match(/Activate/i)
                 action 'appfocus'

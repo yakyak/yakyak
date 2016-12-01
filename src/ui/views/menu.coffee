@@ -155,9 +155,10 @@ templateView = (viewstate) ->
                 {
                   type: 'checkbox'
                   label: 'Show YakYak icon in notifications'
+                  enabled: !isDarwin
                   checked: viewstate.showIconNotification
                   click: (it) -> action 'showiconnotification', it.checked
-                }
+                } !if isDarwin
                 {
                   type: 'checkbox'
                   label: 'Disable sound in notifications'
