@@ -24,7 +24,7 @@ localVersion = remote.require('electron').app.getVersion()
 module.exports = exp = layout ->
     div class: 'about', ->
         div ->
-            img src: path.join __dirname, '..', '..', 'icons', 'icon@32.png'
+            img src: path.join __dirname, '..', '..', 'icons', 'icon@8.png'
         div class: 'name', ->
             h2 'YakYak v' + localVersion
         # TODO: if objects are undefined then it should check again on next
