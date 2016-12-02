@@ -104,7 +104,7 @@ module.exports = exp = layout ->
         div class: 'connecting',  ->
             div ->
                 div () ->
-                    img src: path.join __dirname, '..', '..', 'icons', 'yakyak-logo.svg'
+                    img src: path.join __dirname, '..', '..', 'icons', 'icon@32.png'
                 div ->
                     span class: 'text state_connecting', 'Connecting'
                     span class: 'text state_contacts hide', 'Loading contacts'
