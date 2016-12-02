@@ -75,17 +75,18 @@ module.exports = (models) ->
         return if !text or quietIf(c, chat_id)
 
         if viewstate.showPopUpNotifications
-            isDarwin = require('os').platform() == 'darwin'
+            isNotificationCenter = notifier.constructor.name == 'NotificationCenter'
             #
             icon = path.join __dirname, '..', '..', 'icons', 'icon@8.png'
-            if isDarwin && viewstate.showIconNotification
+            # Only for NotificationCenter (darwin)
+            if isNotificationCenter && viewstate.showIconNotification
                 contentImage = fixlink entity[cid]?.photo_url
             else
                 contentImage = undefined
             #
             notifier.notify
                 title: if viewstate.showUsernameInNotification
-                           if !isDarwin && !viewstate.showIconNotification
+                           if !isNotificationCenter && !viewstate.showIconNotification
                                "#{sender} (via YakYak)"
                            else
                                sender
@@ -98,7 +99,7 @@ module.exports = (models) ->
                 wait: true
                 sender: 'com.github.yakyak'
                 sound: !viewstate.muteSoundNotification && notifierSupportsSound
-                icon: icon if !isDarwin && viewstate.showIconNotification
+                icon: icon if !isNotificationCenter && viewstate.showIconNotification
                 contentImage: contentImage
             , (err, res) ->
               if res?.trim().match(/Activate/i)
