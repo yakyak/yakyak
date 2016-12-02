@@ -40,6 +40,7 @@ module.exports = exp = {
     showseenstatus: tryparse(localStorage.showseenstatus) ? false
     showIconNotification: tryparse(localStorage.showIconNotification) ? true
     muteSoundNotification: tryparse(localStorage.muteSoundNotification) ? false
+    forceCustomSound: tryparse(localStorage.forceCustomSound) ? false
     messageMemory: {}
 
     setState: (state) ->
@@ -210,6 +211,11 @@ module.exports = exp = {
     setShowUsernameInNotification: (doshow) ->
         return if @showUsernameInNotification == doshow
         @showUsernameInNotification = localStorage.showUsernameInNotification = doshow
+        updated 'viewstate'
+
+    setForceCustomSound: (doshow) ->
+        return if localStorage.forceCustomSound == doshow
+        @forceCustomSound = localStorage.forceCustomSound = doshow
         updated 'viewstate'
 
     setShowIconNotification: (doshow) ->

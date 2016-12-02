@@ -1,4 +1,15 @@
 URL = require 'url'
+notifier = require 'node-notifier'
+
+notificationCenterSupportsSound = () ->
+    # check if sound should be played via notification
+    #  documentation says that only WindowsToaster and
+    #  NotificationCenter supports sound
+    playSoundIn = ['WindowsToaster', 'NotificationCenter']
+    # check if currect notifier supports sound
+    notifierSupportsSound = playSoundIn.find( (str) ->
+        str == notifier.constructor.name
+    )?
 
 nameof = (e) -> e?.display_name ? e?.fallback_name ? e?.first_name ? 'Unknown'
 
@@ -100,4 +111,4 @@ convertEmoji = (text) ->
     return text
 module.exports = {nameof, initialsof, nameofconv, linkto, later, throttle, uniqfn,
 isAboutLink, getProxiedName, tryparse, fixlink, topof, isImg, getImageUrl,
-toggleVisibility, convertEmoji}
+toggleVisibility, convertEmoji, notificationCenterSupportsSound}

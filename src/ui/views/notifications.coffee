@@ -3,27 +3,18 @@ shell    = require('electron').shell
 path     = require 'path'
 remote   = require('electron').remote
 
-{nameof, getProxiedName, fixlink} = require '../util'
+{nameof, getProxiedName, fixlink, notificationCenterSupportsSound} = require '../util'
 
 # conv_id markers for call notifications
 callNeedAnswer = {}
 
+notifierSupportsSound = notificationCenterSupportsSound()
 
-# check if sound should be played via notification
-#  documentation says that only WindowsToaster and
-#  NotificationCenter supports sound
-playSoundIn = ['WindowsToaster', 'NotificationCenter']
-# check if currect notifier supports sound
-notifierSupportsSound = playSoundIn.find( (str) ->
-    str == notifier.constructor.name
-)?
-
-unless notifierSupportsSound
-    # sound to hear
-    audioFile = path.join __dirname, '..', '..', 'media',
-    'new_message.ogg'
-    audioEl = new Audio(audioFile)
-    audioEl.volume = .4
+# Custom sound for new message notifications
+audioFile = path.join __dirname, '..', '..', 'media',
+'new_message.ogg'
+audioEl = new Audio(audioFile)
+audioEl.volume = .4
 
 
 module.exports = (models) ->
@@ -98,7 +89,7 @@ module.exports = (models) ->
                           'New Message'
                 wait: true
                 sender: 'com.github.yakyak'
-                sound: !viewstate.muteSoundNotification && notifierSupportsSound
+                sound: !viewstate.muteSoundNotification && (notifierSupportsSound && !viewstate.forceCustomSound)
                 icon: icon if !isNotificationCenter && viewstate.showIconNotification
                 contentImage: contentImage
             , (err, res) ->
@@ -107,9 +98,9 @@ module.exports = (models) ->
                 action 'selectConv', c
 
         # only play if it is not playing already
-        #  and notifier does not support sound
+        #  and notifier does not support sound or force custom sound is set
         #  and mute option is not set
-        if !notifierSupportsSound && !viewstate.muteSoundNotification && audioEl.paused
+        if (!notifierSupportsSound || viewstate.forceCustomSound) && !viewstate.muteSoundNotification && audioEl.paused
             audioEl.play()
         # And we hope we don't get another 'currentWindow' ;)
         mainWindow = remote.getCurrentWindow()
