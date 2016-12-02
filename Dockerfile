@@ -10,4 +10,5 @@ ENV DEBUG=electron-packager,extract-zip
 
 ADD ./package.json /data/package.json
 WORKDIR /data
+
 RUN npm install
