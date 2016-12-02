@@ -178,7 +178,7 @@ templateView = (viewstate) ->
                   enabled: viewstate.loggedin && viewstate.showPopUpNotifications && !viewstate.muteSoundNotification
                   click: (it) -> action 'forcecustomsound', it.checked
                 } if notifierSupportsSound
-            ]
+            ].filter (n) -> n != undefined
         }
         {
             type: 'checkbox'
