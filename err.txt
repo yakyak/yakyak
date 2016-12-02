@@ -1,4 +1,0 @@
-2015-06-01 9:32:04 ERROR subscribe failed { [Error: Unknown SID]
-  code: 400,
-  message: 'Unknown SID',
-  body: '<HTML>\n<HEAD>\n<TITLE>Unknown SID</TITLE>\n</HEAD>\n<BODY BGCOLOR="#FFFFFF" TEXT="#000000">\n<H1>Unknown SID</H1>\n<H2>Error 400</H2>\n</BODY>\n</HTML>\n' }
