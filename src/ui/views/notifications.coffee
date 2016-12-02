@@ -106,8 +106,10 @@ module.exports = (models) ->
                 action 'selectConv', c
 
         # only play if it is not playing already
-        if !notifierSupportsSound && !viewstate.muteSoundNotification
-            audioEl.play() if audioEl.paused
+        #  and notifier does not support sound
+        #  and mute option is not set
+        if !notifierSupportsSound && !viewstate.muteSoundNotification && audioEl.paused
+            audioEl.play()
         # And we hope we don't get another 'currentWindow' ;)
         mainWindow = remote.getCurrentWindow()
         mainWindow.flashFrame(true)
