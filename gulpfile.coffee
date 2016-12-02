@@ -300,8 +300,20 @@ deploy = (platform, arch) ->
     #
     # package the app and create a zip
     packOpts = opts
+    #
     if platform == 'darwin'
         packOpts.name = 'YakYak'
+    #
+    # warning to users outside of windows of the dependency of wine32
+    if platform == 'win32' && process.platform != 'win32'
+        console.log ''
+        console.log ''
+        console.log ' Notice for building Windows binaries outside Windows'
+        console.log ''
+        console.log ' It is required to have wine32 installed and configured.'
+        console.log '--------------------------------------------------------'
+    #
+    # actual packaging
     packager packOpts, (err, appPaths) ->
         if err?
             console.log ('Error: ' + err) if err?
