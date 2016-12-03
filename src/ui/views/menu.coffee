@@ -1,10 +1,15 @@
 remote = require('electron').remote
 Menu = remote.Menu
 
+{notificationCenterSupportsSound} = require '../util'
+
 platform = require('os').platform()
 # to reduce number of == comparisons
 isDarwin = platform == 'darwin'
 isNotDarwin = platform != 'darwin'
+
+# true if it does, false otherwise
+notifierSupportsSound = notificationCenterSupportsSound()
 
 acceleratorMap = {
     # MacOSX specific
@@ -152,7 +157,28 @@ templateView = (viewstate) ->
                     enabled: viewstate.loggedin && viewstate.showPopUpNotifications
                     click: (it) -> action 'showusernameinnotification', it.checked
                 }
-            ]
+                {
+                  type: 'checkbox'
+                  label: "Show #{if isDarwin then 'User avatar' else 'YakYak'} icon in notifications"
+                  enabled: viewstate.loggedin && viewstate.showPopUpNotifications
+                  checked: viewstate.showIconNotification
+                  click: (it) -> action 'showiconnotification', it.checked
+                }
+                {
+                  type: 'checkbox'
+                  label: 'Disable sound in notifications'
+                  checked: viewstate.muteSoundNotification
+                  enabled: viewstate.loggedin && viewstate.showPopUpNotifications
+                  click: (it) -> action 'mutesoundnotification', it.checked
+                }
+                {
+                  type: 'checkbox'
+                  label: 'Use YakYak custom sound for notifications'
+                  checked: viewstate.forceCustomSound
+                  enabled: viewstate.loggedin && viewstate.showPopUpNotifications && !viewstate.muteSoundNotification
+                  click: (it) -> action 'forcecustomsound', it.checked
+                } if notifierSupportsSound
+            ].filter (n) -> n != undefined
         }
         {
             type: 'checkbox'

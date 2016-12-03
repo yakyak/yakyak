@@ -3,10 +3,19 @@ shell    = require('electron').shell
 path     = require 'path'
 remote   = require('electron').remote
 
-{nameof, getProxiedName} = require '../util'
+{nameof, getProxiedName, fixlink, notificationCenterSupportsSound} = require '../util'
 
 # conv_id markers for call notifications
 callNeedAnswer = {}
+
+notifierSupportsSound = notificationCenterSupportsSound()
+
+# Custom sound for new message notifications
+audioFile = path.join __dirname, '..', '..', 'media',
+'new_message.ogg'
+audioEl = new Audio(audioFile)
+audioEl.volume = .4
+
 
 module.exports = (models) ->
     {conv, notify, entity, viewstate} = models
@@ -55,26 +64,46 @@ module.exports = (models) ->
 
         # maybe trigger OS notification
         return if !text or quietIf(c, chat_id)
-        
+
         if viewstate.showPopUpNotifications
+            isNotificationCenter = notifier.constructor.name == 'NotificationCenter'
+            #
+            icon = path.join __dirname, '..', '..', 'icons', 'icon@8.png'
+            # Only for NotificationCenter (darwin)
+            if isNotificationCenter && viewstate.showIconNotification
+                contentImage = fixlink entity[cid]?.photo_url
+            else
+                contentImage = undefined
+            #
             notifier.notify
                 title: if viewstate.showUsernameInNotification
-                           sender
+                           if !isNotificationCenter && !viewstate.showIconNotification
+                               "#{sender} (via YakYak)"
+                           else
+                               sender
                        else
                            'YakYak'
                 message: if viewstate.showMessageInNotification
-                             text
-                         else
-                             'New Message'
+                          text
+                      else
+                          'New Message'
                 wait: true
                 sender: 'com.github.yakyak'
-                sound: true
+                sound: !viewstate.muteSoundNotification && (notifierSupportsSound && !viewstate.forceCustomSound)
+                icon: icon if !isNotificationCenter && viewstate.showIconNotification
+                contentImage: contentImage
             , (err, res) ->
               if res?.trim().match(/Activate/i)
                 action 'appfocus'
                 action 'selectConv', c
 
-        mainWindow = remote.getCurrentWindow() # And we hope we don't get another ;)
+        # only play if it is not playing already
+        #  and notifier does not support sound or force custom sound is set
+        #  and mute option is not set
+        if (!notifierSupportsSound || viewstate.forceCustomSound) && !viewstate.muteSoundNotification && audioEl.paused
+            audioEl.play()
+        # And we hope we don't get another 'currentWindow' ;)
+        mainWindow = remote.getCurrentWindow()
         mainWindow.flashFrame(true)
 
 textMessage = (cont, proxied) ->

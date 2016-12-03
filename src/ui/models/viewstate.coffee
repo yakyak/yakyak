@@ -37,7 +37,10 @@ module.exports = exp = {
     startminimizedtotray: tryparse(localStorage.startminimizedtotray) or false
     closetotray: tryparse(localStorage.closetotray) or false
     showDockOnce: true
-    showseenstatus: tryparse(localStorage.showseenstatus) or false
+    showseenstatus: tryparse(localStorage.showseenstatus) ? false
+    showIconNotification: tryparse(localStorage.showIconNotification) ? true
+    muteSoundNotification: tryparse(localStorage.muteSoundNotification) ? false
+    forceCustomSound: tryparse(localStorage.forceCustomSound) ? false
     messageMemory: {}
 
     setState: (state) ->
@@ -208,6 +211,21 @@ module.exports = exp = {
     setShowUsernameInNotification: (doshow) ->
         return if @showUsernameInNotification == doshow
         @showUsernameInNotification = localStorage.showUsernameInNotification = doshow
+        updated 'viewstate'
+
+    setForceCustomSound: (doshow) ->
+        return if localStorage.forceCustomSound == doshow
+        @forceCustomSound = localStorage.forceCustomSound = doshow
+        updated 'viewstate'
+
+    setShowIconNotification: (doshow) ->
+        return if localStorage.showIconNotification == doshow
+        @showIconNotification = localStorage.showIconNotification = doshow
+        updated 'viewstate'
+
+    setMuteSoundNotification: (doshow) ->
+        return if localStorage.muteSoundNotification == doshow
+        @muteSoundNotification = localStorage.muteSoundNotification = doshow
         updated 'viewstate'
 
     setConvertEmoji: (doshow) ->

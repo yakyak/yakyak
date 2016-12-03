@@ -122,6 +122,15 @@ handle 'sendmessage', (txt = '') ->
 handle 'toggleshowtray', ->
     viewstate.setShowTray(not viewstate.showtray)
 
+handle 'forcecustomsound', (value) ->
+    viewstate.setForceCustomSound(value)
+
+handle 'showiconnotification', (value) ->
+    viewstate.setShowIconNotification(value)
+
+handle 'mutesoundnotification', ->
+    viewstate.setMuteSoundNotification(not viewstate.muteSoundNotification)
+
 handle 'toggleshowseenstatus', ->
     viewstate.setShowSeenStatus(not viewstate.showseenstatus)
 
