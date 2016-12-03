@@ -361,6 +361,7 @@ handle 'deleteconv', (confirmed) ->
             action 'deleteconv', true
     else
         ipc.send 'deleteconversation', conv_id
+        viewstate.setState(viewstate.STATE_NORMAL)
 
 handle 'leaveconv', (confirmed) ->
     conv_id = viewstate.selectedConv
