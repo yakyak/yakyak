@@ -48,6 +48,8 @@ handle 'init', (init) ->
     require('./version').check()
 
 handle 'chat_message', (ev) ->
+    unless conv[ev.conversation_id]
+        ipc.send 'reqinit'
     conv.addChatMessage ev
     # these messages are to go through notifications
     notify.addToNotify ev
@@ -95,6 +97,7 @@ handle 'history', (conv_id, timestamp) ->
     ipc.send 'getconversation', conv_id, timestamp, 20
 
 handle 'handlehistory', (r) ->
+    console.log 'state history', r
     return unless r.conversation_state
     conv.updateHistory r.conversation_state
 
@@ -361,6 +364,7 @@ handle 'deleteconv', (confirmed) ->
             action 'deleteconv', true
     else
         ipc.send 'deleteconversation', conv_id
+        viewstate.selectConvIndex(0)
         viewstate.setState(viewstate.STATE_NORMAL)
 
 handle 'leaveconv', (confirmed) ->
@@ -370,6 +374,7 @@ handle 'leaveconv', (confirmed) ->
             action 'leaveconv', true
     else
         ipc.send 'removeuser', conv_id
+        viewstate.selectConvIndex(0)
         viewstate.setState(viewstate.STATE_NORMAL)
 
 handle 'lastkeydown', (time) -> viewstate.setLastKeyDown time
