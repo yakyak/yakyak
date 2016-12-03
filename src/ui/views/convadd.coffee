@@ -108,7 +108,6 @@ module.exports = view (models) ->
 
       if editing
         div class:'leave', ->
-          console.log conversation
           if conversation?.type?.indexOf('ONE_TO_ONE') > 0
               div class:'button', title:'Delete conversation',
               onclick:onclickaction('deleteconv'), ->
