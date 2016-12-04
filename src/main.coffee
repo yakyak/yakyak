@@ -7,7 +7,9 @@ path      = require 'path'
 tmp       = require 'tmp'
 clipboard = require('electron').clipboard
 Menu      = require('electron').menu
-session = require('electron').session
+session   = require('electron').session
+
+debug = /--debug/.test(process.argv[2])
 
 tmp.setGracefulCleanup()
 
@@ -118,6 +120,13 @@ app.on 'ready', ->
         titleBarStyle: 'hidden-inset' if process.platform is 'darwin'
         # autoHideMenuBar : true unless process.platform is 'darwin'
     }
+
+    # Launch fullscreen with DevTools open, usage: npm run debug
+    if debug
+      mainWindow.webContents.openDevTools()
+      mainWindow.maximize()
+      require('devtron').install()
+
 
     # and load the index.html of the app. this may however be yanked
     # away if we must do auth.

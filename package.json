@@ -4,6 +4,8 @@
   "description": "Chat client for Google Hangouts",
   "main": "main.js",
   "scripts": {
+    "start": "gulp && electron app",
+    "dev": "gulp && electron app --debug",
     "gulp": "gulp",
     "electron": "electron",
     "test": "mocha",
@@ -48,6 +50,7 @@
   "devDependencies": {
     "chai": "^3.2.0",
     "coffee-script": "^1.9.2",
+    "devtron": "^1.4.0",
     "electron-packager": "^8.3.0",
     "electron-prebuilt": "^1.4.10",
     "gulp": "^3.9.0",
