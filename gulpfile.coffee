@@ -311,6 +311,13 @@ deploy = (platform, arch) ->
         console.log ' Notice for building Windows binaries outside Windows'
         console.log ''
         console.log ' It is required to have wine32 installed and configured.'
+        console.log ''
+        console.log ' When building for a specific platform use:'
+        console.log ''
+        console.log ' $ npm run gulp deploy:<platform>-<architecture>'
+        console.log ''
+        console.log '       <platforms>: win32 | linux | darwin'
+        console.log '   <architectures>:  x64  | ia32'
         console.log '--------------------------------------------------------'
     #
     # actual packaging
