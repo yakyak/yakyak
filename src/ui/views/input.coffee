@@ -38,7 +38,7 @@ openByDefault = 'people'
 module.exports = view (models) ->
     div class:'input', ->
         div id: 'preview-container', ->
-            div class: 'close-preview material-icons'
+            div class: 'close-me material-icons'
                 , onclick: (e) ->
                     element = document.getElementById 'preview-img'
                     element.src = ''
