@@ -393,6 +393,9 @@ templateWindow = (viewstate) -> [
 templateMenu = (viewstate) ->
     [
         {
+            label: ''
+        }
+        {
             label: 'YakYak'
             submenu: templateYakYak viewstate
         }
