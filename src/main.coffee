@@ -379,12 +379,17 @@ app.on 'ready', ->
           show: false
           parent: mainWindow
           resizable: false
+          frame: false
+          titleBarStyle: 'hidden'
         }
 
         aboutWindow.loadURL 'file://' + __dirname + '/ui/about.html'
         aboutWindow.once 'ready-to-show', () ->
             aboutWindow.setMenu(null)
             aboutWindow.show()
+
+            aboutWindow.on 'blur', ->
+                aboutWindow.close()
 
     ipc.on 'errorInWindow', (ev, error) ->
         console.log "Error on YakYak window:\n", error, "\n--- End of error message in YakYak window."

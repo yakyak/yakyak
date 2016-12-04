@@ -24,6 +24,11 @@ localVersion = remote.require('electron').app.getVersion()
 module.exports = exp = layout ->
     div class: 'about', ->
         div ->
+            span onclick: (e) ->
+                window.close()
+            , ->
+                span class: 'close-me material-icons', ''
+        div ->
             img src: path.join __dirname, '..', '..', 'icons', 'icon@8.png'
         div class: 'name', ->
             h2 'YakYak v' + localVersion
