@@ -142,12 +142,18 @@ drawMessageAvatar = (u, sender, viewstate, entity) ->
 drawSeenElement = (c, u, entity, events, viewstate) ->
     if viewstate?.showseenstatus
         temp_set = new Set()
-        for contacts in c.read_state
-            other = contacts.participant_id.chat_id
+        for contact in c.read_state
+            other = contact.participant_id.chat_id
+            #
+            # watermark and conversation have different wording for the
+            #  last read timestamp, which is unfortunate
+            #
+            #  TODO: make them have the same name
+            last_r = contact.last_read_timestamp ? contact.latest_read_timestamp
             if other != u.cid &&
                !entity.isSelf(other) &&
                # only add "seen" avatar if last message from group is seen
-               contacts.latest_read_timestamp >= events[events.length - 1].timestamp
+               last_r >= events[events.length - 1].timestamp
                 if !temp_set.has(entity[other].id)
                     temp_set.add entity[other].id
                     drawSeenAvatar entity[other]

@@ -315,6 +315,8 @@ funcs =
         return unless c = lookup[conv_id]
         c.requestinghistory = false
         event = state?.event
+
+        c.read_state = state.conversation?.read_state ? c.read_state
         c.event = (event ? []).concat (c.event ? [])
         c.nomorehistory = true if event?.length == 0
 
