@@ -300,7 +300,10 @@ deploy = (platform, arch) ->
         else if appPaths?.length > 0
             json = JSON.parse(fs.readFileSync('./package.json'))
             zippath = "#{appPaths[0]}/"
-            fileprefix = "yakyak-#{json.version}-#{platform}-#{arch}"
+            if platform == 'darwin'
+                fileprefix = "yakyak-#{json.version}-osx"
+            else
+                fileprefix = "yakyak-#{json.version}-#{platform}-#{arch}"
 
             if platform == 'linux'
                 tarIt zippath, fileprefix, -> deferred.resolve()
