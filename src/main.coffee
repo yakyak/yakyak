@@ -359,7 +359,7 @@ app.on 'ready', ->
 
     # retry, one single per conv_id
     ipc.on 'getconversation', seqreq (ev, conv_id, timestamp, max) ->
-        client.getconversation(conv_id, timestamp, max).then (r) ->
+        client.getconversation(conv_id, timestamp, max, true).then (r) ->
             ipcsend 'getconversation:response', r
     , false, (ev, conv_id, timestamp, max) -> conv_id
 

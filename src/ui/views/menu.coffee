@@ -356,18 +356,6 @@ templateView = (viewstate) ->
             checked:  viewstate.hidedockicon
             click: -> action 'togglehidedockicon'
         } if isDarwin
-        {
-            label: 'Experimental'
-            submenu: [
-                {
-                    label: 'Show seen status in messages'
-                    type: 'checkbox'
-                    enabled: viewstate.loggedin
-                    checked: viewstate.showseenstatus
-                    click: -> action 'toggleshowseenstatus'
-                }
-            ]
-        }
     ].filter (n) -> n != undefined
 
 templateWindow = (viewstate) -> [

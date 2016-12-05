@@ -135,9 +135,6 @@ handle 'showiconnotification', (value) ->
 handle 'mutesoundnotification', ->
     viewstate.setMuteSoundNotification(not viewstate.muteSoundNotification)
 
-handle 'toggleshowseenstatus', ->
-    viewstate.setShowSeenStatus(not viewstate.showseenstatus)
-
 handle 'togglemenu', ->
     mainWindow = remote.getCurrentWindow()
     if mainWindow.isMenuBarVisible() then mainWindow.setMenuBarVisibility(false) else mainWindow.setMenuBarVisibility(true)

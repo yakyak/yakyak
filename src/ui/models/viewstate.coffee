@@ -37,7 +37,6 @@ module.exports = exp = {
     startminimizedtotray: tryparse(localStorage.startminimizedtotray) or false
     closetotray: tryparse(localStorage.closetotray) or false
     showDockOnce: true
-    showseenstatus: tryparse(localStorage.showseenstatus) ? false
     showIconNotification: tryparse(localStorage.showIconNotification) ? true
     muteSoundNotification: tryparse(localStorage.muteSoundNotification) ? false
     forceCustomSound: tryparse(localStorage.forceCustomSound) ? false
