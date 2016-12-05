@@ -17,6 +17,8 @@ filter     = require 'gulp-filter'
 Q          = require 'q'
 Stream     = require 'stream'
 spawn      = require('child_process').spawn
+# running tasks in sequence
+runSequence = require('run-sequence')
 
 #
 #
@@ -201,7 +203,8 @@ buildDeployTask = (platform, arch) ->
     gulp.task tasknameNoDep, ()->
         deploy platform, arch
     # set task with dependencies
-    gulp.task taskname, ['default'].concat tasknameNoDep
+    gulp.task taskname, (cb) ->
+      runSequence 'default', tasknameNoDep, cb
     #
     tasknameNoDep
 
