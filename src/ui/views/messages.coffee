@@ -136,10 +136,8 @@ module.exports = view (models) ->
     if c?.current_participant?
         for participant in c.current_participant
             # get all avatars
-            console.log 'id: ', participant.chat_id
             all_seen = document
             .querySelectorAll(".seen[data-id='#{participant.chat_id}']")
-            console.log 'all_seen', all_seen
             # select last one
             if all_seen.length > 0
                 all_seen[all_seen.length - 1].classList.add 'show'
@@ -167,7 +165,6 @@ drawSeenElement = (c, u, entity, events, viewstate) ->
            last_r >= events[events.length - 1].timestamp
             if !temp_set.has(entity[other].id)
                 temp_set.add entity[other].id
-                console.log events
                 drawSeenAvatar entity[other]
                     , events[events.length - 1].event_id
                     , viewstate
