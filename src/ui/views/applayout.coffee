@@ -144,11 +144,8 @@ do ->
     exp.recordMainPos = ->
         el = lastVisibleMessage()
         id = el?.id
-        console.log 'id', id
-        console.log 'el', document.getElementById id
         return unless el and id
         ofs = topof el
-        console.log 'ofs', ofs
 
     exp.adjustMainPos = ->
         return unless id and ofs
