@@ -20,32 +20,35 @@
         width: 66%;
         margin-left: 25px;
         .seen {
-          text-decoration: none;
-          font-size: 11px;
-          color: var(--darkgrey);
-          margin-right: 25px;
-          display: inline-block;
-          &.show {
-              display: inline-block;
-          }
-          &.fallback-on img{
-              display: none;
-          }
-          &.fallback-on .initials.fallback {
-              display: inherit;
-          }
-          img, .initials {
-              width: 21px;
-              height: 21px;
-              border: 2px solid var(--lightgrey);
-              bottom: 0px;
-              font-size: 10px;
-              line-height: 41px;
-              display: flex;
-              &.fallback {
-                  display: none;
-              }
-          }
+            filter: saturate(40%);
+            text-decoration: none;
+            font-size: 11px;
+            color: var(--darkgrey);
+            margin-right: 25px;
+            display: inline-block;
+            &.show {
+               display: inline-block;
+            }
+            .avatar {
+                &.fallback-on img{
+                    display: none;
+                }
+                &.fallback-on .initials.fallback {
+                    display: flex;
+                }
+                img, .initials {
+                    width: 21px;
+                    height: 21px;
+                    border: 2px solid var(--lightgrey);
+                    bottom: 0px;
+                    font-size: 10px;
+                    line-height: 41px;
+                    display: flex;
+                    &.fallback {
+                        display: none;
+                    }
+                }
+            }
         }
         .sender {
             text-decoration: none;
