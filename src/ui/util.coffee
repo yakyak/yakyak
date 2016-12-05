@@ -55,7 +55,7 @@ drawAvatar = (user_id, viewstate, entity, image = null, email = null, initials =
             , onload: (ev) ->
                 # when loading successfuly, update again all other imgs
                 ev.target.parentElement.classList.remove "fallback-on"
-        div class: "initials #{if image? then 'fallback'}", initials
+        div class: "initials #{if image then 'fallback' else ''}", initials
 
 nameofconv = (c) ->
     {entity} = require './models'

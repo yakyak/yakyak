@@ -129,8 +129,20 @@ module.exports = view (models) ->
                             , onDOMSubtreeModified: (e) ->
                                 window.twemoji?.parse e.target if process.platform == 'win32'
                             unless entity.isSelf(u.cid)
-                                drawSeenElement(c, u, entity, events)
+                                drawSeenElement(c, u, entity, events, viewstate)
 
+
+    # Go through all the participants and only show his last seen status
+    if c?.current_participant?
+        for participant in c.current_participant
+            # get all avatars
+            console.log 'id: ', participant.chat_id
+            all_seen = document
+            .querySelectorAll(".seen[data-id='#{participant.chat_id}']")
+            console.log 'all_seen', all_seen
+            # select last one
+            if all_seen.length > 0
+                all_seen[all_seen.length - 1].classList.add 'show'
     if lastConv != conv_id
         lastConv = conv_id
         later atTopIfSmall
@@ -155,7 +167,11 @@ drawSeenElement = (c, u, entity, events, viewstate) ->
            last_r >= events[events.length - 1].timestamp
             if !temp_set.has(entity[other].id)
                 temp_set.add entity[other].id
+                console.log events
                 drawSeenAvatar entity[other]
+                    , events[events.length - 1].event_id
+                    , viewstate
+                    , entity
 
 groupEventsByMessageType = (event) ->
     res = []
@@ -176,19 +192,14 @@ groupEventsByMessageType = (event) ->
 isMeMessage = (e) ->
     e?.chat_message?.annotation?[0]?[0] == HANGOUT_ANNOTATION_TYPE.me_message
 
-drawSeenAvatar = (u) ->
+drawSeenAvatar = (u, event_id, viewstate, entity) ->
     initials = initialsof u
     span class: "seen"
     , "data-id": u.id
+    , "data-event-id": event_id
     , title: u.display_name
     , ->
-        purl = u?.photo_url
-        if purl and !viewstate?.showAnimatedThumbs
-            purl += "?sz=25"
-        if purl
-            img src:fixlink(purl)
-        else
-            div class:'initials', initials
+        drawAvatar(u.id, viewstate, entity)
 
 drawMeMessage = (e) ->
     div class:'message', ->

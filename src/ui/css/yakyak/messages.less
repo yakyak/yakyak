@@ -23,25 +23,28 @@
           text-decoration: none;
           font-size: 11px;
           color: var(--darkgrey);
-          display: inline-block;
           margin-right: 25px;
+          display: none;
+          &.show {
+              display: inline-block;
+          }
+          &.fallback-on img{
+              display: none;
+          }
+          &.fallback-on .initials.fallback {
+              display: inherit;
+          }
           img, .initials {
-              object-fit: cover;
-              border-radius: 50%;
-              width: 25px;
-              height: 25px;
-              border: 5px solid var(--lightgrey);
-              color: var(--white);
-              background: var(--grey);
-              position: absolute;
+              width: 21px;
+              height: 21px;
+              border: 2px solid var(--lightgrey);
               bottom: 0px;
-              text-align: center;
               font-size: 10px;
               line-height: 41px;
-              text-transform: uppercase;
               display: flex;
-              justify-content: center;
-              align-items: center;
+              &.fallback {
+                  display: none;
+              }
           }
         }
         .sender {
