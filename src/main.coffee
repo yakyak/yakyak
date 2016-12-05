@@ -298,6 +298,10 @@ app.on 'ready', ->
     # no retries, dedupe on conv_id
     ipc.on 'setfocus', seqreq (ev, conv_id) ->
         client.setfocus conv_id
+        client.getconversation conv_id, new Date(), 1, true
+        .then (r) ->
+            ipcsend 'getconversationmetadata:response', r
+
     , false, (ev, conv_id) -> conv_id
 
     ipc.on 'appfocus', ->
