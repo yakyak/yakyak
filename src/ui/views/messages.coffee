@@ -139,8 +139,11 @@ module.exports = view (models) ->
             all_seen = document
             .querySelectorAll(".seen[data-id='#{participant.chat_id}']")
             # select last one
-            if all_seen.length > 0
-                all_seen[all_seen.length - 1].classList.add 'show'
+            #  NOT WORKING
+            #if all_seen.length > 0
+            #    all_seen.forEach (el) ->
+            #        el.classList.remove 'show'
+            #    all_seen[all_seen.length - 1].classList.add 'show'
     if lastConv != conv_id
         lastConv = conv_id
         later atTopIfSmall
