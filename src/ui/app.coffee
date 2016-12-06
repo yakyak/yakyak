@@ -51,7 +51,7 @@ do ->
 # called when window is ready to show
 #  note: could not use event here, as it must be defined
 #  before
-ipc.on 'ready-to-show', (aca) ->
+ipc.on 'ready-to-show', () ->
     # get window object
     mainWindow = remote.getCurrentWindow()
     # hide menu bar in all platforms but darwin
