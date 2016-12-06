@@ -227,7 +227,9 @@ platformOpts.map (plat) ->
       names.push cb
       runSequence 'default', names...
     #
-gulp.task 'deploy', ['default'].concat allNames
+gulp.task 'deploy', (cb)->
+    allNames.push cb
+    runSequence 'default', allNames...
 
 zipIt = (folder, filePrefix, done) ->
     ext = 'zip'
