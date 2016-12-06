@@ -222,7 +222,10 @@ platformOpts.map (plat) ->
         allNames.push taskName
     #
     # create arch-independet task
-    gulp.task "deploy:#{plat}", ['default'].concat names
+    gulp.task "deploy:#{plat}", (cb) ->
+      # add callback to arguments
+      names.push cb
+      runSequence 'default', names...
     #
 gulp.task 'deploy', ['default'].concat allNames
 

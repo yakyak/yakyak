@@ -52,11 +52,18 @@ do ->
 #  note: could not use event here, as it must be defined
 #  before
 ipc.on 'ready-to-show', () ->
+    # get window object
+    mainWindow = remote.getCurrentWindow()
+    # hide menu bar in all platforms but darwin
+    unless process.platform is 'darwin'
+        mainWindow.setAutoHideMenuBar(true)
+        mainWindow.setMenuBarVisibility(false)
+    # handle the visibility of the window
     if viewstate.startminimizedtotray
-        remote.getCurrentWindow().hide()
+        mainWindow.hide()
     else if !remote.getGlobal('windowHideWhileCred')? ||
              remote.getGlobal('windowHideWhileCred') != true
-        remote.getCurrentWindow().show()
+        mainWindow.show()
 
 # wire up stuff from server
 ipc.on 'init', (ev, data) -> dispatcher.init data
