@@ -86,6 +86,10 @@ ipc.on 'createconversation:result', (ev, c, name) ->
 ipc.on 'syncallnewevents:response', (ev, r) -> action 'handlesyncedevents', r
 ipc.on 'syncrecentconversations:response', (ev, r) -> action 'handlerecentconversations', r
 ipc.on 'getconversation:response', (ev, r) -> action 'handlehistory', r
+#
+# gets metadata from conversation after setting focus
+ipc.on 'getconversationmetadata:response', (ev, r) ->
+    action 'handleconversationmetadata', r
 ipc.on 'uploadingimage', (ev, spec) -> action 'uploadingimage', spec
 ipc.on 'querypresence:result', (ev, r) -> action 'setpresence', r
 

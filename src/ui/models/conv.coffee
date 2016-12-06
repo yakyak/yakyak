@@ -310,16 +310,15 @@ funcs =
             later -> action 'history', conv_id, timestamp, HISTORY_AMOUNT
             updated 'conv'
 
-    updateHistory: (state) ->
+    updateMetadata: (state, redraw = true) ->
         conv_id = state?.conversation_id?.id
         return unless c = lookup[conv_id]
-        c.requestinghistory = false
-        event = state?.event
 
         c.read_state = state.conversation?.read_state ? c.read_state
-        c.event = (event ? []).concat (c.event ? [])
-        c.nomorehistory = true if event?.length == 0
 
+        @redraw_conversation() if redraw
+
+    redraw_conversation: () ->
         # first signal is to give views a change to record the
         # current view position before injecting new DOM
         updated 'beforeHistory'
@@ -328,6 +327,19 @@ funcs =
         # last signal is to move view to be at same place
         # as when we injected DOM.
         updated 'afterHistory'
+
+    updateHistory: (state) ->
+        conv_id = state?.conversation_id?.id
+        return unless c = lookup[conv_id]
+        c.requestinghistory = false
+        event = state?.event
+
+        @updateMetadata(state, false)
+
+        c.event = (event ? []).concat (c.event ? [])
+        c.nomorehistory = true if event?.length == 0
+
+        @redraw_conversation()
 
     updatePlaceholderImage: ({conv_id, client_generated_id, path}) ->
         return unless c = lookup[conv_id]

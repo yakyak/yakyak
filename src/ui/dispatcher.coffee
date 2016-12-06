@@ -98,6 +98,12 @@ handle 'attop', (attop) ->
 handle 'history', (conv_id, timestamp) ->
     ipc.send 'getconversation', conv_id, timestamp, 20
 
+handle 'handleconversationmetadata', (r) ->
+    return unless r.conversation_state
+    # removing events so they don't get merged
+    r.conversation_state.event = null
+    conv.updateMetadata r.conversation_state
+
 handle 'handlehistory', (r) ->
     return unless r.conversation_state
     conv.updateHistory r.conversation_state
