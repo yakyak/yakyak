@@ -37,9 +37,15 @@ drawAvatar = (user_id, viewstate, entity, image = null, email = null, initials =
     entity.needEntity(user_id) unless entity[user_id]?
     #
     # overwrites if entity is cached
-    initials = initialsof entity[user_id] if entity[user_id]?
+    initials = initialsof(entity[user_id]).toUpperCase() if entity[user_id]?
     email    = entity[user_id]?.email?[0] unless entity[user_id]?.email?[0]?
     image    = entity[user_id]?.photo_url if entity[user_id]?.photo_url?
+    # get median of two initials
+    if isNaN(user_id)
+        initialsCode = -1
+    else
+        initialsCode = user_id % 26
+
     #
     div class: 'avatar', 'data-id': user_id, ->
         if image?
@@ -55,7 +61,9 @@ drawAvatar = (user_id, viewstate, entity, image = null, email = null, initials =
             , onload: (ev) ->
                 # when loading successfuly, update again all other imgs
                 ev.target.parentElement.classList.remove "fallback-on"
-        div class: "initials #{if image then 'fallback' else ''}", initials
+        div class: "initials #{if image then 'fallback' else ''}"
+        , 'data-first-letter': initialsCode
+        , initials
 
 nameofconv = (c) ->
     {entity} = require './models'
