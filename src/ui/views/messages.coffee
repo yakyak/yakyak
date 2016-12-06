@@ -134,14 +134,15 @@ module.exports = view (models) ->
                                 window.twemoji?.parse e.target if process.platform == 'win32'
 
                             # at the end of the events group we draw who has read any of its events
-                            for e in events
-                                for chat_id in last_seen_chat_ids_with_event(last_seen, e)
-                                    drawSeenAvatar(
-                                        entity[chat_id],
-                                        e.event_id,
-                                        viewstate,
-                                        entity
-                                    ) if not entity.isSelf(chat_id)
+                            div class: 'seen-list', () ->
+                                for e in events
+                                    for chat_id in last_seen_chat_ids_with_event(last_seen, e)
+                                        drawSeenAvatar(
+                                            entity[chat_id],
+                                            e.event_id,
+                                            viewstate,
+                                            entity
+                                        ) if not entity.isSelf(chat_id)
 
     # Go through all the participants and only show his last seen status
     if c?.current_participant?
@@ -184,7 +185,7 @@ isMeMessage = (e) ->
 
 drawSeenAvatar = (u, event_id, viewstate, entity) ->
     initials = initialsof u
-    span class: "seen"
+    div class: "seen"
     , "data-id": u.id
     , "data-event-id": event_id
     , title: u.display_name
