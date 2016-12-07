@@ -40,20 +40,26 @@ drawAvatar = (user_id, viewstate, entity, image = null, email = null, initials =
     initials = initialsof(entity[user_id]).toUpperCase() if entity[user_id]?
     email    = entity[user_id]?.email?[0] unless entity[user_id]?.email?[0]?
     image    = entity[user_id]?.photo_url if entity[user_id]?.photo_url?
-    # get median of two initials
-    if isNaN(user_id)
+    #
+    # Reproducible color code for initials
+    #  see global.less for the color mapping [-1-25]
+    #     -1: ? initials
+    #   0-25: should be a uniform distribution of colors per users
+    initialsCode = viewstate.cachedInitialsCode?[user_id] ? (if isNaN(user_id)
         initialsCode = -1
     else
         initialsCode = user_id % 26
-
+    )
     #
     div class: 'avatar', 'data-id': user_id, ->
         if image?
             if !viewstate?.showAnimatedThumbs
                 image += "?sz=50"
             #
-            img src:fixlink(image), "data-initials": initials
+            img src:fixlink(image)
+            , "data-initials": initials
             , title: email
+            , class: 'fallback-on'
             ,  onerror: (ev) ->
                 # in case the image is not available, it
                 #  fallbacks to initials

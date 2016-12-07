@@ -40,7 +40,9 @@ module.exports = exp = {
     showIconNotification: tryparse(localStorage.showIconNotification) ? true
     muteSoundNotification: tryparse(localStorage.muteSoundNotification) ? false
     forceCustomSound: tryparse(localStorage.forceCustomSound) ? false
-    messageMemory: {}
+    # non persistent!
+    messageMemory: {}      # stores input when swithching conversations
+    cachedInitialsCode: {} # code used for colored initials, if no avatar
 
     setState: (state) ->
         return if @state == state
