@@ -33,7 +33,7 @@ module.exports = view (models) ->
                             drawAvatar(p.id, viewstate, entity)
 
                         if ents.length>4
-                            div class:'moreuser', ents.length
+                            div class:'moreuser', "+#{ents.length}"
                         if ur > 0 and not conv.isQuiet(c)
                             lbl = if ur >= conv.MAX_UNREAD then "#{conv.MAX_UNREAD}+" else ur + ''
                             span class:'unreadcount', lbl
