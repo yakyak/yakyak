@@ -137,12 +137,13 @@ module.exports = view (models) ->
                             div class: 'seen-list', () ->
                                 for e in events
                                     for chat_id in last_seen_chat_ids_with_event(last_seen, e)
+                                        skip = entity.isSelf(chat_id) or (chat_id == u.cid)
                                         drawSeenAvatar(
                                             entity[chat_id],
                                             e.event_id,
                                             viewstate,
                                             entity
-                                        ) if not entity.isSelf(chat_id)
+                                        ) if not skip
 
     # Go through all the participants and only show his last seen status
     if c?.current_participant?
