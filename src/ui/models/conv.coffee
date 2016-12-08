@@ -73,6 +73,15 @@ findByEventId = (conv, event_id) ->
     for e, i in conv.event ? []
         return i if e.event_id == event_id
 
+findLastReadEventsByUser = (conv) ->
+    last_seen_events_by_user = {}
+    for contact in conv.read_state
+        chat_id = contact.participant_id.chat_id
+        last_read = contact.last_read_timestamp ? contact.latest_read_timestamp
+        for e in conv.event ? [] when e.timestamp < last_read
+            last_seen_events_by_user[chat_id] = e
+    last_seen_events_by_user
+
 
 # this is used when sending new messages, we add a placeholder with
 # the correct client_generated_id. this entry will be replaced in
@@ -275,6 +284,7 @@ funcs =
     addTyping: addTyping
     pruneTyping: pruneTyping
     unreadTotal: unreadTotal
+    findLastReadEventsByUser: findLastReadEventsByUser
 
     setNotificationLevel: (conv_id, level) ->
         return unless c = lookup[conv_id]
