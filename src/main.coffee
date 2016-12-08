@@ -9,7 +9,9 @@ clipboard = require('electron').clipboard
 Menu      = require('electron').menu
 session   = require('electron').session
 
-debug = /--debug/.test(process.argv[2])
+# test if flag debug is preset (other flags can be used via package args
+#  but requres node v6)
+debug = process.argv.includes '--debug'
 
 tmp.setGracefulCleanup()
 
@@ -125,8 +127,11 @@ app.on 'ready', ->
     if debug
       mainWindow.webContents.openDevTools()
       mainWindow.maximize()
-      require('devtron').install()
-
+      mainWindow.show()
+      try
+        require('devtron').install()
+      catch
+          #do nothing
 
     # and load the index.html of the app. this may however be yanked
     # away if we must do auth.
