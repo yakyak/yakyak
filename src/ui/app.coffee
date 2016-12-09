@@ -28,7 +28,7 @@ hr'.split(' '))...
 # show tray icon as soon as browser window appers
 { trayicon } = require './views/index'
 
-contextmenu = require('./views/contextmenu')
+# contextmenu = require('./views/contextmenu')
 require('./views/menu')(viewstate)
 
 # tie layout to DOM
@@ -161,11 +161,11 @@ window.addEventListener 'beforeunload', (e) ->
         remote.getCurrentWindow().hide()
     return
 
-window.addEventListener 'contextmenu', ((e) ->
-      e.preventDefault()
-      contextmenu.popup remote.getCurrentWindow()
-      return
-), false
+#window.addEventListener 'contextmenu', ((e) ->
+#      e.preventDefault()
+#      contextmenu.popup remote.getCurrentWindow()
+#      return
+#), false
 
 # tell the startup state
 action 'wonline', window.navigator.onLine

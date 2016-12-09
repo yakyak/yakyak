@@ -83,11 +83,16 @@ app.on 'before-quit', ->
 app.on 'activate', ->
     mainWindow.show()
 
+contextMenu = require('electron-context-menu')
 loadAppWindow = ->
     mainWindow.loadURL 'file://' + __dirname + '/ui/index.html'
     # Only show window when it has some content
     mainWindow.once 'ready-to-show', () ->
         mainWindow.webContents.send 'ready-to-show'
+
+        contextMenu {
+            window: mainWindow
+        }
 
 toggleWindowVisible = ->
     if mainWindow.isVisible() then mainWindow.hide() else mainWindow.show()
