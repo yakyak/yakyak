@@ -440,7 +440,6 @@ app.on 'ready', ->
                         else
                             clipboard.writeText params.linkText
                 }]
-                console.log menuTemplate
                 Menu.buildFromTemplate(menuTemplate).popup aboutWindow
 
             aboutWindow.setMenu(null)

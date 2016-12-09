@@ -1,5 +1,4 @@
 remote      = require('electron').remote
-contextMenu = require('electron-context-menu')
 clipboard   = require('electron').clipboard
 {download}  = require('electron-dl')
 ContextMenu = remote.Menu
@@ -20,11 +19,12 @@ templateContext = (params, viewstate) ->
         label: 'Save Image'
         visible: canShowSaveImg
         click: (item, win) ->
-            download win, params.srcURL
+            try
+                download win, params.srcURL
+            catch
+                console.log 'Possible problem with saving image. ', err
     }
-    {
-        type: 'separator'
-    } if canShowSaveImg
+    { type: 'separator' } if canShowSaveImg
     {
         label: 'Undo'
         role: 'undo'
