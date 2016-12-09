@@ -23,26 +23,8 @@ templateContext = (params, viewstate) ->
             download win, params.srcURL
     }
     {
-        label: 'Copy Image Link'
-        visible: canShowCopyImgLink
-        click: (item, win) ->
-            if process.platform == 'darwin'
-                clipboard.writeBookmark params.srcURL, params.srcURL
-            else
-                clipboard.writeText params.srcURL
-    }
-    {
-        label: "Copy Link"
-        visible: canShowCopyLink
-        click: () ->
-            if process.platform == 'darwin'
-                clipboard.writeBookmark params.linkText, params.linkText
-            else
-                clipboard.writeText params.linkText
-    }
-    {
         type: 'separator'
-    } if canShowSaveImg || canShowCopyImgLink || canShowCopyLink
+    } if canShowSaveImg
     {
         label: 'Undo'
         role: 'undo'
@@ -67,6 +49,24 @@ templateContext = (params, viewstate) ->
         role: 'copy'
         enabled: params.editFlags.canCopy
         visible: true
+    }
+    {
+        label: "Copy Link"
+        visible: canShowCopyLink
+        click: () ->
+            if process.platform == 'darwin'
+                clipboard.writeBookmark params.linkText, params.linkText
+            else
+                clipboard.writeText params.linkText
+    }
+    {
+        label: 'Copy Image Link'
+        visible: canShowCopyImgLink
+        click: (item, win) ->
+            if process.platform == 'darwin'
+                clipboard.writeBookmark params.srcURL, params.srcURL
+            else
+                clipboard.writeText params.srcURL
     }
     {
         label: 'Paste'
