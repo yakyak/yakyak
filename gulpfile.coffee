@@ -315,7 +315,7 @@ deploy = (platform, arch) ->
             if ev?
                 console.log ' IMPORTANT for building Windows binaries outside Windows'
                 console.log ''
-                console.log ' It is required to have wine32 installed and configured.'
+                console.log ' It is required to have wine installed and configured. If problem persist try a different wine prefix.'
                 console.log ' -------------------------------------------------------'
 
                 console.log ''
@@ -328,8 +328,7 @@ deploy = (platform, arch) ->
                 console.log '   <architectures>:  x64  | ia32'
             else
                 console.log 'Notice: If there are problems with rcedit.exe,'
-                console.log ' please be sure to have wine 32bits installed'
-                console.log ' and configured.'
+                console.log ' please be sure to have wine installed and configured.'
             console.log '--------------------------------------------------------'
     #
     # actual packaging
