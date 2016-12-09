@@ -1,7 +1,7 @@
 autosize = require 'autosize'
 clipboard = require('electron').clipboard
 {scrollToBottom, messages} = require './messages'
-{later, toggleVisibility, convertEmoji} = require '../util'
+{later, toggleVisibility, convertEmoji, insertTextAtCursor} = require '../util'
 
 isModifierKey = (ev) -> ev.altKey || ev.ctrlKey || ev.metaKey || ev.shiftKey
 isAltCtrlMeta = (ev) -> ev.altKey || ev.ctrlKey || ev.metaKey
@@ -216,19 +216,3 @@ setClass = (boolean, element, className) ->
             element.classList.add(className)
         else
             element.classList.remove(className)
-
-
-insertTextAtCursor = (el, text) ->
-    value = el.value
-    doc = el.ownerDocument
-    if typeof el.selectionStart == "number" and typeof el.selectionEnd == "number"
-        endIndex = el.selectionEnd
-        el.value = value.slice(0, endIndex) + text + value.slice(endIndex)
-        el.selectionStart = el.selectionEnd = endIndex + text.length
-        el.focus()
-    else if doc.selection != "undefined" and doc.selection.createRange
-        el.focus()
-        range = doc.selection.createRange()
-        range.collapse(false)
-        range.text = text
-        range.select()

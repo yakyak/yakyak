@@ -28,7 +28,7 @@ hr'.split(' '))...
 # show tray icon as soon as browser window appers
 { trayicon } = require './views/index'
 
-# contextmenu = require('./views/contextmenu')
+contextmenu = require('./views/contextmenu')(viewstate)
 require('./views/menu')(viewstate)
 
 # tie layout to DOM

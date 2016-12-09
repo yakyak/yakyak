@@ -160,7 +160,23 @@ convertEmoji = (text) ->
     )
     return text
 
+insertTextAtCursor = (el, text) ->
+    value = el.value
+    doc = el.ownerDocument
+    if typeof el.selectionStart == "number" and typeof el.selectionEnd == "number"
+        endIndex = el.selectionEnd
+        el.value = value.slice(0, endIndex) + text + value.slice(endIndex)
+        el.selectionStart = el.selectionEnd = endIndex + text.length
+        el.focus()
+    else if doc.selection != "undefined" and doc.selection.createRange
+        el.focus()
+        range = doc.selection.createRange()
+        range.collapse(false)
+        range.text = text
+        range.select()
+
 module.exports = {nameof, initialsof, nameofconv, linkto, later,
                   throttle, uniqfn, isAboutLink, getProxiedName, tryparse,
                   fixlink, topof, isImg, getImageUrl, toggleVisibility,
-                  convertEmoji, drawAvatar, notificationCenterSupportsSound}
+                  convertEmoji, drawAvatar, notificationCenterSupportsSound,
+                  insertTextAtCursor}
