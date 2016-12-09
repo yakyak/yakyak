@@ -315,7 +315,8 @@ deploy = (platform, arch) ->
             if ev?
                 console.log ' IMPORTANT for building Windows binaries outside Windows'
                 console.log ''
-                console.log ' It is required to have wine installed and configured. If problem persist try a different wine prefix.'
+                console.log ' It is required to have wine installed and configured.'
+                console.log ' If problem persist try a different wine prefix.
                 console.log ' -------------------------------------------------------'
 
                 console.log ''
