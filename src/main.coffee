@@ -5,9 +5,7 @@ ipc       = require('electron').ipcMain
 fs        = require 'fs'
 path      = require 'path'
 tmp       = require 'tmp'
-Menu      = require('electron').Menu
 session   = require('electron').session
-clipboard = require('electron').clipboard
 
 # test if flag debug is preset (other flags can be used via package args
 #  but requres node v6)
@@ -422,26 +420,6 @@ app.on 'ready', ->
 
         aboutWindow.loadURL 'file://' + __dirname + '/ui/about.html'
         aboutWindow.once 'ready-to-show', () ->
-            # simple context menu that can only copy
-            aboutWindow.webContents.on 'context-menu', (e, params) ->
-                e.preventDefault()
-                menuTemplate = [{
-                    label: 'Copy'
-                    role: 'copy'
-                    enabled: params.editFlags.canCopy
-                }
-                {
-                    label: "Copy Link"
-                    visible: params.linkURL != '' and params.mediaType == 'none'
-                    click: () ->
-                        if process.platform == 'darwin'
-                            clipboard
-                            .writeBookmark params.linkText, params.linkText
-                        else
-                            clipboard.writeText params.linkText
-                }]
-                Menu.buildFromTemplate(menuTemplate).popup aboutWindow
-
             aboutWindow.setMenu(null)
             aboutWindow.show()
 
