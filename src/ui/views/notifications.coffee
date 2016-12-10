@@ -38,10 +38,10 @@ module.exports = (models) ->
             return unless msg.chat_message?.message_content?
             text = textMessage msg.chat_message.message_content, proxied
         else if msg.hangout_event?.event_type == 'START_HANGOUT'
-            text = "Incoming call"
+            text = i18n.__ "Incoming call"
             callNeedAnswer[conv_id] = true
             notr
-                html: "#{i18n.__ 'Incoming call' from} #{sender}. " +
+                html: "#{i18n.__ 'Incoming call from'} #{sender}. " +
                 "<a href=\"#\" class=\"accept\">#{i18n.__ 'Accept'}</a> / " +
                 "<a href=\"#\" class=\"reject\">#{i18n.__ 'Reject'}</a>"
                 stay: 0
