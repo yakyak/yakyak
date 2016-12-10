@@ -1,6 +1,9 @@
 {
     "__MyLocaleLanguage__": "Português",
     "__maintaner__": "@averissimo",
+
+    "Language:": "Idioma (Language)",
+
     "Connecting": "A Ligar",
     "Loading Contacts": "Carregar Contactos",
     "Not connected (check connection)": "Não Ligado (verifique a ligação)",

@@ -1,6 +1,9 @@
 {
     "__MyLocaleLanguage__": "Français",
     "__maintaner__": "@Fredouye",
+
+    "Language:": "Language",
+
     "Connecting": "Connexion",
     "Loading Contacts": "Chargement des contacts",
     "Not connected (check connection)": "Non connecté (vérifier la connexion)",

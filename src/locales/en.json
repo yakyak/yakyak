@@ -1,5 +1,9 @@
 {
     "__MyLocaleLanguage__": "English",
+    "__maintaner__": "YakYak",
+
+    "Language:": "Idioma (Language)",
+
     "Connecting": "Connecting",
     "Loading Contacts": "Loading Contacts",
     "Not connected (check connection)": "Not connected (check connection)",
