@@ -1,15 +1,13 @@
-ipc  = require('electron').ipcRenderer
-path = require 'path'
-
+ipc    = require('electron').ipcRenderer
+path   = require 'path'
 remote = require('electron').remote
 
 {check, versionToInt} = require '../version'
 
 trifl = require 'trifl'
-trifl.expose window
 
 # expose some selected tagg functions
-trifl.tagg.expose window, ('ul li div span a i b u s button p label
+trifl.tagg.expose window, ('layout ul li div span a i b u s button p label
 input table thead tbody tr td th textarea br pass img h1 h2 h3 h4
 hr em'.split(' '))...
 

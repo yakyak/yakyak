@@ -15,7 +15,7 @@ check = (noAlert = false)->
         return console.log err if err
         body = JSON.parse body
         tag = body.tag_name
-        releasedVersion = tag.substr(1) # remove first "v" char
+        releasedVersion = tag?.substr(1) # remove first "v" char
         localVersion = require('electron').remote.require('electron').app.getVersion()
         versionAdvertised = window.localStorage.versionAdvertised or null
         if releasedVersion? && localVersion?
