@@ -15,11 +15,22 @@
 
     "Conversations": "Conversas",
     "Conversation": "Conversa",
+    "Conversation options": "Opções da conversa",
+    "Conversation settings": "Definições da conversa",
+    "Settings": "Definições",
+    "Toggle notifications": "Ativar/Desativar notificações",
+    "Star/unstar": "Marcar/Desmarcar como favorito",
     "Favorites": "Favoritos",
     "Favorite": "Favorito",
     "Recent": "Recente",
     "Notifications": "Notificações",
     "Details": "Detalhes",
+
+    "Incoming call": "Chamada",
+    "Incoming call from": "Chamada de from",
+    "Accepted": "Aceitada",
+    "Rejected": "Rejeitada",
+    "Missed call from": "Chamada perdida de",
 
     "Add new conversation": "Adicionar nova conversa",
     "New conversation": "Nova conversa",

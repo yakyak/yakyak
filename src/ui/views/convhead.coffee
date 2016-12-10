@@ -15,26 +15,26 @@ module.exports = view (models) ->
       if conv.isStarred(c)
         span class:'material-icons', "star"
       name
-    div class:'button', title:'Conversation options',
+    div class:'button', title: i18n.__('Conversation options'),
       onclick:convoptions, -> span class:'material-icons', 'more_vert'
     div class:'convoptions', ->
-      div class:'button', title:'Conversation settings',
-        div class:'button', title:'Toggle notifications', onclick:onclickaction('togglenotif'), ->
+      div class:'button', title:i18n.__('Conversation settings'),
+        div class:'button', title: i18n.__('Toggle notifications'), onclick:onclickaction('togglenotif'), ->
                 if conv.isQuiet(c)
                     span class:'material-icons', 'notifications_off'
                 else
                     span class:'material-icons', 'notifications'
-                div class:'option-label', i18n.__ 'Notifications'
-            div class:'button', title:'Star/unstar', onclick:onclickaction('togglestar'), ->
+                div class:'option-label', i18n.__('Notifications')
+            div class:'button', title:i18n.__('Star/unstar'), onclick:onclickaction('togglestar'), ->
                   if not conv.isStarred(c)
                     span class:'material-icons', 'star_border'
                   else
                     span class:'material-icons', 'star'
-                  div class:'option-label', i18n.__ 'Favorite'
-              div class:'button', title:'Settings',
+                  div class:'option-label', i18n.__('Favorite')
+              div class:'button', title:i18n.__('Settings'),
           onclick:onclickaction('convsettings'), ->
             span class:'material-icons', 'info_outline'
-            div class:'option-label', i18n.__ 'Details'
+            div class:'option-label', i18n.__('Details')
 
 convoptions  = ->
   {viewstate} = models

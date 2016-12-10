@@ -15,11 +15,22 @@
 
     "Conversations": "Conversations",
     "Conversation": "Conversation",
+    "Conversation options": "Conversation options",
+    "Conversation settings": "Conversation settings",
+    "Settings": "Settings",
+    "Toggle notifications": "Toggle notifications",
+    "Star/unstar": "Star/unstar",
     "Favorites": "Favorites",
     "Favorite": "Favorite",
     "Recent": "Recent",
     "Notifications": "Notifications",
     "Details": "Details",
+
+    "Incoming call": "Incoming call",
+    "Incoming call from": "Incoming call from",
+    "Accepted": "Accepted",
+    "Rejected": "Rejected",
+    "Missed call from": "Missed call from",
 
     "Add new conversation": "Add new conversation",
     "New conversation": "New conversation",
