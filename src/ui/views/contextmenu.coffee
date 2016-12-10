@@ -1,6 +1,6 @@
 remote      = require('electron').remote
 clipboard   = require('electron').clipboard
-{download}  = require('electron-dl')
+# {download}  = require('electron-dl') # See IMPORTANT below
 ContextMenu = remote.Menu
 
 templateContext = (params, viewstate) ->
@@ -11,7 +11,10 @@ templateContext = (params, viewstate) ->
         hasPasteableContent += pasteableContent.includes(content)
     hasPasteableContent = hasPasteableContent > 0
     #
-    canShowSaveImg = params.mediaType == 'image'
+    #          IMPORTANT: currently save images is disabled as there
+    #            are exceptions being thrown from the electron-dl module
+    #
+    canShowSaveImg = params.mediaType == 'image' && false
     canShowCopyImgLink = params.mediaType == 'image' && params.srcURL != ''
     canShowCopyLink = params.linkURL != '' && params.mediaType == 'none'
     #
