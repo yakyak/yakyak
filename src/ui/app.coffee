@@ -18,6 +18,12 @@ window.onerror = (msg, url, lineNo, columnNo, error) ->
     hash = {msg, url, lineNo, columnNo, error}
     ipc.send 'errorInWindow', hash
 
+window.i18n = require('i18n')
+
+i18n.configure {
+    directory: require('path').join __dirname, '..', 'locales'
+}
+
 # expose some selected tagg functions
 trifl.tagg.expose window, ('ul li div span a i b u s button p label
 input table thead tbody tr td th textarea br pass img h1 h2 h3 h4

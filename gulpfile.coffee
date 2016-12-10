@@ -35,6 +35,7 @@ paths =
     html:    './src/**/*.html'
     images:  './src/**/images/*.*'
     icons:   './src/icons'
+    locales: './src/locales/*.json'
     media:   './src/media/*.*'
     less:    './src/ui/css/manifest.less'
     lessd:   './src/ui/css/**/*.less'
@@ -106,6 +107,11 @@ gulp.task 'html', ->
     gulp.src paths.html
         .pipe htmlInject()
         .pipe gulp.dest outapp
+
+# copy images
+gulp.task 'locales', ->
+    gulp.src paths.locales
+        .pipe gulp.dest path.join outapp, 'locales'
 
 # copy images
 gulp.task 'media', ->
@@ -181,7 +187,7 @@ gulp.task 'clean', (cb) ->
     rimraf outapp, cb
 
 gulp.task 'default', ['package', 'coffee', 'html', 'images', 'media',
-                      'icons', 'less', 'fontello']
+                      'locales', 'icons', 'less', 'fontello']
 
 gulp.task 'watch', ['default', 'reloader', 'html'], ->
     # watch to rebuild
