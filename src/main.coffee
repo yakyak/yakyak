@@ -137,6 +137,25 @@ app.on 'ready', ->
     # away if we must do auth.
     loadAppWindow()
 
+    #
+    #
+    # Handle uncaught exceptions from the main process
+    process.on 'uncaughtException', (msg) ->
+        ipcsend 'expcetioninmain', msg
+        #
+        console.log "Error on main process:\n#{msg}\n" +
+            "--- End of error message. More details:\n", msg
+
+    #
+    #
+    # Handle crashes on the main window and show in console
+    mainWindow.webContents.on 'crashed', (msg) ->
+        console.log 'Crash event on main window!', msg
+        ipc.send 'expcetioninmain', {
+            msg: 'Detected a crash event on the main window.'
+            event: msg
+        }
+
     # short hand
     ipcsend = (as...) ->  mainWindow.webContents.send as...
 

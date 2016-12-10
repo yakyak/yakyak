@@ -65,6 +65,16 @@ ipc.on 'ready-to-show', () ->
              remote.getGlobal('windowHideWhileCred') != true
         mainWindow.show()
 
+#
+#
+# Get information on exceptions in main process
+#  - Exceptions that were caught
+#  - Window crashes
+ipc.on 'expcetioninmain', (error) ->
+    console.log (msg = "Possible fatal error on main process" +
+        ", YakYak could stop working as expected."), error
+    notr msg, {stay: 0}
+
 # wire up stuff from server
 ipc.on 'init', (ev, data) -> dispatcher.init data
 # events from hangupsjs
@@ -118,6 +128,21 @@ window.addEventListener 'unload', (ev) ->
 
     window = null
     action 'quit'
+
+#
+#
+# Catch unresponsive events
+remote.getCurrentWindow().on 'unresponsive', (error) ->
+    notr msg = "Warning: YakYak is becoming unresponsive.",
+        { id: 'unresponsive'}
+    console.log 'Unresponsive event', msg
+    ipc.send 'errorInWindow', 'Unresponsive window'
+
+#
+#
+# Show a message
+remote.getCurrentWindow().on 'responsive', () ->
+    notr "Back to normal again!", { id: 'unresponsive'}
 
 # Listen to close and quit events
 window.addEventListener 'beforeunload', (e) ->
