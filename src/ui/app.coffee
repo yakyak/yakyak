@@ -22,11 +22,9 @@ window.i18n = require('i18n')
 
 i18n.configure {
     directory: require('path').join __dirname, '..', 'locales'
-    locales: ['pt', 'en']
-    defaultLocale: 'pt'
+    locales: ['en', 'pt-Bixu']
+    defaultLocale: 'pt-Bixu'
 }
-
-window.navigator.language = 'pt'
 
 # expose some selected tagg functions
 trifl.tagg.expose window, ('ul li div span a i b u s button p label
