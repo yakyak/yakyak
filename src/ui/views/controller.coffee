@@ -30,8 +30,6 @@ handle 'update:connection', do ->
                 # add check connection to "Not Connected"
                 .replace /(Not connected)/,
                          '$1 (check connection)')
-            console.log startupConnEl.innerHTML
-            console.log i18n.__ 'Not connected'
             if document.querySelector('.connecting.hide')?
                 el = notr {html:conninfo.el.innerHTML, stay:0, id:'conn'}
             else

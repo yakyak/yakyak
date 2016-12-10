@@ -356,6 +356,13 @@ handle 'delete', (a) ->
     return unless c = conv[conv_id]
     conv.deleteConv conv_id
 
+#
+#
+# Change language in YakYak
+#
+handle 'changelanguage', (language) ->
+    viewstate.setLanguage(language)
+
 handle 'deleteconv', (confirmed) ->
     conv_id = viewstate.selectedConv
     unless confirmed

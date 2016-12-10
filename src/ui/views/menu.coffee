@@ -86,6 +86,19 @@ templateYakYak = (viewstate) ->
     ].filter (n) -> n != undefined
 
 templateEdit = (viewstate) ->
+    languages = for loc in i18n.getLocales()
+        {
+            label: i18n.getCatalog(loc).__MyLocaleLanguage__
+            type: 'radio'
+            checked: viewstate.language == loc
+            value: loc
+            click: (it) ->
+                action 'changelanguage', it.value
+        }
+    #
+    console.log 'langs:', languages
+    console.log 'cataçlog:',  i18n.getCatalog()
+    #
     [
         {
             label: i18n.__ 'Undo'
@@ -111,6 +124,10 @@ templateEdit = (viewstate) ->
         {
             label: i18n.__ 'Select All'
             role: 'selectall'
+        }
+        {
+            label: i18n.__('Language')
+            submenu: languages
         }
     ].filter (n) -> n != undefined
 
