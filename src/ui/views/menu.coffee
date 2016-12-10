@@ -95,10 +95,6 @@ templateEdit = (viewstate) ->
             click: (it) ->
                 action 'changelanguage', it.value
         }
-    #
-    console.log 'langs:', languages
-    console.log 'cataçlog:',  i18n.getCatalog()
-    #
     [
         {
             label: i18n.__ 'Undo'
