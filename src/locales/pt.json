@@ -120,5 +120,12 @@
     "Show window": "Mostrar janela",
     "Toggle minimize to tray": "Mostrar janela / minimizar para tray",
     "Start minimized to tray": "Começar minimizado no tray",
-    "Close to tray": "Fechar para o tray"
+    "Close to tray": "Fechar para o tray",
+
+    "A newer version is available, please upgrade from ": "Uma versão mais recente encontra-se disponível, por favor atualize de",
+    "to": "para",
+    "Desktop client for Google Hangouts": "Cliente de Desktop para Google Hangouts",
+    "License": "Licensa",
+    "Main authors": "Autores principais",
+    "Contributors": "Contribuidores"
 }

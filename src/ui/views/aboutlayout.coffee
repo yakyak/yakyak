@@ -1,5 +1,6 @@
-ipc    = require('electron').ipcRenderer
-path   = require 'path'
+ipc  = require('electron').ipcRenderer
+path = require 'path'
+i18n = require 'i18n'
 remote = require('electron').remote
 
 {check, versionToInt} = require '../version'
@@ -34,22 +35,22 @@ module.exports = exp = trifl.layout ->
         #        time about window is opened
         #if releasedVersion? && localVersion? && versionToInt(releasedVersion) > versionToInt(localVersion)
             div class: 'update', ->
-                span 'A newer version is available, please upgrade from ' +
-                     localVersion + ' to ' + releasedVersion
+                span i18n.__('A newer version is available, please upgrade from') + ' ' +
+                     localVersion + " #{i18n.__ 'to'} " + releasedVersion
         div class: 'description', ->
-            span 'Desktop client for Google Hangouts'
+            span i18n.__('Desktop client for Google Hangouts')
         div class: 'license', ->
             span ->
-                em 'License: '
+                em "#{i18n.__ 'License'}: "
                 span 'MIT'
         div class: 'devs', ->
             div ->
-                h3 'Main authors'
+                h3 i18n.__('Main authors')
                 ul ->
                     li 'Davide Bertola'
                     li 'Martin Algesten'
             div ->
-                h3 'Contributors'
+                h3 i18n.__('Contributors')
                 ul ->
                     li 'David Banham'
                     li 'Max Kueng'

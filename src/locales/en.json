@@ -120,5 +120,12 @@
     "Show window": "Show window",
     "Toggle minimize to tray": "Toggle minimize to tray",
     "Start minimized to tray": "Start minimized to tray",
-    "Close to tray": "Close to tray"
+    "Close to tray": "Close to tray",
+
+    "A newer version is available, please upgrade from ": "A newer version is available, please upgrade from ",
+    "to": "to",
+    "Desktop client for Google Hangouts": "Desktop client for Google Hangouts",
+    "License": "License",
+    "Main authors": "Main authors",
+    "Contributors": "Contributors"
 }
