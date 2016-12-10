@@ -125,6 +125,7 @@ templateEdit = (viewstate) ->
             label: i18n.__ 'Select All'
             role: 'selectall'
         }
+        { type: 'separator' }
         {
             label: i18n.__('Language')
             submenu: languages
