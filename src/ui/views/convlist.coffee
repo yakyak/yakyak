@@ -1,6 +1,8 @@
 moment = require 'moment'
 {nameof, initialsof, nameofconv, fixlink, drawAvatar} = require '../util'
 
+moment.locale(i18n.getLocale())
+
 module.exports = view (models) ->
     {conv, entity, viewstate} = models
     clz = ['convlist']
@@ -70,10 +72,10 @@ module.exports = view (models) ->
         starred = (c for c in convs when conv.isStarred(c))
         others = (c for c in convs when not conv.isStarred(c))
         div class: 'starred', ->
-            div class: 'label', 'Favorites' if starred.length > 0
+            div class: 'label', i18n.__ 'Favorites' if starred.length > 0
             starred.forEach renderConv
         div class: 'others', ->
-            div class: 'label', 'Recent' if starred.length > 0
+            div class: 'label', i18n.__ 'Recent' if starred.length > 0
             others.forEach renderConv
 
 # possible classes of messages

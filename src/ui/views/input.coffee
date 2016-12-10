@@ -90,7 +90,7 @@ module.exports = view (models) ->
                                         insertTextAtCursor element, emoji
 
         div class:'input-container', ->
-            textarea id:'message-input', autofocus:true, placeholder:'Message', rows: 1, ''
+            textarea id:'message-input', autofocus:true, placeholder: i18n.__('Message'), rows: 1, ''
             , onDOMNodeInserted: (e) ->
                 # at this point the node is still not inserted
                 ta = e.target
@@ -148,13 +148,13 @@ module.exports = view (models) ->
                 , 2
 
             span class:'button-container', ->
-                button title:'Show emoticons', onclick: (ef) ->
+                button title: i18n.__('Show emoticons'), onclick: (ef) ->
                     document.querySelector('#emoji-container').classList.toggle('open')
                     scrollToBottom()
                 , ->
                     span class:'material-icons', "mood"
             , ->
-                button title:'Attach image', onclick: (ev) ->
+                button title: i18n.__('Attach image'), onclick: (ev) ->
                     document.getElementById('attachFile').click()
                 , ->
                     span class:'material-icons', 'photo'

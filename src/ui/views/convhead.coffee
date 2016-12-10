@@ -24,17 +24,17 @@ module.exports = view (models) ->
                     span class:'material-icons', 'notifications_off'
                 else
                     span class:'material-icons', 'notifications'
-                div class:'option-label', 'Notifications'
+                div class:'option-label', i18n.__ 'Notifications'
             div class:'button', title:'Star/unstar', onclick:onclickaction('togglestar'), ->
                   if not conv.isStarred(c)
                     span class:'material-icons', 'star_border'
                   else
                     span class:'material-icons', 'star'
-                  div class:'option-label', 'Favorite'
+                  div class:'option-label', i18n.__ 'Favorite'
               div class:'button', title:'Settings',
           onclick:onclickaction('convsettings'), ->
             span class:'material-icons', 'info_outline'
-            div class:'option-label', 'Details'
+            div class:'option-label', i18n.__ 'Details'
 
 convoptions  = ->
   {viewstate} = models

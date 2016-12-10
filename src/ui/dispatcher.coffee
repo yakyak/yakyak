@@ -359,7 +359,7 @@ handle 'delete', (a) ->
 handle 'deleteconv', (confirmed) ->
     conv_id = viewstate.selectedConv
     unless confirmed
-        later -> if confirm 'Really delete conversation?'
+        later -> if confirm i18n.__('Really delete conversation?')
             action 'deleteconv', true
     else
         ipc.send 'deleteconversation', conv_id
@@ -369,7 +369,7 @@ handle 'deleteconv', (confirmed) ->
 handle 'leaveconv', (confirmed) ->
     conv_id = viewstate.selectedConv
     unless confirmed
-        later -> if confirm 'Really leave conversation?'
+        later -> if confirm i18n.__('Really leave conversation?')
             action 'leaveconv', true
     else
         ipc.send 'removeuser', conv_id
