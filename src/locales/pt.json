@@ -1,0 +1,117 @@
+{
+    "__MyLocaleLanguage__": "Português",
+    "Connecting": "A Ligar",
+    "Loading Contacts": "A Carregar Contactos",
+    "Not connected (check connection)": "Não Ligado (verifique a ligação)",
+
+    "Message": "Mensagem",
+    "Show emoticons": "Mostrar emoji",
+    "Attach image": "Anexar imagem",
+
+    "Conversations": "Conversas",
+    "Conversation": "Conversa",
+    "Favorites": "Favoritos",
+    "Favorite": "Favorito",
+    "Recent": "Recente",
+    "Notifications": "Notificalões",
+    "Details": "Detalhes",
+
+    "Add new conversation": "Adicionar nova conversa",
+    "New conversation": "Nova conversa",
+    "Conversation name": "Nome da conversa",
+    "Conversation edit": "Editar conversa",
+    "Create multiuser chat": "Criar conversa com várias pessoas",
+    "Delete conversation": "Apagar conversa",
+    "Really delete conversation?": "Deseja realmente apagar conversa?",
+    "Leave conversation": "Sair da conversa",
+    "Really leave conversation?": "Deseja realmente sair da conversa?",
+    "Search people": "Procurar pessoas",
+    "OK": "OK",
+    "Cancel": "Cancelar",
+
+    "Menu": "Menu",
+
+    "YakYak": "YakYak",
+    "Edit": "Editar",
+    "View": "Ver",
+    "About": "Sobre",
+    "Window": "Window",
+
+    "Open Inspector": "Abrir Inspector",
+    "Logout": "Terminar sessão",
+    "Quit": "Sair",
+
+    "About YakYak": "Sobre YakYak",
+    "Hide YakYak": "Esconder YakYak",
+    "Hide Others": "Esconder Outros",
+    "Minimize": "Minimizar",
+    "Show All": "Mostrar Todos",
+    "Close": "Fechar",
+    "Bring All to Front": "Trazer Todos para a Frente",
+
+    "Undo": "Desfazer",
+    "Redo": "Refazer",
+    "Paste": "Colar",
+    "Cut": "Cortar",
+    "Copy": "Copiar",
+    "Select All": "Selecionar Todos",
+
+    "Conversation List": "Lista de Conversas",
+    "Show Thumbnails": "Mostrar Miniaturas",
+    "Show Thumbnails Only": "Mostrar Apenas Miniaturas",
+    "Show Animated Thumbnails": "Mostrar Miniaturas com Animações",
+    "Show Conversation Timestamp": "Mostrar Carimbo de Hora",
+    "Show Conversation Last Message": "Mostrar Última Mensage",
+
+    "Pop-Up Notification": "Notificações",
+    "Show notifications": "Mostrar notificações",
+    "Show message in notifications": "Mostrar mensagem nas notificações",
+    "Show username in notifications": "Mostrar nome de utilizador nas notificações",
+    "Disable sound in notifications": "Desactivar som nas notificações",
+    "Show user avatar icon in notifications": "Mostrar miniatura do utilizador em notificações",
+    "Show YakYak icon in notifications": "Mostrar icon de YakYak em notificações",
+    "Use YakYak custom sound for notifications": "Usar som customizado de YakYak em notificações",
+
+    "Convert text to emoji": "Converter texto para emoji",
+
+    "Color Scheme": "Esquema de Cores",
+    "Default": "Original",
+    "Blue": "Azul",
+    "Dark": "Escuro",
+    "Material": "Material",
+
+    "Font Size": "Tamanho de Fonte",
+    "Extra Small": "Muito Pequena",
+    "Small": "Pequena",
+    "Medium": "Media",
+    "Large": "Grande",
+    "Extra Large": "Muito Grande",
+
+    "Toggle Fullscreen": "Alternar Ecrã Inteiro",
+    "Zoom in": "Zoom in",
+    "Zoom out": "Zoom out",
+    "Actual size": "Tamnho Original",
+
+    "Previous Conversation": "Conversa Anterior",
+    "Next Conversation": "Conversa Seguinte",
+    "Select Conversation": "Seleccionar Conversa",
+    "Conversation 1": "Conversa 1",
+    "Conversation 2": "Conversa 2",
+    "Conversation 3": "Conversa 3",
+    "Conversation 4": "Conversa 4",
+    "Conversation 5": "Conversa 5",
+    "Conversation 6": "Conversa 6",
+    "Conversation 7": "Conversa 7",
+    "Conversation 8": "Conversa 8",
+    "Conversation 9": "Conversa 9",
+
+    "Show tray icon": "Mostrar icon no tray",
+
+    "Escape key behavior": "Comportament da tecla Escape",
+
+    "Hides window": "Esconder Janela",
+    "Clears input": "Limpar a mensagem atual",
+    "default when tray is not showing": "opção por defeito quando tray não está visível",
+
+    "Hide Dock icon": "Esconder Ícone da Dock"
+}
