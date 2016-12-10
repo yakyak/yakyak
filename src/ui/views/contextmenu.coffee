@@ -3,13 +3,10 @@ clipboard   = require('electron').clipboard
 # {download}  = require('electron-dl') # See IMPORTANT below
 ContextMenu = remote.Menu
 
+{isContentPasteable} = require '../util'
+
 templateContext = (params, viewstate) ->
-    formats = clipboard.availableFormats()
-    pasteableContent = ['text/plain', 'image/png']
-    hasPasteableContent = 0
-    for content in formats
-        hasPasteableContent += pasteableContent.includes(content)
-    hasPasteableContent = hasPasteableContent > 0
+
     #
     #          IMPORTANT: currently save images is disabled as there
     #            are exceptions being thrown from the electron-dl module
@@ -73,17 +70,9 @@ templateContext = (params, viewstate) ->
     }
     {
         label: 'Paste'
-        role: 'paste' if params.isEditable
-        visible: (hasPasteableContent || params.isEditable)
-        enabled: hasPasteableContent
-        # if there is a role, then click is ignored
-        click: () ->
-            if viewstate.state == viewstate.STATE_NORMAL
-                formats = clipboard.availableFormats()
-                if formats.includes 'text/plain'
-                    action 'pastetext', clipboard.readText()
-                else if formats.includes 'image/png'
-                    action 'onpasteimage'
+        role: 'paste'
+        visible: (isContentPasteable() &&
+            viewstate.state == viewstate.STATE_NORMAL) || params.isEditable
     }].filter (n) -> n != undefined
 
 module.exports = (e, viewstate) ->

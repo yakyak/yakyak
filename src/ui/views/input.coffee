@@ -40,11 +40,7 @@ module.exports = view (models) ->
         div id: 'preview-container', ->
             div class: 'close-me material-icons'
                 , onclick: (e) ->
-                    element = document.getElementById 'preview-img'
-                    element.src = ''
-                    document.getElementById('attachFile').value = ''
-                    document.querySelector('#preview-container')
-                        .classList.remove('open')
+                    clearsImagePreview()
                 , ->
                     span ''
             div class: 'relative'
@@ -121,6 +117,9 @@ module.exports = view (models) ->
                             document.getElementById("message-input").focus()
                             document.execCommand("selectAll", false)
                             document.execCommand("insertText", false, "")
+                            # also remove image preview
+                            clearsImagePreview()
+
                     if e.keyCode == 13
                         e.preventDefault()
                         preparemessage e.target
@@ -168,6 +167,13 @@ module.exports = view (models) ->
     if lastConv != models.viewstate.selectedConv
         lastConv = models.viewstate.selectedConv
         laterMaybeFocus()
+
+clearsImagePreview = ->
+    element = document.getElementById 'preview-img'
+    element.src = ''
+    document.getElementById('attachFile').value = ''
+    document.querySelector('#preview-container')
+        .classList.remove('open')
 
 laterMaybeFocus = -> later maybeFocus
 
