@@ -1,7 +1,7 @@
 {
     "__MyLocaleLanguage__": "Português",
     "Connecting": "A Ligar",
-    "Loading Contacts": "A Carregar Contactos",
+    "Loading Contacts": "Carregar Contactos",
     "Not connected (check connection)": "Não Ligado (verifique a ligação)",
 
     "Message": "Mensagem",
@@ -114,5 +114,11 @@
     "Clears input": "Limpar a mensagem atual",
     "default when tray is not showing": "opção por defeito quando tray não está visível",
 
-    "Hide Dock icon": "Esconder Ícone da Dock"
+    "Hide Dock icon": "Esconder Ícone da Dock",
+
+    "YakYak - Hangouts client": "YakYak - Cliente Hangouts",
+    "Show window": "Mostrar janela",
+    "Toggle minimize to tray": "Mostrar janela / minimizar para tray",
+    "Start minimized to tray": "Começar minimizado no tray",
+    "Close to tray": "Fechar para o tray"
 }

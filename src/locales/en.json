@@ -114,5 +114,11 @@
     "Clears input": "Clears input",
     "default when tray is not showing": "default when tray is not showing",
 
-    "Hide Dock icon": "Hide Dock icon"
+    "Hide Dock icon": "Hide Dock icon",
+
+    "YakYak - Hangouts client": "YakYak - Cliente Hangouts",
+    "Show window": "Show window",
+    "Toggle minimize to tray": "Toggle minimize to tray",
+    "Start minimized to tray": "Start minimized to tray",
+    "Close to tray": "Close to tray"
 }
