@@ -35,6 +35,7 @@ window.i18n = require('i18n')
 i18n.configure {
     directory: path.join __dirname, '..', 'locales'
     defaultLocale: 'en' # fallback
+    objectNotation: true
 }
 
 # Set locale if exists, otherwise, keep 'en'
