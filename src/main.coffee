@@ -428,6 +428,10 @@ app.on 'ready', ->
           titleBarStyle: 'hidden'
         }
 
+        # open devtools on about
+        #BrowserWindow.getAllWindows()[1].openDevTools()
+
+        aboutWindow.loadURL 'file://' + __dirname + '/ui/about.html'
         #
         #
         # Handle crashes on the main window and show in console
@@ -438,13 +442,12 @@ app.on 'ready', ->
                 event: msg
             }
 
-        aboutWindow.loadURL 'file://' + __dirname + '/ui/about.html'
         aboutWindow.once 'ready-to-show', () ->
             aboutWindow.setMenu(null)
             aboutWindow.show()
-
+            #
             aboutWindow.on 'blur', ->
-                aboutWindow.close()
+                #aboutWindow.close()
 
     ipc.on 'errorInWindow', (ev, error, winName = 'YakYak') ->
         console.log "Error on #{winName} window:\n", error, "\n--- End of error message in #{winName} window."

@@ -12,6 +12,12 @@ trifl.tagg.expose window, ('ul li div span a i b u s button p label
 input table thead tbody tr td th textarea br pass img h1 h2 h3 h4
 hr em'.split(' '))...
 
+i18nOpts = remote.getGlobal('i18nOpts')
+#
+# Configuring supporting languages here
+i18n.configure i18nOpts.opts
+i18n.setLocale(i18nOpts.locale) if i18nOpts.locale?
+
 attachListeners = ->
     return
     # do nothing

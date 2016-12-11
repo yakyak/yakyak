@@ -4,6 +4,7 @@ ipc       = require('electron').ipcRenderer
 remote    = require('electron').remote
 clipboard = require('electron').clipboard
 Menu      = remote.Menu
+path = require 'path'
 
 #
 #
