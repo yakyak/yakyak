@@ -66,7 +66,7 @@ ipc.on 'ready-to-show', () ->
             mainWindow.webContents.focus()
             el = window.document.getElementById('message-input')
             # focus on specific element
-            el.focus()
+            el?.focus()
 
     # hide menu bar in all platforms but darwin
     unless process.platform is 'darwin'
