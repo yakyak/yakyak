@@ -70,8 +70,11 @@ update = (unreadCount, viewstate) ->
           checked: viewstate.hidedockicon
           click: -> action 'togglehidedockicon'
         } if os.platform() == 'darwin'
-
-        { label: i18n.__ 'menu.file.quit', click: -> action 'quit' }
+        
+        {
+          label: i18n.__('menu.file.quit'),
+          click: -> action 'quit'
+        }
     ])
 
     contextMenu = Menu.buildFromTemplate templateContextMenu

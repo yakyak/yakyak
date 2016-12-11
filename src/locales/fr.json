@@ -1,11 +1,11 @@
 {
     "__MyLocaleLanguage__": "Français",
-    "__maintaner__": "http://github/Fredouye",
+    "__maintaner__": "http://github.com/Fredouye",
 
-    "title": "YakYak - Client Hangout",
-    "description": "Client de Desktop pour Google Hangouts",
+    "title": "YakYak - Client Hangouts",
+    "description": "Application de bureau Hangouts",
 
-    "settings": "Settings",
+    "settings": "Paramètres",
     "recent": "Récent",
     "details": "Détails",
 
@@ -19,27 +19,27 @@
         "message": "Message",
         "emoticons": "Afficher les emojis",
         "image": "Joindre une photo",
-        "typing": "is typing"
+        "typing": "est en train d'écrire"
     },
     "conversation": {
         "title": {
-          "one": "Conversation",
-          "other": "Conversations"
+            "one": "Conversation",
+            "other": "Conversations"
         },
         "numbered": "Conversation %d",
-        "options": "Conversation options",
-        "setting": "Conversation settings",
+        "options": "Options de conversation",
+        "setting": "Paramètres de conversation",
         "add": "Ajouter une nouvelle conversation",
         "new": "Nouvelle conversation",
         "name": "Nom de la conversation",
         "edit": "Modifier la conversation",
         "multiuser": "Démarrer un Hangout en groupe",
         "delete": "Effacer la conversation",
-        "delete_confirm": "Voulez-vous vraiment effacer la conversation?",
+        "delete_confirm": "Voulez-vous vraiment effacer la conversation ?",
         "leave": "Quitter la conversation",
-        "leave_confirm": "Voulez-vous vraiment quitter la conversation",
+        "leave_confirm": "Voulez-vous vraiment quitter la conversation ?",
         "search": "Chercher des contacts",
-        "new_message": "Nouvelle Message"
+        "new_message": "Nouveau message"
     },
     "notification": {
         "one": "Notification",
@@ -50,20 +50,20 @@
             "one": "Favori",
             "other": "Favoris"
         },
-        "star_it": "Star / unstar"
+        "star_it": "Mettre en favori / Enlever des favoris"
     },
     "actions": {
       "ok": "OK",
       "cancel": "Annuler"
     },
     "call": {
-        "incoming": "Incoming call",
-        "incoming_from": "Incoming call from %s",
-        "accepted": "Accepted",
-        "accept": "Accept",
-        "rejected": "Rejected",
-        "reject": "Reject",
-        "missed": "Missed call from %s"
+        "incoming": "Appel entrant",
+        "incoming_from": "Appel de %s",
+        "accepted": "Accepté",
+        "accept": "Accepter",
+        "rejected": "Rejeté",
+        "reject": "Rejeter",
+        "missed": "Appel manqué de %s"
     },
     "menu": {
         "title": "Menu",
@@ -84,7 +84,7 @@
             "cut": "Couper",
             "copy": "Coper",
             "select_all": "Tout sélectionner",
-            "language": "Langue (Language)"
+            "language": "Langage"
         },
         "view": {
             "title": "Présentation",
@@ -94,13 +94,13 @@
             "tray": {
                 "show_tray": "Afficher l'icône dans la barre de menu",
                 "show_window": "Afficher la fenêtre",
-                "toggle_minimize": "Basculer réduire dans la barre de menu",
+                "toggle_minimize": "Réduire dans la barre de menu",
                 "start_minimize": "Démarrer minimisé dans la barre de menu",
-                "close": "Placer dans le Dock"
+                "close": "Fermer dans la barre de menu"
             },
             "escape": {
                 "title": "Comportement de la touche d'échappement",
-                "hide": "Cache la fenêtre",
+                "hide": "Cacher la fenêtre",
                 "clear": "Effacer l'entrée",
                 "default": "par défaut quand la barre de menu n'est pas affichée"
             },
@@ -110,7 +110,7 @@
                 "last": "Afficher le dernier message de la conversation",
                 "previous": "Conversation précédente",
                 "next": "Conversation suivante",
-                "select": "Choisir une conversation",
+                "select": "Sélectionner la conversation",
                 "thumbnails": {
                     "show": "Afficher les miniatures",
                     "only": "Afficher seulement les miniatures",
@@ -120,7 +120,7 @@
             "notification": {
                 "title": "Notification pop-up",
                 "show": "Afficher les notifications",
-                "toggle": "Toggle notifications",
+                "toggle": "Afficher/masquer les notifications",
                 "message": "Afficher les messages dans les notifications",
                 "username": "Afficher les noms dans les notifications",
                 "mute": "Désactiver le son des notifications",
@@ -140,23 +140,23 @@
                 "extra_small": "Très petite",
                 "small": "Petite",
                 "medium": "Moyenne",
-                "large": "Large",
-                "extra_large": "Très large"
+                "large": "Grande",
+                "extra_large": "Très grande"
             },
             "zoom": {
                 "in": "Agrandir",
                 "out": "Réduire",
-                "reset": "Taille effective"
+                "reset": "Taille de police par défaut"
             }
         },
         "help": {
             "title": "Aide",
             "about": {
                 "title": "A propos de YakYak",
-                "newer": "A newer version is available, please upgrade from %s to %s",
-                "license": "License",
-                "authors": "Main Authors",
-                "contributors": "Contributors"
+                "newer": "Une nouvelle version est disponible, veuillez mettre à jour de %s vers %s",
+                "license": "Licence",
+                "authors": "Auteurs",
+                "contributors": "Contributeurs"
             }
         },
         "window": {

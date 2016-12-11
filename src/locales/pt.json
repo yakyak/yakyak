@@ -1,6 +1,6 @@
 {
     "__MyLocaleLanguage__": "Português",
-    "__maintaner__": "http://github/averissimo",
+    "__maintaner__": "http://github.com/averissimo",
 
     "title": "YakYak - Cliente Hangouts",
     "description": "Cliente de Desktop para Google Hangouts",
@@ -23,8 +23,8 @@
     },
     "conversation": {
         "title": {
-          "one": "Conversa",
-          "other": "Conversas"
+            "one": "Conversa",
+            "other": "Conversas"
         },
         "numbered": "Conversa %d",
         "options": "Opções da conversa",
@@ -42,7 +42,7 @@
         "new_message": "Nova Mensagem"
     },
     "notification": {
-        "one": "Notification",
+        "one": "Notificação",
         "other": "Notificações"
     },
     "favorite": {

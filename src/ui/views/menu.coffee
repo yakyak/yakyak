@@ -87,6 +87,8 @@ templateYakYak = (viewstate) ->
 
 templateEdit = (viewstate) ->
     languages = for loc in i18n.getLocales()
+        if loc.length < 2
+            continue
         {
             label: i18n.getCatalog(loc).__MyLocaleLanguage__
             type: 'radio'
@@ -95,6 +97,7 @@ templateEdit = (viewstate) ->
             click: (it) ->
                 action 'changelanguage', it.value
         }
+    languages = languages.filter (n) -> n != undefined
     [
         {
             label: i18n.__ 'menu.edit.undo'
