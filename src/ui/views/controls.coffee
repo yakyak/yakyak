@@ -11,5 +11,5 @@ module.exports = view (models) ->
     {conv, viewstate} = models
     c = conv[viewstate.selectedConv]
     div class:'controls', ->
-        div class:'button', title: i18n.__('Add new conversation'),
+        div class:'button', title: i18n.__('conversation.add'),
             onclick:onclickaction('addconversation'), -> span class:'material-icons', 'add'

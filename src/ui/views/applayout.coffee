@@ -106,8 +106,8 @@ module.exports = exp = layout ->
                 div () ->
                     img src: path.join __dirname, '..', '..', 'icons', 'icon@32.png'
                 div ->
-                    span class: 'text state_connecting', 'Connecting'
-                    span class: 'text state_contacts hide', i18n.__('Loading Contacts')
+                    span class: 'text state_connecting', i18n.__('connection.connecting')
+                    span class: 'text state_contacts hide', i18n.__('connection.loading')
                 div class: 'spinner', ->
                     div class: 'bounce1', ''
                     div class: 'bounce2', ''

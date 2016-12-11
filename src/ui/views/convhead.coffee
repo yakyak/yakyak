@@ -15,26 +15,26 @@ module.exports = view (models) ->
       if conv.isStarred(c)
         span class:'material-icons', "star"
       name
-    div class:'button', title: i18n.__('Conversation options'),
+    div class:'button', title: i18n.__('conversation.options'),
       onclick:convoptions, -> span class:'material-icons', 'more_vert'
     div class:'convoptions', ->
-      div class:'button', title:i18n.__('Conversation settings'),
-        div class:'button', title: i18n.__('Toggle notifications'), onclick:onclickaction('togglenotif'), ->
+      div class:'button', title:i18n.__('conversation.settings'),
+        div class:'button', title: i18n.__('menu.view.notification.toggle'), onclick:onclickaction('togglenotif'), ->
                 if conv.isQuiet(c)
                     span class:'material-icons', 'notifications_off'
                 else
                     span class:'material-icons', 'notifications'
-                div class:'option-label', i18n.__('Notifications')
-            div class:'button', title:i18n.__('Star/unstar'), onclick:onclickaction('togglestar'), ->
+                div class:'option-label', i18n.__n('notification', 1)
+            div class:'button', title:i18n.__('favorite.start_it'), onclick:onclickaction('togglestar'), ->
                   if not conv.isStarred(c)
                     span class:'material-icons', 'star_border'
                   else
                     span class:'material-icons', 'star'
-                  div class:'option-label', i18n.__('Favorite')
-              div class:'button', title:i18n.__('Settings'),
+                  div class:'option-label', i18n.__n('favorite',1)
+              div class:'button', title:i18n.__('settings'),
           onclick:onclickaction('convsettings'), ->
             span class:'material-icons', 'info_outline'
-            div class:'option-label', i18n.__('Details')
+            div class:'option-label', i18n.__('details')
 
 convoptions  = ->
   {viewstate} = models

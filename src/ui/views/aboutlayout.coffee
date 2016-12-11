@@ -33,24 +33,25 @@ module.exports = exp = trifl.layout ->
             h2 'YakYak v' + localVersion
         # TODO: if objects are undefined then it should check again on next
         #        time about window is opened
-        #if releasedVersion? && localVersion? && versionToInt(releasedVersion) > versionToInt(localVersion)
+        if releasedVersion? && localVersion? && versionToInt(releasedVersion) > versionToInt(localVersion)
             div class: 'update', ->
-                span i18n.__('A newer version is available, please upgrade from') + ' ' +
-                     localVersion + " #{i18n.__ 'to'} " + releasedVersion
+                span i18n.__('menu.help.about.newer'
+                             , localVersion
+                             , releasedVersion)
         div class: 'description', ->
-            span i18n.__('Desktop client for Google Hangouts')
+            span i18n.__('title')
         div class: 'license', ->
             span ->
-                em "#{i18n.__ 'License'}: "
+                em "#{i18n.__ 'menu.help.aboutlicense'}: "
                 span 'MIT'
         div class: 'devs', ->
             div ->
-                h3 i18n.__('Main authors')
+                h3 i18n.__('menu.help.about.authors')
                 ul ->
                     li 'Davide Bertola'
                     li 'Martin Algesten'
             div ->
-                h3 i18n.__('Contributors')
+                h3 i18n.__('menu.help.about.contributors')
                 ul ->
                     li 'David Banham'
                     li 'Max Kueng'

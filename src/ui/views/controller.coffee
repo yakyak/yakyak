@@ -28,8 +28,8 @@ handle 'update:connection', do ->
                 # replace three dots
                 .replace '…',''
                 # add check connection to "Not Connected"
-                .replace /(Not connected)/,
-                         '$1 (check connection)')
+                .replace ' ', '_'
+                .toLowerCase())
             if document.querySelector('.connecting.hide')?
                 el = notr {html:conninfo.el.innerHTML, stay:0, id:'conn'}
             else

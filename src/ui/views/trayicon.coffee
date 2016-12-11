@@ -24,7 +24,7 @@ compact = (array) -> item for item in array when item
 
 create = () ->
     tray = new Tray trayIcons["read"]
-    tray.setToolTip i18n.__('YakYak - Hangouts client')
+    tray.setToolTip i18n.__('title')
     # Emitted when the tray icon is clicked
     tray.on 'click', -> action 'togglewindow'
 
@@ -36,19 +36,19 @@ update = (unreadCount, viewstate) ->
     # update menu
     templateContextMenu = compact([
         {
-          label: i18n.__ 'Toggle minimize to tray'
+          label: i18n.__ 'menu.view.tray.toggle_minimize'
           click: -> action 'togglewindow'
         }
 
         {
-          label: i18n.__ "Start minimized to tray"
+          label: i18n.__ "menu.view.tray.start_minimize"
           type: "checkbox"
           checked: viewstate.startminimizedtotray
           click: -> action 'togglestartminimizedtotray'
         }
 
         {
-          label: i18n.__ 'Show notifications'
+          label: i18n.__ 'menu.view.notification.show'
           type: "checkbox"
           checked: viewstate.showPopUpNotifications
           # usage of already existing method and implements same logic
@@ -58,20 +58,20 @@ update = (unreadCount, viewstate) ->
         }
 
         {
-            label: i18n.__ "Close to tray"
+            label: i18n.__ "menu.view.tray.close"
             type: "checkbox"
             checked: viewstate.closetotray
             click: -> action 'toggleclosetotray'
         }
 
         {
-          label: i18n.__ 'Hide Dock icon'
+          label: i18n.__ 'menu.view.hide_dock'
           type: 'checkbox'
           checked: viewstate.hidedockicon
           click: -> action 'togglehidedockicon'
         } if os.platform() == 'darwin'
 
-        { label: i18n.__ 'Quit', click: -> action 'quit' }
+        { label: i18n.__ 'menu.file.quit', click: -> action 'quit' }
     ])
 
     contextMenu = Menu.buildFromTemplate templateContextMenu

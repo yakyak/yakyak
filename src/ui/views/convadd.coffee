@@ -39,9 +39,9 @@ module.exports = view (models) ->
 
     div class: 'convadd', ->
         if editing
-            h1 i18n.__ 'Conversation edit'
+            h1 i18n.__ 'conversation.edit'
         else
-            h1 i18n.__ 'New conversation'
+            h1 i18n.__ 'conversation.new'
 
         style = {}
         if not convsettings.group
@@ -52,7 +52,7 @@ module.exports = view (models) ->
                 input
                     class: 'name-input'
                     style: style
-                    placeholder: i18n.__ 'Conversation name'
+                    placeholder: i18n.__ 'conversation.name'
                     onkeyup: (e) ->
                         action 'conversationname', e.currentTarget.value
 
@@ -60,7 +60,7 @@ module.exports = view (models) ->
             div ->
                 input
                     class: 'search-input'
-                    placeholder: i18n.__ 'Search people'
+                    placeholder: i18n.__ 'conversation.search'
                     onkeyup: (e) ->
                         chilledaction 'searchentities', e.currentTarget.value, 7
                         action 'conversationquery', e.currentTarget.value, 7
@@ -76,7 +76,7 @@ module.exports = view (models) ->
                     if convsettings.selectedEntities.length != 1
                         opts.disabled = 'disabled'
                     input opts
-                    i18n.__ 'Create multiuser chat'
+                    i18n.__ 'conversation.multiuser'
 
 
         ul ->
@@ -103,15 +103,15 @@ module.exports = view (models) ->
         if editing
             div class:'leave', ->
                 if conversation?.type?.indexOf('ONE_TO_ONE') > 0
-                    div class:'button', title: i18n.__('Delete conversation')
+                    div class:'button', title: i18n.__('conversation.delete')
                     , onclick:onclickaction('deleteconv'), ->
                         span class:'material-icons', 'close'
-                        span i18n.__('Delete conversation')
+                        span i18n.__('conversation.delete')
                 else
-                    div class:'button', title: i18n.__('Leave conversation')
+                    div class:'button', title: i18n.__('conversation.leave')
                     , onclick:onclickaction('leaveconv'), ->
                         span class:'material-icons', 'close'
-                        span i18n.__('Leave conversation')
+                        span i18n.__('conversation.leave')
 
         div class:'validate', ->
             disabled = null
@@ -120,7 +120,7 @@ module.exports = view (models) ->
             div disabled, class:'button'
             , onclick:onclickaction('saveconversation'), ->
                 span class:'material-icons', 'done'
-                span i18n.__ "OK"
+                span i18n.__ "actions.ok"
 
         mayRestoreInitialValues models
 
