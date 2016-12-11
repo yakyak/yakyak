@@ -16,6 +16,15 @@ window.onerror = (msg, url, lineNo, columnNo, error) ->
 aboutlayout = require './views/aboutlayout'
 
 aboutWindow = remote.getCurrentWindow()
+
+i18n = require 'i18n'
+i18nOpts = remote.getGlobal('i18nOpts')
+
+#
+# Configuring supporting languages here
+i18n.configure i18nOpts.opts
+i18n.setLocale(i18nOpts.locale) if i18nOpts.locale?
+
 # simple context menu that can only copy
 aboutWindow.webContents.on 'context-menu', (e, params) ->
     e.preventDefault()
@@ -35,6 +44,7 @@ aboutWindow.webContents.on 'context-menu', (e, params) ->
                 clipboard.writeText params.linkText
     }]
     Menu.buildFromTemplate(menuTemplate).popup aboutWindow
+
 
 document.body.appendChild aboutlayout.el
 

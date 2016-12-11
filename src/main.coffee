@@ -62,6 +62,8 @@ if shouldQuit
     app.quit();
     return;
 
+global.i18nOpts = { opts: null, locale: null }
+
 # No more minimizing to tray, just close it
 global.forceClose = false
 quit = ->
@@ -74,6 +76,7 @@ quit = ->
 
 app.on 'before-quit', ->
     global.forceClose = true
+    global.i18nOpts = null
     return
 
 # For OSX show window main window if we've hidden it.
@@ -254,6 +257,13 @@ app.on 'ready', ->
         messageQueue = messageQueue.then ->
             sendForSure()
 
+    # get locale for translations
+    ipc.on 'seti18n', (ev, opts, language)->
+        if opts?
+            global.i18nOpts.opts = opts
+        if language?
+            global.i18nOpts.locale = language
+
     # sendchatmessage, executed sequentially and
     # retried if not sent successfully
     ipc.on 'querypresence', seqreq (ev, id) ->
@@ -417,6 +427,16 @@ app.on 'ready', ->
           frame: false
           titleBarStyle: 'hidden'
         }
+
+        #
+        #
+        # Handle crashes on the main window and show in console
+        aboutWindow.webContents.on 'crashed', (msg) ->
+            console.log 'Crash event on about window!', msg
+            ipc.send 'expcetioninmain', {
+                msg: 'Detected a crash event on the about window.'
+                event: msg
+            }
 
         aboutWindow.loadURL 'file://' + __dirname + '/ui/about.html'
         aboutWindow.once 'ready-to-show', () ->

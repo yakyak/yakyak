@@ -32,15 +32,22 @@ window.i18n = require('i18n')
 
 #
 # Configuring supporting languages here
-i18n.configure {
+i18nOpts = {
     directory: path.join __dirname, '..', 'locales'
     defaultLocale: 'en' # fallback
     objectNotation: true
 }
-
-# Set locale if exists, otherwise, keep 'en'
+#
+i18n.configure i18nOpts
+#
+# force initialize
 if i18n.getLocales().includes viewstate.language
     i18n.setLocale(viewstate.language)
+#
+ipc.send 'seti18n', i18nOpts, viewstate.language
+
+# Set locale if exists, otherwise, keep 'en'
+action 'changelanguage', viewstate.language
 # does not update viewstate -- why? because locale can be recovered later
 #   not the best reasoning :)
 

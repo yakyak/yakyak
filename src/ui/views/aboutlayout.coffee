@@ -42,7 +42,7 @@ module.exports = exp = trifl.layout ->
             span i18n.__('title')
         div class: 'license', ->
             span ->
-                em "#{i18n.__ 'menu.help.aboutlicense'}: "
+                em "#{i18n.__ 'menu.help.about.license'}: "
                 span 'MIT'
         div class: 'devs', ->
             div ->

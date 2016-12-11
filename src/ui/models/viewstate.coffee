@@ -56,8 +56,8 @@ module.exports = exp = {
 
     setLanguage: (language) ->
         return if @language == language
-        console.log 'chaging to', language
         i18n.locale = language
+        i18n.setLocale(language)
         @language = localStorage.language = language
         updated 'viewstate'
 

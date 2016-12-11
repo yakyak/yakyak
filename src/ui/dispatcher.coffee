@@ -361,7 +361,9 @@ handle 'delete', (a) ->
 # Change language in YakYak
 #
 handle 'changelanguage', (language) ->
-    viewstate.setLanguage(language)
+    if i18n.getLocales().includes viewstate.language
+        ipc.send 'seti18n', null, language
+        viewstate.setLanguage(language)
 
 handle 'deleteconv', (confirmed) ->
     conv_id = viewstate.selectedConv
