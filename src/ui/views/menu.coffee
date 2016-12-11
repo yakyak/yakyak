@@ -211,7 +211,7 @@ templateView = (viewstate) ->
                 }
                 {
                   type: 'checkbox'
-                  label: i18n.__('menu.view.notification.custom')
+                  label: i18n.__('menu.view.notification.custom_sound')
                   checked: viewstate.forceCustomSound
                   enabled: viewstate.loggedin && viewstate.showPopUpNotifications && !viewstate.muteSoundNotification
                   click: (it) -> action 'forcecustomsound', it.checked
