@@ -7,7 +7,7 @@ remote = require('electron').remote
 trifl = require 'trifl'
 
 # expose some selected tagg functions
-trifl.tagg.expose window, ('layout ul li div span a i b u s button p label
+trifl.tagg.expose window, ('ul li div span a i b u s button p label
 input table thead tbody tr td th textarea br pass img h1 h2 h3 h4
 hr em'.split(' '))...
 
@@ -19,7 +19,7 @@ check(true)
 releasedVersion = window.localStorage.versionAdvertised
 localVersion = remote.require('electron').app.getVersion()
 
-module.exports = exp = layout ->
+module.exports = exp = trifl.layout ->
     div class: 'about', ->
         div ->
             span onclick: (e) ->
