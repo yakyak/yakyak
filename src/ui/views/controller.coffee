@@ -24,12 +24,12 @@ handle 'update:connection', do ->
             startupLoadEl.classList.remove("hide")
             el = null
         else
-            startupConnEl.innerHTML = i18n.__(connection.infoText()
+            if connection.infoText()?
                 # replace three dots
-                .replace '…',''
-                # add check connection to "Not Connected"
-                .replace ' ', '_'
-                .toLowerCase())
+                conStr = connection.infoText().replace('…','')
+                # replace spaces by underscore and lower case it
+                conStr = conStr.replace(' ', '_').toLowerCase()
+                startupConnEl.innerHTML = i18n.__("connection.#{conStr}")
             if document.querySelector('.connecting.hide')?
                 el = notr {html:conninfo.el.innerHTML, stay:0, id:'conn'}
             else

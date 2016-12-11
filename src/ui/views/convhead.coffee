@@ -25,12 +25,12 @@ module.exports = view (models) ->
                 else
                     span class:'material-icons', 'notifications'
                 div class:'option-label', i18n.__n('notification', 1)
-            div class:'button', title:i18n.__('favorite.start_it'), onclick:onclickaction('togglestar'), ->
+            div class:'button', title:i18n.__('favorite.star_it'), onclick:onclickaction('togglestar'), ->
                   if not conv.isStarred(c)
                     span class:'material-icons', 'star_border'
                   else
                     span class:'material-icons', 'star'
-                  div class:'option-label', i18n.__n('favorite',1)
+                  div class:'option-label', i18n.__n('favorite.title',1)
               div class:'button', title:i18n.__('settings'),
           onclick:onclickaction('convsettings'), ->
             span class:'material-icons', 'info_outline'

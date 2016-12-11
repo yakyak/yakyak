@@ -72,7 +72,7 @@ module.exports = view (models) ->
         starred = (c for c in convs when conv.isStarred(c))
         others = (c for c in convs when not conv.isStarred(c))
         div class: 'starred', ->
-            div class: 'label', i18n.__n('favorite', 0) if starred.length > 0
+            div class: 'label', i18n.__n('favorite.title', 2) if starred.length > 0
             starred.forEach renderConv
         div class: 'others', ->
             div class: 'label', i18n.__ 'recent' if starred.length > 0

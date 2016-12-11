@@ -1,147 +1,169 @@
 {
     "__MyLocaleLanguage__": "English",
-    "__maintaner__": "YakYak",
+    "__maintaner__": "http://github/yakyak",
 
-    "Language": "Language",
+    "title": "YakYak - Hangouts Client",
+    "description": "Desktop client for Google Hangouts",
 
-    "Connecting": "Connecting",
-    "Loading Contacts": "Loading Contacts",
-    "Not connected (check connection)": "Not connected (check connection)",
+    "settings": "Settings",
+    "recent": "Recent",
+    "details": "Details",
 
-    "Message": "Message",
-    "Show emoticons": "Show emoticons",
-    "Attach image": "Attach image",
-    "is typing": "is typing",
+    "connection" :{
+        "connecting": "Connecting",
+        "loading": "Loading Contacts",
+        "not_connected": "Not connected (check connection)"
+    },
 
-    "Conversations": "Conversations",
-    "Conversation": "Conversation",
-    "Conversation options": "Conversation options",
-    "Conversation settings": "Conversation settings",
-    "Settings": "Settings",
-    "Toggle notifications": "Toggle notifications",
-    "Star/unstar": "Star/unstar",
-    "Favorites": "Favorites",
-    "Favorite": "Favorite",
-    "Recent": "Recent",
-    "Notifications": "Notifications",
-    "Details": "Details",
-
-    "Incoming call": "Incoming call",
-    "Incoming call from": "Incoming call from",
-    "Accepted": "Accepted",
-    "Rejected": "Rejected",
-    "Missed call from": "Missed call from",
-
-    "Add new conversation": "Add new conversation",
-    "New conversation": "New conversation",
-    "Conversation name": "Conversation name",
-    "Conversation edit": "Conversation edit",
-    "Create multiuser chat": "Create multiuser chat",
-    "Delete conversation": "Delete conversation",
-    "Really delete conversation?": "Really delete conversation?",
-    "Leave conversation": "Leave conversation",
-    "Really leave conversation?": "Really leave conversation?",
-    "Search people": "Search people",
-    "OK": "OK",
-    "Cancel": "Cancel",
-
-    "Menu": "Menu",
-
-    "YakYak": "YakYak",
-    "Edit": "Edit",
-    "View": "View",
-    "About": "About",
-    "Window": "Window",
-    "Help": "Help",
-
-    "Open Inspector": "Open Inspector",
-    "Logout": "Logout",
-    "Quit": "Quit",
-
-    "About YakYak": "About YakYak",
-    "Hide YakYak": "Hide YakYak",
-    "Hide Others": "Hide Others",
-    "Minimize": "Minimize",
-    "Show All": "Show All",
-    "Close": "Close",
-    "Bring All to Front": "Bring All to Front",
-
-    "Undo": "Undo",
-    "Redo": "Redo",
-    "Paste": "Paste",
-    "Cut": "Cut",
-    "Copy": "Copy",
-    "Select All": "Select All",
-
-    "Conversation List": "Conversation List",
-    "Show Thumbnails": "Show Thumbnails",
-    "Show Thumbnails Only": "Show Thumbnails Only",
-    "Show Animated Thumbnails": "Show Animated Thumbnails",
-    "Show Conversation Timestamp": "Show Conversation Timestamp",
-    "Show Conversation Last Message": "Show Conversation Last Message",
-
-    "Pop-Up Notification": "Pop-Up Notification",
-    "Show notifications": "Show notifications",
-    "Show message in notifications": "Show message in notifications",
-    "Show username in notifications": "Show username in notifications",
-    "Disable sound in notifications": "Disable sound in notifications",
-    "Show user avatar icon in notifications": "Show user avatar icon in notifications",
-    "Show YakYak icon in notifications": "Show YakYak icon in notifications",
-    "Use YakYak custom sound for notifications": "Use YakYak custom sound for notifications",
-
-    "Convert text to emoji": "Convert text to emoji",
-
-    "Color Scheme": "Color Scheme",
-    "Default": "Default",
-    "Blue": "Blue",
-    "Dark": "Dark",
-    "Material": "Material",
-
-    "Font Size": "Font Size",
-    "Extra Small": "Extra Small",
-    "Small": "Small",
-    "Medium": "Medium",
-    "Large": "Large",
-    "Extra Large": "Extra Large",
-
-    "Toggle Fullscreen": "Toggle Fullscreen",
-    "Zoom in": "Zoom in",
-    "Zoom out": "Zoom out",
-    "Actual size": "Actual size",
-
-    "Previous Conversation": "Previous Conversation",
-    "Next Conversation": "Next Conversation",
-    "Select Conversation": "Select Conversation",
-    "Conversation 1": "Conversation 1",
-    "Conversation 2": "Conversation 2",
-    "Conversation 3": "Conversation 3",
-    "Conversation 4": "Conversation 4",
-    "Conversation 5": "Conversation 5",
-    "Conversation 6": "Conversation 6",
-    "Conversation 7": "Conversation 7",
-    "Conversation 8": "Conversation 8",
-    "Conversation 9": "Conversation 9",
-
-    "Show tray icon": "Show tray icon",
-
-    "Escape key behavior": "Escape key behavior",
-
-    "Hides window": "Hides window",
-    "Clears input": "Clears input",
-    "default when tray is not showing": "default when tray is not showing",
-
-    "Hide Dock icon": "Hide Dock icon",
-
-    "YakYak - Hangouts client": "YakYak - Cliente Hangouts",
-    "Show window": "Show window",
-    "Toggle minimize to tray": "Toggle minimize to tray",
-    "Start minimized to tray": "Start minimized to tray",
-    "Close to tray": "Close to tray",
-
-    "A newer version is available, please upgrade from ": "A newer version is available, please upgrade from ",
-    "to": "to",
-    "Desktop client for Google Hangouts": "Desktop client for Google Hangouts",
-    "License": "License",
-    "Main authors": "Main authors",
-    "Contributors": "Contributors"
+    "input": {
+        "message": "Message",
+        "emoticons": "Show emoticons",
+        "image": "Attach image",
+        "typing": "is typing"
+    },
+    "conversation": {
+        "title": {
+            "one": "Conversation",
+            "other": "Conversations"
+        },
+        "numbered": "Conversation %d",
+        "options": "Conversation Options",
+        "setting": "Conversation settings",
+        "add": "Add new conversation",
+        "new": "New conversation",
+        "name": "Conversation name",
+        "edit": "Conversation edit",
+        "multiuser": "Create multiuser chat",
+        "delete": "Delete conversation",
+        "delete_confirm": "Really delete conversation?",
+        "leave": "Leave conversation",
+        "leave_confirm": "Really leave conversation?",
+        "search": "Search people",
+        "new_message": "New Message"
+    },
+    "notification": {
+        "one": "Notification",
+        "other": "Notifications"
+    },
+    "favorite": {
+        "title": {
+            "one": "Favorite",
+            "other": "Favorites"
+        },
+        "star_it": "Star / unstar"
+    },
+    "actions": {
+      "ok": "OK",
+      "cancel": "Cancel"
+    },
+    "call": {
+        "incoming": "Incoming call",
+        "incoming_from": "Incoming call from %s",
+        "accepted": "Accepted",
+        "accept": "Accept",
+        "rejected": "Rejected",
+        "reject": "Reject",
+        "missed": "Missed call from %s"
+    },
+    "menu": {
+        "title": "Menu",
+        "file": {
+            "title": "YakYak",
+            "hide": "Hide YakYak",
+            "hide_others": "Hide Others",
+            "show": "Show All",
+            "inspector": "Open Inspector",
+            "logout": "Logout",
+            "quit": "Quit"
+        },
+        "edit": {
+            "title": "Edit",
+            "undo": "Undo",
+            "redo": "Redo",
+            "paste": "Paste",
+            "cut": "Cut",
+            "copy": "Copy",
+            "select_all": "Select All",
+            "language": "Language"
+        },
+        "view": {
+            "title": "View",
+            "emoji": "Convert text to emoji",
+            "hide_dock": "Hide Dock icon",
+            "fullscreen": "Toggle Fullscreen",
+            "tray": {
+                "show_tray": "Show tray icon",
+                "show_window": "Show window",
+                "toggle_minimize": "Toggle minimize to tray",
+                "start_minimize": "Start minimized to tray",
+                "close": "Close to tray"
+            },
+            "escape": {
+                "title": "Escape key behavior",
+                "hide": "Hides window",
+                "clear": "Clears input",
+                "default": "default when tray is not showing"
+            },
+            "conversation": {
+                "title": "Conversation List",
+                "timestamp": "Show Conversation Timestamp",
+                "last": "Show Conversation Last Message",
+                "previous": "Previous Conversation",
+                "next": "Next Conversation",
+                "select": "Select Conversation",
+                "thumbnails": {
+                    "show": "Show Thumbnails",
+                    "only": "Show Thumbnails Only",
+                    "animated": "Show Animated Thumbnails"
+                }
+            },
+            "notification": {
+                "title": "Pop-Up Notification",
+                "show": "Show notifications",
+                "toggle": "Toggle notifications",
+                "message": "Show message in notifications",
+                "username": "Show username in notifications",
+                "mute": "Disable sound in notifications",
+                "avatar": "Show user avatar icon in notifications",
+                "icon": "Show YakYak icon in notifications",
+                "custom_sound": "Use YakYak custom sound for notifications"
+            },
+            "color_scheme": {
+                "title": "Color Scheme",
+                "default": "Original",
+                "blue": "Blue",
+                "dark": "Dark",
+                "material": "Material"
+            },
+            "font": {
+                "title": "Font Size",
+                "extra_small": "Extra Small",
+                "small": "Small",
+                "medium": "Medium",
+                "large": "Large",
+                "extra_large": "Extra Large"
+            },
+            "zoom": {
+                "in": "Zoom in",
+                "out": "Zoom out",
+                "reset": "Actual size"
+            }
+        },
+        "help": {
+            "title": "Help",
+            "about": {
+                "title": "About YakYak",
+                "newer": "A newer version is available, please upgrade from %s to %s",
+                "license": "License",
+                "authors": "Main authors",
+                "contributors": "Contributors"
+            }
+        },
+        "window": {
+            "title": "Window",
+            "minimize": "Minimize",
+            "close": "Close",
+            "front": "Bring All to Front"
+        }
+    }
 }

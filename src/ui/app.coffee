@@ -40,7 +40,7 @@ i18n.configure {
 
 # Set locale if exists, otherwise, keep 'en'
 if i18n.getLocales().includes viewstate.language
-    i18n.locale = viewstate.language
+    i18n.setLocale(viewstate.language)
 # does not update viewstate -- why? because locale can be recovered later
 #   not the best reasoning :)
 

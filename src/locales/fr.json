@@ -2,146 +2,168 @@
     "__MyLocaleLanguage__": "Français",
     "__maintaner__": "http://github/Fredouye",
 
-    "Language": "Langue (Language)",
+    "title": "YakYak - Client Hangout",
+    "description": "Client de Desktop pour Google Hangouts",
 
-    "Connecting": "Connexion",
-    "Loading Contacts": "Chargement des contacts",
-    "Not connected (check connection)": "Non connecté (vérifier la connexion)",
+    "settings": "Settings",
+    "recent": "Récent",
+    "details": "Détails",
 
-    "Message": "Message",
-    "Show emoticons": "Afficher les emojis",
-    "Attach image": "Joindre une photo",
-    "is typing": "is typing",
+    "connection" :{
+        "connecting": "Connexion",
+        "loading": "Chargement des contacts",
+        "not_connected": "Non connecté (vérifier la connexion)"
+    },
 
-    "Conversations": "Conversations",
-    "Conversation": "Conversation",
-    "Conversation options": "Conversation options",
-    "Conversation settings": "Conversation settings",
-    "Settings": "Settings",
-    "Toggle notifications": "Toggle notifications",
-    "Star/unstar": "Star/unstar",
-    "Favorites": "Favoris",
-    "Favorite": "Favori",
-    "Recent": "Récent",
-    "Notifications": "Notifications",
-    "Details": "Détails",
-
-    "Incoming call": "Incoming call",
-    "Incoming call from": "Incoming call from",
-    "Accepted": "Accepted",
-    "Rejected": "Rejected",
-    "Missed call from": "Missed call from",
-
-    "Add new conversation": "Ajouter une nouvelle conversation",
-    "New conversation": "Nouvelle conversation",
-    "Conversation name": "Nom de la conversation",
-    "Conversation edit": "Modifier la conversation",
-    "Create multiuser chat": "Démarrer un Hangout en groupe",
-    "Delete conversation": "Effacer la conversation",
-    "Really delete conversation?": "Voulez-vous vraiment effacer la conversation?",
-    "Leave conversation": "Quitter la conversation",
-    "Really leave conversation?": "Voulez-vous vraiment quitter la conversation?",
-    "Search people": "Chercher des contacts",
-    "OK": "OK",
-    "Cancel": "Annuler",
-
-    "Menu": "Menu",
-
-    "YakYak": "YakYak",
-    "Edit": "Edition",
-    "View": "Présentation",
-    "About": "A propos de",
-    "Window": "Fenêtre",
-    "Help": "Aide",
-
-    "Open Inspector": "Afficher l'inspecteur",
-    "Logout": "Déconnexion",
-    "Quit": "Quitter",
-
-    "About YakYak": "A propos de YakYak",
-    "Hide YakYak": "Masquer YakYak",
-    "Hide Others": "Masquer les autres",
-    "Minimize": "Réduire",
-    "Show All": "Tout afficher",
-    "Close": "Fermer",
-    "Bring All to Front": "Tout ramener au premier plan",
-
-    "Undo": "Annuler",
-    "Redo": "Rétablir",
-    "Paste": "Coller",
-    "Cut": "Couper",
-    "Copy": "Coper",
-    "Select All": "Tout sélectionner",
-
-    "Conversation List": "Liste des conversations",
-    "Show Thumbnails": "Afficher les miniatures",
-    "Show Thumbnails Only": "Afficher seulement les miniatures",
-    "Show Animated Thumbnails": "Afficher les miniatures animées",
-    "Show Conversation Timestamp": "Afficher l'horodatage de la conversation",
-    "Show Conversation Last Message": "Afficher le dernier message de la conversation",
-
-    "Pop-Up Notification": "Notification pop-up",
-    "Show notifications": "Afficher les notifications",
-    "Show message in notifications": "Afficher les messages dans les notifications",
-    "Show username in notifications": "Afficher les noms dans les notifications",
-    "Disable sound in notifications": "Désactiver le son des notifications",
-    "Show user avatar icon in notifications": "Afficher l'avater du contact dans les notifications",
-    "Show YakYak icon in notifications": "Afficher l'icône de YakYak dans les notifications",
-    "Use YakYak custom sound for notifications": "Utiliser la sonnerie de YakYak dans les notifications",
-
-    "Convert text to emoji": "Convertir le texte en emoji",
-
-    "Color Scheme": "Style",
-    "Default": "Par défaut",
-    "Blue": "Bleu",
-    "Dark": "Foncé",
-    "Material": "Material",
-
-    "Font Size": "Taille de police",
-    "Extra Small": "Très petite",
-    "Small": "Petite",
-    "Medium": "Moyenne",
-    "Large": "Large",
-    "Extra Large": "Très large",
-
-    "Toggle Fullscreen": "Activer le mode plein écran",
-    "Zoom in": "Agrandir",
-    "Zoom out": "Réduire",
-    "Actual size": "Taille effective",
-
-    "Previous Conversation": "Conversation précédente",
-    "Next Conversation": "Conversation suivante",
-    "Select Conversation": "Choisir une conversation",
-    "Conversation 1": "Conversation 1",
-    "Conversation 2": "Conversation 2",
-    "Conversation 3": "Conversation 3",
-    "Conversation 4": "Conversation 4",
-    "Conversation 5": "Conversation 5",
-    "Conversation 6": "Conversation 6",
-    "Conversation 7": "Conversation 7",
-    "Conversation 8": "Conversation 8",
-    "Conversation 9": "Conversation 9",
-
-    "Show tray icon": "Afficher l'icône dans la barre de menu",
-
-    "Escape key behavior": "Comportement de la touche d'échappement",
-
-    "Hides window": "Cache la fenêtre",
-    "Clears input": "Effacer l'entrée",
-    "default when tray is not showing": "par défaut quand la barre de menu n'est pas affichée",
-
-    "Hide Dock icon": "Cacher l'icône du Dock",
-
-    "YakYak - Hangouts client": "YakYak - Client Hangout",
-    "Show window": "Afficher la fenêtre",
-    "Toggle minimize to tray": "Basculer réduire dans la barre de menu",
-    "Start minimized to tray": "Démarrer minimisé dans la barre de menu",
-    "Close to tray": "Placer dans le Dock",
-
-    "A newer version is available, please upgrade from ": "A newer version is available, please upgrade from ",
-    "to": "to",
-    "Desktop client for Google Hangouts": "Desktop client for Google Hangouts",
-    "License": "License",
-    "Main authors": "Main authors",
-    "Contributors": "Contributors"
+    "input": {
+        "message": "Message",
+        "emoticons": "Afficher les emojis",
+        "image": "Joindre une photo",
+        "typing": "is typing"
+    },
+    "conversation": {
+        "title": {
+          "one": "Conversation",
+          "other": "Conversations"
+        },
+        "numbered": "Conversation %d",
+        "options": "Conversation options",
+        "setting": "Conversation settings",
+        "add": "Ajouter une nouvelle conversation",
+        "new": "Nouvelle conversation",
+        "name": "Nom de la conversation",
+        "edit": "Modifier la conversation",
+        "multiuser": "Démarrer un Hangout en groupe",
+        "delete": "Effacer la conversation",
+        "delete_confirm": "Voulez-vous vraiment effacer la conversation?",
+        "leave": "Quitter la conversation",
+        "leave_confirm": "Voulez-vous vraiment quitter la conversation",
+        "search": "Chercher des contacts",
+        "new_message": "Nouvelle Message"
+    },
+    "notification": {
+        "one": "Notification",
+        "other": "Notifications"
+    },
+    "favorite": {
+        "title": {
+            "one": "Favori",
+            "other": "Favoris"
+        },
+        "star_it": "Star / unstar"
+    },
+    "actions": {
+      "ok": "OK",
+      "cancel": "Annuler"
+    },
+    "call": {
+        "incoming": "Incoming call",
+        "incoming_from": "Incoming call from %s",
+        "accepted": "Accepted",
+        "accept": "Accept",
+        "rejected": "Rejected",
+        "reject": "Reject",
+        "missed": "Missed call from %s"
+    },
+    "menu": {
+        "title": "Menu",
+        "file": {
+            "title": "YakYak",
+            "hide": "Masquer YakYak",
+            "hide_others": "Masquer les autres",
+            "show": "Tout afficher",
+            "inspector": "Afficher l'inspecteur",
+            "logout": "Déconnexion",
+            "quit": "Quitter"
+        },
+        "edit": {
+            "title": "Edition",
+            "undo": "Annuler",
+            "redo": "Rétablir",
+            "paste": "Coller",
+            "cut": "Couper",
+            "copy": "Coper",
+            "select_all": "Tout sélectionner",
+            "language": "Langue (Language)"
+        },
+        "view": {
+            "title": "Présentation",
+            "emoji": "Convertir le texte en emoji",
+            "hide_dock": "Cacher l'icône du Dock",
+            "fullscreen": "Activer le mode plein écran",
+            "tray": {
+                "show_tray": "Afficher l'icône dans la barre de menu",
+                "show_window": "Afficher la fenêtre",
+                "toggle_minimize": "Basculer réduire dans la barre de menu",
+                "start_minimize": "Démarrer minimisé dans la barre de menu",
+                "close": "Placer dans le Dock"
+            },
+            "escape": {
+                "title": "Comportement de la touche d'échappement",
+                "hide": "Cache la fenêtre",
+                "clear": "Effacer l'entrée",
+                "default": "par défaut quand la barre de menu n'est pas affichée"
+            },
+            "conversation": {
+                "title": "Liste des conversations",
+                "timestamp": "Afficher l'horodatage de la conversation",
+                "last": "Afficher le dernier message de la conversation",
+                "previous": "Conversation précédente",
+                "next": "Conversation suivante",
+                "select": "Choisir une conversation",
+                "thumbnails": {
+                    "show": "Afficher les miniatures",
+                    "only": "Afficher seulement les miniatures",
+                    "animated": "Afficher les miniatures animées"
+                }
+            },
+            "notification": {
+                "title": "Notification pop-up",
+                "show": "Afficher les notifications",
+                "toggle": "Toggle notifications",
+                "message": "Afficher les messages dans les notifications",
+                "username": "Afficher les noms dans les notifications",
+                "mute": "Désactiver le son des notifications",
+                "avatar": "Afficher l'avater du contact dans les notifications",
+                "icon": "Afficher l'icône de YakYak dans les notifications",
+                "custom_sound": "Utiliser la sonnerie de YakYak dans les notifications"
+            },
+            "color_scheme": {
+                "title": "Style",
+                "default": "Par défaut",
+                "blue": "Bleu",
+                "dark": "Foncé",
+                "material": "Material"
+            },
+            "font": {
+                "title": "Taille de police",
+                "extra_small": "Très petite",
+                "small": "Petite",
+                "medium": "Moyenne",
+                "large": "Large",
+                "extra_large": "Très large"
+            },
+            "zoom": {
+                "in": "Agrandir",
+                "out": "Réduire",
+                "reset": "Taille effective"
+            }
+        },
+        "help": {
+            "title": "Aide",
+            "about": {
+                "title": "A propos de YakYak",
+                "newer": "A newer version is available, please upgrade from %s to %s",
+                "license": "License",
+                "authors": "Main Authors",
+                "contributors": "Contributors"
+            }
+        },
+        "window": {
+            "title": "Fenêtre",
+            "minimize": "Réduire",
+            "close": "Fermer",
+            "front": "Tout ramener au premier plan"
+        }
+    }
 }
