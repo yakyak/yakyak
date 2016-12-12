@@ -154,10 +154,6 @@ handle 'hideWindow', ->
     mainWindow = remote.getCurrentWindow() # And we hope we don't get another ;)
     mainWindow.hide()
 
-handle 'togglewindow', ->
-    mainWindow = remote.getCurrentWindow() # And we hope we don't get another ;)
-    if mainWindow.isVisible() then mainWindow.hide() else mainWindow.show()
-
 handle 'togglestartminimizedtotray', ->
     viewstate.setStartMinimizedToTray(not viewstate.startminimizedtotray)
 
@@ -167,6 +163,7 @@ handle 'toggleclosetotray', ->
 handle 'showwindow', ->
     mainWindow = remote.getCurrentWindow() # And we hope we don't get another ;)
     mainWindow.show()
+    mainWindow.focus()
 
 sendsetpresence = throttle 10000, ->
     ipc.send 'setpresence'

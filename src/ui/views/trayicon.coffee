@@ -26,7 +26,7 @@ create = () ->
     tray = new Tray trayIcons["read"]
     tray.setToolTip i18n.__('title')
     # Emitted when the tray icon is clicked
-    tray.on 'click', -> action 'togglewindow'
+    tray.on 'click', -> action 'showwindow'
 
 destroy = ->
     tray.destroy() if tray
@@ -36,8 +36,8 @@ update = (unreadCount, viewstate) ->
     # update menu
     templateContextMenu = compact([
         {
-          label: i18n.__ 'menu.view.tray.toggle_minimize'
-          click: -> action 'togglewindow'
+          label: i18n.__ 'menu.view.tray.show_window'
+          click: -> action 'showwindow'
         }
 
         {
@@ -70,7 +70,7 @@ update = (unreadCount, viewstate) ->
           checked: viewstate.hidedockicon
           click: -> action 'togglehidedockicon'
         } if os.platform() == 'darwin'
-        
+
         {
           label: i18n.__('menu.file.quit'),
           click: -> action 'quit'
