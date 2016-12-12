@@ -1,12 +1,10 @@
-ipc  = require('electron').ipcRenderer
-path = require 'path'
-
+ipc    = require('electron').ipcRenderer
+path   = require 'path'
 remote = require('electron').remote
 
 {check, versionToInt} = require '../version'
 
 trifl = require 'trifl'
-trifl.expose window
 
 # expose some selected tagg functions
 trifl.tagg.expose window, ('ul li div span a i b u s button p label
@@ -21,7 +19,7 @@ check(true)
 releasedVersion = window.localStorage.versionAdvertised
 localVersion = remote.require('electron').app.getVersion()
 
-module.exports = exp = layout ->
+module.exports = exp = trifl.layout ->
     div class: 'about', ->
         div ->
             span onclick: (e) ->

@@ -1,16 +1,13 @@
-ipc       = require('electron').ipcRenderer
+ipc  = require('electron').ipcRenderer
 path = require 'path'
 
 remote = require('electron').remote
 
-trifl = require 'trifl'
+window.onerror = (msg, url, lineNo, columnNo, error) ->
+    hash = {msg, url, lineNo, columnNo, error}
+    ipc.send 'errorInWindow', hash, "About"
 
-# expose some selected tagg functions
-trifl.tagg.expose window, ('ul li div span a i b u s button p label
-input table thead tbody tr td th textarea br pass img h1 h2 h3 h4
-hr em'.split(' '))...
-
-{applayout, aboutlayout} = require './views'
+aboutlayout = require './views/aboutlayout'
 
 document.body.appendChild aboutlayout.el
 

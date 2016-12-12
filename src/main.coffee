@@ -428,8 +428,8 @@ app.on 'ready', ->
             aboutWindow.on 'blur', ->
                 aboutWindow.close()
 
-    ipc.on 'errorInWindow', (ev, error) ->
-        console.log "Error on YakYak window:\n", error, "\n--- End of error message in YakYak window."
+    ipc.on 'errorInWindow', (ev, error, winName = 'YakYak') ->
+        console.log "Error on #{winName} window:\n", error, "\n--- End of error message in #{winName} window."
 
     # propagate these events to the renderer
     require('./ui/events').forEach (n) ->
