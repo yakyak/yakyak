@@ -83,6 +83,8 @@
             "paste": "Colar",
             "cut": "Cortar",
             "copy": "Copiar",
+            "copy_link": "Copiar Hiperligação",
+            "copy_image": "Copiar Imagem",
             "select_all": "Selecionar Todos",
             "language": "Idioma (Language)"
         },
