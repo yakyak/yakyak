@@ -306,6 +306,8 @@ deploy = (platform, arch) ->
         if err?
             console.log ('Error: ' + err) if err?
         else if appPaths?.length > 0
+            if process.env.NO_ZIP
+                return deferred.resolve()
             json = JSON.parse(fs.readFileSync('./package.json'))
             zippath = "#{appPaths[0]}/"
             if platform == 'darwin'

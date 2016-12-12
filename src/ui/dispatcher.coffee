@@ -27,7 +27,6 @@ handle 'reqinit', ->
 module.exports =
     init: ({init}) -> action 'init', init
 
-
 handle 'init', (init) ->
     # set the initial view state
     viewstate.setLoggedin true

@@ -7,7 +7,11 @@ path      = require 'path'
 tmp       = require 'tmp'
 clipboard = require('electron').clipboard
 Menu      = require('electron').menu
-session = require('electron').session
+session   = require('electron').session
+
+# test if flag debug is preset (other flags can be used via package args
+#  but requres node v6)
+debug = process.argv.includes '--debug'
 
 tmp.setGracefulCleanup()
 
@@ -119,9 +123,38 @@ app.on 'ready', ->
         # autoHideMenuBar : true unless process.platform is 'darwin'
     }
 
+    # Launch fullscreen with DevTools open, usage: npm run debug
+    if debug
+      mainWindow.webContents.openDevTools()
+      mainWindow.maximize()
+      mainWindow.show()
+      try
+        require('devtron').install()
+      catch
+          #do nothing
+
     # and load the index.html of the app. this may however be yanked
     # away if we must do auth.
     loadAppWindow()
+
+    #
+    #
+    # Handle uncaught exceptions from the main process
+    process.on 'uncaughtException', (msg) ->
+        ipcsend 'expcetioninmain', msg
+        #
+        console.log "Error on main process:\n#{msg}\n" +
+            "--- End of error message. More details:\n", msg
+
+    #
+    #
+    # Handle crashes on the main window and show in console
+    mainWindow.webContents.on 'crashed', (msg) ->
+        console.log 'Crash event on main window!', msg
+        ipc.send 'expcetioninmain', {
+            msg: 'Detected a crash event on the main window.'
+            event: msg
+        }
 
     # short hand
     ipcsend = (as...) ->  mainWindow.webContents.send as...
