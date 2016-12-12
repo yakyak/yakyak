@@ -27,13 +27,20 @@ module.exports = view (models) ->
                 name = nameofconv c
                 if viewstate.showConvThumbs or viewstate.showConvMin
                     div class: 'thumbs thumbs-'+(if ents.length>4 then '4' else ents.length), ->
+                        additional = []
                         for p, index in ents
-                            break if index >= 4
-                            entity.needEntity(p.id)
-                            drawAvatar(p.id, viewstate, entity)
-
-                        if ents.length>4
-                            div class:'moreuser', ents.length
+                            # if there are up to 4 people in the conversation
+                            #   then draw them all, otherwise, draw 3 avatars
+                            #   and then add a +X , where X is the remaining
+                            #   number of people
+                            if index < 3 ||  ents.length == 4
+                                entity.needEntity(p.id)
+                                drawAvatar(p.id, viewstate, entity)
+                            else
+                                additional.push nameof entity[p.id]
+                        if ents.length > 4
+                            div class:'moreuser', "+#{ents.length - 3}"
+                            , title: additional.join('\n')
                         if ur > 0 and not conv.isQuiet(c)
                             lbl = if ur >= conv.MAX_UNREAD then "#{conv.MAX_UNREAD}+" else ur + ''
                             span class:'unreadcount', lbl
