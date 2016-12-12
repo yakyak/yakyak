@@ -5,8 +5,6 @@ ipc       = require('electron').ipcMain
 fs        = require 'fs'
 path      = require 'path'
 tmp       = require 'tmp'
-clipboard = require('electron').clipboard
-Menu      = require('electron').menu
 session   = require('electron').session
 
 # test if flag debug is preset (other flags can be used via package args

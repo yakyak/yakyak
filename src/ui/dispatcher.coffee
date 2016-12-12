@@ -7,12 +7,9 @@ fs = require('fs')
 mime = require('mime-types')
 
 clipboard = require('electron').clipboard
-nativeImage = require('electron').nativeImage
-
-{convertEmoji} = require './util'
 
 {entity, conv, viewstate, userinput, connection, convsettings, notify} = require './models'
-{throttle, later, isImg} = require './util'
+{insertTextAtCursor, throttle, later, isImg} = require './util'
 
 'connecting connected connect_failed'.split(' ').forEach (n) ->
     handle n, -> connection.setState n
@@ -195,7 +192,6 @@ handle 'updatewatermark', do ->
                 sendWater = throttle 1000, -> ipc.send 'updatewatermark', conv_id, Date.now()
                 throttleWaterByConv[conv_id] = sendWater
         sendWater()
-
 
 handle 'getentity', (ids) -> ipc.send 'getentity', ids
 handle 'addentities', (es, conv_id) ->

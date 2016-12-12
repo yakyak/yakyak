@@ -1,5 +1,21 @@
-URL = require 'url'
-notifier = require 'node-notifier'
+URL       = require 'url'
+notifier  = require 'node-notifier'
+clipboard = require('electron').clipboard
+
+#
+#
+# Checks if the clipboard has pasteable content.
+#
+# Currently only text and images are supported
+#
+isContentPasteable = () ->
+    formats = clipboard.availableFormats()
+    # as more content is supported in clipboard it should be placed here
+    pasteableContent = ['text/plain', 'image/png']
+    isContentPasteable = 0
+    for content in formats
+        isContentPasteable += pasteableContent.includes(content)
+    isContentPasteable > 0
 
 notificationCenterSupportsSound = () ->
     # check if sound should be played via notification
@@ -160,7 +176,23 @@ convertEmoji = (text) ->
     )
     return text
 
+insertTextAtCursor = (el, text) ->
+    value = el.value
+    doc = el.ownerDocument
+    if typeof el.selectionStart == "number" and typeof el.selectionEnd == "number"
+        endIndex = el.selectionEnd
+        el.value = value.slice(0, endIndex) + text + value.slice(endIndex)
+        el.selectionStart = el.selectionEnd = endIndex + text.length
+        el.focus()
+    else if doc.selection != "undefined" and doc.selection.createRange
+        el.focus()
+        range = doc.selection.createRange()
+        range.collapse(false)
+        range.text = text
+        range.select()
+
 module.exports = {nameof, initialsof, nameofconv, linkto, later,
                   throttle, uniqfn, isAboutLink, getProxiedName, tryparse,
                   fixlink, topof, isImg, getImageUrl, toggleVisibility,
-                  convertEmoji, drawAvatar, notificationCenterSupportsSound}
+                  convertEmoji, drawAvatar, notificationCenterSupportsSound,
+                  insertTextAtCursor, isContentPasteable}
