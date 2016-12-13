@@ -1,0 +1,171 @@
+{
+    "__MyLocaleLanguage__": "Spanish",
+    "__maintaner__": "http://github.com/blerfont",
+
+    "title": "YakYak - Cliente Hangouts",
+    "description": "Cliente de escritorio para Google Hangouts",
+
+    "settings": "Ajustes",
+    "recent": "Reciente",
+    "details": "Detalles",
+
+    "connection" :{
+        "connecting": "Conectando",
+        "loading": "Cargando Contactos",
+        "not_connected": "No conectado (revise conexión)"
+    },
+
+    "input": {
+        "message": "Mensaje",
+        "emoticons": "Mostrar emoticonos",
+        "image": "Adjuntar imagen",
+        "typing": "está escribiendo"
+    },
+    "conversation": {
+        "title": {
+            "one": "Conversación",
+            "other": "Conversaciones"
+        },
+        "numbered": "Conversación %d",
+        "options": "Opciones de Conversación",
+        "setting": "Ajustes de Conversación",
+        "add": "Añadir nueva conversación",
+        "new": "Nueva conversación",
+        "name": "Nombre de conversación",
+        "edit": "Editar conversación",
+        "multiuser": "Crear chat multiusuario",
+        "delete": "Eliminar conversación",
+        "delete_confirm": "¿Eliminar conversación definitivamente?",
+        "leave": "Dejar conversación",
+        "leave_confirm": "¿Dejar conversación definitivamente?",
+        "search": "Buscar personas",
+        "new_message": "Nuevo Mensaje"
+    },
+    "notification": {
+        "one": "Notificación",
+        "other": "Notificaciones"
+    },
+    "favorite": {
+        "title": {
+            "one": "Favorito",
+            "other": "Favoritos"
+        },
+        "star_it": "Star / unstar"
+    },
+    "actions": {
+      "ok": "OK",
+      "cancel": "Cancelar"
+    },
+    "call": {
+        "incoming": "Llamada entrante",
+        "incoming_from": "Llamada entrante de %s",
+        "accepted": "Aceptada",
+        "accept": "Aceptar",
+        "rejected": "Rechazada",
+        "reject": "Rechazar",
+        "missed": "Llamada perdida de %s"
+    },
+    "menu": {
+        "title": "Menu",
+        "file": {
+            "title": "YakYak",
+            "hide": "Ocultar YakYak",
+            "hide_others": "Ocultar Otros",
+            "show": "Mostrar Todo",
+            "inspector": "Abrir Inspector",
+            "logout": "Desloguear",
+            "quit": "Salir"
+        },
+        "edit": {
+            "title": "Editar",
+            "undo": "Deshacer",
+            "redo": "Rehacer",
+            "paste": "Pegar",
+            "cut": "Cortar",
+            "copy": "Copiar",
+            "copy_link": "Copiar Enlace",
+            "copy_image": "Copiar Imagen",
+            "select_all": "Seleccionar todo",
+            "language": "Lenguaje"
+        },
+        "view": {
+            "title": "Vista",
+            "emoji": "Convertir texto a emoji",
+            "hide_dock": "Ocultar icono del Dock",
+            "fullscreen": "Pantalla completa",
+            "tray": {
+                "show_tray": "Mostrar icono de bandeja",
+                "show_window": "Mostrar ventana",
+                "toggle_minimize": "Minimizar a la bandeja",
+                "start_minimize": "Iniciar minimizado en la bandeja",
+                "close": "Cerrar a la bandeja"
+            },
+            "escape": {
+                "title": "Comportamiento de la tecla Escape",
+                "hide": "Oculta la ventana",
+                "clear": "Borra el texto introducido",
+                "default": "por defecto cuando la bandeja no se está mostrando"
+            },
+            "conversation": {
+                "title": "Lista de Conversaciones",
+                "timestamp": "Mostrar marcas de tiempo de Conversación",
+                "last": "Mostrar Último Mensaje de la Conversación",
+                "previous": "Conversación Anterior",
+                "next": "Siguiente Conversación",
+                "select": "Seleccionar Conversacion",
+                "thumbnails": {
+                    "show": "Mostrar Miniaturas",
+                    "only": "Solo Mostrar Miniaturas",
+                    "animated": "Mostrar Miniaturas Animadas"
+                }
+            },
+            "notification": {
+                "title": "Notificaciones Emergentes",
+                "show": "Mostrar notificaciones",
+                "toggle": "Activar notificaciones",
+                "message": "Mostrar mensaje en notificaciones",
+                "username": "Mostrar usuario en notificaciones",
+                "mute": "Deshabilitar sonido en notificaciones",
+                "avatar": "Mostrar avatar de usuario en notificaciones",
+                "icon": "Mostrar icono de YakYak en notificaciones",
+                "custom_sound": "Usar sonido custom de YakYak para notificaciones"
+            },
+            "color_scheme": {
+                "title": "Esqueña de Color",
+                "default": "Original",
+                "blue": "Azul",
+                "dark": "Oscuro",
+                "material": "Material"
+            },
+            "font": {
+                "title": "Tamaño de Fuente",
+                "extra_small": "Extra Pequeña",
+                "small": "Pequeña",
+                "medium": "Mediana",
+                "large": "Grande",
+                "extra_large": "Extra Grande"
+            },
+            "zoom": {
+                "in": "Acercar Zoom",
+                "out": "Alejar Zoom",
+                "reset": "Tamaño actual"
+            }
+        },
+        "help": {
+            "title": "Ayuda",
+            "about": {
+                "title": "Acerca de YakYak",
+                "newer": "Una nueva versión está disponible, por favor, actualice desde %s a %s",
+                "license": "Licencia",
+                "authors": "Autores Principales",
+                "contributors": "Colaboradores"
+            }
+        },
+        "window": {
+            "title": "Ventana",
+            "minimize": "Minimizar",
+            "close": "Cerrar",
+            "front": "Traer todas al frente"
+        }
+    }
+}
