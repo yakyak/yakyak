@@ -11,7 +11,7 @@ Desktop client for Google Hangouts
 
 ## Install it
 
-We provide [prebuilt binaries](https://github.com/yakyak/yakyak/releases) for Mac OS X, Linux 32 / 64 and Windows 32 / 64.
+We provide [prebuilt binaries](https://github.com/yakyak/yakyak/releases) for [macOS](https://github.com/yakyak/yakyak/wiki#macos), [Linux](https://github.com/yakyak/yakyak/wiki#linux) 32 / 64 and Windows 32 / 64.
 
 This is the [latest release](https://github.com/yakyak/yakyak/releases/latest).
 We love [bug reports](https://github.com/yakyak/yakyak/issues)!
