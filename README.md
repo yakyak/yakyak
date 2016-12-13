@@ -22,7 +22,7 @@ We love [bug reports](https://github.com/yakyak/yakyak/issues)!
 * Create/change conversations (rename, add people)
 * Leave/delete conversation
 * Notifications (using native OS notifications)
-* Toggle notifications on/off
+  * Toggle notifications on/off
 * Drag-drop, copy-paste or attach-button for image upload.
 * Hangupsbot sync room aware (no bot name, proper user pics)
 * Show inline images
@@ -31,6 +31,9 @@ We love [bug reports](https://github.com/yakyak/yakyak/issues)!
 * Video/audio integration (open in chrome)
 * Focus/typing indications (mainly a design issue. keep it clean)
 * Offer alternative color schemes
+* Translations in 3 languages so far:
+  * Portuguese / French / Spanish
+  * We're looking for volunteers to translate the app to new languages
 
 ![sshot1](https://cloud.githubusercontent.com/assets/123929/16032393/991d63f8-3205-11e6-98bf-31f1b57cdc96.png)
 
@@ -60,6 +63,19 @@ It is written in coffeescript (nodejs) based on
 [hangupsjs](https://github.com/algesten/hangupsjs) using
 [trifl](http://algesten.github.io/trifl/) on top of
 [electron (atom shell)](https://github.com/electron/electron).
+
+### How can you help?
+
+You can improve YakYak in many ways:
+
+* Core functionality
+* Interface *(example: new themes only require choosing less than 20 colors)*
+* Bug fixing
+* Translations *(new translation only need 117 strings)*
+
+Send a pull request, start a conversation with a
+[new issue](https://github.com/yakyak/yakyak/issues/new) or participate on a
+ [ongoing conversation](https://github.com/yakyak/yakyak/issues).
 
 ### Setup
 
@@ -110,7 +126,7 @@ $ npm run deploy:darwin-x64
 | `src/ui/` | Holds renderer code (client side)        |
 | `dist/`   | Everything is compiled to this directory |
 
-### Acknowledgement 
+### Acknowledgement
 
 - All the users and developers of YakYak
 - ["You wouldn't believe"](https://notificationsounds.com/notification-sounds/you-wouldnt-believe-510) as the 'new message' sound for some platforms and is licensed under CC
