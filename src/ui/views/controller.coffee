@@ -100,7 +100,6 @@ handle 'update:selectedEntities', ->
 handle 'update:convsettings', -> redraw()
 
 redraw = ->
-    logger.debug 'Redrawing'
     notifications models
     convhead models
     controls models
