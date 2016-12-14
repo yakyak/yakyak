@@ -14,6 +14,7 @@ debug = process.argv.includes '--debug'
 tmp.setGracefulCleanup()
 
 app = require('electron').app
+app.disableHardwareAcceleration()
 
 BrowserWindow = require('electron').BrowserWindow
 
