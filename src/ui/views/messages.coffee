@@ -377,7 +377,7 @@ preloadInstagramPhoto = (href) ->
     return cache
 
 formatAttachment = (att) ->
-    console.log 'attachment', att if att.length > 0
+    logger.debug 'attachment', att if att.length > 0
     if att?[0]?.embed_item?.type_
         data = extractProtobufStyle(att)
         return if not data
