@@ -18,6 +18,17 @@ window.onerror = (msg, url, lineNo, columnNo, error) ->
     hash = {msg, url, lineNo, columnNo, error}
     ipc.send 'errorInWindow', hash
 
+#
+#
+# Save logger object in window, so that it is accessible to all objects
+#
+# note: It should be used primarily with debuging. for information use
+#        console.log as it is cleaner and shows exactly the line of origin
+#       This way it is clear to the normal user
+#
+window.logger = require 'bog'
+logger.level remote.getGlobal 'debug_level'
+
 # expose some selected tagg functions
 trifl.tagg.expose window, ('ul li div span a i b u s button p label
 input table thead tbody tr td th textarea br pass img h1 h2 h3 h4
