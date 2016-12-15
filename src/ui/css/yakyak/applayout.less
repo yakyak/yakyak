@@ -49,6 +49,12 @@
             visibility: hidden;
             opacity: 0;
             transition: visibility 0s 1s, opacity 1s ease-out;
+            div.spinner > div {
+                // stop inner animations
+                -webkit-animation: none;
+                animation: none;
+            }
+
         }
         .hide {
             display: none;
