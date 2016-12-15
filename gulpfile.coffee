@@ -291,7 +291,6 @@ deploy = (platform, arch) ->
     #
     # necessary to add a callback to pipe (which is used to signal end of task)
     gulpCallback = (obj) ->
-        "use strict"
         stream = new Stream.Transform({objectMode: true})
         stream._transform = (file, unused, callback) ->
             obj()
