@@ -1,0 +1,7 @@
+
+yakyak:
+  build: .
+  volumes:
+    - .:/data
+    - /data/node_modules
+  command: bash -c "ls && xvfb-run npm run deploy"
