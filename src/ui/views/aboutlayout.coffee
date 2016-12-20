@@ -41,23 +41,23 @@ module.exports = exp = trifl.layout ->
         #        time about window is opened
         if releasedVersion? && localVersion? && versionToInt(releasedVersion) > versionToInt(localVersion)
             div class: 'update', ->
-                span i18n.__('menu.help.about.newer'
+                span i18n.__('menu.help.about.newer:A newer version is available, please upgrade from %s to %s'
                              , localVersion
                              , releasedVersion)
         div class: 'description', ->
-            span i18n.__('title')
+            span i18n.__('title:YakYak - Hangouts Client')
         div class: 'license', ->
             span ->
-                em "#{i18n.__ 'menu.help.about.license'}: "
+                em "#{i18n.__ 'menu.help.about.license:License'}: "
                 span 'MIT'
         div class: 'devs', ->
             div ->
-                h3 i18n.__('menu.help.about.authors')
+                h3 i18n.__('menu.help.about.authors:Main authors')
                 ul ->
                     li 'Davide Bertola'
                     li 'Martin Algesten'
             div ->
-                h3 i18n.__('menu.help.about.contributors')
+                h3 i18n.__('menu.help.about.contributors:Contributors')
                 ul ->
                     li 'David Banham'
                     li 'Max Kueng'

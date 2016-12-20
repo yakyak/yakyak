@@ -148,13 +148,13 @@ module.exports = view (models) ->
                 , 2
 
             span class:'button-container', ->
-                button title: i18n.__('input.emoticons'), onclick: (ef) ->
+                button title: i18n.__('input.emoticons:Show emoticons'), onclick: (ef) ->
                     document.querySelector('#emoji-container').classList.toggle('open')
                     scrollToBottom()
                 , ->
                     span class:'material-icons', "mood"
             , ->
-                button title: i18n.__('input.image'), onclick: (ev) ->
+                button title: i18n.__('input.image:Attach image'), onclick: (ev) ->
                     document.getElementById('attachFile').click()
                 , ->
                     span class:'material-icons', 'photo'

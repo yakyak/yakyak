@@ -25,32 +25,32 @@ templateContext = (params, viewstate) ->
     }
     { type: 'separator' } if canShowSaveImg
     {
-        label: i18n.__('menu.edit.undo')
+        label: i18n.__('menu.edit.undo:Undo')
         role: 'undo'
         enabled: params.editFlags.canUndo
         visible: true
     }
     {
-        label: i18n.__('menu.edit.redo')
+        label: i18n.__('menu.edit.redo:Redo')
         role: 'redo'
         enabled: params.editFlags.canRedo
         visible: true
     }
     { type: 'separator' }
     {
-        label: i18n.__('menu.edit.cut')
+        label: i18n.__('menu.edit.cut:Cut')
         role: 'cut'
         enabled: params.editFlags.canCut
         visible: true
     }
     {
-        label: i18n.__('menu.edit.copy')
+        label: i18n.__('menu.edit.copy:Copy')
         role: 'copy'
         enabled: params.editFlags.canCopy
         visible: true
     }
     {
-        label: i18n.__('menu.edit.copy_link')
+        label: i18n.__('menu.edit.copy_link:Copy Link')
         visible: canShowCopyLink
         click: () ->
             if process.platform == 'darwin'
@@ -59,7 +59,7 @@ templateContext = (params, viewstate) ->
                 clipboard.writeText params.linkText
     }
     {
-        label: i18n.__('menu.edit.copy_image_link')
+        label: i18n.__('menu.edit.copy_image_link:Copy Image Link')
         visible: canShowCopyImgLink
         click: (item, win) ->
             if process.platform == 'darwin'
@@ -68,7 +68,7 @@ templateContext = (params, viewstate) ->
                 clipboard.writeText params.srcURL
     }
     {
-        label: i18n.__('menu.edit.paste')
+        label: i18n.__('menu.edit.paste:Paste')
         role: 'paste'
         visible: (isContentPasteable() &&
             viewstate.state == viewstate.STATE_NORMAL) || params.isEditable

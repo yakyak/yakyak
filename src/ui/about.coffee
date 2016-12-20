@@ -30,12 +30,12 @@ i18n.setLocale(i18nOpts.locale) if i18nOpts.locale?
 aboutWindow.webContents.on 'context-menu', (e, params) ->
     e.preventDefault()
     menuTemplate = [{
-        label: i18n.__('menu.edit.copy')
+        label: i18n.__('menu.edit.copy:Copy')
         role: 'copy'
         enabled: params.editFlags.canCopy
     }
     {
-        label: i18n.__('menu.edit.copy_link')
+        label: i18n.__('menu.edit.copy_link:Copy Link')
         visible: params.linkURL != '' and params.mediaType == 'none'
         click: () ->
             if process.platform == 'darwin'
