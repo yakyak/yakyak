@@ -2,4 +2,4 @@ yakyak:
   build: .
   volumes:
     - ./docker-dist:/data/yakyak/dist
-  command: bash -c "git fetch && git checkout origin/master && git checkout $TAG && npm install && xvfb-run npm run deploy && chown -R 1000:1000 dist/*"
+  command: bash -c "rm -rf app && git fetch && git checkout origin/master && git checkout $TAG && npm install && xvfb-run npm run deploy && chown -R 1000:1000 dist/*"
