@@ -4,8 +4,46 @@
     <meta charset="utf-8">
     <title>YakYak</title>
     <link rel="stylesheet" href="app.css">
+    <style TYPE="text/css">
+    <!--
+        #main-error {
+            width: 90%;
+            margin: auto;
+            padding-top: 30px;
+        }
+        #main-error p {
+            padding-top: 16px;
+            padding-left: 110px;
+        }
+        #main-error h1 {
+            margin-bottom: 0px;
+            padding-left: 110px;
+            background-image: url(../icons/icon@16.png);
+            background-repeat: no-repeat;
+            background-size: 84px;
+            line-height: 84px;
+        }
+    -->
+    </style>
   </head>
   <body>
     <script src="app.js"></script>
+    <div id="main-error">
+      <h1>An error has occured</h1>
+      <div>
+        <p>If you are seeing this then probably an error has occured.</p>
+        <p>To see what happened, <a href="javascript:void 0;" onclick="require('electron').remote.getCurrentWindow().webContents.openDevTools()">open the Inspector</a> and check if there is an error.</p>
+        <p>Find if someone else is experiencing this by visiting
+          <script>
+            openIssues = function() {
+                require('electron').shell.openExternal("https://github.com/yakyak/yakyak/issues");
+            }
+          </script>
+          <a href="javascript:void 0;" onclick="openIssues()">
+            github.com/yakyak/yakyak/issues
+        </a> or create a new issue if you are the first <i>(please include a screenshot of the Inspector)</i>
+        </p>
+      </div>
+    </div>
   </body>
 </html>
