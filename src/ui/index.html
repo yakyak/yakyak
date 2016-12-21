@@ -4,8 +4,12 @@
     <meta charset="utf-8">
     <title>YakYak</title>
     <link rel="stylesheet" href="app.css">
-    <style TYPE="text/css">
-    <!--
+  </head>
+  <body>
+    <script src="app.js"></script>
+    <div>
+        <style TYPE="text/css">
+        <!--
         #main-error {
             width: 90%;
             margin: auto;
@@ -23,29 +27,27 @@
             background-size: 84px;
             line-height: 84px;
         }
-    -->
-    </style>
-  </head>
-  <body>
-    <script src="app.js"></script>
-    <div id="main-error">
-      <h1>An error has occured</h1>
-      <div>
-        <p>If you are seeing this then an error has occured with YakYak.</p>
-        <p>To see what happened, <a href="javascript:void 0;" onclick="require('electron').remote.getCurrentWindow().webContents.openDevTools()">open the Inspector</a> and check the messages in the console tab.</p>
-        <p>Find if someone else is experiencing this by visiting
-          <script>
-            openIssues = function() {
-                require('electron').shell.openExternal("https://github.com/yakyak/yakyak/issues");
-            }
-          </script>
-          <a href="javascript:void 0;" onclick="openIssues()">
-            our issue tracker
-        </a> or create a new one if you are the first <i>(please include a screenshot of the console tab in the Inspector)</i>
-        </p>
-        <p>Sorry for this.</p>
-        <p><i>&nbsp; YakYak team and community</i></p>
-      </div>
+        -->
+        </style>
+        <div id="main-error">
+          <h1>An error has occured</h1>
+          <div>
+            <p>If you are seeing this then an error has occured with YakYak.</p>
+            <p>To see what happened, <a href="javascript:void 0;" onclick="require('electron').remote.getCurrentWindow().webContents.openDevTools()">open the Inspector</a> and check the messages in the console tab.</p>
+            <p>Find if someone else is experiencing this by visiting
+              <script>
+                openIssues = function() {
+                    require('electron').shell.openExternal("https://github.com/yakyak/yakyak/issues");
+                }
+              </script>
+              <a href="javascript:void 0;" onclick="openIssues()">
+                our issue tracker
+            </a> or create a new one if you are the first <i>(please include a screenshot of the console tab in the Inspector)</i>
+            </p>
+            <p>Sorry for this.</p>
+            <p><i>&nbsp; YakYak team and community</i></p>
+          </div>
+        </div>
     </div>
   </body>
 </html>
