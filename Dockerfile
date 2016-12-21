@@ -8,6 +8,10 @@ RUN wine wineboot --init
 ENV DISPLAY=""
 ENV DEBUG=electron-packager,extract-zip
 
-ADD ./package.json /data/package.json
 WORKDIR /data
+
+RUN git clone https://github.com/yakyak/yakyak.git yakyak
+
+WORKDIR /data/yakyak
+
 RUN npm install
