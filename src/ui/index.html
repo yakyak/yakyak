@@ -9,10 +9,10 @@
         #main-error {
             width: 90%;
             margin: auto;
-            padding-top: 30px;
+            padding-top: 3em;
         }
         #main-error p {
-            padding-top: 16px;
+            padding-top: 1em;
             padding-left: 110px;
         }
         #main-error h1 {
@@ -31,7 +31,7 @@
     <div id="main-error">
       <h1>An error has occured</h1>
       <div>
-        <p>If you are seeing this then probably an error has occured.</p>
+        <p>If you are seeing this then an error has occured with YakYak.</p>
         <p>To see what happened, <a href="javascript:void 0;" onclick="require('electron').remote.getCurrentWindow().webContents.openDevTools()">open the Inspector</a> and check if there is an error.</p>
         <p>Find if someone else is experiencing this by visiting
           <script>
@@ -40,9 +40,11 @@
             }
           </script>
           <a href="javascript:void 0;" onclick="openIssues()">
-            github.com/yakyak/yakyak/issues
+            our issue tracker
         </a> or create a new issue if you are the first <i>(please include a screenshot of the Inspector)</i>
         </p>
+        <p>Sorry for this.</p>
+        <p><i>&nbsp; YakYak team and community</i></p>
       </div>
     </div>
   </body>
