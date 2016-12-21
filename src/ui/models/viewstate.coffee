@@ -81,7 +81,6 @@ module.exports = exp = {
         @setLastKeyDown 0
         updated 'viewstate'
         updated 'switchConv'
-        logger.debug 'Selected new conversation', conv[conv_id]
 
     selectNextConv: (offset = 1) ->
         conv = require './conv'

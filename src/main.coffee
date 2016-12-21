@@ -6,13 +6,15 @@ fs        = require 'fs'
 path      = require 'path'
 tmp       = require 'tmp'
 session   = require('electron').session
+isDev     = require('electron-is-dev')
 
 #
 # Test if flag --debug is preset (other flags can be used via package args
 #  but requres node v6)
 debug = process.argv.includes '--debug'
+# only start debug in this process if in development
+#  otherwise, it is always info
 if debug
-    require('bog').level('debug') # also debugs hangupsjs
     global.debug_level = 'debug'
 else
     global.debug_level = 'info'
@@ -91,10 +93,12 @@ app.on 'activate', ->
     mainWindow.show()
 
 loadAppWindow = ->
+    global.isReadyToShow = false
     mainWindow.loadURL 'file://' + __dirname + '/ui/index.html'
     # Only show window when it has some content
     mainWindow.once 'ready-to-show', () ->
         mainWindow.webContents.send 'ready-to-show'
+        global.isReadyToShow = true
 
 toggleWindowVisible = ->
     if mainWindow.isVisible() then mainWindow.hide() else mainWindow.show()
@@ -132,13 +136,15 @@ app.on 'ready', ->
 
     # Launch fullscreen with DevTools open, usage: npm run debug
     if debug
-      mainWindow.webContents.openDevTools()
-      mainWindow.maximize()
-      mainWindow.show()
-      try
-        require('devtron').install()
-      catch
-          #do nothing
+        try
+            require('devtron').install()
+            # debug level is only available in development
+            #  as it also shows messages from hangupsjs library
+        catch
+        #do nothing
+        mainWindow.webContents.openDevTools()
+        mainWindow.maximize()
+        mainWindow.show()
 
     # and load the index.html of the app. this may however be yanked
     # away if we must do auth.
@@ -436,6 +442,9 @@ app.on 'ready', ->
                 aboutWindow.close()
 
     ipc.on 'errorInWindow', (ev, error, winName = 'YakYak') ->
+        mainWindow.show() unless global.isReadyToShow
+        ipcsend 'expcetioninmain', error
+
         console.log "Error on #{winName} window:\n", error, "\n--- End of error message in #{winName} window."
 
     # propagate these events to the renderer
