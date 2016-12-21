@@ -1,3 +1,0 @@
---compilers coffee:coffee-script/register
---reporter list
---timeout 500

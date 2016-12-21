@@ -1,6 +1,8 @@
 YakYak
 ======
 
+__This branch is used to build the releases. To access the actual source code see the `master` branch.__
+
 [![Build Status](https://travis-ci.org/yakyak/yakyak.svg)](https://travis-ci.org/yakyak/yakyak) [![Gitter](https://d378bf3rn661mp.cloudfront.net/gitter.svg)](https://gitter.im/yakyak/yakyak)
 
 Desktop client for Google Hangouts

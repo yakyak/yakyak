@@ -2,6 +2,5 @@
 yakyak:
   build: .
   volumes:
-    - .:/data
-    - /data/node_modules
-  command: bash -c "ls && xvfb-run npm run deploy"
+    - ./dist:/data/yakyak/dist
+  command: bash -c "git pull  && npm install && xvfb-run npm run deploy"
