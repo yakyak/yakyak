@@ -97,9 +97,13 @@ module.exports = view (models) ->
 
     conv_id = viewstate?.selectedConv
     c = conv[conv_id]
+
+    console.debug 'Conversation', conv[conv_id]
+
     if c?.current_participant?
         for participant in c.current_participant
           entity.needEntity participant.chat_id
+          console.debug '  Participant', entity[participant.chat_id]
     div class:'messages', observe:onMutate(viewstate), ->
         return unless c?.event
 
@@ -377,7 +381,7 @@ preloadInstagramPhoto = (href) ->
     return cache
 
 formatAttachment = (att) ->
-    console.log 'attachment', att if att.length > 0
+    console.debug 'attachment', att if att.length > 0
     if att?[0]?.embed_item?.type_
         data = extractProtobufStyle(att)
         return if not data

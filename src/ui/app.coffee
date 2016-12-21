@@ -1,5 +1,6 @@
 ipc       = require('electron').ipcRenderer
 clipboard = require('electron').clipboard
+isDev     = require('electron-is-dev')
 
 # expose trifl in global scope
 trifl = require 'trifl'
@@ -17,6 +18,20 @@ remote = require('electron').remote
 window.onerror = (msg, url, lineNo, columnNo, error) ->
     hash = {msg, url, lineNo, columnNo, error}
     ipc.send 'errorInWindow', hash
+
+#
+#
+# Save logger object in window, so that it is accessible to all objects
+#
+# note: It should be used primarily with debuging. for info level use
+#        console.log as it is cleaner and shows exactly the line of origin
+#
+window.logger = {
+    level: remote.getGlobal 'debug_level'
+    debug: console.debug
+}
+console.debug = ->
+    window.logger.debug(arguments...) if logger.level == 'debug'
 
 # expose some selected tagg functions
 trifl.tagg.expose window, ('ul li div span a i b u s button p label
@@ -85,6 +100,7 @@ ipc.on 'ready-to-show', () ->
 #  - Exceptions that were caught
 #  - Window crashes
 ipc.on 'expcetioninmain', (error) ->
+    remote.getCurrentWindow().show()
     console.log (msg = "Possible fatal error on main process" +
         ", YakYak could stop working as expected."), error
     notr msg, {stay: 0}
