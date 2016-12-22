@@ -37,29 +37,17 @@ setConvMin = (convmin) ->
         document.querySelector('.left').classList.remove("minimal")
         document.querySelector('.leftresize').classList.remove("minimal")
 
-#
-# variable to know if startup process has finished
-#  and animation to remove startup elements
-afterStartup = false
-
 # draw startup elements on applayout only if
 #  it is on the startup process or until contacts are loaded
 #  (and 1.5s afterwards to keep an animation)
-drawStartup = (timeout = 1500) ->
-    if afterStartup
-        applayout.last null
-    else if viewstate.loadedContacts
-        applayout.last startup
-        #
-        # async timeout to allow animation to end
-        # afterwards
-        setTimeout ->
-            applayout.last null
-            afterStartup = true
-        , timeout
-    else
-        startup models
-        applayout.last startup
+drawStartup = ->
+    startup models
+    applayout.last startup
+
+# remove startup from applayout after animations finishes
+handle 'remove_startup', ->
+    startup = (models) -> null
+    applayout.last null
 
 handle 'update:viewstate', ->
     setLeftSize viewstate.leftSize
@@ -70,7 +58,10 @@ handle 'update:viewstate', ->
         if Array.isArray viewstate.pos
             later -> remote.getCurrentWindow().setPosition viewstate.pos...
         # show startup screen
-        drawStartup()
+        if startup?
+            drawStartup()
+        else
+            applayout.last null
         #
         applayout.left null
         applayout.convhead null

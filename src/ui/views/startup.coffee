@@ -1,12 +1,20 @@
 path = require 'path'
 
+{later} = require '../util'
+
 module.exports = view (models) ->
     {connection, viewstate} = models
     classList = ['connecting']
     if viewstate.loadedContacts
         classList.push 'hide'
 
-    div class: classList.join(' '), ->
+    div class: classList.join(' ')
+    , onDOMNodeInserted: (e) ->
+        ta = e.target
+        ta.addEventListener 'transitionend', ->
+            action 'remove_startup'
+        , false
+    , ->
         div ->
             div ->
                 img src: path.join __dirname, '..', '..', 'icons', 'icon@32.png'
