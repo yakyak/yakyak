@@ -43,6 +43,13 @@ module.exports = exp = {
     # non persistent!
     messageMemory: {}      # stores input when swithching conversations
     cachedInitialsCode: {} # code used for colored initials, if no avatar
+    # contacts are loaded
+    loadedContacts: false
+
+    setContacts: (state) ->
+        return if state == @loadedContacts
+        @loadedContacts = state
+        updated 'viewstate'
 
     setState: (state) ->
         return if @state == state

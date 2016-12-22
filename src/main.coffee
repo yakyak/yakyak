@@ -7,6 +7,9 @@ path      = require 'path'
 tmp       = require 'tmp'
 session   = require('electron').session
 
+logger = require('bog')
+logger.level('debug')
+
 # test if flag debug is preset (other flags can be used via package args
 #  but requres node v6)
 debug = process.argv.includes '--debug'

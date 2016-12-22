@@ -1,7 +1,7 @@
 remote = require('electron').remote
 
 {applayout, convlist, listhead, messages, convhead, input, conninfo, convadd, controls,
-notifications, typinginfo, menu, trayicon, dockicon } = require './index'
+notifications, typinginfo, menu, trayicon, dockicon, startup} = require './index'
 
 models      = require '../models'
 {viewstate, connection} = models
@@ -15,26 +15,15 @@ handle 'update:connection', do ->
         # draw view
         conninfo connection
 
-        startupConnEl = document.querySelector('.state_connecting')
-        startupLoadEl = document.querySelector('.state_contacts')
         # place in layout
         if connection.state == connection.CONNECTED
             el?.hide?()
-            startupConnEl.classList.add("hide")
-            startupLoadEl.classList.remove("hide")
             el = null
+        else if viewstate.state != viewstate.STATE_STARTUP
+            el = notr {html:conninfo.el.innerHTML, stay:0, id:'conn'}
         else
-            startupConnEl.innerHTML = connection.infoText()
-                # replace three dots
-                .replace '…',''
-                # add check connection to "Not Connected"
-                .replace /(Not connected)/,
-                         '$1 (check connection)'
-            if document.querySelector('.connecting.hide')?
-                el = notr {html:conninfo.el.innerHTML, stay:0, id:'conn'}
-            else
-                startupConnEl.classList.remove("hide")
-                startupLoadEl.classList.add("hide")
+            # update startup with connection information
+            drawStartup()
 
 setLeftSize = (left) ->
     document.querySelector('.left').style.width = left + 'px'
@@ -48,15 +37,42 @@ setConvMin = (convmin) ->
         document.querySelector('.left').classList.remove("minimal")
         document.querySelector('.leftresize').classList.remove("minimal")
 
+#
+# variable to know if startup process has finished
+#  and animation to remove startup elements
+afterStartup = false
+
+# draw startup elements on applayout only if
+#  it is on the startup process or until contacts are loaded
+#  (and 1.5s afterwards to keep an animation)
+drawStartup = (timeout = 1500) ->
+    if afterStartup
+        applayout.last null
+    else if viewstate.loadedContacts
+        applayout.last startup
+        #
+        # async timeout to allow animation to end
+        # afterwards
+        setTimeout ->
+            applayout.last null
+            afterStartup = true
+        , timeout
+    else
+        startup models
+        applayout.last startup
 
 handle 'update:viewstate', ->
     setLeftSize viewstate.leftSize
     setConvMin viewstate.showConvMin
     if viewstate.state == viewstate.STATE_STARTUP
+        console.log connection.infoText()
         if Array.isArray viewstate.size
             later -> remote.getCurrentWindow().setSize viewstate.size...
         if Array.isArray viewstate.pos
             later -> remote.getCurrentWindow().setPosition viewstate.pos...
+        # show startup screen
+        drawStartup()
+        #
         applayout.left null
         applayout.convhead null
         applayout.main null
@@ -73,6 +89,9 @@ handle 'update:viewstate', ->
         applayout.main messages
         applayout.maininfo typinginfo
         applayout.foot input
+        # draw startup elements, and keep them until
+        #  animation has finished
+        drawStartup(1500)
         menu viewstate
         trayicon models
         dockicon viewstate
@@ -109,6 +128,7 @@ redraw = ->
     typinginfo models
     input models
     convadd models
+    startup models
     trayicon models
 
 handle 'update:switchConv', ->
