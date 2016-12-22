@@ -150,7 +150,8 @@ handle 'togglehidedockicon', ->
     viewstate.setHideDockIcon(not viewstate.hidedockicon)
 
 handle 'show-about', ->
-    ipc.send 'show-about'
+    viewstate.setState viewstate.STATE_ABOUT
+    updated 'viewstate'
 
 handle 'hideWindow', ->
     mainWindow = remote.getCurrentWindow() # And we hope we don't get another ;)

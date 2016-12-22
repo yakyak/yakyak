@@ -10,7 +10,7 @@ versionToInt = (version) ->
     [major, minor, micro] = version.split('.')
     version = (micro * 10^3) + (minor * 10^6) + (major * 10^9)
 
-check = (noAlert = false)->
+check = ()->
     request.get options,  (err, res, body) ->
         return console.log err if err
         body = JSON.parse body
@@ -22,10 +22,8 @@ check = (noAlert = false)->
             higherVersionAvailable = versionToInt(releasedVersion) > versionToInt(localVersion)
             if higherVersionAvailable and (releasedVersion isnt versionAdvertised)
                 window.localStorage.versionAdvertised = releasedVersion
-                unless noAlert
-                    alert "A new yakyak version is available, please upgrade #{localVersion} to #{releasedVersion}"
+                alert "A new yakyak version is available, please upgrade #{localVersion} to #{releasedVersion}"
             else
-                unless noAlert
-                    console.log "YakYak local version is #{localVersion}, released version is #{releasedVersion}"
+                console.log "YakYak local version is #{localVersion}, released version is #{releasedVersion}"
 
 module.exports = {check, versionToInt}

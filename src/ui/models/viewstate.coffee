@@ -8,6 +8,7 @@ STATES =
     STATE_STARTUP: 'startup'
     STATE_NORMAL: 'normal'
     STATE_ADD_CONVERSATION: 'add_conversation'
+    STATE_ABOUT: 'about'
 
 module.exports = exp = {
     state: null

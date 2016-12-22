@@ -1,7 +1,7 @@
 remote = require('electron').remote
 
 {applayout, convlist, listhead, messages, convhead, input, conninfo, convadd, controls,
-notifications, typinginfo, menu, trayicon, dockicon, startup} = require './index'
+notifications, typinginfo, menu, trayicon, dockicon, startup, about} = require './index'
 
 models      = require '../models'
 {viewstate, connection} = models
@@ -65,7 +65,6 @@ handle 'update:viewstate', ->
     setLeftSize viewstate.leftSize
     setConvMin viewstate.showConvMin
     if viewstate.state == viewstate.STATE_STARTUP
-        console.log connection.infoText()
         if Array.isArray viewstate.size
             later -> remote.getCurrentWindow().setSize viewstate.size...
         if Array.isArray viewstate.pos
@@ -95,6 +94,14 @@ handle 'update:viewstate', ->
         menu viewstate
         trayicon models
         dockicon viewstate
+    else if viewstate.state == viewstate.STATE_ABOUT
+        redraw()
+        about models
+        applayout.left convlist
+        applayout.main about
+        applayout.convhead null
+        applayout.maininfo null
+        applayout.foot null
     else if viewstate.state == viewstate.STATE_ADD_CONVERSATION
         redraw()
         applayout.left convlist
