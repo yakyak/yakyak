@@ -197,7 +197,7 @@ templateView = (viewstate) ->
                 }
                 {
                   type: 'checkbox'
-                  label: i18n.__ (if isDarwin then 'menu.view.notification.avatar:Show user avatar icon in notifications' else 'menu.view.notification.iconShow YakYak icon in notifications')
+                  label: i18n.__ (if isDarwin then 'menu.view.notification.avatar:Show user avatar icon in notifications' else 'menu.view.notification.icon:Show YakYak icon in notifications')
                   enabled: viewstate.loggedin && viewstate.showPopUpNotifications
                   checked: viewstate.showIconNotification
                   click: (it) -> action 'showiconnotification', it.checked
