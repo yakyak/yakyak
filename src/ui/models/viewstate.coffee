@@ -8,6 +8,7 @@ STATES =
     STATE_STARTUP: 'startup'
     STATE_NORMAL: 'normal'
     STATE_ADD_CONVERSATION: 'add_conversation'
+    STATE_ABOUT: 'about'
 
 module.exports = exp = {
     state: null
@@ -44,6 +45,13 @@ module.exports = exp = {
     # non persistent!
     messageMemory: {}      # stores input when swithching conversations
     cachedInitialsCode: {} # code used for colored initials, if no avatar
+    # contacts are loaded
+    loadedContacts: false
+
+    setContacts: (state) ->
+        return if state == @loadedContacts
+        @loadedContacts = state
+        updated 'viewstate'
 
     setState: (state) ->
         return if @state == state

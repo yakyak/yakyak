@@ -60,7 +60,6 @@ logout = ->
 seqreq = require './seqreq'
 
 mainWindow = null
-aboutWindow = null
 
 # Only allow a single active instance
 shouldQuit = app.makeSingleInstance ->
@@ -78,7 +77,6 @@ global.forceClose = false
 quit = ->
     global.forceClose = true
     # force all windows to close
-    aboutWindow.destroy() if aboutWindow?
     mainWindow.destroy() if mainWindow?
     app.quit()
     return
@@ -424,39 +422,6 @@ app.on 'ready', ->
     ipc.on 'logout', logout
 
     ipc.on 'quit', quit
-
-    # Help -> About opens the about window
-    ipc.on 'show-about', ->
-        aboutWindow = new BrowserWindow {
-          width: 500
-          height: 500
-          show: false
-          parent: mainWindow
-          resizable: false
-          frame: false
-          titleBarStyle: 'hidden'
-        }
-
-        # open devtools on about
-        #BrowserWindow.getAllWindows()[1].openDevTools()
-
-        aboutWindow.loadURL 'file://' + __dirname + '/ui/about.html'
-        #
-        #
-        # Handle crashes on the main window and show in console
-        aboutWindow.webContents.on 'crashed', (msg) ->
-            console.log 'Crash event on about window!', msg
-            ipc.send 'expcetioninmain', {
-                msg: 'Detected a crash event on the about window.'
-                event: msg
-            }
-
-        aboutWindow.once 'ready-to-show', () ->
-            aboutWindow.setMenu(null)
-            aboutWindow.show()
-            #
-            aboutWindow.on 'blur', ->
-                #aboutWindow.close()
 
     ipc.on 'errorInWindow', (ev, error, winName = 'YakYak') ->
         console.log "Error on #{winName} window:\n", error, "\n--- End of error message in #{winName} window."

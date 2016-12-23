@@ -2,44 +2,50 @@ ipc  = require('electron').ipcRenderer
 path = require 'path'
 i18n = require 'i18n'
 remote = require('electron').remote
+Menu   = remote.Menu
 
 {check, versionToInt} = require '../version'
 
-trifl = require 'trifl'
+module.exports = view (models) ->
 
-# expose some selected tagg functions
-trifl.tagg.expose window, ('ul li div span a i b u s button p label
-input table thead tbody tr td th textarea br pass img h1 h2 h3 h4
-hr em'.split(' '))...
+    # simple context menu that can only copy
+    remote.getCurrentWindow().webContents.on 'context-menu', (e, params) ->
+        e.preventDefault()
+        menuTemplate = [{
+            label: 'Copy'
+            role: 'copy'
+            enabled: params.editFlags.canCopy
+        }
+        {
+            label: "Copy Link"
+            visible: params.linkURL != '' and params.mediaType == 'none'
+            click: () ->
+                if process.platform == 'darwin'
+                    clipboard
+                    .writeBookmark params.linkText, params.linkText
+                else
+                    clipboard.writeText params.linkText
+        }]
+        Menu.buildFromTemplate(menuTemplate).popup remote.getCurrentWindow()
 
-i18nOpts = remote.getGlobal('i18nOpts')
-#
-# Configuring supporting languages here
-i18n.configure i18nOpts.opts
-i18n.setLocale(i18nOpts.locale) if i18nOpts.locale?
-
-attachListeners = ->
-    return
-    # do nothing
-
-check(true)
-releasedVersion = window.localStorage.versionAdvertised
-localVersion = remote.require('electron').app.getVersion()
-
-module.exports = exp = trifl.layout ->
+    #
+    # decide if should update
+    localVersion    = remote.require('electron').app.getVersion()
+    releasedVersion = window.localStorage.versionAdvertised
+    shouldUpdate    = releasedVersion? && localVersion? &&
+                      versionToInt(releasedVersion) > versionToInt(localVersion)
+    #
     div class: 'about', ->
-        div ->
-            span onclick: (e) ->
-                window.close()
-            , ->
-                span class: 'close-me material-icons', ''
         div ->
             img src: path.join __dirname, '..', '..', 'icons', 'icon@8.png'
         div class: 'name', ->
-            h2 'YakYak v' + localVersion
+            h2 ->
+                span 'YakYak v' + localVersion
+                span class: 'f-small f-no-bold', ' (latest)' unless shouldUpdate
         # TODO: if objects are undefined then it should check again on next
         #        time about window is opened
-        if releasedVersion? && localVersion? && versionToInt(releasedVersion) > versionToInt(localVersion)
+        #        releasedVersion = window.localStorage.versionAdvertised
+        if shouldUpdate
             div class: 'update', ->
                 span i18n.__('menu.help.about.newer:A newer version is available, please upgrade from %s to %s'
                              , localVersion
@@ -73,7 +79,6 @@ module.exports = exp = trifl.layout ->
                 require('electron').shell.openExternal address
                 false
             , href
-    attachListeners()
 
 #$('document').on 'click', '.link-out', (ev)->
 #

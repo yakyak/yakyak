@@ -1,7 +1,7 @@
 remote = require('electron').remote
 
 {applayout, convlist, listhead, messages, convhead, input, conninfo, convadd, controls,
-notifications, typinginfo, menu, trayicon, dockicon } = require './index'
+notifications, typinginfo, menu, trayicon, dockicon, startup, about} = require './index'
 
 models      = require '../models'
 {viewstate, connection} = models
@@ -15,35 +15,15 @@ handle 'update:connection', do ->
         # draw view
         conninfo connection
 
-        startupConnEl = document.querySelector('.state_connecting')
-        startupLoadEl = document.querySelector('.state_contacts')
         # place in layout
         if connection.state == connection.CONNECTED
             el?.hide?()
-            startupConnEl.classList.add("hide")
-            startupLoadEl.classList.remove("hide")
             el = null
+        else if viewstate.state != viewstate.STATE_STARTUP
+            el = notr {html:conninfo.el.innerHTML, stay:0, id:'conn'}
         else
-            if connection.infoText()?
-                # replace three dots
-                conStr = connection.infoText().replace('…','')
-                # replace spaces by underscore and lower case it
-                conStr = conStr.replace(' ', '_').toLowerCase()
-                startupConnEl.innerHTML = i18n.__("connection." +
-                  if conStr == 'connecting'
-                      "connecting:Connecting"
-                  else if conStr == 'loading'
-                      "loading:Loading"
-                  else if conStr == 'not_connected'
-                      "not_connected:Not connected (check connection)"
-                  else
-                      "connecting:Connecting")
-
-            if document.querySelector('.connecting.hide')?
-                el = notr {html:conninfo.el.innerHTML, stay:0, id:'conn'}
-            else
-                startupConnEl.classList.remove("hide")
-                startupLoadEl.classList.add("hide")
+            # update startup with connection information
+            drawStartup()
 
 setLeftSize = (left) ->
     document.querySelector('.left').style.width = left + 'px'
@@ -57,6 +37,17 @@ setConvMin = (convmin) ->
         document.querySelector('.left').classList.remove("minimal")
         document.querySelector('.leftresize').classList.remove("minimal")
 
+# draw startup elements on applayout only if
+#  it is on the startup process or until contacts are loaded
+#  (and 1.5s afterwards to keep an animation)
+drawStartup = ->
+    startup models
+    applayout.last startup
+
+# remove startup from applayout after animations finishes
+handle 'remove_startup', ->
+    startup = (models) -> null
+    applayout.last null
 
 handle 'update:viewstate', ->
     setLeftSize viewstate.leftSize
@@ -66,6 +57,12 @@ handle 'update:viewstate', ->
             later -> remote.getCurrentWindow().setSize viewstate.size...
         if Array.isArray viewstate.pos
             later -> remote.getCurrentWindow().setPosition viewstate.pos...
+        # show startup screen
+        if startup?
+            drawStartup()
+        else
+            applayout.last null
+        #
         applayout.left null
         applayout.convhead null
         applayout.main null
@@ -82,9 +79,20 @@ handle 'update:viewstate', ->
         applayout.main messages
         applayout.maininfo typinginfo
         applayout.foot input
+        # draw startup elements, and keep them until
+        #  animation has finished
+        drawStartup(1500)
         menu viewstate
         trayicon models
         dockicon viewstate
+    else if viewstate.state == viewstate.STATE_ABOUT
+        redraw()
+        about models
+        applayout.left convlist
+        applayout.main about
+        applayout.convhead null
+        applayout.maininfo null
+        applayout.foot null
     else if viewstate.state == viewstate.STATE_ADD_CONVERSATION
         redraw()
         applayout.left convlist
@@ -118,6 +126,7 @@ redraw = ->
     typinginfo models
     input models
     convadd models
+    startup models
     trayicon models
 
 handle 'update:switchConv', ->

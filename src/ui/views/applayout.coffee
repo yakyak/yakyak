@@ -100,18 +100,7 @@ resizers =
 
 module.exports = exp = layout ->
     platform = if process.platform is 'darwin' then 'osx' else ''
-    div class:'applayout ' + platform, resize, ->
-        div class: 'connecting',  ->
-            div ->
-                div () ->
-                    img src: path.join __dirname, '..', '..', 'icons', 'icon@32.png'
-                div ->
-                    span class: 'text state_connecting', i18n.__('connection.connecting:Connecting')
-                    span class: 'text state_contacts hide', i18n.__('connection.loading:Loading Contacts')
-                div class: 'spinner', ->
-                    div class: 'bounce1', ''
-                    div class: 'bounce2', ''
-                    div class: 'bounce3', ''
+    div class:'applayout ' + platform, resize, region('last'), ->
         div class:'left', ->
             div class:'listhead', region('listhead')
             div class:'list', region('left')
