@@ -29,7 +29,16 @@ handle 'update:connection', do ->
                 conStr = connection.infoText().replace('…','')
                 # replace spaces by underscore and lower case it
                 conStr = conStr.replace(' ', '_').toLowerCase()
-                startupConnEl.innerHTML = i18n.__("connection.#{conStr}")
+                startupConnEl.innerHTML = i18n.__("connection." +
+                  if conStr == 'connecting'
+                      "connecting:Connecting"
+                  else if conStr == 'loading'
+                      "loading:Loading"
+                  else if conStr == 'not_connected'
+                      "not_connected:Not connected (check connection)"
+                  else
+                      "connecting:Connecting")
+
             if document.querySelector('.connecting.hide')?
                 el = notr {html:conninfo.el.innerHTML, stay:0, id:'conn'}
             else

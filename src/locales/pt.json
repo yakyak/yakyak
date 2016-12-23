@@ -83,6 +83,7 @@
             "paste": "Colar",
             "cut": "Cortar",
             "copy": "Copiar",
+            "copy_image_link": "Copy Hiperligação da Imagem",
             "copy_link": "Copiar Hiperligação",
             "copy_image": "Copiar Imagem",
             "select_all": "Selecionar Todos",

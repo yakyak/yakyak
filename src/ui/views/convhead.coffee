@@ -15,26 +15,35 @@ module.exports = view (models) ->
       if conv.isStarred(c)
         span class:'material-icons', "star"
       name
-    div class:'button', title: i18n.__('conversation.options'),
-      onclick:convoptions, -> span class:'material-icons', 'more_vert'
-    div class:'convoptions', ->
-      div class:'button', title:i18n.__('conversation.settings'),
-        div class:'button', title: i18n.__('menu.view.notification.toggle'), onclick:onclickaction('togglenotif'), ->
-                if conv.isQuiet(c)
-                    span class:'material-icons', 'notifications_off'
-                else
-                    span class:'material-icons', 'notifications'
-                div class:'option-label', i18n.__n('notification', 1)
-            div class:'button', title:i18n.__('favorite.star_it'), onclick:onclickaction('togglestar'), ->
-                  if not conv.isStarred(c)
-                    span class:'material-icons', 'star_border'
-                  else
-                    span class:'material-icons', 'star'
-                  div class:'option-label', i18n.__n('favorite.title',1)
-              div class:'button', title:i18n.__('settings'),
-          onclick:onclickaction('convsettings'), ->
+    div class:'button'
+    , title: i18n.__('conversation.options:Conversation Options')
+    , onclick:convoptions, -> span class:'material-icons', 'more_vert'
+    div class:'convoptions'
+    , title:i18n.__('conversation.settings:Conversation settings'), ->
+        div class:'button'
+        , title: i18n.__('menu.view.notification.toggle:Toggle notifications')
+        , onclick:onclickaction('togglenotif')
+        , ->
+            if conv.isQuiet(c)
+                span class:'material-icons', 'notifications_off'
+            else
+                span class:'material-icons', 'notifications'
+            div class:'option-label', i18n.__n('notification:Notification', 1)
+        div class:'button'
+        , title:i18n.__('favorite.star_it:Star / unstar')
+        , onclick:onclickaction('togglestar')
+        , ->
+            if not conv.isStarred(c)
+                span class:'material-icons', 'star_border'
+            else
+                span class:'material-icons', 'star'
+            div class:'option-label', i18n.__n('favorite.title:Favorite',1)
+        div class:'button'
+        , title:i18n.__('settings:Settings')
+        , onclick:onclickaction('convsettings')
+        , ->
             span class:'material-icons', 'info_outline'
-            div class:'option-label', i18n.__('details')
+            div class:'option-label', i18n.__('details:Details')
 
 convoptions  = ->
   {viewstate} = models
