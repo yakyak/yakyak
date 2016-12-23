@@ -83,6 +83,7 @@
             "paste": "Coller",
             "cut": "Couper",
             "copy": "Copier",
+            "copy_image_link": "Copy Image Link",
             "copy_image": "Copier Image",
             "copy_link": "Copier Link",
             "select_all": "Tout sélectionner",
