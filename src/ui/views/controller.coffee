@@ -41,13 +41,13 @@ setConvMin = (convmin) ->
 #  it is on the startup process or until contacts are loaded
 #  (and 1.5s afterwards to keep an animation)
 drawStartup = ->
-    startup models
+    startup models if startup?
     applayout.last startup
 
 # remove startup from applayout after animations finishes
 handle 'remove_startup', ->
     startup = (models) -> null
-    applayout.last null
+    drawStartup()
 
 handle 'update:viewstate', ->
     setLeftSize viewstate.leftSize
@@ -58,10 +58,7 @@ handle 'update:viewstate', ->
         if Array.isArray viewstate.pos
             later -> remote.getCurrentWindow().setPosition viewstate.pos...
         # show startup screen
-        if startup?
-            drawStartup()
-        else
-            applayout.last null
+        drawStartup()
         #
         applayout.left null
         applayout.convhead null
@@ -81,7 +78,7 @@ handle 'update:viewstate', ->
         applayout.foot input
         # draw startup elements, and keep them until
         #  animation has finished
-        drawStartup(1500)
+        drawStartup()
         menu viewstate
         trayicon models
         dockicon viewstate
