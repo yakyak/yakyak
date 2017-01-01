@@ -410,7 +410,7 @@ handle 'client_conversation', (c) ->
     # Conversation must be added, even if already exists
     #  why? because when a new chat message for a new conversation appears
     #  a skeleton is made of a conversation
-    conv.add c unless conv[c?.conversation_id?.id].participant_data?
+    conv.add c unless conv[c?.conversation_id?.id]?.participant_data?
 
 handle 'hangout_event', (e) ->
     return unless e?.hangout_event?.event_type in ['START_HANGOUT', 'END_HANGOUT']
