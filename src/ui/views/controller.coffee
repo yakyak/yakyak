@@ -23,7 +23,7 @@ handle 'update:connection', do ->
             el = notr {html:conninfo.el.innerHTML, stay:0, id:'conn'}
         else
             # update startup with connection information
-            drawStartup()
+            redraw()
 
 setLeftSize = (left) ->
     document.querySelector('.left').style.width = left + 'px'
@@ -37,17 +37,11 @@ setConvMin = (convmin) ->
         document.querySelector('.left').classList.remove("minimal")
         document.querySelector('.leftresize').classList.remove("minimal")
 
-# draw startup elements on applayout only if
-#  it is on the startup process or until contacts are loaded
-#  (and 1.5s afterwards to keep an animation)
-drawStartup = ->
-    startup models if startup?
-    applayout.last startup
 
 # remove startup from applayout after animations finishes
 handle 'remove_startup', ->
-    startup = (models) -> null
-    drawStartup()
+    models.viewstate.startupScreenVisible = false
+    redraw()
 
 handle 'update:viewstate', ->
     setLeftSize viewstate.leftSize
@@ -57,14 +51,17 @@ handle 'update:viewstate', ->
             later -> remote.getCurrentWindow().setSize viewstate.size...
         if Array.isArray viewstate.pos
             later -> remote.getCurrentWindow().setPosition viewstate.pos...
-        # show startup screen
-        drawStartup()
-        #
+
+        # only render startup
+        startup(models)
+
         applayout.left null
         applayout.convhead null
         applayout.main null
         applayout.maininfo null
         applayout.foot null
+        applayout.last startup
+
         document.body.style.zoom = viewstate.zoom
         document.body.style.setProperty('--zoom', viewstate.zoom)
     else if viewstate.state == viewstate.STATE_NORMAL
@@ -76,12 +73,12 @@ handle 'update:viewstate', ->
         applayout.main messages
         applayout.maininfo typinginfo
         applayout.foot input
-        # draw startup elements, and keep them until
-        #  animation has finished
-        drawStartup()
-        menu viewstate
-        trayicon models
-        dockicon viewstate
+
+        if viewstate.startupScreenVisible
+            applayout.last startup
+        else
+            applayout.last null
+
     else if viewstate.state == viewstate.STATE_ABOUT
         redraw()
         about models
