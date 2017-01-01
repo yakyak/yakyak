@@ -21,7 +21,7 @@ window.onerror = (msg, url, lineNo, columnNo, error) ->
 # expose some selected tagg functions
 trifl.tagg.expose window, ('ul li div span a i b u s button p label
 input table thead tbody tr td th textarea br pass img h1 h2 h3 h4
-hr'.split(' '))...
+hr em'.split(' '))...
 
 {applayout}       = require './views'
 {viewstate, conv} = require './models'
