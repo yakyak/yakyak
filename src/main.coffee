@@ -428,6 +428,8 @@ app.on 'ready', ->
                 aboutWindow.close()
 
     ipc.on 'errorInWindow', (ev, error, winName = 'YakYak') ->
+        mainWindow.show() unless global.isReadyToShow
+        ipcsend 'expcetioninmain', error
         console.log "Error on #{winName} window:\n", error, "\n--- End of error message in #{winName} window."
 
     # propagate these events to the renderer
