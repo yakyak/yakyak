@@ -125,6 +125,7 @@ redraw = ->
 
 handle 'update:language', ->
     menu viewstate
+    redraw()
 
 handle 'update:switchConv', ->
     messages.scrollToBottom()

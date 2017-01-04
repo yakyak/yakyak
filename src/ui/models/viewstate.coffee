@@ -69,7 +69,6 @@ module.exports = exp = {
         i18n.setLocale(language)
         @language = localStorage.language = language
         updated 'language'
-        updated 'viewstate'
 
     switchInput: (next_conversation_id) ->
         # if conversation is changing, save input
