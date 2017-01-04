@@ -1,14 +1,14 @@
 moment = require 'moment'
 {nameof, initialsof, nameofconv, fixlink, drawAvatar} = require '../util'
 
-moment.locale(i18n.getLocale())
-
 module.exports = view (models) ->
+
     {conv, entity, viewstate} = models
     clz = ['convlist']
     clz.push 'showconvthumbs' if viewstate.showConvThumbs
     clz.push 'showanimatedthumbs' if viewstate.showAnimatedThumbs
     div class:clz.join(' '), ->
+        moment.locale(i18n.getLocale())
         convs = conv.list()
         renderConv = (c) ->
             pureHang = conv.isPureHangout(c)

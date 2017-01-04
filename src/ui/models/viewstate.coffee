@@ -47,6 +47,7 @@ module.exports = exp = {
     cachedInitialsCode: {} # code used for colored initials, if no avatar
     # contacts are loaded
     loadedContacts: false
+    startupScreenVisible: true
 
     setContacts: (state) ->
         return if state == @loadedContacts
@@ -67,7 +68,7 @@ module.exports = exp = {
         i18n.locale = language
         i18n.setLocale(language)
         @language = localStorage.language = language
-        updated 'viewstate'
+        updated 'language'
 
     switchInput: (next_conversation_id) ->
         # if conversation is changing, save input

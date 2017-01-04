@@ -1,0 +1,172 @@
+{
+    "__MyLocaleLanguage__": "Deutsch",
+    "__maintaner__": "http://github.com/hsabo",
+
+    "title": "YakYak - Hangouts Client",
+    "description": "Desktop Anwendung für Google Hangouts",
+
+    "settings": "Einstellungen",
+    "recent": "Zuletzt",
+    "details": "Details",
+
+    "connection" :{
+        "connecting": "Verbindungsaufbau...",
+        "loading": "Lade Kontakte...",
+        "not_connected": "Nicht verbunden (Bitte Verbindung prüfen)"
+    },
+
+    "input": {
+        "message": "Nachricht",
+        "emoticons": "Emojis einblenden",
+        "image": "Bild anfügen",
+        "typing": "schreibt gerade"
+    },
+    "conversation": {
+        "title": {
+            "one": "Unterhaltung",
+            "other": "Unterhaltungen"
+        },
+        "numbered": "Unterhaltung %d",
+        "options": "Optionen der Unterhaltung",
+        "setting": "Einstellungen der Unterhaltung",
+        "add": "Neue Unterhaltung hinzufügen",
+        "new": "Neue Unterhaltung",
+        "name": "Name der Unterhaltung",
+        "edit": "Unterhaltung ändern",
+        "multiuser": "Gruppenunterhaltung anlegen",
+        "delete": "Unterhaltung löschen",
+        "delete_confirm": "Wollen Sie die Unterhaltung wirklich löschen?",
+        "leave": "Unterhaltung verlassen",
+        "leave_confirm": "Wollen Sie die Unterhaltung wirklich verlassen?",
+        "search": "Kontakte suchen",
+        "new_message": "Neue Nachricht"
+    },
+    "notification": {
+        "one": "Benachrichtigung",
+        "other": "Benachrichtigungen"
+    },
+    "favorite": {
+        "title": {
+            "one": "Favorit",
+            "other": "Favoriten"
+        },
+        "star_it": "Zu Favoriten hinzufügen / aus Favoriten entfernen"
+    },
+    "actions": {
+      "ok": "OK",
+      "cancel": "Abbrechen"
+    },
+    "call": {
+        "incoming": "Eingehender Anruf",
+        "incoming_from": "Eingehender Anruf von %s",
+        "accepted": "Angenommen",
+        "accept": "Annehmen",
+        "rejected": "Abgelehnt",
+        "reject": "Ablehnen",
+        "missed": "Anruf von %s verpasst"
+    },
+    "menu": {
+        "title": "Menü",
+        "file": {
+            "title": "YakYak",
+            "hide": "YakYak verstecken",
+            "hide_others": "Andere verstecken",
+            "show": "Alle anzeigen",
+            "inspector": "Inspector öffnen",
+            "logout": "Abmelden",
+            "quit": "Beenden"
+        },
+        "edit": {
+            "title": "Bearbeiten",
+            "undo": "Rückgängig",
+            "redo": "Wiederherstellen",
+            "paste": "Einfügen",
+            "cut": "Ausschneiden",
+            "copy": "Kopieren",
+            "copy_image_link": "Link zum Bild kopieren",
+            "copy_link": "Link kopieren",
+            "copy_image": "Bild kopieren",
+            "select_all": "Alles auswählen",
+            "language": "Sprache (Language)"
+        },
+        "view": {
+            "title": "Ansicht",
+            "emoji": "Text in Emoji umwandeln",
+            "hide_dock": "Dock-Icon verstecken",
+            "fullscreen": "Vollbild",
+            "tray": {
+                "show_tray": "Task-Icon anzeigen",
+                "show_window": "Fenster anzeigen",
+                "toggle_minimize": "In die Taskleiste minimieren",
+                "start_minimize": "Minimiert starten",
+                "close": "In die Taskleiste schließen"
+            },
+            "escape": {
+                "title": "Verhalten der Escape-Taste",
+                "hide": "Fenster verstecken",
+                "clear": "Eingabe löschen",
+                "default": "Standard, wenn Taskleiste nicht angezeigt wird"
+            },
+            "conversation": {
+                "title": "Liste der Unterhaltungen",
+                "timestamp": "Zeitstempel der Unterhaltung anzeigen",
+                "last": "Letzte Nachricht der Unterhaltung anzeigen",
+                "previous": "Vorherige Unterhaltung",
+                "next": "Nächste Unterhaltung",
+                "select": "Unterhaltung auswählen",
+                "thumbnails": {
+                    "show": "Vorschaubilder anzeigen",
+                    "only": "Nur Vorschaubilder anzeigen",
+                    "animated": "Animierte Vorschaubilder anzeigen"
+                }
+            },
+            "notification": {
+                "title": "Pop-up Benachrichtigung",
+                "show": "Benachrichtigungen anzeigen",
+                "toggle": "Benachrichtigungen ein-/ausschalten",
+                "message": "Nachricht in Benachrichtigungen anzeigen",
+                "username": "Benutzername in Benachrichtigungen anzeigen",
+                "mute": "Stumme Benachrichtigungen",
+                "avatar": "Avatarbild des Benutzers in Benachrichtigungen anzeigen",
+                "icon": "YakYak Icon in Benachrichtigungen anzeigen",
+                "custom_sound": "Spezifischen YakYak Klang zur Benachrichtigung verwenden"
+            },
+            "color_scheme": {
+                "title": "Farbschema",
+                "default": "Original",
+                "blue": "Blau",
+                "dark": "Dunkel",
+                "material": "Material"
+            },
+            "font": {
+                "title": "Schriftgröße",
+                "extra_small": "Sehr klein",
+                "small": "Klein",
+                "medium": "Mittel",
+                "large": "Groß",
+                "extra_large": "Sehr groß"
+            },
+            "zoom": {
+                "in": "Schrift vergrößern",
+                "out": "Schrift verkleinern",
+                "reset": "Standardgröße"
+            }
+        },
+        "help": {
+            "title": "Hilfe",
+            "about": {
+                "title": "Über YakYak",
+                "newer": "Eine neuere Version ist verfügbar, bitte aktualisieren Sie von %s zu %s",
+                "license": "Lizenz",
+                "authors": "Hauptautoren",
+                "contributors": "Mitwirkenden"
+            }
+        },
+        "window": {
+            "title": "Fenster",
+            "minimize": "Minimieren",
+            "close": "Schließen",
+            "front": "Alle nach vorne bringen"
+        }
+    }
+}
