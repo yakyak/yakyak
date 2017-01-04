@@ -6,9 +6,9 @@ module.exports = view (models) ->
 
     conv_id = viewstate?.selectedConv
     c = conv[conv_id]
-    return unless c
 
     div class:'typing '+('typingnow' if c?.typing?.length), ->
+        return unless c
         span class:'material-icons', 'more_horiz' if c?.typing?.length
         for t, i in (c.typing ? [])
             name = nameof entity[t.user_id.chat_id]
