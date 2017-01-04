@@ -17,3 +17,4 @@ deploy:
     - "dist/yakyak-1.4.1-osx.zip"
   on:
     repo: averissimo/yakyak
+    branch: personal
