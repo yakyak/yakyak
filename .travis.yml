@@ -4,18 +4,38 @@ node_js:
 notifications:
   email: false
 
+#
+# precise does not have wine1.6-i386
+#  it would be necessary to add wine ppa
+#
+# https://docs.travis-ci.com/user/trusty-ci-environment/#Using-Trusty
+dist: trusty
+sudo: required
+
+before_deploy:
+  # YAKYAK_VERSION is used in the files to copy
+  - export YAKYAK_VERSION=`node -e "console.log(require('./package.json').version);"`
+  # debug information for the electron packager
+  - export DEBUG=electron-packager
+  # allows to have wine with 32-bits
+  - sudo dpkg --add-architecture i386
+  - sudo apt-get -qq update
+  - sudo apt-get install -y wine1.6-i386 zip xvfb
+  - WINEARCH=win32 wine wineboot --init
+  # actuall building of the binaries
+  - xvfb-run npm run deploy
+
 deploy:
   provider: releases
-  before_deploy: "npm run deploy"
+  prerelease: true
   skip_cleanup: true
   api_key:
-    secure: f+BytzySzrN6SdMcKcLXZgAgON806zhydNhhyAbvBw4G5P7M+aU0APw4ufCBGnuIyZllvEaIRD6E98ku6JI1Yj1suN++Pv4RIy/Fun5frsclA7DotzLwPSkNHC5/u/MlAPAirn9kfpcm7B2efynl61DaE+veAEsoOfO9RQGQcjuV1w9MBwTuEhcVdAXE9SjDlsqlN3CZz8VPxtS+69GYluijLVgrdroQecC2QvIwadmOE6LKl7xnHxxrtBjsTQ9xJo0rLemv76u2flhusKOBHlz9iw+mbxrdtj9YdlIOSsaxSSAUF7FYR+xsh4lfva+/8YypAQ5uwQZ4g+Ykq9dzMSmrJmC5V7ID3N5srSJmxCHOuRjDP5YT3HcicdhDOAdREswM/eKOBhQPWoj7ZJyzvPTSZf87qO2ZfG0VUWMNIMUjXhBsbzkt7tYpHVt1SF/XOFM7+QizbJSFucsY1Wx4lVtWhB2SyVm7Ix94HCc8B1HKVItevkHXvZpV7EGwDa4r84NcusTpesKuft4GGUSk6nbHnxvSqhtGCYAHCR8PA9ZDE2LsA/IRIooXnkaZyxphnuq7LoqUTnO7pkZ2zB0jTEg+32Xrxl7HwSVv03zJ46dTEEaD2BqmBH+lB6NmpsHmcFp9KZmvDCgv+TAaIIf4GxS8OnF0iqsuc8qoewobFK4=
+    secure: "${API_KEY}"
   file:
-    - "dist/yakyak-1.4.1-linux-x64.tar.gz"
-    - "dist/yakyak-1.4.1-linux-ia32.tar.gz"
-    - "dist/yakyak-1.4.1-win32-ia32.zip"
-    - "dist/yakyak-1.4.1-win32-x64.zip"
-    - "dist/yakyak-1.4.1-osx.zip"
+    - "dist/yakyak-${YAKYAK_VERSION}-linux-x64.tar.gz"
+    - "dist/yakyak-${YAKYAK_VERSION}-linux-ia32.tar.gz"
+    - "dist/yakyak-${YAKYAK_VERSION}-win32-ia32.zip"
+    - "dist/yakyak-${YAKYAK_VERSION}-win32-x64.zip"
+    - "dist/yakyak-${YAKYAK_VERSION}-osx.zip"
   on:
-    repo: averissimo/yakyak
-    branch: personal
+    tags: true
