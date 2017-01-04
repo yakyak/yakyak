@@ -4,7 +4,13 @@ node_js:
 notifications:
   email: false
 
-before_deploy: "npm run deploy"
+before_deploy:
+  - sudo apt-get -qq update
+  - sudo apt-get install -y wine zip xvfb
+  - sudo dpkg --add-architecture i386
+  - sudo apt-get install -y wine32
+  - wine wineboot --init
+  - "npm run deploy"
 
 deploy:
   provider: releases
