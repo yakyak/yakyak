@@ -123,6 +123,9 @@ redraw = ->
     startup models
     trayicon models
 
+handle 'update:language', ->
+    menu viewstate
+
 handle 'update:switchConv', ->
     messages.scrollToBottom()
 
