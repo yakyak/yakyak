@@ -27,7 +27,7 @@ module.exports =
 handle 'init', (init) ->
     # set the initial view state
     viewstate.setLoggedin true
-    viewstate.setState viewstate.STATE_NORMAL
+
     viewstate.setColorScheme viewstate.colorScheme
     viewstate.setFontSize viewstate.fontSize
 
@@ -42,6 +42,8 @@ handle 'init', (init) ->
     ipc.send 'initpresence', entity.list()
 
     require('./version').check()
+
+    viewstate.setState viewstate.STATE_NORMAL
 
 handle 'chat_message', (ev) ->
     # TODO entity is not fetched in usable time for first notification
@@ -148,7 +150,8 @@ handle 'togglehidedockicon', ->
     viewstate.setHideDockIcon(not viewstate.hidedockicon)
 
 handle 'show-about', ->
-    ipc.send 'show-about'
+    viewstate.setState viewstate.STATE_ABOUT
+    updated 'viewstate'
 
 handle 'hideWindow', ->
     mainWindow = remote.getCurrentWindow() # And we hope we don't get another ;)
@@ -200,8 +203,8 @@ handle 'addentities', (es, conv_id) ->
         (es ? []).forEach (p) -> conv.addParticipant conv_id, p
         viewstate.setState viewstate.STATE_NORMAL
 
-    # Best place to check if everyone is added
-    document.querySelector('.connecting').classList.add("hide")
+    # flag to show that contacts are loaded
+    viewstate.setContacts true
 
 handle 'uploadimage', (files) ->
     # this may change during upload
@@ -419,7 +422,7 @@ handle 'client_conversation', (c) ->
     # Conversation must be added, even if already exists
     #  why? because when a new chat message for a new conversation appears
     #  a skeleton is made of a conversation
-    conv.add c unless conv[c?.conversation_id?.id].participant_data?
+    conv.add c unless conv[c?.conversation_id?.id]?.participant_data?
 
 handle 'hangout_event', (e) ->
     return unless e?.hangout_event?.event_type in ['START_HANGOUT', 'END_HANGOUT']

@@ -6,9 +6,9 @@ module.exports = view (models) ->
   {conv, viewstate} = models
   conv_id = viewstate?.selectedConv
   c = conv[conv_id]
-  return if not c
-  name = nameofconv c
   div class:'headwrap', ->
+    return if not c # region cannot take undefined
+    name = nameofconv c
     span class:'name', ->
       if conv.isQuiet(c)
             span class:'material-icons', 'notifications_off'

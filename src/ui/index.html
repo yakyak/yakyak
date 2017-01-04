@@ -7,5 +7,58 @@
   </head>
   <body>
     <script src="app.js"></script>
+    <div>
+        <style TYPE="text/css">
+        <!--
+        #main-error {
+            width: 90%;
+            margin: auto;
+            padding-top: 3em;
+        }
+        #main-error p,
+        #main-error h3 {
+            padding-top: 1em;
+            padding-left: 110px;
+        }
+        #main-error h1,
+        #main-error h3 {
+            font-weight: 100;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+        #main-error .small {
+            font-size: .9em;
+        }
+        #main-error h1 {
+            margin-bottom: 0px;
+            padding-left: 110px;
+            background-image: url(../icons/icon@16.png);
+            background-repeat: no-repeat;
+            background-size: 84px;
+            line-height: 84px;
+        }
+        -->
+        </style>
+        <div id="main-error">
+          <h1>An error has occured</h1>
+          <div>
+            <p>If you are seeing this then an error has occured with YakYak.</p>
+            <p>To see what happened, <a href="javascript:void 0;" onclick="require('electron').remote.getCurrentWindow().webContents.openDevTools()">open the Inspector</a> and check the messages in the console tab.</p>
+            <h3>How to report</h3>
+            <p>Find if this error has already been reported at
+              <script>
+                openIssues = function() {
+                    require('electron').shell.openExternal("https://github.com/yakyak/yakyak/issues");
+                }
+              </script>
+              <a href="javascript:void 0;" onclick="openIssues()">
+                our issue tracker
+            </a> and join the discussion, or create a new one if you are the first <i class="small">(please include a screenshot of the console tab in the Inspector)</i>.
+            </p>
+            <p>Sorry for this.</p>
+            <p><i>&nbsp; YakYak team and community</i></p>
+          </div>
+        </div>
+    </div>
   </body>
 </html>

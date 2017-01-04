@@ -22,19 +22,8 @@
   }
 }
 
-.about {
-    margin-top: 3em;
-    margin-bottom: 3em;
-    text-align: center;
-    img {
-        height: 4em;
-    }
-    div {
-        margin-bottom: .5em;
-    }
-}
-
 .applayout {
+
     display: flex;
     height: 100%;
     .connecting {
@@ -49,6 +38,12 @@
             visibility: hidden;
             opacity: 0;
             transition: visibility 0s 1s, opacity 1s ease-out;
+            div.spinner > div {
+                // stop inner animations
+                -webkit-animation: none;
+                animation: none;
+            }
+
         }
         .hide {
             display: none;
