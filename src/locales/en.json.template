@@ -87,7 +87,7 @@
             "copy_link": "Copy Link",
             "copy_image": "Copy Image",
             "select_all": "Select All",
-            "language": "Language"
+            "language": "Language (Language)"
         },
         "view": {
             "title": "View",
