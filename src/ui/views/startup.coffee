@@ -21,12 +21,12 @@ module.exports = view (models) ->
             div ->
                 span class: 'text state_connecting', ->
                     if connection.state == connection.CONNECTING
-                        'Connecting'
+                        i18n.__ 'connection.connecting:Connecting'
                     else if connection.state == connection.CONNECT_FAILED
-                        'Not Connected (check connection)'
+                        i18n.__ 'connection.connecting:Not Connected (check connection)'
                     else
                         # connection.CONNECTED
-                        'Loading contacts'
+                        i18n.__ 'connection.connecting:Loading contacts'
             div class: 'spinner', ->
                 div class: 'bounce1', ''
                 div class: 'bounce2', ''

@@ -90,7 +90,7 @@ module.exports = view (models) ->
                                         insertTextAtCursor element, emoji
 
         div class:'input-container', ->
-            textarea id:'message-input', autofocus:true, placeholder: i18n.__('input.message_new:Message'), rows: 1, ''
+            textarea id:'message-input', autofocus:true, placeholder: i18n.__('input.message:Message'), rows: 1, ''
             , onDOMNodeInserted: (e) ->
                 # at this point the node is still not inserted
                 ta = e.target
