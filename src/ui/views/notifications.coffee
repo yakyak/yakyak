@@ -97,11 +97,11 @@ module.exports = (models) ->
                 action 'appfocus'
                 action 'selectConv', c
 
-        # only play if it is not playing already
-        #  and notifier does not support sound or force custom sound is set
-        #  and mute option is not set
-        if (!notifierSupportsSound || viewstate.forceCustomSound) && !viewstate.muteSoundNotification && audioEl.paused
-            audioEl.play()
+            # only play if it is not playing already
+            #  and notifier does not support sound or force custom sound is set
+            #  and mute option is not set
+            if (!notifierSupportsSound || viewstate.forceCustomSound) && !viewstate.muteSoundNotification && audioEl.paused
+                audioEl.play()
         # And we hope we don't get another 'currentWindow' ;)
         mainWindow = remote.getCurrentWindow()
         mainWindow.flashFrame(true)
