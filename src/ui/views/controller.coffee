@@ -122,6 +122,8 @@ redraw = ->
     convadd models
     startup models
     trayicon models
+    menu viewstate
+    dockicon viewstate
 
 handle 'update:language', ->
     menu viewstate
