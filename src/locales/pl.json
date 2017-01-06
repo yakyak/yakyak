@@ -1,0 +1,171 @@
+{
+  "__MyLocaleLanguage__": "Polski",
+  "__maintaner__": "https://github.com/aPoCoMiLogin",
+
+  "title": "YakYak - Klient Hangouts",
+  "description": "Aplikacja desktopowa Google Hangouts",
+
+  "settings": "Ustawienia",
+  "recent": "Ostatnie",
+  "details": "Szczegóły",
+
+  "connection" :{
+    "connecting": "Łączenie",
+    "loading": "Ładowanie kontaktów",
+    "not_connected": "Brak połączenia (sprawdź swoje połączenie)"
+  },
+
+  "input": {
+    "message": "Wiadomość",
+    "emoticons": "Pokaż emotikony",
+    "image": "Dołącz zdjęcie",
+    "typing": "pisze"
+  },
+  "conversation": {
+    "title": {
+      "one": "Rozmowa",
+      "other": "Rozmowy"
+    },
+    "numbered": "Rozmowa %d",
+    "options": "Opcje rozmowy",
+    "setting": "Ustawienia rozmowy",
+    "add": "Dodaj nową rozmowę",
+    "new": "Nowa rozmowa",
+    "name": "Nazwa rozmowy",
+    "edit": "Edytuj rozmowę",
+    "multiuser": "Utwórz grupową rozmowę",
+    "delete": "Usuń rozmowę",
+    "delete_confirm": "Na pewno chcesz usunąć rozmowę?",
+    "leave": "Opuść rozmowę",
+    "leave_confirm": "Na pewno chcesz opuścić rozmowę?",
+    "search": "Szukaj ludzi",
+    "new_message": "Nowa wiadomość"
+  },
+  "notification": {
+    "one": "Powiadomienie",
+    "other": "Powiadomienia"
+  },
+  "favorite": {
+    "title": {
+      "one": "Ulubiony",
+      "other": "Ulubione"
+    },
+    "star_it": "Dodaj/Usuń z ulubionych"
+  },
+  "actions": {
+    "ok": "OK",
+    "cancel": "Anuluj"
+  },
+  "call": {
+    "incoming": "Połączenie przychodzące",
+    "incoming_from": "Połączenie przychodzące od %s",
+    "accepted": "Odebrane",
+    "accept": "Odbierz",
+    "rejected": "Odrzucone",
+    "reject": "Odrzuć",
+    "missed": "Nieodebrane połączenie od %s"
+  },
+  "menu": {
+    "title": "Menu",
+    "file": {
+      "title": "YakYak",
+      "hide": "Ukryj YakYak",
+      "hide_others": "Ukryj pozostałe",
+      "show": "Pokaż wszystko",
+      "inspector": "Otwórz inspektor",
+      "logout": "Wyloguj",
+      "quit": "Zamknij"
+    },
+    "edit": {
+      "title": "Edycja",
+      "undo": "Cofnij",
+      "redo": "Ponów",
+      "paste": "Wklej",
+      "cut": "Wytnij",
+      "copy": "Kopiuj",
+      "copy_link": "Kopiuj adres linku",
+      "copy_image": "Kopiuj grafikę",
+      "select_all": "Zaznacz wszystko",
+      "language": "Język"
+    },
+    "view": {
+      "title": "Widok",
+      "emoji": "Konwersja tekstu na emotikonami",
+      "hide_dock": "Ukryj ikonę Docka",
+      "fullscreen": "Przełącz tryb pełnoekranowy",
+      "tray": {
+        "show_tray": "Pokaż ikonę w zasobniku systemowym",
+        "show_window": "Pokaż okno",
+        "toggle_minimize": "Minimalizuj do zasobnika systemowego",
+        "start_minimize": "Uruchom zminimalizowany do zasobnika systemowego",
+        "close": "Zamknij do zasobnika systemowego"
+      },
+      "escape": {
+        "title": "Zachowanie klawisza escape (esc)",
+        "hide": "Ukrywa okno",
+        "clear": "Czyści wpisany tekst",
+        "default": "domyślnie gdy ikona zasobnika nie jest włączona"
+      },
+      "conversation": {
+        "title": "Lista konwersacji",
+        "timestamp": "Pokaż datę ostatniej wiadomości",
+        "last": "Pokaż ostatnią wiadomość",
+        "previous": "Poprzednia rozmowa",
+        "next": "Następna rozmowa",
+        "select": "Wybierz rozmowę",
+        "thumbnails": {
+          "show": "Pokaż miniaturki",
+          "only": "Pokaż tylko miniaturki",
+          "animated": "Pokaż animowane miniaturki"
+        }
+      },
+      "notification": {
+        "title": "Wyskakujące powiadomienia",
+        "show": "Pokaż powiadomienia",
+        "toggle": "Pokaż powiadomienia",
+        "message": "Pokaż wiadomość w powiadomieniach",
+        "username": "Pokaż nazwę użytkownika w powiadomieniach",
+        "mute": "Wyłączyć dźwięk powiadomień",
+        "avatar": "Pokaż awatar użytkownika w powiadomieniach",
+        "icon": "Pokaż ikonę w powiadomieniach",
+        "custom_sound": "Użyj niestandardowego dźwięku powiadomień"
+      },
+      "color_scheme": {
+        "title": "Schemat kolorów",
+        "default": "Domyślny",
+        "blue": "Niebieski",
+        "dark": "Ciemny",
+        "material": "Material"
+      },
+      "font": {
+        "title": "Rozmiar czcionki",
+        "extra_small": "Bardzo mały",
+        "small": "Mały",
+        "medium": "Średni",
+        "large": "Duży",
+        "extra_large": "Bardzo duży"
+      },
+      "zoom": {
+        "in": "Zbliżenie",
+        "out": "Oddalanie",
+        "reset": "Rzeczywisty rozmiar"
+      }
+    },
+    "help": {
+      "title": "Pomoc",
+      "about": {
+        "title": "YakYak - Informacje",
+        "newer": "Nowsza wersja jest dostępna, prosimy o zaktualizowanie z %s do %s",
+        "license": "Licencja",
+        "authors": "Twórcy",
+        "contributors": "Współtwórcy"
+      }
+    },
+    "window": {
+      "title": "Okno",
+      "minimize": "Minimalizuj",
+      "close": "Zamknij",
+      "front": "Pokaż wszystko na wierzch"
+    }
+  }
+}
