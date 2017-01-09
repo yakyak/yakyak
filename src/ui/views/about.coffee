@@ -37,7 +37,7 @@ module.exports = view (models) ->
     #
     div class: 'about', ->
         div ->
-            img src: path.join __dirname, '..', '..', 'icons', 'icon@8.png'
+            img src: path.join YAKYAK_ROOT_DIR, '..', 'icons', 'icon@8.png'
         div class: 'name', ->
             h2 ->
                 span 'YakYak v' + localVersion
