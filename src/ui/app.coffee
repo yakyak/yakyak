@@ -79,6 +79,19 @@ ipc.on 'ready-to-show', () ->
              remote.getGlobal('windowHideWhileCred') != true
         mainWindow.show()
 
+    #
+    window.addEventListener 'unload', (ev) ->
+        if process.platform == 'darwin' && window?
+            if window.isFullScreen()
+                window.setFullScreen false
+            if not remote.getGlobal('forceClose')
+                ev.preventDefault()
+                window?.hide()
+                return
+
+        window = null
+        action 'quit'
+
 #
 #
 # Get information on exceptions in main process
@@ -147,19 +160,6 @@ document.addEventListener 'paste', (e) ->
 # register event listeners for on/offline
 window.addEventListener 'online',  -> action 'wonline', true
 window.addEventListener 'offline', -> action 'wonline', false
-
-#
-window.addEventListener 'unload', (ev) ->
-    if process.platform == 'darwin' && window?
-        if window.isFullScreen()
-            window.setFullScreen false
-        if not remote.getGlobal('forceClose')
-            ev.preventDefault()
-            window?.hide()
-            return
-
-    window = null
-    action 'quit'
 
 #
 #
