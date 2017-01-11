@@ -392,9 +392,9 @@ formatAttachment = (att) ->
     return unless href
 
     # here we assume attachments are only images
-    if preload href
+    if preload thumb
       div class:'attach', ->
-          a {href, onclick}, -> img src:href
+          a {href, onclick}, -> img src:thumb
 
 
 handle 'loadedimg', ->
