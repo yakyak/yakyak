@@ -79,6 +79,10 @@ handle 'update:viewstate', ->
         else
             applayout.last null
 
+        menu viewstate
+        dockicon viewstate
+        trayicon models
+
     else if viewstate.state == viewstate.STATE_ABOUT
         redraw()
         about models
@@ -121,9 +125,11 @@ redraw = ->
     input models
     convadd models
     startup models
-    trayicon models
+
+
+handle 'update:language', ->
     menu viewstate
-    dockicon viewstate
+    redraw()
 
 handle 'update:switchConv', ->
     messages.scrollToBottom()
