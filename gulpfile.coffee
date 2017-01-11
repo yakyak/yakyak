@@ -17,6 +17,8 @@ filter     = require 'gulp-filter'
 Q          = require 'q'
 Stream     = require 'stream'
 spawn      = require('child_process').spawn
+# running tasks in sequence
+runSequence = require('run-sequence')
 
 #
 #
@@ -33,6 +35,7 @@ paths =
     html:    './src/**/*.html'
     images:  './src/**/images/*.*'
     icons:   './src/icons'
+    locales: './src/locales/*.json'
     media:   './src/media/*.*'
     less:    './src/ui/css/manifest.less'
     lessd:   './src/ui/css/**/*.less'
@@ -104,6 +107,11 @@ gulp.task 'html', ->
     gulp.src paths.html
         .pipe htmlInject()
         .pipe gulp.dest outapp
+
+# copy images
+gulp.task 'locales', ->
+    gulp.src paths.locales
+        .pipe gulp.dest path.join outapp, 'locales'
 
 # copy images
 gulp.task 'media', ->
@@ -179,7 +187,7 @@ gulp.task 'clean', (cb) ->
     rimraf outapp, cb
 
 gulp.task 'default', ['package', 'coffee', 'html', 'images', 'media',
-                      'icons', 'less', 'fontello']
+                      'locales', 'icons', 'less', 'fontello']
 
 gulp.task 'watch', ['default', 'reloader', 'html'], ->
     # watch to rebuild
@@ -201,7 +209,8 @@ buildDeployTask = (platform, arch) ->
     gulp.task tasknameNoDep, ()->
         deploy platform, arch
     # set task with dependencies
-    gulp.task taskname, ['default'].concat tasknameNoDep
+    gulp.task taskname, (cb) ->
+      runSequence 'default', tasknameNoDep, cb
     #
     tasknameNoDep
 
@@ -219,9 +228,14 @@ platformOpts.map (plat) ->
         allNames.push taskName
     #
     # create arch-independet task
-    gulp.task "deploy:#{plat}", ['default'].concat names
+    gulp.task "deploy:#{plat}", (cb) ->
+      # add callback to arguments
+      names.push cb
+      runSequence 'default', names...
     #
-gulp.task 'deploy', ['default'].concat allNames
+gulp.task 'deploy', (cb)->
+    allNames.push cb
+    runSequence 'default', allNames...
 
 zipIt = (folder, filePrefix, done) ->
     ext = 'zip'
@@ -283,7 +297,6 @@ deploy = (platform, arch) ->
     #
     # necessary to add a callback to pipe (which is used to signal end of task)
     gulpCallback = (obj) ->
-        "use strict"
         stream = new Stream.Transform({objectMode: true})
         stream._transform = (file, unused, callback) ->
             obj()
@@ -298,9 +311,14 @@ deploy = (platform, arch) ->
         if err?
             console.log ('Error: ' + err) if err?
         else if appPaths?.length > 0
+            if process.env.NO_ZIP
+                return deferred.resolve()
             json = JSON.parse(fs.readFileSync('./package.json'))
             zippath = "#{appPaths[0]}/"
-            fileprefix = "yakyak-#{json.version}-#{platform}-#{arch}"
+            if platform == 'darwin'
+                fileprefix = "yakyak-#{json.version}-osx"
+            else
+                fileprefix = "yakyak-#{json.version}-#{platform}-#{arch}"
 
             if platform == 'linux'
                 tarIt zippath, fileprefix, -> deferred.resolve()

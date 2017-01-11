@@ -102,11 +102,17 @@ module.exports = view (models) ->
           entity.needEntity participant.chat_id
     div class:'messages', observe:onMutate(viewstate), ->
         return unless c?.event
+
         grouped = groupEvents c.event, entity
         div class:'historyinfo', ->
             if c.requestinghistory
                 pass 'Requesting history…', -> span class:'material-icons spin', 'donut_large'
-        moment.locale(window.navigator.language)
+        moment.locale(i18n.getLocale())
+
+        last_seen = conv.findLastReadEventsByUser(c)
+        last_seen_chat_ids_with_event = (last_seen, event) ->
+          (chat_id for chat_id, e of last_seen when event is e)
+
         for g in grouped
             div class:'timestamp', moment(g.start / 1000).calendar()
             for u in g.byuser
@@ -122,15 +128,35 @@ module.exports = view (models) ->
                         clz.push 'self' if entity.isSelf(u.cid)
                         div class:clz.join(' '), ->
                             drawMessageAvatar u, sender, viewstate, entity
-                            if entity.isSelf(u.cid)
-                                drawSeenElement(c, u, entity, events, viewstate)
                             div class:'umessages', ->
                                 drawMessage(e, entity) for e in events
                             , onDOMSubtreeModified: (e) ->
                                 window.twemoji?.parse e.target if process.platform == 'win32'
-                            unless entity.isSelf(u.cid)
-                                drawSeenElement(c, u, entity, events)
 
+                            # at the end of the events group we draw who has read any of its events
+                            div class: 'seen-list', () ->
+                                for e in events
+                                    for chat_id in last_seen_chat_ids_with_event(last_seen, e)
+                                        skip = entity.isSelf(chat_id) or (chat_id == u.cid)
+                                        drawSeenAvatar(
+                                            entity[chat_id],
+                                            e.event_id,
+                                            viewstate,
+                                            entity
+                                        ) if not skip
+
+    # Go through all the participants and only show his last seen status
+    if c?.current_participant?
+        for participant in c.current_participant
+            # get all avatars
+            all_seen = document
+            .querySelectorAll(".seen[data-id='#{participant.chat_id}']")
+            # select last one
+            #  NOT WORKING
+            #if all_seen.length > 0
+            #    all_seen.forEach (el) ->
+            #        el.classList.remove 'show'
+            #    all_seen[all_seen.length - 1].classList.add 'show'
     if lastConv != conv_id
         lastConv = conv_id
         later atTopIfSmall
@@ -138,19 +164,6 @@ module.exports = view (models) ->
 drawMessageAvatar = (u, sender, viewstate, entity) ->
     a href:linkto(u.cid), title: sender, {onclick}, class:'sender', ->
         drawAvatar(u.cid, viewstate, entity)
-
-drawSeenElement = (c, u, entity, events, viewstate) ->
-    if viewstate?.showseenstatus
-        temp_set = new Set()
-        for contacts in c.read_state
-            other = contacts.participant_id.chat_id
-            if other != u.cid &&
-               !entity.isSelf(other) &&
-               # only add "seen" avatar if last message from group is seen
-               contacts.latest_read_timestamp >= events[events.length - 1].timestamp
-                if !temp_set.has(entity[other].id)
-                    temp_set.add entity[other].id
-                    drawSeenAvatar entity[other]
 
 groupEventsByMessageType = (event) ->
     res = []
@@ -171,19 +184,14 @@ groupEventsByMessageType = (event) ->
 isMeMessage = (e) ->
     e?.chat_message?.annotation?[0]?[0] == HANGOUT_ANNOTATION_TYPE.me_message
 
-drawSeenAvatar = (u) ->
+drawSeenAvatar = (u, event_id, viewstate, entity) ->
     initials = initialsof u
-    span class: "seen"
+    div class: "seen"
     , "data-id": u.id
+    , "data-event-id": event_id
     , title: u.display_name
     , ->
-        purl = u?.photo_url
-        if purl and !viewstate?.showAnimatedThumbs
-            purl += "?sz=25"
-        if purl
-            img src:fixlink(purl)
-        else
-            div class:'initials', initials
+        drawAvatar(u.id, viewstate, entity)
 
 drawMeMessage = (e) ->
     div class:'message', ->
@@ -369,7 +377,7 @@ preloadInstagramPhoto = (href) ->
     return cache
 
 formatAttachment = (att) ->
-    console.log 'attachment', att if att.length > 0
+    # console.log 'attachment', att if att.length > 0
     if att?[0]?.embed_item?.type_
         data = extractProtobufStyle(att)
         return if not data

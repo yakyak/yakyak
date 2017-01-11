@@ -4,10 +4,15 @@
   "description": "Chat client for Google Hangouts",
   "main": "main.js",
   "scripts": {
+    "start": "gulp && electron app",
+    "dev": "electron app --debug",
     "gulp": "gulp",
     "electron": "electron",
     "test": "mocha",
     "deploy": "gulp deploy",
+    "deploy:linux": "gulp deploy:linux",
+    "deploy:win32": "gulp deploy:win32",
+    "deploy:darwin": "gulp deploy:darwin",
     "deploy:linux-x64": "gulp deploy:linux-x64",
     "deploy:linux-ia32": "gulp deploy:linux-ia32",
     "deploy:win32-x64": "gulp deploy:win32-x64",
@@ -31,7 +36,8 @@
   "homepage": "https://github.com/yakyak/yakyak",
   "dependencies": {
     "autosize": "^3.0.8",
-    "hangupsjs": "^1.3.3",
+    "hangupsjs": "^1.3.4",
+    "i18n": "^0.8.3",
     "mime-types": "^2.1.12",
     "moment": "^2.10.3",
     "node-notifier": "^4.2.3",
@@ -45,8 +51,9 @@
   "devDependencies": {
     "chai": "^3.2.0",
     "coffee-script": "^1.9.2",
+    "devtron": "^1.4.0",
     "electron-packager": "^8.3.0",
-    "electron-prebuilt": "^1.4.10",
+    "electron": "^1.4.10",
     "gulp": "^3.9.0",
     "gulp-auto-reload": "0.1.0",
     "gulp-changed": "^1.2.1",
@@ -64,6 +71,7 @@
     "gulp-zip": "^3.2.0",
     "mocha": "^2.2.5",
     "rimraf": "^2.4.2",
+    "run-sequence": "^1.2.2",
     "sinon": "^1.15.4",
     "sinon-chai": "^2.8.0"
   }

@@ -1,7 +1,7 @@
 remote = require('electron').remote
 
 {applayout, convlist, listhead, messages, convhead, input, conninfo, convadd, controls,
-notifications, typinginfo, menu, trayicon, dockicon } = require './index'
+notifications, typinginfo, menu, trayicon, dockicon, startup, about} = require './index'
 
 models      = require '../models'
 {viewstate, connection} = models
@@ -15,26 +15,15 @@ handle 'update:connection', do ->
         # draw view
         conninfo connection
 
-        startupConnEl = document.querySelector('.state_connecting')
-        startupLoadEl = document.querySelector('.state_contacts')
         # place in layout
         if connection.state == connection.CONNECTED
             el?.hide?()
-            startupConnEl.classList.add("hide")
-            startupLoadEl.classList.remove("hide")
             el = null
+        else if viewstate.state != viewstate.STATE_STARTUP
+            el = notr {html:conninfo.el.innerHTML, stay:0, id:'conn'}
         else
-            startupConnEl.innerHTML = connection.infoText()
-                # replace three dots
-                .replace '…',''
-                # add check connection to "Not Connected"
-                .replace /(Not connected)/,
-                         '$1 (check connection)'
-            if document.querySelector('.connecting.hide')?
-                el = notr {html:conninfo.el.innerHTML, stay:0, id:'conn'}
-            else
-                startupConnEl.classList.remove("hide")
-                startupLoadEl.classList.add("hide")
+            # update startup with connection information
+            redraw()
 
 setLeftSize = (left) ->
     document.querySelector('.left').style.width = left + 'px'
@@ -49,6 +38,11 @@ setConvMin = (convmin) ->
         document.querySelector('.leftresize').classList.remove("minimal")
 
 
+# remove startup from applayout after animations finishes
+handle 'remove_startup', ->
+    models.viewstate.startupScreenVisible = false
+    redraw()
+
 handle 'update:viewstate', ->
     setLeftSize viewstate.leftSize
     setConvMin viewstate.showConvMin
@@ -57,11 +51,17 @@ handle 'update:viewstate', ->
             later -> remote.getCurrentWindow().setSize viewstate.size...
         if Array.isArray viewstate.pos
             later -> remote.getCurrentWindow().setPosition viewstate.pos...
+
+        # only render startup
+        startup(models)
+
         applayout.left null
         applayout.convhead null
         applayout.main null
         applayout.maininfo null
         applayout.foot null
+        applayout.last startup
+
         document.body.style.zoom = viewstate.zoom
         document.body.style.setProperty('--zoom', viewstate.zoom)
     else if viewstate.state == viewstate.STATE_NORMAL
@@ -73,9 +73,24 @@ handle 'update:viewstate', ->
         applayout.main messages
         applayout.maininfo typinginfo
         applayout.foot input
+
+        if viewstate.startupScreenVisible
+            applayout.last startup
+        else
+            applayout.last null
+
         menu viewstate
-        trayicon models
         dockicon viewstate
+        trayicon models
+
+    else if viewstate.state == viewstate.STATE_ABOUT
+        redraw()
+        about models
+        applayout.left convlist
+        applayout.main about
+        applayout.convhead null
+        applayout.maininfo null
+        applayout.foot null
     else if viewstate.state == viewstate.STATE_ADD_CONVERSATION
         redraw()
         applayout.left convlist
@@ -109,7 +124,30 @@ redraw = ->
     typinginfo models
     input models
     convadd models
-    trayicon models
+    startup models
+
+
+handle 'update:language', ->
+    menu viewstate
+    redraw()
+
+throttle = (fn, time=10) ->
+    timeout = false
+    # return a throttled version of fn
+    # which executes on the trailing end of `time`
+    throttled = ->
+        return if timeout
+        timeout = setTimeout ->
+            fn()
+            timeout = false
+        ,
+            time
+
+redraw = throttle(redraw, 20)
+
+handle 'update:language', ->
+    menu viewstate
+    redraw()
 
 handle 'update:switchConv', ->
     messages.scrollToBottom()

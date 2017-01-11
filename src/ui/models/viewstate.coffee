@@ -8,6 +8,7 @@ STATES =
     STATE_STARTUP: 'startup'
     STATE_NORMAL: 'normal'
     STATE_ADD_CONVERSATION: 'add_conversation'
+    STATE_ABOUT: 'about'
 
 module.exports = exp = {
     state: null
@@ -37,11 +38,21 @@ module.exports = exp = {
     startminimizedtotray: tryparse(localStorage.startminimizedtotray) or false
     closetotray: tryparse(localStorage.closetotray) or false
     showDockOnce: true
-    showseenstatus: tryparse(localStorage.showseenstatus) ? false
     showIconNotification: tryparse(localStorage.showIconNotification) ? true
     muteSoundNotification: tryparse(localStorage.muteSoundNotification) ? false
     forceCustomSound: tryparse(localStorage.forceCustomSound) ? false
-    messageMemory: {}
+    language: localStorage.language ? 'en'
+    # non persistent!
+    messageMemory: {}      # stores input when swithching conversations
+    cachedInitialsCode: {} # code used for colored initials, if no avatar
+    # contacts are loaded
+    loadedContacts: false
+    startupScreenVisible: true
+
+    setContacts: (state) ->
+        return if state == @loadedContacts
+        @loadedContacts = state
+        updated 'viewstate'
 
     setState: (state) ->
         return if @state == state
@@ -51,6 +62,13 @@ module.exports = exp = {
             # syncallnewevents on startup
             require('./connection').setLastActive(Date.now(), true)
         updated 'viewstate'
+
+    setLanguage: (language) ->
+        return if @language == language
+        i18n.locale = language
+        i18n.setLocale(language)
+        @language = localStorage.language = language
+        updated 'language'
 
     switchInput: (next_conversation_id) ->
         # if conversation is changing, save input

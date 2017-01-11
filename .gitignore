@@ -24,3 +24,4 @@ Yakyak.app
 app
 dist
 scrape-emojipedia.org.py
+.idea/

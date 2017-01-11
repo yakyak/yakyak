@@ -1,5 +1,47 @@
 language: node_js
 node_js:
-  - "0.12"
+  - "6"
 notifications:
   email: false
+
+#
+# precise does not have wine1.6-i386
+#  it would be necessary to add wine ppa
+#
+# https://docs.travis-ci.com/user/trusty-ci-environment/#Using-Trusty
+dist: trusty
+sudo: required
+
+before_deploy:
+  # YAKYAK_VERSION is used in the files to copy
+  - export YAKYAK_VERSION=`node -e "console.log(require('./package.json').version);"`
+  # debug information for the electron packager
+  - export DEBUG=electron-packager
+  # allows to have wine with 32-bits
+  - sudo dpkg --add-architecture i386
+  - sudo apt-get -qq update
+  - sudo apt-get install -y wine1.6-i386 zip xvfb
+  - WINEARCH=win32 wine wineboot --init
+  # actuall building of the binaries
+  - xvfb-run npm run deploy
+
+deploy:
+  provider: releases
+  # overwrite pre-existing files
+  overwrite: true
+  # always create a pre-release
+  prerelease: true
+  # necessary to deploy in github, otherwise it would clean everything
+  skip_cleanup: true
+  # secret API_KEY stored in Travis CI
+  api_key: "${API_KEY}"
+  # files to copy to github release
+  file:
+    - "dist/yakyak-${YAKYAK_VERSION}-linux-x64.tar.gz"
+    - "dist/yakyak-${YAKYAK_VERSION}-linux-ia32.tar.gz"
+    - "dist/yakyak-${YAKYAK_VERSION}-win32-ia32.zip"
+    - "dist/yakyak-${YAKYAK_VERSION}-win32-x64.zip"
+    - "dist/yakyak-${YAKYAK_VERSION}-osx.zip"
+  # only trigger on tags
+  on:
+    tags: true

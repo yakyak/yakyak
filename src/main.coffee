@@ -5,13 +5,20 @@ ipc       = require('electron').ipcMain
 fs        = require 'fs'
 path      = require 'path'
 tmp       = require 'tmp'
-clipboard = require('electron').clipboard
-Menu      = require('electron').menu
-session = require('electron').session
+session   = require('electron').session
+
+
+[drive, path_parts...] = path.normalize(__dirname).split(path.sep)
+global.YAKYAK_ROOT_DIR = [drive, path_parts.map(encodeURIComponent)...].join('/')
+
+# test if flag debug is preset (other flags can be used via package args
+#  but requres node v6)
+debug = process.argv.includes '--debug'
 
 tmp.setGracefulCleanup()
 
 app = require('electron').app
+app.disableHardwareAcceleration()
 
 BrowserWindow = require('electron').BrowserWindow
 
@@ -49,7 +56,6 @@ logout = ->
 seqreq = require './seqreq'
 
 mainWindow = null
-aboutWindow = null
 
 # Only allow a single active instance
 shouldQuit = app.makeSingleInstance ->
@@ -60,18 +66,20 @@ if shouldQuit
     app.quit();
     return;
 
+global.i18nOpts = { opts: null, locale: null }
+
 # No more minimizing to tray, just close it
 global.forceClose = false
 quit = ->
     global.forceClose = true
     # force all windows to close
-    aboutWindow.destroy() if aboutWindow?
     mainWindow.destroy() if mainWindow?
     app.quit()
     return
 
 app.on 'before-quit', ->
     global.forceClose = true
+    global.i18nOpts = null
     return
 
 # For OSX show window main window if we've hidden it.
@@ -80,7 +88,7 @@ app.on 'activate', ->
     mainWindow.show()
 
 loadAppWindow = ->
-    mainWindow.loadURL 'file://' + __dirname + '/ui/index.html'
+    mainWindow.loadURL 'file://' + YAKYAK_ROOT_DIR + '/ui/index.html'
     # Only show window when it has some content
     mainWindow.once 'ready-to-show', () ->
         mainWindow.webContents.send 'ready-to-show'
@@ -119,9 +127,38 @@ app.on 'ready', ->
         # autoHideMenuBar : true unless process.platform is 'darwin'
     }
 
+    # Launch fullscreen with DevTools open, usage: npm run debug
+    if debug
+      mainWindow.webContents.openDevTools()
+      mainWindow.maximize()
+      mainWindow.show()
+      try
+        require('devtron').install()
+      catch
+          #do nothing
+
     # and load the index.html of the app. this may however be yanked
     # away if we must do auth.
     loadAppWindow()
+
+    #
+    #
+    # Handle uncaught exceptions from the main process
+    process.on 'uncaughtException', (msg) ->
+        ipcsend 'expcetioninmain', msg
+        #
+        console.log "Error on main process:\n#{msg}\n" +
+            "--- End of error message. More details:\n", msg
+
+    #
+    #
+    # Handle crashes on the main window and show in console
+    mainWindow.webContents.on 'crashed', (msg) ->
+        console.log 'Crash event on main window!', msg
+        ipc.send 'expcetioninmain', {
+            msg: 'Detected a crash event on the main window.'
+            event: msg
+        }
 
     # short hand
     ipcsend = (as...) ->  mainWindow.webContents.send as...
@@ -223,6 +260,13 @@ app.on 'ready', ->
         messageQueue = messageQueue.then ->
             sendForSure()
 
+    # get locale for translations
+    ipc.on 'seti18n', (ev, opts, language)->
+        if opts?
+            global.i18nOpts.opts = opts
+        if language?
+            global.i18nOpts.locale = language
+
     # sendchatmessage, executed sequentially and
     # retried if not sent successfully
     ipc.on 'querypresence', seqreq (ev, id) ->
@@ -298,6 +342,10 @@ app.on 'ready', ->
     # no retries, dedupe on conv_id
     ipc.on 'setfocus', seqreq (ev, conv_id) ->
         client.setfocus conv_id
+        client.getconversation conv_id, new Date(), 1, true
+        .then (r) ->
+            ipcsend 'getconversationmetadata:response', r
+
     , false, (ev, conv_id) -> conv_id
 
     ipc.on 'appfocus', ->
@@ -359,7 +407,7 @@ app.on 'ready', ->
 
     # retry, one single per conv_id
     ipc.on 'getconversation', seqreq (ev, conv_id, timestamp, max) ->
-        client.getconversation(conv_id, timestamp, max).then (r) ->
+        client.getconversation(conv_id, timestamp, max, true).then (r) ->
             ipcsend 'getconversation:response', r
     , false, (ev, conv_id, timestamp, max) -> conv_id
 
@@ -371,23 +419,10 @@ app.on 'ready', ->
 
     ipc.on 'quit', quit
 
-    # Help -> About opens the about window
-    ipc.on 'show-about', ->
-        aboutWindow = new BrowserWindow {
-          width: 500
-          height: 500
-          show: false
-          parent: mainWindow
-          resizable: false
-        }
-
-        aboutWindow.loadURL 'file://' + __dirname + '/ui/about.html'
-        aboutWindow.once 'ready-to-show', () ->
-            aboutWindow.setMenu(null)
-            aboutWindow.show()
-
-    ipc.on 'errorInWindow', (ev, error) ->
-        console.log "Error on YakYak window:\n", error, "\n--- End of error message in YakYak window."
+    ipc.on 'errorInWindow', (ev, error, winName = 'YakYak') ->
+        mainWindow.show() unless global.isReadyToShow
+        ipcsend 'expcetioninmain', error
+        console.log "Error on #{winName} window:\n", error, "\n--- End of error message in #{winName} window."
 
     # propagate these events to the renderer
     require('./ui/events').forEach (n) ->

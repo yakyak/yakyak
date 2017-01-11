@@ -19,30 +19,48 @@
         position: relative;
         width: 66%;
         margin-left: 25px;
-        .seen {
-          text-decoration: none;
-          font-size: 11px;
-          color: var(--darkgrey);
-          display: inline-block;
-          margin-right: 25px;
-          img, .initials {
-              object-fit: cover;
-              border-radius: 50%;
-              width: 25px;
-              height: 25px;
-              border: 5px solid var(--lightgrey);
-              color: var(--white);
-              background: var(--grey);
-              position: absolute;
-              bottom: 0px;
-              text-align: center;
-              font-size: 10px;
-              line-height: 41px;
-              text-transform: uppercase;
-              display: flex;
-              justify-content: center;
-              align-items: center;
-          }
+        &.self .seen-list {
+           right: 12px;
+           left: auto;
+        }
+        .seen-list {
+            --size: 21px;
+            position: absolute;
+            bottom: -14px;
+            left: 12px;
+            display: flex;
+            flex-direction: row-reverse;
+            .seen {
+                // don't show the text text while hovering  initials
+                cursor: default;
+                width: var(--size);
+                height: var(--size);
+                filter: saturate(60%);
+                text-decoration: none;
+                font-size: 11px;
+                display: inline-block;
+                .avatar {
+                    &.fallback-on img{
+                        display: none;
+                    }
+                    &.fallback-on .initials.fallback {
+                        display: flex;
+                    }
+                    img, .initials {
+                        width: var(--size);
+                        height: var(--size);
+                        border: 2px solid var(--lightgrey);
+                        bottom: 0px;
+                        font-size: 10px;
+                        line-height: 41px;
+                        display: flex;
+                        &.fallback {
+                            display: none;
+                        }
+                        opacity: 0.5;
+                    }
+                }
+            }
         }
         .sender {
             text-decoration: none;

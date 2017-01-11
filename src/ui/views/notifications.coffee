@@ -2,6 +2,7 @@ notifier = require 'node-notifier'
 shell    = require('electron').shell
 path     = require 'path'
 remote   = require('electron').remote
+i18n     = require 'i18n'
 
 {nameof, getProxiedName, fixlink, notificationCenterSupportsSound} = require '../util'
 
@@ -37,26 +38,27 @@ module.exports = (models) ->
             return unless msg.chat_message?.message_content?
             text = textMessage msg.chat_message.message_content, proxied
         else if msg.hangout_event?.event_type == 'START_HANGOUT'
-            text = "Incoming call"
+            text = i18n.__ "call.incoming:Incoming call"
             callNeedAnswer[conv_id] = true
             notr
-                html: "Incoming call from #{sender}. " +
-                '<a href="#" class="accept">Accept</a> / ' +
-                '<a href="#" class="reject">Reject</a>'
+                html: "#{i18n.__('call.incoming_from:Incoming call from %s', sender)}. " +
+                "<a href=\"#\" class=\"accept\">#{i18n.__ 'call.accept:Accept'}</a> / " +
+                "<a href=\"#\" class=\"reject\">#{i18n.__ 'call.reject:Reject'}</a>"
                 stay: 0
                 id: "hang#{conv_id}"
                 onclick: (e) ->
                     delete callNeedAnswer[conv_id]
                     if e?.target?.className == 'accept'
-                        notr({html:'Accepted', stay:1000, id:"hang#{conv_id}"})
+                        notr({html:i18n.__('calls.accepted:Accepted'), stay:1000, id:"hang#{conv_id}"})
                         openHangout conv_id
                     else
-                        notr({html:'Rejected', stay:1000, id:"hang#{conv_id}"})
+                        notr({html: i18n.__('calls.rejected:Rejected'), stay:1000, id:"hang#{conv_id}"})
         else if msg.hangout_event?.event_type == 'END_HANGOUT'
             if callNeedAnswer[conv_id]
                 delete callNeedAnswer[conv_id]
                 notr
-                    html: "Missed call from #{sender}. " + '<a href="#">OK</a>'
+                    html: "#{i18n.__('calls.missed:Missed call from %s', sender)}. " +
+                        "<a href=\"#\">#{actions.ok}</a>"
                     id: "hang#{conv_id}"
                     stay: 0
         else
@@ -78,7 +80,7 @@ module.exports = (models) ->
             notifier.notify
                 title: if viewstate.showUsernameInNotification
                            if !isNotificationCenter && !viewstate.showIconNotification
-                               "#{sender} (via YakYak)"
+                               "#{sender} (YakYak)"
                            else
                                sender
                        else
@@ -86,7 +88,7 @@ module.exports = (models) ->
                 message: if viewstate.showMessageInNotification
                           text
                       else
-                          'New Message'
+                          i18n.__('conversation.new_message:New Message')
                 wait: true
                 sender: 'com.github.yakyak'
                 sound: !viewstate.muteSoundNotification && (notifierSupportsSound && !viewstate.forceCustomSound)
@@ -97,11 +99,11 @@ module.exports = (models) ->
                 action 'appfocus'
                 action 'selectConv', c
 
-        # only play if it is not playing already
-        #  and notifier does not support sound or force custom sound is set
-        #  and mute option is not set
-        if (!notifierSupportsSound || viewstate.forceCustomSound) && !viewstate.muteSoundNotification && audioEl.paused
-            audioEl.play()
+            # only play if it is not playing already
+            #  and notifier does not support sound or force custom sound is set
+            #  and mute option is not set
+            if (!notifierSupportsSound || viewstate.forceCustomSound) && !viewstate.muteSoundNotification && audioEl.paused
+                audioEl.play()
         # And we hope we don't get another 'currentWindow' ;)
         mainWindow = remote.getCurrentWindow()
         mainWindow.flashFrame(true)

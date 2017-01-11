@@ -73,6 +73,15 @@ findByEventId = (conv, event_id) ->
     for e, i in conv.event ? []
         return i if e.event_id == event_id
 
+findLastReadEventsByUser = (conv) ->
+    last_seen_events_by_user = {}
+    for contact in conv.read_state
+        chat_id = contact.participant_id.chat_id
+        last_read = contact.last_read_timestamp ? contact.latest_read_timestamp
+        for e in conv.event ? [] when e.timestamp <= last_read
+            last_seen_events_by_user[chat_id] = e
+    last_seen_events_by_user
+
 
 # this is used when sending new messages, we add a placeholder with
 # the correct client_generated_id. this entry will be replaced in
@@ -275,6 +284,7 @@ funcs =
     addTyping: addTyping
     pruneTyping: pruneTyping
     unreadTotal: unreadTotal
+    findLastReadEventsByUser: findLastReadEventsByUser
 
     setNotificationLevel: (conv_id, level) ->
         return unless c = lookup[conv_id]
@@ -310,14 +320,15 @@ funcs =
             later -> action 'history', conv_id, timestamp, HISTORY_AMOUNT
             updated 'conv'
 
-    updateHistory: (state) ->
+    updateMetadata: (state, redraw = true) ->
         conv_id = state?.conversation_id?.id
         return unless c = lookup[conv_id]
-        c.requestinghistory = false
-        event = state?.event
-        c.event = (event ? []).concat (c.event ? [])
-        c.nomorehistory = true if event?.length == 0
 
+        c.read_state = state.conversation?.read_state ? c.read_state
+
+        @redraw_conversation() if redraw
+
+    redraw_conversation: () ->
         # first signal is to give views a change to record the
         # current view position before injecting new DOM
         updated 'beforeHistory'
@@ -326,6 +337,19 @@ funcs =
         # last signal is to move view to be at same place
         # as when we injected DOM.
         updated 'afterHistory'
+
+    updateHistory: (state) ->
+        conv_id = state?.conversation_id?.id
+        return unless c = lookup[conv_id]
+        c.requestinghistory = false
+        event = state?.event
+
+        @updateMetadata(state, false)
+
+        c.event = (event ? []).concat (c.event ? [])
+        c.nomorehistory = true if event?.length == 0
+
+        @redraw_conversation()
 
     updatePlaceholderImage: ({conv_id, client_generated_id, path}) ->
         return unless c = lookup[conv_id]

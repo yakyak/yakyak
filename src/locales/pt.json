@@ -1,0 +1,172 @@
+{
+    "__MyLocaleLanguage__": "Português",
+    "__maintaner__": "http://github.com/averissimo",
+
+    "title": "YakYak - Cliente Hangouts",
+    "description": "Cliente de Desktop para Google Hangouts",
+
+    "settings": "Definições",
+    "recent": "Recente",
+    "details": "Detalhes",
+
+    "connection" :{
+        "connecting": "A Ligar",
+        "loading": "Carregar Contactos",
+        "not_connected": "Não Ligado (verifique a ligação)"
+    },
+
+    "input": {
+        "message": "Mensagem",
+        "emoticons": "Mostrar emoji",
+        "image": "Anexar imagem",
+        "typing": "está a escrever"
+    },
+    "conversation": {
+        "title": {
+            "one": "Conversa",
+            "other": "Conversas"
+        },
+        "numbered": "Conversa %d",
+        "options": "Opções da conversa",
+        "setting": "Definições da conversa",
+        "add": "Adicionar nova conversa",
+        "new": "Nova conversa",
+        "name": "Nome da conversa",
+        "edit": "Editar conversa",
+        "multiuser": "Criar conversa com várias pessoas",
+        "delete": "Apagar conversa",
+        "delete_confirm": "Deseja realmente apagar conversa?",
+        "leave": "Sair da conversa",
+        "leave_confirm": "Deseja realmente sair da conversa?",
+        "search": "Procurar pessoas",
+        "new_message": "Nova Mensagem"
+    },
+    "notification": {
+        "one": "Notificação",
+        "other": "Notificações"
+    },
+    "favorite": {
+        "title": {
+            "one": "Favorito",
+            "other": "Favoritos"
+        },
+        "star_it": "Marcar/Desmarcar como favorito"
+    },
+    "actions": {
+      "ok": "OK",
+      "cancel": "Cancelar"
+    },
+    "call": {
+        "incoming": "Chamada",
+        "incoming_from": "Chamada de %s",
+        "accepted": "Aceitada",
+        "accept": "Aceitar",
+        "rejected": "Rejeitada",
+        "reject": "Rejeitar",
+        "missed": "Chamada perdida de %s"
+    },
+    "menu": {
+        "title": "Menu",
+        "file": {
+            "title": "YakYak",
+            "hide": "Esconder YakYak",
+            "hide_others": "Esconder Outros",
+            "show": "Mostrar Todos",
+            "inspector": "Abrir Inspector",
+            "logout": "Terminar sessão",
+            "quit": "Sair"
+        },
+        "edit": {
+            "title": "Editar",
+            "undo": "Desfazer",
+            "redo": "Refazer",
+            "paste": "Colar",
+            "cut": "Cortar",
+            "copy": "Copiar",
+            "copy_image_link": "Copy Hiperligação da Imagem",
+            "copy_link": "Copiar Hiperligação",
+            "copy_image": "Copiar Imagem",
+            "select_all": "Selecionar Todos",
+            "language": "Idioma (Language)"
+        },
+        "view": {
+            "title": "Ver",
+            "emoji": "Converter texto para emoji",
+            "hide_dock": "Esconder Ícone da Dock",
+            "fullscreen": "Alternar Ecrã Inteiro",
+            "tray": {
+                "show_tray": "Mostrar icon no tray",
+                "show_window": "Mostrar janela",
+                "toggle_minimize": "Mostrar janela / minimizar para tray",
+                "start_minimize": "Começar minimizado no tray",
+                "close": "Fechar para o tray"
+            },
+            "escape": {
+                "title": "Comportament da tecla Escape",
+                "hide": "Esconder Janela",
+                "clear": "Limpar a mensagem atual",
+                "default": "opção por defeito quando tray não está visível"
+            },
+            "conversation": {
+                "title": "Lista de Conversas",
+                "timestamp": "Mostrar Carimbo de Hora",
+                "last": "Mostrar Última Mensagem",
+                "previous": "Conversa Anterior",
+                "next": "Conversa Seguinte",
+                "select": "Seleccionar Conversa",
+                "thumbnails": {
+                    "show": "Mostrar Miniaturas",
+                    "only": "Mostrar Apenas Miniaturas",
+                    "animated": "Mostrar Miniaturas com Animações"
+                }
+            },
+            "notification": {
+                "title": "Notificações",
+                "show": "Mostrar notificações",
+                "toggle": "Ativar/Desativar notificações",
+                "message": "Mostrar mensagem nas notificações",
+                "username": "Mostrar nome de utilizador nas notificações",
+                "mute": "Desactivar som nas notificações",
+                "avatar": "Mostrar miniatura do utilizador em notificações",
+                "icon": "Mostrar icon de YakYak em notificações",
+                "custom_sound": "Usar som customizado de YakYak em notificações"
+            },
+            "color_scheme": {
+                "title": "Esquema de Cores",
+                "default": "Original",
+                "blue": "Azul",
+                "dark": "Escuro",
+                "material": "Material"
+            },
+            "font": {
+                "title": "Tamanho de Fonte",
+                "extra_small": "Muito Pequena",
+                "small": "Pequena",
+                "medium": "Media",
+                "large": "Grande",
+                "extra_large": "Muito Grande"
+            },
+            "zoom": {
+                "in": "Zoom in",
+                "out": "Zoom out",
+                "reset": "Tamnho Original"
+            }
+        },
+        "help": {
+            "title": "Ajuda",
+            "about": {
+                "title": "Sobre YakYak",
+                "newer": "Uma versão mais recente encontra-se disponível, por favor atualize de %s para %s",
+                "license": "Licensa",
+                "authors": "Autores principais",
+                "contributors": "Contribuidores"
+            }
+        },
+        "window": {
+            "title": "Janela",
+            "minimize": "Minimizar",
+            "close": "Fechar",
+            "front": "Trazer Todos para a Frente"
+        }
+    }
+}

@@ -2,11 +2,13 @@ moment = require 'moment'
 {nameof, initialsof, nameofconv, fixlink, drawAvatar} = require '../util'
 
 module.exports = view (models) ->
+
     {conv, entity, viewstate} = models
     clz = ['convlist']
     clz.push 'showconvthumbs' if viewstate.showConvThumbs
     clz.push 'showanimatedthumbs' if viewstate.showAnimatedThumbs
     div class:clz.join(' '), ->
+        moment.locale(i18n.getLocale())
         convs = conv.list()
         renderConv = (c) ->
             pureHang = conv.isPureHangout(c)
@@ -27,13 +29,20 @@ module.exports = view (models) ->
                 name = nameofconv c
                 if viewstate.showConvThumbs or viewstate.showConvMin
                     div class: 'thumbs thumbs-'+(if ents.length>4 then '4' else ents.length), ->
+                        additional = []
                         for p, index in ents
-                            break if index >= 4
-                            entity.needEntity(p.id)
-                            drawAvatar(p.id, viewstate, entity)
-
-                        if ents.length>4
-                            div class:'moreuser', ents.length
+                            # if there are up to 4 people in the conversation
+                            #   then draw them all, otherwise, draw 3 avatars
+                            #   and then add a +X , where X is the remaining
+                            #   number of people
+                            if index < 3 ||  ents.length == 4
+                                entity.needEntity(p.id)
+                                drawAvatar(p.id, viewstate, entity)
+                            else
+                                additional.push nameof entity[p.id]
+                        if ents.length > 4
+                            div class:'moreuser', "+#{ents.length - 3}"
+                            , title: additional.join('\n')
                         if ur > 0 and not conv.isQuiet(c)
                             lbl = if ur >= conv.MAX_UNREAD then "#{conv.MAX_UNREAD}+" else ur + ''
                             span class:'unreadcount', lbl
@@ -63,10 +72,12 @@ module.exports = view (models) ->
         starred = (c for c in convs when conv.isStarred(c))
         others = (c for c in convs when not conv.isStarred(c))
         div class: 'starred', ->
-            div class: 'label', 'Favorites' if starred.length > 0
-            starred.forEach renderConv
+            if starred.length > 0
+                div class: 'label', i18n.__n('favorite.title:Favorites', 2)
+                starred.forEach renderConv
         div class: 'others', ->
-            div class: 'label', 'Recent' if starred.length > 0
+            if starred.length > 0
+                div class: 'label', i18n.__ 'recent:Recent'
             others.forEach renderConv
 
 # possible classes of messages
@@ -77,7 +88,7 @@ drawMessage = (e, entity) ->
     mclz = ['message']
     mclz.push c for c in MESSAGE_CLASSES when e[c]?
     title = if e.timestamp then moment(e.timestamp / 1000).calendar() else null
-    div id:e.event_id, key:e.event_id, class:mclz.join(' '), title:title, ->
+    div id:"list_#{e.event_id}", key:"list_#{e.event_id}", class:mclz.join(' '), title:title, ->
         if e.chat_message
             content = e.chat_message?.message_content
             format content

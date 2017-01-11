@@ -7,12 +7,9 @@ fs = require('fs')
 mime = require('mime-types')
 
 clipboard = require('electron').clipboard
-nativeImage = require('electron').nativeImage
-
-{convertEmoji} = require './util'
 
 {entity, conv, viewstate, userinput, connection, convsettings, notify} = require './models'
-{throttle, later, isImg} = require './util'
+{insertTextAtCursor, throttle, later, isImg} = require './util'
 
 'connecting connected connect_failed'.split(' ').forEach (n) ->
     handle n, -> connection.setState n
@@ -27,11 +24,10 @@ handle 'reqinit', ->
 module.exports =
     init: ({init}) -> action 'init', init
 
-
 handle 'init', (init) ->
     # set the initial view state
     viewstate.setLoggedin true
-    viewstate.setState viewstate.STATE_NORMAL
+
     viewstate.setColorScheme viewstate.colorScheme
     viewstate.setFontSize viewstate.fontSize
 
@@ -46,6 +42,8 @@ handle 'init', (init) ->
     ipc.send 'initpresence', entity.list()
 
     require('./version').check()
+
+    viewstate.setState viewstate.STATE_NORMAL
 
 handle 'chat_message', (ev) ->
     # TODO entity is not fetched in usable time for first notification
@@ -98,6 +96,12 @@ handle 'attop', (attop) ->
 handle 'history', (conv_id, timestamp) ->
     ipc.send 'getconversation', conv_id, timestamp, 20
 
+handle 'handleconversationmetadata', (r) ->
+    return unless r.conversation_state
+    # removing events so they don't get merged
+    r.conversation_state.event = null
+    conv.updateMetadata r.conversation_state
+
 handle 'handlehistory', (r) ->
     return unless r.conversation_state
     conv.updateHistory r.conversation_state
@@ -135,9 +139,6 @@ handle 'showiconnotification', (value) ->
 handle 'mutesoundnotification', ->
     viewstate.setMuteSoundNotification(not viewstate.muteSoundNotification)
 
-handle 'toggleshowseenstatus', ->
-    viewstate.setShowSeenStatus(not viewstate.showseenstatus)
-
 handle 'togglemenu', ->
     mainWindow = remote.getCurrentWindow()
     if mainWindow.isMenuBarVisible() then mainWindow.setMenuBarVisibility(false) else mainWindow.setMenuBarVisibility(true)
@@ -149,7 +150,8 @@ handle 'togglehidedockicon', ->
     viewstate.setHideDockIcon(not viewstate.hidedockicon)
 
 handle 'show-about', ->
-    ipc.send 'show-about'
+    viewstate.setState viewstate.STATE_ABOUT
+    updated 'viewstate'
 
 handle 'hideWindow', ->
     mainWindow = remote.getCurrentWindow() # And we hope we don't get another ;)
@@ -194,7 +196,6 @@ handle 'updatewatermark', do ->
                 throttleWaterByConv[conv_id] = sendWater
         sendWater()
 
-
 handle 'getentity', (ids) -> ipc.send 'getentity', ids
 handle 'addentities', (es, conv_id) ->
     entity.add e for e in es ? []
@@ -202,8 +203,8 @@ handle 'addentities', (es, conv_id) ->
         (es ? []).forEach (p) -> conv.addParticipant conv_id, p
         viewstate.setState viewstate.STATE_NORMAL
 
-    # Best place to check if everyone is added
-    document.querySelector('.connecting').classList.add("hide")
+    # flag to show that contacts are loaded
+    viewstate.setContacts true
 
 handle 'uploadimage', (files) ->
     # this may change during upload
@@ -358,10 +359,19 @@ handle 'delete', (a) ->
     return unless c = conv[conv_id]
     conv.deleteConv conv_id
 
+#
+#
+# Change language in YakYak
+#
+handle 'changelanguage', (language) ->
+    if i18n.getLocales().includes viewstate.language
+        ipc.send 'seti18n', null, language
+        viewstate.setLanguage(language)
+
 handle 'deleteconv', (confirmed) ->
     conv_id = viewstate.selectedConv
     unless confirmed
-        later -> if confirm 'Really delete conversation?'
+        later -> if confirm i18n.__('conversation.delete_confirm:Really delete conversation?')
             action 'deleteconv', true
     else
         ipc.send 'deleteconversation', conv_id
@@ -371,7 +381,7 @@ handle 'deleteconv', (confirmed) ->
 handle 'leaveconv', (confirmed) ->
     conv_id = viewstate.selectedConv
     unless confirmed
-        later -> if confirm 'Really leave conversation?'
+        later -> if confirm i18n.__('conversation.leave_confirm:Really leave conversation?')
             action 'leaveconv', true
     else
         ipc.send 'removeuser', conv_id
@@ -412,7 +422,7 @@ handle 'client_conversation', (c) ->
     # Conversation must be added, even if already exists
     #  why? because when a new chat message for a new conversation appears
     #  a skeleton is made of a conversation
-    conv.add c unless conv[c?.conversation_id?.id].participant_data?
+    conv.add c unless conv[c?.conversation_id?.id]?.participant_data?
 
 handle 'hangout_event', (e) ->
     return unless e?.hangout_event?.event_type in ['START_HANGOUT', 'END_HANGOUT']
