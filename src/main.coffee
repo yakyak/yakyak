@@ -32,8 +32,6 @@ client = new Client(
     cookiespath: paths.cookiespath
 )
 
-if fs.existsSync paths.chromecookie
-    fs.unlinkSync paths.chromecookie
 
 plug = (rs, rj) -> (err, val) -> if err then rj(err) else rs(val)
 
@@ -41,6 +39,7 @@ logout = ->
     promise = client.logout()
     promise.then (res) ->
       argv = process.argv
+      fs.unlinkSync(paths.chromecookie) if fs.existsSync(paths.chromecookie)
       spawn = require('child_process').spawn
       spawn argv.shift(), argv,
         cwd: process.cwd
