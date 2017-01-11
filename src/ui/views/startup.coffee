@@ -17,7 +17,7 @@ module.exports = view (models) ->
     , ->
         div ->
             div ->
-                img src: path.join YAKYAK_ROOT_DIR, 'icons', 'icon@32.png'
+                img src: path.join __dirname, '..', '..', 'icons', 'icon@32.png'
             div ->
                 span class: 'text state_connecting', ->
                     if connection.state == connection.CONNECTING

@@ -7,10 +7,6 @@ path      = require 'path'
 tmp       = require 'tmp'
 session   = require('electron').session
 
-
-[drive, path_parts...] = path.normalize(__dirname).split(path.sep)
-global.YAKYAK_ROOT_DIR = [drive, path_parts.map(encodeURIComponent)...].join('/')
-
 # test if flag debug is preset (other flags can be used via package args
 #  but requres node v6)
 debug = process.argv.includes '--debug'
@@ -88,7 +84,7 @@ app.on 'activate', ->
     mainWindow.show()
 
 loadAppWindow = ->
-    mainWindow.loadURL 'file://' + YAKYAK_ROOT_DIR + '/ui/index.html'
+    mainWindow.loadURL 'file://' + __dirname + '/ui/index.html'
     # Only show window when it has some content
     mainWindow.once 'ready-to-show', () ->
         mainWindow.webContents.send 'ready-to-show'
