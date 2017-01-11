@@ -41,6 +41,7 @@ module.exports = exp = {
     showIconNotification: tryparse(localStorage.showIconNotification) ? true
     muteSoundNotification: tryparse(localStorage.muteSoundNotification) ? false
     forceCustomSound: tryparse(localStorage.forceCustomSound) ? false
+    language: localStorage.language ? 'en'
     # non persistent!
     messageMemory: {}      # stores input when swithching conversations
     cachedInitialsCode: {} # code used for colored initials, if no avatar
@@ -61,6 +62,13 @@ module.exports = exp = {
             # syncallnewevents on startup
             require('./connection').setLastActive(Date.now(), true)
         updated 'viewstate'
+
+    setLanguage: (language) ->
+        return if @language == language
+        i18n.locale = language
+        i18n.setLocale(language)
+        @language = localStorage.language = language
+        updated 'language'
 
     switchInput: (next_conversation_id) ->
         # if conversation is changing, save input

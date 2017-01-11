@@ -1,0 +1,172 @@
+{
+    "__MyLocaleLanguage__": "Français",
+    "__maintaner__": "http://github.com/Fredouye",
+
+    "title": "YakYak - Client Hangouts",
+    "description": "Application de bureau Hangouts",
+
+    "settings": "Paramètres",
+    "recent": "Récent",
+    "details": "Détails",
+
+    "connection" :{
+        "connecting": "Connexion",
+        "loading": "Chargement des contacts",
+        "not_connected": "Non connecté (vérifier la connexion)"
+    },
+
+    "input": {
+        "message": "Message",
+        "emoticons": "Afficher les emojis",
+        "image": "Joindre une photo",
+        "typing": "est en train d'écrire"
+    },
+    "conversation": {
+        "title": {
+            "one": "Conversation",
+            "other": "Conversations"
+        },
+        "numbered": "Conversation %d",
+        "options": "Options de conversation",
+        "setting": "Paramètres de conversation",
+        "add": "Ajouter une nouvelle conversation",
+        "new": "Nouvelle conversation",
+        "name": "Nom de la conversation",
+        "edit": "Modifier la conversation",
+        "multiuser": "Démarrer un Hangout en groupe",
+        "delete": "Effacer la conversation",
+        "delete_confirm": "Voulez-vous vraiment effacer la conversation ?",
+        "leave": "Quitter la conversation",
+        "leave_confirm": "Voulez-vous vraiment quitter la conversation ?",
+        "search": "Chercher des contacts",
+        "new_message": "Nouveau message"
+    },
+    "notification": {
+        "one": "Notification",
+        "other": "Notifications"
+    },
+    "favorite": {
+        "title": {
+            "one": "Favori",
+            "other": "Favoris"
+        },
+        "star_it": "Mettre en favori / Enlever des favoris"
+    },
+    "actions": {
+      "ok": "OK",
+      "cancel": "Annuler"
+    },
+    "call": {
+        "incoming": "Appel entrant",
+        "incoming_from": "Appel de %s",
+        "accepted": "Accepté",
+        "accept": "Accepter",
+        "rejected": "Rejeté",
+        "reject": "Rejeter",
+        "missed": "Appel manqué de %s"
+    },
+    "menu": {
+        "title": "Menu",
+        "file": {
+            "title": "YakYak",
+            "hide": "Masquer YakYak",
+            "hide_others": "Masquer les autres",
+            "show": "Tout afficher",
+            "inspector": "Afficher l'inspecteur",
+            "logout": "Déconnexion",
+            "quit": "Quitter"
+        },
+        "edit": {
+            "title": "Edition",
+            "undo": "Annuler",
+            "redo": "Rétablir",
+            "paste": "Coller",
+            "cut": "Couper",
+            "copy": "Copier",
+            "copy_image_link": "Copy Image Link",
+            "copy_image": "Copier Image",
+            "copy_link": "Copier Link",
+            "select_all": "Tout sélectionner",
+            "language": "Langage (Language)"
+        },
+        "view": {
+            "title": "Présentation",
+            "emoji": "Convertir le texte en emoji",
+            "hide_dock": "Cacher l'icône du Dock",
+            "fullscreen": "Activer le mode plein écran",
+            "tray": {
+                "show_tray": "Afficher l'icône dans la barre de menu",
+                "show_window": "Afficher la fenêtre",
+                "toggle_minimize": "Réduire dans la barre de menu",
+                "start_minimize": "Démarrer minimisé dans la barre de menu",
+                "close": "Fermer dans la barre de menu"
+            },
+            "escape": {
+                "title": "Comportement de la touche d'échappement",
+                "hide": "Cacher la fenêtre",
+                "clear": "Effacer l'entrée",
+                "default": "par défaut quand la barre de menu n'est pas affichée"
+            },
+            "conversation": {
+                "title": "Liste des conversations",
+                "timestamp": "Afficher l'horodatage de la conversation",
+                "last": "Afficher le dernier message de la conversation",
+                "previous": "Conversation précédente",
+                "next": "Conversation suivante",
+                "select": "Sélectionner la conversation",
+                "thumbnails": {
+                    "show": "Afficher les miniatures",
+                    "only": "Afficher seulement les miniatures",
+                    "animated": "Afficher les miniatures animées"
+                }
+            },
+            "notification": {
+                "title": "Notification pop-up",
+                "show": "Afficher les notifications",
+                "toggle": "Afficher/masquer les notifications",
+                "message": "Afficher les messages dans les notifications",
+                "username": "Afficher les noms dans les notifications",
+                "mute": "Désactiver le son des notifications",
+                "avatar": "Afficher l'avater du contact dans les notifications",
+                "icon": "Afficher l'icône de YakYak dans les notifications",
+                "custom_sound": "Utiliser la sonnerie de YakYak dans les notifications"
+            },
+            "color_scheme": {
+                "title": "Style",
+                "default": "Par défaut",
+                "blue": "Bleu",
+                "dark": "Foncé",
+                "material": "Material"
+            },
+            "font": {
+                "title": "Taille de police",
+                "extra_small": "Très petite",
+                "small": "Petite",
+                "medium": "Moyenne",
+                "large": "Grande",
+                "extra_large": "Très grande"
+            },
+            "zoom": {
+                "in": "Agrandir",
+                "out": "Réduire",
+                "reset": "Taille de police par défaut"
+            }
+        },
+        "help": {
+            "title": "Aide",
+            "about": {
+                "title": "A propos de YakYak",
+                "newer": "Une nouvelle version est disponible, veuillez mettre à jour de %s vers %s",
+                "license": "Licence",
+                "authors": "Auteurs",
+                "contributors": "Contributeurs"
+            }
+        },
+        "window": {
+            "title": "Fenêtre",
+            "minimize": "Réduire",
+            "close": "Fermer",
+            "front": "Tout ramener au premier plan"
+        }
+    }
+}

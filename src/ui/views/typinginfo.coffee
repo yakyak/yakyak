@@ -14,4 +14,4 @@ module.exports = view (models) ->
             name = nameof entity[t.user_id.chat_id]
             span class:"typing_#{t.status}", name
             pass ', ' if i < (c.typing.length - 1)
-        pass ' is typing' if c?.typing?.length
+        pass " #{i18n.__ 'input.typing:is typing'}" if c?.typing?.length

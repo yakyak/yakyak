@@ -45,7 +45,7 @@ templateYakYak = (viewstate) ->
 
     [
         {
-            label: 'About YakYak',
+            label: i18n.__ 'menu.help.about.title:About YakYak'
             click: (it) -> action 'show-about'
         } if isDarwin
         #{ type: 'separator' }
@@ -53,82 +53,120 @@ templateYakYak = (viewstate) ->
         # click: => delegate.openConfig() }
         { type: 'separator' } if isDarwin
         {
-            label: 'Hide YakYak'
+            label: i18n.__ 'menu.file.hide:Hide YakYak'
             accelerator: getAccelerator('hideyakyak')
             role: if isDarwin then 'hide' else 'minimize'
         }
         {
-            label: 'Hide Others'
+            label: i18n.__ 'menu.file.hide_others:Hide Others'
             accelerator: getAccelerator('hideothers')
             role: 'hideothers'
         } if isDarwin
-        { role: 'unhide' } if isDarwin # old show all
+        {
+            label: i18n.__ "menu.file.show:Show All"
+            role: 'unhide'
+        } if isDarwin # old show all
         { type: 'separator' }
         {
-          label: 'Open Inspector'
+          label: i18n.__ 'menu.file.inspector:Open Inspector'
           accelerator: getAccelerator('openinspector')
           click: -> action 'devtools'
         }
         { type: 'separator' }
         {
-            label: 'Logout',
+            label: i18n.__('menu.file.logout:Logout')
             click: -> action 'logout'
             enabled: viewstate.loggedin
         }
         {
-            label: 'Quit'
+            label: i18n.__('menu.file.quit:Quit')
             accelerator: getAccelerator('quit')
             click: -> action 'quit'
         }
     ].filter (n) -> n != undefined
 
 templateEdit = (viewstate) ->
+    languages = for loc in i18n.getLocales()
+        if loc.length < 2
+            continue
+        {
+            label: i18n.getCatalog(loc).__MyLocaleLanguage__
+            type: 'radio'
+            checked: viewstate.language == loc
+            value: loc
+            click: (it) ->
+                action 'changelanguage', it.value
+        }
+    languages = languages.filter (n) -> n != undefined
     [
-        { role: 'undo' }
-        { role: 'redo' }
+        {
+            label: i18n.__ 'menu.edit.undo:Undo'
+            role: 'undo'
+        }
+        {
+            label: i18n.__ 'menu.edit.redo:Redo'
+            role: 'redo'
+        }
         { type: 'separator' }
-        { role: 'cut' }
-        { role: 'copy' }
-        { role: 'paste' }
-        { role: 'selectall' }
+        {
+            label: i18n.__ 'menu.edit.cut:Cut'
+            role: 'cut'
+        }
+        {
+            label: i18n.__ 'menu.edit.copy:Copy'
+            role: 'copy'
+        }
+        {
+            label: i18n.__ 'menu.edit.paste:Paste'
+            role: 'paste'
+        }
+        {
+            label: i18n.__ 'menu.edit.select_all:Select All'
+            role: 'selectall'
+        }
+        { type: 'separator' }
+        {
+            label: i18n.__('menu.edit.language:Language')
+            submenu: languages
+        }
     ].filter (n) -> n != undefined
 
 templateView = (viewstate) ->
     [
         {
-            label: 'Conversation List'
+            label: i18n.__('menu.view.conversation.title:Conversation List')
             submenu: [
               {
                   type: 'checkbox'
-                  label: 'Show Thumbnails'
+                  label: i18n.__('menu.view.conversation.thumbnails.show:Show Thumbnails')
                   checked: viewstate.showConvThumbs
                   enabled: viewstate.loggedin
                   click: (it) -> action 'showconvthumbs', it.checked
               }
               {
                   type: 'checkbox'
-                  label: 'Show Thumbnails Only'
+                  label: i18n.__('menu.view.conversation.thumbnails.only:Show Thumbnails Only')
                   checked:viewstate.showConvMin
                   enabled: viewstate.loggedin
                   click: (it) -> action 'showconvmin', it.checked
               }
               {
                   type: 'checkbox'
-                  label: 'Show Animated Thumbnails'
+                  label: i18n.__('menu.view.conversation.thumbnails.animated:Show Animated Thumbnails')
                   checked:viewstate.showAnimatedThumbs
                   enabled: viewstate.loggedin
                   click: (it) -> action 'showanimatedthumbs', it.checked
               }
               {
                   type: 'checkbox'
-                  label: 'Show Conversation Timestamp'
+                  label: i18n.__('menu.view.conversation.timestamp:Show Conversation Timestamp')
                   checked:viewstate.showConvTime
                   enabled: viewstate.loggedin && !viewstate.showConvMin
                   click: (it) -> action 'showconvtime', it.checked
               }
               {
                   type: 'checkbox'
-                  label: 'Show Conversation Last Message'
+                  label: i18n.__('menu.view.conversation.last:Show Conversation Last Message')
                   checked:viewstate.showConvLast
                   enabled: viewstate.loggedin && !viewstate.showConvMin
                   click: (it) -> action 'showconvlast', it.checked
@@ -136,44 +174,44 @@ templateView = (viewstate) ->
           ]
         }
         {
-            label: 'Pop-Up Notification'
+            label: i18n.__ 'menu.view.notification.title:Pop-Up Notification'
             submenu: [
                 {
                     type: 'checkbox'
-                    label: 'Show notifications'
+                    label: i18n.__('menu.view.notification.show:Show notifications')
                     checked: viewstate.showPopUpNotifications
                     enabled: viewstate.loggedin
                     click: (it) -> action 'showpopupnotifications', it.checked
                 }, {
                     type: 'checkbox'
-                    label: 'Show message in notifications'
+                    label: i18n.__('menu.view.notification.message:Show message in notifications')
                     checked: viewstate.showMessageInNotification
                     enabled: viewstate.loggedin && viewstate.showPopUpNotifications
                     click: (it) -> action 'showmessageinnotification', it.checked
                 }, {
                     type: 'checkbox'
-                    label: 'Show username in notifications'
+                    label: i18n.__('menu.view.notification.username:Show username in notifications')
                     checked: viewstate.showUsernameInNotification
                     enabled: viewstate.loggedin && viewstate.showPopUpNotifications
                     click: (it) -> action 'showusernameinnotification', it.checked
                 }
                 {
                   type: 'checkbox'
-                  label: "Show #{if isDarwin then 'User avatar' else 'YakYak'} icon in notifications"
+                  label: i18n.__ (if isDarwin then 'menu.view.notification.avatar:Show user avatar icon in notifications' else 'menu.view.notification.icon:Show YakYak icon in notifications')
                   enabled: viewstate.loggedin && viewstate.showPopUpNotifications
                   checked: viewstate.showIconNotification
                   click: (it) -> action 'showiconnotification', it.checked
                 }
                 {
                   type: 'checkbox'
-                  label: 'Disable sound in notifications'
+                  label: i18n.__('menu.view.notification.mute:Disable sound in notifications')
                   checked: viewstate.muteSoundNotification
                   enabled: viewstate.loggedin && viewstate.showPopUpNotifications
                   click: (it) -> action 'mutesoundnotification', it.checked
                 }
                 {
                   type: 'checkbox'
-                  label: 'Use YakYak custom sound for notifications'
+                  label: i18n.__('menu.view.notification.custom_sound:Use YakYak custom sound for notifications')
                   checked: viewstate.forceCustomSound
                   enabled: viewstate.loggedin && viewstate.showPopUpNotifications && !viewstate.muteSoundNotification
                   click: (it) -> action 'forcecustomsound', it.checked
@@ -182,34 +220,34 @@ templateView = (viewstate) ->
         }
         {
             type: 'checkbox'
-            label: 'Convert text to emoji'
+            label: i18n.__('menu.view.emoji:Convert text to emoji')
             checked: viewstate.convertEmoji
             enabled: viewstate.loggedin
             click: (it) -> action 'convertemoji', it.checked
         }
         {
-            label: 'Color Scheme'
+            label: i18n.__('menu.view.color_scheme.title:Color Scheme')
             submenu: [
               {
-                  label: 'Default'
+                  label: i18n.__('menu.view.color_scheme.default:Original')
                   type: 'radio'
                   checked: viewstate.colorScheme == 'default'
                   click: -> action 'changetheme', 'default'
               }
               {
-                  label: 'Blue'
+                  label: i18n.__('menu.view.color_scheme.blue:Blue')
                   type: 'radio'
                   checked: viewstate.colorScheme == 'blue'
                   click: -> action 'changetheme', 'blue'
               }
               {
-                  label: 'Dark'
+                  label: i18n.__('menu.view.color_scheme.dark:Dark')
                   type: 'radio'
                   checked: viewstate.colorScheme == 'dark'
                   click: -> action 'changetheme', 'dark'
               }
               {
-                  label: 'Material'
+                  label: i18n.__('menu.view.color_scheme.material:Material')
                   type: 'radio'
                   checked: viewstate.colorScheme == 'material'
                   click: -> action 'changetheme', 'material'
@@ -217,106 +255,116 @@ templateView = (viewstate) ->
             ]
         }
         {
-            label: 'Font Size'
+            label: i18n.__('menu.view.font.title:Font Size')
             submenu: [
               {
-                  label: 'Extra Small'
+                  label: i18n.__('menu.view.font.extra_small:Extra Small')
                   type: 'radio'
                   checked: viewstate.fontSize == 'x-small'
                   click: -> action 'changefontsize', 'x-small'
               }
               {
-                  label: 'Small'
+                  label: i18n.__('menu.view.font.small:Small')
                   type: 'radio'
                   checked: viewstate.fontSize == 'small'
                   click: -> action 'changefontsize', 'small'
               }
               {
-                  label: 'Medium'
+                  label: i18n.__('menu.view.font.medium:Medium')
                   type: 'radio'
                   checked: viewstate.fontSize == 'medium'
                   click: -> action 'changefontsize', 'medium'
               }
               {
-                  label: 'Large'
+                  label: i18n.__('menu.view.font.large:Large')
                   type: 'radio'
                   checked: viewstate.fontSize == 'large'
                   click: -> action 'changefontsize', 'large'
               }
               {
-                  label: 'Extra Large'
+                  label: i18n.__('menu.view.font.extra_large:Extra Large')
                   type: 'radio'
                   checked: viewstate.fontSize == 'x-large'
                   click: -> action 'changefontsize', 'x-large'
               }
             ]
         }
-        { role: 'togglefullscreen' }
         {
-          # seee https://github.com/atom/electron/issues/1507
-          role: 'zoomin'
+            label: i18n.__ 'menu.view.fullscreen:Toggle Fullscreen'
+            role: 'togglefullscreen'
         }
-        { role: 'zoomout' }
-        { role: 'resetzoom' }
+        {
+            label: i18n.__ 'menu.view.zoom.in:Zoom in'
+            # seee https://github.com/atom/electron/issues/1507
+            role: 'zoomin'
+        }
+        {
+            label: i18n.__ 'menu.view.zoom.out:Zoom out'
+            role: 'zoomout'
+        }
+        {
+            label: i18n.__ 'menu.view.zoom.reset:Actual size'
+            role: 'resetzoom'
+        }
         { type: 'separator' }
         {
-            label: 'Previous Conversation',
+            label: i18n.__('menu.view.conversation.previous:Previous Conversation')
             accelerator: getAccelerator('previousconversation')
             enabled: viewstate.loggedin
             click: -> action 'selectNextConv', -1
         }
         {
-            label: 'Next Conversation',
+            label: i18n.__('menu.view.conversation.next:Next Conversation')
             accelerator: getAccelerator('nextconversation')
             enabled: viewstate.loggedin
             click: -> action 'selectNextConv', +1
         }
         {
-            label: 'Select Conversation',
+            label: i18n.__('menu.view.conversation.select:Select Conversation')
             enabled: viewstate.loggedin
             submenu: [
               {
-                  label: 'Conversation 1'
+                  label: i18n.__('conversation.numbered:Conversation %d', 1)
                   accelerator: getAccelerator('conversation1')
                   click: -> action 'selectConvIndex', 0
               }
               {
-                  label: 'Conversation 2'
+                  label: i18n.__('conversation.numbered:Conversation %d', 2)
                   accelerator: getAccelerator('conversation2')
                   click: -> action 'selectConvIndex', 1
               }
               {
-                  label: 'Conversation 3'
+                  label: i18n.__('conversation.numbered:Conversation %d', 3)
                   accelerator: getAccelerator('conversation3')
                   click: -> action 'selectConvIndex', 2
               }
               {
-                  label: 'Conversation 4'
+                  label: i18n.__('conversation.numbered:Conversation %d', 4)
                   accelerator: getAccelerator('conversation4')
                   click: -> action 'selectConvIndex', 3
               }
               {
-                  label: 'Conversation 5'
+                  label: i18n.__('conversation.numbered:Conversation %d', 5)
                   accelerator: getAccelerator('conversation5')
                   click: -> action 'selectConvIndex', 4
               }
               {
-                  label: 'Conversation 6'
+                  label: i18n.__('conversation.numbered:Conversation %d', 6)
                   accelerator: getAccelerator('conversation6')
                   click: -> action 'selectConvIndex', 5
               }
               {
-                  label: 'Conversation 7'
+                  label: i18n.__('conversation.numbered:Conversation %d', 7)
                   accelerator: getAccelerator('conversation7')
                   click: -> action 'selectConvIndex', 6
               }
               {
-                  label: 'Conversation 8'
+                  label: i18n.__('conversation.numbered:Conversation %d', 8)
                   accelerator: getAccelerator('conversation8')
                   click: -> action 'selectConvIndex', 7
               }
               {
-                  label: 'Conversation 9'
+                  label: i18n.__('conversation.numbered:Conversation %d', 9)
                   accelerator: getAccelerator('conversation9')
                   click: -> action 'selectConvIndex', 8
               }
@@ -324,24 +372,24 @@ templateView = (viewstate) ->
         }
         { type: 'separator' }
         {
-            label: 'Show tray icon'
+            label: i18n.__('menu.view.tray.show_tray:Show tray icon')
             type: 'checkbox'
             enabled: not viewstate.hidedockicon
             checked:  viewstate.showtray
             click: -> action 'toggleshowtray'
         }
         {
-          label: 'Escape key behavior'
+          label: i18n.__('menu.view.escape.title:Escape key behavior')
           submenu: [
               {
-                  label: 'Hides window'
+                  label: i18n.__('menu.view.escape.hide:Hides window')
                   type: 'radio'
                   enabled: viewstate.showtray
                   checked: viewstate.showtray && !viewstate.escapeClearsInput
                   click: -> action 'setescapeclearsinput', false
               }
               {
-                  label: 'Clears input' + if !viewstate.showtray then ' (default when tray is not showing)' else ''
+                  label: i18n.__('menu.view.escape.clear:Clears input') + if !viewstate.showtray then " (#{i18n.__ 'menu.view.escape.default:default when tray is not showing'})" else ''
                   type: 'radio'
                   enabled: viewstate.showtray
                   checked: !viewstate.showtray || viewstate.escapeClearsInput
@@ -350,7 +398,7 @@ templateView = (viewstate) ->
           ]
         }
         {
-            label: 'Hide Dock icon'
+            label: i18n.__('menu.view.hide_dock:Hide Dock icon')
             type: 'checkbox'
             enabled: viewstate.showtray
             checked:  viewstate.hidedockicon
@@ -359,15 +407,18 @@ templateView = (viewstate) ->
     ].filter (n) -> n != undefined
 
 templateWindow = (viewstate) -> [
-    { role: 'minimize' }
     {
-        label: 'Close'
+        label: i18n.__ 'menu.window.minimize:Minimize'
+        role: 'minimize'
+    }
+    {
+        label: i18n.__('menu.window.close:Close')
         accelerator: getAccelerator('close')
         role: 'close'
     }
     { type: 'separator' }
     {
-        label: 'Bring All to Front'
+        label: i18n.__('menu.window.front:Bring All to Front')
         role: 'front'
     }
 ]
@@ -381,28 +432,28 @@ templateWindow = (viewstate) -> [
 templateMenu = (viewstate) ->
     [
         {
-            label: 'YakYak'
+            label: i18n.__ 'menu.file.title:YakYak'
             submenu: templateYakYak viewstate
         }
         {
-            label: 'Edit'
+            label: i18n.__ 'menu.edit.title:Edit'
             submenu: templateEdit viewstate
         }
         {
-            label: 'View'
+            label: i18n.__ 'menu.view.title:View'
             submenu: templateView viewstate
         }
         {
-          label: "Help"
+          label: i18n.__ 'menu.help.title:Help'
           submenu: [
             {
-              label: 'About'
+              label: i18n.__ 'menu.help.about.title:About YakYak'
               click: () -> action 'show-about'
             }
           ]
         } if !isDarwin
         {
-            label: 'Window'
+            label: i18n.__ 'menu.window.title:Window'
             submenu: templateWindow viewstate
         } if isDarwin
     ].filter (n) -> n != undefined

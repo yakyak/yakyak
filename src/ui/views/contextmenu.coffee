@@ -6,7 +6,6 @@ ContextMenu = remote.Menu
 {isContentPasteable} = require '../util'
 
 templateContext = (params, viewstate) ->
-
     #
     #          IMPORTANT: currently save images is disabled as there
     #            are exceptions being thrown from the electron-dl module
@@ -26,32 +25,32 @@ templateContext = (params, viewstate) ->
     }
     { type: 'separator' } if canShowSaveImg
     {
-        label: 'Undo'
+        label: i18n.__('menu.edit.undo:Undo')
         role: 'undo'
         enabled: params.editFlags.canUndo
         visible: true
     }
     {
-        label: 'Redo'
+        label: i18n.__('menu.edit.redo:Redo')
         role: 'redo'
         enabled: params.editFlags.canRedo
         visible: true
     }
     { type: 'separator' }
     {
-        label: 'Cut'
+        label: i18n.__('menu.edit.cut:Cut')
         role: 'cut'
         enabled: params.editFlags.canCut
         visible: true
     }
     {
-        label: 'Copy'
+        label: i18n.__('menu.edit.copy:Copy')
         role: 'copy'
         enabled: params.editFlags.canCopy
         visible: true
     }
     {
-        label: "Copy Link"
+        label: i18n.__('menu.edit.copy_link:Copy Link')
         visible: canShowCopyLink
         click: () ->
             if process.platform == 'darwin'
@@ -60,7 +59,7 @@ templateContext = (params, viewstate) ->
                 clipboard.writeText params.linkText
     }
     {
-        label: 'Copy Image Link'
+        label: i18n.__('menu.edit.copy_image_link:Copy Image Link')
         visible: canShowCopyImgLink
         click: (item, win) ->
             if process.platform == 'darwin'
@@ -69,7 +68,7 @@ templateContext = (params, viewstate) ->
                 clipboard.writeText params.srcURL
     }
     {
-        label: 'Paste'
+        label: i18n.__('menu.edit.paste:Paste')
         role: 'paste'
         visible: (isContentPasteable() &&
             viewstate.state == viewstate.STATE_NORMAL) || params.isEditable

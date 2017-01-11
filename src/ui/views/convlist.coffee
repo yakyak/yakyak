@@ -2,11 +2,13 @@ moment = require 'moment'
 {nameof, initialsof, nameofconv, fixlink, drawAvatar} = require '../util'
 
 module.exports = view (models) ->
+
     {conv, entity, viewstate} = models
     clz = ['convlist']
     clz.push 'showconvthumbs' if viewstate.showConvThumbs
     clz.push 'showanimatedthumbs' if viewstate.showAnimatedThumbs
     div class:clz.join(' '), ->
+        moment.locale(i18n.getLocale())
         convs = conv.list()
         renderConv = (c) ->
             pureHang = conv.isPureHangout(c)
@@ -70,10 +72,12 @@ module.exports = view (models) ->
         starred = (c for c in convs when conv.isStarred(c))
         others = (c for c in convs when not conv.isStarred(c))
         div class: 'starred', ->
-            div class: 'label', 'Favorites' if starred.length > 0
-            starred.forEach renderConv
+            if starred.length > 0
+                div class: 'label', i18n.__n('favorite.title:Favorites', 2)
+                starred.forEach renderConv
         div class: 'others', ->
-            div class: 'label', 'Recent' if starred.length > 0
+            if starred.length > 0
+                div class: 'label', i18n.__ 'recent:Recent'
             others.forEach renderConv
 
 # possible classes of messages

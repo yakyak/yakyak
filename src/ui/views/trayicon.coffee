@@ -3,6 +3,7 @@ Tray = remote.Tray
 Menu = remote.Menu
 path = require 'path'
 os = require 'os'
+i18n = require 'i18n'
 
 trayIcons = null
 
@@ -23,7 +24,7 @@ compact = (array) -> item for item in array when item
 
 create = () ->
     tray = new Tray trayIcons["read"]
-    tray.setToolTip 'YakYak - Hangouts client'
+    tray.setToolTip i18n.__('title:YakYak - Hangouts Client')
     # Emitted when the tray icon is clicked
     tray.on 'click', -> action 'togglewindow'
 
@@ -35,19 +36,19 @@ update = (unreadCount, viewstate) ->
     # update menu
     templateContextMenu = compact([
         {
-          label: 'Toggle minimize to tray'
+          label: i18n.__ 'menu.view.tray.toggle_minimize:Toggle minimize to tray'
           click: -> action 'togglewindow'
         }
 
         {
-          label: "Start minimized to tray"
+          label: i18n.__ "menu.view.tray.start_minimize:Start minimized to tray"
           type: "checkbox"
           checked: viewstate.startminimizedtotray
           click: -> action 'togglestartminimizedtotray'
         }
 
         {
-          label: 'Show pop-up notifications'
+          label: i18n.__ 'menu.view.notification.show:Show notifications'
           type: "checkbox"
           checked: viewstate.showPopUpNotifications
           # usage of already existing method and implements same logic
@@ -57,20 +58,23 @@ update = (unreadCount, viewstate) ->
         }
 
         {
-            label: "Close to tray"
+            label: i18n.__ "menu.view.tray.close:Close to tray"
             type: "checkbox"
             checked: viewstate.closetotray
             click: -> action 'toggleclosetotray'
         }
 
         {
-          label: 'Hide Dock icon'
+          label: i18n.__ 'menu.view.hide_dock:Hide Dock icon'
           type: 'checkbox'
           checked: viewstate.hidedockicon
           click: -> action 'togglehidedockicon'
         } if os.platform() == 'darwin'
 
-        { label: 'Quit', click: -> action 'quit' }
+        {
+          label: i18n.__('menu.file.quit:Quit'),
+          click: -> action 'quit'
+        }
     ])
 
     contextMenu = Menu.buildFromTemplate templateContextMenu

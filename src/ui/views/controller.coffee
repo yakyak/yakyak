@@ -145,6 +145,10 @@ throttle = (fn, time=10) ->
 
 redraw = throttle(redraw, 20)
 
+handle 'update:language', ->
+    menu viewstate
+    redraw()
+
 handle 'update:switchConv', ->
     messages.scrollToBottom()
 

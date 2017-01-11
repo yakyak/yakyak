@@ -1,5 +1,6 @@
-ipc    = require('electron').ipcRenderer
-path   = require 'path'
+ipc  = require('electron').ipcRenderer
+path = require 'path'
+i18n = require 'i18n'
 remote = require('electron').remote
 Menu   = remote.Menu
 
@@ -46,23 +47,23 @@ module.exports = view (models) ->
         #        releasedVersion = window.localStorage.versionAdvertised
         if shouldUpdate
             div class: 'update', ->
-                span ->
-                    'A newer version is available, please upgrade from ' +
-                        localVersion + ' to ' + releasedVersion
+                span i18n.__('menu.help.about.newer:A newer version is available, please upgrade from %s to %s'
+                             , localVersion
+                             , releasedVersion)
         div class: 'description', ->
-            span 'Desktop client for Google Hangouts'
+            span i18n.__('title:YakYak - Hangouts Client')
         div class: 'license', ->
             span ->
-                em 'License: '
+                em "#{i18n.__ 'menu.help.about.license:License'}: "
                 span 'MIT'
         div class: 'devs', ->
             div ->
-                h3 'Main authors'
+                h3 i18n.__('menu.help.about.authors:Main authors')
                 ul ->
                     li 'Davide Bertola'
                     li 'Martin Algesten'
             div ->
-                h3 'Contributors'
+                h3 i18n.__('menu.help.about.contributors:Contributors')
                 ul ->
                     li 'David Banham'
                     li 'Max Kueng'

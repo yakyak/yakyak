@@ -1,6 +1,6 @@
 ipc       = require('electron').ipcRenderer
 clipboard = require('electron').clipboard
-
+path = require('path')
 # expose trifl in global scope
 trifl = require 'trifl'
 trifl.expose window
@@ -23,8 +23,37 @@ trifl.tagg.expose window, ('ul li div span a i b u s button p label
 input table thead tbody tr td th textarea br pass img h1 h2 h3 h4
 hr em'.split(' '))...
 
+#
+# Translation support
+window.i18n = require('i18n')
+# This had to be antecipated, as i18n requires viewstate
+#  and applayout requires i18n
+{viewstate} = require './models'
+
+#
+# Configuring supporting languages here
+i18nOpts = {
+    directory: path.join __dirname, '..', 'locales'
+    defaultLocale: 'en' # fallback
+    objectNotation: true
+}
+#
+i18n.configure i18nOpts
+#
+# force initialize
+if i18n.getLocales().includes viewstate.language
+    i18n.setLocale(viewstate.language)
+#
+ipc.send 'seti18n', i18nOpts, viewstate.language
+
+# Set locale if exists, otherwise, keep 'en'
+action 'changelanguage', viewstate.language
+# does not update viewstate -- why? because locale can be recovered later
+#   not the best reasoning :)
+
 {applayout}       = require './views'
-{viewstate, conv} = require './models'
+
+{conv} = require './models'
 
 # show tray icon as soon as browser window appers
 { trayicon } = require './views/index'
