@@ -131,6 +131,20 @@ handle 'update:language', ->
     menu viewstate
     redraw()
 
+throttle = (fn, time=10) ->
+    timeout = false
+    # return a throttled version of fn
+    # which executes on the trailing end of `time`
+    throttled = ->
+        return if timeout
+        timeout = setTimeout ->
+            fn()
+            timeout = false
+        ,
+            time
+
+redraw = throttle(redraw, 20)
+
 handle 'update:switchConv', ->
     messages.scrollToBottom()
 
