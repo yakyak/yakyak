@@ -67,7 +67,9 @@ handle 'querypresence', (id) ->
     ipc.send 'querypresence', id
 
 handle 'setpresence', (r) ->
-    entity.setPresence r.user_id.chat_id, r.presence.available
+    if not r?.presence?.available
+        console.log "setpresence event with unexpected value", r
+    entity.setPresence r.user_id.chat_id, r?.presence?.available
 
 handle 'update:unreadcount', ->
     console.log 'update'
