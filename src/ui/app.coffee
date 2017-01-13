@@ -1,6 +1,10 @@
 ipc       = require('electron').ipcRenderer
 clipboard = require('electron').clipboard
 path = require('path')
+
+[drive, path_parts...] = path.normalize(__dirname).split(path.sep)
+global.YAKYAK_ROOT_DIR = [drive, path_parts.map(encodeURIComponent)...].join('/')
+
 # expose trifl in global scope
 trifl = require 'trifl'
 trifl.expose window

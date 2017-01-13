@@ -12,7 +12,7 @@ callNeedAnswer = {}
 notifierSupportsSound = notificationCenterSupportsSound()
 
 # Custom sound for new message notifications
-audioFile = path.join __dirname, '..', '..', 'media',
+audioFile = path.join YAKYAK_ROOT_DIR, '..', 'media',
 'new_message.ogg'
 audioEl = new Audio(audioFile)
 audioEl.volume = .4
