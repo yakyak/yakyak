@@ -14,8 +14,6 @@ EVENT_STATE =
 TIME_SOME = 40 * 1000      # 40 secs
 TIME_ALL  = 10 * 60 * 1000 # 10 mins
 
-merge   = (t, os...) -> t[k] = v for k,v of o when v not in [null, undefined] for o in os; t
-
 info =
     connecting:     'Connecting…'
     connected:      'Connected'
@@ -67,8 +65,8 @@ module.exports = exp =
         later -> checkEventState()
         updated 'connection'
 
-merge exp, STATE
-merge exp, EVENT_STATE
+Object.assign exp, STATE
+Object.assign exp, EVENT_STATE
 
 checkTimer = null
 checkEventState = ->

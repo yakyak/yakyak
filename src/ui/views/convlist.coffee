@@ -107,7 +107,7 @@ drawMessage = (e, entity) ->
 ifpass = (t, f) -> if t then f else pass
 
 format = (cont) ->
-    for seg, i in cont?.segment ? []
+    for seg, i in (cont?.segment) ? []
         continue if cont.proxied and i < 1
         f = seg.formatting ? {}
         # these are links to images that we try loading
