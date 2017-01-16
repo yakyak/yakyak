@@ -198,7 +198,7 @@ drawMeMessage = (e) ->
         e.chat_message?.message_content.segment[0].text
 
 drawMessage = (e, entity) ->
-    console.log 'message: ' + e.chat_message?.message_content, e.chat_message
+    # console.log 'message', e.chat_message
     mclz = ['message']
     mclz.push c for c in MESSAGE_CLASSES when e[c]?
     title = if e.timestamp then moment(e.timestamp / 1000).calendar() else null
