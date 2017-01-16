@@ -280,7 +280,7 @@ formatters = [
                             pass if cont.proxied
                                 stripProxiedColon seg.text
                             else if seg.type == 'LINE_BREAK'
-                                    '\n'
+                                '\n'
                             else
                                 seg.text
     # image formatter
