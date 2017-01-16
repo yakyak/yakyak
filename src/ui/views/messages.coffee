@@ -279,11 +279,10 @@ formatters = [
                         ifpass(f.strikethrough, s) ->
                             pass if cont.proxied
                                 stripProxiedColon seg.text
-                            else
-                                if seg.type == 'LINE_BREAK'
+                            else if seg.type == 'LINE_BREAK'
                                     '\n'
-                                else
-                                    seg.text
+                            else
+                                seg.text
     # image formatter
     (seg) ->
         href = seg?.link_data?.link_target
