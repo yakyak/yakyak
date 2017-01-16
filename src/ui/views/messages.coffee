@@ -152,8 +152,6 @@ module.exports = view (models) ->
                             drawMessageAvatar u, sender, viewstate, entity
                             div class:'umessages', ->
                                 drawMessage(e, entity) for e in events
-                            , onDOMSubtreeModified: (e) ->
-                                window.twemoji?.parse e.target if process.platform == 'win32'
 
                             # at the end of the events group we draw who has read any of its events
                             div class: 'seen-list', () ->

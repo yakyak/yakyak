@@ -235,8 +235,3 @@ currentWindow.webContents.on 'context-menu', (e, params) ->
 
 # tell the startup state
 action 'wonline', window.navigator.onLine
-
-if process.platform == 'win32'
-    script = document.createElement('script')
-    script.src = 'http://twemoji.maxcdn.com/2/twemoji.min.js'
-    document.head.appendChild(script)
