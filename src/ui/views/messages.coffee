@@ -220,6 +220,7 @@ drawMeMessage = (e) ->
         e.chat_message?.message_content.segment[0].text
 
 drawMessage = (e, entity) ->
+    # console.log 'message', e.chat_message
     mclz = ['message']
     mclz.push c for c in MESSAGE_CLASSES when e[c]?
     title = if e.timestamp then moment(e.timestamp / 1000).calendar() else null
@@ -300,6 +301,8 @@ formatters = [
                         ifpass(f.strikethrough, s) ->
                             pass if cont.proxied
                                 stripProxiedColon seg.text
+                            else if seg.type == 'LINE_BREAK'
+                                '\n'
                             else
                                 seg.text
     # image formatter
