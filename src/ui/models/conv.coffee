@@ -2,11 +2,9 @@ entity = require './entity'     #
 viewstate = require './viewstate'
 {nameof, nameofconv, getProxiedName, later, uniqfn, tryparse}  = require '../util'
 
-merge   = (t, os...) -> t[k] = v for k,v of o when v not in [null, undefined] for o in os; t
-
 lookup = {}
 
-domerge = (id, props) -> lookup[id] = merge (lookup[id] ? {}), props
+domerge = (id, props) -> lookup[id] = Object.assign (lookup[id] ? {}), props
 
 add = (conv) ->
     # rejig the structure since it's insane
@@ -371,4 +369,4 @@ funcs =
 
 
 
-module.exports = merge lookup, funcs
+module.exports = Object.assign lookup, funcs

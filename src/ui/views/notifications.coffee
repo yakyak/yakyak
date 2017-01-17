@@ -109,7 +109,7 @@ module.exports = (models) ->
         mainWindow.flashFrame(true)
 
 textMessage = (cont, proxied) ->
-    segs = for seg, i in cont?.segment ? []
+    segs = for seg, i in (cont?.segment) ? []
         continue if proxied and i < 2
         continue unless seg.text
         seg.text

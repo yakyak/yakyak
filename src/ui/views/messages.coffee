@@ -282,7 +282,7 @@ format = (cont) ->
           formatAttachment cont.attachment
         catch e
           console.error e
-    for seg, i in cont?.segment ? []
+    for seg, i in (cont?.segment) ? []
         continue if cont.proxied and i < 1
         formatters.forEach (fn) ->
             fn seg, cont

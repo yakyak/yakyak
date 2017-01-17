@@ -294,4 +294,4 @@ module.exports = exp = {
         updated 'viewstate'
 }
 
-merge exp, STATES
+Object.assign exp, STATES

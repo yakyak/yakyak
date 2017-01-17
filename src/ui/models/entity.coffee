@@ -1,10 +1,9 @@
 
-merge   = (t, os...) -> t[k] = v for k,v of o when v not in [null, undefined] for o in os; t
 shallowif = (o, f) -> r = {}; r[k] = v for k, v of o when f(k,v); r
 
 lookup = {}
 
-domerge = (id, props) -> lookup[id] = merge (lookup[id] ? {}), props
+domerge = (id, props) -> lookup[id] = Object.assign (lookup[id] ? {}), props
 
 add = (entity, opts = silent:false) ->
     {gaia_id, chat_id} = entity?.id ? {}
@@ -89,4 +88,4 @@ funcs =
     add: add
     needEntity: needEntity
 
-module.exports = merge lookup, funcs
+module.exports = Object.assign lookup, funcs
