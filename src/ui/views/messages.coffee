@@ -152,8 +152,6 @@ module.exports = view (models) ->
                             drawMessageAvatar u, sender, viewstate, entity
                             div class:'umessages', ->
                                 drawMessage(e, entity) for e in events
-                            , onDOMSubtreeModified: (e) ->
-                                window.twemoji?.parse e.target if process.platform == 'win32'
 
                             # at the end of the events group we draw who has read any of its events
                             div class: 'seen-list', () ->
@@ -299,12 +297,16 @@ formatters = [
                 ifpass(f.italic, i) ->
                     ifpass(f.underline, u) ->
                         ifpass(f.strikethrough, s) ->
-                            pass if cont.proxied
-                                stripProxiedColon seg.text
-                            else if seg.type == 'LINE_BREAK'
-                                '\n'
-                            else
-                                seg.text
+                            span ->
+                                pass if cont.proxied
+                                    stripProxiedColon seg.text
+                                else if seg.type == 'LINE_BREAK'
+                                    '\n'
+                                else
+                                    seg.text
+                            , onDOMSubtreeModified: (e) ->
+                                window.twemoji?.parse e.target
+
     # image formatter
     (seg) ->
         href = seg?.link_data?.link_target

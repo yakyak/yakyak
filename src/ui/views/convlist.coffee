@@ -62,8 +62,6 @@ module.exports = view (models) ->
                         if viewstate.showConvLast
                             div class:'lastmessage', ->
                                 drawMessage(c?.event?.slice(-1)[0], entity)
-                            , onDOMSubtreeModified: (e) ->
-                                window.twemoji?.parse e.target if process.platform == 'win32'
                 div class:'divider'
             , onclick: (ev) ->
                 ev.preventDefault()
@@ -116,11 +114,14 @@ format = (cont) ->
             ifpass(f.italics, i) ->
                 ifpass(f.underline, u) ->
                     ifpass(f.strikethrough, s) ->
-                        # preload returns whether the image
-                        # has been loaded. redraw when it
-                        # loads.
-                        pass if cont.proxied
-                            stripProxiedColon seg.text
-                        else
-                            seg.text
+                        span ->
+                            # preload returns whether the image
+                            # has been loaded. redraw when it
+                            # loads.
+                            pass if cont.proxied
+                                stripProxiedColon seg.text
+                            else
+                                seg.text
+                        , onDOMSubtreeModified: (e) ->
+                            window.twemoji?.parse e.target
     null
