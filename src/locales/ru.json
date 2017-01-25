@@ -1,0 +1,172 @@
+{
+    "__MyLocaleLanguage__": "Русский",
+    "__maintaner__": "http://github.com/qteb",
+
+    "title": "YakYak - Hangouts Client",
+    "description": "Desktop client for Google Hangouts",
+
+    "settings": "Настройки",
+    "recent": "Недавние",
+    "details": "Подробности",
+
+    "connection" :{
+        "connecting": "Подключение",
+        "loading": "Загрузка контактов",
+        "not_connected": "Не подключено (проверьте подключение)"
+    },
+
+    "input": {
+        "message": "Сообщение",
+        "emoticons": "Показать смайлик",
+        "image": "Прикрепить изображение",
+        "typing": "набирает сообщение"
+    },
+    "conversation": {
+        "title": {
+            "one": "Диалог",
+            "other": "Диалоги"
+        },
+        "numbered": "Диалог %d",
+        "options": "Параметры диалога",
+        "setting": "Настройки диалога",
+        "add": "Создать новый диалог",
+        "new": "Новый диалог",
+        "name": "Тема диалога",
+        "edit": "Редактирование диалога",
+        "multiuser": "Создать многопользовательский диалог",
+        "delete": "Удалить диалог",
+        "delete_confirm": "Удалить диалог?",
+        "leave": "Покинуть диалог",
+        "leave_confirm": "Покинуть диалог?",
+        "search": "Поиск людей",
+        "new_message": "Новое сообщение"
+    },
+    "notification": {
+        "one": "Уведомление",
+        "other": "Уведомления"
+    },
+    "favorite": {
+        "title": {
+            "one": "Избранное",
+            "other": "Избранное"
+        },
+        "star_it": "Отметить"
+    },
+    "actions": {
+      "ok": "OK",
+      "cancel": "Отменить"
+    },
+    "call": {
+        "incoming": "Входящий звонок",
+        "incoming_from": "Входящий звонок от %s",
+        "accepted": "Принято",
+        "accept": "Принять",
+        "rejected": "Отменено",
+        "reject": "Отменить",
+        "missed": "Пропущенный звонок от %s"
+    },
+    "menu": {
+        "title": "Меню",
+        "file": {
+            "title": "YakYak",
+            "hide": "Скрыть YakYak",
+            "hide_others": "Скрыть остальные",
+            "show": "Показать всех",
+            "inspector": "Открыть Инспектор",
+            "logout": "Выход из аккаунта",
+            "quit": "Выход"
+        },
+        "edit": {
+            "title": "Правка",
+            "undo": "Скрыть",
+            "redo": "Повторить",
+            "paste": "Вставить",
+            "cut": "Вырезать",
+            "copy": "Копировать",
+            "copy_image_link": "Копировать ссылку на изображение",
+            "copy_link": "Копировать ссылку",
+            "copy_image": "Копировать изображение",
+            "select_all": "Выделить все",
+            "language": "Язык (Language)"
+        },
+        "view": {
+            "title": "Вид",
+            "emoji": "Преобразовать текст в emoji",
+            "hide_dock": "Скрыть иконку в доке",
+            "fullscreen": "Переключить полноэкранный режим",
+            "tray": {
+                "show_tray": "Показать иконку в трее",
+                "show_window": "Показать окно",
+                "toggle_minimize": "Переключить минимизацию в трей",
+                "start_minimize": "Запускать минимизированным",
+                "close": "Закрывать в трей"
+            },
+            "escape": {
+                "title": "Действие по клавише Escape",
+                "hide": "Скрывает окно",
+                "clear": "Очищает ввод",
+                "default": "default when tray is not showing"
+            },
+            "conversation": {
+                "title": "Диалог",
+                "timestamp": "Показывать время",
+                "last": "Показывать последние сообщения",
+                "previous": "Предыдущий диалог",
+                "next": "Следующий диалог",
+                "select": "Выбрать диалог",
+                "thumbnails": {
+                    "show": "Показывать миниатюры",
+                    "only": "Показывать только миниатюры",
+                    "animated": "Показывать анимированные миниатюры"
+                }
+            },
+            "notification": {
+                "title": "Всплывающие уведомления",
+                "show": "Показывать уведомления",
+                "toggle": "Переключить уведомления",
+                "message": "Показывать текст сообщения в уведомлениях",
+                "username": "Показывать имя отправителя в уведомлениях",
+                "mute": "Отключить звук уведомлений",
+                "avatar": "Показывать аватар отправителя в уведомлениях",
+                "icon": "Показывать YakYak иконку в уведомлениях",
+                "custom_sound": "Использовать мелодию YakYak для уведомлений"
+            },
+            "color_scheme": {
+                "title": "Цветовая тема",
+                "default": "Оригинальная",
+                "blue": "Синяя",
+                "dark": "Темная",
+                "material": "Material"
+            },
+            "font": {
+                "title": "Размер шрифта",
+                "extra_small": "Очень маленький",
+                "small": "Маленький",
+                "medium": "Средний",
+                "large": "Большой",
+                "extra_large": "Очень большой"
+            },
+            "zoom": {
+                "in": "Приблизить",
+                "out": "Отдалить",
+                "reset": "Натуральный размер"
+            }
+        },
+        "help": {
+            "title": "Помощь",
+            "about": {
+                "title": "О программе YakYak",
+                "newer": "A newer version is available, please upgrade from %s to %s",
+                "license": "License",
+                "authors": "Main authors",
+                "contributors": "Contributors"
+            }
+        },
+        "window": {
+            "title": "Окно",
+            "minimize": "Минимизировать",
+            "close": "Закрыть",
+            "front": "Все на передний план"
+        }
+    }
+}
