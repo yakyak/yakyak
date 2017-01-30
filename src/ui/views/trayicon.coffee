@@ -15,8 +15,6 @@ else
         "read": path.join __dirname, '..', '..', 'icons', 'icon-read.png'
         "unread": path.join __dirname, '..', '..', 'icons', 'icon-unread.png'
 
-console.log('path', trayIcons.read)
-
 tray = null
 
 # TODO: this is all WIP
