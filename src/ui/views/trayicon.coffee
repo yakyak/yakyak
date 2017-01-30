@@ -17,10 +17,6 @@ else
 
 console.log('path', trayIcons.read)
 
-# Store the NativeImage, to optmize a it
-trayIcons.read   = nativeImage.createFromPath(trayIcons.read)
-trayIcons.unread = nativeImage.createFromPath(trayIcons.unread)
-
 tray = null
 
 # TODO: this is all WIP
