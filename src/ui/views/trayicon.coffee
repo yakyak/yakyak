@@ -1,9 +1,8 @@
-remote = require('electron').remote
-Tray = remote.Tray
-Menu = remote.Menu
 path = require 'path'
-os = require 'os'
+os   = require 'os'
 i18n = require 'i18n'
+
+{Menu, Tray, nativeImage} = require('electron').remote
 
 trayIcons = null
 
@@ -15,6 +14,13 @@ else
     trayIcons =
         "read": path.join __dirname, '..', '..', 'icons', 'icon-read.png'
         "unread": path.join __dirname, '..', '..', 'icons', 'icon-unread.png'
+
+console.log('path', trayIcons.read)
+
+# Store the NativeImage, to optmize a it
+trayIcons.read   = nativeImage.createFromPath(trayIcons.read)
+trayIcons.unread = nativeImage.createFromPath(trayIcons.unread)
+
 tray = null
 
 # TODO: this is all WIP
@@ -82,17 +88,19 @@ update = (unreadCount, viewstate) ->
 
     # update icon
     try
-      if unreadCount > 0
-          tray.setImage trayIcons["unread"]
-      else
-          tray.setImage trayIcons["read"]
+        if unreadCount > 0
+            tray.setImage trayIcons["unread"] unless tray.currentImage == 'unread'
+            tray.currentImage = 'unread'
+        else
+            tray.setImage trayIcons["read"] unless tray.currentImage == 'read'
+            tray.currentImage = 'read'
     catch e
-      console.log 'missing icons', e
+        console.log 'missing icons', e
 
 
 module.exports = ({viewstate, conv}) ->
     if viewstate.showtray
-      create() if not tray
-      update(conv.unreadTotal(), viewstate)
+        create() if not tray?
+        update(conv.unreadTotal(), viewstate)
     else
-      destroy() if tray
+        destroy() if tray

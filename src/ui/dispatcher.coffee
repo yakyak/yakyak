@@ -437,6 +437,7 @@ handle 'hangout_event', (e) ->
 handle 'unreadtotal', (total, orMore) ->
     value = ""
     if total > 0 then value = total + (if orMore then "+" else "")
+    updated 'conv_count'
     ipc.send 'updatebadge', value
 
 handle 'showconvmin', (doshow) ->
