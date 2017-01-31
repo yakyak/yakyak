@@ -58,7 +58,7 @@ module.exports = (models) ->
                 delete callNeedAnswer[conv_id]
                 notr
                     html: "#{i18n.__('calls.missed:Missed call from %s', sender)}. " +
-                        "<a href=\"#\">#{actions.ok}</a>"
+                        "<a href=\"#\">#{i18n.__('actions.ok: Ok')}</a>"
                     id: "hang#{conv_id}"
                     stay: 0
         else
