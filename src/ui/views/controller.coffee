@@ -15,10 +15,9 @@ handle 'update:connection', do ->
         # draw view
         conninfo connection
 
-        console.log 'Updating connection'
-
         # place in layout
         if connection.state == connection.CONNECTED
+            later -> action 'lastActivity'
             el?.hide?()
             el = null
         else if viewstate.state != viewstate.STATE_STARTUP
