@@ -15,6 +15,8 @@ handle 'update:connection', do ->
         # draw view
         conninfo connection
 
+        console.log 'Updating connection'
+
         # place in layout
         if connection.state == connection.CONNECTED
             el?.hide?()
