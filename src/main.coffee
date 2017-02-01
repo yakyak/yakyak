@@ -249,10 +249,11 @@ app.on 'ready', ->
         {conv_id, segs, client_generated_id, image_id, otr, message_action_type} = msg
         sendForSure = -> Q.promise (resolve, reject, notify) ->
             attempt = ->
-                # console.log 'sendchatmessage', client_generated_id
+                console.log 'sendchatmessage client_id', client_generated_id
+                console.log 'sendchatmessage msg', msg
                 delivery_medium = null
                 client.sendchatmessage(conv_id, segs, image_id, otr, client_generated_id, delivery_medium, message_action_type).then (r) ->
-                      # console.log 'sendchatmessage:result', r?.created_event?.self_event_state?.client_generated_id
+                      console.log 'sendchatmessage:result', r?.created_event?.self_event_state?.client_generated_id
                       ipcsend 'sendchatmessage:result', r
                       resolve()
             attempt()

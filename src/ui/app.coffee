@@ -125,6 +125,9 @@ ipc.on 'ready-to-show', () ->
         window = null
         action 'quit'
 
+ipc.on 'sendchatmessage:result', (r) ->
+    console.log 'sendmessage:result', r
+
 #
 #
 # Get information on exceptions in main process
