@@ -17,9 +17,11 @@ handle 'update:connection', do ->
 
         # place in layout
         if connection.state == connection.CONNECTED
+            console.log 'Connected!'
             el?.hide?()
             el = null
         else if viewstate.state != viewstate.STATE_STARTUP
+            console.log 'not connected', viewstate.state
             el = notr {html:conninfo.el.innerHTML, stay:0, id:'conn'}
         else
             # update startup with connection information

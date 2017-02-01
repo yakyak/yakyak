@@ -73,6 +73,7 @@ merge exp, EVENT_STATE
 checkTimer = null
 checkEventState = ->
     elapsed = Date.now() - exp.lastActive
+    console.log 'Checking event state (elapsed: ' + elapsed + ')'
     clearTimeout checkTimer if checkTimer
     if elapsed >= TIME_ALL
         wrapAction -> exp.setEventState EVENT_STATE.MISSING_ALL
