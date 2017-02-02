@@ -17,6 +17,7 @@ handle 'update:connection', do ->
 
         # place in layout
         if connection.state == connection.CONNECTED
+            later -> action 'lastActivity'
             el?.hide?()
             el = null
         else if viewstate.state != viewstate.STATE_STARTUP
