@@ -1,4 +1,4 @@
-urlRegexp        = require 'url-regexp'
+urlRegexp = require 'url-regex'
 {MessageBuilder, OffTheRecordStatus,MessageActionType} = require 'hangupsjs'
 
 viewstate = require './viewstate'
@@ -15,12 +15,13 @@ parse = (mb, txt) ->
     lines = txt.split /\r?\n/
     last = lines.length - 1
     for line, index in lines
-        urls = urlRegexp.match line
-        for url in urls
-            [before, after] = split_first line, url
-            if before then mb.text(before)
-            line = after
-            mb.link url, url
+        urls = line.match urlRegexp()
+        if urls?
+            for url in urls
+                [before, after] = split_first line, url
+                if before then mb.text(before)
+                line = after
+                mb.link url, url
         mb.text line if line
         mb.linebreak() unless index is last
     null
