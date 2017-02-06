@@ -1,5 +1,5 @@
-moment = require 'moment'
-shell = require('electron').shell
+moment    = require 'moment'
+shell     = require('electron').shell
 urlRegexp = require 'url-regex'
 url       = require 'url'
 
