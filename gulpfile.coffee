@@ -53,6 +53,8 @@ outdeploy = path.join __dirname, 'dist'
 platformOpts = ['linux', 'darwin', 'win32']
 archOpts =     ['x64','ia32']
 
+json = JSON.parse(fs.readFileSync('./package.json'))
+
 deploy_options = {
     dir: path.join __dirname, 'app'
     asar: false
@@ -63,6 +65,11 @@ deploy_options = {
     win32metadata: {
         CompanyName: 'Yakyak'
         ProductName: 'Yakyak'
+        OriginalFilename: 'Yakyak.exe'
+        FileDescription: 'Yakyak'
+        InternalName: 'Yakyak.exe'
+        FileVersion: "#{json.version}"
+        ProductVersion: "#{json.version}"
     }
     'osx-sign': true
     arch:     archOpts.join ','
