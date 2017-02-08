@@ -129,7 +129,7 @@ module.exports = view (models) ->
         div class:'historyinfo', ->
             if c.requestinghistory
                 pass 'Requesting history…', -> span class:'material-icons spin', 'donut_large'
-        moment.locale(i18n.getLocale())
+        moment.locale(window.navigator.language)
 
         last_seen = conv.findLastReadEventsByUser(c)
         last_seen_chat_ids_with_event = (last_seen, event) ->
