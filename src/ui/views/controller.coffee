@@ -107,6 +107,10 @@ handle 'update:entity', ->
 handle 'update:conv', ->
     redraw()
 
+handle 'update:conv_count', ->
+    dockicon viewstate
+    trayicon models
+
 handle 'update:searchedentities', ->
   redraw()
 
