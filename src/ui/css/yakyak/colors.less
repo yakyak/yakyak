@@ -1,25 +1,27 @@
 // colors
 html{
---yakyakgreen: #0f9d58;
---white: #ffffff;
---ghostwhite: #f4f4f4;
---lightgrey: #e8e8e8;
---altgrey: #C5CED4;
---grey: #b4b4b4;
---darkgrey: #777777;
---lightblack: #455a64;
---black: #263238;
---green: #0f9d58;
---darkgreen: #0b6e3e;
---red: #f44336;
---darkred: #ea1c0d;
---link: #3879d9;
---tweetbg: #55acee;
---tweettext: #fff;
---instagrambg: #55acee;
---instagramtext: #fff;
-//
---headerbarheight: 35px;
+  --yakyakgreen: #0f9d58;
+  //
+  --white: #ffffff;
+  --ghostwhite: #f4f4f4;
+  --lightgrey: #e8e8e8;
+  --altgrey: #C5CED4;
+  --grey: #b4b4b4;
+  --darkgrey: #777777;
+  --lightblack: #455a64;
+  --black: #263238;
+  --green: #0f9d58;
+  --online: var(--green);
+  --darkgreen: #0b6e3e;
+  --red: #f44336;
+  --darkred: #ea1c0d;
+  --link: #3879d9;
+  --tweetbg: #55acee;
+  --tweettext: #fff;
+  --instagrambg: #55acee;
+  --instagramtext: #fff;
+  //
+  --headerbarheight: 35px;
 
   &.blue{
     --green: #03A9F4;
@@ -27,7 +29,7 @@ html{
   }
 
   &.dark{
-    --white: #1D242A;
+      --white: #1D242A;
       --ghostwhite: #2d3d46;
       --lightgrey: #242d34;
       --altgrey: #333940;
@@ -36,6 +38,7 @@ html{
       --lightblack: #475866;
       --black: #A2A2A2;
       --green: #161c20;
+      --online: var(--yakyakgreen);
       --darkgreen: #0f1316;
       --red: #996DBF;
       --darkred: #804cad;
