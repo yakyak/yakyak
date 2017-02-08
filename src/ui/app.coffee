@@ -127,6 +127,19 @@ ipc.on 'ready-to-show', () ->
 
 #
 #
+# This can be removed once windows10 supports NotoColorEmoji
+#  (or the font supports Windows10)
+#
+if process.platform == 'win32'
+    for stylesheet in window.document.styleSheets
+        if stylesheet.href.match('app\.css')?
+            for rule, i in stylesheet.cssRules
+                if rule.type == 5 && rule.cssText.match('font-family: NotoColorEmoji;')?
+                    stylesheet.deleteRule(i)
+                    break
+            break
+#
+#
 # Get information on exceptions in main process
 #  - Exceptions that were caught
 #  - Window crashes
