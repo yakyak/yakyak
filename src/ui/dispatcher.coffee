@@ -14,12 +14,6 @@ clipboard = require('electron').clipboard
 'connecting connected connect_failed'.split(' ').forEach (n) ->
     handle n, -> connection.setState n
 
-# on every keep alive signal from hangouts
-#  we inform the server that the user is still
-#  available
-handle 'noop', ->
-    ipc.send 'setpresence'
-
 handle 'alive', (time) -> connection.setLastActive time
 
 handle 'reqinit', ->
@@ -183,6 +177,12 @@ sendsetpresence = throttle 10000, ->
     ipc.send 'setpresence'
     ipc.send 'setactiveclient', true, 15
 resendfocus = throttle 15000, -> ipc.send 'setfocus', viewstate.selectedConv
+
+# on every keep alive signal from hangouts
+#  we inform the server that the user is still
+#  available
+handle 'noop', ->
+    sendsetpresence()
 
 handle 'lastActivity', ->
     sendsetpresence()
