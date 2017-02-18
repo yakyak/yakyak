@@ -1,0 +1,13 @@
+[Desktop Entry]
+Name=YakYak
+Comment=Chat client for Google Hangouts
+GenericName=YakYak
+Exec=/opt/yakyak/yakyak %U
+Icon=yakyak
+Terminal=false
+Type=Application
+StartupNotify=true
+#StartupWMClass=YakYak
+Keywords=hangouts;messenger
+Categories=Network;InstantMessaging
+X-GNOME-UsesNotifications=true
