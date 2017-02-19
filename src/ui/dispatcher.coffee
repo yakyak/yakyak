@@ -178,6 +178,12 @@ sendsetpresence = throttle 10000, ->
     ipc.send 'setactiveclient', true, 15
 resendfocus = throttle 15000, -> ipc.send 'setfocus', viewstate.selectedConv
 
+# on every keep alive signal from hangouts
+#  we inform the server that the user is still
+#  available
+handle 'noop', ->
+    sendsetpresence()
+
 handle 'lastActivity', ->
     sendsetpresence()
     resendfocus() if document.hasFocus()
@@ -405,6 +411,7 @@ handle 'pruneTyping', (conv_id) ->
 handle 'syncallnewevents', throttle 10000, (time) ->
     return unless time
     ipc.send 'syncallnewevents', time
+
 handle 'handlesyncedevents', (r) ->
     states = r?.conversation_state
     return unless states?.length
@@ -415,6 +422,7 @@ handle 'handlesyncedevents', (r) ->
 
 handle 'syncrecentconversations', throttle 10000, ->
     ipc.send 'syncrecentconversations'
+
 handle 'handlerecentconversations', (r) ->
     return unless st = r.conversation_state
     conv.replaceFromStates st
