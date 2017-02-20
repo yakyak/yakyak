@@ -51,7 +51,10 @@ handle 'update:viewstate', ->
         if Array.isArray viewstate.size
             later -> remote.getCurrentWindow().setSize viewstate.size...
         if Array.isArray viewstate.pos
-            later -> remote.getCurrentWindow().setPosition viewstate.pos...
+            {width, height} = remote.screen.getPrimaryDisplay().workAreaSize
+            width = parseInt(Math.min(width * 0.9, viewstate.pos[0]), 10)
+            height = parseInt(Math.min(height * 0.9, viewstate.pos[1]), 10)
+            later -> remote.getCurrentWindow().setPosition(width, height)
 
         # only render startup
         startup(models)
