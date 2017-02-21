@@ -43,32 +43,40 @@ onclick = (e) ->
     e.preventDefault()
     address = e.currentTarget.getAttribute 'href'
 
+    #
+    # If a link starts with google.com/url?q=...
+    #  then it has been a masked URL by google.
+    #  We try to decode the original link and open it directly
+    # Otherwise, it could be a link only valid for the current logged user
+    # 
     patt = new RegExp("^(https?[:][/][/]www[.]google[.](com|[a-z][a-z])[/]url[?]q[=])([^&]+)(&.+)*")
     if patt.test(address)
         address = address.replace(patt, '$3')
         address = unescape(address)
+        finalUrl = fixlink(address)
+        shell.openExternal finalUrl
+    else
+      finalUrl = fixlink(address)
 
-    finalUrl = fixlink(address)
+      # Google apis give us an url that is only valid for the current logged user.
+      # We can't open this url in the external browser because it may not be authenticated
+      # or may be authenticated differently (another user or multiple users).
+      # In this case we try to open the url ourselves until we get redirected to the final url
+      # of the image/video.
+      # The finalURL will be cdn-hosted, static and does not require authentication
+      # so we can finally open it in the external browser :(
 
-    # Google apis give us an url that is only valid for the current logged user.
-    # We can't open this url in the external browser because it may not be authenticated
-    # or may be authenticated differently (another user or multiple users).
-    # In this case we try to open the url ourselves until we get redirected to the final url
-    # of the image/video.
-    # The finalURL will be cdn-hosted, static and does not require authentication
-    # so we can finally open it in the external browser :(
+      xhr = new XMLHttpRequest
 
-    xhr = new XMLHttpRequest
+      xhr.onreadystatechange = (e) ->
+          return if e.target.status is 0
+          return if xhr.readyState isnt 4
+          finalUrl = xhr.responseURL
+          shell.openExternal(finalUrl)
+          xhr.abort()
 
-    xhr.onreadystatechange = (e) ->
-        return if e.target.status is 0
-        return if xhr.readyState isnt 4
-        finalUrl = xhr.responseURL
-        shell.openExternal(finalUrl)
-        xhr.abort()
-
-    xhr.open("get", finalUrl)
-    xhr.send()
+      xhr.open("get", finalUrl)
+      xhr.send()
 
 # helper method to group events in time/user bunches
 groupEvents = (es, entity) ->
