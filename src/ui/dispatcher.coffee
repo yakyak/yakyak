@@ -67,9 +67,9 @@ handle 'querypresence', (id) ->
     ipc.send 'querypresence', id
 
 handle 'setpresence', (r) ->
-    if not r?.presence?.available
+    if not r?.presence?.available?
         console.log "setpresence event with unexpected value", r
-    entity.setPresence r.user_id.chat_id, r?.presence?.available?
+    entity.setPresence r.user_id.chat_id, r?.presence?.available
 
 handle 'update:unreadcount', ->
     console.log 'update'
@@ -177,6 +177,12 @@ sendsetpresence = throttle 10000, ->
     ipc.send 'setpresence'
     ipc.send 'setactiveclient', true, 15
 resendfocus = throttle 15000, -> ipc.send 'setfocus', viewstate.selectedConv
+
+# on every keep alive signal from hangouts
+#  we inform the server that the user is still
+#  available
+handle 'noop', ->
+    sendsetpresence()
 
 handle 'lastActivity', ->
     sendsetpresence()
@@ -405,6 +411,7 @@ handle 'pruneTyping', (conv_id) ->
 handle 'syncallnewevents', throttle 10000, (time) ->
     return unless time
     ipc.send 'syncallnewevents', time
+
 handle 'handlesyncedevents', (r) ->
     states = r?.conversation_state
     return unless states?.length
@@ -415,6 +422,7 @@ handle 'handlesyncedevents', (r) ->
 
 handle 'syncrecentconversations', throttle 10000, ->
     ipc.send 'syncrecentconversations'
+
 handle 'handlerecentconversations', (r) ->
     return unless st = r.conversation_state
     conv.replaceFromStates st
