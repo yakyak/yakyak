@@ -9,7 +9,7 @@ mime = require('mime-types')
 clipboard = require('electron').clipboard
 
 {entity, conv, viewstate, userinput, connection, convsettings, notify} = require './models'
-{insertTextAtCursor, throttle, later, isImg} = require './util'
+{insertTextAtCursor, throttle, later, isImg, nameof} = require './util'
 
 'connecting connected connect_failed'.split(' ').forEach (n) ->
     handle n, -> connection.setState n
@@ -68,8 +68,9 @@ handle 'querypresence', (id) ->
 
 handle 'setpresence', (r) ->
     if not r?.presence?.available?
-        console.log "setpresence event with unexpected value", r
-    entity.setPresence r.user_id.chat_id, r?.presence?.available
+        console.log "setpresence: User '#{nameof entity[r?.user_id?.chat_id]}' does not show his/hers/it status", r
+    else
+        entity.setPresence r.user_id.chat_id, r?.presence?.available
 
 handle 'update:unreadcount', ->
     console.log 'update'
