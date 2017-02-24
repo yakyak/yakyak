@@ -33,7 +33,7 @@ We love [bug reports](https://github.com/yakyak/yakyak/issues)!
 * Focus/typing indications (mainly a design issue. keep it clean)
 * Offer alternative color schemes
 * Translations in 8 languages so far:
-  * 🇬🇧 English / 🇵🇹 Portuguese / 🇫🇷 French / 🇪🇸 Spanish / 🇨🇿 Czech / 🇩🇪 German / 🇵🇱 Polish / 🇷🇺 Russian
+  * English / Portuguese / French / Spanish / Czech / German / Polish / Russian / Hebrew
   * We're looking for volunteers to translate the app to new languages
 
 ![sshot1](https://cloud.githubusercontent.com/assets/123929/16032393/991d63f8-3205-11e6-98bf-31f1b57cdc96.png)
