@@ -114,13 +114,17 @@ app.on 'ready', ->
                 process.env[t.env] ?= if purl then "http://#{purl}" else ""
                 rs()
 
+    icon_name = if process.platform is 'win32'
+        'icon@2.png'
+    else
+        'icon@32.png'
     # Create the browser window.
     mainWindow = new BrowserWindow {
         width: 730
         height: 590
         "min-width": 620
         "min-height": 420
-        icon: path.join __dirname, 'icons', 'icon@32.png'
+        icon: path.join __dirname, 'icons', icon_name
         show: false
         titleBarStyle: 'hidden-inset' if process.platform is 'darwin'
         # autoHideMenuBar : true unless process.platform is 'darwin'
