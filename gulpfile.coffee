@@ -133,20 +133,27 @@ gulp.task 'images', ->
 
 gulp.task 'icons', ->
     nameMap =
+        # Icons
         'icon_016.png': 'icon.png'
-        'icon-unread.png': 'icon-unread.png'
-        'icon-unread@2x.png': 'icon-unread@2x.png'
-        'icon-read.png': 'icon-read.png'
-        'icon-read@2x.png': 'icon-read@2x.png'
-        'osx-icon-unread-Template.png': 'osx-icon-unread-Template.png'
-        'osx-icon-unread-Template@2x.png': 'osx-icon-unread-Template@2x.png'
-        'osx-icon-read-Template.png': 'osx-icon-read-Template.png'
-        'osx-icon-read-Template@2x.png': 'osx-icon-read-Template@2x.png'
         'icon_032.png': 'icon@2.png'
         'icon_048.png': 'icon@3.png'
         'icon_128.png': 'icon@8.png'
         'icon_256.png': 'icon@16.png'
         'icon_512.png': 'icon@32.png'
+        # Unread icon in tray (linux/windows)
+        'icon-unread_016.png': 'icon-unread.png'
+        'icon-unread_032.png': 'icon-unread@2x.png'
+        'icon-unread_128.png': 'icon-unread@8x.png'
+        # Read icon in tray (linux/windows)
+        'icon-read_016.png': 'icon-read.png'
+        'icon-read_032.png': 'icon-read@2x.png'
+        'icon-read_128.png': 'icon-read@8x.png'
+        # Unread icon in tray (Mac OS X)
+        'osx-icon-unread-Template_016.png': 'osx-icon-unread-Template.png'
+        'osx-icon-unread-Template_032.png': 'osx-icon-unread-Template@2x.png'
+        # Read icon in tray (Mac OS X)
+        'osx-icon-read-Template_016.png': 'osx-icon-read-Template.png'
+        'osx-icon-read-Template_032.png': 'osx-icon-read-Template@2x.png'
 
     # gulp 4 requires async notification!
     new Promise (resolve, reject)->
