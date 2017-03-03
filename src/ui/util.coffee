@@ -1,5 +1,6 @@
 URL       = require 'url'
 notifier  = require 'node-notifier'
+AutoLaunch = require 'auto-launch'
 clipboard = require('electron').clipboard
 
 #
@@ -191,8 +192,13 @@ insertTextAtCursor = (el, text) ->
         range.text = text
         range.select()
 
+autoLauncher = new AutoLaunch({
+    name: 'YakYak',
+    path: '/Applications/YakYak.app'
+});
+
 module.exports = {nameof, initialsof, nameofconv, linkto, later,
                   throttle, uniqfn, isAboutLink, getProxiedName, tryparse,
                   fixlink, topof, isImg, getImageUrl, toggleVisibility,
                   convertEmoji, drawAvatar, notificationCenterSupportsSound,
-                  insertTextAtCursor, isContentPasteable}
+                  insertTextAtCursor, isContentPasteable, autoLauncher}
