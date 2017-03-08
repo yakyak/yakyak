@@ -193,8 +193,7 @@ insertTextAtCursor = (el, text) ->
         range.select()
 
 autoLauncher = new AutoLaunch({
-    name: 'YakYak',
-    path: '/Applications/YakYak.app'
+    name: 'YakYak'
 });
 
 module.exports = {nameof, initialsof, nameofconv, linkto, later,
