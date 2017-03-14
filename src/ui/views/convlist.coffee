@@ -8,7 +8,10 @@ module.exports = view (models) ->
     clz.push 'showconvthumbs' if viewstate.showConvThumbs
     clz.push 'showanimatedthumbs' if viewstate.showAnimatedThumbs
     div class:clz.join(' '), ->
-        moment.locale(i18n.getLocale())
+        if viewstate.dateformatFollowLanguage
+            moment.locale(i18n.getLocale())
+        else
+            moment.locale(window.navigator.language)
         convs = conv.list()
         renderConv = (c) ->
             pureHang = conv.isPureHangout(c)
