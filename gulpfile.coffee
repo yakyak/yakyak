@@ -291,7 +291,7 @@ compressIt = (cmd, args, opts, zipName, done) ->
             console.log "Created archive (#{zipName})"
             done()
         else
-            console.log "Possible problem with archive #{zipname} " +
+            console.log "Possible problem with archive #{zipName} " +
                 "-- (exit with #{code})"
             done()
             process.exit(1)
