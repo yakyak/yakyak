@@ -1,0 +1,172 @@
+{
+    "__MyLocaleLanguage__": "Slovenščina",
+    "__maintaner__": "Klemen Brumec",
+
+    "title": "YakYak - Hangouts odjemalec",
+    "description": "Namizni odjemalec za Google Hangouts",
+
+    "settings": "Nastavitve",
+    "recent": "Nedavno",
+    "details": "Podrobnosti",
+
+    "connection" :{
+        "connecting": "Povezujem",
+        "loading": "Nalagam kontakte",
+        "not_connected": "Brez povezave (preveri povezavo)"
+    },
+
+    "input": {
+        "message": "Sporočilo",
+        "emoticons": "Pokaži emotikone",
+        "image": "Dodaj sliko",
+        "typing": "piše"
+    },
+    "conversation": {
+        "title": {
+            "one": "Klepet",
+            "other": "Klepeti"
+        },
+        "numbered": "Pogovor %d",
+        "options": "Možnosti klepeta",
+        "setting": "Nastavitve klepeta",
+        "add": "Dodaj nov klepet",
+        "new": "Nov klepet",
+        "name": "Ime klepeta",
+        "edit": "Urejanje klepeta",
+        "multiuser": "Ustvari večuporabniški klepet",
+        "delete": "Izbriši klepet",
+        "delete_confirm": "Naj izbrišem klepet?",
+        "leave": "Zapusti klepet",
+        "leave_confirm": "Naj zapustim klepet?",
+        "search": "Najdi ljudi",
+        "new_message": "Novo sporočilo"
+    },
+    "notification": {
+        "one": "Obvestilo",
+        "other": "Obvestila"
+    },
+    "favorite": {
+        "title": {
+            "one": "Priljubljen",
+            "other": "Priljubljeni"
+        },
+        "star_it": "Označi / odznači"
+    },
+    "actions": {
+      "ok": "V redu",
+      "cancel": "Prekliči"
+    },
+    "call": {
+        "incoming": "Dohodni klic",
+        "incoming_from": "Dohodni klic osebe %s",
+        "accepted": "Sprejet",
+        "accept": "Sprejmi",
+        "rejected": "Zavrnjen",
+        "reject": "Zavrni",
+        "missed": "Zgrešen klic osebe %s"
+    },
+    "menu": {
+        "title": "Meni",
+        "file": {
+            "title": "YakYak",
+            "hide": "Skrij YakYak",
+            "hide_others": "Skrij ostale",
+            "show": "Pokaži vse",
+            "inspector": "Odpri pregledovalnik",
+            "logout": "Odjava",
+            "quit": "Izhod"
+        },
+        "edit": {
+            "title": "Uredi",
+            "undo": "Razveljavi",
+            "redo": "Uveljavi",
+            "paste": "Prilepi",
+            "cut": "Reži",
+            "copy": "Kopiraj",
+            "copy_image_link": "Kopiraj povezavo slike",
+            "copy_link": "Kopiraj povezavo",
+            "copy_image": "Kopiraj sliko",
+            "select_all": "Izberi vse",
+            "language": "Jezik (Language)"
+        },
+        "view": {
+            "title": "Pogled",
+            "emoji": "Pretvori besedilo v emotikone",
+            "hide_dock": "Skrij ikono",
+            "fullscreen": "Celozaslonski način",
+            "tray": {
+                "show_tray": "Pokaži ikono",
+                "show_window": "Pokaži okno",
+                "toggle_minimize": "Pomanjšaj",
+                "start_minimize": "Pomanjšaj ob zagonu",
+                "close": "Zapri v obvestilno območje"
+            },
+            "escape": {
+                "title": "Tipka Esc",
+                "hide": "Skrije okno",
+                "clear": "Počisti vnos",
+                "default": "privzeto, ko obvestilno območje ni prikazano"
+            },
+            "conversation": {
+                "title": "Seznam klepetov",
+                "timestamp": "Pokaži čas",
+                "last": "Pokaži zadnje sporočilo klepeta",
+                "previous": "Prejšnji klepet",
+                "next": "Naslednji klepet",
+                "select": "Izberi klepet",
+                "thumbnails": {
+                    "show": "Pokaži sličice",
+                    "only": "Pokaži le sličice",
+                    "animated": "Prikaži animirane sličice"
+                }
+            },
+            "notification": {
+                "title": "Pojavno obvestilo",
+                "show": "Pokaži obvestila",
+                "toggle": "Prikaz obvestil",
+                "message": "Pokaži sporočilo v obvestilih",
+                "username": "Pokaži uporabniško ime v obvestilih",
+                "mute": "Onemogoči zvok obvestil",
+                "avatar": "Pokaži prikazno sliko v obvestilih",
+                "icon": "Pokaži YakYak ikono v obvestilih",
+                "custom_sound": "Za obvestila uporabi zvok po meri"
+            },
+            "color_scheme": {
+                "title": "Barvna shema",
+                "default": "Osnovna",
+                "blue": "Modra",
+                "dark": "Temna",
+                "material": "Material"
+            },
+            "font": {
+                "title": "Velikost pisave",
+                "extra_small": "Zelo majhna",
+                "small": "Majhna",
+                "medium": "Srednja",
+                "large": "Velika",
+                "extra_large": "Zelo velika"
+            },
+            "zoom": {
+                "in": "Povečaj",
+                "out": "Pomanjšaj",
+                "reset": "Dejanska velikost"
+            }
+        },
+        "help": {
+            "title": "Pomoč",
+            "about": {
+                "title": "O programu YakYak",
+                "newer": "Na voljo je novejša različica. Prosimo, nadgradite iz %s v %s",
+                "license": "Licenca",
+                "authors": "Glavni avtorji",
+                "contributors": "Sodelavci"
+            }
+        },
+        "window": {
+            "title": "Okno",
+            "minimize": "Pomanjšaj",
+            "close": "Zapri",
+            "front": "Postavi vse v ospredje"
+        }
+    }
+}
