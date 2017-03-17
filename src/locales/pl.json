@@ -159,7 +159,8 @@
         "newer": "Dostępna jest nowa wersja, uaktualnij z %s do %s",
         "license": "Licencje",
         "authors": "Główni autorzy",
-        "contributors": "Współautorzy"
+        "contributors": "Współautorzy",
+        "startup": "Open on Startup"
       }
     },
     "window": {
