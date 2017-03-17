@@ -1,6 +1,7 @@
-ipc       = require('electron').ipcRenderer
-clipboard = require('electron').clipboard
-path = require('path')
+ipc          = require('electron').ipcRenderer
+clipboard    = require('electron').clipboard
+path         = require('path')
+autoLauncher = require('./util').autoLauncher
 
 [drive, path_parts...] = path.normalize(__dirname).split(path.sep)
 global.YAKYAK_ROOT_DIR = [drive, path_parts.map(encodeURIComponent)...].join('/')
@@ -33,6 +34,11 @@ window.i18n = require('i18n')
 # This had to be antecipated, as i18n requires viewstate
 #  and applayout requires i18n
 {viewstate} = require './models'
+
+# see if auto launching is enabled at a system level
+autoLauncher.isEnabled().then((isEnabled) ->
+    action 'initopenonsystemstartup', isEnabled
+)
 
 #
 # Configuring supporting languages here

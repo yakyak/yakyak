@@ -505,3 +505,9 @@ handle 'wonline', (wonline) ->
         ipc.send 'hangupsConnect'
     else
         ipc.send 'hangupsDisconnect'
+
+handle 'openonsystemstartup', (open) ->
+    viewstate.setOpenOnSystemStartup open
+
+handle 'initopenonsystemstartup', (isEnabled) ->
+    viewstate.initOpenOnSystemStartup isEnabled

@@ -1,5 +1,6 @@
 URL       = require 'url'
 notifier  = require 'node-notifier'
+AutoLaunch = require 'auto-launch'
 clipboard = require('electron').clipboard
 
 #
@@ -191,8 +192,19 @@ insertTextAtCursor = (el, text) ->
         range.text = text
         range.select()
 
+# AutoLaunch requires a path unless you are running in electron/nw
+vesrions = process?.versions
+if versions? and (versions.nw? or versions['node-webkit']? or versions.electron?)
+    autoLaunchPath = undefined
+else
+    autoLaunchPath = process.execPath
+autoLauncher = new AutoLaunch({
+    name: 'YakYak',
+    path: autoLaunchPath
+});
+
 module.exports = {nameof, initialsof, nameofconv, linkto, later,
                   throttle, uniqfn, isAboutLink, getProxiedName, tryparse,
                   fixlink, topof, isImg, getImageUrl, toggleVisibility,
                   convertEmoji, drawAvatar, notificationCenterSupportsSound,
-                  insertTextAtCursor, isContentPasteable}
+                  insertTextAtCursor, isContentPasteable, autoLauncher}

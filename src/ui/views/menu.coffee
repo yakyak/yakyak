@@ -48,6 +48,12 @@ templateYakYak = (viewstate) ->
             label: i18n.__ 'menu.help.about.title:About YakYak'
             click: (it) -> action 'show-about'
         } if isDarwin
+        {
+            type: 'checkbox'
+            label: i18n.__('menu.help.about.startup:Open on Startup')
+            checked: viewstate.openOnSystemStartup
+            click: (it) -> action 'openonsystemstartup', it.checked
+        }
         #{ type: 'separator' }
         # { label: 'Preferences...', accelerator: 'Command+,',
         # click: => delegate.openConfig() }
