@@ -197,7 +197,7 @@ vesrions = process?.versions
 if versions? and (versions.nw? or versions['node-webkit']? or versions.electron?)
     autoLaunchPath = undefined
 else
-    autoLaunchPath = process.cwd()
+    autoLaunchPath = process.execPath
 autoLauncher = new AutoLaunch({
     name: 'YakYak',
     path: autoLaunchPath
