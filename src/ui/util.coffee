@@ -192,8 +192,14 @@ insertTextAtCursor = (el, text) ->
         range.text = text
         range.select()
 
+vesrions = process?.versions
+if versions? and (versions.nw? or versions['node-webkit']? or versions.electron?)
+    autoLaunchPath = undefined
+else
+    autoLaunchPath = process.cwd()
 autoLauncher = new AutoLaunch({
-    name: 'YakYak'
+    name: 'YakYak',
+    path: autoLaunchPath
 });
 
 module.exports = {nameof, initialsof, nameofconv, linkto, later,
