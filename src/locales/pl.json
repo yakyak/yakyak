@@ -1,6 +1,6 @@
 {
   "__MyLocaleLanguage__": "Polski",
-  "__maintaner__": "http://github.com/yakyak",
+  "__maintaner__": "https://github.com/aPoCoMiLogin",
 
   "title": "YakYak - Komunikator dla Hangouts",
   "description": "Komunikator dla Google Hangouts",
@@ -11,14 +11,14 @@
 
   "connection" :{
     "connecting": "Łączę",
-    "loading": "Pobieram Kontakty",
+    "loading": "Pobieram kontakty",
     "not_connected": "Brak połączenia (sprawdź połączenie)"
   },
 
   "input": {
     "message": "Wiadomość",
-    "emoticons": "Pokaż emotikonki",
-    "image": "Dołącz obrazek",
+    "emoticons": "Pokaż emotikony",
+    "image": "Dołącz zdjęcie",
     "typing": "pisze"
   },
   "conversation": {
@@ -27,17 +27,17 @@
       "other": "Rozmowy"
     },
     "numbered": "Rozmowa %d",
-    "options": "Opcje Rozmowy",
-    "setting": "Ustawienia Rozmowy",
+    "options": "Opcje rozmowy",
+    "setting": "Ustawienia rozmowy",
     "add": "Dodaj nową rozmowę",
     "new": "Nowa rozmowa",
     "name": "Nazwa rozmowy",
     "edit": "Edycja rozmowy",
     "multiuser": "Utwórz rozmowę grupową",
     "delete": "Usuń rozmowę",
-    "delete_confirm": "Usunąć rozmowę?",
+    "delete_confirm": "Na pewno chcesz usunąć rozmowę?",
     "leave": "Opuść rozmowę",
-    "leave_confirm": "Opuścić rozmowę?",
+    "leave_confirm": "Na pewno chcesz opuścić rozmowę?",
     "search": "Szukaj uczestników",
     "new_message": "Nowa Wiadomość"
   },
@@ -47,10 +47,10 @@
   },
   "favorite": {
     "title": {
-      "one": "Ulubione",
+      "one": "Ulubiony",
       "other": "Ulubione"
     },
-    "star_it": "Oznacz gwiazdką / Odznacz"
+    "star_it": "Oznacz/Odznacz gwiazdką"
   },
   "actions": {
     "ok": "OK",
@@ -72,7 +72,7 @@
       "hide": "Ukryj YakYak",
       "hide_others": "Ukryj pozostałe",
       "show": "Pokaż wszystkie",
-      "inspector": "Otwórz Inspektora",
+      "inspector": "Otwórz panel Inspektora",
       "logout": "Wyloguj",
       "quit": "Zakończ"
     },
@@ -83,9 +83,9 @@
       "paste": "Wklej",
       "cut": "Wytnij",
       "copy": "Kopiuj",
-      "copy_image_link": "Kopiuj adres obrazka",
-      "copy_link": "Kopiuj link",
-      "copy_image": "Kopiuj obrazek",
+      "copy_image_link": "Kopiuj adres obrazu",
+      "copy_link": "Kopiuj adres linku",
+      "copy_image": "Kopiuj adres linku",
       "select_all": "Zaznacz wszystko",
       "language": "Język (Language)"
     },
@@ -96,21 +96,21 @@
       "fullscreen": "Tryb Pełnoekranowy",
       "tray": {
         "show_tray": "Pokaż ikonę w menu statusu",
-        "show_window": "Show window",
+        "show_window": "Pokaż okno",
         "toggle_minimize": "Minimalizuj do menu statusu",
         "start_minimize": "Uruchom zminimalizowany",
         "close": "Zamknij do menu statusu"
       },
       "escape": {
         "title": "Zachowanie klawisza Esc",
-        "hide": "Chowa okna",
-        "clear": "Czyści zawartość",
+        "hide": "Ukrywa okno",
+        "clear": "Czyści wpisany tekst",
         "default": "domyślne gdy brak ikony w menu"
       },
       "conversation": {
         "title": "Lista rozmów",
         "timestamp": "Pokaż datę i godzinę w rozmowach",
-        "last": "Pokaż ostatnią rozmowę",
+        "last": "Pokaż ostatnią wiadomość",
         "previous": "Poprzednia rozmowa",
         "next": "Następna rozmowa",
         "select": "Wybierz rozmowę",
@@ -121,19 +121,19 @@
         }
       },
       "notification": {
-        "title": "Powiadomienie wyskakujące",
+        "title": "Wyskakujące powiadomienia",
         "show": "Pokaż powiadomienia",
         "toggle": "Przełącz powiadomienia",
-        "message": "Pokaż treść w powiadomieniach",
+        "message": "Pokaż wiadomość w powiadomieniach",
         "username": "Pokaż nadawcę w powiadomieniach",
         "mute": "Wyłącz dźwięki powiadomień",
         "avatar": "Pokaż avatar nadawcy w powiadomieniach",
         "icon": "Pokaż ikonę YakYak w powiadomieniach",
-        "custom_sound": "Użyj dźwięków YakYak w powiadomieniach"
+        "custom_sound": "Użyj niestandardowego dźwięku powiadomień"
       },
       "color_scheme": {
         "title": "Schemat kolorów",
-        "default": "Oryginalny",
+        "default": "Domyślny",
         "blue": "Niebieski",
         "dark": "Ciemny",
         "material": "Material"
@@ -157,7 +157,7 @@
       "about": {
         "title": "O YakYak",
         "newer": "Dostępna jest nowa wersja, uaktualnij z %s do %s",
-        "license": "Licencje",
+        "license": "Licencja",
         "authors": "Główni autorzy",
         "contributors": "Współautorzy",
         "startup": "Otwórz podczas uruchamiania systemu"
