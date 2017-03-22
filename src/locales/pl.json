@@ -160,7 +160,7 @@
         "license": "Licencje",
         "authors": "Główni autorzy",
         "contributors": "Współautorzy",
-        "startup": "Open on Startup"
+        "startup": "Otwórz podczas uruchamiania systemu"
       }
     },
     "window": {
