@@ -8,7 +8,7 @@ module.exports = view (models) ->
     clz.push 'showconvthumbs' if viewstate.showConvThumbs
     clz.push 'showanimatedthumbs' if viewstate.showAnimatedThumbs
     div class:clz.join(' '), ->
-        if viewstate.dateformatFollowLanguage
+        if !viewstate.useSystemDateFormat
             moment.locale(i18n.getLocale())
         else
             moment.locale(window.navigator.language)

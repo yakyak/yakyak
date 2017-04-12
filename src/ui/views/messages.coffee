@@ -130,7 +130,7 @@ module.exports = view (models) ->
             if c.requestinghistory
                 pass 'Requesting history…', -> span class:'material-icons spin', 'donut_large'
 
-        if viewstate.dateformatFollowLanguage
+        if !viewstate.useSystemDateFormat
             moment.locale(i18n.getLocale())
         else
             moment.locale(window.navigator.language)
