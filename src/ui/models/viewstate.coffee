@@ -42,6 +42,7 @@ module.exports = exp = {
     muteSoundNotification: tryparse(localStorage.muteSoundNotification) ? false
     forceCustomSound: tryparse(localStorage.forceCustomSound) ? false
     language: localStorage.language ? 'en'
+    dateformatFollowLanguage: localStorage.dateformatFollowLanguage is "true"
     # non persistent!
     messageMemory: {}      # stores input when swithching conversations
     cachedInitialsCode: {} # code used for colored initials, if no avatar
@@ -49,6 +50,11 @@ module.exports = exp = {
     loadedContacts: false
     startupScreenVisible: true
     openOnSystemStartup: false
+
+    setDateformatFollowLanguage: (val) ->
+        @dateformatFollowLanguage = val
+        localStorage.dateformatFollowLanguage = val
+        updated 'language'
 
     setContacts: (state) ->
         return if state == @loadedContacts

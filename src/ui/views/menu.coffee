@@ -135,6 +135,14 @@ templateEdit = (viewstate) ->
             label: i18n.__('menu.edit.language:Language')
             submenu: languages
         }
+        {
+            label: i18n.__('menu.edit.dateformat:Localize date format')
+            type: 'checkbox'
+            checked: viewstate.dateformatFollowLanguage
+            enabled: true
+            click: (it) -> action 'setdateformatfollowlanguage', it.checked
+        }
+
     ].filter (n) -> n != undefined
 
 templateView = (viewstate) ->
