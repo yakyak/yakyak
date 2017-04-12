@@ -136,11 +136,11 @@ templateEdit = (viewstate) ->
             submenu: languages
         }
         {
-            label: i18n.__('menu.edit.dateformat:Localize date format')
+            label: i18n.__('menu.edit.dateformat:Use system date format')
             type: 'checkbox'
-            checked: viewstate.dateformatFollowLanguage
+            checked: viewstate.useSystemDateFormat
             enabled: true
-            click: (it) -> action 'setdateformatfollowlanguage', it.checked
+            click: (it) -> action 'setusesystemdateformat', it.checked
         }
 
     ].filter (n) -> n != undefined

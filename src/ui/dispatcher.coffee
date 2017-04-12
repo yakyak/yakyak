@@ -452,8 +452,9 @@ handle 'unreadtotal', (total, orMore) ->
 handle 'showconvmin', (doshow) ->
     viewstate.setShowConvMin doshow
 
-handle 'setdateformatfollowlanguage', (val) ->
-    viewstate.setDateformatFollowLanguage(val)
+handle 'setusesystemdateformat', (val) ->
+
+    viewstate.setUseSystemDateFormat(val)
 
 handle 'showconvthumbs', (doshow) ->
     viewstate.setShowConvThumbs doshow
