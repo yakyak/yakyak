@@ -143,8 +143,7 @@ handle 'mutesoundnotification', ->
     viewstate.setMuteSoundNotification(not viewstate.muteSoundNotification)
 
 handle 'togglemenu', ->
-    mainWindow = remote.getCurrentWindow()
-    if mainWindow.isMenuBarVisible() then mainWindow.setMenuBarVisibility(false) else mainWindow.setMenuBarVisibility(true)
+    remote.Menu.getApplicationMenu().popup()
 
 handle 'setescapeclearsinput', (value) ->
     viewstate.setEscapeClearsInput(value)
@@ -515,3 +514,16 @@ handle 'openonsystemstartup', (open) ->
 
 handle 'initopenonsystemstartup', (isEnabled) ->
     viewstate.initOpenOnSystemStartup isEnabled
+
+handle 'minimize', ->
+    mainWindow = remote.getCurrentWindow()
+    mainWindow.minimize()
+
+handle 'resizewindow', ->
+    mainWindow = remote.getCurrentWindow()
+    console.log('what');
+    if mainWindow.isMaximized() then mainWindow.unmaximize() else mainWindow.maximize()
+
+handle 'close', ->
+    mainWindow = remote.getCurrentWindow()
+    mainWindow.close()

@@ -1,5 +1,7 @@
 {nameofconv}  = require '../util'
 
+remote = require('electron').remote
+
 onclickaction = (a) -> (ev) -> action a
 
 module.exports = view (models) ->
@@ -15,9 +17,24 @@ module.exports = view (models) ->
       if conv.isStarred(c)
         span class:'material-icons', "star"
       name
-    div class:'button'
-    , title: i18n.__('conversation.options:Conversation Options')
-    , onclick:convoptions, -> span class:'material-icons', 'more_vert'
+    div class:"optionwrapper", ->
+      if process.platform isnt 'darwin'
+          div class:"win-buttons", ->
+            button id: "win-minimize"
+            , title:i18n.__('window.controls:Minimize')
+            , onclick: onclickaction('minimize')
+            button id: "win-maximize"
+            , title:i18n.__('window.controls:Maximize')
+            , onclick: onclickaction('resizewindow')
+            button id: "win-restore"
+            , title:i18n.__('window.controls:Restore')
+            , onclick: onclickaction('resizewindow')
+            button id: "win-close"
+            , title:i18n.__('window.controls:Close')
+            , onclick: onclickaction('close')
+      div class:'button'
+      , title: i18n.__('conversation.options:Conversation Options')
+      , onclick:convoptions, -> span class:'material-icons', 'more_vert'
     div class:'convoptions'
     , title:i18n.__('conversation.settings:Conversation settings'), ->
         div class:'button'
@@ -44,6 +61,22 @@ module.exports = view (models) ->
         , ->
             span class:'material-icons', 'info_outline'
             div class:'option-label', i18n.__('details:Details')
+
+if process.platform isnt 'darwin'
+    mainWindow = remote.getCurrentWindow()
+    mainWindow.on 'maximize', () ->
+        toggleHidden document.getElementById('win-maximize'), true
+        toggleHidden document.getElementById('win-restore'), false
+
+    mainWindow.on 'unmaximize', () ->
+        toggleHidden document.getElementById('win-maximize'), false
+        toggleHidden document.getElementById('win-restore'), true
+
+    toggleHidden = (element, hidden) ->
+        if hidden
+            element.style.display = 'none'
+        else
+            element.style.display = 'inline'
 
 convoptions  = ->
   {viewstate} = models
