@@ -40,6 +40,10 @@ We love [bug reports](https://github.com/yakyak/yakyak/issues)!
 
 ![sshot2](https://cloud.githubusercontent.com/assets/123929/16032394/9e2ac08e-3205-11e6-81cc-fd4cb37441b5.png)
 
+*NOTE*
+
+Yakyak may show up as iOS Device and Google may alert you that 'some iOS Device is trying to use your account. This is normal as yakyak is an unofficial client and it mimics the behaviour of an iOS device in order to establish a communication with Google Hangout APIs.
+
 
 ## Credits
 
