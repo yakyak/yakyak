@@ -63,7 +63,9 @@ onclick = (e) ->
     xhr.onreadystatechange = (e) ->
         return if e.target.status is 0
         return if xhr.readyState isnt 4
-        finalUrl = xhr.responseURL
+        redirected = finalUrl.indexOf(xhr.responseURL) != 0
+        if redirected
+            finalUrl = xhr.responseURL
         shell.openExternal(finalUrl)
         xhr.abort()
 
