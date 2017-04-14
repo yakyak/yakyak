@@ -42,14 +42,16 @@ plug = (rs, rj) -> (err, val) -> if err then rj(err) else rs(val)
 logout = ->
     promise = client.logout()
     promise.then (res) ->
-      argv = process.argv
-      fs.unlinkSync(paths.chromecookie) if fs.existsSync(paths.chromecookie)
-      spawn = require('child_process').spawn
-      spawn argv.shift(), argv,
-        cwd: process.cwd
-        env: process.env
-        stdio: 'inherit'
-      quit()
+        argv = process.argv
+        spawn = require('child_process').spawn
+        # remove electron cookies
+        mainWindow?.webContents?.session?.clearStorageData([], (data) -> console.log(data))
+        spawn argv.shift(), argv,
+            cwd: process.cwd
+            env: process.env
+            detached: true
+            stdio: 'inherit'
+        quit()
     return promise # like it matters
 
 seqreq = require './seqreq'
