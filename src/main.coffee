@@ -61,11 +61,11 @@ mainWindow = null
 # Only allow a single active instance
 shouldQuit = app.makeSingleInstance ->
     mainWindow.show() if mainWindow
-    return true;
+    return true
 
 if shouldQuit
-    app.quit();
-    return;
+    app.quit()
+    return
 
 global.i18nOpts = { opts: null, locale: null }
 
@@ -135,12 +135,12 @@ app.on 'ready', ->
 
     # Launch fullscreen with DevTools open, usage: npm run debug
     if debug
-      mainWindow.webContents.openDevTools()
-      mainWindow.maximize()
-      mainWindow.show()
-      try
-        require('devtron').install()
-      catch
+        mainWindow.webContents.openDevTools()
+        mainWindow.maximize()
+        mainWindow.show()
+        try
+            require('devtron').install()
+        catch
           #do nothing
 
     # and load the index.html of the app. this may however be yanked
@@ -192,11 +192,11 @@ app.on 'ready', ->
         # reinstate app window when login finishes
         prom = login(loginWindow)
         .then (rs) ->
-          global.forceClose = true
-          loginWindow.removeAllListeners 'closed'
-          loginWindow.close()
-          mainWindow.show()
-          rs
+            global.forceClose = true
+            loginWindow.removeAllListeners 'closed'
+            loginWindow.close()
+            mainWindow.show()
+            rs
         auth: -> prom
 
     # sends the init structures to the client
@@ -210,18 +210,18 @@ app.on 'ready', ->
     # keeps trying to connec the hangupsjs and communicates those
     # attempts to the client.
     reconnect = ->
-      console.log 'reconnecting', reconnectCount
-      proxycheck().then ->
-          client.connect(creds)
-          .then ->
-              console.log 'connected', reconnectCount
-              # on first connect, send init, after that only resync
-              if reconnectCount == 0
-                  sendInit()
-              else
-                  syncrecent()
-              reconnectCount++
-          .catch (e) -> console.log 'error connecting', e
+        console.log 'reconnecting', reconnectCount
+        proxycheck().then ->
+            client.connect(creds)
+            .then ->
+                console.log 'connected', reconnectCount
+                # on first connect, send init, after that only resync
+                if reconnectCount == 0
+                    sendInit()
+                else
+                    syncrecent()
+                reconnectCount++
+            .catch (e) -> console.log 'error connecting', e
 
     # counter for reconnects
     reconnectCount = 0
@@ -260,8 +260,8 @@ app.on 'ready', ->
                 delivery_medium = null
                 client.sendchatmessage(conv_id, segs, image_id, otr, client_generated_id, delivery_medium, message_action_type).then (r) ->
                       # console.log 'sendchatmessage:result', r?.created_event?.self_event_state?.client_generated_id
-                      ipcsend 'sendchatmessage:result', r
-                      resolve()
+                    ipcsend 'sendchatmessage:result', r
+                    resolve()
             attempt()
         messageQueue = messageQueue.then ->
             sendForSure()
@@ -355,11 +355,11 @@ app.on 'ready', ->
     , false, (ev, conv_id) -> conv_id
 
     ipc.on 'appfocus', ->
-      app.focus()
-      if mainWindow.isVisible()
-        mainWindow.focus()
-      else
-        mainWindow.show()
+        app.focus()
+        if mainWindow.isVisible()
+            mainWindow.focus()
+        else
+            mainWindow.show()
 
     # no retries, dedupe on conv_id
     ipc.on 'settyping', seqreq (ev, conv_id, v) ->
@@ -418,7 +418,7 @@ app.on 'ready', ->
     , false, (ev, conv_id, timestamp, max) -> conv_id
 
     ipc.on 'togglefullscreen', ->
-      mainWindow.setFullScreen not mainWindow.isFullScreen()
+        mainWindow.setFullScreen not mainWindow.isFullScreen()
 
     # bye bye
     ipc.on 'logout', logout
