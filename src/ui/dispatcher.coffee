@@ -521,7 +521,6 @@ handle 'minimize', ->
 
 handle 'resizewindow', ->
     mainWindow = remote.getCurrentWindow()
-    console.log('what');
     if mainWindow.isMaximized() then mainWindow.unmaximize() else mainWindow.maximize()
 
 handle 'close', ->
