@@ -18,7 +18,7 @@ module.exports = view (models) ->
         span class:'material-icons', "star"
       name
     div class:"optionwrapper", ->
-      if process.platform isnt 'darwin'
+      if process.platform is 'win32'
           div class:"win-buttons", ->
             button id: "win-minimize"
             , title:i18n.__('window.controls:Minimize')
@@ -62,7 +62,7 @@ module.exports = view (models) ->
             span class:'material-icons', 'info_outline'
             div class:'option-label', i18n.__('details:Details')
 
-if process.platform isnt 'darwin'
+if process.platform is 'win32'
     mainWindow = remote.getCurrentWindow()
     mainWindow.on 'maximize', () ->
         toggleHidden document.getElementById('win-maximize'), true

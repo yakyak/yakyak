@@ -129,7 +129,7 @@ app.on 'ready', ->
         icon: path.join __dirname, 'icons', icon_name
         show: false
         titleBarStyle: 'hidden-inset' if process.platform is 'darwin'
-        frame: false unless process.platform is 'darwin'
+        frame: false if process.platform is 'win32'
         # autoHideMenuBar : true unless process.platform is 'darwin'
     }
 
