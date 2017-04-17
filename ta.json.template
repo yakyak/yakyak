@@ -1,0 +1,174 @@
+{
+    "__MyLocaleLanguage__": "தமிழ்",
+    "__maintaner__": "http://github.com/Adithya-Ramanitharan",
+
+    "title": "yakyak - Hangouts Client",
+    "description": "Desktop client for Google Hangouts",
+
+    "settings": "அமைப்பு",
+    "recent": "கிட்டிய",
+    "details": "தகவல்கள்",
+
+    "connection" :{
+        "connecting": "தொடர்பில்",
+        "loading": "Loading தொடர்புகள்",
+        "not_connected": "தொடர்பில்லை (தொடர்பை சரிபார்க்கவும்)"
+    },
+
+    "input": {
+        "message": "செய்தியிடல்",
+        "emoticons": "உணர்ச்சி",
+        "image": "படத்தை இணைக்க",
+        "typing": "எழுதுகிறார்"
+    },
+    "conversation": {
+        "title": {
+            "one": "உரையாடல்",
+            "other": "உரையாடல்கள்"
+        },
+        "numbered": "உரையாடல் %d",
+        "options": "உரையாடல் தெரிவுகள்",
+        "setting": "உரையாடல் அமைப்பு",
+        "add": "புதிய உரையாடலை இணைக்க ",
+        "new": "புதிய உரையாடல்",
+        "name": "உரையாடலின் பெயர்",
+        "edit": "உரையாடலை திருத்து",
+        "multiuser": "பல்பயனர் உரையாடலை உருவாக்கு ",
+        "delete": "உரையாடலை அழி",
+        "delete_confirm": "உண்மையாகவே உரையாடலை அழிக்க வேண்டுமா ?",
+        "leave": "உரையாடலை விட்டு விலக வேண்டுமா",
+        "leave_confirm": "உண்மையாகவே உரையாடலை விட்டு விலக வேண்டுமா?",
+        "search": "மக்களை தேடு",
+        "new_message": "புதிய செய்தியிடல்"
+    },
+    "notification": {
+        "one": "அறிவிப்பு",
+        "other": "அறிவிப்புகள்"
+    },
+    "favorite": {
+        "title": {
+            "one": "விருப்பம்",
+            "other": "விருப்பங்கள்"
+        },
+        "star_it": "நட்ச்சத்திரமிடு /நச்சத்திரத்தை நீக்கு"
+    },
+    "actions": {
+      "ok": "சரி",
+      "cancel": "ரத்து"
+    },
+    "call": {
+        "incoming": "உள்வரும் அழைப்பு",
+        "incoming_from": "உள்வரும் அழைப்பு  %s இருந்து",
+        "accepted": "ஏற்றுக்கொள்ளப்பட்டது",
+        "accept": "ஏற்றுக்கொள்",
+        "rejected": "நிராகரிக்கப்பட்டது",
+        "reject": "நிராகரி",
+        "missed": "தவறிய அழைப்பு %s இருந்து"
+    },
+    "menu": {
+        "title": "பட்டியல்",
+        "file": {
+            "title": "Yakyak",
+            "hide": "YakYak ஐ மறை",
+            "hide_others": "மற்ற்வர்களை மறை",
+            "show": "அனைவரையும் காட்சிப்படுத்து",
+            "inspector": "பரிசோதகரை திற",
+            "logout": "வெளியேறு",
+            "quit": "நிறுத்து"
+        },
+        "edit": {
+            "title": "திருத்து",
+            "undo": "மீளமை",
+            "redo": "மறுபடியும் செய்",
+            "paste": "ஒட்டு",
+            "cut": "வெட்டு",
+            "copy": "பிரதி செய்",
+            "copy_image_link": "படத்தின் link பிரதி செய்",
+            "copy_link": "link பிரதி செய்]",
+            "copy_image": "படத்தை பிரதி செய்",
+            "select_all": "அனைத்தையும் தெரிவு செய்",
+            "language": "மொழி (மொழி)"
+        },
+        "view": {
+            "title": "பார்வையிடு,
+            "emoji": "எழுத்தினை  ",
+            "hide_dock": "Hide Dock icon",
+            "fullscreen": "Toggle Fullscreen",
+            "tray": {
+                "show_tray": "Show tray icon",
+                "show_window": "Show window",
+                "toggle_minimize": "Toggle minimize to tray",
+                "start_minimize": "Start minimized to tray",
+                "close": "Close to tray"
+            },
+            "escape": {
+                "title": "Escape key behavior",
+                "hide": "Hides window",
+                "clear": "Clears input",
+                "default": "default when tray is not showing"
+            },
+            "conversation": {
+                "title": "உரையாடல் பட்டியல்",
+                "timestamp": "உரையாடல் நேரமுத்திரையை காட்டு ",
+                "last": "உரையாடலின் இறுதி செய்திடலை காட்சிப்படுத்து",
+                "previous": "முந்திய உரையாடல்",
+                "next": "அடுத்த உரையாடல்",
+                "select": "உரையாடலை தெரிவு செய்",
+                "thumbnails": {
+                    "show": "Show Thumbnails",
+                    "only": "Show Thumbnails Only",
+                    "animated": "Show Animated Thumbnails"
+                }
+            },
+            "notification": {
+                "title": "Pop-Up Notification",
+                "show": "அறிவிப்புகளை காட்டு",
+                "toggle": "Toggle notifications",
+                "message": "செய்திடல்களை அறிவிப்பு பலகையில் காட்சிப்படுத்து",
+                "username": "பயனர் பெயரை அறிவிப்பு பலகையில் காட்சிப்படுத்து",
+                "mute": "அறிவிப்பு பலகையின் ஒலியை நிறுத்து",
+                "avatar": "Show user avatar icon in notifications",
+                "icon": "Show YakYak icon in notifications",
+                "custom_sound": "Use YakYak custom sound for notifications"
+            },
+            "color_scheme": {
+                "title": "நிற திட்டம்",
+                "default": "வழமையான நிறம்",
+                "blue": "நீலம்",
+                "dark": "கருப்பு",
+                "material": "Material"
+		
+            },
+            "font": {
+                "title": "எழுத்துருவின் அளவு",
+                "extra_small": "மிகச் சிறிது",
+                "small": "சிறிது",
+                "medium": "நடுத்தரம்",
+                "large": "பெரிது",
+                "extra_large": "மிகப் பெரிது"
+            },
+            "zoom": {
+                "in": "உரு பெருக்க",
+                "out": "உரு சிருக்க",
+                "reset": "உண்மை தோற்றம்"
+            }
+        },
+        "help": {
+            "title": "உதவி",
+            "about": {
+                "title": "Yakyak ஐ பற்றி",
+                "newer": "A newer version is available, please upgrade from %s to %s",
+                "license": "License",
+                "authors": "Main authors",
+                "contributors": "Contributors",
+                "startup": "Open on Startup"
+            }
+        },
+        "window": {
+            "title": "சாளரம்",
+            "minimize": "சிறிதாக்கு",
+            "close": "மூடு",
+            "front": "அனைத்தையும் முன்னுக்கு கொண்டு வரவும்"
+        }
+    }
+}
