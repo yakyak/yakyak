@@ -159,7 +159,8 @@
                 "newer": "A newer version is available, please upgrade from %s to %s",
                 "license": "License",
                 "authors": "Main authors",
-                "contributors": "Contributors"
+                "contributors": "Contributors",
+                "startup": "Open on Startup"
             }
         },
         "window": {

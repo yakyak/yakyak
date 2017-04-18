@@ -159,7 +159,8 @@
                 "newer": "새로운 버전이 있습니다. %s 에서 %s 로 업그레이드 해주세요.",
                 "license": "라이센스",
                 "authors": "주 저자",
-                "contributors": "기여자"
+                "contributors": "기여자",
+                "startup": "시스템 시작시 열기"
             }
         },
         "window": {
