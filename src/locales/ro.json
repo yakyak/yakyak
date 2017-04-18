@@ -1,0 +1,173 @@
+{
+    "__MyLocaleLanguage__": "Română",
+    "__maintaner__": "http://github.com/alsofronie",
+
+    "title": "YakYak - Client Hangouts",
+    "description": "Aplicație desktop pentru Google Hangouts",
+
+    "settings": "Configurări",
+    "recent": "Recent",
+    "details": "Detalii",
+
+    "connection" :{
+        "connecting": "Conectare",
+        "loading": "Încărcare contacte",
+        "not_connected": "Neconectat (verifică conexiune)"
+    },
+
+    "input": {
+        "message": "Mesaj",
+        "emoticons": "Arată emoticons",
+        "image": "Atașează imagine",
+        "typing": "scrie"
+    },
+    "conversation": {
+        "title": {
+            "one": "Conversație",
+            "other": "Conversații"
+        },
+        "numbered": "Conversație %d",
+        "options": "Opțiuni conversație",
+        "setting": "Setări conversație",
+        "add": "Adaugă conversație nouă",
+        "new": "Conversație nouă",
+        "name": "Nume conversație",
+        "edit": "Modifică conversație",
+        "multiuser": "Creează chat cu mai mulți utilizatori",
+        "delete": "Șterge conversație",
+        "delete_confirm": "Șterg conversație?",
+        "leave": "Părăsește conversație",
+        "leave_confirm": "Părăsire conversație?",
+        "search": "Caută persoane",
+        "new_message": "Nou mesaj"
+    },
+    "notification": {
+        "one": "Notificare",
+        "other": "Notificări"
+    },
+    "favorite": {
+        "title": {
+            "one": "Preferat",
+            "other": "Preferați"
+        },
+        "star_it": "Adaugă/Scoate din preferați"
+    },
+    "actions": {
+      "ok": "OK",
+      "cancel": "Anluare"
+    },
+    "call": {
+        "incoming": "Primire apel",
+        "incoming_from": "Primire apel de la %s",
+        "accepted": "Acceptat",
+        "accept": "Acceptă",
+        "rejected": "Refuzat",
+        "reject": "Refuză",
+        "missed": "Apel ratat de la %s"
+    },
+    "menu": {
+        "title": "Meniu",
+        "file": {
+            "title": "YakYak",
+            "hide": "Ascunde YakYak",
+            "hide_others": "Ascunde celelalte",
+            "show": "Arată tot",
+            "inspector": "Deschide inspector",
+            "logout": "Deconectare",
+            "quit": "Ieșire"
+        },
+        "edit": {
+            "title": "Editare",
+            "undo": "Anulează",
+            "redo": "Refă",
+            "paste": "Lipește",
+            "cut": "Taie",
+            "copy": "Copie",
+            "copy_image_link": "Copie Link imagine",
+            "copy_link": "Copie Link",
+            "copy_image": "Copie Imagine",
+            "select_all": "Selectează tot",
+            "language": "Limba (Language)"
+        },
+        "view": {
+            "title": "Vizualizează",
+            "emoji": "Convertește text cu emoji",
+            "hide_dock": "Ascunde icon Dock",
+            "fullscreen": "Fereastră maximizată",
+            "tray": {
+                "show_tray": "Arată icon în bară",
+                "show_window": "Arată fereastra",
+                "toggle_minimize": "Minimizează în bară",
+                "start_minimize": "Pornește minimizat în bară",
+                "close": "Închide în bară"
+            },
+            "escape": {
+                "title": "Comportarea tastei Escape",
+                "hide": "Ascunde fereastra",
+                "clear": "Șterge textul",
+                "default": "implicit când icon-ul din bară este ascuns"
+            },
+            "conversation": {
+                "title": "Listă conversații",
+                "timestamp": "Arată data conversației",
+                "last": "Arată ultimul mesaj al conversației",
+                "previous": "Conversația anterioară",
+                "next": "Conversația următoare",
+                "select": "Selectează Conversația",
+                "thumbnails": {
+                    "show": "Arată miniaturi",
+                    "only": "Arată numai miniaturi",
+                    "animated": "Arată miniaturi animate"
+                }
+            },
+            "notification": {
+                "title": "Notificări",
+                "show": "Arată notificări",
+                "toggle": "Arată/ascunde notificările",
+                "message": "Arată mesajul în notificări",
+                "username": "Arată utilizatorul în notificări",
+                "mute": "Dezactivare sunet notificări",
+                "avatar": "Arată avatar-ul utilizatorului în notificări",
+                "icon": "Arată icon-ul YakYak în notificări",
+                "custom_sound": "Folosește sunetele proprii YakYak pentru notificări"
+            },
+            "color_scheme": {
+                "title": "Tema",
+                "default": "Original",
+                "blue": "Albastru",
+                "dark": "Întunecat",
+                "material": "Material"
+            },
+            "font": {
+                "title": "Mărime font",
+                "extra_small": "Foarte mic",
+                "small": "Mic",
+                "medium": "Mediu",
+                "large": "Mare",
+                "extra_large": "Foarte mare"
+            },
+            "zoom": {
+                "in": "Mărește",
+                "out": "Micșorează",
+                "reset": "Mărime normală"
+            }
+        },
+        "help": {
+            "title": "Ajutor",
+            "about": {
+                "title": "Despre YakYak",
+                "newer": "Este disponibilă o nouă versiune, actualizați de la %s la %s",
+                "license": "Licența",
+                "authors": "Autori principali",
+                "contributors": "Autori contribuitori",
+                "startup": "Pornește la lansarea sistemului"
+            }
+        },
+        "window": {
+            "title": "Fereastră",
+            "minimize": "Minimizează",
+            "close": "Închide",
+            "front": "Toate în față"
+        }
+    }
+}
