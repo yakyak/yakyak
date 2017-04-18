@@ -87,7 +87,7 @@
             "copy_link": "link பிரதி செய்]",
             "copy_image": "படத்தை பிரதி செய்",
             "select_all": "அனைத்தையும் தெரிவு செய்",
-            "language": "மொழி (மொழி)"
+            "language": "மொழி (language)"
         },
         "view": {
             "title": "பார்வையிடு",
@@ -137,7 +137,6 @@
                 "blue": "நீலம்",
                 "dark": "கருப்பு",
                 "material": "Material"
-		
             },
             "font": {
                 "title": "எழுத்துருவின் அளவு",
