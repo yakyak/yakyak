@@ -1,0 +1,173 @@
+{
+    "__MyLocaleLanguage__": "한국어",
+    "__maintaner__": "http://github.com/drkein",
+
+    "title": "YakYak - 행아웃 클라이언트",
+    "description": "구글 행아웃을 위한 데스크탑 클라이언트",
+
+    "settings": "설정",
+    "recent": "최근",
+    "details": "상세",
+
+    "connection" :{
+        "connecting": "연결중",
+        "loading": "연락처 로딩",
+        "not_connected": "연결 안됨 (연결 확인)"
+    },
+
+    "input": {
+        "message": "메시지",
+        "emoticons": "이모티콘 보기",
+        "image": "이미지 첨부",
+        "typing": "입력중"
+    },
+    "conversation": {
+        "title": {
+            "one": "대화",
+            "other": "대화"
+        },
+        "numbered": "대화 %d",
+        "options": "대화 옵션",
+        "setting": "대화 설정",
+        "add": "새 대화 추가",
+        "new": "새 대화",
+        "name": "대화 이름",
+        "edit": "대화 편집",
+        "multiuser": "그룹 채팅 생성",
+        "delete": "대화 삭제",
+        "delete_confirm": "정말로 대화를 삭제 하시겠습니까?",
+        "leave": "대화 나가기",
+        "leave_confirm": "정말로 대화를 나가시겠습니까?",
+        "search": "사용자 검색",
+        "new_message": "새 메시지"
+    },
+    "notification": {
+        "one": "알림",
+        "other": "알림"
+    },
+    "favorite": {
+        "title": {
+            "one": "즐겨찾기",
+            "other": "즐겨찾기"
+        },
+        "star_it": "추가 / 삭제"
+    },
+    "actions": {
+      "ok": "확인",
+      "cancel": "취소"
+    },
+    "call": {
+        "incoming": "전화 수신",
+        "incoming_from": "전화 수신 %s",
+        "accepted": "수락됨",
+        "accept": "수락",
+        "rejected": "거절됨",
+        "reject": "거절",
+        "missed": "부재중 전화 %s"
+    },
+    "menu": {
+        "title": "메뉴",
+        "file": {
+            "title": "YakYak",
+            "hide": "YakYak 숨기기",
+            "hide_others": "다른창 숨기기",
+            "show": "모두 보기",
+            "inspector": "개발도구 열기",
+            "logout": "로그아웃",
+            "quit": "종료"
+        },
+        "edit": {
+            "title": "편집",
+            "undo": "실행 취소",
+            "redo": "실행 복구",
+            "paste": "붙이기",
+            "cut": "자르기",
+            "copy": "복사",
+            "copy_image_link": "이미지 링크 복사",
+            "copy_link": "링크 복사",
+            "copy_image": "이미지 복사",
+            "select_all": "전체 선택",
+            "language": "한국어 (Language)"
+        },
+        "view": {
+            "title": "보기",
+            "emoji": "텍스트를 이모지로 변환",
+            "hide_dock": "독 아이콘 숨기기",
+            "fullscreen": "전체화면 전환",
+            "tray": {
+                "show_tray": "트레이 아이콘 보기",
+                "show_window": "윈도우 보기",
+                "toggle_minimize": "트레이 최소화 토글",
+                "start_minimize": "트레이 최소화",
+                "close": "트레이로 닫기"
+            },
+            "escape": {
+                "title": "ESC키 동작",
+                "hide": "윈도우 숨기기",
+                "clear": "입력창 지우기",
+                "default": "트레이 숨김시 기본동작"
+            },
+            "conversation": {
+                "title": "대화 목록",
+                "timestamp": "대화 시간 표시",
+                "last": "마지막 대화 메시지 보기",
+                "previous": "이전 대화",
+                "next": "다음 대화",
+                "select": "대화 선택",
+                "thumbnails": {
+                    "show": "썸네일 보기",
+                    "only": "썸네일만 보기",
+                    "animated": "썸네일 애니메이션"
+                }
+            },
+            "notification": {
+                "title": "팝업 알림",
+                "show": "알림 보기",
+                "toggle": "알림 토글",
+                "message": "알림에 메시지 보기",
+                "username": "알림에 이름 보기",
+                "mute": "알림에 소리 끄기",
+                "avatar": "알림에 사용자 아바타 보기",
+                "icon": "알림에 YakYak 아이콘 보기",
+                "custom_sound": "알림에 YakYak 사운드 사용"
+            },
+            "color_scheme": {
+                "title": "색상 스킴",
+                "default": "오리지널",
+                "blue": "블루",
+                "dark": "다크",
+                "material": "매터리얼"
+            },
+            "font": {
+                "title": "폰트 크기",
+                "extra_small": "매우 작음",
+                "small": "작음",
+                "medium": "중간",
+                "large": "큼",
+                "extra_large": "매우 큼"
+            },
+            "zoom": {
+                "in": "줌 인",
+                "out": "줌 아웃",
+                "reset": "실제 크기"
+            }
+        },
+        "help": {
+            "title": "도움말",
+            "about": {
+                "title": "YakYak에 대해서",
+                "newer": "새로운 버전이 있습니다. %s 에서 %s 로 업그레이드 해주세요.",
+                "license": "라이센스",
+                "authors": "주 저자",
+                "contributors": "기여자",
+                "startup": "시스템 시작시 열기"
+            }
+        },
+        "window": {
+            "title": "윈도우",
+            "minimize": "최소화",
+            "close": "닫기",
+            "front": "모두 앞으로 보내기"
+        }
+    }
+}
