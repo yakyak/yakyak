@@ -9,7 +9,7 @@ mime = require('mime-types')
 clipboard = require('electron').clipboard
 
 {entity, conv, viewstate, userinput, connection, convsettings, notify} = require './models'
-{insertTextAtCursor, throttle, later, isImg} = require './util'
+{insertTextAtCursor, throttle, later, isImg, nameof} = require './util'
 
 'connecting connected connect_failed'.split(' ').forEach (n) ->
     handle n, -> connection.setState n
@@ -67,7 +67,10 @@ handle 'querypresence', (id) ->
     ipc.send 'querypresence', id
 
 handle 'setpresence', (r) ->
-    entity.setPresence r.user_id.chat_id, r.presence.available
+    if not r?.presence?.available?
+        console.log "setpresence: User '#{nameof entity[r?.user_id?.chat_id]}' does not show his/hers/it status", r
+    else
+        entity.setPresence r.user_id.chat_id, r?.presence?.available
 
 handle 'update:unreadcount', ->
     console.log 'update'
@@ -175,6 +178,12 @@ sendsetpresence = throttle 10000, ->
     ipc.send 'setpresence'
     ipc.send 'setactiveclient', true, 15
 resendfocus = throttle 15000, -> ipc.send 'setfocus', viewstate.selectedConv
+
+# on every keep alive signal from hangouts
+#  we inform the server that the user is still
+#  available
+handle 'noop', ->
+    sendsetpresence()
 
 handle 'lastActivity', ->
     sendsetpresence()
@@ -403,6 +412,7 @@ handle 'pruneTyping', (conv_id) ->
 handle 'syncallnewevents', throttle 10000, (time) ->
     return unless time
     ipc.send 'syncallnewevents', time
+
 handle 'handlesyncedevents', (r) ->
     states = r?.conversation_state
     return unless states?.length
@@ -413,6 +423,7 @@ handle 'handlesyncedevents', (r) ->
 
 handle 'syncrecentconversations', throttle 10000, ->
     ipc.send 'syncrecentconversations'
+
 handle 'handlerecentconversations', (r) ->
     return unless st = r.conversation_state
     conv.replaceFromStates st
@@ -435,6 +446,7 @@ handle 'hangout_event', (e) ->
 handle 'unreadtotal', (total, orMore) ->
     value = ""
     if total > 0 then value = total + (if orMore then "+" else "")
+    updated 'conv_count'
     ipc.send 'updatebadge', value
 
 handle 'showconvmin', (doshow) ->

@@ -86,8 +86,8 @@ module.exports = view (models) ->
                                     continue
                                 span class:'emoticon', emoji
                                 , onclick: do (emoji) -> ->
-                                        element = document.getElementById "message-input"
-                                        insertTextAtCursor element, emoji
+                                    element = document.getElementById "message-input"
+                                    insertTextAtCursor element, emoji
 
         div class:'input-container', ->
             textarea id:'message-input', autofocus:true, placeholder: i18n.__('input.message:Message'), rows: 1, ''
@@ -160,8 +160,6 @@ module.exports = view (models) ->
                     span class:'material-icons', 'photo'
                 input type:'file', id:'attachFile', accept:'.jpg,.jpeg,.png,.gif', onchange: (ev) ->
                     action 'uploadimage', ev.target.files
-    , onDOMNodeInserted: (e) ->
-            window.twemoji?.parse e.target
 
     # focus when switching convs
     if lastConv != models.viewstate.selectedConv
@@ -198,7 +196,7 @@ preparemessage = (ev) ->
     img = document.getElementById "preview-img"
     action 'uploadpreviewimage' if img.getAttribute('src') != ''
     #
-    document.querySelector('#emoji-container').classList.remove('open');
+    document.querySelector('#emoji-container').classList.remove('open')
     historyPush ev.value
     ev.value = ''
     autosize.update ev

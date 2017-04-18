@@ -53,6 +53,8 @@ outdeploy = path.join __dirname, 'dist'
 platformOpts = ['linux', 'darwin', 'win32']
 archOpts =     ['x64','ia32']
 
+json = JSON.parse(fs.readFileSync('./package.json'))
+
 deploy_options = {
     dir: path.join __dirname, 'app'
     asar: false
@@ -63,6 +65,11 @@ deploy_options = {
     win32metadata: {
         CompanyName: 'Yakyak'
         ProductName: 'Yakyak'
+        OriginalFilename: 'Yakyak.exe'
+        FileDescription: 'Yakyak'
+        InternalName: 'Yakyak.exe'
+        FileVersion: "#{json.version}"
+        ProductVersion: "#{json.version}"
     }
     'osx-sign': true
     arch:     archOpts.join ','
@@ -126,20 +133,27 @@ gulp.task 'images', ->
 
 gulp.task 'icons', ->
     nameMap =
+        # Icons
         'icon_016.png': 'icon.png'
-        'icon-unread.png': 'icon-unread.png'
-        'icon-unread@2x.png': 'icon-unread@2x.png'
-        'icon-read.png': 'icon-read.png'
-        'icon-read@2x.png': 'icon-read@2x.png'
-        'osx-icon-unread-Template.png': 'osx-icon-unread-Template.png'
-        'osx-icon-unread-Template@2x.png': 'osx-icon-unread-Template@2x.png'
-        'osx-icon-read-Template.png': 'osx-icon-read-Template.png'
-        'osx-icon-read-Template@2x.png': 'osx-icon-read-Template@2x.png'
         'icon_032.png': 'icon@2.png'
         'icon_048.png': 'icon@3.png'
         'icon_128.png': 'icon@8.png'
         'icon_256.png': 'icon@16.png'
         'icon_512.png': 'icon@32.png'
+        # Unread icon in tray (linux/windows)
+        'icon-unread_016.png': 'icon-unread.png'
+        'icon-unread_032.png': 'icon-unread@2x.png'
+        'icon-unread_128.png': 'icon-unread@8x.png'
+        # Read icon in tray (linux/windows)
+        'icon-read_016.png': 'icon-read.png'
+        'icon-read_032.png': 'icon-read@2x.png'
+        'icon-read_128.png': 'icon-read@8x.png'
+        # Unread icon in tray (Mac OS X)
+        'osx-icon-unread-Template_016.png': 'osx-icon-unread-Template.png'
+        'osx-icon-unread-Template_032.png': 'osx-icon-unread-Template@2x.png'
+        # Read icon in tray (Mac OS X)
+        'osx-icon-read-Template_016.png': 'osx-icon-read-Template.png'
+        'osx-icon-read-Template_032.png': 'osx-icon-read-Template@2x.png'
 
     # gulp 4 requires async notification!
     new Promise (resolve, reject)->
@@ -325,3 +339,56 @@ deploy = (platform, arch) ->
             else
                 zipIt zippath, fileprefix, -> deferred.resolve()
     deferred.promise
+
+["ia32", "x64"].forEach (arch) ->
+    ['deb', 'rpm'].forEach (target) ->
+        gulp.task 'deploy:linux-' + arch + ':' + target, (done) ->
+            if arch is 'ia32'
+                archName = 'i386'
+            else if target is 'deb'
+                archName = 'amd64'
+            else
+                archName = 'x86_64'
+
+            packageName = json.name + '-VERSION-linux-ARCH.' + target
+            iconArgs = [16, 32, 48, 128, 256, 512].map (size) ->
+                if size < 100
+                    src = "0#{size}"
+                else
+                    src = size
+                "./src/icons/icon_#{src}.png=/usr/share/icons/hicolor/#{size}x#{size}/apps/#{json.name}.png"
+            fpmArgs = [
+                '-s', 'dir'
+                '-t', target
+                '--architecture', archName
+                '--rpm-os', 'linux'
+                '--name', json.name
+                '--force' # Overwrite existing files
+                '--license', json.license
+                '--description', json.description
+                '--url', json.homepage
+                '--maintainer', json.author
+                '--vendor', json.authorName
+                '--version', json.version
+                '--package', "./dist/#{packageName}"
+                '--after-install', './resources/linux/after-install.sh'
+                '--after-remove', './resources/linux/after-remove.sh'
+                "./dist/#{json.name}-linux-#{arch}/.=/opt/#{json.name}"
+                "./resources/linux/app.desktop=/usr/share/applications/#{json.name}.desktop"
+            ].concat iconArgs
+
+            child = spawn 'fpm', fpmArgs
+            # log all errors
+            child.on 'error', (err) ->
+                console.log 'Error: ' + err
+                process.exit(1)
+            # show err
+            child.on 'exit', (code) ->
+                if code == 0
+                    console.log "Created #{target} (#{packageName})"
+                    done()
+                else
+                    console.log "Possible problem with #{target} #{packageName} " +
+                        "-- (exit with #{code})"
+                    done()
+                    process.exit(1)

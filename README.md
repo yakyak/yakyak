@@ -1,7 +1,7 @@
 YakYak
 ======
 
-[![Build Status](https://travis-ci.org/yakyak/yakyak.svg)](https://travis-ci.org/yakyak/yakyak) [![Gitter](https://d378bf3rn661mp.cloudfront.net/gitter.svg)](https://gitter.im/yakyak/yakyak)
+[![Build Status](https://travis-ci.org/yakyak/yakyak.svg)](https://travis-ci.org/yakyak/yakyak)
 
 Desktop client for Google Hangouts
 
@@ -32,8 +32,8 @@ We love [bug reports](https://github.com/yakyak/yakyak/issues)!
 * Video/audio integration (open in chrome)
 * Focus/typing indications (mainly a design issue. keep it clean)
 * Offer alternative color schemes
-* Translations in 3 languages so far:
-  * Portuguese / French / Spanish
+* Translations in 11 languages so far:
+  * English / Portuguese / French / Spanish / Czech / German / Polish / Russian / Hebrew / Ukrainian / Slovenian
   * We're looking for volunteers to translate the app to new languages
 
 ![sshot1](https://cloud.githubusercontent.com/assets/123929/16032393/991d63f8-3205-11e6-98bf-31f1b57cdc96.png)
@@ -115,6 +115,13 @@ $ npm run deploy
 #  deploy:<platform>-<architecture>
 # example:
 $ npm run deploy:darwin-x64
+```
+
+If you have [fpm](https://github.com/jordansissel/fpm) installed (`gem install fpm`), you can also build RPM and Deb packages:
+
+```bash
+$ npm run deploy:linux-x64:rpm
+$ npm run deploy:linux-x64:deb
 ```
 
 *note:* if you are building *Windows* binaries in *Linux* or *Mac OS X*, Wine (1.6 or higher) must be installed. It also requires a 32-bit Wine installation when building Windows 32-bit binary.

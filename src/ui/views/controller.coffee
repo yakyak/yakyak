@@ -17,6 +17,7 @@ handle 'update:connection', do ->
 
         # place in layout
         if connection.state == connection.CONNECTED
+            later -> action 'lastActivity'
             el?.hide?()
             el = null
         else if viewstate.state != viewstate.STATE_STARTUP
@@ -50,7 +51,10 @@ handle 'update:viewstate', ->
         if Array.isArray viewstate.size
             later -> remote.getCurrentWindow().setSize viewstate.size...
         if Array.isArray viewstate.pos
-            later -> remote.getCurrentWindow().setPosition viewstate.pos...
+            {width, height} = remote.screen.getPrimaryDisplay().workAreaSize
+            width = parseInt(Math.min(width * 0.9, viewstate.pos[0]), 10)
+            height = parseInt(Math.min(height * 0.9, viewstate.pos[1]), 10)
+            later -> remote.getCurrentWindow().setPosition(width, height)
 
         # only render startup
         startup(models)
@@ -79,6 +83,10 @@ handle 'update:viewstate', ->
         else
             applayout.last null
 
+        menu viewstate
+        dockicon viewstate
+        trayicon models
+
     else if viewstate.state == viewstate.STATE_ABOUT
         redraw()
         about models
@@ -102,6 +110,10 @@ handle 'update:entity', ->
 handle 'update:conv', ->
     redraw()
 
+handle 'update:conv_count', ->
+    dockicon viewstate
+    trayicon models
+
 handle 'update:searchedentities', ->
   redraw()
 
@@ -121,9 +133,25 @@ redraw = ->
     input models
     convadd models
     startup models
-    trayicon models
+
+
+handle 'update:language', ->
     menu viewstate
-    dockicon viewstate
+    redraw()
+
+throttle = (fn, time=10) ->
+    timeout = false
+    # return a throttled version of fn
+    # which executes on the trailing end of `time`
+    throttled = ->
+        return if timeout
+        timeout = setTimeout ->
+            fn()
+            timeout = false
+        ,
+            time
+
+redraw = throttle(redraw, 20)
 
 handle 'update:language', ->
     menu viewstate

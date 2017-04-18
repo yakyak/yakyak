@@ -12,7 +12,7 @@ callNeedAnswer = {}
 notifierSupportsSound = notificationCenterSupportsSound()
 
 # Custom sound for new message notifications
-audioFile = path.join __dirname, '..', '..', 'media',
+audioFile = path.join YAKYAK_ROOT_DIR, '..', 'media',
 'new_message.ogg'
 audioEl = new Audio(audioFile)
 audioEl.volume = .4
@@ -58,7 +58,7 @@ module.exports = (models) ->
                 delete callNeedAnswer[conv_id]
                 notr
                     html: "#{i18n.__('calls.missed:Missed call from %s', sender)}. " +
-                        "<a href=\"#\">#{actions.ok}</a>"
+                        "<a href=\"#\">#{i18n.__('actions.ok: Ok')}</a>"
                     id: "hang#{conv_id}"
                     stay: 0
         else

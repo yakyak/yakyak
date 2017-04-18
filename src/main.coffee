@@ -7,6 +7,10 @@ path      = require 'path'
 tmp       = require 'tmp'
 session   = require('electron').session
 
+
+[drive, path_parts...] = path.normalize(__dirname).split(path.sep)
+global.YAKYAK_ROOT_DIR = [drive, path_parts.map(encodeURIComponent)...].join('/')
+
 # test if flag debug is preset (other flags can be used via package args
 #  but requres node v6)
 debug = process.argv.includes '--debug'
@@ -32,8 +36,6 @@ client = new Client(
     cookiespath: paths.cookiespath
 )
 
-if fs.existsSync paths.chromecookie
-    fs.unlinkSync paths.chromecookie
 
 plug = (rs, rj) -> (err, val) -> if err then rj(err) else rs(val)
 
@@ -41,6 +43,7 @@ logout = ->
     promise = client.logout()
     promise.then (res) ->
       argv = process.argv
+      fs.unlinkSync(paths.chromecookie) if fs.existsSync(paths.chromecookie)
       spawn = require('child_process').spawn
       spawn argv.shift(), argv,
         cwd: process.cwd
@@ -84,7 +87,7 @@ app.on 'activate', ->
     mainWindow.show()
 
 loadAppWindow = ->
-    mainWindow.loadURL 'file://' + __dirname + '/ui/index.html'
+    mainWindow.loadURL 'file://' + YAKYAK_ROOT_DIR + '/ui/index.html'
     # Only show window when it has some content
     mainWindow.once 'ready-to-show', () ->
         mainWindow.webContents.send 'ready-to-show'
@@ -111,13 +114,17 @@ app.on 'ready', ->
                 process.env[t.env] ?= if purl then "http://#{purl}" else ""
                 rs()
 
+    icon_name = if process.platform is 'win32'
+        'icon@2.png'
+    else
+        'icon@32.png'
     # Create the browser window.
     mainWindow = new BrowserWindow {
         width: 730
         height: 590
         "min-width": 620
         "min-height": 420
-        icon: path.join __dirname, 'icons', 'icon@32.png'
+        icon: path.join __dirname, 'icons', icon_name
         show: false
         titleBarStyle: 'hidden-inset' if process.platform is 'darwin'
         # autoHideMenuBar : true unless process.platform is 'darwin'

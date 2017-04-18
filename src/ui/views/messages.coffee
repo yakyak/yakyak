@@ -40,13 +40,35 @@ fixProxied = (e, proxied, entity) ->
         }, silent:true
 
 onclick = (e) ->
-  e.preventDefault()
-  address = e.currentTarget.getAttribute 'href'
-  patt = new RegExp("^(https?[:][/][/]www[.]google[.](com|[a-z][a-z])[/]url[?]q[=])([^&]+)(&.+)*")
-  if patt.test(address)
-    address = address.replace(patt, '$3')
-    address = unescape(address)
-  shell.openExternal fixlink(address)
+    e.preventDefault()
+    address = e.currentTarget.getAttribute 'href'
+
+    patt = new RegExp("^(https?[:][/][/]www[.]google[.](com|[a-z][a-z])[/]url[?]q[=])([^&]+)(&.+)*")
+    if patt.test(address)
+        address = address.replace(patt, '$3')
+        address = unescape(address)
+
+    finalUrl = fixlink(address)
+
+    # Google apis give us an url that is only valid for the current logged user.
+    # We can't open this url in the external browser because it may not be authenticated
+    # or may be authenticated differently (another user or multiple users).
+    # In this case we try to open the url ourselves until we get redirected to the final url
+    # of the image/video.
+    # The finalURL will be cdn-hosted, static and does not require authentication
+    # so we can finally open it in the external browser :(
+
+    xhr = new XMLHttpRequest
+
+    xhr.onreadystatechange = (e) ->
+        return if e.target.status is 0
+        return if xhr.readyState isnt 4
+        finalUrl = xhr.responseURL
+        shell.openExternal(finalUrl)
+        xhr.abort()
+
+    xhr.open("get", finalUrl)
+    xhr.send()
 
 # helper method to group events in time/user bunches
 groupEvents = (es, entity) ->
@@ -99,7 +121,7 @@ module.exports = view (models) ->
     c = conv[conv_id]
     if c?.current_participant?
         for participant in c.current_participant
-          entity.needEntity participant.chat_id
+            entity.needEntity participant.chat_id
     div class:'messages', observe:onMutate(viewstate), ->
         return unless c?.event
 
@@ -111,7 +133,7 @@ module.exports = view (models) ->
 
         last_seen = conv.findLastReadEventsByUser(c)
         last_seen_chat_ids_with_event = (last_seen, event) ->
-          (chat_id for chat_id, e of last_seen when event is e)
+            (chat_id for chat_id, e of last_seen when event is e)
 
         for g in grouped
             div class:'timestamp', moment(g.start / 1000).calendar()
@@ -130,8 +152,6 @@ module.exports = view (models) ->
                             drawMessageAvatar u, sender, viewstate, entity
                             div class:'umessages', ->
                                 drawMessage(e, entity) for e in events
-                            , onDOMSubtreeModified: (e) ->
-                                window.twemoji?.parse e.target if process.platform == 'win32'
 
                             # at the end of the events group we draw who has read any of its events
                             div class: 'seen-list', () ->
@@ -198,6 +218,7 @@ drawMeMessage = (e) ->
         e.chat_message?.message_content.segment[0].text
 
 drawMessage = (e, entity) ->
+    # console.log 'message', e.chat_message
     mclz = ['message']
     mclz.push c for c in MESSAGE_CLASSES when e[c]?
     title = if e.timestamp then moment(e.timestamp / 1000).calendar() else null
@@ -220,16 +241,16 @@ drawMessage = (e, entity) ->
             else if t == 'LEAVE'
                 pass "#{names} left the conversation"
         else if e.hangout_event
-          hangout_event = e.hangout_event
-          style = 'vertical-align': 'middle'
-          if hangout_event.event_type is 'START_HANGOUT'
-              span { class: 'material-icons', style }, 'call_made_small'
-              pass ' Call started'
-          else if hangout_event.event_type is 'END_HANGOUT'
-              span { class:'material-icons small', style }, 'call_end'
-              pass ' Call ended'
+            hangout_event = e.hangout_event
+            style = 'vertical-align': 'middle'
+            if hangout_event.event_type is 'START_HANGOUT'
+                span { class: 'material-icons', style }, 'call_made_small'
+                pass ' Call started'
+            else if hangout_event.event_type is 'END_HANGOUT'
+                span { class:'material-icons small', style }, 'call_end'
+                pass ' Call ended'
         else
-          console.log 'unhandled event type', e, entity
+            console.log 'unhandled event type', e, entity
 
 
 atTopIfSmall = ->
@@ -256,9 +277,9 @@ ifpass = (t, f) -> if t then f else pass
 format = (cont) ->
     if cont?.attachment?
         try
-          formatAttachment cont.attachment
+            formatAttachment cont.attachment
         catch e
-          console.error e
+            console.error e
     for seg, i in cont?.segment ? []
         continue if cont.proxied and i < 1
         formatters.forEach (fn) ->
@@ -278,6 +299,8 @@ formatters = [
                         ifpass(f.strikethrough, s) ->
                             pass if cont.proxied
                                 stripProxiedColon seg.text
+                            else if seg.type == 'LINE_BREAK'
+                                '\n'
                             else
                                 seg.text
     # image formatter
@@ -383,6 +406,7 @@ formatAttachment = (att) ->
         return if not data
         {href, thumb} = data
     else if att?[0]?.embed_item?.type
+        console.log('THIS SHOULD NOT HAPPEN WTF !!')
         data = extractProtobufStyle(att)
         return if not data
         {href, thumb} = data
@@ -392,9 +416,9 @@ formatAttachment = (att) ->
     return unless href
 
     # here we assume attachments are only images
-    if preload href
-      div class:'attach', ->
-          a {href, onclick}, -> img src:href
+    if preload thumb
+        div class:'attach', ->
+            a {href, onclick}, -> img src:thumb
 
 
 handle 'loadedimg', ->
@@ -412,12 +436,18 @@ handle 'loadedinstagramphoto', ->
     updated 'conv'
 
 extractProtobufStyle = (att) ->
-    eitem = att?[0]?.embed_item
-    {plus_photo, data, type_} = eitem ? {}
+    href = null
+    thumb = null
+
+    embed_item = att?[0]?.embed_item
+    {plus_photo, data, type_} = embed_item ? {}
     if plus_photo?
-        thumb = plus_photo.data?.thumbnail?.image_url
         href  = plus_photo.data?.url
+        thumb = plus_photo.data?.thumbnail?.image_url
+        href  = plus_photo.data?.thumbnail?.url
+        isVideo = plus_photo.data?.media_type isnt 'MEDIA_TYPE_PHOTO'
         return {href, thumb}
+
     t = type_?[0]
     return console.warn 'ignoring (old) attachment type', att unless t == 249
     k = Object.keys(data)?[0]
@@ -425,8 +455,8 @@ extractProtobufStyle = (att) ->
     href = data?[k]?[5]
     thumb = data?[k]?[9]
     if not thumb
-      href = data?[k]?[4]
-      thumb = data?[k]?[5]
+        href = data?[k]?[4]
+        thumb = data?[k]?[5]
 
     {href, thumb}
 

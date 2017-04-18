@@ -70,6 +70,9 @@ module.exports = exp =
 merge exp, STATE
 merge exp, EVENT_STATE
 
+# averissimo: not sure when checkEventState is actually called
+#  I believe this is deprecated code, or it would be better to extend the timer
+#  to 30s or so
 checkTimer = null
 checkEventState = ->
     elapsed = Date.now() - exp.lastActive

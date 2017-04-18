@@ -1,6 +1,10 @@
 ipc       = require('electron').ipcRenderer
 clipboard = require('electron').clipboard
 path = require('path')
+
+[drive, path_parts...] = path.normalize(__dirname).split(path.sep)
+global.YAKYAK_ROOT_DIR = [drive, path_parts.map(encodeURIComponent)...].join('/')
+
 # expose trifl in global scope
 trifl = require 'trifl'
 trifl.expose window
@@ -108,6 +112,32 @@ ipc.on 'ready-to-show', () ->
              remote.getGlobal('windowHideWhileCred') != true
         mainWindow.show()
 
+    #
+    window.addEventListener 'unload', (ev) ->
+        if process.platform == 'darwin' && window?
+            if window.isFullScreen()
+                window.setFullScreen false
+            if not remote.getGlobal('forceClose')
+                ev.preventDefault()
+                window?.hide()
+                return
+
+        window = null
+        action 'quit'
+
+#
+#
+# This can be removed once windows10 supports NotoColorEmoji
+#  (or the font supports Windows10)
+#
+if process.platform == 'win32'
+    for stylesheet in window.document.styleSheets
+        if stylesheet.href.match('app\.css')?
+            for rule, i in stylesheet.cssRules
+                if rule.type == 5 && rule.cssText.match('font-family: NotoColorEmoji;')?
+                    stylesheet.deleteRule(i)
+                    break
+            break
 #
 #
 # Get information on exceptions in main process
@@ -178,19 +208,6 @@ window.addEventListener 'online',  -> action 'wonline', true
 window.addEventListener 'offline', -> action 'wonline', false
 
 #
-window.addEventListener 'unload', (ev) ->
-    if process.platform == 'darwin' && window?
-        if window.isFullScreen()
-            window.setFullScreen false
-        if not remote.getGlobal('forceClose')
-            ev.preventDefault()
-            window?.hide()
-            return
-
-    window = null
-    action 'quit'
-
-#
 #
 # Catch unresponsive events
 remote.getCurrentWindow().on 'unresponsive', (error) ->
@@ -231,8 +248,3 @@ currentWindow.webContents.on 'context-menu', (e, params) ->
 
 # tell the startup state
 action 'wonline', window.navigator.onLine
-
-if process.platform == 'win32'
-    script = document.createElement('script')
-    script.src = 'http://twemoji.maxcdn.com/2/twemoji.min.js'
-    document.head.appendChild(script)
