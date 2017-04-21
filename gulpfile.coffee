@@ -17,6 +17,7 @@ filter     = require 'gulp-filter'
 Q          = require 'q'
 Stream     = require 'stream'
 spawn      = require('child_process').spawn
+exec       = require('child_process').exec
 # running tasks in sequence
 runSequence = require('run-sequence')
 
@@ -319,8 +320,38 @@ deploy = (platform, arch) ->
     #
     # package the app and create a zip
     packOpts = opts
+    #
     if platform == 'darwin'
         packOpts.name = 'YakYak'
+    #
+    # warning to users outside of windows of the dependency of wine32
+    if platform == 'win32' && process.platform != 'win32'
+        # test if wine is installed
+        child = exec 'wine --version'
+        , (ev)->
+            # if wine --version gives a bad error
+            console.log ''
+            if ev?
+                console.log ' IMPORTANT for building Windows binaries outside Windows'
+                console.log ''
+                console.log ' It is required to have wine installed and configured.'
+                console.log ' If problem persists try a different wine prefix.'
+                console.log ' -------------------------------------------------------'
+
+                console.log ''
+                console.log ''
+                console.log ' When building for a specific platform use:'
+                console.log ''
+                console.log ' $ npm run gulp deploy:<platform>-<architecture>'
+                console.log ''
+                console.log '       <platforms>: win32 | linux | darwin'
+                console.log '   <architectures>:  x64  | ia32'
+            else
+                console.log 'Notice: If there are problems with rcedit.exe,'
+                console.log ' please be sure to have wine installed and configured.'
+            console.log '--------------------------------------------------------'
+    #
+    # actual packaging
     packager packOpts, (err, appPaths) ->
         if err?
             console.log ('Error: ' + err) if err?
