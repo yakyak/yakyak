@@ -105,7 +105,7 @@
                 "title": "Escape beteende",
                 "hide": "Göm fönster",
                 "clear": "Rensa fält",
-                "default": "default when tray is not showing"
+                "default": "Standard när aktivitet inte visas"
             },
             "conversation": {
                 "title": "Konversationslista",
