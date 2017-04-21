@@ -25,6 +25,23 @@ BrowserWindow = require('electron').BrowserWindow
 userData = path.normalize(app.getPath('userData'))
 fs.mkdirSync(userData) if not fs.existsSync userData
 
+`cmdLineArgs = process.argv.slice(2);
+for (var index = 0; index < cmdLineArgs.length; index++) {
+var regex = /^user=(.*)$/i;
+var match = regex.exec(cmdLineArgs[index]);
+console.log("match: ", match);
+
+if (match) {
+userSubDir = match[1];
+app.setPath('userData', path.join(app.getPath('userData'), userSubDir));
+userData = path.normalize(app.getPath('userData'));
+if (!fs.existsSync(userData)) {
+fs.mkdirSync(userData);
+}
+break;
+}
+}`
+
 paths =
     rtokenpath: path.join(userData, 'refreshtoken.txt')
     cookiespath: path.join(userData, 'cookies.json')
