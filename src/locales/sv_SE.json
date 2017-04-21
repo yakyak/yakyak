@@ -1,0 +1,173 @@
+{
+    "__MyLocaleLanguage__": "Swedish",
+    "__maintaner__": "http://github.com/sjoo90",
+
+    "title": "YakYak - Hangouts Klient",
+    "description": "Desktopklient för Google Hangouts",
+
+    "settings": "Inställningar",
+    "recent": "Tidigare",
+    "details": "Detaljer",
+
+    "connection" :{
+        "connecting": "Ansluter",
+        "loading": "Hämtar kontakter",
+        "not_connected": "Ej ansluten (kontrollera internetanslutning)"
+    },
+
+    "input": {
+        "message": "Meddelande",
+        "emoticons": "Visa emotikoner",
+        "image": "Bifoga bild",
+        "typing": "skriver"
+    },
+    "conversation": {
+        "title": {
+            "one": "Konversation",
+            "other": "Konversationer"
+        },
+        "numbered": "Konversation %d",
+        "options": "Konversationalternativ",
+        "setting": "Konversationinställningar",
+        "add": "Lägg till ny konversation",
+        "new": "Ny konversation",
+        "name": "Konversationsnamn",
+        "edit": "Ändra konversation",
+        "multiuser": "Skapa fleranvändarchatt",
+        "delete": "Radera konversation",
+        "delete_confirm": "Vill du radera konversationen?",
+        "leave": "Lämna konversation",
+        "leave_confirm": "Vill du lämna konversationen?",
+        "search": "Sök personer",
+        "new_message": "Nytt meddelande"
+    },
+    "notification": {
+        "one": "Notifiering",
+        "other": "Notifieringar"
+    },
+    "favorite": {
+        "title": {
+            "one": "Favorit",
+            "other": "Favoriter"
+        },
+        "star_it": "Markera / Omarkera"
+    },
+    "actions": {
+      "ok": "OK",
+      "cancel": "Avbryt"
+    },
+    "call": {
+        "incoming": "Inkommande samtal",
+        "incoming_from": "Inkommande samtal från %s",
+        "accepted": "Accepterad",
+        "accept": "Acceptera",
+        "rejected": "Avslagen",
+        "reject": "Avslå",
+        "missed": "Missat samtal från %s"
+    },
+    "menu": {
+        "title": "Menu",
+        "file": {
+            "title": "YakYak",
+            "hide": "Göm YakYak",
+            "hide_others": "Göm Andra",
+            "show": "Visa alla",
+            "inspector": "Öppna granskaren",
+            "logout": "Logga ut",
+            "quit": "Avsluta"
+        },
+        "edit": {
+            "title": "Redigera",
+            "undo": "Ångra",
+            "redo": "Gör om",
+            "paste": "Klistra in",
+            "cut": "Klipp ut",
+            "copy": "Kopiera",
+            "copy_image_link": "Kopiera bildlänk",
+            "copy_link": "Kopiera länk",
+            "copy_image": "Kopiera bild",
+            "select_all": "Markera alla",
+            "language": "Språk (Language)"
+        },
+        "view": {
+            "title": "Visa",
+            "emoji": "Konvertera text till emoji",
+            "hide_dock": "Göm dockikon",
+            "fullscreen": "Växla till fullskärm",
+            "tray": {
+                "show_tray": "Visa aktivitetsfältikon",
+                "show_window": "Visa fönster",
+                "toggle_minimize": "Växla minimerat till aktivitetsfält",
+                "start_minimize": "Starta minimerat till aktivitetsfält",
+                "close": "Stäng till aktivitetsfält"
+            },
+            "escape": {
+                "title": "Escape beteende",
+                "hide": "Göm fönster",
+                "clear": "Rensa fält",
+                "default": "Standard när aktivitet inte visas"
+            },
+            "conversation": {
+                "title": "Konversationslista",
+                "timestamp": "Visa konversationens tidstämpel",
+                "last": "Visa konversationens senaste meddelande",
+                "previous": "Föregående konversation",
+                "next": "Nästa konversation",
+                "select": "Välj konversation",
+                "thumbnails": {
+                    "show": "Visa miniatyr",
+                    "only": "Visa bara miniatyr",
+                    "animated": "Visa animerad miniatyr"
+                }
+            },
+            "notification": {
+                "title": "Pop-Up Notifiering",
+                "show": "Visa notifieringar",
+                "toggle": "Växla notifieringar",
+                "message": "Visa meddelanden i notifieringar",
+                "username": "Visa användare i notifieringar",
+                "mute": "Avaktivera ljud i notifieringar",
+                "avatar": "Visa avatar i notifieringar",
+                "icon": "Visa YakYak-ikon i notifieringar",
+                "custom_sound": "Använd YakYaks ljud i notifieringar"
+            },
+            "color_scheme": {
+                "title": "Färgschema",
+                "default": "Original",
+                "blue": "Blå",
+                "dark": "Mörk",
+                "material": "Material"
+            },
+            "font": {
+                "title": "Font-storlek",
+                "extra_small": "Extra liten",
+                "small": "Liten",
+                "medium": "Mellan",
+                "large": "Stor",
+                "extra_large": "Extra Stor"
+            },
+            "zoom": {
+                "in": "Zooma in",
+                "out": "Zooma ut",
+                "reset": "Aktuell storlek"
+            }
+        },
+        "help": {
+            "title": "Hjälp",
+            "about": {
+                "title": "Om YakYak",
+                "newer": "En ny version är tillgänglig, vänligen uppdatera från %s till %s",
+                "license": "Licens",
+                "authors": "Huvudgrundare",
+                "contributors": "Bidragsgivare",
+                "startup": "Öppna vid uppstart"
+            }
+        },
+        "window": {
+            "title": "Fönster",
+            "minimize": "Minimera",
+            "close": "Stäng",
+            "front": "Placera överst"
+        }
+    }
+}
