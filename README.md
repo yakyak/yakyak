@@ -89,7 +89,8 @@ Requirements:
 - Node.js (v4 or v6)
 
 ```bash
-$ npm install
+$ npm init -y
+$ npm install gulp
 $ npm run gulp
 ```
 
