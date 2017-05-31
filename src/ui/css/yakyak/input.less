@@ -146,6 +146,32 @@
                 color: var(--grey);
             }
         }
+        .emoji-sugg-container{
+          list-style: none;
+          position: absolute;
+          top: -100%;
+          display: flex;
+          background: rgba(255,255,255,0.8);
+          padding: 10px;
+          left: 0;
+          border-radius: 5px 5px 0 0;
+          li{
+            padding: 2px;
+            border-radius: 5px;
+            text-align: center;
+            &.activated{
+              background: rgba(0,0,0,0.4);
+            }
+            i{
+              font-style: normal;
+            }
+            span{
+              display: block;
+              font-size: 0.7em;
+              color: #AAA;
+            }
+          }
+        }
         span.button-container {
             position: absolute;
             right: 12px;

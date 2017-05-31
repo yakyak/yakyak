@@ -34,6 +34,8 @@ lastConv = null
 
 emojiCategories = require './emojicategories'
 openByDefault = 'people'
+emojiSuggListIndex = -1
+
 
 module.exports = view (models) ->
     div class:'input', ->
@@ -129,8 +131,11 @@ module.exports = view (models) ->
                 action 'lastkeydown', Date.now() unless isAltCtrlMeta(e)
             , onkeyup: (e) ->
                 #check for emojis after pressing space
+                element = document.getElementById "message-input";
+                unicodeMap = require '../emojishortcode';
+                emojiSuggListIndex = -1;
                 if e.keyCode == 32
-                    element = document.getElementById "message-input"
+                    # element = document.getElementById "message-input"
                     # Converts emojicodes (e.g. :smile:, :-) ) to unicode
                     if models.viewstate.convertEmoji
                         # get cursor position
@@ -141,6 +146,31 @@ module.exports = view (models) ->
                         lenAfter = element.value.length
                         element.selectionStart = startSel - (len - lenAfter)
                         element.selectionEnd = element.selectionStart
+                # remove emoji suggestion wrapper each time
+                if document.querySelectorAll('.emoji-sugg-container').length
+                    document.querySelectorAll('.emoji-sugg-container')[0].parentNode.removeChild(document.querySelectorAll('.emoji-sugg-container')[0])
+                if element.value.length
+                    index = 0;
+                    # read emoji table
+                    for d, i of unicodeMap
+                        # util function to know if a emoji is trying to be typed, to launch suggestion
+                        emojiInserted = (emoji, text) ->
+                            searchedText = text.substr(text.lastIndexOf(':'))
+                            if searchedText == ':' || searchedText.indexOf(':') == -1
+                                return false
+                            return emoji.startsWith(searchedText) || emoji.indexOf(searchedText) > -1
+                        # Insert suggestion
+                        if  emojiInserted(d, element.value) && index < 5
+                            emojiSuggList = document.querySelectorAll('.emoji-sugg-container')[0]
+                            if !emojiSuggList
+                                emojiSuggList = document.createElement('ul')
+                                emojiSuggList.className = 'emoji-sugg-container'
+                                element.parentNode.appendChild(emojiSuggList)
+                            index++
+                            emojiSuggItem = document.createElement('li')
+                            emojiSuggItem.className = 'emoji-sugg'
+                            emojiSuggItem.innerHTML = '<i>' + i + '</i>' + '<span>' + d + '</span>'
+                            emojiSuggList.appendChild(emojiSuggItem)
             , onpaste: (e) ->
                 setTimeout () ->
                     if not clipboard.readImage().isEmpty() and not clipboard.readText()
@@ -165,6 +195,24 @@ module.exports = view (models) ->
     if lastConv != models.viewstate.selectedConv
         lastConv = models.viewstate.selectedConv
         laterMaybeFocus()
+
+window.addEventListener('keydown', ((e) ->
+    if e.keyCode == 9 && document.querySelectorAll('.emoji-sugg-container')[0]
+        emojiSuggListIndex++
+        if emojiSuggListIndex == 5
+            emojiSuggListIndex = 0
+        for el in document.querySelectorAll('.emoji-sugg')
+            el.classList.remove('activated')
+        document.querySelectorAll('.emoji-sugg')[emojiSuggListIndex].classList.toggle('activated')
+    if e.keyCode == 13 && document.querySelectorAll('.emoji-sugg-container')[0] && emojiSuggListIndex != -1
+        newText = (originalText) ->
+            newEmoji = document.querySelectorAll('.emoji-sugg')[emojiSuggListIndex].querySelector('i').innerText
+            return originalText.substr(0, originalText.lastIndexOf(':')) + newEmoji;
+        e.preventDefault();
+        document.getElementById('message-input').value = newText(document.getElementById('message-input').value.trim())
+
+
+).bind(this))
 
 clearsImagePreview = ->
     element = document.getElementById 'preview-img'
