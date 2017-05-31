@@ -479,6 +479,9 @@ handle 'showusernameinnotification', (doshow) ->
 handle 'convertemoji', (doshow) ->
     viewstate.setConvertEmoji doshow
 
+handle 'suggestemoji', (doshow) ->
+    viewstate.setSuggestEmoji doshow
+
 handle 'changetheme', (colorscheme) ->
     viewstate.setColorScheme colorscheme
 

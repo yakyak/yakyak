@@ -149,7 +149,8 @@ module.exports = view (models) ->
                 # remove emoji suggestion wrapper each time
                 if document.querySelectorAll('.emoji-sugg-container').length
                     document.querySelectorAll('.emoji-sugg-container')[0].parentNode.removeChild(document.querySelectorAll('.emoji-sugg-container')[0])
-                if element.value.length
+                console.log(models.viewstate.suggestEmoji);
+                if element.value.length && models.viewstate.suggestEmoji
                     index = 0;
                     # read emoji table
                     for d, i of unicodeMap
@@ -197,19 +198,20 @@ module.exports = view (models) ->
         laterMaybeFocus()
 
 window.addEventListener('keydown', ((e) ->
-    if e.keyCode == 9 && document.querySelectorAll('.emoji-sugg-container')[0]
-        emojiSuggListIndex++
-        if emojiSuggListIndex == 5
-            emojiSuggListIndex = 0
-        for el in document.querySelectorAll('.emoji-sugg')
-            el.classList.remove('activated')
-        document.querySelectorAll('.emoji-sugg')[emojiSuggListIndex].classList.toggle('activated')
-    if e.keyCode == 13 && document.querySelectorAll('.emoji-sugg-container')[0] && emojiSuggListIndex != -1
-        newText = (originalText) ->
-            newEmoji = document.querySelectorAll('.emoji-sugg')[emojiSuggListIndex].querySelector('i').innerText
-            return originalText.substr(0, originalText.lastIndexOf(':')) + newEmoji;
-        e.preventDefault();
-        document.getElementById('message-input').value = newText(document.getElementById('message-input').value.trim())
+    if models.viewstate.suggestEmoji
+        if e.keyCode == 9 && document.querySelectorAll('.emoji-sugg-container')[0]
+            emojiSuggListIndex++
+            if emojiSuggListIndex == 5
+                emojiSuggListIndex = 0
+            for el in document.querySelectorAll('.emoji-sugg')
+                el.classList.remove('activated')
+            document.querySelectorAll('.emoji-sugg')[emojiSuggListIndex].classList.toggle('activated')
+        if e.keyCode == 13 && document.querySelectorAll('.emoji-sugg-container')[0] && emojiSuggListIndex != -1
+            newText = (originalText) ->
+                newEmoji = document.querySelectorAll('.emoji-sugg')[emojiSuggListIndex].querySelector('i').innerText
+                return originalText.substr(0, originalText.lastIndexOf(':')) + newEmoji;
+            e.preventDefault();
+            document.getElementById('message-input').value = newText(document.getElementById('message-input').value.trim())
 
 
 ).bind(this))

@@ -92,6 +92,7 @@
         "view": {
             "title": "Présentation",
             "emoji": "Convertir le texte en emoji",
+            "suggestemoji": "Suggérer les emoji au cours de la frappe",
             "hide_dock": "Cacher l'icône du Dock",
             "fullscreen": "Activer le mode plein écran",
             "tray": {
