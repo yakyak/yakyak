@@ -135,7 +135,6 @@ module.exports = view (models) ->
                 unicodeMap = require '../emojishortcode';
                 emojiSuggListIndex = -1;
                 if e.keyCode == 32
-                    # element = document.getElementById "message-input"
                     # Converts emojicodes (e.g. :smile:, :-) ) to unicode
                     if models.viewstate.convertEmoji
                         # get cursor position
@@ -149,7 +148,6 @@ module.exports = view (models) ->
                 # remove emoji suggestion wrapper each time
                 if document.querySelectorAll('.emoji-sugg-container').length
                     document.querySelectorAll('.emoji-sugg-container')[0].parentNode.removeChild(document.querySelectorAll('.emoji-sugg-container')[0])
-                console.log(models.viewstate.suggestEmoji);
                 if element.value.length && models.viewstate.suggestEmoji
                     index = 0;
                     # read emoji table
@@ -197,6 +195,7 @@ module.exports = view (models) ->
         lastConv = models.viewstate.selectedConv
         laterMaybeFocus()
 
+#suggestEmoji : added enter handle and tab handle to navigate and select emoji when suggested
 window.addEventListener('keydown', ((e) ->
     if models.viewstate.suggestEmoji
         if e.keyCode == 9 && document.querySelectorAll('.emoji-sugg-container')[0]
@@ -212,8 +211,6 @@ window.addEventListener('keydown', ((e) ->
                 return originalText.substr(0, originalText.lastIndexOf(':')) + newEmoji;
             e.preventDefault();
             document.getElementById('message-input').value = newText(document.getElementById('message-input').value.trim())
-
-
 ).bind(this))
 
 clearsImagePreview = ->
