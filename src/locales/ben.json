@@ -111,21 +111,21 @@
         "next": "পরবর্তী কথোপকথন",
         "select": "কথোপকথন নির্বাচন করুন",
         "thumbnails": {
-          "show": "Show Thumbnails",
-          "only": "Show Thumbnails Only",
-          "animated": "Show Animated Thumbnails"
+          "show": "থাম্বনেইলগুলি দেখান",
+          "only": "শুধুমাত্র থাম্বনেল দেখান",
+          "animated": "অ্যানিমেটেড থাম্বনেল দেখান"
         }
       },
       "notification": {
-        "title": "Pop-Up Notification",
+        "title": "পপ-আপ বিজ্ঞপ্তি",
         "show": "বিজ্ঞপ্তিগুলি দেখান",
-        "toggle": "Toggle notifications",
+        "toggle": "বিজ্ঞপ্তিগুলি টগল করুন",
         "message": "বিজ্ঞপ্তিগুলিতে বার্তা দেখান",
         "username": "বিজ্ঞপ্তিগুলির মধ্যে ব্যবহারকারীর নাম দেখান",
-        "mute": "Disable sound in notifications",
-        "avatar": "Show user avatar icon in notifications",
-        "icon": "Show YakYak icon in notifications",
-        "custom_sound": "Use YakYak custom sound for notifications"
+        "mute": "বিজ্ঞপ্তিগুলিতে শব্দ অক্ষম করুন",
+        "avatar": "বিজ্ঞপ্তিগুলিতে ব্যবহারকারী অবতার আইকন দেখান",
+        "icon": "বিজ্ঞপ্তিগুলিতে YakYak আইকন দেখান",
+        "custom_sound": "বিজ্ঞপ্তি জন্য YakYak কাস্টম শব্দ ব্যবহার করুন"
       },
       "color_scheme": {
         "title": "রঙ স্কিম",
@@ -152,7 +152,7 @@
       "title": "সহায়তা",
       "about": {
         "title": "YakYak সম্পর্কে",
-        "newer": "একটি নতুন সংস্করণ উপলব্ধ, দয়া করে% s থেকে% s এ আপগ্রেড করুন",
+        "newer": "একটি নতুন সংস্করণ উপলব্ধ, দয়া করে %s থেকে %s এ আপগ্রেড করুন",
         "license": "লাইসেন্স",
         "authors": "Main authors",
         "contributors": "অবদানকারী",
