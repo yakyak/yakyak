@@ -149,18 +149,24 @@
         .emoji-sugg-container{
           list-style: none;
           position: absolute;
-          top: -100%;
+          top: calc(~'-50% + -4px');
           display: flex;
           background: rgba(255,255,255,0.8);
           padding: 10px;
           left: 0;
           border-radius: 5px 5px 0 0;
+          transition: all 0.2s;
+          &.animate{
+            top: calc(~'-100% + -4px');
+            opacity: 1;
+          }
           li{
-            padding: 2px;
+            cursor: pointer;
+            padding: 4px 4px 0 4px;
             border-radius: 5px;
             text-align: center;
-            &.activated{
-              background: rgba(0,0,0,0.4);
+            &:hover, &.activated{
+              background: rgba(0,0,0,0.1);
             }
             i{
               font-style: normal;

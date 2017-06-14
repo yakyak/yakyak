@@ -35,7 +35,8 @@ lastConv = null
 emojiCategories = require './emojicategories'
 openByDefault = 'people'
 emojiSuggListIndex = -1
-
+if document.querySelectorAll('.emoji-sugg-container').length
+    document.querySelectorAll('.emoji-sugg-container')[0].parentNode.removeChild(document.querySelectorAll('.emoji-sugg-container')[0])
 
 module.exports = view (models) ->
     div class:'input', ->
@@ -168,8 +169,18 @@ module.exports = view (models) ->
                             index++
                             emojiSuggItem = document.createElement('li')
                             emojiSuggItem.className = 'emoji-sugg'
-                            emojiSuggItem.innerHTML = '<i>' + i + '</i>' + '<span>' + d + '</span>'
+                            emojiSuggItem.innerHTML = '<i>' + i + '</i>' + '<span>' + d + '</span>';
                             emojiSuggList.appendChild(emojiSuggItem)
+                            emojiSuggItem.addEventListener('click', (->
+                                emojiValue = this.querySelector('i').innerHTML;
+                                finalText = document.getElementById('message-input').value.substr(0, document.getElementById('message-input').value.lastIndexOf(':')) + emojiValue
+                                document.getElementById('message-input').value = finalText
+                                if document.querySelectorAll('.emoji-sugg-container').length
+                                    document.querySelectorAll('.emoji-sugg-container')[0].parentNode.removeChild(document.querySelectorAll('.emoji-sugg-container')[0])
+                            ));
+                            setTimeout(()->
+                                emojiSuggList.classList.toggle('animate')
+                            )
             , onpaste: (e) ->
                 setTimeout () ->
                     if not clipboard.readImage().isEmpty() and not clipboard.readText()
@@ -204,7 +215,8 @@ window.addEventListener('keydown', ((e) ->
                 emojiSuggListIndex = 0
             for el in document.querySelectorAll('.emoji-sugg')
                 el.classList.remove('activated')
-            document.querySelectorAll('.emoji-sugg')[emojiSuggListIndex].classList.toggle('activated')
+            if document.querySelectorAll('.emoji-sugg')[emojiSuggListIndex]
+                document.querySelectorAll('.emoji-sugg')[emojiSuggListIndex].classList.toggle('activated')
         if e.keyCode == 13 && document.querySelectorAll('.emoji-sugg-container')[0] && emojiSuggListIndex != -1
             newText = (originalText) ->
                 newEmoji = document.querySelectorAll('.emoji-sugg')[emojiSuggListIndex].querySelector('i').innerText
