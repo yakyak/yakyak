@@ -82,7 +82,18 @@ module.exports = view (models) ->
         ul ->
             convsettings.selectedEntities.forEach (r) ->
                 cid = r?.id?.chat_id
-                li class: 'selected', ->
+                ctLocal = ''
+                ctInfo = ''
+                if entity[cid]?.type == 0
+                    ctLocal = 'ct-local'
+                    ctInfo = 'Internal Contact' + "\r\n"
+                if (r.properties?.email?[0] ? entity[cid]?.email?[0])
+                    ctInfo += (r.properties?.email?[0] ? entity[cid]?.email?[0]) + "\r\n"
+                if r.properties?.organization
+                    ctInfo += r.properties?.organization + "\r\n"
+                if r.properties?.location
+                    ctInfo += r.properties?.location + "\r\n"
+                li title:ctInfo, class: ctLocal + ' selected', ->
                     drawAvatar(cid, viewstate, entity)
                     p nameof r.properties
                 , onclick:(e) -> if not editing then action 'deselectentity', r
@@ -91,8 +102,19 @@ module.exports = view (models) ->
 
             convsettings.searchedEntities.forEach (r) ->
                 cid = r?.id?.chat_id
+                ctLocal = ''
+                ctInfo = ''
+                if entity[cid]?.type == 0
+                    ctLocal = 'ct-local'
+                    ctInfo = 'Internal Contact' + "\r\n"
+                if (r.properties?.email?[0] ? entity[cid]?.email?[0])
+                    ctInfo += (r.properties?.email?[0] ? entity[cid]?.email?[0]) + "\r\n"
+                if r.properties?.organization
+                    ctInfo += r.properties?.organization + "\r\n"
+                if r.properties?.location
+                    ctInfo += r.properties?.location + "\r\n"
                 if unique(r) in selected_ids then return
-                li ->
+                li title:ctInfo, class:ctLocal, ->
                     drawAvatar cid, viewstate, entity
                     , (r.properties?.photo_url ? entity[cid]?.photo_url)
                     , (r.properties?.email?[0] ? entity[cid]?.email?[0])
