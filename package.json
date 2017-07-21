@@ -45,7 +45,7 @@
     "i18n": "^0.8.3",
     "mime-types": "^2.1.12",
     "moment": "^2.10.3",
-    "node-notifier": "^4.2.3",
+    "node-notifier": "^5.1.2",
     "notr": "^1.1.2",
     "q": "^1.4.0",
     "request": "^2.67.0",
