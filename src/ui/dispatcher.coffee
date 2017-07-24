@@ -43,6 +43,10 @@ handle 'init', (init) ->
 
     require('./version').check()
 
+    # small delay for better experience
+    later -> action 'set_viewstate_normal'
+
+handle 'set_viewstate_normal', ->
     viewstate.setState viewstate.STATE_NORMAL
 
 handle 'chat_message', (ev) ->
