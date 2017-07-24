@@ -38,12 +38,6 @@ setConvMin = (convmin) ->
         document.querySelector('.left').classList.remove("minimal")
         document.querySelector('.leftresize').classList.remove("minimal")
 
-
-# remove startup from applayout after animations finishes
-handle 'remove_startup', ->
-    models.viewstate.startupScreenVisible = false
-    redraw()
-
 handle 'update:viewstate', ->
     setLeftSize viewstate.leftSize
     setConvMin viewstate.showConvMin
@@ -78,10 +72,7 @@ handle 'update:viewstate', ->
         applayout.maininfo typinginfo
         applayout.foot input
 
-        if viewstate.startupScreenVisible
-            applayout.last startup
-        else
-            applayout.last null
+        applayout.last null
 
         menu viewstate
         dockicon viewstate

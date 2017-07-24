@@ -49,7 +49,6 @@ module.exports = exp = {
     cachedInitialsCode: {} # code used for colored initials, if no avatar
     # contacts are loaded
     loadedContacts: false
-    startupScreenVisible: true
     openOnSystemStartup: false
 
     setUseSystemDateFormat: (val) ->
