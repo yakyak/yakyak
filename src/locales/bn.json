@@ -1,16 +1,20 @@
 {
   "__MyLocaleLanguage__": "বাংলা",
   "__maintaner__": "http://github.com/digiwizkid",
+
   "title": "YakYak - Hangouts ক্লায়েন্ট",
   "description": "Google Hangouts এর জন্য ডেস্কটপ ক্লায়েন্ট",
+
   "settings": "সেটিংস",
   "recent": "সাম্প্রতিক",
   "details": "বিস্তারিত",
+
   "connection": {
     "connecting": "সংযুক্ত হচ্ছে",
     "loading": "পরিচিতি লোড হচ্ছে",
     "not_connected": "সংযুক্ত নয় (সংযোগ পরীক্ষা করুন))"
   },
+
   "input": {
     "message": "বার্তা",
     "emoticons": "ইমোটিকন দেখান",
