@@ -35,8 +35,9 @@ initialsof = (e) ->
         name = nameof e
         firstname = e?.first_name
         return  firstname.charAt(0) + name.replace(firstname, "").charAt(1)
-    else if e?.display_name
-        name_splitted = e.display_name.split(' ')
+    else if e?.display_name || e?.fallback_name
+        name_to_split = e?.display_name ? e?.fallback_name
+        name_splitted = name_to_split.split(' ')
         firstname = name_splitted[0].charAt(0)
         if name_splitted.length == 1
             return firstname.charAt(0)
