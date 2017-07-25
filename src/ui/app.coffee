@@ -94,6 +94,10 @@ do ->
 #  note: could not use event here, as it must be defined
 #  before
 ipc.on 'ready-to-show', () ->
+    #
+    # remove initial error from DOM
+    elToRemove = window.document.getElementById("error-b4-app")
+    elToRemove.parentNode.removeChild(elToRemove)
     # get window object
     mainWindow = remote.getCurrentWindow()
     #
