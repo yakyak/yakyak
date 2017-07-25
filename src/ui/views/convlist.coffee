@@ -14,6 +14,9 @@ module.exports = view (models) ->
             moment.locale(window.navigator.language)
         convs = conv.list()
         renderConv = (c) ->
+            # remove emoji suggestions on renderConv
+            if document.querySelectorAll('.emoji-sugg-container').length
+                document.querySelectorAll('.emoji-sugg-container')[0].parentNode.removeChild(document.querySelectorAll('.emoji-sugg-container')[0])
             pureHang = conv.isPureHangout(c)
             lastChanged = conv.lastChanged(c)
             # don't list pure hangouts that are older than 24h

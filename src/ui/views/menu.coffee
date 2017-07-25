@@ -240,6 +240,13 @@ templateView = (viewstate) ->
             click: (it) -> action 'convertemoji', it.checked
         }
         {
+            type: 'checkbox'
+            label: i18n.__('menu.view.suggestemoji:Suggest emoji on typing')
+            checked: viewstate.suggestEmoji
+            enabled: viewstate.loggedin
+            click: (it) -> action 'suggestemoji', it.checked
+        }
+        {
             label: i18n.__('menu.view.color_scheme.title:Color Scheme')
             submenu: [
               {
