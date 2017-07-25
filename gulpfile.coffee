@@ -61,7 +61,7 @@ deploy_options = {
     icon: path.join __dirname, 'src', 'icons', 'icon'
     out: outdeploy
     overwrite: true
-    'app-bundle-id': 'com.github.yakyak'
+    appBundleId: 'com.github.yakyak'
     win32metadata: {
         CompanyName: 'Yakyak'
         ProductName: 'Yakyak'
@@ -71,7 +71,7 @@ deploy_options = {
         FileVersion: "#{json.version}"
         ProductVersion: "#{json.version}"
     }
-    'osx-sign': true
+    osxSign: true
     arch:     archOpts.join ','
     platform: platformOpts.join ','
 }
