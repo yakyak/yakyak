@@ -208,7 +208,10 @@ handle 'updatewatermark', do ->
                 throttleWaterByConv[conv_id] = sendWater
         sendWater()
 
-handle 'getentity', (ids) -> ipc.send 'getentity', ids
+handle 'getentity', (ids) ->
+    for ix in [0..(ids.length - 1)] by chunkSize = 5
+        ipc.send 'getentity', (ids.slice(ix, ix + chunkSize))
+
 handle 'addentities', (es, conv_id) ->
     entity.add e for e in es ? []
     if conv_id # auto-add these ppl to a conv
