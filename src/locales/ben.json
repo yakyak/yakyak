@@ -1,0 +1,169 @@
+{
+  "__MyLocaleLanguage__": "বাংলা",
+  "__maintaner__": "http://github.com/digiwizkid",
+  "title": "YakYak - Hangouts ক্লায়েন্ট",
+  "description": "Google Hangouts এর জন্য ডেস্কটপ ক্লায়েন্ট",
+  "settings": "সেটিংস",
+  "recent": "সাম্প্রতিক",
+  "details": "বিস্তারিত",
+  "connection": {
+    "connecting": "সংযুক্ত হচ্ছে",
+    "loading": "পরিচিতি লোড হচ্ছে",
+    "not_connected": "সংযুক্ত নয় (সংযোগ পরীক্ষা করুন))"
+  },
+  "input": {
+    "message": "বার্তা",
+    "emoticons": "ইমোটিকন দেখান",
+    "image": "চিত্র সংযুক্ত করুন",
+    "typing": "টাইপ করছেন"
+  },
+  "conversation": {
+    "title": {
+      "one": "কথোপকথন",
+      "other": "কথোপকথন"
+    },
+    "numbered": "কথোপকথন %d",
+    "options": "কথোপকথন বিকল্প",
+    "setting": "কথোপকথন সেটিংস",
+    "add": "নতুন কথোপকথন যোগ করুন",
+    "new": "নতুন কথোপকথন",
+    "name": "কথোপকথনের নাম",
+    "edit": "কথোপকথন সম্পাদনা",
+    "multiuser": "Multiuser চ্যাট তৈরি করুন",
+    "delete": "কথোপকথন মুছুন",
+    "delete_confirm": "সত্যিই কথোপকথন মুছে ফেলতে চান?",
+    "leave": "কথোপকথন ত্যাগ করুন",
+    "leave_confirm": "সত্যিই কথোপকথন ত্যাগ করতে চান?",
+    "search": "লোকেদের অনুসন্ধান করুন",
+    "new_message": "নতুন বার্তা"
+  },
+  "notification": {
+    "one": "প্রজ্ঞাপন",
+    "other": "বিজ্ঞপ্তিগুলি"
+  },
+  "favorite": {
+    "title": {
+      "one": "প্রিয়",
+      "other": "প্রিয়"
+    },
+    "star_it": "Star / unstar"
+  },
+  "actions": {
+    "ok": "ঠিক আছে",
+    "cancel": "বাতিল"
+  },
+  "call": {
+    "incoming": "ইনকামিং কল",
+    "incoming_from": "ইনকামিং কল from %s",
+    "accepted": "গৃহীত",
+    "accept": "গ্রহণ",
+    "rejected": "প্রত্যাখ্যাত",
+    "reject": "প্রত্যাখ্যান",
+    "missed": "মিসড কল from %s"
+  },
+  "menu": {
+    "title": "মেনু",
+    "file": {
+      "title": "YakYak",
+      "hide": "Hide YakYak",
+      "hide_others": "Hide Others",
+      "show": "সব দেখান",
+      "inspector": "ইন্সপেক্টর খুলুন",
+      "logout": "লগ-আউট",
+      "quit": "ত্যাগ করুন"
+    },
+    "edit": {
+      "title": "সম্পাদন",
+      "undo": "পূর্বাবস্থায় করুন",
+      "redo": "পুনরায় করুন",
+      "paste": "পেস্ট",
+      "cut": "কাট",
+      "copy": "কপি",
+      "copy_image_link": "ছবির লিঙ্ক কপি করুন",
+      "copy_link": "লিঙ্ক কপি করুন",
+      "copy_image": "ছবি কপি করুন",
+      "select_all": "সব নির্বাচন করুন",
+      "language": "ভাষা (Language)"
+    },
+    "view": {
+      "title": "View",
+      "emoji": "পাঠ্য ইমোজিতে রূপান্তর করুন",
+      "hide_dock": "ডক আইকন লুকান",
+      "fullscreen": "Toggle Fullscreen",
+      "tray": {
+        "show_tray": "ট্রে আইকন দেখান",
+        "show_window": "window দেখান",
+        "toggle_minimize": "Toggle minimize to tray",
+        "start_minimize": "Start minimized to tray",
+        "close": "Close to tray"
+      },
+      "escape": {
+        "title": "Escape key behavior",
+        "hide": "Hides window",
+        "clear": "ইনপুট মুছে ফেলে",
+        "default": "default when tray is not showing"
+      },
+      "conversation": {
+        "title": "কথোপকথন তালিকা",
+        "timestamp": "কথোপকথন টাইমস্ট্যাম্প দেখান",
+        "last": "কথোপকথন শেষ বার্তা দেখান",
+        "previous": "পূর্ববর্তী কথোপকথন",
+        "next": "পরবর্তী কথোপকথন",
+        "select": "কথোপকথন নির্বাচন করুন",
+        "thumbnails": {
+          "show": "থাম্বনেইলগুলি দেখান",
+          "only": "শুধুমাত্র থাম্বনেল দেখান",
+          "animated": "অ্যানিমেটেড থাম্বনেল দেখান"
+        }
+      },
+      "notification": {
+        "title": "পপ-আপ বিজ্ঞপ্তি",
+        "show": "বিজ্ঞপ্তিগুলি দেখান",
+        "toggle": "বিজ্ঞপ্তিগুলি টগল করুন",
+        "message": "বিজ্ঞপ্তিগুলিতে বার্তা দেখান",
+        "username": "বিজ্ঞপ্তিগুলির মধ্যে ব্যবহারকারীর নাম দেখান",
+        "mute": "বিজ্ঞপ্তিগুলিতে শব্দ অক্ষম করুন",
+        "avatar": "বিজ্ঞপ্তিগুলিতে ব্যবহারকারী অবতার আইকন দেখান",
+        "icon": "বিজ্ঞপ্তিগুলিতে YakYak আইকন দেখান",
+        "custom_sound": "বিজ্ঞপ্তি জন্য YakYak কাস্টম শব্দ ব্যবহার করুন"
+      },
+      "color_scheme": {
+        "title": "রঙ স্কিম",
+        "default": "আসল",
+        "blue": "নীল",
+        "dark": "Dark",
+        "material": "Material"
+      },
+      "font": {
+        "title": "অক্ষরের আকার",
+        "extra_small": "অতিরিক্ত ছোট",
+        "small": "ছোট",
+        "medium": "মাঝারি",
+        "large": "বড়",
+        "extra_large": "অতিরিক্ত বড়"
+      },
+      "zoom": {
+        "in": "জুম ইন",
+        "out": "জুম আউট",
+        "reset": "আসল আকার"
+      }
+    },
+    "help": {
+      "title": "সহায়তা",
+      "about": {
+        "title": "YakYak সম্পর্কে",
+        "newer": "একটি নতুন সংস্করণ উপলব্ধ, দয়া করে %s থেকে %s এ আপগ্রেড করুন",
+        "license": "লাইসেন্স",
+        "authors": "Main authors",
+        "contributors": "অবদানকারী",
+        "startup": "Startup এ খুলুন"
+      }
+    },
+    "window": {
+      "title": "Window",
+      "minimize": "Minimize",
+      "close": "বন্ধ করুন",
+      "front": "সমস্ত সামনে আনুন"
+    }
+  }
+}
