@@ -129,10 +129,10 @@ handle 'selectConvIndex', (index = 0) ->
     viewstate.selectConvIndex index
     ipc.send 'setfocus', viewstate.selectedConv
 
-handle 'sendmessage', (txt = '') ->
+handle 'sendmessage', (txt = '', googleVoice) ->
     if !txt.trim() then return
     msg = userinput.buildChatMessage entity.self, txt
-    ipc.send 'sendchatmessage', msg
+    ipc.send 'sendchatmessage', msg, googleVoice
     conv.addChatMessagePlaceholder entity.self.id, msg
 
 handle 'toggleshowtray', ->
@@ -464,6 +464,9 @@ handle 'showconvmin', (doshow) ->
 handle 'setusesystemdateformat', (val) ->
 
     viewstate.setUseSystemDateFormat(val)
+
+handle 'enablegooglevoicemode', (enable) ->
+    viewstate.setGoogleVoice(enable)
 
 handle 'showconvthumbs', (doshow) ->
     viewstate.setShowConvThumbs doshow
