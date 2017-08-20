@@ -252,12 +252,19 @@ app.on 'ready', ->
     # sendchatmessage, executed sequentially and
     # retried if not sent successfully
     messageQueue = Q()
-    ipc.on 'sendchatmessage', (ev, msg) ->
+    ipc.on 'sendchatmessage', (ev, msg, googleVoice) ->
         {conv_id, segs, client_generated_id, image_id, otr, message_action_type} = msg
         sendForSure = -> Q.promise (resolve, reject, notify) ->
             attempt = ->
                 # console.log 'sendchatmessage', client_generated_id
                 delivery_medium = null
+
+                ## If the client isn't in google voice mode null is fine, otherwise specify google voice
+                if googleVoice
+                    delivery_medium = [2]
+                else
+                    delivery_medium = null ## Retain the null status to let the library upstream decide, currently this will always be BABEL
+
                 client.sendchatmessage(conv_id, segs, image_id, otr, client_generated_id, delivery_medium, message_action_type).then (r) ->
                       # console.log 'sendchatmessage:result', r?.created_event?.self_event_state?.client_generated_id
                     ipcsend 'sendchatmessage:result', r
