@@ -257,7 +257,8 @@ handle 'uploadimage', (files) ->
             # add a placeholder for the image
             conv.addChatMessagePlaceholder entity.self.id, msg
             # and begin upload
-            ipc.send 'uploadimage', {path:file.path, conv_id, client_generated_id}
+            isGoogleMode = viewstate.googleVoiceMode
+            ipc.send 'uploadimage', {path:file.path, conv_id, client_generated_id, isGoogleMode}
     # clear value for upload image input
     document.getElementById('attachFile').value = ''
 
@@ -283,7 +284,8 @@ handle 'uploadpreviewimage', ->
     document.querySelector('#emoji-container').classList.remove('open')
     element.src = ''
     #
-    ipc.send 'uploadclipboardimage', {pngData, conv_id, client_generated_id}
+    isGoogleMode = viewstate.googleVoiceMode
+    ipc.send 'uploadclipboardimage', {pngData, conv_id, client_generated_id, isGoogleMode}
 
 handle 'uploadingimage', (spec) ->
     # XXX this doesn't look very good because the image

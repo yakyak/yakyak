@@ -316,15 +316,22 @@ app.on 'ready', ->
     # , false
 
     # we want to upload. in the order specified, with retry
-    ipc.on 'uploadimage', seqreq (ev, spec) ->
+    ipc.on 'uploadimage', seqreq (ev, spec, googleVoice) ->
         {path, conv_id, client_generated_id} = spec
         ipcsend 'uploadingimage', {conv_id, client_generated_id, path}
         client.uploadimage(path).then (image_id) ->
-            client.sendchatmessage conv_id, null, image_id, null, client_generated_id
+
+            delivery_medium = null
+            if googleVoice
+                delivery_medium = [2]
+            else
+                delivery_medium = null
+
+            client.sendchatmessage conv_id, null, image_id, null, client_generated_id, delivery_medium
     , true
 
     # we want to upload. in the order specified, with retry
-    ipc.on 'uploadclipboardimage', seqreq (ev, spec) ->
+    ipc.on 'uploadclipboardimage', seqreq (ev, spec, googleVoice) ->
         {pngData, conv_id, client_generated_id} = spec
         file = tmp.fileSync postfix: ".png"
         ipcsend 'uploadingimage', {conv_id, client_generated_id, path:file.name}
@@ -333,7 +340,12 @@ app.on 'ready', ->
         .then ->
             client.uploadimage(file.name)
         .then (image_id) ->
-            client.sendchatmessage conv_id, null, image_id, null, client_generated_id
+            delivery_medium = null
+            if googleVoice
+                delivery_medium = [2]
+            else
+                delivery_medium = null
+            client.sendchatmessage conv_id, null, image_id, null, client_generated_id, delivery_medium
         .then ->
             file.removeCallback()
     , true
