@@ -72,6 +72,7 @@ deploy_options = {
         ProductVersion: "#{json.version}"
     }
     osxSign: true
+    osxIdentity: process.env.CODESIGN_IDENTITY or 'Mac Developer'
     arch:     archOpts.join ','
     platform: platformOpts.join ','
 }
@@ -296,6 +297,30 @@ compressIt = (cmd, args, opts, zipName, done) ->
             done()
             process.exit(1)
 
+signIt = (appPaths, opts, done) ->
+    if opts.platform == 'darwin' and opts.osxSign
+        identity = opts.osxIdentity
+
+        signCmd = [
+            'codesign', '--deep', '--verbose',
+            '--sign', identity,
+        ].concat appPaths.map (appPath) ->
+            path.join appPath, "#{opts.name}.app"
+
+        child = spawn '/usr/bin/xcrun', signCmd
+        child.on 'error', (err) ->
+            console.log 'Error: ' + err
+            proc.exit(1)
+
+        child.on 'exit', (code) ->
+            if code == 0
+                console.log \
+                    "Application successfully signed as #{identity}"
+            else
+                console.log "Application not signed..."
+
+            done()
+
 #
 #
 deploy = (platform, arch) ->
@@ -333,6 +358,8 @@ deploy = (platform, arch) ->
                 fileprefix = "yakyak-#{json.version}-osx"
             else
                 fileprefix = "yakyak-#{json.version}-#{platform}-#{arch}"
+
+            signIt appPaths, packOpts, -> deferred.resolve()
 
             if platform == 'linux'
                 tarIt zippath, fileprefix, -> deferred.resolve()
