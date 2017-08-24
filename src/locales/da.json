@@ -34,11 +34,11 @@
         "name": "Samtalenavn",
         "edit": "Samtaleredigering",
         "multiuser": "Opret flerbruger chat",
-        "delete": "Slet samtale",
-        "delete_confirm": "Er du sikker på du ønsker at slette samtale?",
-        "leave": "Forlad samtale",
-        "leave_confirm": "Er du sikker på du ønsker at forlade samtale?",
-        "search": "Fremsøg mennesker",
+        "delete": "Slet samtalen",
+        "delete_confirm": "Er du sikker på du ønsker at slette samtalen?",
+        "leave": "Forlad samtalen",
+        "leave_confirm": "Er du sikker på du ønsker at forlade samtalen?",
+        "search": "Søg efter mennesker",
         "new_message": "Ny besked"
     },
     "notification": {
@@ -50,7 +50,7 @@
             "one": "Favorit",
             "other": "Favoritter"
         },
-        "star_it": "Stjernemarkér / fjern stjernemarkering"
+        "star_it": "Tilføj / fjern stjernemarkering"
     },
     "actions": {
       "ok": "OK",
@@ -129,7 +129,7 @@
                 "mute": "Slå lyd i notifikationer fra",
                 "avatar": "Vis brugeravatar i notifikationer",
                 "icon": "Vis YakYak ikon i notifikationer",
-                "custom_sound": "Brug YakYak brugerdefineret lyd til notifikationer"
+                "custom_sound": "Brug særlig YakYak-lyd til notifikationer"
             },
             "color_scheme": {
                 "title": "Farveskema",
