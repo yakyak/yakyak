@@ -1,0 +1,180 @@
+{
+	"__MyLocaleLanguage__": "Hungarian",
+	"__maintaner__": "http://github.com/yakyak",
+	
+	"title": "YakYak - Hangouts Client",
+    "description": "Desktop kliens a Google Hangouts-hoz",
+
+    "settings": "Beállítások",
+    "recent": "Korábbi",
+    "details": "Részletek",
+
+
+	
+	"menu": {
+		"file": {
+			"title": "YakYak",
+			"hide": "YakYak elrejtése",
+			"inspector": "Inspector megnyitása",
+			"logout": "Kijelentkezés",
+			"quit": "Kilépés",
+			"hide_others": "Mások elrejtése",
+            "show": "Mutass mindent"
+
+		},
+	"call": {
+        "incoming": "Bejövő hívás",
+        "incoming_from": "Bejövő hívás %s -tól",
+        "accepted": "Elfogadva",
+        "accept": "Elfogadás",
+        "rejected": "Elutasítva",
+        "reject": "Elutasítás",
+        "missed": "Nem fogadott hívás %s -tól"
+    },
+		"help": {
+			"about": {
+				"startup": "Induljon a rendszerrel",
+				"title": "A YakYak-ról",
+				 "newer": "Új verzió elérhető, kérlek frissíts a %s verzióról a %s verzióra",
+                "license": "Liszensz",
+                "authors": "Fő tulajdonosok",
+                "contributors": "Résztvevők"
+
+			},
+			"title": "Segítség"
+		},
+		"edit": {
+			"title": "Szerkesztés",
+			"undo": "Visszavonás",
+			"redo": "Parancs ismétlés",
+			"cut": "Kivágás",
+			"copy": "Másolás",
+			"copy_image_link": "Kép link másolása",
+            "copy_link": "Link másolása",
+            "copy_image": "Kép másolása",
+			"paste": "Beillesztés",
+			"select_all": "Mindent kiválaszt",
+			"language": "Language (Language)",
+			"dateformat": "Rendszer dátumformátum használata",
+			"copy_link": "Copy Link",
+			"copy_image_link": "Copy Image Link"
+		},
+		"view": {
+			"title": "Kinézet",
+			"conversation": {
+				"title": "Beszélgetés lista",
+				"thumbnails": {
+					"show": "Bélyeglépek mutatása",
+					"only": "Csak bélyegképeket mutasson",
+					"animated": "Animált bélyegképek"
+				},
+				"timestamp": "Mutassa az időpontokat a beszélgetésekben",
+				"last": "Mutassa a beszélgetés utolsó üzenetét",
+				"previous": "Előző beszélgetés",
+				"next": "Következő beszélgetés",
+				"select": "Beszélgetés választása"
+			},
+			"notification": {
+				"title": "Előugró ablak",
+				"show": "Mutassa az értesítéseket",
+				"message": "Mutassa az üzeneteket az értesítésekben",
+				"username": "Mutassa a felhasználónevet az értesítésekben",
+				"icon": "Mutassa a Yakyak ikonokat az értesítésekben",
+				"mute": "Hangok kikapcsolása az értesítésekben",
+				"custom_sound": "Use YakYak custom sound for notifications",
+				"toggle": "Értesítések be- és kikapcsolása"
+			},
+			"emoji": "Szöveg konvertálása emoji-vá",
+			"suggestemoji": "Emoji ajánlása gépelés közben",
+			"color_scheme": {
+				"title": "Színséma",
+				"default": "Eredeti",
+				"blue": "Kék",
+				"dark": "Sötét",
+				"material": "Material"
+			},
+			"font": {
+				"title": "Font méret",
+				"extra_small": "Extra kicsi",
+				"small": "Kicsi",
+				"medium": "Közepes",
+				"large": "Nagy",
+				"extra_large": "Extra nagy"
+			},
+			"fullscreen": "Váltás teljes képernyőre és vissza",
+			"zoom": {
+				"in": "Nagyítás",
+				"out": "Kicsinyítés",
+				"reset": "Jelenlegi méret"
+			},
+			"tray": {
+				"show_tray": "Tálca ikon"
+			},
+			"escape": {
+				"title": "Escape működése",
+				"hide": "Elrejti az ablakot",
+				"clear": "Törli az ablakot",
+				"default": "default when tray is not showing"
+			}
+		},
+		"title": "Menü"
+	},
+	"conversation": {
+		"numbered": "Beszélgetés %d",
+		"add": "Új beszélgetés",
+		"title": {
+			"one": "Beszélgetés",
+			"other": "Beszélgetések"
+		},
+		"new": "Új beszélgetés",
+		"name": "Beszélgetés címe",
+		"search": "Címzett keresése",
+		"multiuser": "Többfelhaszálós beszélgetés létrehozása",
+		"options": "Beszélgetés opciók",
+		"settings": "Beszélgetés Beállítások",
+		"edit": "Beszélgetés szerkesztése",
+		"delete": "Beszélgetés törlése",
+		"delete_confirm": "Tényleg törlöd a beszélgetést?",
+		"leave": "Beszélgetés elhagyása",
+        "leave_confirm": "Tényleg elhagyod a beszélgetést?",
+        "new_message": "Új üzenet"
+
+	},
+	"connection": {
+		"connecting": "Kapcsolódás",
+        "loading": "Kapcsolatok betöltése",
+        "not_connected": "Nem sikerült kapcsolódni(Ellenőrizd az internetet)"
+
+	},
+	"input": {
+		"message": "Üztenet",
+		"emoticons": "Emoticon-ok mutatása",
+		"image": "Kép csatolása",
+		"typing": "éppen gépel"
+	},
+	"actions": {
+		"ok": "OK",
+      "cancel": "Mégsem"
+
+	},
+	"window": {
+		"controls": "Minimalizálás",
+		"title": "Ablak",
+		"close": "Bezárás",
+        "front": "Mindent az előtérbe"
+
+	},
+	"notification": {
+		"one": "Értesítés",
+		"other": "Értesítések"
+	},
+	"favorite": {
+		"star_it": "Csillagozás / törlése",
+		"title": {
+			"one": "Kedvenc",
+			"other": "Kedvencek"
+		}
+	},
+	"settings": "Beállítások",
+	"details": "Részletek"
+}
