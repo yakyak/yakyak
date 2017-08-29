@@ -82,8 +82,12 @@ module.exports = view (models) ->
         ul ->
             convsettings.selectedEntities.forEach (r) ->
                 cid = r?.id?.chat_id
-                li class: 'selected', ->
-                    drawAvatar(cid, viewstate, entity)
+                email = (r.properties?.email?[0] ? entity[cid]?.email?[0]);
+                li class: 'selected', title: email, ->
+                    drawAvatar cid, viewstate, entity
+                    , (r.properties?.photo_url ? entity[cid]?.photo_url)
+                    , email
+                    , (if r.properties? then initialsof r.properties?)
                     p nameof r.properties
                 , onclick:(e) -> if not editing then action 'deselectentity', r
 
@@ -91,13 +95,14 @@ module.exports = view (models) ->
 
             convsettings.searchedEntities.forEach (r) ->
                 cid = r?.id?.chat_id
+                email = (r.properties?.email?[0] ? entity[cid]?.email?[0]);
                 if unique(r) in selected_ids then return
-                li ->
+                li title: email, ->
                     drawAvatar cid, viewstate, entity
                     , (r.properties?.photo_url ? entity[cid]?.photo_url)
-                    , (r.properties?.email?[0] ? entity[cid]?.email?[0])
+                    , email
                     , (if r.properties? then initialsof r.properties?)
-                    p r.properties.display_name
+                    p nameof r.properties
                 , onclick:(e) -> action 'selectentity', r
 
         if editing
