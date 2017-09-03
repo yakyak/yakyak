@@ -1,0 +1,11 @@
+!BuildState
+project_options: {deb_arch: amd64}
+properties:
+  after: []
+  build-attributes: []
+  build-packages: []
+  disable-parallel: false
+  node-packages: null
+  npm-run: null
+  organize: {}
+schema_properties: [node-packages, npm-run]

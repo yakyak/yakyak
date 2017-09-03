@@ -1,0 +1,21 @@
+!PullState
+assets:
+  build-packages: []
+  source-details: {source: 'https://github.com/yakyak/yakyak.git', source-branch: '',
+    source-checksum: '', source-commit: d468dd433362f878df1c97911921736d13239adc,
+    source-tag: ''}
+  stage-packages: []
+project_options: {deb_arch: amd64}
+properties:
+  node-engine: null
+  node-package-manager: null
+  plugin: nodejs
+  source: https://github.com/yakyak/yakyak.git
+  source-branch: ''
+  source-commit: ''
+  source-depth: 0
+  source-subdir: ''
+  source-tag: ''
+  source-type: ''
+  stage-packages: []
+schema_properties: [node-engine, node-package-manager]
