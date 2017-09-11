@@ -43,6 +43,7 @@ handle 'init', (init) ->
 
     require('./version').check()
 
+    viewstate.setContacts true
     viewstate.setState viewstate.STATE_NORMAL
 
 handle 'chat_message', (ev) ->
