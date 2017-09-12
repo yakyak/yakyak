@@ -1,0 +1,173 @@
+{
+    "__MyLocaleLanguage__": "Dansk",
+    "__maintaner__": "http://github.com/thomasrosted",
+
+    "title": "YakYak - Hangouts Klient",
+    "description": "Desktop klient til Google Hangouts",
+
+    "settings": "Indstillinger",
+    "recent": "Seneste",
+    "details": "Detaljer",
+
+    "connection" :{
+        "connecting": "Forbinder",
+        "loading": "Indlæser kontakter",
+        "not_connected": "Ikke forbundet (tjek forbindelsen)"
+    },
+
+    "input": {
+        "message": "Besked",
+        "emoticons": "Vis emoticons",
+        "image": "Vedhæft billede",
+        "typing": "skriver"
+    },
+    "conversation": {
+        "title": {
+            "one": "Samtale",
+            "other": "Samtaler"
+        },
+        "numbered": "Samtale %d",
+        "options": "Samtalemuligheder",
+        "setting": "Samtaleindstillinger",
+        "add": "Tilføj ny samtale",
+        "new": "Ny samtale",
+        "name": "Samtalenavn",
+        "edit": "Samtaleredigering",
+        "multiuser": "Opret flerbruger chat",
+        "delete": "Slet samtalen",
+        "delete_confirm": "Er du sikker på du ønsker at slette samtalen?",
+        "leave": "Forlad samtalen",
+        "leave_confirm": "Er du sikker på du ønsker at forlade samtalen?",
+        "search": "Søg efter mennesker",
+        "new_message": "Ny besked"
+    },
+    "notification": {
+        "one": "Notifikation",
+        "other": "Notifikationer"
+    },
+    "favorite": {
+        "title": {
+            "one": "Favorit",
+            "other": "Favoritter"
+        },
+        "star_it": "Tilføj / fjern stjernemarkering"
+    },
+    "actions": {
+      "ok": "OK",
+      "cancel": "Annullér"
+    },
+    "call": {
+        "incoming": "Indgående opkald",
+        "incoming_from": "Indgående opkald fra %s",
+        "accepted": "Accepteret",
+        "accept": "Acceptér",
+        "rejected": "Afvist",
+        "reject": "Afvis",
+        "missed": "Mistet opkald fra %s"
+    },
+    "menu": {
+        "title": "Menu",
+        "file": {
+            "title": "YakYak",
+            "hide": "Skjul YakYak",
+            "hide_others": "Skjul andre",
+            "show": "Vis alle",
+            "inspector": "Åben Inspector",
+            "logout": "Log ud",
+            "quit": "Afslut"
+        },
+        "edit": {
+            "title": "Redigér",
+            "undo": "Fortryd",
+            "redo": "Annullér fortryd",
+            "paste": "Sæt ind",
+            "cut": "Klip",
+            "copy": "Kopiér",
+            "copy_image_link": "Kopiér billedelink",
+            "copy_link": "Kopiér link",
+            "copy_image": "Kopiér billede",
+            "select_all": "Vælg alle",
+            "language": "Sprog (Language)"
+        },
+        "view": {
+            "title": "Vis",
+            "emoji": "Konvertér tekst til emoji",
+            "hide_dock": "Skjul dockikon",
+            "fullscreen": "Skift fuldskærm",
+            "tray": {
+                "show_tray": "Vis processlinjeikon",
+                "show_window": "Vis vindue",
+                "toggle_minimize": "Skift minimér til processlinje",
+                "start_minimize": "Start miniméret til processlinje",
+                "close": "Luk til processlinje"
+            },
+            "escape": {
+                "title": "Escapetast opførsel",
+                "hide": "Skjuler vindue",
+                "clear": "Sletter indtastning",
+                "default": "standard når processlinje ikke vises"
+            },
+            "conversation": {
+                "title": "Samtaleliste",
+                "timestamp": "Vis samtaletidsstempel",
+                "last": "Vis sidste besked i samtalen",
+                "previous": "Forrige samtale",
+                "next": "Næste samtale",
+                "select": "Vælg samtale",
+                "thumbnails": {
+                    "show": "Vis miniaturer",
+                    "only": "Vis kun miniaturer",
+                    "animated": "Vis animerede miniaturer"
+                }
+            },
+            "notification": {
+                "title": "Pop-op notifikationer",
+                "show": "Vis notifikationer",
+                "toggle": "Skift notifikationer",
+                "message": "Vis besked i notifikationer",
+                "username": "Vis brugernavn i notifikationer",
+                "mute": "Slå lyd i notifikationer fra",
+                "avatar": "Vis brugeravatar i notifikationer",
+                "icon": "Vis YakYak ikon i notifikationer",
+                "custom_sound": "Brug særlig YakYak-lyd til notifikationer"
+            },
+            "color_scheme": {
+                "title": "Farveskema",
+                "default": "Original",
+                "blue": "Blå",
+                "dark": "Mørk",
+                "material": "Material"
+            },
+            "font": {
+                "title": "Skriftstørrelse",
+                "extra_small": "Ekstra lille",
+                "small": "Lille",
+                "medium": "Mellem",
+                "large": "Stor",
+                "extra_large": "Ekstra stor"
+            },
+            "zoom": {
+                "in": "Zoom ind",
+                "out": "Zoom ud",
+                "reset": "Faktisk størrelse"
+            }
+        },
+        "help": {
+            "title": "Hjælp",
+            "about": {
+                "title": "Om YakYak",
+                "newer": "En nyere version er tilgængelig, opgrader venligst fra %s til %s",
+                "license": "Licens",
+                "authors": "Hovedforfattere",
+                "contributors": "Bidragsydere",
+                "startup": "Åben ved opstart"
+            }
+        },
+        "window": {
+            "title": "Vindue",
+            "minimize": "Minimér",
+            "close": "Luk",
+            "front": "Bring alle frem"
+        }
+    }
+}
