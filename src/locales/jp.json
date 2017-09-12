@@ -160,6 +160,7 @@
                 "license": "ライセンス",
                 "authors": "主な作者",
                 "contributors": "貢献者"
+                "startup": "起動時に開く"
             }
         },
         "window": {
