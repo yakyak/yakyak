@@ -22,8 +22,10 @@ check = ()->
             higherVersionAvailable = versionToInt(releasedVersion) > versionToInt(localVersion)
             if higherVersionAvailable and (releasedVersion isnt versionAdvertised)
                 window.localStorage.versionAdvertised = releasedVersion
-                alert "A new yakyak version is available, please upgrade #{localVersion} to #{releasedVersion}"
-            else
-                console.log "YakYak local version is #{localVersion}, released version is #{releasedVersion}"
+                notr {
+                    html: "A new YakYak version is available<br/>Please upgrade #{localVersion} to #{releasedVersion}<br/><i style=\"font-size: .9em; color: gray\">(click to dismiss)</i>",
+                    stay: 0
+                }
+            console.log "YakYak local version is #{localVersion}, released version is #{releasedVersion}"
 
 module.exports = {check, versionToInt}
