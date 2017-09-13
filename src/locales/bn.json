@@ -93,6 +93,7 @@
     "view": {
       "title": "View",
       "emoji": "পাঠ্য ইমোজিতে রূপান্তর করুন",
+      "suggestemoji": "Suggest emoji on typing",
       "hide_dock": "ডক আইকন লুকান",
       "fullscreen": "Toggle Fullscreen",
       "tray": {

@@ -93,6 +93,7 @@
         "view": {
             "title": "Visualizza",
             "emoji": "Converti testo in emoji",
+            "suggestemoji": "Suggest emoji on typing",
             "hide_dock": "Nascondi l'icona della barra delle applicazioni",
             "fullscreen": "Schermo Intero",
             "tray": {

@@ -93,6 +93,7 @@
         "view": {
             "title": "Ver",
             "emoji": "Converter texto para emoji",
+            "suggestemoji": "Suggest emoji on typing",
             "hide_dock": "Esconder ícone do dock",
             "fullscreen": "Abrir fullscreen",
             "tray": {

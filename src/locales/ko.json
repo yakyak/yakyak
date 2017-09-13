@@ -93,6 +93,7 @@
         "view": {
             "title": "보기",
             "emoji": "텍스트를 이모지로 변환",
+            "suggestemoji": "Suggest emoji on typing",
             "hide_dock": "독 아이콘 숨기기",
             "fullscreen": "전체화면 전환",
             "tray": {

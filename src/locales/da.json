@@ -93,6 +93,7 @@
         "view": {
             "title": "Vis",
             "emoji": "Konvertér tekst til emoji",
+            "suggestemoji": "Suggest emoji on typing",
             "hide_dock": "Skjul dockikon",
             "fullscreen": "Skift fuldskærm",
             "tray": {

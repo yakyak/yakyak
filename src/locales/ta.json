@@ -93,6 +93,7 @@
         "view": {
             "title": "பார்வையிடு",
             "emoji": "எழுத்தினை  ",
+            "suggestemoji": "Suggest emoji on typing",
             "hide_dock": "Hide Dock icon",
             "fullscreen": "Toggle Fullscreen",
             "tray": {

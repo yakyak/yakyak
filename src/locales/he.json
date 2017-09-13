@@ -93,6 +93,7 @@
         "view": {
             "title": "גיסרא",
             "emoji": "המר טקסט לאימוג'י",
+            "suggestemoji": "Suggest emoji on typing",
             "hide_dock": "הסתר סמל עגינה",
             "fullscreen": "מסך מלא",
             "tray": {

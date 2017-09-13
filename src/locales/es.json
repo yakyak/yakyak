@@ -93,6 +93,7 @@
         "view": {
             "title": "Vista",
             "emoji": "Convertir texto a emoji",
+            "suggestemoji": "Suggest emoji on typing",
             "hide_dock": "Ocultar icono del Dock",
             "fullscreen": "Pantalla completa",
             "tray": {

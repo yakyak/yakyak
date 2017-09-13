@@ -93,6 +93,7 @@
         "view": {
             "title": "表示",
             "emoji": "絵文字に変換",
+            "suggestemoji": "Suggest emoji on typing",
             "hide_dock": "ドックのアイコンを隠す",
             "fullscreen": "全画面表示",
             "tray": {

@@ -93,6 +93,7 @@
         "view": {
             "title": "Zobrazení",
             "emoji": "Převádět text na emotikony",
+            "suggestemoji": "Suggest emoji on typing",
             "hide_dock": "Skrýt ikonu z docku",
             "fullscreen": "Spustit režim celé obrazovky",
             "tray": {
