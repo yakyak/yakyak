@@ -168,7 +168,6 @@ convertEmoji = (text) ->
 
     patterns = [inferedPattern]
 
-    console.log('patterns', patterns[0])
     emojiCodeRegex = new RegExp(patterns.join('|'),'g')
 
     text = text.replace(emojiCodeRegex, (emoji) ->
