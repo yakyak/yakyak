@@ -55,7 +55,7 @@ drawAvatar = (user_id, viewstate, entity, image = null, email = null, initials =
     #
     # overwrites if entity is cached
     initials = initialsof(entity[user_id]).toUpperCase() if entity[user_id]?
-    email    = entity[user_id]?.email?[0] unless entity[user_id]?.email?[0]?
+    email    = entity[user_id]?.emails?[0] unless entity[user_id]?.emails?[0]?
     image    = entity[user_id]?.photo_url if entity[user_id]?.photo_url?
     #
     # Reproducible color code for initials
@@ -75,7 +75,6 @@ drawAvatar = (user_id, viewstate, entity, image = null, email = null, initials =
             #
             img src:fixlink(image)
             , "data-initials": initials
-            , title: email
             , class: 'fallback-on'
             ,  onerror: (ev) ->
                 # in case the image is not available, it
