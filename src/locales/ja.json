@@ -88,14 +88,14 @@
             "copy_image": "イメージをコピー",
             "select_all": "すべてを選択",
             "language": "言語 (Language)",
-            "dateformat": "Use system date format"
+            "dateformat": "システムの日付形式を使用する"
         },
         "view": {
             "title": "表示",
             "emoji": "絵文字に変換",
-            "suggestemoji": "Suggest emoji on typing",
+            "suggestemoji": "入力する時絵文字を勧める",
             "hide_dock": "ドックのアイコンを隠す",
-            "fullscreen": "全画面表示",
+            "fullscreen": "全画面を表示・中止",
             "tray": {
                 "show_tray": "アイコンを表示",
                 "show_window": "ウインドウを表示",
@@ -129,7 +129,7 @@
                 "message": "通知にメッセージを表示",
                 "username": "通知にユーザー名を表示",
                 "mute": "通知音を消音",
-                "avatar": "通知にアバター",
+                "avatar": "通知にユーザーのアバターを表示",
                 "icon": "通知にヤックヤックのアイコンを表示",
                 "custom_sound": "通知の際ヤックヤックの音を使用"
             },
