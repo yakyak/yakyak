@@ -87,7 +87,8 @@
             "copy_link": "링크 복사",
             "copy_image": "이미지 복사",
             "select_all": "전체 선택",
-            "language": "한국어 (Language)"
+            "language": "한국어 (Language)",
+            "dateformat": "Use system date format"
         },
         "view": {
             "title": "보기",

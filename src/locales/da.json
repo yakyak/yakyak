@@ -87,7 +87,8 @@
             "copy_link": "Kopiér link",
             "copy_image": "Kopiér billede",
             "select_all": "Vælg alle",
-            "language": "Sprog (Language)"
+            "language": "Sprog (Language)",
+            "dateformat": "Use system date format"
         },
         "view": {
             "title": "Vis",

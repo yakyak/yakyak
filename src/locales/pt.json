@@ -87,7 +87,8 @@
             "copy_link": "Copiar Hiperligação",
             "copy_image": "Copiar Imagem",
             "select_all": "Selecionar Todos",
-            "language": "Idioma (Language)"
+            "language": "Idioma (Language)",
+            "dateformat": "Use system date format"
         },
         "view": {
             "title": "Ver",

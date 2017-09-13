@@ -1,9 +1,9 @@
 {
-    "__MyLocaleLanguage__": “日本語”,
-    "__maintaner__": "http://github.com/jefu7”,
+    "__MyLocaleLanguage__": "日本語",
+    "__maintaner__": "http://github.com/jefu7",
 
     "title": "YakYak - ヤックヤック ハングアウト クライアント",
-    "description": グーグル　ハングアウト　デスクトップ　ソフト",
+    "description": "グーグル　ハングアウト　デスクトップ　ソフト",
 
     "settings": "設定",
     "recent": "最近",
@@ -11,15 +11,15 @@
 
     "connection" :{
         "connecting": "接続中",
-        "loading": “ローディング”,
+        "loading": "ローディング",
         "not_connected": "接続不可 (確認要)"
     },
 
     "input": {
         "message": "メッセージ",
-        "emoticons": "絵文字を表示”,
-        "image": "イメージを添付”,
-        "typing": “は入力中"
+        "emoticons": "絵文字を表示",
+        "image": "イメージを添付",
+        "typing": "は入力中"
     },
     "conversation": {
         "title": {
@@ -39,7 +39,7 @@
         "leave": "チャットをやめる",
         "leave_confirm": "本当にこのチャットをやめますか？",
         "search": "コンタクト検索",
-        "new_message": "新メッセージ”
+        "new_message": "新メッセージ"
     },
     "notification": {
         "one": "通知",
@@ -59,9 +59,9 @@
     "call": {
         "incoming": "電話着信",
         "incoming_from": "%s から電話着信",
-        "accepted": “受信”,
+        "accepted": "受信",
         "accept": "受ける",
-        "rejected": “受信拒否",
+        "rejected": "受信拒否",
         "reject": "拒否",
         "missed": "%s から着信あり"
     },
@@ -78,25 +78,26 @@
         },
         "edit": {
             "title": "編集",
-            "undo": “元に戻す”,
+            "undo": "元に戻す",
             "redo": "やり直し",
             "paste": "ペースト",
             "cut": "カット",
             "copy": "コピー",
-            "copy_image_link": “イメージのリンクをコピー",
+            "copy_image_link": "イメージのリンクをコピー",
             "copy_link": "リンクをコピー",
             "copy_image": "イメージをコピー",
             "select_all": "すべてを選択",
-            "language": "言語 (Language)"
+            "language": "言語 (Language)",
+            "dateformat": "Use system date format"
         },
         "view": {
             "title": "表示",
             "emoji": "絵文字に変換",
             "hide_dock": "ドックのアイコンを隠す",
-            "fullscreen": “全画面表示”,
+            "fullscreen": "全画面表示",
             "tray": {
                 "show_tray": "アイコンを表示",
-                "show_window": “ウインドウを表示",
+                "show_window": "ウインドウを表示",
                 "toggle_minimize": "アイコンに隠す",
                 "start_minimize": "起動時アイコンに隠す",
                 "close": "アイコンに閉じる"
@@ -108,7 +109,7 @@
                 "default": "アイコンを表示しない時の標準"
             },
             "conversation": {
-                "title": “チャットリスト",
+                "title": "チャットリスト",
                 "timestamp": "チャット日時を表示",
                 "last": "最後のチャットを表示",
                 "previous": "前のチャット",
@@ -159,7 +160,7 @@
                 "newer": "新しいバージョンが利用可能です(%s から a %s)。",
                 "license": "ライセンス",
                 "authors": "主な作者",
-                "contributors": "貢献者"
+                "contributors": "貢献者",
                 "startup": "起動時に開く"
             }
         },

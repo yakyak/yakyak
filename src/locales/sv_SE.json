@@ -87,7 +87,8 @@
             "copy_link": "Kopiera länk",
             "copy_image": "Kopiera bild",
             "select_all": "Markera alla",
-            "language": "Språk (Language)"
+            "language": "Språk (Language)",
+            "dateformat": "Use system date format"
         },
         "view": {
             "title": "Visa",

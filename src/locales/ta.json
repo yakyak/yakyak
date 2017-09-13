@@ -87,7 +87,8 @@
             "copy_link": "link பிரதி செய்]",
             "copy_image": "படத்தை பிரதி செய்",
             "select_all": "அனைத்தையும் தெரிவு செய்",
-            "language": "மொழி (language)"
+            "language": "மொழி (Language)",
+            "dateformat": "Use system date format"
         },
         "view": {
             "title": "பார்வையிடு",

@@ -87,7 +87,8 @@
             "copy_link": "Копіювати посилання",
             "copy_image": "Копіювати зображення",
             "select_all": "Виділити все",
-            "language": "Мова (Language)"
+            "language": "Мова (Language)",
+            "dateformat": "Use system date format"
         },
         "view": {
             "title": "Вид",

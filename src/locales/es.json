@@ -87,7 +87,8 @@
             "copy_link": "Copiar Enlace",
             "copy_image": "Copiar Imagen",
             "select_all": "Seleccionar todo",
-            "language": "Lenguaje (Language)"
+            "language": "Lenguaje (Language)",
+            "dateformat": "Use system date format"
         },
         "view": {
             "title": "Vista",

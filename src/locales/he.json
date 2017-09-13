@@ -87,7 +87,8 @@
             "copy_link": "העתק כתובת",
             "copy_image": "העתק תמונה",
             "select_all": "בחר הכל",
-            "language": "שפה (Language)"
+            "language": "שפה (Language)",
+            "dateformat": "Use system date format"
         },
         "view": {
             "title": "גיסרא",

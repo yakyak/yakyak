@@ -87,7 +87,8 @@
       "copy_link": "Kopiuj adres linku",
       "copy_image": "Kopiuj adres linku",
       "select_all": "Zaznacz wszystko",
-      "language": "Język (Language)"
+      "language": "Język (Language)",
+      "dateformat": "Use system date format"
     },
     "view": {
       "title": "Widok",

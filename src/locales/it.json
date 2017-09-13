@@ -87,7 +87,8 @@
             "copy_link": "Copia collegamento",
             "copy_image": "Copia immagine",
             "select_all": "Seleziona tutto",
-            "language": "Lingua (Italiano)"
+            "language": "Lingua (Language)",
+            "dateformat": "Use system date format"
         },
         "view": {
             "title": "Visualizza",
