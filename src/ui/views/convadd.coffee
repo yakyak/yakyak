@@ -82,7 +82,7 @@ module.exports = view (models) ->
         ul ->
             convsettings.selectedEntities.forEach (r) ->
                 cid = r?.id?.chat_id
-                email = (r.properties?.email?[0] ? entity[cid]?.email?[0]);
+                email = (r.properties?.email?[0] ? entity[cid]?.emails?[0]);
                 li class: 'selected', title: email, ->
                     drawAvatar cid, viewstate, entity
                     , (r.properties?.photo_url ? entity[cid]?.photo_url)
@@ -95,7 +95,7 @@ module.exports = view (models) ->
 
             convsettings.searchedEntities.forEach (r) ->
                 cid = r?.id?.chat_id
-                email = (r.properties?.email?[0] ? entity[cid]?.email?[0]);
+                email = (r.properties?.email?[0] ? entity[cid]?.emails?[0]);
                 if unique(r) in selected_ids then return
                 li title: email, ->
                     drawAvatar cid, viewstate, entity
