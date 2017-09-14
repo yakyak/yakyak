@@ -32,7 +32,7 @@ We love [bug reports](https://github.com/yakyak/yakyak/issues)!
 * Video/audio integration (open in chrome)
 * Focus/typing indications (mainly a design issue. keep it clean)
 * Offer alternative color schemes
-* Translations in 18 languages so far:
+* Translations in 20 languages so far:
   * English / Portuguese (Portugal and Brazil) / French / Spanish / Czech / German / Polish / Russian / Hebrew / Ukrainian / Slovenian / Korean / Tamil / Romanian / Swedish / Japanese / Italian / Danish / Bengali
   * We're looking for volunteers to translate the app to new languages
 
