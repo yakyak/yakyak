@@ -10,9 +10,9 @@
     "details": "தகவல்கள்",
 
     "connection" :{
-        "connecting": "தொடர்பில்",
-        "loading": "Loading தொடர்புகள்",
-        "not_connected": "தொடர்பில்லை (தொடர்பை சரிபார்க்கவும்)"
+        "connecting": "இணைப்பினை ஏற்படுத்துகிறது",
+        "loading": "தொடர்புகளை ஏற்றுகிறது",
+        "not_connected": "இணைப்பினை ஏற்படுத்தமுடியவில்லை (இணைப்பை சரிபார்க்கவும்)"
     },
 
     "input": {
@@ -50,7 +50,7 @@
             "one": "விருப்பம்",
             "other": "விருப்பங்கள்"
         },
-        "star_it": "நட்ச்சத்திரமிடு /நச்சத்திரத்தை நீக்கு"
+        "star_it": "நட்சத்திரமிடு /நட்சத்திரத்தை நீக்கு"
     },
     "actions": {
       "ok": "சரி",
@@ -94,20 +94,20 @@
             "title": "பார்வையிடு",
             "emoji": "எழுத்தினை  ",
             "suggestemoji": "Suggest emoji on typing",
-            "hide_dock": "Hide Dock icon",
-            "fullscreen": "Toggle Fullscreen",
+            "hide_dock": "சின்னத்தை மறை",
+            "fullscreen": "முழுத்திரை",
             "tray": {
-                "show_tray": "Show tray icon",
-                "show_window": "Show window",
-                "toggle_minimize": "Toggle minimize to tray",
-                "start_minimize": "Start minimized to tray",
-                "close": "Close to tray"
+                "show_tray": "சின்னத்தை காண்பி",
+                "show_window": "சாளரத்தை காண்பி",
+                "toggle_minimize": "தட்டை சிறிதாக்கு",
+                "start_minimize": "சிறிதாக்கிய நிலையில் தட்டை ஆரம்பி",
+                "close": "தட்டை மூடு"
             },
             "escape": {
-                "title": "Escape key behavior",
-                "hide": "Hides window",
-                "clear": "Clears input",
-                "default": "default when tray is not showing"
+                "title": "விலகி செல்",
+                "hide":"சாளரத்தை மறை",
+                "clear": "உள்ளிடுகளை அகற்ற",
+                "default": "இயல்பு நிலை"
             },
             "conversation": {
                 "title": "உரையாடல் பட்டியல்",
@@ -117,28 +117,28 @@
                 "next": "அடுத்த உரையாடல்",
                 "select": "உரையாடலை தெரிவு செய்",
                 "thumbnails": {
-                    "show": "Show Thumbnails",
-                    "only": "Show Thumbnails Only",
-                    "animated": "Show Animated Thumbnails"
+                    "show": "பயனரின் குறுக்கப்பட்ட படங்களை காண்பி",
+                    "only": "பயனரின் குறுக்கப்பட்ட படங்களை மட்டும் காண்பி",
+                    "animated": " பயனரின் அசைவுடைய குறுக்கப்பட்ட படங்களை காண்பி"
                 }
             },
             "notification": {
-                "title": "Pop-Up Notification",
+                "title": "அறிவிப்பு",
                 "show": "அறிவிப்புகளை காட்டு",
-                "toggle": "Toggle notifications",
+                "toggle": "அறிவிப்புக்களை இணை",
                 "message": "செய்திடல்களை அறிவிப்பு பலகையில் காட்சிப்படுத்து",
                 "username": "பயனர் பெயரை அறிவிப்பு பலகையில் காட்சிப்படுத்து",
                 "mute": "அறிவிப்பு பலகையின் ஒலியை நிறுத்து",
-                "avatar": "Show user avatar icon in notifications",
-                "icon": "Show YakYak icon in notifications",
-                "custom_sound": "Use YakYak custom sound for notifications"
+                "avatar": "பயனரின்  தோற்றத்தை அறிவிப்பு பலகையில் காண்பி",
+                "icon": " Yakyak சின்னத்தை அறிவிப்பு பலகையில் காண்பி",
+                "custom_sound": "Yakyak இற்கு உரிய அறிவிப்பு ஒலியை பயன்படுத்த"
             },
             "color_scheme": {
                 "title": "நிற திட்டம்",
                 "default": "வழமையான நிறம்",
                 "blue": "நீலம்",
                 "dark": "கருப்பு",
-                "material": "Material"
+                "material": "பொருள்"
             },
             "font": {
                 "title": "எழுத்துருவின் அளவு",
@@ -158,11 +158,11 @@
             "title": "உதவி",
             "about": {
                 "title": "Yakyak ஐ பற்றி",
-                "newer": "A newer version is available, please upgrade from %s to %s",
-                "license": "License",
-                "authors": "Main authors",
-                "contributors": "Contributors",
-                "startup": "Open on Startup"
+                "newer": "புதிய பதிப்பு  ஒன்று காணப்படுகிறது , %s இல் இருந்து %  இற்கு மேம்படுதுக",
+                "license": "உரிமம்",
+                "authors": "முக்கிய எழுத்தாளர்கள்",
+                "contributors": "பங்களிப்பாளர்கள்",
+                "startup": "கணனி தொடக்கத்துடன் செயற்பட்டினை ஆரம்பி",             
             }
         },
         "window": {
