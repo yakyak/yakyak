@@ -121,6 +121,12 @@ module.exports = view (models) ->
 
     conv_id = viewstate?.selectedConv
     c = conv[conv_id]
+    #
+    console.log('conversation', c)
+    console.log('  delivery_medium')
+    console.log('    outer', c?.self_conversation_state?.delivery_medium_option[0])
+    console.log('    inner', c?.self_conversation_state?.delivery_medium_option[0].delivery_medium)
+    #
     if c?.current_participant?
         for participant in c.current_participant
             entity.needEntity participant.chat_id
