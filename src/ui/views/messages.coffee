@@ -72,7 +72,7 @@ onclick = (e) ->
 
     # Showing message with 3 second delay showing the user that something is happening
     notr {
-      html: "Opening the link in the browser..."
+      html: i18n.__ 'menu.help.about.title:Opening the link in the browser...'
       stay: 3000
     }
 
