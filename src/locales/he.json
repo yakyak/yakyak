@@ -40,7 +40,8 @@
         "leave_confirm": "האם אתה בטוח שברצונך לעזור את השיחה?",
         "search": "חיפוש אנשים",
         "new_message": "הודעה חדשה",
-        "new_attachment": "New message received (image or video)"
+        "new_attachment": "New message received (image or video)",
+        "open_link": "Opening the link in the browser..."
     },
     "notification": {
         "one": "התראה",

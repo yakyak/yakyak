@@ -40,7 +40,8 @@
         "leave_confirm": "Opravdu opustit konverzaci?",
         "search": "Vyhledat osoby",
         "new_message": "Nová zpráva",
-        "new_attachment": "New message received (image or video)"
+        "new_attachment": "New message received (image or video)",
+        "open_link": "Opening the link in the browser..."
     },
     "notification": {
         "one": "Oznámení",
