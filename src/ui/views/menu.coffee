@@ -453,6 +453,10 @@ templateWindow = (viewstate) -> [
 templateMenu = (viewstate) ->
     [
         {
+            label: ''
+        }
+        {
+            label: 'YakYak'
             label: i18n.__ 'menu.file.title:YakYak'
             submenu: templateYakYak viewstate
         }
