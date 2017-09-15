@@ -41,7 +41,7 @@
   "dependencies": {
     "auto-launch": "^5.0.1",
     "autosize": "^3.0.8",
-    "hangupsjs": "^1.3.4",
+    "hangupsjs": "^1.3.5",
     "i18n": "^0.8.3",
     "mime-types": "^2.1.12",
     "moment": "^2.10.3",
