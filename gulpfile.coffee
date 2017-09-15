@@ -62,6 +62,7 @@ deploy_options = {
     out: outdeploy
     overwrite: true
     appBundleId: 'com.github.yakyak'
+    appCategoryType: 'public.app-category.social-networking'
     win32metadata: {
         CompanyName: 'Yakyak'
         ProductName: 'Yakyak'
