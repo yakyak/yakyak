@@ -206,8 +206,10 @@ handle 'updatewatermark', do ->
         sendWater()
 
 handle 'getentity', (ids) ->
-    for ix in [0..(ids.length - 1)] by chunkSize = 5
-        ipc.send 'getentity', (ids.slice(ix, ix + chunkSize))
+    do fn = ->
+        ipc.send 'getentity', ids[..4]
+        ids = ids[5..]
+        setTimeout(fn, 500) if ids.length > 0
 
 handle 'addentities', (es, conv_id) ->
     entity.add e for e in es ? []
