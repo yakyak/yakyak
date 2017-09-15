@@ -87,11 +87,13 @@
             "copy_link": "Copiar Enlace",
             "copy_image": "Copiar Imagen",
             "select_all": "Seleccionar todo",
-            "language": "Lenguaje (Language)"
+            "language": "Lenguaje (Language)",
+            "dateformat": "Use system date format"
         },
         "view": {
             "title": "Vista",
             "emoji": "Convertir texto a emoji",
+            "suggestemoji": "Suggest emoji on typing",
             "hide_dock": "Ocultar icono del Dock",
             "fullscreen": "Pantalla completa",
             "tray": {

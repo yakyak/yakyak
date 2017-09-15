@@ -56,7 +56,7 @@ drawAvatar = (user_id, viewstate, entity, image = null, email = null, initials =
     #
     # overwrites if entity is cached
     initials = initialsof(entity[user_id]).toUpperCase() if entity[user_id]?
-    email    = entity[user_id]?.email?[0] unless entity[user_id]?.email?[0]?
+    email    = entity[user_id]?.emails?[0] unless entity[user_id]?.emails?[0]?
     image    = entity[user_id]?.photo_url if entity[user_id]?.photo_url?
     #
     # Reproducible color code for initials
@@ -76,7 +76,6 @@ drawAvatar = (user_id, viewstate, entity, image = null, email = null, initials =
             #
             img src:fixlink(image)
             , "data-initials": initials
-            , title: email
             , class: 'fallback-on'
             ,  onerror: (ev) ->
                 # in case the image is not available, it
@@ -162,7 +161,7 @@ convertEmoji = (text) ->
 
     patterns = [
         "(^|[ ])(:[a-zA-Z0-9_\+-]+:)([ ]|$)",
-        "(^|[ ])(:\\(:\\)|:\\(\\|\\)|:X\\)|:3|\\(=\\^\\.\\.\\^=\\)|\\(=\\^\\.\\^=\\)|=\\^_\\^=|x_x|X-O|X-o|X\\(|X-\\(|O\\.O|:O|:-O|=O|o\\.o|:o|:-o|=o|D:|>_<|T_T|:'\\(|;_;|='\\(|>\\.<|>:\\(|>:-\\(|>=\\(|:\\(|:-\\(|=\\(|;P|;-P|;p|;-p|:P|:-P|=P|:p|:-p|=p|;\\*|;-\\*|:\\*|:-\\*|:S|:-S|:s|:-s|=\\/|=\\\\|:-\\/|:-\\\\|:\\/|:\\\\|u_u|o_o;|-_-|=\\||:\\||:-\\||B-\\)|B\\)|;-\\)|;\\)|}=\\)|}:-\\)|}:\\)|O=\\)|O:-\\)|O:\\)|\\^_\\^;;|=D|\\^_\\^|:-D|:D|~@~|<3|<\\/3|<\\\\3|\\(]:{|-<@%|:\\)|:-\\)|=\\))([ ]|$)"
+        "(^|[ ])(:\\(:\\)|:\\(\\|\\)|:X\\)|:3|\\(=\\^\\.\\.\\^=\\)|\\(=\\^\\.\\^=\\)|=\\^_\\^=|x_x|X-O|X-o|X\\(|X-\\(|O\\.O|:O|:-O|=O|o\\.o|:o|:-o|=o|D:|>_<|T_T|:'\\(|;_;|='\\(|>\\.<|>:\\(|>:-\\(|>=\\(|:\\(|:-\\(|=\\(|;P|;-P|;p|;-p|:P|:-P|=P|:p|:-p|=p|;\\*|;-\\*|:\\*|:-\\*|:S|:-S|:s|:-s|=\\/|=\\\\|:-\\/|:-\\\\|:\\/|:\\\\|u_u|o_o;|-_-|=\\||:\\||:-\\||B-\\)|B\\)|;-\\)|;\\)|}=\\)|}:-\\)|}:\\)|O=\\)|O:-\\)|O:\\)|\\^_\\^;;|=D|\\^_\\^|:-D|:D|[(]y[)]|~@~|<3|<\\/3|<\\\\3|\\(]:{|-<@%|:\\)|:-\\)|=\\))([ ]|$)"
     ]
 
     emojiCodeRegex = new RegExp(patterns.join('|'),'g')

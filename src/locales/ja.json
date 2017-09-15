@@ -1,0 +1,175 @@
+{
+    "__MyLocaleLanguage__": "日本語",
+    "__maintaner__": "http://github.com/jefu7",
+
+    "title": "YakYak - ヤックヤック ハングアウト クライアント",
+    "description": "グーグル　ハングアウト　デスクトップ　ソフト",
+
+    "settings": "設定",
+    "recent": "最近",
+    "details": "詳細",
+
+    "connection" :{
+        "connecting": "接続中",
+        "loading": "ローディング",
+        "not_connected": "接続不可 (確認要)"
+    },
+
+    "input": {
+        "message": "メッセージ",
+        "emoticons": "絵文字を表示",
+        "image": "イメージを添付",
+        "typing": "は入力中"
+    },
+    "conversation": {
+        "title": {
+            "one": "チャット",
+            "other": "チャット"
+        },
+        "numbered": "チャット %d",
+        "options": "チャットのオプション",
+        "setting": "チャットの設定",
+        "add": "新チャットを追加",
+        "new": "新チャット",
+        "name": "チャット名",
+        "edit": "チャットを編集",
+        "multiuser": "多数人チャット",
+        "delete": "チャットを削除",
+        "delete_confirm": "本当にこのチャットを削除しますか？",
+        "leave": "チャットをやめる",
+        "leave_confirm": "本当にこのチャットをやめますか？",
+        "search": "コンタクト検索",
+        "new_message": "新メッセージ"
+    },
+    "notification": {
+        "one": "通知",
+        "other": "通知"
+    },
+    "favorite": {
+        "title": {
+            "one": "お気に入り",
+            "other": "お気に入り"
+        },
+        "star_it": "お気に入り"
+    },
+    "actions": {
+      "ok": "確認",
+      "cancel": "中止"
+    },
+    "call": {
+        "incoming": "電話着信",
+        "incoming_from": "%s から電話着信",
+        "accepted": "受信",
+        "accept": "受ける",
+        "rejected": "受信拒否",
+        "reject": "拒否",
+        "missed": "%s から着信あり"
+    },
+    "menu": {
+        "title": "メニュー",
+        "file": {
+            "title": "ヤックヤック",
+            "hide": "ヤックヤックを隠す",
+            "hide_others": "他を隠す",
+            "show": "すべてを表示",
+            "inspector": "インスペクターを開く",
+            "logout": "ロッグアウト",
+            "quit": "終了"
+        },
+        "edit": {
+            "title": "編集",
+            "undo": "元に戻す",
+            "redo": "やり直し",
+            "paste": "ペースト",
+            "cut": "カット",
+            "copy": "コピー",
+            "copy_image_link": "イメージのリンクをコピー",
+            "copy_link": "リンクをコピー",
+            "copy_image": "イメージをコピー",
+            "select_all": "すべてを選択",
+            "language": "言語 (Language)",
+            "dateformat": "システムの日付形式を使用する"
+        },
+        "view": {
+            "title": "表示",
+            "emoji": "絵文字に変換",
+            "suggestemoji": "入力する時絵文字を勧める",
+            "hide_dock": "ドックのアイコンを隠す",
+            "fullscreen": "全画面を表示・中止",
+            "tray": {
+                "show_tray": "アイコンを表示",
+                "show_window": "ウインドウを表示",
+                "toggle_minimize": "アイコンに隠す",
+                "start_minimize": "起動時アイコンに隠す",
+                "close": "アイコンに閉じる"
+            },
+            "escape": {
+                "title": "escキーの行動",
+                "hide": "ウインドウを隠す",
+                "clear": "入力を消す",
+                "default": "アイコンを表示しない時の標準"
+            },
+            "conversation": {
+                "title": "チャットリスト",
+                "timestamp": "チャット日時を表示",
+                "last": "最後のチャットを表示",
+                "previous": "前のチャット",
+                "next": "次のチャット",
+                "select": "チャットを選択",
+                "thumbnails": {
+                    "show": "サムネイルを表示",
+                    "only": "サムネイルのみを表示",
+                    "animated": "動画サムネイルを表示"
+                }
+            },
+            "notification": {
+                "title": "通知",
+                "show": "通知を表示",
+                "toggle": "通知　入／切",
+                "message": "通知にメッセージを表示",
+                "username": "通知にユーザー名を表示",
+                "mute": "通知音を消音",
+                "avatar": "通知にユーザーのアバターを表示",
+                "icon": "通知にヤックヤックのアイコンを表示",
+                "custom_sound": "通知の際ヤックヤックの音を使用"
+            },
+            "color_scheme": {
+                "title": "カラー設定",
+                "default": "標準",
+                "blue": "青",
+                "dark": "暗い",
+                "material": "生地"
+            },
+            "font": {
+                "title": "フォント",
+                "extra_small": "極小",
+                "small": "小",
+                "medium": "中",
+                "large": "大",
+                "extra_large": "極大"
+            },
+            "zoom": {
+                "in": "ズームイン",
+                "out": "ズームアウト",
+                "reset": "標準"
+            }
+        },
+        "help": {
+            "title": "ヘルプ",
+            "about": {
+                "title": "ヤックヤックについて",
+                "newer": "新しいバージョンが利用可能です(%s から a %s)。",
+                "license": "ライセンス",
+                "authors": "主な作者",
+                "contributors": "貢献者",
+                "startup": "起動時に開く"
+            }
+        },
+        "window": {
+            "title": "ウインドウ",
+            "minimize": "しまう",
+            "close": "閉じる",
+            "front": "最前にする"
+        }
+    }
+}

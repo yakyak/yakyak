@@ -87,11 +87,13 @@
             "copy_link": "Копіювати посилання",
             "copy_image": "Копіювати зображення",
             "select_all": "Виділити все",
-            "language": "Мова (Language)"
+            "language": "Мова (Language)",
+            "dateformat": "Use system date format"
         },
         "view": {
             "title": "Вид",
             "emoji": "Перетворити текст в емодзі",
+            "suggestemoji": "Suggest emoji on typing",
             "hide_dock": "Сховати іконку в док",
             "fullscreen": "Перемкнути в повноекранний режим",
             "tray": {

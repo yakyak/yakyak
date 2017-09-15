@@ -47,6 +47,7 @@ handle 'init', (init) ->
     later -> action 'set_viewstate_normal'
 
 handle 'set_viewstate_normal', ->
+    viewstate.setContacts true
     viewstate.setState viewstate.STATE_NORMAL
 
 handle 'chat_message', (ev) ->

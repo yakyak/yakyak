@@ -87,11 +87,13 @@
       "copy_link": "লিঙ্ক কপি করুন",
       "copy_image": "ছবি কপি করুন",
       "select_all": "সব নির্বাচন করুন",
-      "language": "ভাষা (Language)"
+      "language": "ভাষা (Language)",
+      "dateformat": "Use system date format"
     },
     "view": {
       "title": "View",
       "emoji": "পাঠ্য ইমোজিতে রূপান্তর করুন",
+      "suggestemoji": "Suggest emoji on typing",
       "hide_dock": "ডক আইকন লুকান",
       "fullscreen": "Toggle Fullscreen",
       "tray": {

@@ -87,11 +87,13 @@
             "copy_link": "링크 복사",
             "copy_image": "이미지 복사",
             "select_all": "전체 선택",
-            "language": "한국어 (Language)"
+            "language": "한국어 (Language)",
+            "dateformat": "Use system date format"
         },
         "view": {
             "title": "보기",
             "emoji": "텍스트를 이모지로 변환",
+            "suggestemoji": "Suggest emoji on typing",
             "hide_dock": "독 아이콘 숨기기",
             "fullscreen": "전체화면 전환",
             "tray": {

@@ -87,11 +87,13 @@
             "copy_link": "Kopírovat odkaz",
             "copy_image": "Kopírovat obrázek",
             "select_all": "Vybrat vše",
-            "language": "Jazyk (Language)"
+            "language": "Jazyk (Language)",
+            "dateformat": "Use system date format"
         },
         "view": {
             "title": "Zobrazení",
             "emoji": "Převádět text na emotikony",
+            "suggestemoji": "Suggest emoji on typing",
             "hide_dock": "Skrýt ikonu z docku",
             "fullscreen": "Spustit režim celé obrazovky",
             "tray": {

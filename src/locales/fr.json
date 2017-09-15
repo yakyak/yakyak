@@ -87,11 +87,13 @@
             "copy_image": "Copier Image",
             "copy_link": "Copier Link",
             "select_all": "Tout sélectionner",
-            "language": "Langage (Language)"
+            "language": "Langage (Language)",
+            "dateformat": "Use system date format"
         },
         "view": {
             "title": "Présentation",
             "emoji": "Convertir le texte en emoji",
+            "suggestemoji": "Suggest emoji on typing",
             "suggestemoji": "Suggérer les emoji au cours de la frappe",
             "hide_dock": "Cacher l'icône du Dock",
             "fullscreen": "Activer le mode plein écran",

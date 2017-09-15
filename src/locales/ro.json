@@ -87,11 +87,13 @@
             "copy_link": "Copie Link",
             "copy_image": "Copie Imagine",
             "select_all": "Selectează tot",
-            "language": "Limba (Language)"
+            "language": "Limba (Language)",
+            "dateformat": "Use system date format"
         },
         "view": {
             "title": "Vizualizează",
             "emoji": "Convertește text cu emoji",
+            "suggestemoji": "Suggest emoji on typing",
             "hide_dock": "Ascunde icon Dock",
             "fullscreen": "Fereastră maximizată",
             "tray": {

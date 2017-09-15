@@ -1,0 +1,175 @@
+{
+    "__MyLocaleLanguage__": "Italiano",
+    "__maintaner__": "http://github.com/zubaki91",
+
+    "title": "YakYak - Client Hangouts",
+    "description": "Client desktop per Google Hangouts",
+
+    "settings": "Impostazioni",
+    "recent": "Recenti",
+    "details": "Dettagli",
+
+    "connection" :{
+        "connecting": "Connessione",
+        "loading": "Caricamento Contatti",
+        "not_connected": "Non connesso (controlla la connessione)"
+    },
+
+    "input": {
+        "message": "Messaggio",
+        "emoticons": "Mostra emoticons",
+        "image": "Allega immagine",
+        "typing": "sta scrivendo"
+    },
+    "conversation": {
+        "title": {
+            "one": "Conversazione",
+            "other": "Conversazioni"
+        },
+        "numbered": "Conversazione %d",
+        "options": "Opzioni conversazione",
+        "setting": "Impostazioni conversazione",
+        "add": "Aggiungi nuova conversazione",
+        "new": "Nuova conversazione",
+        "name": "Nome conversazione",
+        "edit": "Modifica conversazione",
+        "multiuser": "Crea chat multiutente",
+        "delete": "Elimina conversazione",
+        "delete_confirm": "Vuoi davvero eliminare la conversazione?",
+        "leave": "Lascia conversazione",
+        "leave_confirm": "Vuoi davvero lasciare la conversazione?",
+        "search": "Cerca Persone",
+        "new_message": "Nuovo Messaggio"
+    },
+    "notification": {
+        "one": "Notifica",
+        "other": "Notifiche"
+    },
+    "favorite": {
+        "title": {
+            "one": "Preferito",
+            "other": "Preferiti"
+        },
+        "star_it": "Dai/Togli Stella"
+    },
+    "actions": {
+      "ok": "OK",
+      "cancel": "Annulla"
+    },
+    "call": {
+        "incoming": "Chiamata in arrivo",
+        "incoming_from": "Chiamata in arrivo da %s",
+        "accepted": "Accettata",
+        "accept": "Accetta",
+        "rejected": "Rifiutata",
+        "reject": "Rifiuta",
+        "missed": "Chiamata persa da %s"
+    },
+    "menu": {
+        "title": "Menu",
+        "file": {
+            "title": "YakYak",
+            "hide": "Nascondi YakYak",
+            "hide_others": "Nascondi altri",
+            "show": "Mostra tutti",
+            "inspector": "Ispeziona Elementi",
+            "logout": "Logout",
+            "quit": "Esci"
+        },
+        "edit": {
+            "title": "Modifica",
+            "undo": "Annulla",
+            "redo": "Rifai",
+            "paste": "Incolla",
+            "cut": "Taglia",
+            "copy": "Copia",
+            "copy_image_link": "Copia collegamento immagine",
+            "copy_link": "Copia collegamento",
+            "copy_image": "Copia immagine",
+            "select_all": "Seleziona tutto",
+            "language": "Lingua (Language)",
+            "dateformat": "Use system date format"
+        },
+        "view": {
+            "title": "Visualizza",
+            "emoji": "Converti testo in emoji",
+            "suggestemoji": "Suggest emoji on typing",
+            "hide_dock": "Nascondi l'icona della barra delle applicazioni",
+            "fullscreen": "Schermo Intero",
+            "tray": {
+                "show_tray": "Mostra icona nel vassoio di sistema",
+                "show_window": "Mostra finestra",
+                "toggle_minimize": "Attiva/Disattiva riduzione nel vassoio di sistema",
+                "start_minimize": "Apri ridotto nel vassoio di sistema",
+                "close": "Chiudi nel vassoio di sistema"
+            },
+            "escape": {
+                "title": "Comportamento del tasto Esc",
+                "hide": "Nasconde la finestra",
+                "clear": "Pulisce l'input",
+                "default": "di default quando il programma non è nel vassoio di sistema"
+            },
+            "conversation": {
+                "title": "Lista conversazioni",
+                "timestamp": "Mostra orario conversazioni",
+                "last": "Mostra ultimo messaggio",
+                "previous": "Conversazione precedente",
+                "next": "Conversazione successiva",
+                "select": "Seleziona Conversazione",
+                "thumbnails": {
+                    "show": "Mostra anteprime",
+                    "only": "Mostra solo anteprime",
+                    "animated": "Mostra anteprime animate"
+                }
+            },
+            "notification": {
+                "title": "Notifiche pop-up",
+                "show": "Mostra notifiche",
+                "toggle": "Attiva/Disattiva notifiche",
+                "message": "Mostra messaggio nelle notifiche",
+                "username": "Mostra nome utente nelle notifiche",
+                "mute": "Disabilita suono nelle notifiche",
+                "avatar": "Mostra l'avatar dell'utente nelle notifiche",
+                "icon": "Mostra l'icona di YakYak nelle notifiche",
+                "custom_sound": "Usa suoni di YakYak per le notifiche"
+            },
+            "color_scheme": {
+                "title": "Colore",
+                "default": "Originale",
+                "blue": "Blu",
+                "dark": "Scuro",
+                "material": "Material"
+            },
+            "font": {
+                "title": "Dimensione carattere",
+                "extra_small": "Molto Piccolo",
+                "small": "Piccolo",
+                "medium": "Medio",
+                "large": "Grande",
+                "extra_large": "Molto Grande"
+            },
+            "zoom": {
+                "in": "Ingrandisci",
+                "out": "Riduci",
+                "reset": "Dimensioni reali"
+            }
+        },
+        "help": {
+            "title": "Aiuto",
+            "about": {
+                "title": "Informazioni su YakYak",
+                "newer": "Una nuova versione è disponibile, aggiornare dalla %s alla %s",
+                "license": "Licenza",
+                "authors": "Autori principali",
+                "contributors": "Chi ha contribuito",
+                "startup": "Apri all'avvio del computer"
+            }
+        },
+        "window": {
+            "title": "Finestra",
+            "minimize": "Riduci",
+            "close": "Chiudi",
+            "front": "Porta tutto avanti"
+        }
+    }
+}

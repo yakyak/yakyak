@@ -87,11 +87,13 @@
             "copy_link": "Copy Link",
             "copy_image": "Copy Image",
             "select_all": "Select All",
-            "language": "Language (Language)"
+            "language": "Language (Language)",
+            "dateformat": "Use system date format"
         },
         "view": {
             "title": "View",
             "emoji": "Convert text to emoji",
+            "suggestemoji": "Suggest emoji on typing",
             "hide_dock": "Hide Dock icon",
             "fullscreen": "Toggle Fullscreen",
             "tray": {

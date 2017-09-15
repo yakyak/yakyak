@@ -87,11 +87,13 @@
             "copy_link": "Kopiraj povezavo",
             "copy_image": "Kopiraj sliko",
             "select_all": "Izberi vse",
-            "language": "Jezik (Language)"
+            "language": "Jezik (Language)",
+            "dateformat": "Use system date format"
         },
         "view": {
             "title": "Pogled",
             "emoji": "Pretvori besedilo v emotikone",
+            "suggestemoji": "Suggest emoji on typing",
             "hide_dock": "Skrij ikono",
             "fullscreen": "Celozaslonski način",
             "tray": {
