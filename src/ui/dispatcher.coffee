@@ -43,6 +43,10 @@ handle 'init', (init) ->
 
     require('./version').check()
 
+    # small delay for better experience
+    later -> action 'set_viewstate_normal'
+
+handle 'set_viewstate_normal', ->
     viewstate.setContacts true
     viewstate.setState viewstate.STATE_NORMAL
 
@@ -205,7 +209,12 @@ handle 'updatewatermark', do ->
                 throttleWaterByConv[conv_id] = sendWater
         sendWater()
 
-handle 'getentity', (ids) -> ipc.send 'getentity', ids
+handle 'getentity', (ids) ->
+    do fn = ->
+        ipc.send 'getentity', ids[..4]
+        ids = ids[5..]
+        setTimeout(fn, 500) if ids.length > 0
+
 handle 'addentities', (es, conv_id) ->
     entity.add e for e in es ? []
     if conv_id # auto-add these ppl to a conv

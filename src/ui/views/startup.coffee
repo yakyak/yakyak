@@ -8,13 +8,7 @@ module.exports = view (models) ->
     if viewstate.loadedContacts
         classList.push 'hide'
 
-    div class: classList.join(' ')
-    , onDOMNodeInserted: (e) ->
-        ta = e.target
-        ta.addEventListener 'transitionend', ->
-            action 'remove_startup'
-        , false
-    , ->
+    div class: classList.join(' '), ->
         div ->
             div ->
                 img src: path.join YAKYAK_ROOT_DIR, '..', 'icons', 'icon@32.png'
