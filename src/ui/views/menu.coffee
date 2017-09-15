@@ -6,6 +6,7 @@ Menu = remote.Menu
 platform = require('os').platform()
 # to reduce number of == comparisons
 isDarwin = platform == 'darwin'
+isLinux = platform == 'linux'
 isNotDarwin = platform != 'darwin'
 
 # true if it does, false otherwise
@@ -452,6 +453,9 @@ templateWindow = (viewstate) -> [
 #
 templateMenu = (viewstate) ->
     [
+        {
+            label: ''
+        } if isLinux
         {
             label: i18n.__ 'menu.file.title:YakYak'
             submenu: templateYakYak viewstate
