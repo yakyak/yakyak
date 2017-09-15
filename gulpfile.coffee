@@ -71,7 +71,9 @@ deploy_options = {
         FileVersion: "#{json.version}"
         ProductVersion: "#{json.version}"
     }
-    osxSign: true
+    osxSign: {
+        identity: 'Mac Developer'
+    }
     arch:     archOpts.join ','
     platform: platformOpts.join ','
 }
