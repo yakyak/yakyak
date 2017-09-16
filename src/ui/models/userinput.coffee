@@ -32,6 +32,10 @@ buildChatMessage = (sender, txt) ->
     delivery_medium = ClientDeliveryMediumType[conversation_state?.delivery_medium_option[0]?.delivery_medium?.delivery_medium_type]
     if not delivery_medium
       delivery_medium = ClientDeliveryMediumType.BABEL
+    otr_status = OffTheRecordStatus[conv[conv_id]?.otr_status]
+    if not otr_status?
+        otr_status = OffTheRecordStatus.ON_THE_RECORD
+    console.log('otr', otr_status)
     action = null
     if /^\/me\s/.test txt
         txt = txt.replace /^\/me/, sender.first_name
@@ -50,7 +54,7 @@ buildChatMessage = (sender, txt) ->
         client_generated_id
         ts
         image_id: undefined
-        otr: OffTheRecordStatus.ON_THE_RECORD
+        otr: otr_status
         message_action_type
         delivery_medium: [delivery_medium] # requires to be used as an array
     }
