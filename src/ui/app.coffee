@@ -72,11 +72,7 @@ contextmenu = require('./views/contextmenu')
 require('./views/menu')(viewstate)
 
 # tie layout to DOM
-
-# restore last position of window
 currentWindow = remote.getCurrentWindow()
-
-currentWindow.setPosition viewstate.pos...
 
 document.body.appendChild applayout.el
 
