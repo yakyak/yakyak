@@ -38,6 +38,8 @@
         "delete_confirm": "האם אתה בטוח שברצונך למחוק את השיחה?",
         "leave": "עזב את השיחה",
         "leave_confirm": "האם אתה בטוח שברצונך לעזור את השיחה?",
+        "history_on": "History has been turned on.",
+        "history_off": "History has been turned off.",
         "search": "חיפוש אנשים",
         "new_message": "הודעה חדשה",
         "new_attachment": "New message received (image or video)",

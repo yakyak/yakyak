@@ -38,6 +38,8 @@
         "delete_confirm": "Naj izbrišem klepet?",
         "leave": "Zapusti klepet",
         "leave_confirm": "Naj zapustim klepet?",
+        "history_on": "History has been turned on.",
+        "history_off": "History has been turned off.",
         "search": "Najdi ljudi",
         "new_message": "Novo sporočilo",
         "new_attachment": "New message received (image or video)",

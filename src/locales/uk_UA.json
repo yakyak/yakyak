@@ -38,6 +38,8 @@
         "delete_confirm": "Видалити діалог?",
         "leave": "Покинути діалог",
         "leave_confirm": "Покинути діалог?",
+        "history_on": "History has been turned on.",
+        "history_off": "History has been turned off.",
         "search": "Пошук людей",
         "new_message": "Нове повідомлення",
         "new_attachment": "New message received (image or video)",

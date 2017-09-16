@@ -38,6 +38,8 @@
         "delete_confirm": "정말로 대화를 삭제 하시겠습니까?",
         "leave": "대화 나가기",
         "leave_confirm": "정말로 대화를 나가시겠습니까?",
+        "history_on": "History has been turned on.",
+        "history_off": "History has been turned off.",
         "search": "사용자 검색",
         "new_message": "새 메시지",
         "new_attachment": "New message received (image or video)",
