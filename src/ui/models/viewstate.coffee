@@ -21,7 +21,6 @@ module.exports = exp = {
     pos: tryparse(localStorage.pos ? "[100, 100]")
     showConvMin: tryparse(localStorage.showConvMin) ? false
     showConvThumbs: tryparse(localStorage.showConvThumbs) ? true
-    googleVoiceMode: tryparse(localStorage.googleVoiceMode) ? false
     showAnimatedThumbs: tryparse(localStorage.showAnimatedThumbs) ? true
     showConvTime: tryparse(localStorage.showConvTime) ? true
     showConvLast: tryparse(localStorage.showConvLast) ? true

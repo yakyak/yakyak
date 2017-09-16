@@ -129,10 +129,10 @@ handle 'selectConvIndex', (index = 0) ->
     viewstate.selectConvIndex index
     ipc.send 'setfocus', viewstate.selectedConv
 
-handle 'sendmessage', (txt = '', googleVoice) ->
+handle 'sendmessage', (txt = '') ->
     if !txt.trim() then return
     msg = userinput.buildChatMessage entity.self, txt
-    ipc.send 'sendchatmessage', msg, googleVoice
+    ipc.send 'sendchatmessage', msg
     conv.addChatMessagePlaceholder entity.self.id, msg
 
 handle 'toggleshowtray', ->
@@ -266,8 +266,7 @@ handle 'uploadimage', (files) ->
             # add a placeholder for the image
             conv.addChatMessagePlaceholder entity.self.id, msg
             # and begin upload
-            isGoogleMode = viewstate.googleVoiceMode
-            ipc.send 'uploadimage', {path:file.path, conv_id, client_generated_id, isGoogleMode}
+            ipc.send 'uploadimage', {path:file.path, conv_id, client_generated_id}
     # clear value for upload image input
     document.getElementById('attachFile').value = ''
 
@@ -293,8 +292,7 @@ handle 'uploadpreviewimage', ->
     document.querySelector('#emoji-container').classList.remove('open')
     element.src = ''
     #
-    isGoogleMode = viewstate.googleVoiceMode
-    ipc.send 'uploadclipboardimage', {pngData, conv_id, client_generated_id, isGoogleMode}
+    ipc.send 'uploadclipboardimage', {pngData, conv_id, client_generated_id}
 
 handle 'uploadingimage', (spec) ->
     # XXX this doesn't look very good because the image
@@ -466,9 +464,6 @@ handle 'showconvmin', (doshow) ->
 handle 'setusesystemdateformat', (val) ->
 
     viewstate.setUseSystemDateFormat(val)
-
-handle 'enablegooglevoicemode', (enable) ->
-    viewstate.setGoogleVoice(enable)
 
 handle 'showconvthumbs', (doshow) ->
     viewstate.setShowConvThumbs doshow
