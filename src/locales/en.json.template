@@ -38,6 +38,8 @@
         "delete_confirm": "Really delete conversation?",
         "leave": "Leave conversation",
         "leave_confirm": "Really leave conversation?",
+        "history_on": "History has been turned on.",
+        "history_off": "History has been turned off.",
         "search": "Search people",
         "new_message": "New message received",
         "new_attachment": "New message received (image or video)",
