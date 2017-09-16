@@ -73,7 +73,8 @@ deploy_options = {
         ProductVersion: "#{json.version}"
     }
     osxSign: {
-        identity: 'Mac Developer'
+        identity: process.env.OSX_IDENTITY or 'Mac Developer'
+        keychain: process.env.OSX_KEYCHAIN
     }
     arch:     archOpts.join ','
     platform: platformOpts.join ','
