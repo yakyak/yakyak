@@ -22,13 +22,13 @@ before_deploy:
   # debug information for the electron packager
   - export DEBUG=electron-packager
   # allows to have wine with 32-bits
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; sudo dpkg --add-architecture i386 ; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; sudo apt-get -qq update ; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; sudo apt-get install -y wine1.6-i386 zip xvfb ; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; WINEARCH=win32 wine wineboot --init ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo dpkg --add-architecture i386 ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get -qq update ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get install -y wine1.6-i386 zip xvfb ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then WINEARCH=win32 wine wineboot --init ; fi
   # actuall building of the binaries
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; xvfb-run npm run deploy ; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; npm run deploy:darwin ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then xvfb-run npm run deploy ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then npm run deploy:darwin ; fi
 
 deploy:
   - provider: releases
@@ -50,7 +50,7 @@ deploy:
     on:
       tags: true
       condition: $TRAVIS_OS_NAME = 'linux'
-      
+
   - provider: releases
     # overwrite pre-existing files
     overwrite: true
