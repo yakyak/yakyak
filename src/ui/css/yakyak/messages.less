@@ -62,22 +62,32 @@
                 }
             }
         }
-        .sender {
-            text-decoration: none;
-            font-size: 11px;
-            color: var(--darkgrey);
-            img, .initials {
-                border: 5px solid var(--lightgrey);
-                left: -25px;
-                top: -10px;
-                font-size: 15px;
-                line-height: 41px;
-            }
+        .sender-wrapper {
             span {
-                margin-left: 45px;
+                margin-left: 25px;
+            }
+            .sender {
+                text-decoration: none;
+                font-size: 11px;
+                color: var(--darkgrey);
+                img, .initials {
+                    border: 5px solid var(--lightgrey);
+                    left: -25px;
+                    top: -10px;
+                    font-size: 15px;
+                    line-height: 41px;
+                }
+                span {
+                    margin-left: 45px;
+                }
             }
         }
         &.self{
+            .sender-wrapper {
+                span {
+                    visibility: hidden;
+                }
+            }
           margin-left: calc(~"34% - 25px");
           text-align: right;
             .sender img, .sender .initials{
