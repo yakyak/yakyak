@@ -7,13 +7,20 @@ path      = require 'path'
 tmp       = require 'tmp'
 session   = require('electron').session
 
-
 [drive, path_parts...] = path.normalize(__dirname).split(path.sep)
 global.YAKYAK_ROOT_DIR = [drive, path_parts.map(encodeURIComponent)...].join('/')
 
-# test if flag debug is preset (other flags can be used via package args
+#
+# Test if flag --debug is preset (other flags can be used via package args
 #  but requres node v6)
 debug = process.argv.includes '--debug'
+if debug
+    require('bog').level('debug') # also debugs hangupsjs
+    global.debug_level = 'debug'
+else
+    global.debug_level = 'info'
+
+
 
 tmp.setGracefulCleanup()
 
