@@ -127,7 +127,6 @@ module.exports = view (models) ->
 
     conv_id = viewstate?.selectedConv
     c = conv[conv_id]
-    #
     if c?.current_participant?
         for participant in c.current_participant
             entity.needEntity participant.chat_id
