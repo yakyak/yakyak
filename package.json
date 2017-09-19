@@ -38,6 +38,11 @@
     "url": "https://github.com/yakyak/yakyak/issues"
   },
   "homepage": "https://github.com/yakyak/yakyak",
+  "greenkeeper": {
+    "ignore": [
+      "trifl"
+    ]
+  },
   "dependencies": {
     "auto-launch": "^5.0.1",
     "autosize": "^4.0.0",
@@ -50,7 +55,7 @@
     "q": "^1.4.0",
     "request": "^2.67.0",
     "tmp": "0.0.31",
-    "trifl": "1.0.3",
+    "trifl": "0.0.10",
     "url-regexp": "^1.0.2"
   },
   "devDependencies": {
