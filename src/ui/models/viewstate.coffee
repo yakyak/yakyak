@@ -201,11 +201,6 @@ module.exports = exp = {
             this.setShowConvThumbs(true)
         updated 'viewstate'
 
-    setGoogleVoice: (enable) ->
-        return if @googleVoiceMode == enable
-        @googleVoiceMode = localStorage.googleVoiceMode = enable
-        updated 'viewstate'
-
     setShowConvThumbs: (doshow) ->
         return if @showConvThumbs == doshow
         @showConvThumbs = localStorage.showConvThumbs = doshow

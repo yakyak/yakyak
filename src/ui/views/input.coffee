@@ -249,7 +249,7 @@ preparemessage = (ev) ->
         # Converts emojicodes (e.g. :smile:, :-) ) to unicode
         element.value = convertEmoji(element.value)
     #
-    action 'sendmessage', ev.value, models.viewstate.googleVoiceMode
+    action 'sendmessage', ev.value
     #
     # check if there is an image in preview
     img = document.getElementById "preview-img"

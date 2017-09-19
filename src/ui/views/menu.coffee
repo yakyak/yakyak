@@ -79,13 +79,6 @@ templateYakYak = (viewstate) ->
           accelerator: getAccelerator('openinspector')
           click: -> action 'devtools'
         }
-        {
-            type: 'checkbox'
-            label: i18n.__('menu.file.google:Google Voice Mode')
-            checked: viewstate.googleVoiceMode
-            enabled: viewstate.loggedin
-            click: (it) -> action 'enablegooglevoicemode', it.checked
-        }
         { type: 'separator' }
         {
             label: i18n.__('menu.file.logout:Logout')
