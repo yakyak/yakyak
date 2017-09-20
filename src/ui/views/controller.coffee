@@ -50,11 +50,38 @@ handle 'update:viewstate', ->
     if viewstate.state == viewstate.STATE_STARTUP
         if Array.isArray viewstate.size
             later -> remote.getCurrentWindow().setSize viewstate.size...
+        #
+        #
+        # It will not allow the window to be placed offscreen (fully or partial)
+        #
+        # For that it needs to iterate on all screens and see if position is valid.
+        #  If it is not valid, then it will approximate the best position possible
         if Array.isArray viewstate.pos
-            {width, height} = remote.screen.getPrimaryDisplay().workAreaSize
-            width = parseInt(Math.min(width * 0.9, viewstate.pos[0]), 10)
-            height = parseInt(Math.min(height * 0.9, viewstate.pos[1]), 10)
-            later -> remote.getCurrentWindow().setPosition(width, height)
+            maxX = 0
+            maxY = 0
+            reposition = false
+            xWindowPos = viewstate.pos[0]
+            yWindowPos = viewstate.pos[1]
+            winSize = remote.getCurrentWindow().getSize()
+            #
+            for screen in remote.screen.getAllDisplays()
+                {width, height} = screen.workAreaSize
+                {x, y} = screen.workArea
+
+                maxX = x + width if x + width > maxX
+                maxY = y + height if y + height > maxY
+
+                if xWindowPos >= x and xWindowPos < x + width and yWindowPos >= y and yWindowPos < y + height
+                    xWindowPos = x + width - winSize[0] / 2 if xWindowPos > x + width - winSize[0] / 2
+                    yWindowPos = y + width - winSize[1] / 2 if yWindowPos > y + width - winSize[1] / 2
+
+                    later -> remote.getCurrentWindow().setPosition(xWindowPos, yWindowPos)
+                    reposition = true
+                    break
+            if not reposition
+                xWindowPos = maxX - winSize[0] / 2 if xWindowPos > maxX - winSize[0] / 2
+                yWindowPos = maxY - winSize[1] / 2 if yWindowPos > maxY - winSize[1] / 2
+                later -> remote.getCurrentWindow().setPosition(xWindowPos, yWindowPos)
 
         # only render startup
         startup(models)
