@@ -275,7 +275,7 @@ drawMessage = (e, entity) ->
                 pass ' Call ended'
         else if e.otr_modification
             if e.otr_modification.new_otr_status is "OFF_THE_RECORD"
-                pass i18n.__ 'conversation.history_on:History has been turned off.'
+                pass i18n.__ 'conversation.history_off:History has been turned off.'
             else if e.otr_modification.new_otr_status is "ON_THE_RECORD"
                 pass i18n.__ 'conversation.history_on:History has been turned on.'
             else
