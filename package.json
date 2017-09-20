@@ -5,6 +5,7 @@
   "main": "main.js",
   "scripts": {
     "start": "gulp && electron app",
+    "debug": "gulp && electron app --debug",
     "dev": "electron app --debug",
     "gulp": "gulp",
     "electron": "electron",
