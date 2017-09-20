@@ -61,6 +61,8 @@ handle 'update:viewstate', ->
             #  current display, by approximating a new position
             maxX = 0
             maxY = 0
+            maxW = 0
+            maxH = 0
             reposition = false
             # helper variable to determine valid coordinates to be used, initialized with
             #  desired coordinates
@@ -75,8 +77,13 @@ handle 'update:viewstate', ->
                 {x, y} = screen.workArea
 
                 # see if this improves on maxY and maxX
-                maxX = x if x + width > maxX
-                maxY = y if y + height > maxY
+                if x + width > maxW
+                    maxX = x
+                    maxW = x + width
+                if y + height > maxH
+                    maxY = y
+                    maxH = y + height
+
 
                 # check if window will be placed in this display
                 if xWindowPos >= x and xWindowPos < x + width and yWindowPos >= y and yWindowPos < y + height
@@ -98,8 +105,8 @@ handle 'update:viewstate', ->
                     reposition = true # coordinates have been calculated
                     break # break the loop
             if not reposition
-                xWindowPos = maxX if xWindowPos > maxX
-                yWindowPos = maxY if yWindowPos > maxY
+                xWindowPos = maxX if xWindowPos > maxW
+                yWindowPos = maxY if yWindowPos > maxH
             later -> remote.getCurrentWindow().setPosition(xWindowPos, yWindowPos)
         # only render startup
         startup(models)
