@@ -59,10 +59,7 @@ handle 'update:viewstate', ->
         if Array.isArray viewstate.pos
             # uses max X and Y as a fallback method in case it can't be placed on any
             #  current display, by approximating a new position
-            maxX = 0
-            maxY = 0
-            maxW = 0
-            maxH = 0
+            maxX = maxY = maxW = maxH = 0
             reposition = false
             # helper variable to determine valid coordinates to be used, initialized with
             #  desired coordinates
@@ -100,13 +97,18 @@ handle 'update:viewstate', ->
                     if winSize[1] > height
                         yWindowPos = y
                     else if yWindowPos > y + width - winSize[1] / 2
-                        yWindowPos = y + width - winSize[1] / 2
+                        yWindowPos = y + width - winSize[1] / 2,
+                    # making sure no negative positions on displays
+                    xWindowPos = Math.max(xWindowPos, x)
+                    yWindowPos = Math.max(yWindowPos, y)
                     #
                     reposition = true # coordinates have been calculated
                     break # break the loop
             if not reposition
-                xWindowPos = maxX if xWindowPos > maxW
+                xWindowPos = maxW - winSize[0] if xWindowPos > maxW
                 yWindowPos = maxY if yWindowPos > maxH
+                xWindowPos = Math.max(xWindowPos, maxX)
+                yWindowPos = Math.max(yWindowPos, maxY)
             later -> remote.getCurrentWindow().setPosition(xWindowPos, yWindowPos)
         # only render startup
         startup(models)
