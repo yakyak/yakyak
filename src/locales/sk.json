@@ -1,0 +1,175 @@
+{
+    "__MyLocaleLanguage__": "Slovenčina",
+    "__maintaner__": "http://github.com/d0d0",
+
+    "title": "YakYak - Hangouts klient",
+    "description": "Desktop klient pre Google Hangouts",
+
+    "settings": "Predvoľby",
+    "recent": "Posledné",
+    "details": "Detaily",
+
+    "connection": {
+        "connecting": "Pripojovanie",
+        "loading": "Načítanie kontaktov",
+        "not_connected": "Nepripojené (skontrolovať pripojenie)"
+    },
+
+    "input": {
+        "message": "Správa",
+        "emoticons": "Zobraziť emotikony",
+        "image": "Pripojiť obrázok",
+        "typing": "píše"
+    },
+    "conversation": {
+        "title": {
+            "one": "Konverzácia",
+            "other": "Konverzácie"
+        },
+        "numbered": "Konverzácia %d",
+        "options": "Možnosti konverzácie",
+        "setting": "Nastavenie konverzácie",
+        "add": "Pridať novú konverzáciu",
+        "new": "Nová konverzácia",
+        "name": "Názov konverzácie",
+        "edit": "Upraviť konverzáciu",
+        "multiuser": "Vytvoriť chat pre viac ľudí",
+        "delete": "Zmazať konverzáciu",
+        "delete_confirm": "Naozaj zmazať konverzáciu?",
+        "leave": "Opustiť konverzáciu",
+        "leave_confirm": "Naozaj opustiť konverzáciu?",
+        "search": "Vyhľadať osoby",
+        "new_message": "Nová správa"
+    },
+    "notification": {
+        "one": "Oznámenie",
+        "other": "Oznámenia"
+    },
+    "favorite": {
+        "title": {
+            "one": "Obľúbené",
+            "other": "Obľúbené"
+        },
+        "star_it": "Pridať/odobrať hviezdičku"
+    },
+    "actions": {
+      "ok": "OK",
+      "cancel": "Zrušiť"
+    },
+    "call": {
+        "incoming": "Prichádzajúci hovor",
+        "incoming_from": "Prichádzajúci hovor od %s",
+        "accepted": "Prijatý",
+        "accept": "Prijať",
+        "rejected": "Odmietnutý",
+        "reject": "Odmietnuť",
+        "missed": "Zmeškaný hovor od %s"
+    },
+    "menu": {
+        "title": "Menu",
+        "file": {
+            "title": "YakYak",
+            "hide": "Skryť YakYak",
+            "hide_others": "Skryť ostatné",
+            "show": "Zobraziť všetky",
+            "inspector": "Otvoriť inspektor",
+            "logout": "Odhlásiť sa",
+            "quit": "Ukončit YakYak"
+        },
+        "edit": {
+            "title": "Úpravy",
+            "undo": "Odvolať akciu",
+            "redo": "Opakovať akciu",
+            "paste": "Vložit",
+            "cut": "Vystrihnúť",
+            "copy": "Kopírovať",
+            "copy_image_link": "Kopírovať odkaz obrázku",
+            "copy_link": "Kopírovať odkaz",
+            "copy_image": "Kopírovať obrázok",
+            "select_all": "Vybrať všetko",
+            "language": "Jazyk (Language)",
+            "dateformat": "Použiť systémový formát dátumu"
+        },
+        "view": {
+            "title": "Zobrazenie",
+            "emoji": "Prevádzať text na emotikony",
+            "suggestemoji": "Odporúčať emoji počas písania",
+            "hide_dock": "Skryť ikonu z Docku",
+            "fullscreen": "Spustiť režim celej obrazovky",
+            "tray": {
+                "show_tray": "Zobraziť ikonu v oznamovacej oblasti",
+                "show_window": "Zobraziť okno",
+                "toggle_minimize": "Prepnúť minimalizáciu do oznamovacej oblasti",
+                "start_minimize": "Spustiť minimalizované v oznamovacej oblasti",
+                "close": "Zavrieť do oznamovacej oblasti"
+            },
+            "escape": {
+                "title": "Správanie klávesy ESC",
+                "hide": "Skryje okno",
+                "clear": "Vyčistí vstup",
+                "default": "základné, keď sa nezobrazuje v oznamovacej oblasti"
+            },
+            "conversation": {
+                "title": "Zoznam konverzácií",
+                "timestamp": "Zobraziť čas konverzácie",
+                "last": "Zobraziť poslednú správu konverzácie",
+                "previous": "Predchádzajúca konverzácia",
+                "next": "Ďalšia konverzácia",
+                "select": "Vybrať konverzáciu",
+                "thumbnails": {
+                    "show": "Zobraziť náhľady",
+                    "only": "Zobraziť len náhľady",
+                    "animated": "Zobraziť animované náhľady"
+                }
+            },
+            "notification": {
+                "title": "Vyskakujúce upozornenia",
+                "show": "Zobraziť upozornenia",
+                "toggle": "Prepnúť upozornenia",
+                "message": "Zobraziť správu v upozorneniach",
+                "username": "Zobraziť užívateľské meno v upozorneniach",
+                "mute": "Vypnúť zvuk upozornení",
+                "avatar": "Zobraziť ikonu užívateľa v upozorneniach",
+                "icon": "Zobraziť YakYak ikonu v upozorneniach",
+                "custom_sound": "Použiť vlastný YakYak zvuk pre upozornenia"
+            },
+            "color_scheme": {
+                "title": "Farebná schéma",
+                "default": "Základná",
+                "blue": "Modrá",
+                "dark": "Tmavá",
+                "material": "Material"
+            },
+            "font": {
+                "title": "Veľkosť písma",
+                "extra_small": "Extra malé",
+                "small": "Malé",
+                "medium": "Stredné",
+                "large": "Veľké",
+                "extra_large": "Extra veľké"
+            },
+            "zoom": {
+                "in": "Priblížiť",
+                "out": "Oddialiť",
+                "reset": "Skutočná veľkosť"
+            }
+        },
+        "help": {
+            "title": "Pomocník",
+            "about": {
+                "title": "O aplikácii YakYak",
+                "newer": "Novšia verzia je k dispozícii. Je možné aktualizovat z %s na %s",
+                "license": "Licencia",
+                "authors": "Hlavní autori",
+                "contributors": "Prispievatelia",
+                "startup": "Otvoriť pri prihlásení"
+            }
+        },
+        "window": {
+            "title": "Okno",
+            "minimize": "Minimalizovať",
+            "close": "Zavrieť",
+            "front": "Presunúť všetky do popredia"
+        }
+    }
+}

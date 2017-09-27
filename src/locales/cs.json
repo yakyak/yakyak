@@ -9,7 +9,7 @@
     "recent": "Poslední",
     "details": "Detaily",
 
-    "connection" :{
+    "connection": {
         "connecting": "Připojování",
         "loading": "Načítání kontaktů",
         "not_connected": "Nepřipojeno (zkontrolovat připojení)"
@@ -100,7 +100,7 @@
                 "show_tray": "Zobrazit ikonu v oznamovací oblasti",
                 "show_window": "Zobrazit okno",
                 "toggle_minimize": "Přepnout minimalizaci do oznamovací oblasti",
-                "start_minimize": "Spustit minimalozované v oznamovací oblasti",
+                "start_minimize": "Spustit minimalizované v oznamovací oblasti",
                 "close": "Zavřít do oznamovací oblasti"
             },
             "escape": {
@@ -161,7 +161,8 @@
                 "newer": "Novější verze je k dispozici. Je možné aktualizovat z %s na %s",
                 "license": "Licence",
                 "authors": "Hlavní autoři",
-                "contributors": "Přispěvatelé"
+                "contributors": "Přispěvatelé",
+                "startup": "Otevřít při přihlášení"
             }
         },
         "window": {
