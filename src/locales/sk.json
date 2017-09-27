@@ -161,7 +161,8 @@
                 "newer": "Novšia verzia je k dispozícii. Je možné aktualizovat z %s na %s",
                 "license": "Licencia",
                 "authors": "Hlavní autori",
-                "contributors": "Prispievatelia"
+                "contributors": "Prispievatelia",
+                "startup": "Otvoriť pri prihlásení"
             }
         },
         "window": {
