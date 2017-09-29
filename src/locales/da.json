@@ -39,7 +39,8 @@
         "leave": "Forlad samtalen",
         "leave_confirm": "Er du sikker på du ønsker at forlade samtalen?",
         "search": "Søg efter mennesker",
-        "new_message": "Ny besked"
+        "new_message": "Ny besked",
+        "new_attachment": "New message received (image or video)"
     },
     "notification": {
         "one": "Notifikation",

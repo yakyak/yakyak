@@ -39,7 +39,8 @@
         "leave": "Opustiť konverzáciu",
         "leave_confirm": "Naozaj opustiť konverzáciu?",
         "search": "Vyhľadať osoby",
-        "new_message": "Nová správa"
+        "new_message": "Nová správa",
+        "new_attachment": "New message received (image or video)"
     },
     "notification": {
         "one": "Oznámenie",

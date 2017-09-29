@@ -39,7 +39,8 @@
     "leave": "Opuść rozmowę",
     "leave_confirm": "Na pewno chcesz opuścić rozmowę?",
     "search": "Szukaj uczestników",
-    "new_message": "Nowa Wiadomość"
+    "new_message": "Nowa Wiadomość",
+    "new_attachment": "New message received (image or video)"
   },
   "notification": {
     "one": "Powiadomienie",
