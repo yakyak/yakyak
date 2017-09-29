@@ -34,7 +34,6 @@ module.exports = (models) ->
         sender = nameof entity[cid]
         text = null
 
-        console.log 'message', msg
         if msg.chat_message?
             return unless msg.chat_message?.message_content?
             text = textMessage msg.chat_message.message_content, proxied
@@ -78,7 +77,6 @@ module.exports = (models) ->
             else
                 contentImage = undefined
             #
-            console.log 'calling notifier!!'
             notifier.notify
                 title: if viewstate.showUsernameInNotification
                            if !isNotificationCenter && !viewstate.showIconNotification
