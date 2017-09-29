@@ -36,7 +36,7 @@ module.exports = (models) ->
 
         if msg.chat_message?
             return unless msg.chat_message?.message_content?
-            text = textMessage msg.chat_message.message_content, proxied
+            text = textMessage msg.chat_message.message_content, proxied, viewstate.showMessageInNotification
         else if msg.hangout_event?.event_type == 'START_HANGOUT'
             text = i18n.__ "call.incoming:Incoming call"
             callNeedAnswer[conv_id] = true
@@ -105,9 +105,9 @@ module.exports = (models) ->
         mainWindow = remote.getCurrentWindow()
         mainWindow.flashFrame(true)
 
-textMessage = (cont, proxied) ->
+textMessage = (cont, proxied, showMessage = true) ->
     if cont?.segment?
-      unless viewstate.showMessageInNotification
+      unless showMessage
           i18n.__('conversation.new_message:New message received')
       else
           segs = for seg, i in cont?.segment ? []
