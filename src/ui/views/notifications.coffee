@@ -34,6 +34,7 @@ module.exports = (models) ->
         sender = nameof entity[cid]
         text = null
 
+        console.log 'message', msg
         if msg.chat_message?
             return unless msg.chat_message?.message_content?
             text = textMessage msg.chat_message.message_content, proxied
@@ -77,6 +78,7 @@ module.exports = (models) ->
             else
                 contentImage = undefined
             #
+            console.log 'calling notifier!!'
             notifier.notify
                 title: if viewstate.showUsernameInNotification
                            if !isNotificationCenter && !viewstate.showIconNotification
@@ -85,10 +87,7 @@ module.exports = (models) ->
                                sender
                        else
                            'YakYak'
-                message: if viewstate.showMessageInNotification
-                          text
-                      else
-                          i18n.__('conversation.new_message:New Message')
+                message: text
                 wait: true
                 sender: 'com.github.yakyak'
                 sound: !viewstate.muteSoundNotification && (notifierSupportsSound && !viewstate.forceCustomSound)
@@ -109,12 +108,17 @@ module.exports = (models) ->
         mainWindow.flashFrame(true)
 
 textMessage = (cont, proxied) ->
-    segs = for seg, i in cont?.segment ? []
-        continue if proxied and i < 2
-        continue unless seg.text
-        seg.text
-    segs.join('')
-
+    if cont?.segment?
+      unless viewstate.showMessageInNotification
+          i18n.__('conversation.new_message:New message received')
+      else
+          segs = for seg, i in cont?.segment ? []
+              continue if proxied and i < 2
+              continue unless seg.text
+              seg.text
+          segs.join('')
+    else if cont?.attachment?
+      i18n.__('conversation.new_attachment:New message received (image or video)')
 
 openHangout = (conv_id) ->
     shell.openExternal "https://plus.google.com/hangouts/_/CONVERSATION/#{conv_id}"
