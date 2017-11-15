@@ -90,6 +90,8 @@ module.exports = (models) ->
                       else
                           i18n.__('conversation.new_message:New Message')
                 wait: true
+                hint: "int:transient:1"
+                category: 'im.received'
                 sender: 'com.github.yakyak'
                 sound: !viewstate.muteSoundNotification && (notifierSupportsSound && !viewstate.forceCustomSound)
                 icon: icon if !isNotificationCenter && viewstate.showIconNotification
