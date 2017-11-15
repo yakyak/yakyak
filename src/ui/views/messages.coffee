@@ -1,5 +1,7 @@
-moment = require 'moment'
-shell = require('electron').shell
+moment    = require 'moment'
+shell     = require('electron').shell
+urlRegexp = require 'url-regex'
+url       = require 'url'
 
 {nameof, initialsof, nameofconv, linkto, later, forceredraw, throttle,
 getProxiedName, fixlink, isImg, getImageUrl, drawAvatar}  = require '../util'
@@ -47,6 +49,10 @@ onclick = (e) ->
     if patt.test(address)
         address = address.replace(patt, '$3')
         address = unescape(address)
+
+    if urlRegexp({exact: true}).test(address)
+        unless url.parse(address).host?
+            address = "http://#{address}"
 
     finalUrl = fixlink(address)
 
