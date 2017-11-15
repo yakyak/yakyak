@@ -156,13 +156,17 @@ toggleVisibility = (element) ->
     else
         element.style.display = 'block'
 
+escapeRegExp = (text) ->
+  text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&')
+
 convertEmoji = (text) ->
     unicodeMap = require './emojishortcode'
+    inferedPattern = "(^|[ ])" +
+    "(:\\(:\\)|:\\(\\|\\)|:X\\)|:3|\\(=\\^\\.\\.\\^=\\)|\\(=\\^\\.\\^=\\)|=\\^_\\^=|" +
+    (escapeRegExp(el) for el in Object.keys(unicodeMap)).join('|') +
+    ")([ ]|$)"
 
-    patterns = [
-        "(^|[ ])(:[a-zA-Z0-9_\+-]+:)([ ]|$)",
-        "(^|[ ])(:\\(:\\)|:\\(\\|\\)|:X\\)|:3|\\(=\\^\\.\\.\\^=\\)|\\(=\\^\\.\\^=\\)|=\\^_\\^=|x_x|X-O|X-o|X\\(|X-\\(|O\\.O|:O|:-O|=O|o\\.o|:o|:-o|=o|D:|>_<|T_T|:'\\(|;_;|='\\(|>\\.<|>:\\(|>:-\\(|>=\\(|:\\(|:-\\(|=\\(|;P|;-P|;p|;-p|:P|:-P|=P|:p|:-p|=p|;\\*|;-\\*|:\\*|:-\\*|:S|:-S|:s|:-s|=\\/|=\\\\|:-\\/|:-\\\\|:\\/|:\\\\|u_u|o_o;|-_-|=\\||:\\||:-\\||B-\\)|B\\)|;-\\)|;\\)|}=\\)|}:-\\)|}:\\)|O=\\)|O:-\\)|O:\\)|\\^_\\^;;|=D|\\^_\\^|:-D|:D|[(]y[)]|~@~|<3|<\\/3|<\\\\3|\\(]:{|-<@%|:\\)|:-\\)|=\\))([ ]|$)"
-    ]
+    patterns = [inferedPattern]
 
     emojiCodeRegex = new RegExp(patterns.join('|'),'g')
 
