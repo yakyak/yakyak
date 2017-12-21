@@ -56,14 +56,14 @@
     "request": "^2.67.0",
     "tmp": "0.0.31",
     "trifl": "0.0.10",
-    "url-regex": "averissimo/url-regex#v5.0.0"
+    "uber-url-regex": "^5.0.2"
   },
   "devDependencies": {
     "chai": "^4.1.0",
     "coffee-script": "^1.9.2",
     "devtron": "^1.4.0",
-    "electron-packager": "^8.3.0",
-    "electron": "^1.4.10",
+    "electron-packager": "^10.1.0",
+    "electron": "^1.7.10",
     "gulp": "^3.9.0",
     "gulp-auto-reload": "0.1.0",
     "gulp-changed": "^3.1.0",

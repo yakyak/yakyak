@@ -1,4 +1,4 @@
-urlRegexp = require 'url-regex'
+urlRegexp = require 'uber-url-regex'
 {MessageBuilder, OffTheRecordStatus,MessageActionType} = require 'hangupsjs'
 
 viewstate = require './viewstate'

@@ -1,6 +1,6 @@
 moment    = require 'moment'
 shell     = require('electron').shell
-urlRegexp = require 'url-regex'
+urlRegexp = require 'uber-url-regex'
 url       = require 'url'
 
 {nameof, initialsof, nameofconv, linkto, later, forceredraw, throttle,
