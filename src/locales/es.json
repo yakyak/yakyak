@@ -39,7 +39,8 @@
         "leave": "Dejar conversación",
         "leave_confirm": "¿Dejar conversación definitivamente?",
         "search": "Buscar personas",
-        "new_message": "Nuevo Mensaje"
+        "new_message": "Nuevo Mensaje",
+        "new_attachment": "New message received (image or video)"
     },
     "notification": {
         "one": "Notificación",

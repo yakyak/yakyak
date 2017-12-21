@@ -39,7 +39,8 @@
         "leave": "Покинути діалог",
         "leave_confirm": "Покинути діалог?",
         "search": "Пошук людей",
-        "new_message": "Нове повідомлення"
+        "new_message": "Нове повідомлення",
+        "new_attachment": "New message received (image or video)"
     },
     "notification": {
         "one": "Сповіщення",
