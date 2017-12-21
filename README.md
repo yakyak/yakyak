@@ -1,6 +1,8 @@
 YakYak
 ======
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/yakyak/yakyak.svg)](https://greenkeeper.io/)
+
 [![Build Status](https://travis-ci.org/yakyak/yakyak.svg)](https://travis-ci.org/yakyak/yakyak)
 
 Desktop client for Google Hangouts
