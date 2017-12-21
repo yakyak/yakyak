@@ -194,8 +194,10 @@ module.exports = view (models) ->
         later atTopIfSmall
 
 drawMessageAvatar = (u, sender, viewstate, entity) ->
-    a href:linkto(u.cid), title: sender, {onclick}, class:'sender', ->
-        drawAvatar(u.cid, viewstate, entity)
+    div class: 'sender-wrapper', ->
+      a href:linkto(u.cid), title: sender, {onclick}, class:'sender', ->
+          drawAvatar(u.cid, viewstate, entity)
+      span sender
 
 groupEventsByMessageType = (event) ->
     res = []
