@@ -1,6 +1,6 @@
 {
     "__MyLocaleLanguage__": "Turkish",
-    "__maintaner__": "http://github.com/yakyak",
+    "__maintaner__": "http://github.com/hsnyildiz",
 
     "title": "YakYak - Hangouts Uygulaması",
     "description": "Google Hangouts için masaüstü uygulaması",
@@ -39,7 +39,9 @@
         "leave": "Görüşmeden ayrıl",
         "leave_confirm": "Görüşmeden ayrılmak istediğine emin misin?",
         "search": "Kişi ara",
-        "new_message": "Yeni Mesaj"
+        "new_message": "Yeni Mesaj",
+        "new_attachment": "New message received (image or video)",
+        "open_link": "Opening the link in the browser..."
     },
     "notification": {
         "one": "Bildirim",

@@ -40,7 +40,8 @@
         "leave_confirm": "Really leave conversation?",
         "search": "Search people",
         "new_message": "New message received",
-        "new_attachment": "New message received (image or video)"
+        "new_attachment": "New message received (image or video)",
+        "open_link": "Opening the link in the browser..."
     },
     "notification": {
         "one": "Notification",

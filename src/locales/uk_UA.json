@@ -40,7 +40,8 @@
         "leave_confirm": "Покинути діалог?",
         "search": "Пошук людей",
         "new_message": "Нове повідомлення",
-        "new_attachment": "New message received (image or video)"
+        "new_attachment": "New message received (image or video)",
+        "open_link": "Opening the link in the browser..."
     },
     "notification": {
         "one": "Сповіщення",

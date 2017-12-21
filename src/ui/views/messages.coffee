@@ -49,6 +49,10 @@ onclick = (e) ->
     if patt.test(address)
         address = address.replace(patt, '$3')
         address = unescape(address)
+        # this is a link outside google and can be opened directly
+        #  as there is no need for authentication
+        shell.openExternal(fixlink(address))
+        return
 
     if urlRegexp({exact: true}).test(address)
         unless url.parse(address).host?
@@ -65,6 +69,12 @@ onclick = (e) ->
     # so we can finally open it in the external browser :(
 
     xhr = new XMLHttpRequest
+
+    # Showing message with 3 second delay showing the user that something is happening
+    notr {
+      html: i18n.__ 'menu.help.about.title:Opening the link in the browser...'
+      stay: 3000
+    }
 
     xhr.onreadystatechange = (e) ->
         return if e.target.status is 0
