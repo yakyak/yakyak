@@ -39,7 +39,9 @@
         "leave": "Gesprek verlaten",
         "leave_confirm": "Weet u zeker dat u dit gesprek wilt verlaten?",
         "search": "Contactpersonen doorzoeken",
-        "new_message": "Nieuw bericht"
+        "new_message": "Nieuw bericht",
+        "new_attachment": "New message received (image or video)",
+        "open_link": "Opening the link in the browser..."
     },
     "notification": {
         "one": "Melding",
