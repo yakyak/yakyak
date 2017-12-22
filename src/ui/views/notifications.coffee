@@ -36,7 +36,7 @@ module.exports = (models) ->
 
         if msg.chat_message?
             return unless msg.chat_message?.message_content?
-            text = textMessage msg.chat_message.message_content, proxied
+            text = textMessage msg.chat_message.message_content, proxied, viewstate.showMessageInNotification
         else if msg.hangout_event?.event_type == 'START_HANGOUT'
             text = i18n.__ "call.incoming:Incoming call"
             callNeedAnswer[conv_id] = true
@@ -85,10 +85,7 @@ module.exports = (models) ->
                                sender
                        else
                            'YakYak'
-                message: if viewstate.showMessageInNotification
-                          text
-                      else
-                          i18n.__('conversation.new_message:New Message')
+                message: text
                 wait: true
                 hint: "int:transient:1"
                 category: 'im.received'
@@ -110,13 +107,18 @@ module.exports = (models) ->
         mainWindow = remote.getCurrentWindow()
         mainWindow.flashFrame(true)
 
-textMessage = (cont, proxied) ->
-    segs = for seg, i in cont?.segment ? []
-        continue if proxied and i < 2
-        continue unless seg.text
-        seg.text
-    segs.join('')
-
+textMessage = (cont, proxied, showMessage = true) ->
+    if cont?.segment?
+      unless showMessage
+          i18n.__('conversation.new_message:New message received')
+      else
+          segs = for seg, i in cont?.segment ? []
+              continue if proxied and i < 2
+              continue unless seg.text
+              seg.text
+          segs.join('')
+    else if cont?.attachment?
+      i18n.__('conversation.new_attachment:New message received (image or video)')
 
 openHangout = (conv_id) ->
     shell.openExternal "https://plus.google.com/hangouts/_/CONVERSATION/#{conv_id}"

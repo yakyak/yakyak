@@ -39,7 +39,9 @@
         "leave": "Unterhaltung verlassen",
         "leave_confirm": "Wollen Sie die Unterhaltung wirklich verlassen?",
         "search": "Kontakte suchen",
-        "new_message": "Neue Nachricht"
+        "new_message": "Neue Nachricht",
+        "new_attachment": "New message received (image or video)",
+        "open_link": "Opening the link in the browser..."
     },
     "notification": {
         "one": "Benachrichtigung",

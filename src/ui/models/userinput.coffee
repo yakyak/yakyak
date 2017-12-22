@@ -1,7 +1,7 @@
-urlRegexp = require 'url-regex'
-{MessageBuilder, OffTheRecordStatus,MessageActionType} = require 'hangupsjs'
-
+urlRegexp = require 'uber-url-regex'
+{MessageBuilder, OffTheRecordStatus,MessageActionType,ClientDeliveryMediumType} = require 'hangupsjs'
 viewstate = require './viewstate'
+conv = require './conv'
 
 randomid = -> Math.round Math.random() * Math.pow(2,32)
 
@@ -28,6 +28,10 @@ parse = (mb, txt) ->
 
 buildChatMessage = (sender, txt) ->
     conv_id = viewstate.selectedConv
+    conversation_state = conv[conv_id]?.self_conversation_state
+    delivery_medium = ClientDeliveryMediumType[conversation_state?.delivery_medium_option[0]?.delivery_medium?.delivery_medium_type]
+    if not delivery_medium
+      delivery_medium = ClientDeliveryMediumType.BABEL
     action = null
     if /^\/me\s/.test txt
         txt = txt.replace /^\/me/, sender.first_name
@@ -48,6 +52,7 @@ buildChatMessage = (sender, txt) ->
         image_id: undefined
         otr: OffTheRecordStatus.ON_THE_RECORD
         message_action_type
+        delivery_medium: [delivery_medium] # requires to be used as an array
     }
 
 module.exports = {

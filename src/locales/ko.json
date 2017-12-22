@@ -39,7 +39,9 @@
         "leave": "대화 나가기",
         "leave_confirm": "정말로 대화를 나가시겠습니까?",
         "search": "사용자 검색",
-        "new_message": "새 메시지"
+        "new_message": "새 메시지",
+        "new_attachment": "New message received (image or video)",
+        "open_link": "Opening the link in the browser..."
     },
     "notification": {
         "one": "알림",

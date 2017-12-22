@@ -39,7 +39,9 @@
         "leave": "Покинуть диалог",
         "leave_confirm": "Покинуть диалог?",
         "search": "Поиск людей",
-        "new_message": "Новое сообщение"
+        "new_message": "Новое сообщение",
+        "new_attachment": "New message received (image or video)",
+        "open_link": "Opening the link in the browser..."
     },
     "notification": {
         "one": "Уведомление",

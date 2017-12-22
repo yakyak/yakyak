@@ -39,7 +39,9 @@
         "leave": "Sair da conversa",
         "leave_confirm": "Deseja realmente sair da conversa?",
         "search": "Procurar pessoas",
-        "new_message": "Nova Mensagem"
+        "new_message": "Nova mensagem recebida",
+        "new_attachment": "Nova mensagem recebida (imagem ou vídeo)",
+        "open_link": "A abrir o link no browser..."
     },
     "notification": {
         "one": "Notificação",

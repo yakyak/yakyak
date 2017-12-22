@@ -39,7 +39,9 @@
         "leave": "Zapusti klepet",
         "leave_confirm": "Naj zapustim klepet?",
         "search": "Najdi ljudi",
-        "new_message": "Novo sporočilo"
+        "new_message": "Novo sporočilo",
+        "new_attachment": "New message received (image or video)",
+        "open_link": "Opening the link in the browser..."
     },
     "notification": {
         "one": "Obvestilo",

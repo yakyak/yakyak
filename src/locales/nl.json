@@ -1,0 +1,177 @@
+{
+    "__MyLocaleLanguage__": "Nederlands",
+    "__maintaner__": "http://github.com/vistaus",
+
+    "title": "YakYak - Hangouts-client",
+    "description": "Bureaubladapplicatie voor Google Hangouts",
+
+    "settings": "Instellingen",
+    "recent": "Recent",
+    "details": "Details",
+
+    "connection" :{
+        "connecting": "Bezig met verbinden...",
+        "loading": "Bezig met laden van contactpersonen...",
+        "not_connected": "Niet verbonden (controleer uw netwerkinstellingen)"
+    },
+
+    "input": {
+        "message": "Bericht",
+        "emoticons": "Emoji's invoegen",
+        "image": "Afbeelding invoegen",
+        "typing": "is aan het typen"
+    },
+    "conversation": {
+        "title": {
+            "one": "Gesprek",
+            "other": "Gesprekken"
+        },
+        "numbered": "Gesprek %d",
+        "options": "Gespreksopties",
+        "setting": "Gespreksinstellingen",
+        "add": "Nieuw gesprek toevoegen",
+        "new": "Nieuw gesprek",
+        "name": "Gespreksnaam",
+        "edit": "Gesprek bewerken",
+        "multiuser": "Groepsgesprek creëren",
+        "delete": "Gesprek verwijderen",
+        "delete_confirm": "Weet u zeker dat u dit gesprek wilt verwijderen?",
+        "leave": "Gesprek verlaten",
+        "leave_confirm": "Weet u zeker dat u dit gesprek wilt verlaten?",
+        "search": "Contactpersonen doorzoeken",
+        "new_message": "Nieuw bericht",
+        "new_attachment": "New message received (image or video)",
+        "open_link": "Opening the link in the browser..."
+    },
+    "notification": {
+        "one": "Melding",
+        "other": "Meldingen"
+    },
+    "favorite": {
+        "title": {
+            "one": "Favoriet",
+            "other": "Favorieten"
+        },
+        "star_it": "Toevoegen aan favorieten / Verwijderen uit favorieten"
+    },
+    "actions": {
+      "ok": "Oké",
+      "cancel": "Annuleren"
+    },
+    "call": {
+        "incoming": "Inkomende oproep",
+        "incoming_from": "Inkomende oproep van %s",
+        "accepted": "Geaccepteerd",
+        "accept": "Accepteren",
+        "rejected": "Verworpen",
+        "reject": "Verwerpen",
+        "missed": "Gemiste oproep van %s"
+    },
+    "menu": {
+        "title": "Menu",
+        "file": {
+            "title": "YakYak",
+            "hide": "YakYak verbergen",
+            "hide_others": "Anderen verbergen",
+            "show": "Alles weergeven",
+            "inspector": "Inspector openen",
+            "logout": "Uitloggen",
+            "quit": "Afsluiten"
+        },
+        "edit": {
+            "title": "Bewerken",
+            "undo": "Ongedaan maken",
+            "redo": "Opnieuw",
+            "paste": "Plakken",
+            "cut": "Knippen",
+            "copy": "Kopiëren",
+            "copy_image_link": "Afbeeldingslink kopiëren",
+            "copy_link": "Link kopiëren",
+            "copy_image": "Afbeelding kopiëren",
+            "select_all": "Alles selecteren",
+            "language": "Taal (Language)",
+            "dateformat": "Datumopmaak van systeem gebruiken"
+        },
+        "view": {
+            "title": "Weergave",
+            "emoji": "Tekst omzetten naar emoji's",
+            "suggestemoji": "Emoji's aanraden tijdens het typen",
+            "hide_dock": "Dock-pictogram verbergen",
+            "fullscreen": "Volledig scherm aan/uit",
+            "tray": {
+                "show_tray": "Systeemvakpictogram weergeven",
+                "show_window": "Venster weergeven",
+                "toggle_minimize": "Minimaliseren naar systeemvak aan/uit",
+                "start_minimize": "Geminimaliseerd opstarten",
+                "close": "Sluiten naar systeemvak"
+            },
+            "escape": {
+                "title": "Gedrag van Escape-toets",
+                "hide": "Verbergt venster",
+                "clear": "Wist invoer",
+                "default": "standaard wanneer systeemvak niet aanwezig is"
+            },
+            "conversation": {
+                "title": "Gesprekslijst",
+                "timestamp": "Tijdstempel weergeven",
+                "last": "Laatste bericht weergeven",
+                "previous": "Vorig gesprek",
+                "next": "Volgend gesprek",
+                "select": "Selecteer gesprek",
+                "thumbnails": {
+                    "show": "Voorbeeldweergaven tonen",
+                    "only": "Alleen voorbeeldweergaven tonen",
+                    "animated": "Voorbeeldweergaven met animatie tonen"
+                }
+            },
+            "notification": {
+                "title": "Meldingen",
+                "show": "Meldingen weergeven",
+                "toggle": "Meldingen aan/uit",
+                "message": "Bericht weergeven in meldingen",
+                "username": "Gebruikersnaam weergeven in meldingen",
+                "mute": "Geluidloze meldingen",
+                "avatar": "Gebruikersafbeelding weergeven in meldingen",
+                "icon": "YakYak-pictogram weergeven in meldingen",
+                "custom_sound": "Aangepast YakYak-geluid voor meldingen"
+            },
+            "color_scheme": {
+                "title": "Kleurenschema",
+                "default": "Standaard",
+                "blue": "Blauw",
+                "dark": "Donker",
+                "material": "Material"
+            },
+            "font": {
+                "title": "Lettertypegrootte",
+                "extra_small": "Kleinst",
+                "small": "Klein",
+                "medium": "Normaal",
+                "large": "Groot",
+                "extra_large": "Grootst"
+            },
+            "zoom": {
+                "in": "Inzoomen",
+                "out": "Uitzoomen",
+                "reset": "Ware grootte"
+            }
+        },
+        "help": {
+            "title": "Hulp",
+            "about": {
+                "title": "Over YakYak",
+                "newer": "Er is een nieuwe versie beschikbaar. Werk uw versie bij van %s naar %s",
+                "license": "Licentie",
+                "authors": "Hoofdontwikkelaars",
+                "contributors": "Bijdragers",
+                "startup": "Openen bij opstarten"
+            }
+        },
+        "window": {
+            "title": "Venster",
+            "minimize": "Minimaliseren",
+            "close": "Sluiten",
+            "front": "Alle venster naar voorgrond halen"
+        }
+    }
+}

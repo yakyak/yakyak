@@ -39,7 +39,9 @@
         "leave": "Lämna konversation",
         "leave_confirm": "Vill du lämna konversationen?",
         "search": "Sök personer",
-        "new_message": "Nytt meddelande"
+        "new_message": "Nytt meddelande",
+        "new_attachment": "New message received (image or video)",
+        "open_link": "Opening the link in the browser..."
     },
     "notification": {
         "one": "Notifiering",

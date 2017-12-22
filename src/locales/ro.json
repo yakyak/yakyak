@@ -39,7 +39,9 @@
         "leave": "Părăsește conversație",
         "leave_confirm": "Părăsire conversație?",
         "search": "Caută persoane",
-        "new_message": "Nou mesaj"
+        "new_message": "Nou mesaj",
+        "new_attachment": "New message received (image or video)",
+        "open_link": "Opening the link in the browser..."
     },
     "notification": {
         "one": "Notificare",

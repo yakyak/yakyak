@@ -39,7 +39,9 @@
         "leave": "Quitter la conversation",
         "leave_confirm": "Voulez-vous vraiment quitter la conversation ?",
         "search": "Chercher des contacts",
-        "new_message": "Nouveau message"
+        "new_message": "Nouveau message",
+        "new_attachment": "New message received (image or video)",
+        "open_link": "Opening the link in the browser..."
     },
     "notification": {
         "one": "Notification",

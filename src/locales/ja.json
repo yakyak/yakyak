@@ -39,7 +39,9 @@
         "leave": "チャットをやめる",
         "leave_confirm": "本当にこのチャットをやめますか？",
         "search": "コンタクト検索",
-        "new_message": "新メッセージ"
+        "new_message": "新メッセージ",
+        "new_attachment": "New message received (image or video)",
+        "open_link": "Opening the link in the browser..."
     },
     "notification": {
         "one": "通知",

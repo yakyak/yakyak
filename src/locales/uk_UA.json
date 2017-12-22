@@ -39,7 +39,9 @@
         "leave": "Покинути діалог",
         "leave_confirm": "Покинути діалог?",
         "search": "Пошук людей",
-        "new_message": "Нове повідомлення"
+        "new_message": "Нове повідомлення",
+        "new_attachment": "New message received (image or video)",
+        "open_link": "Opening the link in the browser..."
     },
     "notification": {
         "one": "Сповіщення",
@@ -93,7 +95,7 @@
         "view": {
             "title": "Вид",
             "emoji": "Перетворити текст в емодзі",
-            "suggestemoji": "Suggest emoji on typing",
+            "suggestemoji": "Рекомендувати емодзі при друку",
             "hide_dock": "Сховати іконку в док",
             "fullscreen": "Перемкнути в повноекранний режим",
             "tray": {

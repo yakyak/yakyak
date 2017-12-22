@@ -39,7 +39,9 @@
         "leave": "உரையாடலை விட்டு விலக வேண்டுமா",
         "leave_confirm": "உண்மையாகவே உரையாடலை விட்டு விலக வேண்டுமா?",
         "search": "மக்களை தேடு",
-        "new_message": "புதிய செய்தியிடல்"
+        "new_message": "புதிய செய்தியிடல்",
+        "new_attachment": "New message received (image or video)",
+        "open_link": "Opening the link in the browser..."
     },
     "notification": {
         "one": "அறிவிப்பு",
@@ -162,7 +164,7 @@
                 "license": "உரிமம்",
                 "authors": "முக்கிய எழுத்தாளர்கள்",
                 "contributors": "பங்களிப்பாளர்கள்",
-                "startup": "கணனி தொடக்கத்துடன் செயற்பட்டினை ஆரம்பி",             
+                "startup": "கணனி தொடக்கத்துடன் செயற்பட்டினை ஆரம்பி",
             }
         },
         "window": {

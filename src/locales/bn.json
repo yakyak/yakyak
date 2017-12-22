@@ -39,7 +39,9 @@
     "leave": "কথোপকথন ত্যাগ করুন",
     "leave_confirm": "সত্যিই কথোপকথন ত্যাগ করতে চান?",
     "search": "লোকেদের অনুসন্ধান করুন",
-    "new_message": "নতুন বার্তা"
+    "new_message": "নতুন বার্তা",
+    "new_attachment": "New message received (image or video)",
+    "open_link": "Opening the link in the browser..."
   },
   "notification": {
     "one": "প্রজ্ঞাপন",

@@ -1,0 +1,177 @@
+{
+    "__MyLocaleLanguage__": "Turkish",
+    "__maintaner__": "http://github.com/hsnyildiz",
+
+    "title": "YakYak - Hangouts Uygulaması",
+    "description": "Google Hangouts için masaüstü uygulaması",
+
+    "settings": "Ayarlar",
+    "recent": "Son",
+    "details": "Detaylar",
+
+    "connection" :{
+        "connecting": "Bağlanıyor",
+        "loading": "İletişim Bilgileri Yükleniyor",
+        "not_connected": "Bağlı değil (bağlantınızı kontrol edin)"
+    },
+
+    "input": {
+        "message": "Mesaj",
+        "emoticons": "Emojileri göster",
+        "image": "İmaj ekle",
+        "typing": "Yazıyor"
+    },
+    "conversation": {
+        "title": {
+            "one": "Görüşme",
+            "other": "Görüşmeler"
+        },
+        "numbered": "Görüşme %d",
+        "options": "Görüşme Opsiyonları",
+        "setting": "Görüşme ayarları",
+        "add": "Yeni görüşme ekle",
+        "new": "Yeni görüşme",
+        "name": "Görüşme adı",
+        "edit": "Görüşmeyi düzenle",
+        "multiuser": "Çoklu kullanıcı görüşmesi",
+        "delete": "Görüşmeyi sil",
+        "delete_confirm": "Görüşmeyi silmek istediğine emin misin?",
+        "leave": "Görüşmeden ayrıl",
+        "leave_confirm": "Görüşmeden ayrılmak istediğine emin misin?",
+        "search": "Kişi ara",
+        "new_message": "Yeni Mesaj",
+        "new_attachment": "New message received (image or video)",
+        "open_link": "Opening the link in the browser..."
+    },
+    "notification": {
+        "one": "Bildirim",
+        "other": "Bildirimler"
+    },
+    "favorite": {
+        "title": {
+            "one": "Favori",
+            "other": "Favoriler"
+        },
+        "star_it": "Puanla / Puanı geri al"
+    },
+    "actions": {
+      "ok": "Tamam",
+      "cancel": "İptal"
+    },
+    "call": {
+        "incoming": "Gelen arama",
+        "incoming_from": "%s kullanıcısından gelen arama",
+        "accepted": "Kabul edildi",
+        "accept": "Kabul et",
+        "rejected": "Reddedildi",
+        "reject": "Reddet",
+        "missed": "%s kullanıcısından cevapsız arama"
+    },
+    "menu": {
+        "title": "Menü",
+        "file": {
+            "title": "YakYak",
+            "hide": "YakYak'ı gizle",
+            "hide_others": "Diğerlerini gizle",
+            "show": "Hepsini Göster",
+            "inspector": "İnceleyiciyi aç",
+            "logout": "Çıkış Yap",
+            "quit": "Çık"
+        },
+        "edit": {
+            "title": "Düzenle",
+            "undo": "Geri al",
+            "redo": "İleri al",
+            "paste": "Yapıştır",
+            "cut": "Kes",
+            "copy": "Kopyala",
+            "copy_image_link": "İmaj bağlantısını kopyala",
+            "copy_link": "Bağlantıyı kopyala",
+            "copy_image": "İmajı kopyala",
+            "select_all": "Hepsini Seç",
+            "language": "Dil (Language)",
+            "dateformat": "Sistem tarih formatını kullan"
+        },
+        "view": {
+            "title": "Görünüm",
+            "emoji": "Yazıyı emojiye çevir",
+            "suggestemoji": "Yazarken emoji öner",
+            "hide_dock": "Sabit ikonu gizle",
+            "fullscreen": "Tam Ekrana Geç",
+            "tray": {
+                "show_tray": "Sistem tepsisi ikonunu göster",
+                "show_window": "Pencereyi göster",
+                "toggle_minimize": "Sistem tepsisine küçült",
+                "start_minimize": "Başlangıçta sistem tepsisine küçült",
+                "close": "Sistem tepsisinden çıkart"
+            },
+            "escape": {
+                "title": "Escape(Esc) tuşu davranışı",
+                "hide": "Pencereyi gizle",
+                "clear": "Yazılanları temizle",
+                "default": "Sistem tepsisinde gösterilmediğinde varsayılandır"
+            },
+            "conversation": {
+                "title": "Görüşme Listesi",
+                "timestamp": "Görüşme Zaman Damgasını Göster",
+                "last": "Konuşmadaki Son Mesajı Göster",
+                "previous": "Önceki Görüşme",
+                "next": "Sonraki Görüşme",
+                "select": "Görüşmeyi Seç",
+                "thumbnails": {
+                    "show": "Küçük Resim Göster",
+                    "only": "Sadece Küçük Resim Göster",
+                    "animated": "Animasyonlu Küçük Resim Göster"
+                }
+            },
+            "notification": {
+                "title": "Bildirim",
+                "show": "Bildirimi Göster",
+                "toggle": "Toggle notifications",
+                "message": "Bildirimlerdeki mesajları göster",
+                "username": "Bildirimlerdeki kullanıcı adlarını göster",
+                "mute": "Bildirim seslerini kapat",
+                "avatar": "Bildirimlerde kullanıcı resmini göster",
+                "icon": "Bildirimlerde YakYak ikonunu göster",
+                "custom_sound": "Bildirimler için YakYak özel sesini kullan"
+            },
+            "color_scheme": {
+                "title": "Renk Şeması",
+                "default": "Varsayılan",
+                "blue": "Mavi",
+                "dark": "Koyu",
+                "material": "Materyal"
+            },
+            "font": {
+                "title": "Yazı Boyutu Büyüklüğü",
+                "extra_small": "Çok küçük",
+                "small": "Küçük",
+                "medium": "Orta",
+                "large": "Büyük",
+                "extra_large": "Çok büyük"
+            },
+            "zoom": {
+                "in": "Yakınlaştır",
+                "out": "Uzaklaştır",
+                "reset": "Gerçek boyutu"
+            }
+        },
+        "help": {
+            "title": "Yardım",
+            "about": {
+                "title": "YakYak Hakkında",
+                "newer": "Daha yeni bir sürüm mevcut, lütfen %s versiyonundan %s versiyonuna yükseltin",
+                "license": "Lisans",
+                "authors": "Baş Yazarlar(Programcılar)",
+                "contributors": "Katkıda Bulunanlar",
+                "startup": "Başlangıçta aç"
+            }
+        },
+        "window": {
+            "title": "Pencere",
+            "minimize": "Küçült",
+            "close": "Kapat",
+            "front": "Üstte tut"
+        }
+    }
+}
