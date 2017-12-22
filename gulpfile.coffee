@@ -13,6 +13,7 @@ autoReload = require 'gulp-auto-reload'
 changed    = require 'gulp-changed'
 rename     = require 'gulp-rename'
 packager   = require 'electron-packager'
+flatpak    = require 'electron-installer-flatpak'
 filter     = require 'gulp-filter'
 Q          = require 'q'
 Stream     = require 'stream'
@@ -392,3 +393,28 @@ deploy = (platform, arch) ->
                         "-- (exit with #{code})"
                     done()
                     process.exit(1)
+    gulp.task 'deploy:linux-' + arch + ':flatpak', (done) ->
+        flatpakOptions =
+            id: 'com.github.yakyak.YakYak'
+            arch: arch
+            runtimeVersion: "1.6"
+            src: 'dist/yakyak-linux-' + arch
+            dest: 'dist/'
+            genericName: 'Internet Messenger'
+            productName: 'YakYak'
+            icon:
+                '16x16': 'src/icons/icon_016.png'
+                '32x32': 'src/icons/icon_032.png'
+                '48x48': 'src/icons/icon_048.png'
+                '128x128': 'src/icons/icon_128.png'
+                '256x256': 'src/icons/icon_256.png'
+                '512x512': 'src/icons/icon_512.png'
+            categories: ['Network', 'InstantMessaging']
+        flatpak flatpakOptions, (err) ->
+            if err
+                console.error err.stack
+                done()
+                process.exit 1
+            else
+                console.log "Created flatpak (#{json.name}_#{json.version}_#{arch}.flatpak)"
+                done()
