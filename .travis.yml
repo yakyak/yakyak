@@ -22,6 +22,8 @@ before_deploy:
   - sudo apt-get -qq update
   - sudo apt-get install -y wine1.6-i386 zip xvfb
   - WINEARCH=win32 wine wineboot --init
+  # install fpm
+  - gem install --no-ri --no-rdoc fpm
   # install flatpak dependencies
   - sudo add-apt-repository ppa:alexlarsson/flatpak -y
   - sudo apt update
