@@ -29,8 +29,12 @@ before_deploy:
   - sudo apt update
   - sudo apt install flatpak-builder flatpak
   - flatpak --user remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-  - flatpak --user install flathub org.freedesktop.Platform
-  - flatpak --user install flathub org.freedesktop.Sdk/i386/1.6 org.freedesktop.Sdk/x86_64/1.6
+  # 64-bits
+  - flatpak --user install flathub org.freedesktop.Sdk/x86_64/1.6
+  - flatpak --user install flathub org.freedesktop.Platform/x86_64/1.6
+  # 32-bits
+  - flatpak --user install flathub org.freedesktop.Sdk/i386/1.6
+  - flatpak --user install flathub org.freedesktop.Platform/i386/1.6
   # actuall building of the binaries
   - xvfb-run npm run deploy
 
