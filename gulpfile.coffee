@@ -248,9 +248,6 @@ platformOpts.map (plat) ->
       names.push cb
       runSequence 'default', names...
     #
-gulp.task 'deploy', (cb)->
-    allNames.push cb
-    runSequence 'default', allNames...
 
 zipIt = (folder, filePrefix, done) ->
     ext = 'zip'
@@ -341,7 +338,7 @@ deploy = (platform, arch) ->
                 zipIt zippath, fileprefix, -> deferred.resolve()
     deferred.promise
 
-["ia32", "x64"].forEach (arch) ->
+archOpts.forEach (arch) ->
     ['deb', 'rpm'].forEach (target) ->
         gulp.task 'deploy:linux-' + arch + ':' + target, (done) ->
             if arch is 'ia32'
@@ -393,6 +390,9 @@ deploy = (platform, arch) ->
                         "-- (exit with #{code})"
                     done()
                     process.exit(1)
+
+        allNames.push('deploy:linux-' + arch + ':' + target)
+
     gulp.task 'deploy:linux-' + arch + ':flatpak', (done) ->
         flatpakOptions =
             id: 'com.github.yakyak.YakYak'
@@ -418,3 +418,8 @@ deploy = (platform, arch) ->
             else
                 console.log "Created flatpak (#{json.name}_#{json.version}_#{arch}.flatpak)"
                 done()
+    allNames.push('deploy:linux-' + arch + ':flatpak')
+
+gulp.task 'deploy', (cb)->
+    allNames.push cb
+    runSequence 'default', allNames...
