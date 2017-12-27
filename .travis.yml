@@ -22,6 +22,11 @@ before_deploy:
   - sudo apt-get -qq update
   - sudo apt-get install -y wine1.6-i386 zip xvfb
   - WINEARCH=win32 wine wineboot --init
+  # install flatpak dependencies
+  - apt install flatpak-builder flatpack
+  - flatpak --user remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+  - flatpak --user install flathub org.freedesktop.Platform
+  - flatpak --user install flathub org.freedesktop.Sdk/i386/1.6 org.freedesktop.Sdk/x86_64/1.6
   # actuall building of the binaries
   - xvfb-run npm run deploy
 
@@ -42,6 +47,7 @@ deploy:
     - "dist/yakyak-${YAKYAK_VERSION}-win32-ia32.zip"
     - "dist/yakyak-${YAKYAK_VERSION}-win32-x64.zip"
     - "dist/yakyak-${YAKYAK_VERSION}-osx.zip"
+    - "dist/com.github.yakyak.YakYak_master_x64.flatpak"
   # only trigger on tags
   on:
     tags: true
