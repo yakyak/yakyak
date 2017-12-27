@@ -23,6 +23,8 @@ before_deploy:
   - sudo apt-get install -y wine1.6-i386 zip xvfb
   - WINEARCH=win32 wine wineboot --init
   # install flatpak dependencies
+  - sudo add-apt-repository ppa:alexlarsson/flatpak -y
+  - sudo apt update
   - sudo apt install flatpak-builder flatpack
   - flatpak --user remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
   - flatpak --user install flathub org.freedesktop.Platform
