@@ -232,22 +232,8 @@ buildDeployTask = (platform, arch) ->
 #
 # task to deploy all
 allNames = []
+names = {linux: [], win32: [], darwin: []}
 #
-# create tasks for different platforms and architectures supported
-platformOpts.map (plat) ->
-    names = []
-    archOpts.map (arch) ->
-        # create a task per platform/architecture
-        taskName = buildDeployTask(plat, arch)
-        names.push taskName
-        allNames.push taskName
-    #
-    # create arch-independet task
-    gulp.task "deploy:#{plat}", (cb) ->
-      # add callback to arguments
-      names.push cb
-      runSequence 'default', names...
-    #
 
 zipIt = (folder, filePrefix, done) ->
     ext = 'zip'
@@ -390,7 +376,7 @@ archOpts.forEach (arch) ->
                         "-- (exit with #{code})"
                     done()
                     process.exit(1)
-
+        names['linux'].push 'deploy:linux-' + arch + ':' + target
         allNames.push('deploy:linux-' + arch + ':' + target)
 
     gulp.task 'deploy:linux-' + arch + ':flatpak', (done) ->
@@ -418,7 +404,24 @@ archOpts.forEach (arch) ->
             else
                 console.log "Created flatpak (#{json.name}_#{json.version}_#{arch}.flatpak)"
                 done()
+    names['linux'].push 'deploy:linux-' + arch + ':flatpak'
     allNames.push('deploy:linux-' + arch + ':flatpak')
+
+# create tasks for different platforms and architectures supported
+platformOpts.map (plat) ->
+    archOpts.map (arch) ->
+        # create a task per platform/architecture
+        taskName = buildDeployTask(plat, arch)
+        names[plat].push taskName
+        allNames.push taskName
+    #
+    # create arch-independet task
+    gulp.task "deploy:#{plat}", (cb) ->
+      # add callback to arguments
+      this_names = names[plat]
+      this_names.push cb
+      runSequence 'default', names[plat]...
+    #
 
 gulp.task 'deploy', (cb)->
     allNames.push cb
