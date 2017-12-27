@@ -25,7 +25,7 @@ before_deploy:
   # install flatpak dependencies
   - sudo add-apt-repository ppa:alexlarsson/flatpak -y
   - sudo apt update
-  - sudo apt install flatpak-builder flatpack
+  - sudo apt install flatpak-builder flatpak
   - flatpak --user remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
   - flatpak --user install flathub org.freedesktop.Platform
   - flatpak --user install flathub org.freedesktop.Sdk/i386/1.6 org.freedesktop.Sdk/x86_64/1.6
