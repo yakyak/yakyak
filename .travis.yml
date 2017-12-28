@@ -37,13 +37,13 @@ before_deploy:
   - flatpak --user install flathub org.freedesktop.Platform/i386/1.6
   # actuall building of the binaries
   - npm run deploy:linux-x64:nodep
-  - npm run deploy:linux-x64:deb
-  - npm run deploy:linux-x64:rpm
-  - npm run deploy:linux-x64:flatpak
+  - npm run -loglevel silly deploy:linux-x64:deb
+  - npm run -loglevel silly deploy:linux-x64:rpm
+  - npm run -loglevel silly deploy:linux-x64:flatpak
   - npm run deploy:linux-ia32:nodep
-  - npm run deploy:linux-ia32:deb
-  - npm run deploy:linux-ia32:rpm
-  - npm run deploy:linux-ia32:flatpak
+  - npm run -loglevel silly deploy:linux-ia32:deb
+  - npm run -loglevel silly deploy:linux-ia32:rpm
+  - npm run -loglevel silly deploy:linux-ia32:flatpak
   - npm run deploy:darwin
   - xvfb-run npm run deploy:win32
 
