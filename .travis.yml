@@ -36,11 +36,11 @@ before_deploy:
   - flatpak --user install flathub org.freedesktop.Sdk/i386/1.6
   - flatpak --user install flathub org.freedesktop.Platform/i386/1.6
   # actuall building of the binaries
-  - npm run deploy:linux-x64:nodep
+  - npm run -loglevel notice deploy:linux-x64
   - npm run -loglevel notice deploy:linux-x64:deb
   - npm run -loglevel silly deploy:linux-x64:rpm
   - npm run -loglevel silly deploy:linux-x64:flatpak
-  - npm run -loglevel notice deploy:linux-ia32:nodep
+  - npm run -loglevel notice deploy:linux-ia32
   - npm run -loglevel silly deploy:linux-ia32:deb
   - npm run -loglevel silly deploy:linux-ia32:rpm
   - npm run -loglevel silly deploy:linux-ia32:flatpak
