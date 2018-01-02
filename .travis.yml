@@ -38,11 +38,11 @@ before_deploy:
   # actuall building of the binaries
   - npm run -loglevel notice deploy:linux-x64
   - npm run -loglevel notice deploy:linux-x64:deb
-    #- npm run -loglevel silly deploy:linux-x64:rpm
+  #- npm run -loglevel silly deploy:linux-x64:rpm
   - npm run -loglevel silly deploy:linux-x64:flatpak
   - npm run -loglevel notice deploy:linux-ia32
   - npm run -loglevel silly deploy:linux-ia32:deb
-    #- npm run -loglevel silly deploy:linux-ia32:rpm
+  #- npm run -loglevel silly deploy:linux-ia32:rpm
   - npm run -loglevel silly deploy:linux-ia32:flatpak
   - npm run -loglevel notice deploy:darwin
   - xvfb-run npm run -loglevel notice deploy:win32

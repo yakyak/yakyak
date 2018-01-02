@@ -343,6 +343,7 @@ archOpts.forEach (arch) ->
                 "./src/icons/icon_#{src}.png=/usr/share/icons/hicolor/#{size}x#{size}/apps/#{json.name}.png"
             fpmArgs = [
                 '-s', 'dir'
+                '--loglevel', 'debug'
                 '-t', target
                 '--architecture', archName
                 '--rpm-os', 'linux'
@@ -364,7 +365,7 @@ archOpts.forEach (arch) ->
             child = spawn 'fpm', fpmArgs
             # log all errors
             child.on 'error', (err) ->
-                console.log 'Error: ' + err
+                console.log 'Error: ' + err, fpmArgs
                 process.exit(1)
             # show err
             child.on 'exit', (code) ->
