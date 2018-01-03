@@ -405,6 +405,7 @@ archOpts.forEach (arch) ->
             else
                 console.log "Created flatpak (#{json.name}_#{json.version}_#{arch}.flatpak)"
                 done()
+
     names['linux'].push 'deploy:linux-' + arch + ':flatpak'
     allNames.push('deploy:linux-' + arch + ':flatpak')
 

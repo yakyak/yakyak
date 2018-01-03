@@ -64,6 +64,7 @@
     "chai": "^4.1.0",
     "coffee-script": "^1.9.2",
     "devtron": "^1.4.0",
+    "electron-installer-flatpak": "^0.6.0",
     "electron-packager": "^10.1.0",
     "electron": "^1.7.10",
     "electron-installer-flatpak": "^0.6.0",
