@@ -9,7 +9,7 @@ notifications:
 #  it would be necessary to add wine ppa
 #
 # https://docs.travis-ci.com/user/trusty-ci-environment/#Using-Trusty
-dist: trusty
+dist: xenial
 sudo: required
 
 before_deploy:
@@ -22,8 +22,30 @@ before_deploy:
   - sudo apt-get -qq update
   - sudo apt-get install -y wine1.6-i386 zip xvfb
   - WINEARCH=win32 wine wineboot --init
+  # install fpm
+  - gem install --no-ri --no-rdoc fpm
+  # install flatpak dependencies
+  - sudo add-apt-repository ppa:alexlarsson/flatpak -y
+  - sudo apt update
+  - sudo apt install flatpak-builder flatpak
+  - flatpak --user remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+  # 64-bits
+  - flatpak --user install flathub org.freedesktop.Sdk/x86_64/1.6
+  - flatpak --user install flathub org.freedesktop.Platform/x86_64/1.6
+  # 32-bits
+  - flatpak --user install flathub org.freedesktop.Sdk/i386/1.6
+  - flatpak --user install flathub org.freedesktop.Platform/i386/1.6
   # actuall building of the binaries
-  - xvfb-run npm run deploy
+  - npm run -loglevel notice deploy:linux-x64
+  # - npm run -loglevel notice deploy:linux-x64:deb
+  # - npm run -loglevel silly deploy:linux-x64:rpm
+  - npm run -loglevel silly deploy:linux-x64:flatpak
+  - npm run -loglevel notice deploy:linux-ia32
+  # - npm run -loglevel silly deploy:linux-ia32:deb
+  # - npm run -loglevel silly deploy:linux-ia32:rpm
+  - npm run -loglevel silly deploy:linux-ia32:flatpak
+  - npm run -loglevel notice deploy:darwin
+  - xvfb-run npm run -loglevel notice deploy:win32
 
 deploy:
   provider: releases
@@ -42,6 +64,12 @@ deploy:
     - "dist/yakyak-${YAKYAK_VERSION}-win32-ia32.zip"
     - "dist/yakyak-${YAKYAK_VERSION}-win32-x64.zip"
     - "dist/yakyak-${YAKYAK_VERSION}-osx.zip"
+    - "dist/com.github.yakyak.YakYak_master_x64.flatpak"
+    - "dist/com.github.yakyak.YakYak_master_ia32.flatpak"
+    # - "dist/yakyak-1.4.4-linux-amd64.deb"
+    # - "dist/yakyak-1.4.4-linux-i386.deb"
+    # - "dist/yakyak-1.4.4-linux-i386.rpm"
+    # - "dist/yakyak-1.4.4-linux-x86_64.rpm"
   # only trigger on tags
   on:
     tags: true

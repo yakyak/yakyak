@@ -136,7 +136,7 @@
                 "custom_sound": "Usar sonido custom de YakYak para notificaciones"
             },
             "color_scheme": {
-                "title": "Esqueña de Color",
+                "title": "Esquema de Color",
                 "default": "Original",
                 "blue": "Azul",
                 "dark": "Oscuro",
