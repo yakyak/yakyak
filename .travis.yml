@@ -66,10 +66,10 @@ deploy:
     - "dist/yakyak-${YAKYAK_VERSION}-osx.zip"
     - "dist/com.github.yakyak.YakYak_master_x64.flatpak"
     - "dist/com.github.yakyak.YakYak_master_ia32.flatpak"
-    - "dist/yakyak-1.4.4-linux-amd64.deb"
-    - "dist/yakyak-1.4.4-linux-i386.deb"
-    - "dist/yakyak-1.4.4-linux-i386.rpm"
-    - "dist/yakyak-1.4.4-linux-x86_64.rpm"
+    # - "dist/yakyak-1.4.4-linux-amd64.deb"
+    # - "dist/yakyak-1.4.4-linux-i386.deb"
+    # - "dist/yakyak-1.4.4-linux-i386.rpm"
+    # - "dist/yakyak-1.4.4-linux-x86_64.rpm"
   # only trigger on tags
   on:
     tags: true
