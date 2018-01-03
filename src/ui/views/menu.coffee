@@ -394,11 +394,30 @@ templateView = (viewstate) ->
         }
         { type: 'separator' }
         {
-            label: i18n.__('menu.view.tray.show_tray:Show tray icon')
-            type: 'checkbox'
-            enabled: not viewstate.hidedockicon
-            checked:  viewstate.showtray
-            click: -> action 'toggleshowtray'
+            label: i18n.__('menu.view.tray.main:Tray icon')
+            submenu: [
+                {
+                    label: i18n.__('menu.view.tray.show_tray:Show tray icon')
+                    type: 'checkbox'
+                    enabled: not viewstate.hidedockicon
+                    checked:  viewstate.showtray
+                    click: -> action 'toggleshowtray'
+                }
+                {
+                  label: i18n.__ "menu.view.tray.start_minimize:Start minimized to tray"
+                  type: "checkbox"
+                  enabled: viewstate.showtray
+                  checked: viewstate.startminimizedtotray
+                  click: -> action 'togglestartminimizedtotray'
+                }
+                {
+                    label: i18n.__ "menu.view.tray.close:Close to tray"
+                    type: "checkbox"
+                    enabled: viewstate.showtray
+                    checked: viewstate.closetotray
+                    click: -> action 'toggleclosetotray'
+                }
+            ]
         }
         {
           label: i18n.__('menu.view.escape.title:Escape key behavior')
