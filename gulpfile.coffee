@@ -13,6 +13,7 @@ autoReload = require 'gulp-auto-reload'
 changed    = require 'gulp-changed'
 rename     = require 'gulp-rename'
 packager   = require 'electron-packager'
+flatpak    = require 'electron-installer-flatpak'
 filter     = require 'gulp-filter'
 Q          = require 'q'
 Stream     = require 'stream'
@@ -231,25 +232,8 @@ buildDeployTask = (platform, arch) ->
 #
 # task to deploy all
 allNames = []
+names = {linux: [], win32: [], darwin: []}
 #
-# create tasks for different platforms and architectures supported
-platformOpts.map (plat) ->
-    names = []
-    archOpts.map (arch) ->
-        # create a task per platform/architecture
-        taskName = buildDeployTask(plat, arch)
-        names.push taskName
-        allNames.push taskName
-    #
-    # create arch-independet task
-    gulp.task "deploy:#{plat}", (cb) ->
-      # add callback to arguments
-      names.push cb
-      runSequence 'default', names...
-    #
-gulp.task 'deploy', (cb)->
-    allNames.push cb
-    runSequence 'default', allNames...
 
 zipIt = (folder, filePrefix, done) ->
     ext = 'zip'
@@ -340,7 +324,7 @@ deploy = (platform, arch) ->
                 zipIt zippath, fileprefix, -> deferred.resolve()
     deferred.promise
 
-["ia32", "x64"].forEach (arch) ->
+archOpts.forEach (arch) ->
     ['deb', 'rpm'].forEach (target) ->
         gulp.task 'deploy:linux-' + arch + ':' + target, (done) ->
             if arch is 'ia32'
@@ -359,6 +343,7 @@ deploy = (platform, arch) ->
                 "./src/icons/icon_#{src}.png=/usr/share/icons/hicolor/#{size}x#{size}/apps/#{json.name}.png"
             fpmArgs = [
                 '-s', 'dir'
+                '--loglevel', 'debug'
                 '-t', target
                 '--architecture', archName
                 '--rpm-os', 'linux'
@@ -380,7 +365,7 @@ deploy = (platform, arch) ->
             child = spawn 'fpm', fpmArgs
             # log all errors
             child.on 'error', (err) ->
-                console.log 'Error: ' + err
+                console.log 'Error: ' + err, fpmArgs
                 process.exit(1)
             # show err
             child.on 'exit', (code) ->
@@ -392,3 +377,54 @@ deploy = (platform, arch) ->
                         "-- (exit with #{code})"
                     done()
                     process.exit(1)
+        names['linux'].push 'deploy:linux-' + arch + ':' + target
+        allNames.push('deploy:linux-' + arch + ':' + target)
+
+    gulp.task 'deploy:linux-' + arch + ':flatpak', (done) ->
+        flatpakOptions =
+            id: 'com.github.yakyak.YakYak'
+            arch: arch
+            runtimeVersion: "1.6"
+            src: 'dist/yakyak-linux-' + arch
+            dest: 'dist/'
+            genericName: 'Internet Messenger'
+            productName: 'YakYak'
+            icon:
+                '16x16': 'src/icons/icon_016.png'
+                '32x32': 'src/icons/icon_032.png'
+                '48x48': 'src/icons/icon_048.png'
+                '128x128': 'src/icons/icon_128.png'
+                '256x256': 'src/icons/icon_256.png'
+                '512x512': 'src/icons/icon_512.png'
+            categories: ['Network', 'InstantMessaging']
+        flatpak flatpakOptions, (err) ->
+            if err
+                console.error err.stack
+                done()
+                process.exit 1
+            else
+                console.log "Created flatpak (#{json.name}_#{json.version}_#{arch}.flatpak)"
+                done()
+
+    names['linux'].push 'deploy:linux-' + arch + ':flatpak'
+    allNames.push('deploy:linux-' + arch + ':flatpak')
+
+# create tasks for different platforms and architectures supported
+platformOpts.map (plat) ->
+    archOpts.map (arch) ->
+        # create a task per platform/architecture
+        taskName = buildDeployTask(plat, arch)
+        names[plat].push taskName
+        allNames.push taskName
+    #
+    # create arch-independet task
+    gulp.task "deploy:#{plat}", (cb) ->
+      # add callback to arguments
+      this_names = names[plat]
+      this_names.push cb
+      runSequence 'default', names[plat]...
+    #
+
+gulp.task 'deploy', (cb)->
+    allNames.push cb
+    runSequence 'default', allNames...
