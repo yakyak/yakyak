@@ -171,6 +171,7 @@
             "title": "Finestra",
             "minimize": "Riduci",
             "close": "Chiudi",
+            "toggle_window": "Mostra/Nascondi finestra principale",
             "front": "Porta tutto avanti"
         }
     }
