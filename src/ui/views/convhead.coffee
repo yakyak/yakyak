@@ -73,6 +73,7 @@ if process.platform is 'win32'
         toggleHidden document.getElementById('win-restore'), true
 
     toggleHidden = (element, hidden) ->
+        return unless element
         if hidden
             element.style.display = 'none'
         else
