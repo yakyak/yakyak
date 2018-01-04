@@ -439,7 +439,7 @@ templateWindow = (viewstate) -> [
         role: 'close'
     }
     {
-        label: i18n.__ 'menu.window.toggle_window:Toggle window show'
+        label: i18n.__ 'menu.view.tray.toggle_minimize:Toggle window show/hide'
         click: -> action 'togglewindow'
     }
     { type: 'separator' }
