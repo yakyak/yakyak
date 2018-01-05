@@ -99,7 +99,7 @@
             "hide_dock": "Nascondi l'icona della barra delle applicazioni",
             "fullscreen": "Schermo Intero",
             "tray": {
-                "show_tray": "Mostra icona nel vassoio di sistema",
+                "show_tray": "Mostra/Nascondi finestra",
                 "show_window": "Mostra finestra",
                 "toggle_minimize": "Attiva/Disattiva riduzione nel vassoio di sistema",
                 "start_minimize": "Apri ridotto nel vassoio di sistema",

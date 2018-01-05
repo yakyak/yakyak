@@ -100,7 +100,7 @@
             "fullscreen": "Alternar Ecrã Inteiro",
             "tray": {
                 "main": "Icon no tray",
-                "show_tray": "Mostrar icon no tray",
+                "show_tray": "Mostrar/esconder janela",
                 "show_window": "Mostrar janela",
                 "toggle_minimize": "Mostrar janela / minimizar para tray",
                 "start_minimize": "Começar minimizado no tray",
