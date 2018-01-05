@@ -438,6 +438,10 @@ templateWindow = (viewstate) -> [
         accelerator: getAccelerator('close')
         role: 'close'
     }
+    {
+        label: i18n.__ 'menu.view.tray.toggle_minimize:Toggle window show/hide'
+        click: -> action 'togglewindow'
+    }
     { type: 'separator' }
     {
         label: i18n.__('menu.window.front:Bring All to Front')

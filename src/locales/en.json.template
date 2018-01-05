@@ -99,7 +99,7 @@
             "hide_dock": "Hide Dock icon",
             "fullscreen": "Toggle Fullscreen",
             "tray": {
-                "show_tray": "Show tray icon",
+                "show_tray": "Toggle window show/hide",
                 "show_window": "Show window",
                 "toggle_minimize": "Toggle minimize to tray",
                 "start_minimize": "Start minimized to tray",
