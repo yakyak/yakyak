@@ -428,22 +428,24 @@ formatAttachment = (att) ->
     if att?[0]?.embed_item?.type_
         data = extractProtobufStyle(att)
         return if not data
-        {href, thumb} = data
+        {href, thumb, original_content_url} = data
     else if att?[0]?.embed_item?.type
         console.log('THIS SHOULD NOT HAPPEN WTF !!')
         data = extractProtobufStyle(att)
         return if not data
-        {href, thumb} = data
+        {href, thumb, original_content_url} = data
     else
         console.warn 'ignoring attachment', att unless att?.length == 0
         return
-    return unless href
-
+    
+    # stickers do not have an href so we link to the original content instead
+    href = original_content_url unless href
+    
     # here we assume attachments are only images
     if preload thumb
         div class:'attach', ->
             a {href, onclick}, -> img src:thumb
-
+    
 
 handle 'loadedimg', ->
     # allow controller to record current position
@@ -469,8 +471,9 @@ extractProtobufStyle = (att) ->
         href  = plus_photo.data?.url
         thumb = plus_photo.data?.thumbnail?.image_url
         href  = plus_photo.data?.thumbnail?.url
+        original_content_url = plus_photo.data?.original_content_url
         isVideo = plus_photo.data?.media_type isnt 'MEDIA_TYPE_PHOTO'
-        return {href, thumb}
+        return {href, thumb, original_content_url}
 
     t = type_?[0]
     return console.warn 'ignoring (old) attachment type', att unless t == 249
@@ -482,7 +485,7 @@ extractProtobufStyle = (att) ->
         href = data?[k]?[4]
         thumb = data?[k]?[5]
 
-    {href, thumb}
+    {href, thumb, original_content_url}
 
 extractObjectStyle = (att) ->
     eitem = att?[0]?.embed_item
