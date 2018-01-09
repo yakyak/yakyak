@@ -1,7 +1,7 @@
 autosize = require 'autosize'
 clipboard = require('electron').clipboard
 {scrollToBottom, messages} = require './messages'
-{later, toggleVisibility, convertEmoji, insertTextAtCursor} = require '../util'
+{later, toggleVisibility, convertEmoji, performCommand, insertTextAtCursor} = require '../util'
 
 isModifierKey = (ev) -> ev.altKey || ev.ctrlKey || ev.metaKey || ev.shiftKey
 isAltCtrlMeta = (ev) -> ev.altKey || ev.ctrlKey || ev.metaKey
@@ -243,7 +243,12 @@ maybeFocus = ->
         el.focus() if el
 
 preparemessage = (ev) ->
-    if models.viewstate.convertEmoji
+    if models.viewstate.commandsEnabled
+        element = document.getElementById "message-input"
+        # we want to match / and ignore //
+        if element.value.substr(0,1) == "/" and element.value.substr(1,1) != "/"
+            element.value = performCommand(models, element.value)
+    else if models.viewstate.convertEmoji
         # before sending message, check for emoji
         element = document.getElementById "message-input"
         # Converts emojicodes (e.g. :smile:, :-) ) to unicode

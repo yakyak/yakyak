@@ -1,7 +1,9 @@
 URL       = require 'url'
+path      = require 'path'
 notifier  = require 'node-notifier'
 AutoLaunch = require 'auto-launch'
 clipboard = require('electron').clipboard
+commands  = require('../commands')
 
 #
 #
@@ -144,6 +146,7 @@ uniqfn = (as, fn) ->
 isImg = (url) -> url?.match /\.(png|jpe?g|gif|svg)$/i
 
 getImageUrl = (url="") ->
+    return null if !url?
     return url if isImg url
     parsed = URL.parse url, true
     url = parsed.query.q
@@ -181,6 +184,36 @@ convertEmoji = (text) ->
     )
     return text
 
+unsupportedCommands = ["ponystream"]
+
+parseCommand = (commandText) ->
+    name = ""
+    parameters = []
+    if (commandText.substr(0,1) == "/" and commandText.substr(1, 1) != "/")
+        parameters = commandText.split(" ")
+        name = parameters.shift().substr(1)
+    return { name, parameters }
+
+performCommand = (models, text) ->
+    parsed = parseCommand(text)
+    command = commands[parsed.name]
+    if (typeof command is 'function')
+        return command(parsed.parameters)
+    else
+        notifierSupportsSound = notificationCenterSupportsSound()
+        if models.viewstate.showPopUpNotifications
+            isNotificationCenter = notifier.constructor.name == 'NotificationCenter'
+            icon = path.join __dirname, '..', 'icons', 'icon@8.png'
+            notifier.notify
+                title: "YakYak"
+                message: if models.viewstate.showMessageInNotification
+                            "`#{parsed.name}` "+i18n.__('conversation.new_message:not supported')
+                wait: true
+                sender: 'com.github.yakyak'
+                sound: !models.viewstate.muteSoundNotification && (notifierSupportsSound && !models.viewstate.forceCustomSound)
+                icon: icon if !isNotificationCenter && models.viewstate.showIconNotification
+        return text
+
 insertTextAtCursor = (el, text) ->
     value = el.value
     doc = el.ownerDocument
@@ -211,4 +244,4 @@ module.exports = {nameof, initialsof, nameofconv, linkto, later,
                   throttle, uniqfn, isAboutLink, getProxiedName, tryparse,
                   fixlink, topof, isImg, getImageUrl, toggleVisibility,
                   convertEmoji, drawAvatar, notificationCenterSupportsSound,
-                  insertTextAtCursor, isContentPasteable, autoLauncher}
+                  insertTextAtCursor, isContentPasteable, autoLauncher, performCommand}

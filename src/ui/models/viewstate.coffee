@@ -28,6 +28,7 @@ module.exports = exp = {
     showMessageInNotification: tryparse(localStorage.showMessageInNotification) ? true
     showUsernameInNotification: tryparse(localStorage.showUsernameInNotification) ? true
     convertEmoji: tryparse(localStorage.convertEmoji) ? true
+    commandsEnabled: tryparse(localStorage.commandsEnabled) ? true
     suggestEmoji: tryparse(localStorage.suggestEmoji) ? true
     colorScheme: localStorage.colorScheme or 'default'
     fontSize: localStorage.fontSize or 'medium'

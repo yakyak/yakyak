@@ -242,6 +242,13 @@ templateView = (viewstate) ->
         }
         {
             type: 'checkbox'
+            label: i18n.__('menu.view.commands:Enable Commands')
+            checked: viewstate.commandsEnabled
+            enabled: viewstate.loggedin
+            click: (it) -> action 'enableCommands', it.checked
+        }
+        {
+            type: 'checkbox'
             label: i18n.__('menu.view.suggestemoji:Suggest emoji on typing')
             checked: viewstate.suggestEmoji
             enabled: viewstate.loggedin
