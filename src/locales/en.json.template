@@ -36,6 +36,7 @@
         "multiuser": "Create multiuser chat",
         "delete": "Delete conversation",
         "delete_confirm": "Really delete conversation?",
+        "delete_error": "Error occured when deleting conversation",
         "leave": "Leave conversation",
         "leave_confirm": "Really leave conversation?",
         "search": "Search people",

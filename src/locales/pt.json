@@ -36,6 +36,7 @@
         "multiuser": "Criar conversa com várias pessoas",
         "delete": "Apagar conversa",
         "delete_confirm": "Deseja realmente apagar conversa?",
+        "delete_error": "Erro a apagar a conversa",
         "leave": "Sair da conversa",
         "leave_confirm": "Deseja realmente sair da conversa?",
         "search": "Procurar pessoas",
