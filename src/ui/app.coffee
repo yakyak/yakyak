@@ -158,6 +158,10 @@ ipc.on 'expcetioninmain', (error) ->
         ", YakYak could stop working as expected."), error
     notr msg, {stay: 0}
 
+ipc.on 'message', (msg) ->
+    console.log 'Message from main process:', msg
+    notr msg
+
 # wire up stuff from server
 ipc.on 'init', (ev, data) -> dispatcher.init data
 # events from hangupsjs
