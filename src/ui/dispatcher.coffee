@@ -1,18 +1,120 @@
-Client = require 'hangupsjs'
-remote = require('electron').remote
-ipc    = require('electron').ipcRenderer
-
-
-fs = require('fs')
-mime = require('mime-types')
-
+Client    = require 'hangupsjs'
+remote    = require('electron').remote
+ipc       = require('electron').ipcRenderer
+fs        = require('fs')
+mime      = require('mime-types')
 clipboard = require('electron').clipboard
 
 {entity, conv, viewstate, userinput, connection, convsettings, notify} = require './models'
 {insertTextAtCursor, throttle, later, isImg, nameof} = require './util'
 
+#    ________      ________ _   _ _______ _____
+#   |  ____\ \    / /  ____| \ | |__   __/ ____|
+#   | |__   \ \  / /| |__  |  \| |  | | | (___
+#   |  __|   \ \/ / |  __| | . ` |  | |  \___ \
+#   | |____   \  /  | |____| |\  |  | |  ____) |
+#   |______|   \/   |______|_| \_|  |_| |_____/
+#
+# from hangupsjs library
+
+# Connection events
 'connecting connected connect_failed'.split(' ').forEach (n) ->
     handle n, -> connection.setState n
+
+#
+# Noop == Keep alive signal from hangouts
+#
+# On every keep alive signal from hangouts
+#  we inform the server that the user is still
+#  available
+handle 'noop', ->
+    sendsetpresence()
+
+# Chat message received
+handle 'chat_message', (ev) ->
+    # TODO entity is not fetched in usable time for first notification
+    # if does not have user on cache
+    entity.needEntity ev.sender_id.chat_id unless entity[ev.sender_id.chat_id]?
+    # add chat to conversation
+    conv.addChatMessage ev
+    # these messages are to go through notifications
+    notify.addToNotify ev
+
+# Renaming of conversation
+handle 'conversation_rename', (c) ->
+    conv.rename c, c.conversation_rename.new_name
+    conv.addChatMessage c
+
+# Change notication level
+handle 'notification_level', (n) ->
+    conv_id = n?[0]?[0]
+    level = if n?[1] == 10 then 'QUIET' else 'RING'
+    conv.setNotificationLevel conv_id, level if conv_id and level
+
+# Delete conversation event from server
+#  -> Will delete conversation from YakYak UI
+handle 'delete', (a) ->
+    conv_id = a?[0]?[0]
+    return unless c = conv[conv_id]
+    conv.deleteConv conv_id
+
+# Change of membership from user
+handle 'membership_change', (e) ->
+    conv_id = e.conversation_id.id
+    ids = (id.chat_id or id.gaia_id for id in e.membership_change.participant_ids)
+    if e.membership_change.type == 'LEAVE'
+        if entity.self.id in ids
+            return conv.deleteConv conv_id
+        return conv.removeParticipants conv_id, ids
+    conv.addChatMessage e
+    ipc.send 'getentity', ids, {add_to_conv: conv_id}
+
+handle 'client_conversation', (c) ->
+    # Conversation must be added, even if already exists
+    #  why? because when a new chat message for a new conversation appears
+    #  a skeleton is made of a conversation
+    conv.add c unless conv[c?.conversation_id?.id]?.participant_data?
+
+# added to complete API
+handle 'focus', (e) ->
+    return null
+
+# Received a typing event
+handle 'typing', (t) ->
+    conv.addTyping t
+
+# Received a watermark event from another user
+#  -> Another user has read something
+handle 'watermark', (ev) ->
+    conv.addWatermark ev
+
+# Received a presence event from another user
+handle 'presence', (ev) ->
+    entity.setPresence ev[0][0][0][0], if ev[0][0][1][1] == 1 then true else false
+
+#
+handle 'self_presence', (ev) ->
+#     console.log 'self_presence', ev
+    return null
+
+#
+handle 'hangout_event', (e) ->
+    return unless e?.hangout_event?.event_type in ['START_HANGOUT', 'END_HANGOUT']
+    # trigger notifications for this
+    notify.addToNotify e
+
+#
+'conversation_notification reply_to_invite invitation_watermark settings'.split(' ').forEach (n) ->
+    handle n, (as...) -> console.log n, as...
+
+#             _____ _______ _____ ____  _   _  _____
+#       /\   / ____|__   __|_   _/ __ \| \ | |/ ____|
+#      /  \ | |       | |    | || |  | |  \| | (___
+#     / /\ \| |       | |    | || |  | | . ` |\___ \
+#    / ____ \ |____   | |   _| || |__| | |\  |____) |
+#   /_/    \_\_____|  |_|  |_____\____/|_| \_|_____/
+#
+# for YakYak execution
 
 handle 'alive', (time) -> connection.setLastActive time
 
@@ -49,24 +151,6 @@ handle 'init', (init) ->
 handle 'set_viewstate_normal', ->
     viewstate.setContacts true
     viewstate.setState viewstate.STATE_NORMAL
-
-handle 'chat_message', (ev) ->
-    # TODO entity is not fetched in usable time for first notification
-    # if does not have user on cache
-    entity.needEntity ev.sender_id.chat_id unless entity[ev.sender_id.chat_id]?
-    # add chat to conversation
-    conv.addChatMessage ev
-    # these messages are to go through notifications
-    notify.addToNotify ev
-
-handle 'watermark', (ev) ->
-    conv.addWatermark ev
-
-handle 'presence', (ev) ->
-    entity.setPresence ev[0][0][0][0], if ev[0][0][1][1] == 1 then true else false
-
-# handle 'self_presence', (ev) ->
-#     console.log 'self_presence', ev
 
 handle 'querypresence', (id) ->
     ipc.send 'querypresence', id
@@ -182,12 +266,6 @@ sendsetpresence = throttle 10000, ->
     ipc.send 'setpresence'
     ipc.send 'setactiveclient', true, 15
 resendfocus = throttle 15000, -> ipc.send 'setfocus', viewstate.selectedConv
-
-# on every keep alive signal from hangouts
-#  we inform the server that the user is still
-#  available
-handle 'noop', ->
-    sendsetpresence()
 
 handle 'lastActivity', ->
     sendsetpresence()
@@ -335,29 +413,10 @@ handle 'saveconversation', ->
     ipc.send 'adduser', conv_id, toadd if toadd.length
     ipc.send 'renameconversation', conv_id, convsettings.name if needsRename
 
-handle 'conversation_rename', (c) ->
-    conv.rename c, c.conversation_rename.new_name
-    conv.addChatMessage c
-
-handle 'membership_change', (e) ->
-    conv_id = e.conversation_id.id
-    ids = (id.chat_id or id.gaia_id for id in e.membership_change.participant_ids)
-    if e.membership_change.type == 'LEAVE'
-        if entity.self.id in ids
-            return conv.deleteConv conv_id
-        return conv.removeParticipants conv_id, ids
-    conv.addChatMessage e
-    ipc.send 'getentity', ids, {add_to_conv: conv_id}
-
 handle 'createconversationdone', (c) ->
     convsettings.reset()
     conv.add c
     viewstate.setSelectedConv c.id.id
-
-handle 'notification_level', (n) ->
-    conv_id = n?[0]?[0]
-    level = if n?[1] == 10 then 'QUIET' else 'RING'
-    conv.setNotificationLevel conv_id, level if conv_id and level
 
 handle 'togglenotif', ->
     {QUIET, RING} = Client.NotificationLevel
@@ -371,11 +430,6 @@ handle 'togglestar', ->
     conv_id = viewstate.selectedConv
     return unless c = conv[conv_id]
     conv.toggleStar(c)
-
-handle 'delete', (a) ->
-    conv_id = a?[0]?[0]
-    return unless c = conv[conv_id]
-    conv.deleteConv conv_id
 
 #
 #
@@ -413,8 +467,6 @@ handle 'settyping', (v) ->
     ipc.send 'settyping', conv_id, v
     viewstate.setState(viewstate.STATE_NORMAL)
 
-handle 'typing', (t) ->
-    conv.addTyping t
 handle 'pruneTyping', (conv_id) ->
     conv.pruneTyping conv_id
 
@@ -437,20 +489,6 @@ handle 'handlerecentconversations', (r) ->
     return unless st = r.conversation_state
     conv.replaceFromStates st
     connection.setEventState connection.IN_SYNC
-
-handle 'client_conversation', (c) ->
-    # Conversation must be added, even if already exists
-    #  why? because when a new chat message for a new conversation appears
-    #  a skeleton is made of a conversation
-    conv.add c unless conv[c?.conversation_id?.id]?.participant_data?
-
-handle 'hangout_event', (e) ->
-    return unless e?.hangout_event?.event_type in ['START_HANGOUT', 'END_HANGOUT']
-    # trigger notifications for this
-    notify.addToNotify e
-
-'reply_to_invite settings conversation_notification invitation_watermark'.split(' ').forEach (n) ->
-    handle n, (as...) -> console.log n, as...
 
 handle 'unreadtotal', (total, orMore) ->
     value = ""
