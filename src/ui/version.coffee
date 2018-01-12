@@ -8,7 +8,7 @@ options =
 
 versionToInt = (version) ->
     [major, minor, micro] = version.split('.')
-    version = (micro * 10^3) + (minor * 10^6) + (major * 10^9)
+    version = (micro * Math.pow(10,4)) + (minor * Math.pow(10,8)) + (major * Math.pow(10,12))
 
 check = ()->
     request.get options,  (err, res, body) ->
@@ -18,6 +18,8 @@ check = ()->
         releasedVersion = tag?.substr(1) # remove first "v" char
         localVersion = require('electron').remote.require('electron').app.getVersion()
         versionAdvertised = window.localStorage.versionAdvertised or null
+        console.log('released', releasedVersion, releasedVersion.split('.'), versionToInt(releasedVersion))
+        console.log('local', localVersion, localVersion.split('.'), versionToInt(localVersion))
         if releasedVersion? && localVersion?
             higherVersionAvailable = versionToInt(releasedVersion) > versionToInt(localVersion)
             if higherVersionAvailable and (releasedVersion isnt versionAdvertised)
