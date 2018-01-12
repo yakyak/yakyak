@@ -18,8 +18,6 @@ check = ()->
         releasedVersion = tag?.substr(1) # remove first "v" char
         localVersion = require('electron').remote.require('electron').app.getVersion()
         versionAdvertised = window.localStorage.versionAdvertised or null
-        console.log('released', releasedVersion, releasedVersion.split('.'), versionToInt(releasedVersion))
-        console.log('local', localVersion, localVersion.split('.'), versionToInt(localVersion))
         if releasedVersion? && localVersion?
             higherVersionAvailable = versionToInt(releasedVersion) > versionToInt(localVersion)
             if higherVersionAvailable and (releasedVersion isnt versionAdvertised)
