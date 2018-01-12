@@ -8,7 +8,7 @@ options =
 
 versionToInt = (version) ->
     [major, minor, micro] = version.split('.')
-    version = (micro * 10^3) + (minor * 10^6) + (major * 10^9)
+    version = (micro * Math.pow(10,4)) + (minor * Math.pow(10,8)) + (major * Math.pow(10,12))
 
 check = ()->
     request.get options,  (err, res, body) ->
