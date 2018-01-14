@@ -60,11 +60,13 @@
     "trifl": "0.0.10",
     "uber-url-regex": "^5.0.2"
   },
+  "optionalDependencies": {
+    "electron-installer-flatpak": "^0.6.0"
+  },
   "devDependencies": {
     "chai": "^4.1.0",
     "coffee-script": "^1.9.2",
     "devtron": "^1.4.0",
-    "electron-installer-flatpak": "^0.6.0",
     "electron-packager": "^10.1.0",
     "electron": "^1.7.10",
     "gulp": "^3.9.0",
