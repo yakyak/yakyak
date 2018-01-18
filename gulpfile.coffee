@@ -343,17 +343,17 @@ archOpts.forEach (arch) ->
                 "./src/icons/icon_#{src}.png=/usr/share/icons/hicolor/#{size}x#{size}/apps/#{json.name}.png"
             fpmArgs = [
                 '-s', 'dir'
-                '--loglevel', 'debug'
+                '--log', 'debug'
                 '-t', target
                 '--architecture', archName
                 '--rpm-os', 'linux'
                 '--name', json.name
                 '--force' # Overwrite existing files
-                '--license', json.license
-                '--description', json.description
+                '--description', "\"#{json.description}\""
+                '--license', "\"#{json.license}\""
                 '--url', json.homepage
-                '--maintainer', json.author
-                '--vendor', json.authorName
+                '--maintainer', "\"#{json.author}\""
+                '--vendor', "\"#{json.author}\""
                 '--version', json.version
                 '--package', "./dist/#{packageName}"
                 '--after-install', './resources/linux/after-install.sh'
@@ -361,8 +361,11 @@ archOpts.forEach (arch) ->
                 "./dist/#{json.name}-linux-#{arch}/.=/opt/#{json.name}"
                 "./resources/linux/app.desktop=/usr/share/applications/#{json.name}.desktop"
             ].concat iconArgs
-
             child = spawn 'fpm', fpmArgs
+            child.stdout.on 'data', (data) ->
+              # do nothing
+              console.log("fpm: #{data}");
+              return true
             # log all errors
             child.on 'error', (err) ->
                 console.log 'Error: ' + err, fpmArgs
@@ -371,14 +374,14 @@ archOpts.forEach (arch) ->
             child.on 'exit', (code) ->
                 if code == 0
                     console.log "Created #{target} (#{packageName})"
-                    done()
                 else
-                    console.log "Possible problem with #{target} #{packageName} " +
-                        "-- (exit with #{code})"
-                    done()
+                    console.log "Possible problem with #{target} " +
+                        "(exit with code #{code})"
+                    console.log 'fpm arguments: ' + fpmArgs.join(' ')
                     process.exit(1)
-        names['linux'].push 'deploy:linux-' + arch + ':' + target
-        allNames.push('deploy:linux-' + arch + ':' + target)
+            return child
+        #names['linux'].push 'deploy:linux-' + arch + ':' + target
+        #allNames.push('deploy:linux-' + arch + ':' + target)
 
     gulp.task 'deploy:linux-' + arch + ':flatpak', (done) ->
         flatpakOptions =
@@ -406,8 +409,8 @@ archOpts.forEach (arch) ->
                 console.log "Created flatpak (#{json.name}_#{json.version}_#{arch}.flatpak)"
                 done()
 
-    names['linux'].push 'deploy:linux-' + arch + ':flatpak'
-    allNames.push('deploy:linux-' + arch + ':flatpak')
+    #names['linux'].push 'deploy:linux-' + arch + ':flatpak'
+    #allNames.push('deploy:linux-' + arch + ':flatpak')
 
 # create tasks for different platforms and architectures supported
 platformOpts.map (plat) ->
