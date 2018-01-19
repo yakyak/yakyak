@@ -430,9 +430,6 @@ handle 'handlesyncedevents', (r) ->
             conv.addChatMessage e
     connection.setEventState connection.IN_SYNC
 
-handle 'syncrecentconversationsnow', ->
-    ipc.send 'syncrecentconversations'
-
 handle 'syncrecentconversations', throttle 10000, ->
     ipc.send 'syncrecentconversations'
 

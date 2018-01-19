@@ -24,7 +24,7 @@ add = (conv) ->
     # participant_data contains entity information
     # we want in the entity lookup
     entity.add p for p in conv?.participant_data ? []
-    later -> action 'syncrecentconversationsnow'
+    later -> action 'syncrecentconversations'
     lookup[id]
 
 rename = (conv, newname) ->
