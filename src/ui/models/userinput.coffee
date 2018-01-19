@@ -35,7 +35,6 @@ buildChatMessage = (sender, txt) ->
     otr_status = OffTheRecordStatus[conv[conv_id]?.otr_status]
     if not otr_status?
         otr_status = OffTheRecordStatus.ON_THE_RECORD
-    console.log('otr', otr_status)
     action = null
     if /^\/me\s/.test txt
         txt = txt.replace /^\/me/, sender.first_name
