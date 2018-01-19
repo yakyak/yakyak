@@ -221,7 +221,7 @@ buildDeployTask = (platform, arch) ->
     taskname = "deploy:#{platform}-#{arch}"
     tasknameNoDep = "#{taskname}:nodep"
     # set internal task with _ (does not have dependencies)
-    gulp.task tasknameNoDep, ()->
+    gulp.task tasknameNoDep, (cb)->
         deploy platform, arch
     # set task with dependencies
     gulp.task taskname, (cb) ->
@@ -326,7 +326,9 @@ deploy = (platform, arch) ->
 
 archOpts.forEach (arch) ->
     ['deb', 'rpm'].forEach (target) ->
-        gulp.task 'deploy:linux-' + arch + ':' + target, (done) ->
+        gulp.task "deploy:linux-#{arch}:#{target}", (cb) ->
+            runSequence("deploy:linux-#{arch}", "deploy:linux-#{arch}:#{target}:nodep", cb)
+        gulp.task "deploy:linux-#{arch}:#{target}:nodep", (done) ->
             if arch is 'ia32'
                 archName = 'i386'
             else if target is 'deb'
@@ -343,17 +345,17 @@ archOpts.forEach (arch) ->
                 "./src/icons/icon_#{src}.png=/usr/share/icons/hicolor/#{size}x#{size}/apps/#{json.name}.png"
             fpmArgs = [
                 '-s', 'dir'
-                '--loglevel', 'debug'
+                '--log', 'info'
                 '-t', target
                 '--architecture', archName
                 '--rpm-os', 'linux'
                 '--name', json.name
                 '--force' # Overwrite existing files
-                '--license', json.license
-                '--description', json.description
+                '--description', "\"#{json.description}\""
+                '--license', "\"#{json.license}\""
                 '--url', json.homepage
-                '--maintainer', json.author
-                '--vendor', json.authorName
+                '--maintainer', "\"#{json.author}\""
+                '--vendor', "\"#{json.author}\""
                 '--version', json.version
                 '--package', "./dist/#{packageName}"
                 '--after-install', './resources/linux/after-install.sh'
@@ -361,11 +363,15 @@ archOpts.forEach (arch) ->
                 "./dist/#{json.name}-linux-#{arch}/.=/opt/#{json.name}"
                 "./resources/linux/app.desktop=/usr/share/applications/#{json.name}.desktop"
             ].concat iconArgs
-
             child = spawn 'fpm', fpmArgs
+            child.stdout.on 'data', (data) ->
+              # do nothing
+              console.log("fpm: #{data}") if target == 'rpm'
+              return true
             # log all errors
             child.on 'error', (err) ->
                 console.log 'Error: ' + err, fpmArgs
+                done()
                 process.exit(1)
             # show err
             child.on 'exit', (code) ->
@@ -373,14 +379,17 @@ archOpts.forEach (arch) ->
                     console.log "Created #{target} (#{packageName})"
                     done()
                 else
-                    console.log "Possible problem with #{target} #{packageName} " +
-                        "-- (exit with #{code})"
-                    done()
+                    console.log "Possible problem with #{target} " +
+                        "(exit with code #{code})"
+                    console.log 'fpm arguments: ' + fpmArgs.join(' ')
                     process.exit(1)
-        names['linux'].push 'deploy:linux-' + arch + ':' + target
-        allNames.push('deploy:linux-' + arch + ':' + target)
+            return child
+        #names['linux'].push 'deploy:linux-' + arch + ':' + target
+        #allNames.push('deploy:linux-' + arch + ':' + target)
 
-    gulp.task 'deploy:linux-' + arch + ':flatpak', (done) ->
+    gulp.task "deploy:linux-#{arch}:flatpak", (cb) ->
+        runSequence("deploy:linux-#{arch}", "deploy:linux-#{arch}:flatpak:nodep", cb)
+    gulp.task "deploy:linux-#{arch}:flatpak:nodep", (done) ->
         flatpakOptions =
             id: 'com.github.yakyak.YakYak'
             arch: arch
@@ -406,8 +415,8 @@ archOpts.forEach (arch) ->
                 console.log "Created flatpak (#{json.name}_#{json.version}_#{arch}.flatpak)"
                 done()
 
-    names['linux'].push 'deploy:linux-' + arch + ':flatpak'
-    allNames.push('deploy:linux-' + arch + ':flatpak')
+    #names['linux'].push 'deploy:linux-' + arch + ':flatpak'
+    #allNames.push('deploy:linux-' + arch + ':flatpak')
 
 # create tasks for different platforms and architectures supported
 platformOpts.map (plat) ->
