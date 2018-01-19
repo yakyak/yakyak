@@ -221,7 +221,7 @@ buildDeployTask = (platform, arch) ->
     taskname = "deploy:#{platform}-#{arch}"
     tasknameNoDep = "#{taskname}:nodep"
     # set internal task with _ (does not have dependencies)
-    gulp.task tasknameNoDep, ()->
+    gulp.task tasknameNoDep, (cb)->
         deploy platform, arch
     # set task with dependencies
     gulp.task taskname, (cb) ->
@@ -326,7 +326,9 @@ deploy = (platform, arch) ->
 
 archOpts.forEach (arch) ->
     ['deb', 'rpm'].forEach (target) ->
-        gulp.task 'deploy:linux-' + arch + ':' + target, (done) ->
+        gulp.task "deploy:linux-#{arch}:#{target}", (cb) ->
+            runSequence("deploy:linux-#{arch}", "deploy:linux-#{arch}:#{target}:nodep", cb)
+        gulp.task "deploy:linux-#{arch}:#{target}:nodep", (done) ->
             if arch is 'ia32'
                 archName = 'i386'
             else if target is 'deb'
@@ -364,16 +366,18 @@ archOpts.forEach (arch) ->
             child = spawn 'fpm', fpmArgs
             child.stdout.on 'data', (data) ->
               # do nothing
-              console.log("fpm: #{data}");
+              console.log("fpm: #{data}") if target == 'rpm'
               return true
             # log all errors
             child.on 'error', (err) ->
                 console.log 'Error: ' + err, fpmArgs
+                done()
                 process.exit(1)
             # show err
             child.on 'exit', (code) ->
                 if code == 0
                     console.log "Created #{target} (#{packageName})"
+                    done()
                 else
                     console.log "Possible problem with #{target} " +
                         "(exit with code #{code})"
@@ -383,7 +387,9 @@ archOpts.forEach (arch) ->
         #names['linux'].push 'deploy:linux-' + arch + ':' + target
         #allNames.push('deploy:linux-' + arch + ':' + target)
 
-    gulp.task 'deploy:linux-' + arch + ':flatpak', (done) ->
+    gulp.task "deploy:linux-#{arch}:flatpak", (cb) ->
+        runSequence("deploy:linux-#{arch}", "deploy:linux-#{arch}:flatpak:nodep", cb)
+    gulp.task "deploy:linux-#{arch}:flatpak:nodep", (done) ->
         flatpakOptions =
             id: 'com.github.yakyak.YakYak'
             arch: arch
