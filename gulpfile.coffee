@@ -345,7 +345,7 @@ archOpts.forEach (arch) ->
                 "./src/icons/icon_#{src}.png=/usr/share/icons/hicolor/#{size}x#{size}/apps/#{json.name}.png"
             fpmArgs = [
                 '-s', 'dir'
-                '--log', 'debug'
+                '--log', 'info'
                 '-t', target
                 '--architecture', archName
                 '--rpm-os', 'linux'
