@@ -33,10 +33,10 @@ before_deploy:
   # install fpm
   - gem install --no-ri --no-rdoc fpm
   #
-  - npm run -loglevel silly deploy:linux-x64:rpm:nodep
-  - npm run -loglevel silent deploy:linux-x64:deb:nodep
-  - npm run -loglevel silly deploy:linux-ia32:rpm:nodep
-  - npm run -loglevel silent deploy:linux-ia32:deb:nodep
+  - npm run -loglevel silly gulp deploy:linux-x64:rpm:nodep
+  - npm run -loglevel silent gulp deploy:linux-x64:deb:nodep
+  - npm run -loglevel silly gulp deploy:linux-ia32:rpm:nodep
+  - npm run -loglevel silent gulp deploy:linux-ia32:deb:nodep
   #
   # Flatpak
   # install flatpak dependencies
@@ -51,8 +51,8 @@ before_deploy:
   - flatpak --user install flathub org.freedesktop.Sdk/i386/1.6
   - flatpak --user install flathub org.freedesktop.Platform/i386/1.6
   #
-  - npm run -loglevel silent deploy:linux-x64:flatpak:nodep
-  - npm run -loglevel silent deploy:linux-ia32:flatpak:nodep
+  - npm run -loglevel silent gulp deploy:linux-x64:flatpak:nodep
+  - npm run -loglevel silent gulp deploy:linux-ia32:flatpak:nodep
 
 deploy:
   provider: releases
