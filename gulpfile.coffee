@@ -201,10 +201,12 @@ gulp.task 'reloader', ->
 gulp.task 'clean', (cb) ->
     rimraf outapp, cb
 
-gulp.task 'default', ['package', 'coffee', 'html', 'images', 'media',
-                      'locales', 'icons', 'less', 'fontello']
+gulp.task 'default',
+          gulp.parallel 'package', 'coffee', 'html', 'images',
+                        'media', 'locales', 'icons', 'less', 'fontello'
 
-gulp.task 'watch', ['default', 'reloader', 'html'], ->
+gulp.task 'watch', ->
+    gulp.series 'default', 'reloader', 'html'
     # watch to rebuild
     sources = (v for k, v of paths)
     gulp.watch sources, ['default']
@@ -225,7 +227,7 @@ buildDeployTask = (platform, arch) ->
         deploy platform, arch
     # set task with dependencies
     gulp.task taskname, (cb) ->
-      runSequence 'default', tasknameNoDep, cb
+      gulp.series 'default', tasknameNoDep, cb
     #
     tasknameNoDep
 
@@ -291,27 +293,20 @@ deploy = (platform, arch) ->
     # restriction darwin won't compile ia32
     if platform == 'darwin' && arch == 'ia32'
         deferred.resolve()
-        deferred.promise
-    #
-    # necessary to add a callback to pipe (which is used to signal end of task)
-    gulpCallback = (obj) ->
-        stream = new Stream.Transform({objectMode: true})
-        stream._transform = (file, unused, callback) ->
-            obj()
-            callback(null, file)
-        stream
+        return deferred.promise
+
     #
     # package the app and create a zip
     packOpts = opts
     if platform == 'darwin'
         packOpts.name = 'YakYak'
+    #
     packager packOpts, (err, appPaths) ->
         if err?
             console.log ('Error: ' + err) if err?
         else if appPaths?.length > 0
             if process.env.NO_ZIP
                 return deferred.resolve()
-            json = JSON.parse(fs.readFileSync('./package.json'))
             zippath = "#{appPaths[0]}/"
             if platform == 'darwin'
                 fileprefix = "yakyak-#{json.version}-osx"
@@ -418,13 +413,7 @@ platformOpts.map (plat) ->
         allNames.push taskName
     #
     # create arch-independet task
-    gulp.task "deploy:#{plat}", (cb) ->
-      # add callback to arguments
-      this_names = names[plat]
-      this_names.push cb
-      runSequence 'default', names[plat]...
+    gulp.task "deploy:#{plat}", gulp.series 'default', names[plat]...
     #
 
-gulp.task 'deploy', (cb)->
-    allNames.push cb
-    runSequence 'default', allNames...
+gulp.task 'deploy', gulp.series 'default', allNames...
