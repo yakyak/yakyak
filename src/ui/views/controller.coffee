@@ -44,12 +44,66 @@ handle 'update:viewstate', ->
     if viewstate.state == viewstate.STATE_STARTUP
         if Array.isArray viewstate.size
             later -> remote.getCurrentWindow().setSize viewstate.size...
+        #
+        #
+        # It will not allow the window to be placed offscreen (fully or partial)
+        #
+        # For that it needs to iterate on all screens and see if position is valid.
+        #  If it is not valid, then it will approximate the best position possible
         if Array.isArray viewstate.pos
-            {width, height} = remote.screen.getPrimaryDisplay().workAreaSize
-            width = parseInt(Math.min(width * 0.9, viewstate.pos[0]), 10)
-            height = parseInt(Math.min(height * 0.9, viewstate.pos[1]), 10)
-            later -> remote.getCurrentWindow().setPosition(width, height)
+            # uses max X and Y as a fallback method in case it can't be placed on any
+            #  current display, by approximating a new position
+            maxX = maxY = maxW = maxH = 0
+            reposition = false
+            # helper variable to determine valid coordinates to be used, initialized with
+            #  desired coordinates
+            xWindowPos = viewstate.pos[0]
+            yWindowPos = viewstate.pos[1]
+            # window size to be used in rounding the position, i.e. avoiding partial offscreen
+            winSize = remote.getCurrentWindow().getSize()
+            # iterate on all displays to see if the desired position is valid
+            for screen in remote.screen.getAllDisplays()
+                # get bounds of each display
+                {width, height} = screen.workAreaSize
+                {x, y} = screen.workArea
 
+                # see if this improves on maxY and maxX
+                if x + width > maxW
+                    maxX = x
+                    maxW = x + width
+                if y + height > maxH
+                    maxY = y
+                    maxH = y + height
+
+
+                # check if window will be placed in this display
+                if xWindowPos >= x and xWindowPos < x + width and yWindowPos >= y and yWindowPos < y + height
+                    # if window will be partially placed outside of this display, then it will
+                    #  move it all inside the display
+
+                    # for X
+                    if winSize[0] > width
+                        xWindowPos = x
+                    else if xWindowPos > x + width - winSize[0] / 2
+                        xWindowPos = x + width - winSize[0] / 2
+
+                    # for Y
+                    if winSize[1] > height
+                        yWindowPos = y
+                    else if yWindowPos > y + width - winSize[1] / 2
+                        yWindowPos = y + width - winSize[1] / 2,
+                    # making sure no negative positions on displays
+                    xWindowPos = Math.max(xWindowPos, x)
+                    yWindowPos = Math.max(yWindowPos, y)
+                    #
+                    reposition = true # coordinates have been calculated
+                    break # break the loop
+            if not reposition
+                xWindowPos = maxW - winSize[0] if xWindowPos > maxW
+                yWindowPos = maxY if yWindowPos > maxH
+                xWindowPos = Math.max(xWindowPos, maxX)
+                yWindowPos = Math.max(yWindowPos, maxY)
+            later -> remote.getCurrentWindow().setPosition(xWindowPos, yWindowPos)
         # only render startup
         startup(models)
 
