@@ -91,7 +91,7 @@ handle 'update:viewstate', ->
                     if winSize[1] > height
                         yWindowPos = y
                     else if yWindowPos > y + width - winSize[1] / 2
-                        yWindowPos = y + width - winSize[1] / 2,
+                        yWindowPos = y + width - winSize[1] / 2
                     # making sure no negative positions on displays
                     xWindowPos = Math.max(xWindowPos, x)
                     yWindowPos = Math.max(yWindowPos, y)
