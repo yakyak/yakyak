@@ -24,25 +24,25 @@ before_deploy:
   - WINEARCH=win32 wine wineboot --init
   #
   # actuall building of the binaries
-  - npm run -loglevel silent deploy:linux-x64
-  - npm run -loglevel silent deploy:linux-ia32
-  - npm run -loglevel silent deploy:darwin
-  - xvfb-run npm run -loglevel silent deploy:win32
+  - npm run -loglevel ${NPM_DEBUG_LEVEL} deploy:linux-x64
+  - npm run -loglevel ${NPM_DEBUG_LEVEL} deploy:linux-ia32
+  - npm run -loglevel ${NPM_DEBUG_LEVEL} deploy:darwin
+  - xvfb-run npm run -loglevel ${NPM_DEBUG_LEVEL} deploy:win32
   #
   # RPM and DEB binaries
   # install fpm
   - gem install --no-ri --no-rdoc fpm
   #
-  - npm run -loglevel silly gulp deploy:linux-x64:rpm:nodep
-  - npm run -loglevel silent gulp deploy:linux-x64:deb:nodep
-  - npm run -loglevel silly gulp deploy:linux-ia32:rpm:nodep
-  - npm run -loglevel silent gulp deploy:linux-ia32:deb:nodep
+  - npm run -loglevel ${NPM_DEBUG_LEVEL} gulp deploy:linux-x64:rpm:nodep
+  - npm run -loglevel ${NPM_DEBUG_LEVEL} gulp deploy:linux-x64:deb:nodep
+  - npm run -loglevel ${NPM_DEBUG_LEVEL} gulp deploy:linux-ia32:rpm:nodep
+  - npm run -loglevel ${NPM_DEBUG_LEVEL} gulp deploy:linux-ia32:deb:nodep
   #
   # Flatpak
   # install flatpak dependencies
   - sudo add-apt-repository ppa:alexlarsson/flatpak -y
-  - sudo apt update -qq
-  - sudo apt install flatpak-builder flatpak -qq
+  - sudo apt-get update -qq
+  - sudo apt-get install flatpak-builder flatpak -qq
   - flatpak --user remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
   # 64-bits
   - flatpak --user install flathub org.freedesktop.Sdk/x86_64/1.6
@@ -51,8 +51,8 @@ before_deploy:
   - flatpak --user install flathub org.freedesktop.Sdk/i386/1.6
   - flatpak --user install flathub org.freedesktop.Platform/i386/1.6
   #
-  - npm run -loglevel silent gulp deploy:linux-x64:flatpak:nodep
-  - npm run -loglevel silent gulp deploy:linux-ia32:flatpak:nodep
+  - npm run -loglevel ${NPM_DEBUG_LEVEL} gulp deploy:linux-x64:flatpak:nodep
+  - npm run -loglevel ${NPM_DEBUG_LEVEL} gulp deploy:linux-ia32:flatpak:nodep
 
 deploy:
   provider: releases
@@ -73,10 +73,10 @@ deploy:
     - "dist/yakyak-${YAKYAK_VERSION}-osx.zip"
     - "dist/com.github.yakyak.YakYak_master_x64.flatpak"
     - "dist/com.github.yakyak.YakYak_master_ia32.flatpak"
-    - "dist/yakyak-1.4.4-linux-amd64.deb"
-    - "dist/yakyak-1.4.4-linux-i386.deb"
-    - "dist/yakyak-1.4.4-linux-i386.rpm"
-    - "dist/yakyak-1.4.4-linux-x86_64.rpm"
+    - "dist/yakyak-${YAKYAK_VERSION}-linux-amd64.deb"
+    - "dist/yakyak-${YAKYAK_VERSION}-linux-i386.deb"
+    - "dist/yakyak-${YAKYAK_VERSION}-linux-i386.rpm"
+    - "dist/yakyak-${YAKYAK_VERSION}-linux-x86_64.rpm"
   # only trigger on tags
   on:
     tags: true
