@@ -364,7 +364,7 @@ archOpts.forEach (arch) ->
             child = spawn 'fpm', fpmArgs
             child.stdout.on 'data', (data) ->
               # do nothing
-              #console.log("fpm: #{data}");
+              console.log("fpm: #{data}");
               return true
             # log all errors
             child.on 'error', (err) ->
