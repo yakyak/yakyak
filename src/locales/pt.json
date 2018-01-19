@@ -99,6 +99,7 @@
             "hide_dock": "Esconder Ícone da Dock",
             "fullscreen": "Alternar Ecrã Inteiro",
             "tray": {
+                "main": "Icon no tray",
                 "show_tray": "Mostrar/esconder janela",
                 "show_window": "Mostrar janela",
                 "toggle_minimize": "Mostrar janela / minimizar para tray",
@@ -163,7 +164,8 @@
                 "newer": "Uma versão mais recente encontra-se disponível, por favor atualize de %s para %s",
                 "license": "Licensa",
                 "authors": "Autores principais",
-                "contributors": "Contribuidores"
+                "contributors": "Contribuidores",
+                "startup": "Abrir no arranque"
             }
         },
         "window": {
