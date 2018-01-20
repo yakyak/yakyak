@@ -14,6 +14,20 @@ module.exports = view (models) ->
             moment.locale(window.navigator.language)
         convs = conv.list()
         renderConv = (c) ->
+            #
+            if window.debug_flag
+                objs = []
+                for p in c.participant_data
+                    a_e = entity[p?.id?.chat_id]
+                    objs.push {
+                        'conv.fallback_name': p.fallback_name
+                        'conv.phone': p.phone_number
+                        'ent.display_name': a_e.display_name
+                        'ent.fallback_name': a_e.fallback_name
+                        entity: entity[p?.id?.chat_id]
+                        participant: p
+                    }
+                console.log('Conversation', c?.conversation_id?.id, objs...)
             # remove emoji suggestions on renderConv
             if document.querySelectorAll('.emoji-sugg-container').length
                 document.querySelectorAll('.emoji-sugg-container')[0].parentNode.removeChild(document.querySelectorAll('.emoji-sugg-container')[0])
