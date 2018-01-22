@@ -1,4 +1,5 @@
 {nameofconv}  = require '../util'
+{OffTheRecordStatus} = require 'hangupsjs'
 
 remote = require('electron').remote
 
@@ -8,7 +9,7 @@ module.exports = view (models) ->
   {conv, viewstate} = models
   conv_id = viewstate?.selectedConv
   c = conv[conv_id]
-  div class:'headwrap', ->
+  div class: "headwrap otr-#{c?.otr_status}", ->
     return if not c # region cannot take undefined
     name = nameofconv c
     span class:'name', ->
@@ -61,6 +62,8 @@ module.exports = view (models) ->
         , ->
             span class:'material-icons', 'info_outline'
             div class:'option-label', i18n.__('details:Details')
+    div id: 'otr', ->
+        span i18n.__('conversation.history_off:History has been turned off for this conversation.')
 
 if process.platform is 'win32'
     mainWindow = remote.getCurrentWindow()

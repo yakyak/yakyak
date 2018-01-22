@@ -6,7 +6,22 @@
 	-webkit-app-region: drag;
 	-webkit-user-select: none;
 
-	.name{
+    .otr-OFF_THE_RECORD #otr {
+	    height: 2em;
+	    background-color: var(--purple);
+	    z-index: 1000;
+	    position: absolute;
+	    width: 100%;
+	    top: ~"calc(var(--headerbarheight) / var(--zoom))";
+	    color: white;
+	    text-align: center;
+	}
+
+    .otr-ON_THE_RECORD #otr {
+        display: none;
+    }
+
+    .name{
 		background: var(--green);
 		z-index: 2;
 		position: relative;
