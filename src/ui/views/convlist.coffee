@@ -17,7 +17,7 @@ module.exports = view (models) ->
         renderConv = (c) ->
             #
             if window.debug_flag
-                objs = {}
+                objs = {conv: c}
                 objs_names = []
                 for p in c.participant_data
                     a_e = entity[p?.id?.chat_id]
