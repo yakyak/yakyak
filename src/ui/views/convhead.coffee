@@ -62,8 +62,8 @@ module.exports = view (models) ->
         , ->
             span class:'material-icons', 'info_outline'
             div class:'option-label', i18n.__('details:Details')
-    div id: 'otr', ->
-        span i18n.__('conversation.history_off:History has been turned off for this conversation.')
+        div id: 'otr', ->
+            span i18n.__('conversation.history_off:History has been turned off for this conversation.')
 
 if process.platform is 'win32'
     mainWindow = remote.getCurrentWindow()

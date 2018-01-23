@@ -1,20 +1,22 @@
 .convhead{
 	width: 100%;
 	position: relative;
-	height: ~"calc(var(--headerbarheight) / var(--zoom))";
+	height: ~"calc(2*var(--headerbarheight) / var(--zoom))";
 	cursor: default;
 	-webkit-app-region: drag;
 	-webkit-user-select: none;
 
     .otr-OFF_THE_RECORD #otr {
-	    height: 2em;
+	    line-height: 2em;
 	    background-color: var(--purple);
 	    z-index: 1000;
-	    position: absolute;
+	    position: relative;
 	    width: 100%;
-	    top: ~"calc(var(--headerbarheight) / var(--zoom))";
-	    color: white;
-	    text-align: center;
+			height: ~"calc(var(--headerbarheight) / var(--zoom))";
+			text-align: center;
+	    & span {
+				color: white;
+			}
 	}
 
     .otr-ON_THE_RECORD #otr {
@@ -72,7 +74,7 @@
 		border-bottom: 1px solid rgba(0, 0, 0, .1);
 		text-align: right;
 		transition: all .3s ease;
-		transform: translate3d(0, -100%, 0);
+		transform: translate3d(0, -50%, 0);
 		&.open{
 			transform: translate3d(0, 0, 0);
 		}
