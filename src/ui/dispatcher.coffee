@@ -367,6 +367,14 @@ handle 'togglenotif', ->
     ipc.send 'setconversationnotificationlevel', conv_id, (if q then RING else QUIET)
     conv.setNotificationLevel conv_id, (if q then 'RING' else 'QUIET')
 
+handle 'toggleotr', ->
+    {OFF_THE_RECORD, ON_THE_RECORD} = Client.OffTheRecordStatus
+    conv_id = viewstate.selectedConv
+    return unless c = conv[conv_id]
+    q = conv.isOnTheRecord(c)
+    ipc.send 'modifyotrstatus', conv_id, (if q then OFF_THE_RECORD else ON_THE_RECORD)
+    conv.toggleOtr(c)
+
 handle 'togglestar', ->
     conv_id = viewstate.selectedConv
     return unless c = conv[conv_id]

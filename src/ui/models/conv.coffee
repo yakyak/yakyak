@@ -24,6 +24,7 @@ add = (conv) ->
     # participant_data contains entity information
     # we want in the entity lookup
     entity.add p for p in conv?.participant_data ? []
+    later -> action 'syncrecentconversations'
     lookup[id]
 
 rename = (conv, newname) ->
@@ -177,6 +178,17 @@ toggleStar = (c) ->
     localStorage.starredconvs = JSON.stringify(starredconvs);
     updated 'conv'
 
+isOnTheRecord = (c) -> return c?.otr_status == 'ON_THE_RECORD'
+
+toggleOtr = (c) ->
+    conv_id = c?.conversation_id?.id
+    return unless conv_id and conv = lookup[conv_id]
+    if isOnTheRecord(c)
+        conv.otr_status = "OFF_THE_RECORD"
+    else
+        conv.otr_status = "ON_THE_RECORD"
+    updated 'conv'
+
 isEventType = (type) -> (ev) -> !!ev[type]
 
 # a "hangout" is in google terms strictly an audio/video event
@@ -277,8 +289,10 @@ funcs =
     MAX_UNREAD: MAX_UNREAD
     unread: unread
     isQuiet: isQuiet
+    isOnTheRecord: isOnTheRecord
     isStarred: isStarred
     toggleStar: toggleStar
+    toggleOtr: toggleOtr
     isPureHangout: isPureHangout
     lastChanged: lastChanged
     addTyping: addTyping

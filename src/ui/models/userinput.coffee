@@ -33,6 +33,9 @@ buildChatMessage = (sender, txt) ->
     if not delivery_medium
       delivery_medium = ClientDeliveryMediumType.BABEL
     action = null
+    otr_status = OffTheRecordStatus[conv[conv_id]?.otr_status]
+    if not otr_status?
+        otr_status = OffTheRecordStatus.ON_THE_RECORD
     if /^\/me\s/.test txt
         txt = txt.replace /^\/me/, sender.first_name
         action = MessageActionType.ME_ACTION
@@ -50,7 +53,7 @@ buildChatMessage = (sender, txt) ->
         client_generated_id
         ts
         image_id: undefined
-        otr: OffTheRecordStatus.ON_THE_RECORD
+        otr: otr_status
         message_action_type
         delivery_medium: [delivery_medium] # requires to be used as an array
     }

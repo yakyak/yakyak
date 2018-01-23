@@ -47,6 +47,16 @@ module.exports = view (models) ->
                 span class:'material-icons', 'notifications'
             div class:'option-label', i18n.__n('notification:Notification', 1)
         div class:'button'
+        , title: i18n.__('conversation.toggle_history:Toggle conversation history')
+        , onclick:onclickaction('toggleotr')
+        , ->
+            if conv.isOnTheRecord(c)
+                span class:'material-icons', 'speaker_notes'
+                div class:'option-label', i18n.__('conversation.toggle_history_on:History is on')
+            else
+                span class:'material-icons', 'speaker_notes_off'
+                div class:'option-label', i18n.__('conversation.toggle_history_off:History is off')
+        div class:'button'
         , title:i18n.__('favorite.star_it:Star / unstar')
         , onclick:onclickaction('togglestar')
         , ->
