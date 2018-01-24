@@ -88,13 +88,13 @@ onclick = (e) ->
     xhr.open("get", finalUrl)
     xhr.send()
 
-# helper method to group events in time/user bunches
+# helper method to group events in time/user/otr status bunches
 groupEvents = (es, entity) ->
     groups = []
     group = null
     user = null
     for e in es
-        if e.timestamp - (group?.end ? 0) > CUTOFF
+        if e.timestamp - (group?.end ? 0) > CUTOFF or e.otr_modification
             group = {
                 byuser: []
                 start: e.timestamp
