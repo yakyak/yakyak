@@ -26,10 +26,10 @@
             "one": "Conversa",
             "other": "Conversas"
         },
-        "numbered": "Conversation %d",
+        "numbered": "Conversa %d",
         "options": "Opções da conversa",
         "setting": "Configurações da conversa",
-        "add": "Adicionar conversa",
+        "add": "Adicionar nova conversa",
         "new": "Nova conversa",
         "name": "Nome da conversa",
         "edit": "Editar conversa",
@@ -41,7 +41,7 @@
         "search": "Procurar pessoas",
         "new_message": "Nova mensagem recebida",
         "new_attachment": "Nova messagem recebida (imagem ou vídeo)",
-        "open_link": "Opening the link in the browser..."
+        "open_link": "Abrindo o link no navegador..."
     },
     "notification": {
         "one": "Notificação",
@@ -90,14 +90,14 @@
             "copy_image": "Copiar imagem",
             "select_all": "Selecionar tudo",
             "language": "Idioma (Language)",
-            "dateformat": "Use system date format"
+            "dateformat": "Usar formato de data do sistema"
         },
         "view": {
             "title": "Ver",
             "emoji": "Converter texto para emoji",
             "suggestemoji": "Suggest emoji on typing",
             "hide_dock": "Esconder ícone do dock",
-            "fullscreen": "Abrir fullscreen",
+            "fullscreen": "Abrir em fullscreen",
             "tray": {
                 "show_tray": "Mostrar icone na bandeja",
                 "show_window": "Mostrar janela",
@@ -160,7 +160,7 @@
             "title": "Help",
             "about": {
                 "title": "Sobre o YakYak",
-                "newer": "Uma versão mais recente está isponível, por favor atualize da versão %s para %s",
+                "newer": "Uma versão mais recente está disponível, por favor atualize da versão %s para %s",
                 "license": "Licença",
                 "authors": "Autores",
                 "contributors": "Contribuidores",
