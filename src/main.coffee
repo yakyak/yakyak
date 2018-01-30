@@ -67,6 +67,7 @@ if shouldQuit
     app.quit()
     return
 
+global.debug = debug
 global.i18nOpts = { opts: null, locale: null }
 
 # No more minimizing to tray, just close it

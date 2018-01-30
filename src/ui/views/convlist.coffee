@@ -13,7 +13,25 @@ module.exports = view (models) ->
         else
             moment.locale(window.navigator.language)
         convs = conv.list()
+        debug_convs = {}
         renderConv = (c) ->
+            #
+            if window.debug_flag
+                objs = {conv: c}
+                objs_names = []
+                for p in c.participant_data
+                    a_e = entity[p?.id?.chat_id]
+                    objs["#{p.fallback_name}__#{p?.id?.chat_id}"] = {
+                        'conv.fallback_name': p.fallback_name
+                        'conv.phone': p.phone_number
+                        'ent.display_name': a_e.display_name
+                        'ent.fallback_name': a_e.fallback_name
+                        entity: entity[p?.id?.chat_id]
+                        participant: p
+                    }
+                    objs_names.push p.fallback_name
+                debug_convs["#{c?.conversation_id?.id}: #{objs_names.join('||')}"] = objs
+                #["#{p.fallback_name}_#{p?.id?.chat_id}"]
             # remove emoji suggestions on renderConv
             if document.querySelectorAll('.emoji-sugg-container').length
                 document.querySelectorAll('.emoji-sugg-container')[0].parentNode.removeChild(document.querySelectorAll('.emoji-sugg-container')[0])
@@ -83,6 +101,7 @@ module.exports = view (models) ->
             if starred.length > 0
                 div class: 'label', i18n.__ 'recent:Recent'
             others.forEach renderConv
+        console.log('Conversation_list:', debug_convs) if window.debug_flag
 
 # possible classes of messages
 MESSAGE_CLASSES = ['placeholder', 'chat_message',
