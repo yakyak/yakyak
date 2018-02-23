@@ -77,7 +77,7 @@
     "gulp-filter": "^5.0.0",
     "gulp-gzip": "^1.4.0",
     "gulp-install": "^1.1.0",
-    "gulp-less": "^3.0.5",
+    "gulp-less": "^4.0.0",
     "gulp-print": "^2.0.1",
     "gulp-rename": "^1.2.2",
     "gulp-sourcemaps": "^2.6.0",
