@@ -29,7 +29,7 @@ parse = (mb, txt) ->
 buildChatMessage = (sender, txt) ->
     conv_id = viewstate.selectedConv
     conversation_state = conv[conv_id]?.self_conversation_state
-    delivery_medium = ClientDeliveryMediumType[conversation_state?.delivery_medium_option[0]?.delivery_medium?.delivery_medium_type]
+    delivery_medium = ClientDeliveryMediumType[conversation_state?.delivery_medium_option?[0]?.delivery_medium?.delivery_medium_type]
     if not delivery_medium
       delivery_medium = ClientDeliveryMediumType.BABEL
     action = null
