@@ -1,5 +1,6 @@
 autosize = require 'autosize'
 clipboard = require('electron').clipboard
+nativeImage =require('electron').nativeImage
 {scrollToBottom, messages} = require './messages'
 {later, toggleVisibility, convertEmoji, insertTextAtCursor} = require '../util'
 
@@ -32,7 +33,29 @@ historyWalk = (el, offset) ->
 
 lastConv = null
 
+getDataUri = (url, callback) ->
+  image = new Image
+
+  image.onload = ->
+    canvas = document.createElement('canvas')
+    canvas.width = @naturalWidth
+    canvas.height = @naturalHeight
+    canvas.getContext('2d').drawImage this, 0, 0
+    callback canvas.toDataURL('image/png')
+    return
+
+  image.src = url
+  return
+
+sendSticker = (dataUrl) ->
+  stickerImage = nativeImage.createFromDataURL(dataUrl)
+  clipboard.writeImage stickerImage
+  document.querySelector('#stickers-container').classList.remove('open')
+  action 'onpasteimage'
+
 emojiCategories = require './emojicategories'
+stickerCategories = require './stickercategories'
+
 openByDefault = 'people'
 emojiSuggListIndex = -1
 if document.querySelectorAll('.emoji-sugg-container').length
@@ -91,6 +114,40 @@ module.exports = view (models) ->
                                 , onclick: do (emoji) -> ->
                                     element = document.getElementById "message-input"
                                     insertTextAtCursor element, emoji
+
+        div class: 'relative', ->
+            div id:'stickers-container', ->
+                div id:'sticker-group-selector', ->
+                    for range in stickerCategories
+                        name = range['title']
+                        path = range['representation']
+                        glow = ''
+                        if name == openByDefault
+                            glow = 'glow'
+                        span id:name+'-button'
+                        , title:name
+                        , class:'stickericon ' + glow
+                        , img src:path,
+                        width:30,height:30  
+                        , onclick: do (name) -> ->
+                            console.log("Opening " + name)
+                            openStickerDrawer name
+
+                div class:'sticker-selector', ->
+                    for range in stickerCategories
+                        name = range['title']
+                        visible = ''
+                        if name == openByDefault
+                            visible = 'visible'
+
+                        span id:name, class:'group-content ' + visible, ->
+                            for sticker in range['range']
+                                span class:'stickericon',
+                                img src: sticker, 
+                                width:30,height:30  
+                                , onclick: do (sticker) -> ->
+                                    getDataUri(sticker, sendSticker);
+
 
         div class:'input-container', ->
             textarea id:'message-input', autofocus:true, placeholder: i18n.__('input.message:Message'), rows: 1, ''
@@ -200,6 +257,12 @@ module.exports = view (models) ->
                     span class:'material-icons', 'photo'
                 input type:'file', id:'attachFile', accept:'.jpg,.jpeg,.png,.gif', onchange: (ev) ->
                     action 'uploadimage', ev.target.files
+            , ->
+                button title: i18n.__('input.emoticons:Show stickers'), onclick: (ef) ->
+                    document.querySelector('#stickers-container').classList.toggle('open')
+                    scrollToBottom()
+                , ->
+                    span class:'material-icons', "mood_bad"
 
     # focus when switching convs
     if lastConv != models.viewstate.selectedConv
@@ -256,6 +319,7 @@ preparemessage = (ev) ->
     action 'uploadpreviewimage' if img.getAttribute('src') != ''
     #
     document.querySelector('#emoji-container').classList.remove('open')
+    document.querySelector('#stickers-container').classList.remove('open')
     historyPush ev.value
     ev.value = ''
     autosize.update ev
@@ -270,6 +334,12 @@ openEmoticonDrawer = (drawerName) ->
         setClass set, (document.querySelector '#'+range['title']), 'visible'
         setClass set, (document.querySelector '#'+range['title']+'-button'), 'glow'
 
+
+openStickerDrawer = (drawerName) ->
+    for range in stickerCategories
+        set = (range['title'] == drawerName)
+        setClass set, (document.querySelector '#'+range['title']), 'visible'
+        setClass set, (document.querySelector '#'+range['title']+'-button'), 'glow'
 
 setClass = (boolean, element, className) ->
     if element == undefined or element == null

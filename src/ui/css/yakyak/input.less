@@ -72,6 +72,15 @@
         text-align: center;
         cursor: pointer;
     }
+	 span.stickericon {
+        display: inline-block;
+        width: 30px;
+        height: 30px;
+        line-height: 30px;
+        font-size: 20px;
+        text-align: center;
+        cursor: pointer;
+    }
 
     div.relative {
         position: relative;
@@ -106,6 +115,54 @@
                 display: none;
             }
             > .emoji-selector {
+                height:131px;
+                overflow-y: scroll;
+                border-bottom: 1px solid var(--lightgrey);
+                width: 100%;
+                padding: 5px 2px 5px 5px;
+
+                > .group-content {
+                    display: none;
+                    padding: none;
+                    margin: none;
+                }
+                > .group-content.visible {
+                    display: block;
+                }
+            }
+
+        }
+		> #stickers-container {
+            position: absolute;
+            z-index: 0;
+            top: 0;
+            transform: translate3d(0, 0, 0);
+            transition: all .3s ease;
+            background: var(--white);
+            &.open{
+                transform: translate3d(0, -100%, 0);
+            }
+            > #stickers-group-selector {
+                overflow-x: scroll;
+                border-bottom: 1px solid var(--lightgrey);
+                height: 33px;
+                margin-left: 5px;
+
+                > .stickericon {
+                    height: 32px;
+                    padding-bottom:2px;
+                }
+                > .stickericon.glow {
+                    border-bottom: 2px solid var(--grey);
+
+                }
+
+            }
+
+            > #sticker-group-selector::-webkit-scrollbar {
+                display: none;
+            }
+            > .sticker-selector {
                 height:131px;
                 overflow-y: scroll;
                 border-bottom: 1px solid var(--lightgrey);
