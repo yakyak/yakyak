@@ -111,7 +111,16 @@ module.exports = view (models) ->
                                     # FIXME For now, ignore characters that have the "glue" character in them;
                                     # they don't render properly
                                     continue
-                                span class:'emoticon', emoji
+                                emojiHtml=twemoji.parse(emoji)
+                                emojiReplace=emojiHtml!=emoji
+                                if emojiReplace
+                                    d = document.createElement('div')
+                                    d.innerHTML=emojiHtml
+                                    if typeof d.firstChild.getAttribute == "function"
+                                        src =d.firstChild.getAttribute("src")
+                                        alt =d.firstChild.getAttribute("alt") 
+                                
+                                img src:src, alt:alt, class:'emoji'
                                 , onclick: do (emoji) -> ->
                                     element = document.getElementById "message-input"
                                     insertTextAtCursor element, emoji

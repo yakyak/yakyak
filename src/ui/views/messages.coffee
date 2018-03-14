@@ -297,6 +297,7 @@ scrollToBottom = module.exports.scrollToBottom = ->
 
 
 ifpass = (t, f) -> if t then f else pass
+ifpasselse = (t, f,f2) -> if t then f else f2
 
 format = (cont) ->
     if cont?.attachment?
@@ -315,18 +316,31 @@ formatters = [
     # text formatter
     (seg, cont) ->
         f = seg.formatting ? {}
+        emojiHtml=twemoji.parse(seg.text)
+        emojiReplace=emojiHtml!=seg.text
+        if emojiReplace
+            d = document.createElement('div')
+            d.innerHTML=emojiHtml
+            if typeof d.firstChild.getAttribute == "function"
+                src =d.firstChild.getAttribute("src")
+                alt =d.firstChild.getAttribute("alt") 
+
         href = seg?.link_data?.link_target
         ifpass(href, ((f) -> a {href, onclick}, f)) ->
             ifpass(f.bold, b) ->
                 ifpass(f.italic, i) ->
                     ifpass(f.underline, u) ->
                         ifpass(f.strikethrough, s) ->
-                            pass if cont.proxied
-                                stripProxiedColon seg.text
+                            ifpasselse(emojiReplace, ((f)-> img {src:src, alt:alt,class:'emoji'},f),
+                            ((f)-> pass 
+                            if cont.proxied
+                                 stripProxiedColon seg.text
                             else if seg.type == 'LINE_BREAK'
-                                '\n'
-                            else
-                                seg.text
+                                    '\n'
+                                else
+                                    seg.text
+                            )
+                            )
     # image formatter
     (seg) ->
         href = seg?.link_data?.link_target
