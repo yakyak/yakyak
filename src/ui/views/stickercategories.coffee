@@ -50,7 +50,7 @@ module.exports = [
     'https://www.gstatic.com/chat/stickers/pack3/Alien_Drunk.png'
     'https://www.gstatic.com/chat/stickers/pack3/Alien_Laughing.png'
     'https://www.gstatic.com/chat/stickers/pack3/Alien_Love.png'
-    'https://www.gstatic.com/chat/stickers/pack3/Alien_Painful.png"'
+    'https://www.gstatic.com/chat/stickers/pack3/Alien_Painful.png'
     'https://www.gstatic.com/chat/stickers/pack3/Alien_Peace.png'
     'https://www.gstatic.com/chat/stickers/pack3/Alien_Scared.png'
     'https://www.gstatic.com/chat/stickers/pack3/Alien_Sick.png'

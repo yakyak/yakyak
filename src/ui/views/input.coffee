@@ -57,6 +57,7 @@ emojiCategories = require './emojicategories'
 stickerCategories = require './stickercategories'
 
 openByDefault = 'people'
+openByDefaultSticker = 'Internet'
 emojiSuggListIndex = -1
 if document.querySelectorAll('.emoji-sugg-container').length
     document.querySelectorAll('.emoji-sugg-container')[0].parentNode.removeChild(document.querySelectorAll('.emoji-sugg-container')[0])
@@ -117,18 +118,17 @@ module.exports = view (models) ->
 
         div class: 'relative', ->
             div id:'stickers-container', ->
-                div id:'sticker-group-selector', ->
+                div id:'stickers-group-selector', ->
                     for range in stickerCategories
                         name = range['title']
                         path = range['representation']
                         glow = ''
-                        if name == openByDefault
+                        if name == openByDefaultSticker
                             glow = 'glow'
-                        span id:name+'-button'
+                        img src:path
+                        , id:name+'-button'
                         , title:name
-                        , class:'stickericon ' + glow
-                        , img src:path,
-                        width:30,height:30  
+                        , class: 'stickericon '+glow
                         , onclick: do (name) -> ->
                             console.log("Opening " + name)
                             openStickerDrawer name
@@ -137,14 +137,13 @@ module.exports = view (models) ->
                     for range in stickerCategories
                         name = range['title']
                         visible = ''
-                        if name == openByDefault
+                        if name == openByDefaultSticker
                             visible = 'visible'
 
                         span id:name, class:'group-content ' + visible, ->
                             for sticker in range['range']
-                                span class:'stickericon',
-                                img src: sticker, 
-                                width:30,height:30  
+                                img src: sticker
+                                , class: 'sticker '
                                 , onclick: do (sticker) -> ->
                                     getDataUri(sticker, sendSticker);
 
@@ -262,7 +261,7 @@ module.exports = view (models) ->
                     document.querySelector('#stickers-container').classList.toggle('open')
                     scrollToBottom()
                 , ->
-                    span class:'material-icons', "mood_bad"
+                    span class:'material-icons', "wallpaper"
 
     # focus when switching convs
     if lastConv != models.viewstate.selectedConv
