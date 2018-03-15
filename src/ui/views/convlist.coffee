@@ -114,17 +114,29 @@ format = (cont) ->
     for seg, i in cont?.segment ? []
         continue if cont.proxied and i < 1
         f = seg.formatting ? {}
+        emojiHtml=twemoji.parse(seg.text)
+        emojiReplace=emojiHtml!=seg.text
+        if emojiReplace
+            tmpDiv = document.createElement('div')
+            tmpDiv.appendChild(document.createTextNode(seg.text))
+            twemoji.parse(tmpDiv)
         # these are links to images that we try loading
          # as images and show inline. (not attachments)
         ifpass(f.bold, b) ->
             ifpass(f.italics, i) ->
                 ifpass(f.underline, u) ->
                     ifpass(f.strikethrough, s) ->
-                        # preload returns whether the image
-                        # has been loaded. redraw when it
-                        # loads.
-                        pass if cont.proxied
-                            stripProxiedColon seg.text
-                        else
-                            seg.text
+                        ifpass(emojiReplace, div)
+                        if !emojiReplace
+                            if cont.proxied
+                                stripProxiedColon seg.text
+                            else
+                                seg.text
+                        else 
+                            for inDiv in tmpDiv.childNodes
+                                if inDiv.nodeType== 3
+                                        pass inDiv.wholeText
+                                    else
+                                        img({src: inDiv.src, alt: inDiv.alt, class:'colorEmoji'})
+                            
     null

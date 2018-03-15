@@ -318,12 +318,11 @@ formatters = [
         f = seg.formatting ? {}
         emojiHtml=twemoji.parse(seg.text)
         emojiReplace=emojiHtml!=seg.text
+        
         if emojiReplace
-            d = document.createElement('div')
-            d.innerHTML=emojiHtml
-            if typeof d.firstChild.getAttribute == "function"
-                src =d.firstChild.getAttribute("src")
-                alt =d.firstChild.getAttribute("alt") 
+            tmpDiv = document.createElement('div')
+            tmpDiv.appendChild(document.createTextNode(seg.text))
+            twemoji.parse(tmpDiv)
 
         href = seg?.link_data?.link_target
         ifpass(href, ((f) -> a {href, onclick}, f)) ->
@@ -331,16 +330,21 @@ formatters = [
                 ifpass(f.italic, i) ->
                     ifpass(f.underline, u) ->
                         ifpass(f.strikethrough, s) ->
-                            ifpasselse(emojiReplace, ((f)-> img {src:src, alt:alt,class:'emoji'},f),
-                            ((f)-> pass 
-                            if cont.proxied
-                                 stripProxiedColon seg.text
-                            else if seg.type == 'LINE_BREAK'
-                                    '\n'
-                                else
-                                    seg.text
-                            )
-                            )
+                            ifpass(emojiReplace, div)
+                            if !emojiReplace
+                                if cont.proxied
+                                    stripProxiedColon seg.text
+                                else if seg.type == 'LINE_BREAK'
+                                        '\n'
+                                    else
+                                        seg.text
+                            else 
+                               for inDiv in tmpDiv.childNodes
+                                   if inDiv.nodeType== 3
+                                        pass inDiv.wholeText
+                                    else
+                                        img({src: inDiv.src, alt: inDiv.alt, class:'colorEmoji'})
+                                    
     # image formatter
     (seg) ->
         href = seg?.link_data?.link_target

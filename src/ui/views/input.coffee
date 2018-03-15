@@ -53,6 +53,13 @@ sendSticker = (dataUrl) ->
   document.querySelector('#stickers-container').classList.remove('open')
   action 'onpasteimage'
 
+getColorEmoji = (character, returnObject) ->
+  d = document.createElement('div')
+  d.innerHTML=twemoji.parse(character)
+  if typeof d.firstChild.getAttribute == "function"
+    returnObject.src =d.firstChild.getAttribute("src")
+    returnObject.alt =d.firstChild.getAttribute("alt")   
+
 emojiCategories = require './emojicategories'
 stickerCategories = require './stickercategories'
 
@@ -90,10 +97,13 @@ module.exports = view (models) ->
                         glow = ''
                         if name == openByDefault
                             glow = 'glow'
-                        span id:name+'-button'
-                        , title:name
-                        , class:'emoticon ' + glow
-                        , range['representation']
+                        #span id:name+'-button'
+                        #, title:name
+                        #, class:'emoticon ' + glow,
+                        imageParam ={src: '', alt:''}
+                        getColorEmoji(range['representation'], imageParam)
+                        img id:name+'-button',title:name, src:imageParam.src, alt:imageParam.alt, class:'emoticon ' + glow
+                        #, range['representation']
                         , onclick: do (name) -> ->
                             console.log("Opening " + name)
                             openEmoticonDrawer name
@@ -107,10 +117,10 @@ module.exports = view (models) ->
 
                         span id:name, class:'group-content ' + visible, ->
                             for emoji in range['range']
-                                if emoji.indexOf("\u200d") >= 0
+                                #if emoji.indexOf("\u200d") >= 0
                                     # FIXME For now, ignore characters that have the "glue" character in them;
                                     # they don't render properly
-                                    continue
+                                 #   continue
                                 emojiHtml=twemoji.parse(emoji)
                                 emojiReplace=emojiHtml!=emoji
                                 if emojiReplace
@@ -120,7 +130,7 @@ module.exports = view (models) ->
                                         src =d.firstChild.getAttribute("src")
                                         alt =d.firstChild.getAttribute("alt") 
                                 
-                                img src:src, alt:alt, class:'emoji'
+                                img src:src, alt:alt, class:'colorEmoji'
                                 , onclick: do (emoji) -> ->
                                     element = document.getElementById "message-input"
                                     insertTextAtCursor element, emoji
@@ -257,12 +267,17 @@ module.exports = view (models) ->
                     document.querySelector('#emoji-container').classList.toggle('open')
                     scrollToBottom()
                 , ->
-                    span class:'material-icons', "mood"
+                    imageParam ={src: '', alt:''}
+                    getColorEmoji(twemoji.convert.fromCodePoint('+1f60b'), imageParam)
+                    img src:imageParam.src, alt:imageParam.alt, class:'material-icons'
+
             , ->
                 button title: i18n.__('input.image:Attach image'), onclick: (ev) ->
                     document.getElementById('attachFile').click()
                 , ->
-                    span class:'material-icons', 'photo'
+                    imageParam ={src: '', alt:''}
+                    getColorEmoji(twemoji.convert.fromCodePoint('+1f5bc'), imageParam)
+                    img src:imageParam.src, alt:imageParam.alt, class:'material-icons'
                 input type:'file', id:'attachFile', accept:'.jpg,.jpeg,.png,.gif', onchange: (ev) ->
                     action 'uploadimage', ev.target.files
             , ->
@@ -270,7 +285,11 @@ module.exports = view (models) ->
                     document.querySelector('#stickers-container').classList.toggle('open')
                     scrollToBottom()
                 , ->
-                    span class:'material-icons', "wallpaper"
+                    imageParam ={src: '', alt:''}
+                    getColorEmoji(twemoji.convert.fromCodePoint('+1f439'), imageParam)
+                    img src:imageParam.src, alt:imageParam.alt, class:'material-icons'
+                    
+
 
     # focus when switching convs
     if lastConv != models.viewstate.selectedConv
