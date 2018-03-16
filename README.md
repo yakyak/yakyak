@@ -9,7 +9,7 @@ Desktop client for Google Hangouts
 
 This is a modified version of YakYak (https://github.com/yakyak/yakyak)
 
-New features
+<b>New features</b>
 - Handle stickers
 - Use alternative emoji collection (color emoji on any Os)
 
