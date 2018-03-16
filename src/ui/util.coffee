@@ -163,32 +163,35 @@ escapeRegExp = (text) ->
 ifpass = (t, f) -> if t then f else pass
 
 emojiReplaced = (emoji,viewstate) ->
-    if viewstate.emojiType=="twitter"
-        convertedHTML = twemoji.parse(emoji)
-        return convertedHTML!=emoji
-    else
-        if viewstate.emojiType=="emojione" 
-            emojione.greedyMatch = true
-            convertedHTML = emojione.toImage(emoji)
+    if emoji
+        if viewstate.emojiType=="twitter"
+            convertedHTML = twemoji.parse(emoji)
             return convertedHTML!=emoji
         else
-            return false            
+            if viewstate.emojiType=="emojione" 
+                emojione.greedyMatch = true
+                convertedHTML = emojione.toImage(emoji)
+                return convertedHTML!=emoji
+    return false            
 
 emojiToHtml = (inputString, viewstate) ->
-    if viewstate.emojiType!="default"
-        tmpDiv = document.createElement('div')
-        if viewstate.emojiType=="twitter"
-            tmpDiv.appendChild(document.createTextNode(inputString))
-            twemoji.parse(tmpDiv)
+    if inputString
+        if viewstate.emojiType!="default"
+            tmpDiv = document.createElement('div')
+            if viewstate.emojiType=="twitter"
+                tmpDiv.appendChild(document.createTextNode(inputString))
+                twemoji.parse(tmpDiv)
+            else
+                emojione.greedyMatch = true
+                tmpDiv.innerHTML= emojione.toImage(inputString)
+            div ->
+                for inDiv in tmpDiv.childNodes
+                    if inDiv.nodeType== 3
+                        pass inDiv.wholeText
+                    else
+                        img({src: inDiv.src, alt: inDiv.alt, class:'colorEmoji'})
         else
-            emojione.greedyMatch = true
-            tmpDiv.innerHTML= emojione.toImage(inputString)
-        ifpass(true, div) ->
-            for inDiv in tmpDiv.childNodes
-                if inDiv.nodeType== 3
-                    pass inDiv.wholeText
-                else
-                    img({src: inDiv.src, alt: inDiv.alt, class:'colorEmoji'})
+            pass inputString
     else
         pass inputString
 

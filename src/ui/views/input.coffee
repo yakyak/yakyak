@@ -35,7 +35,7 @@ historyWalk = (el, offset) ->
 
 lastConv = null
 
-getDataUri = (url, callback) ->
+getDataUri = (el, url, callback) ->
   image = new Image
 
   image.onload = ->
@@ -43,6 +43,7 @@ getDataUri = (url, callback) ->
     canvas.width = @naturalWidth
     canvas.height = @naturalHeight
     canvas.getContext('2d').drawImage this, 0, 0
+    el.focus()
     callback canvas.toDataURL('image/png')
     return
 
@@ -312,7 +313,8 @@ module.exports = view (models) ->
                                 img src: sticker
                                 , class: 'sticker '
                                 , onclick: do (sticker) -> ->
-                                    getDataUri(sticker, sendSticker);
+                                    element = document.getElementById "message-input"
+                                    getDataUri(element, sticker, sendSticker);
 
 
         div class:'input-container', ->
@@ -415,6 +417,7 @@ module.exports = view (models) ->
                 inputDivSelection=saveSelection()
             span class:'button-container', ->
                 button title: i18n.__('input.emoticons:Show emoticons'), onclick: (ef) ->
+                    document.querySelector('#stickers-container').classList.remove('open')
                     document.querySelector('#emoji-container').classList.toggle('open')
                     scrollToBottom()
                 , ->
@@ -427,6 +430,8 @@ module.exports = view (models) ->
 
             , ->
                 button title: i18n.__('input.image:Attach image'), onclick: (ev) ->
+                    document.querySelector('#emoji-container').classList.remove('open')
+                    document.querySelector('#stickers-container').classList.remove('open')
                     document.getElementById('attachFile').click()
                 , ->
                     if (models.viewstate.emojiType!="default")
@@ -439,6 +444,7 @@ module.exports = view (models) ->
                         span class:'material-icons', 'photo'    
             , ->
                 button title: i18n.__('input.emoticons:Show stickers'), onclick: (ef) ->
+                    document.querySelector('#emoji-container').classList.remove('open')
                     document.querySelector('#stickers-container').classList.toggle('open')
                     scrollToBottom()
                 , ->
