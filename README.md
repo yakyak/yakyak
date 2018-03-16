@@ -3,7 +3,7 @@ YakYakPlus
 
 [![Greenkeeper badge](https://badges.greenkeeper.io/yakyak/yakyak.svg)](https://greenkeeper.io/)
 
-[![Build Status](https://travis-ci.org/yakyak/yakyak.svg)](https://travis-ci.org/yakyak/yakyak)
+[![Build Status](https://travis-ci.org/szivgy/yakyakPlus.svg?branch=master)](https://travis-ci.org/szivgy/yakyakPlus)
 
 Desktop client for Google Hangouts
 
