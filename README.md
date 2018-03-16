@@ -16,5 +16,5 @@ New features
 ![yakyak _censored](https://user-images.githubusercontent.com/22685127/37539690-b08d69f0-2954-11e8-8604-1448d5d06a57.jpg)
 
 Used:
-https://github.com/twitter/twemoji
-https://github.com/emojione/emojione
+- https://github.com/twitter/twemoji
+- https://github.com/emojione/emojione
