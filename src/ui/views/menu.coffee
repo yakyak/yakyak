@@ -248,6 +248,23 @@ templateView = (viewstate) ->
             click: (it) -> action 'suggestemoji', it.checked
         }
         {
+            label: i18n.__('menu.view.emoji_type.title:Emoji type')
+            submenu: [
+              {
+                  label: i18n.__('menu.view.emoji_type.default:character')
+                  type: 'radio'
+                  checked: viewstate.emojiType == 'default'
+                  click: -> action 'changeemojitype', 'default'
+              }
+              {
+                  label: i18n.__('menu.view.emoji_type.twitter:Twitter')
+                  type: 'radio'
+                  checked: viewstate.emojiType == 'twitter'
+                  click: -> action 'changeemojitype', 'twitter'
+              }
+            ]
+        }
+        {
             label: i18n.__('menu.view.color_scheme.title:Color Scheme')
             submenu: [
               {

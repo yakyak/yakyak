@@ -9,7 +9,7 @@ mime = require('mime-types')
 clipboard = require('electron').clipboard
 
 {entity, conv, viewstate, userinput, connection, convsettings, notify} = require './models'
-{insertTextAtCursor, throttle, later, isImg, nameof} = require './util'
+{throttle, later, isImg, nameof} = require './util'
 
 'connecting connected connect_failed'.split(' ').forEach (n) ->
     handle n, -> connection.setState n
@@ -30,6 +30,7 @@ handle 'init', (init) ->
 
     viewstate.setColorScheme viewstate.colorScheme
     viewstate.setFontSize viewstate.fontSize
+    viewstate.setEmojiType viewstate.emojiType
 
     # update model from init object
     entity._initFromSelfEntity init.self_entity
@@ -491,6 +492,9 @@ handle 'convertemoji', (doshow) ->
 
 handle 'suggestemoji', (doshow) ->
     viewstate.setSuggestEmoji doshow
+
+handle 'changeemojitype', (emojiType) ->
+    viewstate.setEmojiType emojiType
 
 handle 'changetheme', (colorscheme) ->
     viewstate.setColorScheme colorscheme
