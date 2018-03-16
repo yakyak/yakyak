@@ -262,6 +262,13 @@ templateView = (viewstate) ->
                   checked: viewstate.emojiType == 'twitter'
                   click: -> action 'changeemojitype', 'twitter'
               }
+              {
+                  label: i18n.__('menu.view.emoji_type.emojiOne:EmojiOne')
+                  type: 'radio'
+                  checked: viewstate.emojiType == 'emojione'
+                  click: -> action 'changeemojitype', 'emojione'
+              }
+              
             ]
         }
         {

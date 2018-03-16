@@ -55,19 +55,27 @@ sendSticker = (dataUrl) ->
   document.querySelector('#stickers-container').classList.remove('open')
   action 'onpasteimage'
 
-getColorEmoji = (character, returnObject) ->
-  d = document.createElement('div')
-  d.innerHTML=twemoji.parse(character)
-  if typeof d.firstChild.getAttribute == "function"
-    returnObject.src =d.firstChild.getAttribute("src")
-    returnObject.alt =d.firstChild.getAttribute("alt")   
+getColorEmoji = (character, viewstate, returnObject) ->
+    
+    d = document.createElement('div')
+    if viewstate.emojiType == "twitter"
+        d.innerHTML=twemoji.parse(character)
+    else
+        emojione.greedyMatch = true
+        d.innerHTML= emojione.toImage(character)
+
+    if typeof d.firstChild.getAttribute == "function"
+        returnObject.src =d.firstChild.getAttribute("src")
+        returnObject.alt =d.firstChild.getAttribute("alt")   
 
 emojiCharToHTML = (character, viewstate) ->   
     if viewstate.emojiType == "default"
         return character
     else
-        return twemoji.parse(character).replace("emoji","colorEmoji")
-    
+        if viewstate.emojiType == "twitter"
+            return twemoji.parse(character).replace("emoji","colorEmoji")
+        else
+            return emojione.toImage(character).replace("class=\"emojione\"","class=\"colorEmoji\"")
 
 placeCaretAtEnd = (el, moveTo) ->
     el.focus()
@@ -236,7 +244,7 @@ module.exports = view (models) ->
                                 openEmoticonDrawer name
                         else
                             imageParam ={src: '', alt:''}
-                            getColorEmoji(range['representation'], imageParam)
+                            getColorEmoji(range['representation'],models.viewstate, imageParam)
                             img id:name+'-button',title:name, src:imageParam.src, alt:imageParam.alt, class:'emoticon ' + glow
                             , onclick: do (name) -> ->
                                 console.log("Opening " + name)
@@ -412,7 +420,7 @@ module.exports = view (models) ->
                 , ->
                     if (models.viewstate.emojiType!="default")
                         imageParam ={src: '', alt:''}
-                        getColorEmoji(twemoji.convert.fromCodePoint('+1f60b'), imageParam)
+                        getColorEmoji(twemoji.convert.fromCodePoint('+1f60b'), models.viewstate,imageParam)
                         img src:imageParam.src, alt:imageParam.alt, class:'material-icons'
                     else
                         span class:'material-icons', "mood"
@@ -423,7 +431,7 @@ module.exports = view (models) ->
                 , ->
                     if (models.viewstate.emojiType!="default")
                         imageParam ={src: '', alt:''}
-                        getColorEmoji(twemoji.convert.fromCodePoint('+1f5bc'), imageParam)
+                        getColorEmoji(twemoji.convert.fromCodePoint('+1f5bc'),models.viewstate, imageParam)
                         img src:imageParam.src, alt:imageParam.alt, class:'material-icons'
                         input type:'file', id:'attachFile', accept:'.jpg,.jpeg,.png,.gif', onchange: (ev) ->
                             action 'uploadimage', ev.target.files
@@ -436,7 +444,7 @@ module.exports = view (models) ->
                 , ->
                     if (models.viewstate.emojiType!="default")
                         imageParam ={src: '', alt:''}
-                        getColorEmoji(twemoji.convert.fromCodePoint('+1f439'), imageParam)
+                        getColorEmoji(twemoji.convert.fromCodePoint('+1f439'), models.viewstate,imageParam)
                         img src:imageParam.src, alt:imageParam.alt, class:'material-icons'
                     else
                         span class:'material-icons', 'photo'    
