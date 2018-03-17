@@ -439,10 +439,10 @@ module.exports = view (models) ->
                         imageParam ={src: '', alt:''}
                         getColorEmoji(twemoji.convert.fromCodePoint('+1f5bc'),models.viewstate, imageParam)
                         img src:imageParam.src, alt:imageParam.alt, class:'material-icons'
-                        input type:'file', id:'attachFile', accept:'.jpg,.jpeg,.png,.gif', onchange: (ev) ->
-                            action 'uploadimage', ev.target.files
                     else
                         span class:'material-icons', 'photo'    
+                    input type:'file', id:'attachFile', accept:'.jpg,.jpeg,.png,.gif', onchange: (ev) ->
+                        action 'uploadimage', ev.target.files
             , ->
                 button title: i18n.__('input.emoticons:Show stickers'), onclick: (ef) ->
                     document.querySelector('#emoji-container').classList.remove('open')

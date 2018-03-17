@@ -2,6 +2,7 @@ ipc          = require('electron').ipcRenderer
 clipboard    = require('electron').clipboard
 path         = require('path')
 autoLauncher = require('./util').autoLauncher
+{emojiReplaced,emojiToHtml} = require './util'
 
 [drive, path_parts...] = path.normalize(__dirname).split(path.sep)
 global.YAKYAK_ROOT_DIR = [drive, path_parts.map(encodeURIComponent)...].join('/')
@@ -202,12 +203,18 @@ document.addEventListener 'paste', (e) ->
     if not clipboard.readImage().isEmpty() and not clipboard.readText()
         action 'onpasteimage'
         e.preventDefault()
+    text = clipboard.readText()        
+    if emojiReplaced(text, viewstate)        
+        text=emojiToHtml(text, viewstate)
+        clipboard.writeHtml(text)
+
     # focus on web contents
     mainWindow = remote.getCurrentWindow()
     mainWindow.webContents.focus()
     # focus on textarea
     el = window.document.getElementById('message-input')
     el?.focus()
+
 
 # register event listeners for on/offline
 window.addEventListener 'online',  -> action 'wonline', true

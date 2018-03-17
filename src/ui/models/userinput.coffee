@@ -11,7 +11,7 @@ split_first = (str, token) ->
   last = str.substr start + token.length
   [first, last]
 
-recout = (mb, node,bold, italic, strike, underline,link)->
+recursiveOut = (mb, node,bold, italic, strike, underline,link)->
 
         if node.nodeType==3
             line = node.data
@@ -22,33 +22,32 @@ recout = (mb, node,bold, italic, strike, underline,link)->
                     if before then mb.text(before, bold, italic,strike, underline)
                     line = after
                     mb.link url, url
-            mb.text line, bold, italic,strike, underline
+            mb.text line, bold, italic,strike, underline if line
         else
             switch node.nodeName
                 when 'B' then  bold=true
                 when 'I' then  italic=true
                 when 'U' then  underline=true
                 when 'S' then  strike=true
-            #if node.hasOwnProperty("data")
-            #    //mb.text(node.data, bold, italic,strike, underline, link)
+                when 'BR' then mb.linebreak()
             if node.childNodes
                 for childNode in node.childNodes
-                    recout(mb, childNode,bold, italic, strike, underline)
+                    recursiveOut(mb, childNode,bold, italic, strike, underline)
             
 
 parse = (mb, txt) ->
-    lines = txt.split /\r?\n/
-    last = lines.length - 1
-    for line, index in lines
-        tmpDiv = document.createElement('div')
-        tmpDiv.innerHTML = line
-        bold = false
-        italic = false
-        strike = false
-        underline = false
-        recout(mb,tmpDiv,bold, italic, strike, underline)
-        if line 
-            mb.linebreak() unless index is last
+    #lines = txt.split /\r?\n/
+    ##lines = txt.split "<br>"
+    ##last = lines.length - 1
+    ##for line, index in lines
+    tmpDiv = document.createElement('div')
+    tmpDiv.innerHTML = txt
+    bold = false
+    italic = false
+    strike = false
+    underline = false
+    recursiveOut(mb,tmpDiv,bold, italic, strike, underline)
+    #mb.linebreak() unless index is last
     null
 
 
