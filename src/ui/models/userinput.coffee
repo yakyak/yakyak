@@ -11,20 +11,48 @@ split_first = (str, token) ->
   last = str.substr start + token.length
   [first, last]
 
+recout = (mb, node,bold, italic, strike, underline,link)->
+
+        if node.nodeType==3
+            line = node.data
+            urls = line.match urlRegexp()
+            if urls?
+                for url in urls
+                    [before, after] = split_first line, url
+                    if before then mb.text(before, bold, italic,strike, underline)
+                    line = after
+                    mb.link url, url
+            mb.text line, bold, italic,strike, underline
+        else
+            switch node.nodeName
+                when 'B' then  bold=true
+                when 'I' then  italic=true
+                when 'U' then  underline=true
+                when 'S' then  strike=true
+            #if node.hasOwnProperty("data")
+            #    //mb.text(node.data, bold, italic,strike, underline, link)
+            if node.childNodes
+                for childNode in node.childNodes
+                    recout(mb, childNode,bold, italic, strike, underline)
+            
+
 parse = (mb, txt) ->
     lines = txt.split /\r?\n/
     last = lines.length - 1
     for line, index in lines
-        urls = line.match urlRegexp()
-        if urls?
-            for url in urls
-                [before, after] = split_first line, url
-                if before then mb.text(before)
-                line = after
-                mb.link url, url
-        mb.text line if line
-        mb.linebreak() unless index is last
+        tmpDiv = document.createElement('div')
+        tmpDiv.innerHTML = line
+        bold = false
+        italic = false
+        strike = false
+        underline = false
+        recout(mb,tmpDiv,bold, italic, strike, underline)
+        if line 
+            mb.linebreak() unless index is last
     null
+
+
+
 
 buildChatMessage = (sender, txt) ->
     conv_id = viewstate.selectedConv
