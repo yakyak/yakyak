@@ -7,7 +7,6 @@ nativeImage =require('electron').nativeImage
 isModifierKey = (ev) -> ev.altKey || ev.ctrlKey || ev.metaKey || ev.shiftKey
 isAltCtrlMeta = (ev) -> ev.altKey || ev.ctrlKey || ev.metaKey
 
-cursorToEnd = (el) -> el.selectionStart = el.selectionEnd = el.value.length
 unicodeMap = require '../emojishortcode';
 history = []
 historyIndex = 0
@@ -21,17 +20,17 @@ historyPush = (data) ->
     if history.length == historyLength then history.shift()
     historyIndex = history.length
 
-historyWalk = (el, offset) ->
+historyWalk = (el, offset, viewstate) ->
     # if we are starting to dive into history be backup current message
-    if offset is -1 and historyIndex is history.length then historyBackup = el.value
+    if offset is -1 and historyIndex is history.length then historyBackup = el.innerHTML
     historyIndex = historyIndex + offset
     # constrain index
     if historyIndex < 0 then historyIndex = 0
     if historyIndex > history.length then historyIndex = history.length
     # if don't have history value restore 'current message'
     val = history[historyIndex] or historyBackup
-    el.value = val
-    setTimeout (-> cursorToEnd el), 1
+    el.innerHTML = emojiCharToHTML(val, viewstate)
+    setTimeout (-> placeCaretAtEnd el), 1
 
 lastConv = null
 
@@ -82,7 +81,10 @@ placeCaretAtEnd = (el, moveTo) ->
     el.focus()
     if typeof window.getSelection != "undefined" and typeof document.createRange != "undefined"
         range = document.createRange()
-        range.setStartBefore(moveTo) 
+        if moveTo
+            range.setStartBefore(moveTo) 
+        else
+            range.selectNodeContents(el)
         range.collapse(false)
         sel = window.getSelection()
         sel.removeAllRanges()
@@ -352,14 +354,13 @@ module.exports = view (models) ->
                     if e.keyCode == 13
                         for und in e.target.querySelectorAll("undefined")
                                 e.target.removeChild(und)
-                        if e.target.lastChild.nodeType == 3
+                        if e.target.lastChild!=null and e.target.lastChild.nodeType == 3
                             if e.target.lastChild.nodeValue.slice(-1)=="\u00a0"
                                 e.target.lastChild.nodeValue = e.target.lastChild.nodeValue.replace(/.$/," ")
                         e.preventDefault()
                         preparemessage e.target
-                    if e.target.value == ''
-                        if e.key is 'ArrowUp' then historyWalk e.target, -1
-                        if e.key is 'ArrowDown' then historyWalk e.target, +1
+                    if e.key is 'ArrowUp' then historyWalk e.target, -1, models.viewstate
+                    if e.key is 'ArrowDown' then historyWalk e.target, +1, models.viewstate
                 action 'lastkeydown', Date.now() unless isAltCtrlMeta(e)
             , onkeyup: (e) ->
                 #check for emojis after pressing space
@@ -512,24 +513,24 @@ preparemessage = (ev) ->
     else 
         text = ev.innerHTML
     text.replace(/%20/g, " ");
-    
-    if models.viewstate.convertEmoji
-        # before sending message, check for emoji
-        #element = document.getElementById "message-input"
-        # Converts emojicodes (e.g. :smile:, :-) ) to unicode
-        text = convertEmoji(text)
-    #
-    action 'sendmessage', text
-    #
-    # check if there is an image in preview
-    img = document.getElementById "preview-img"
-    action 'uploadpreviewimage' if img.getAttribute('src') != ''
-    #
-    document.querySelector('#emoji-container').classList.remove('open')
-    document.querySelector('#stickers-container').classList.remove('open')
-    historyPush text
-    ev.innerHTML = ''
-    autosize.update ev
+    if text.trim() != ""
+        if models.viewstate.convertEmoji
+            # before sending message, check for emoji
+            #element = document.getElementById "message-input"
+            # Converts emojicodes (e.g. :smile:, :-) ) to unicode
+            text = convertEmoji(text)
+        #
+        action 'sendmessage', text
+        #
+        # check if there is an image in preview
+        img = document.getElementById "preview-img"
+        action 'uploadpreviewimage' if img.getAttribute('src') != ''
+        #
+        document.querySelector('#emoji-container').classList.remove('open')
+        document.querySelector('#stickers-container').classList.remove('open')
+        historyPush text
+        ev.innerHTML = ''
+        autosize.update ev
 
 handle 'noinputkeydown', (ev) ->
     el = document.querySelector('.input textarea')
