@@ -203,8 +203,9 @@
         z-index: 1;
         position: relative;
         min-height: 49px;
-        textarea {
+        div {
             width: 100%;
+            overflow-y: auto;
             resize: vertical;
             font-size: var(--fontsize);
             line-height: 18px;
@@ -213,7 +214,7 @@
             outline: none;
             border: none;
             background: none;
-            padding: 3px 60px 3px 10px;
+            padding: 3px 90px 3px 10px;
             color: var(--black);
             &::-webkit-input-placeholder{
                 color: var(--grey);
