@@ -148,7 +148,7 @@ handle 'mutesoundnotification', ->
     viewstate.setMuteSoundNotification(not viewstate.muteSoundNotification)
 
 handle 'togglemenu', ->
-    remote.Menu.getApplicationMenu().popup()
+    remote.Menu.getApplicationMenu().popup({})
 
 handle 'setescapeclearsinput', (value) ->
     viewstate.setEscapeClearsInput(value)
