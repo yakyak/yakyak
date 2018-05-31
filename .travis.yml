@@ -20,6 +20,7 @@ before_deploy:
   # allows to have wine with 32-bits
   - sudo dpkg --add-architecture i386
   - sudo apt-get -qq update
+  - sudo rm /var/lib/dpkg/lock
   - sudo apt-get install -y -qq wine1.6-i386 zip xvfb rpm
   - WINEARCH=win32 wine wineboot --init
   #
