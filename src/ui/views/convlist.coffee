@@ -1,5 +1,5 @@
 moment = require 'moment'
-{nameof, initialsof, nameofconv, fixlink, drawAvatar} = require '../util'
+{nameof, initialsof, nameofconv, fixlink, drawAvatar, emojiReplaced, emojiToHtml} = require '../util'
 
 module.exports = view (models) ->
 
@@ -67,7 +67,7 @@ module.exports = view (models) ->
                         span class:'convname', name
                         if viewstate.showConvLast
                             div class:'lastmessage', ->
-                                drawMessage(c?.event?.slice(-1)[0], entity)
+                                drawMessage(c?.event?.slice(-1)[0], entity, viewstate)
                 div class:'divider'
             , onclick: (ev) ->
                 ev.preventDefault()
@@ -88,14 +88,14 @@ module.exports = view (models) ->
 MESSAGE_CLASSES = ['placeholder', 'chat_message',
 'conversation_rename', 'membership_change']
 
-drawMessage = (e, entity) ->
+drawMessage = (e, entity, viewstate) ->
     mclz = ['message']
     mclz.push c for c in MESSAGE_CLASSES when e[c]?
     title = if e.timestamp then moment(e.timestamp / 1000).calendar() else null
     div id:"list_#{e.event_id}", key:"list_#{e.event_id}", class:mclz.join(' '), title:title, ->
         if e.chat_message
             content = e.chat_message?.message_content
-            format content
+            format content, viewstate
         else if e.conversation_rename
             pass "renamed conversation to #{e.conversation_rename.new_name}"
             # {new_name: "labbot" old_name: ""}
@@ -110,21 +110,23 @@ drawMessage = (e, entity) ->
 
 ifpass = (t, f) -> if t then f else pass
 
-format = (cont) ->
+format = (cont, viewstate) ->
     for seg, i in cont?.segment ? []
         continue if cont.proxied and i < 1
         f = seg.formatting ? {}
+        emojiReplace = emojiReplaced(seg.text, viewstate)
         # these are links to images that we try loading
          # as images and show inline. (not attachments)
         ifpass(f.bold, b) ->
             ifpass(f.italics, i) ->
                 ifpass(f.underline, u) ->
                     ifpass(f.strikethrough, s) ->
-                        # preload returns whether the image
-                        # has been loaded. redraw when it
-                        # loads.
-                        pass if cont.proxied
-                            stripProxiedColon seg.text
+                        ifpass(emojiReplace, div)
+                        if !emojiReplace
+                            if cont.proxied
+                                stripProxiedColon seg.text
+                            else
+                                seg.text
                         else
-                            seg.text
+                            pass emojiToHtml(seg.text, viewstate) 
     null

@@ -67,11 +67,34 @@
         display: inline-block;
         width: 30px;
         height: 30px;
+        line-height: 30px; 
+        font-size: 20px;
+        text-align: center;
+        cursor: pointer;
+    }
+	 span.stickericon {
+        display: inline-block;
+        width: 30px;
+        height: 30px;
         line-height: 30px;
         font-size: 20px;
         text-align: center;
         cursor: pointer;
     }
+    img.stickericon {
+        display: inline-block;
+        width: 32px;
+        height: 32px;
+        cursor: pointer;
+    }
+
+    img.sticker {
+        display: inline-block;
+        width: 80px;
+        height: 80px;
+        cursor: pointer;
+    }
+
 
     div.relative {
         position: relative;
@@ -92,7 +115,7 @@
                 margin-left: 5px;
 
                 > .emoticon {
-                    height: 32px;
+                    height: 28px;
                     padding-bottom:2px;
                 }
                 > .emoticon.glow {
@@ -123,6 +146,54 @@
             }
 
         }
+		> #stickers-container {
+            position: absolute;
+            z-index: 0;
+            top: 0;
+            transform: translate3d(0, 0, 0);
+            transition: all .3s ease;
+            background: var(--white);
+            &.open{
+                transform: translate3d(0, -100%, 0);
+            }
+            > #stickers-group-selector {
+                overflow-x: scroll;
+                border-bottom: 1px solid var(--lightgrey);
+                height: 50px;
+                margin-left: 5px;
+
+                > .stickericon {
+                    height: 32px;
+                    padding-bottom:2px;
+                }
+                > .stickericon.glow {
+                    border-bottom: 2px solid var(--grey);
+
+                }
+
+            }
+
+            > #sticker-group-selector::-webkit-scrollbar {
+                display: none;
+            }
+            > .sticker-selector {
+                height:131px;
+                overflow-y: scroll;
+                border-bottom: 1px solid var(--lightgrey);
+                width: 100%;
+                padding: 5px 2px 5px 5px;
+
+                > .group-content {
+                    display: none;
+                    padding: none;
+                    margin: none;
+                }
+                > .group-content.visible {
+                    display: block;
+                }
+            }
+
+        }
     }
 
     > div.input-container {
@@ -132,8 +203,9 @@
         z-index: 1;
         position: relative;
         min-height: 49px;
-        textarea {
+        div {
             width: 100%;
+            overflow-y: auto;
             resize: vertical;
             font-size: var(--fontsize);
             line-height: 18px;
@@ -142,7 +214,7 @@
             outline: none;
             border: none;
             background: none;
-            padding: 3px 60px 3px 10px;
+            padding: 3px 90px 3px 10px;
             color: var(--black);
             &::-webkit-input-placeholder{
                 color: var(--grey);

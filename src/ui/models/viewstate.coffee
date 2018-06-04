@@ -29,8 +29,10 @@ module.exports = exp = {
     showUsernameInNotification: tryparse(localStorage.showUsernameInNotification) ? true
     convertEmoji: tryparse(localStorage.convertEmoji) ? true
     suggestEmoji: tryparse(localStorage.suggestEmoji) ? true
+    changeemojitype:tryparse(localStorage.emojiType) ? true
     colorScheme: localStorage.colorScheme or 'default'
     fontSize: localStorage.fontSize or 'medium'
+    emojiType: localStorage.emojiType or 'default'
     zoom: tryparse(localStorage.zoom ? "1.0")
     loggedin: false
     escapeClearsInput: tryparse(localStorage.escapeClearsInput) or false
@@ -262,6 +264,12 @@ module.exports = exp = {
         return if @suggestEmoji == doshow
         @suggestEmoji = localStorage.suggestEmoji = doshow
         updated 'viewstate'
+
+    setEmojiType: (emojitype) ->
+            @emojiType = localStorage.emojiType = emojitype
+            while document.querySelector('html').classList.length > 0
+                document.querySelector('html').classList.remove document.querySelector('html').classList.item(0)
+            document.querySelector('html').classList.add(emojitype)
 
     setColorScheme: (colorscheme) ->
         @colorScheme = localStorage.colorScheme = colorscheme

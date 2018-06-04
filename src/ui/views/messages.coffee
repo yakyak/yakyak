@@ -4,7 +4,7 @@ urlRegexp = require 'uber-url-regex'
 url       = require 'url'
 
 {nameof, initialsof, nameofconv, linkto, later, forceredraw, throttle,
-getProxiedName, fixlink, isImg, getImageUrl, drawAvatar}  = require '../util'
+getProxiedName, fixlink, isImg, getImageUrl, drawAvatar, emojiReplaced, emojiToHtml}  = require '../util'
 
 CUTOFF = 5 * 60 * 1000 * 1000 # 5 mins
 
@@ -173,7 +173,7 @@ module.exports = view (models) ->
                         div class:clz.join(' '), ->
                             drawMessageAvatar u, sender, viewstate, entity
                             div class:'umessages', ->
-                                drawMessage(e, entity) for e in events
+                                drawMessage(e, entity, viewstate) for e in events
 
                             # at the end of the events group we draw who has read any of its events
                             div class: 'seen-list', () ->
@@ -241,7 +241,7 @@ drawMeMessage = (e) ->
     div class:'message', ->
         e.chat_message?.message_content.segment[0].text
 
-drawMessage = (e, entity) ->
+drawMessage = (e, entity, viewstate) ->
     # console.log 'message', e.chat_message
     mclz = ['message']
     mclz.push c for c in MESSAGE_CLASSES when e[c]?
@@ -249,7 +249,7 @@ drawMessage = (e, entity) ->
     div id:e.event_id, key:e.event_id, class:mclz.join(' '), title:title, ->
         if e.chat_message
             content = e.chat_message?.message_content
-            format content
+            format content, viewstate
             # loadInlineImages content
             if e.placeholder and e.uploadimage
                 span class:'material-icons spin', 'donut_large'
@@ -297,8 +297,9 @@ scrollToBottom = module.exports.scrollToBottom = ->
 
 
 ifpass = (t, f) -> if t then f else pass
+ifpasselse = (t, f,f2) -> if t then f else f2
 
-format = (cont) ->
+format = (cont, viewstate) ->
     if cont?.attachment?
         try
             formatAttachment cont.attachment
@@ -307,26 +308,33 @@ format = (cont) ->
     for seg, i in cont?.segment ? []
         continue if cont.proxied and i < 1
         formatters.forEach (fn) ->
-            fn seg, cont
+            fn seg, cont, viewstate
     null
 
 
 formatters = [
     # text formatter
-    (seg, cont) ->
+    (seg, cont, viewstate) ->
         f = seg.formatting ? {}
+        emojiReplace = emojiReplaced(seg.text, viewstate)
+        
         href = seg?.link_data?.link_target
         ifpass(href, ((f) -> a {href, onclick}, f)) ->
             ifpass(f.bold, b) ->
                 ifpass(f.italic, i) ->
                     ifpass(f.underline, u) ->
                         ifpass(f.strikethrough, s) ->
-                            pass if cont.proxied
-                                stripProxiedColon seg.text
-                            else if seg.type == 'LINE_BREAK'
-                                '\n'
-                            else
-                                seg.text
+                            ifpass(emojiReplace, div)
+                            if !emojiReplace
+                                if cont.proxied
+                                    stripProxiedColon seg.text
+                                else if seg.type == 'LINE_BREAK'
+                                        '\n'
+                                    else
+                                        seg.text
+                            else 
+                               pass emojiToHtml(seg.text, viewstate)
+                                    
     # image formatter
     (seg) ->
         href = seg?.link_data?.link_target

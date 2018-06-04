@@ -159,42 +159,41 @@ toggleVisibility = (element) ->
 escapeRegExp = (text) ->
   text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&')
 
-convertEmoji = (text) ->
-    unicodeMap = require './emojishortcode'
-    inferedPattern = "(^|[ ])" +
-    "(:\\(:\\)|:\\(\\|\\)|:X\\)|:3|\\(=\\^\\.\\.\\^=\\)|\\(=\\^\\.\\^=\\)|=\\^_\\^=|" +
-    (escapeRegExp(el) for el in Object.keys(unicodeMap)).join('|') +
-    ")([ ]|$)"
 
-    patterns = [inferedPattern]
+ifpass = (t, f) -> if t then f else pass
 
-    emojiCodeRegex = new RegExp(patterns.join('|'),'g')
-
-    text = text.replace(emojiCodeRegex, (emoji) ->
-        suffix = emoji.slice(emoji.trimRight().length)
-        prefix = emoji.slice(0, emoji.length - emoji.trimLeft().length)
-        unicode = unicodeMap[emoji.trim()]
-        if unicode?
-            prefix + unicode + suffix
+emojiReplaced = (emoji,viewstate) ->
+    if emoji
+        if viewstate.emojiType=="twitter"
+            convertedHTML = twemoji.parse(emoji)
+            return convertedHTML!=emoji
         else
-            emoji
-    )
-    return text
+            if viewstate.emojiType=="emojione" 
+                emojione.greedyMatch = true
+                convertedHTML = emojione.toImage(emoji)
+                return convertedHTML!=emoji
+    return false            
 
-insertTextAtCursor = (el, text) ->
-    value = el.value
-    doc = el.ownerDocument
-    if typeof el.selectionStart == "number" and typeof el.selectionEnd == "number"
-        endIndex = el.selectionEnd
-        el.value = value.slice(0, endIndex) + text + value.slice(endIndex)
-        el.selectionStart = el.selectionEnd = endIndex + text.length
-        el.focus()
-    else if doc.selection != "undefined" and doc.selection.createRange
-        el.focus()
-        range = doc.selection.createRange()
-        range.collapse(false)
-        range.text = text
-        range.select()
+emojiToHtml = (inputString, viewstate) ->
+    if inputString
+        if viewstate.emojiType!="default"
+            tmpDiv = document.createElement('div')
+            if viewstate.emojiType=="twitter"
+                tmpDiv.appendChild(document.createTextNode(inputString))
+                twemoji.parse(tmpDiv)
+            else
+                emojione.greedyMatch = true
+                tmpDiv.innerHTML= emojione.toImage(inputString)
+            div ->
+                for inDiv in tmpDiv.childNodes
+                    if inDiv.nodeType== 3
+                        pass inDiv.wholeText
+                    else
+                        img({src: inDiv.src, alt: inDiv.alt, class:'colorEmoji'})
+        else
+            pass inputString
+    else
+        pass inputString
 
 # AutoLaunch requires a path unless you are running in electron/nw
 vesrions = process?.versions
@@ -210,5 +209,5 @@ autoLauncher = new AutoLaunch({
 module.exports = {nameof, initialsof, nameofconv, linkto, later,
                   throttle, uniqfn, isAboutLink, getProxiedName, tryparse,
                   fixlink, topof, isImg, getImageUrl, toggleVisibility,
-                  convertEmoji, drawAvatar, notificationCenterSupportsSound,
-                  insertTextAtCursor, isContentPasteable, autoLauncher}
+                  drawAvatar, notificationCenterSupportsSound,
+                  isContentPasteable, autoLauncher, emojiReplaced, emojiToHtml}
