@@ -22,6 +22,7 @@ We love [bug reports](https://github.com/yakyak/yakyak/issues)!
 ## What does it do:
 
 * Send/receive chat messages
+* Send/receive SMS/MMS (Project Fi / Google Voice) -- basic functionality
 * Create/change conversations (rename, add people)
 * Leave/delete conversation
 * Notifications (using native OS notifications)
