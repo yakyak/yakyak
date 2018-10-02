@@ -312,10 +312,20 @@ deploy = (platform, arch, cb) ->
                       deferred.resolve()
     deferred.promise
 
+# create tasks for different platforms and architectures supported
+platformOpts.map (plat) ->
+    archOpts.map (arch) ->
+        # create a task per platform/architecture
+        taskName = buildDeployTask(plat, arch)
+        names[plat].push taskName
+        allNames.push taskName
+    #
+    # create arch-independet task
+    gulp.task "deploy:#{plat}", gulp.series 'default', names[plat]...
+    #
+
 archOpts.forEach (arch) ->
     ['deb', 'rpm'].forEach (target) ->
-        gulp.task "deploy:linux-#{arch}:#{target}", (cb) ->
-            gulp.series("deploy:linux-#{arch}", "deploy:linux-#{arch}:#{target}:nodep", cb)
         gulp.task "deploy:linux-#{arch}:#{target}:nodep", (done) ->
             if arch is 'ia32'
                 archName = 'i386'
@@ -376,8 +386,9 @@ archOpts.forEach (arch) ->
         #names['linux'].push 'deploy:linux-' + arch + ':' + target
         #allNames.push('deploy:linux-' + arch + ':' + target)
 
-    gulp.task "deploy:linux-#{arch}:flatpak", (cb) ->
-        gulp.series("deploy:linux-#{arch}", "deploy:linux-#{arch}:flatpak:nodep", cb)
+        gulp.task "deploy:linux-#{arch}:#{target}",
+            gulp.series("deploy:linux-#{arch}", "deploy:linux-#{arch}:#{target}:nodep")
+
     gulp.task "deploy:linux-#{arch}:flatpak:nodep", (done) ->
         flatpakOptions =
             id: 'com.github.yakyak.YakYak'
@@ -395,6 +406,7 @@ archOpts.forEach (arch) ->
                 '256x256': 'src/icons/icon_256.png'
                 '512x512': 'src/icons/icon_512.png'
             categories: ['Network', 'InstantMessaging']
+            finishArgs: ['-v']
         flatpak flatpakOptions, (err) ->
             if err
                 console.error err.stack
@@ -403,20 +415,9 @@ archOpts.forEach (arch) ->
             else
                 console.log "Created flatpak (#{json.name}_#{json.version}_#{arch}.flatpak)"
                 done()
-
+    gulp.task "deploy:linux-#{arch}:flatpak",
+        gulp.series("deploy:linux-#{arch}", "deploy:linux-#{arch}:flatpak:nodep")
     #names['linux'].push 'deploy:linux-' + arch + ':flatpak'
     #allNames.push('deploy:linux-' + arch + ':flatpak')
-
-# create tasks for different platforms and architectures supported
-platformOpts.map (plat) ->
-    archOpts.map (arch) ->
-        # create a task per platform/architecture
-        taskName = buildDeployTask(plat, arch)
-        names[plat].push taskName
-        allNames.push taskName
-    #
-    # create arch-independet task
-    gulp.task "deploy:#{plat}", gulp.series 'default', names[plat]...
-    #
 
 gulp.task 'deploy', gulp.series 'default', allNames...
