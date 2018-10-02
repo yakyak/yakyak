@@ -288,22 +288,23 @@ deploy = (platform, arch) ->
     if platform == 'darwin'
         packOpts.name = 'YakYak'
     #
-    packager packOpts, (err, appPaths) ->
-        if err?
-            console.log ('Error: ' + err) if err?
-        else if appPaths?.length > 0
-            if process.env.NO_ZIP
-                return deferred.resolve()
-            zippath = "#{appPaths[0]}/"
-            if platform == 'darwin'
-                fileprefix = "yakyak-#{json.version}-osx"
-            else
-                fileprefix = "yakyak-#{json.version}-#{platform}-#{arch}"
+    packager(packOpts)
+        .catch (error) ->
+            console.error(error)
+        .then (appPaths) ->
+            if appPaths?.length > 0
+                if process.env.NO_ZIP
+                    return deferred.resolve()
+                zippath = "#{appPaths[0]}/"
+                if platform == 'darwin'
+                    fileprefix = "yakyak-#{json.version}-osx"
+                else
+                    fileprefix = "yakyak-#{json.version}-#{platform}-#{arch}"
 
-            if platform == 'linux'
-                tarIt zippath, fileprefix, -> deferred.resolve()
-            else
-                zipIt zippath, fileprefix, -> deferred.resolve()
+                if platform == 'linux'
+                    tarIt zippath, fileprefix, -> deferred.resolve()
+                else
+                    zipIt zippath, fileprefix, -> deferred.resolve()
     deferred.promise
 
 archOpts.forEach (arch) ->
