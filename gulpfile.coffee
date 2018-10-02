@@ -151,7 +151,7 @@ gulp.task 'icons', ->
         'osx-icon-read-Template_032.png': 'osx-icon-read-Template@2x.png'
 
     # gulp 4 requires async notification!
-    new Promise (resolve, reject)->
+    new Promise (resolve, reject) ->
         Object.keys(nameMap).forEach (name) ->
             gulp.src path.join paths.icons, name
                 .pipe rename nameMap[name]
@@ -211,10 +211,9 @@ buildDeployTask = (platform, arch) ->
     tasknameNoDep = "#{taskname}:nodep"
     # set internal task with _ (does not have dependencies)
     gulp.task tasknameNoDep, (cb)->
-        deploy platform, arch
+        deploy platform, arch, cb
     # set task with dependencies
-    gulp.task taskname, (cb) ->
-      gulp.series 'default', tasknameNoDep, cb
+    gulp.task taskname, gulp.series('default', tasknameNoDep)
     #
     tasknameNoDep
 
@@ -271,7 +270,7 @@ compressIt = (cmd, args, opts, zipName, done) ->
 
 #
 #
-deploy = (platform, arch) ->
+deploy = (platform, arch, cb) ->
     deferred = Q.defer()
     opts = deploy_options
     opts.platform = platform
@@ -279,6 +278,7 @@ deploy = (platform, arch) ->
     #
     # restriction darwin won't compile ia32
     if platform == 'darwin' && arch == 'ia32'
+        cb()
         deferred.resolve()
         return deferred.promise
 
@@ -294,6 +294,7 @@ deploy = (platform, arch) ->
         .then (appPaths) ->
             if appPaths?.length > 0
                 if process.env.NO_ZIP
+                    cb()
                     return deferred.resolve()
                 zippath = "#{appPaths[0]}/"
                 if platform == 'darwin'
@@ -302,9 +303,13 @@ deploy = (platform, arch) ->
                     fileprefix = "yakyak-#{json.version}-#{platform}-#{arch}"
 
                 if platform == 'linux'
-                    tarIt zippath, fileprefix, -> deferred.resolve()
+                    tarIt zippath, fileprefix, ->
+                      cb()
+                      deferred.resolve()
                 else
-                    zipIt zippath, fileprefix, -> deferred.resolve()
+                    zipIt zippath, fileprefix, ->
+                      cb()
+                      deferred.resolve()
     deferred.promise
 
 archOpts.forEach (arch) ->
@@ -350,6 +355,7 @@ archOpts.forEach (arch) ->
             child.stdout.on 'data', (data) ->
               # do nothing
               console.log("fpm: #{data}") if target == 'rpm'
+              done()
               return true
             # log all errors
             child.on 'error', (err) ->
