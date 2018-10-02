@@ -59,13 +59,17 @@ seqreq = require './seqreq'
 mainWindow = null
 
 # Only allow a single active instance
-shouldQuit = app.makeSingleInstance ->
-    mainWindow.show() if mainWindow
-    return true
+gotTheLock = app.requestSingleInstanceLock()
 
-if shouldQuit
+if !gotTheLock
     app.quit()
     return
+
+app.on 'second-instance', (event, commandLine, workingDirectory) ->
+    # Someone tried to run a second instance, we should focus our window.
+    if mainWindow
+        mainWindow.restore() if mainWindow.isMinimized()
+        mainWindow.focus()
 
 global.i18nOpts = { opts: null, locale: null }
 

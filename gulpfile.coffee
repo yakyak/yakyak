@@ -9,7 +9,7 @@ sourcemaps = require 'gulp-sourcemaps'
 install    = require 'gulp-install'
 {execSync} = require 'child_process'
 concat     = require 'gulp-concat'
-autoReload = require 'gulp-auto-reload'
+liveReload = require 'gulp-livereload'
 changed    = require 'gulp-changed'
 rename     = require 'gulp-rename'
 packager   = require 'electron-packager'
@@ -18,8 +18,6 @@ filter     = require 'gulp-filter'
 Q          = require 'q'
 Stream     = require 'stream'
 spawn      = require('child_process').spawn
-# running tasks in sequence
-runSequence = require('run-sequence')
 
 #
 #
@@ -106,15 +104,11 @@ gulp.task 'coffee', ->
 #        .pipe changed outapp
         .pipe gulp.dest outapp
 
-
-# reloader will inject <script> tag
-htmlInject = -> gutil.noop()
-
 # copy .html-files
 gulp.task 'html', ->
     gulp.src paths.html
-        .pipe htmlInject()
         .pipe gulp.dest outapp
+        .pipe liveReload()
 
 # copy images
 gulp.task 'locales', ->
@@ -185,29 +179,24 @@ gulp.task 'fontello', ->
 
 gulp.task 'reloader', ->
     # create an auto reload server instance
-    reloader = autoReload()
-
-    # copy the client side script
-    reloader.script()
-        .pipe gulp.dest outui
-
-    # inject scripts in html
-    htmlInject = reloader.inject
+    liveReload.listen()
 
     # watch rebuilt stuff
-    gulp.watch "#{outui}/**/*", reloader.onChange
+    gulp.watch "#{outui}/**/*", gulp.series('html')
 
 
 gulp.task 'clean', (cb) ->
     rimraf outapp, cb
 
-gulp.task 'default', ['package', 'coffee', 'html', 'images', 'media',
-                      'locales', 'icons', 'less', 'fontello']
+gulp.task 'default',
+          gulp.parallel 'package', 'coffee', 'html', 'images',
+                        'media', 'locales', 'icons', 'less', 'fontello'
 
-gulp.task 'watch', ['default', 'reloader', 'html'], ->
+gulp.task 'watch', ->
+    gulp.series 'default', 'reloader', 'html'
     # watch to rebuild
     sources = (v for k, v of paths)
-    gulp.watch sources, ['default']
+    gulp.watch sources, gulp.series('default')
 
 #
 #
@@ -225,7 +214,7 @@ buildDeployTask = (platform, arch) ->
         deploy platform, arch
     # set task with dependencies
     gulp.task taskname, (cb) ->
-      runSequence 'default', tasknameNoDep, cb
+      gulp.series 'default', tasknameNoDep, cb
     #
     tasknameNoDep
 
@@ -291,43 +280,37 @@ deploy = (platform, arch) ->
     # restriction darwin won't compile ia32
     if platform == 'darwin' && arch == 'ia32'
         deferred.resolve()
-        deferred.promise
-    #
-    # necessary to add a callback to pipe (which is used to signal end of task)
-    gulpCallback = (obj) ->
-        stream = new Stream.Transform({objectMode: true})
-        stream._transform = (file, unused, callback) ->
-            obj()
-            callback(null, file)
-        stream
+        return deferred.promise
+
     #
     # package the app and create a zip
     packOpts = opts
     if platform == 'darwin'
         packOpts.name = 'YakYak'
-    packager packOpts, (err, appPaths) ->
-        if err?
-            console.log ('Error: ' + err) if err?
-        else if appPaths?.length > 0
-            if process.env.NO_ZIP
-                return deferred.resolve()
-            json = JSON.parse(fs.readFileSync('./package.json'))
-            zippath = "#{appPaths[0]}/"
-            if platform == 'darwin'
-                fileprefix = "yakyak-#{json.version}-osx"
-            else
-                fileprefix = "yakyak-#{json.version}-#{platform}-#{arch}"
+    #
+    packager(packOpts)
+        .catch (error) ->
+            console.error(error)
+        .then (appPaths) ->
+            if appPaths?.length > 0
+                if process.env.NO_ZIP
+                    return deferred.resolve()
+                zippath = "#{appPaths[0]}/"
+                if platform == 'darwin'
+                    fileprefix = "yakyak-#{json.version}-osx"
+                else
+                    fileprefix = "yakyak-#{json.version}-#{platform}-#{arch}"
 
-            if platform == 'linux'
-                tarIt zippath, fileprefix, -> deferred.resolve()
-            else
-                zipIt zippath, fileprefix, -> deferred.resolve()
+                if platform == 'linux'
+                    tarIt zippath, fileprefix, -> deferred.resolve()
+                else
+                    zipIt zippath, fileprefix, -> deferred.resolve()
     deferred.promise
 
 archOpts.forEach (arch) ->
     ['deb', 'rpm'].forEach (target) ->
         gulp.task "deploy:linux-#{arch}:#{target}", (cb) ->
-            runSequence("deploy:linux-#{arch}", "deploy:linux-#{arch}:#{target}:nodep", cb)
+            gulp.series("deploy:linux-#{arch}", "deploy:linux-#{arch}:#{target}:nodep", cb)
         gulp.task "deploy:linux-#{arch}:#{target}:nodep", (done) ->
             if arch is 'ia32'
                 archName = 'i386'
@@ -388,7 +371,7 @@ archOpts.forEach (arch) ->
         #allNames.push('deploy:linux-' + arch + ':' + target)
 
     gulp.task "deploy:linux-#{arch}:flatpak", (cb) ->
-        runSequence("deploy:linux-#{arch}", "deploy:linux-#{arch}:flatpak:nodep", cb)
+        gulp.series("deploy:linux-#{arch}", "deploy:linux-#{arch}:flatpak:nodep", cb)
     gulp.task "deploy:linux-#{arch}:flatpak:nodep", (done) ->
         flatpakOptions =
             id: 'com.github.yakyak.YakYak'
@@ -427,13 +410,7 @@ platformOpts.map (plat) ->
         allNames.push taskName
     #
     # create arch-independet task
-    gulp.task "deploy:#{plat}", (cb) ->
-      # add callback to arguments
-      this_names = names[plat]
-      this_names.push cb
-      runSequence 'default', names[plat]...
+    gulp.task "deploy:#{plat}", gulp.series 'default', names[plat]...
     #
 
-gulp.task 'deploy', (cb)->
-    allNames.push cb
-    runSequence 'default', allNames...
+gulp.task 'deploy', gulp.series 'default', allNames...
