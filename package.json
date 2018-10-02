@@ -68,7 +68,7 @@
     "coffee-script": "^1.9.2",
     "devtron": "^1.4.0",
     "electron": "^3.0.2",
-    "electron-packager": "^12.1.2",
+    "electron-packager": "^11.2.0",
     "gulp": "^4.0.0",
     "gulp-livereload": "4.0.0",
     "gulp-changed": "^3.1.0",
