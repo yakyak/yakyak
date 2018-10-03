@@ -38,6 +38,8 @@
         "delete_confirm": "Wollen Sie die Unterhaltung wirklich löschen?",
         "leave": "Unterhaltung verlassen",
         "leave_confirm": "Wollen Sie die Unterhaltung wirklich verlassen?",
+        "history_on": "History has been turned on for this conversation.",
+        "history_off": "History has been turned off for this conversation.",
         "search": "Kontakte suchen",
         "new_message": "Neue Nachricht",
         "new_attachment": "New message received (image or video)",

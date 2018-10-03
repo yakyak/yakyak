@@ -38,6 +38,8 @@
         "delete_confirm": "Șterg conversație?",
         "leave": "Părăsește conversație",
         "leave_confirm": "Părăsire conversație?",
+        "history_on": "History has been turned on for this conversation.",
+        "history_off": "History has been turned off for this conversation.",
         "search": "Caută persoane",
         "new_message": "Nou mesaj",
         "new_attachment": "New message received (image or video)",

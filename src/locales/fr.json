@@ -38,6 +38,8 @@
         "delete_confirm": "Voulez-vous vraiment effacer la conversation ?",
         "leave": "Quitter la conversation",
         "leave_confirm": "Voulez-vous vraiment quitter la conversation ?",
+        "history_on": "History has been turned on for this conversation.",
+        "history_off": "History has been turned off for this conversation.",
         "search": "Chercher des contacts",
         "new_message": "Nouveau message",
         "new_attachment": "New message received (image or video)",

@@ -38,6 +38,8 @@
         "delete_confirm": "Deseja realmente apagar conversa?",
         "leave": "Sair da conversa",
         "leave_confirm": "Deseja realmente sair da conversa?",
+        "history_on": "History has been turned on for this conversation.",
+        "history_off": "History has been turned off for this conversation.",
         "search": "Procurar pessoas",
         "new_message": "Nova mensagem recebida",
         "new_attachment": "Nova mensagem recebida (imagem ou vídeo)",
