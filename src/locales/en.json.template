@@ -141,7 +141,8 @@
                 "default": "Original",
                 "blue": "Blue",
                 "dark": "Dark",
-                "material": "Material"
+                "material": "Material",
+		"pop": "Pop"
             },
             "font": {
                 "title": "Font Size",
