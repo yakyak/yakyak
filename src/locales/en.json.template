@@ -142,7 +142,7 @@
                 "blue": "Blue",
                 "dark": "Dark",
                 "material": "Material",
-		"pop": "Pop"
+                "pop": "Pop"
             },
             "font": {
                 "title": "Font Size",
