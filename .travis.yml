@@ -12,6 +12,9 @@ notifications:
 dist: xenial
 sudo: required
 
+before_install:
+  - npm i -g coffee-script
+
 before_deploy:
   # YAKYAK_VERSION is used in the files to copy
   - export YAKYAK_VERSION=`node -e "console.log(require('./package.json').version);"`
