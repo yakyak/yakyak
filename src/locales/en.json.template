@@ -142,7 +142,8 @@
                 "blue": "Blue",
                 "dark": "Dark",
                 "material": "Material",
-                "pop": "Pop"
+                "pop": "Pop",
+                "gruvy": "Gruvy"
             },
             "font": {
                 "title": "Font Size",
