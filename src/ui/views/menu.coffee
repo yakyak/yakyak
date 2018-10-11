@@ -280,6 +280,12 @@ templateView = (viewstate) ->
                   checked: viewstate.colorScheme == 'pop'
                   click: -> action 'changetheme', 'pop'
               }
+              {
+                  label: i18n.__('menu.view.color_scheme.gruvy:Gruvy')
+                  type: 'radio'
+                  checked: viewstate.colorScheme == 'gruvy'
+                  click: -> action 'changetheme', 'gruvy'
+               }
             ]
         }
         {
