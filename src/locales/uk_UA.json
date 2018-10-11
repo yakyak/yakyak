@@ -40,8 +40,8 @@
         "leave_confirm": "Покинути діалог?",
         "search": "Пошук людей",
         "new_message": "Нове повідомлення",
-        "new_attachment": "New message received (image or video)",
-        "open_link": "Opening the link in the browser..."
+        "new_attachment": "Отримано нове повідомлення (картинка або відео)",
+        "open_link": "Відкриваю лінк в браузері..."
     },
     "notification": {
         "one": "Сповіщення",
@@ -90,7 +90,7 @@
             "copy_image": "Копіювати зображення",
             "select_all": "Виділити все",
             "language": "Мова (Language)",
-            "dateformat": "Use system date format"
+            "dateformat": "Використовувати формат дат системи"
         },
         "view": {
             "title": "Вид",
@@ -164,7 +164,7 @@
                 "license": "Ліцензія",
                 "authors": "Головні автори",
                 "contributors": "Контрибутори"
-                "startup": "Відкрити при запуску"
+                "startup": "Відкривати при запуску"
             }
         },
         "window": {

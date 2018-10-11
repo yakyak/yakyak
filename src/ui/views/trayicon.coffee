@@ -4,7 +4,6 @@ i18n = require 'i18n'
 
 {Menu, Tray, nativeImage} = require('electron').remote
 
-trayIcons = null
 
 if os.platform() == 'darwin'
     trayIcons =
@@ -24,6 +23,7 @@ compact = (array) -> item for item in array when item
 
 create = () ->
     tray = new Tray trayIcons["read"]
+    tray.currentImage = 'read'
     tray.setToolTip i18n.__('title:YakYak - Hangouts Client')
     # Emitted when the tray icon is clicked
     tray.on 'click', -> action 'togglewindow'
