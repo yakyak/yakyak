@@ -19,6 +19,7 @@ tmp.setGracefulCleanup()
 
 app = require('electron').app
 app.disableHardwareAcceleration()
+app.commandLine.appendSwitch('autoplay-policy', 'no-user-gesture-required')
 
 BrowserWindow = require('electron').BrowserWindow
 
