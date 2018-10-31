@@ -144,6 +144,7 @@ uniqfn = (as, fn) ->
 isImg = (url) -> url?.match /\.(png|jpe?g|gif|svg)$/i
 
 getImageUrl = (url="") ->
+    return false if !url? | url == ""
     return url if isImg url
     parsed = URL.parse url, true
     url = parsed.query.q
