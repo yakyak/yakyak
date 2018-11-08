@@ -141,7 +141,7 @@ unread = (conv) ->
     return 0 unless typeof t == 'number'
     c = 0
     for e in conv?.event ? []
-        c++ if e.chat_message and e.timestamp > t
+        c++ if e.chat_message and e.timestamp > t and not entity.isSelf e.sender_id.chat_id
         return MAX_UNREAD if c >= MAX_UNREAD
     c
 
