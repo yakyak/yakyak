@@ -32,7 +32,6 @@ create = () ->
     tray = new Tray trayIcons["read"]
     tray.currentImage = 'read'
     tray.setToolTip i18n.__('title:YakYak - Hangouts Client')
-    tray.setTitle i18n.__('title:YakYak - Hangouts Client')
     # Emitted when the tray icon is clicked
     tray.on 'click', -> action 'togglewindow'
 
