@@ -2,17 +2,17 @@
     "__MyLocaleLanguage__": "Čeština",
     "__maintaner__": "http://github.com/kecinzer",
 
-    "title": "YakYak - Hangouts klient",
+    "title": "YakYak – Hangouts klient",
     "description": "Desktop klient pro Google Hangouts",
 
-    "settings": "Předvolby",
-    "recent": "Poslední",
-    "details": "Detaily",
+    "settings": "Nastavení",
+    "recent": "Nedávné",
+    "details": "Podrobnosti",
 
     "connection": {
         "connecting": "Připojování",
         "loading": "Načítání kontaktů",
-        "not_connected": "Nepřipojeno (zkontrolovat připojení)"
+        "not_connected": "Nepřipojeno (zkontrolujte připojení)"
     },
 
     "input": {
@@ -40,8 +40,8 @@
         "leave_confirm": "Opravdu opustit konverzaci?",
         "search": "Vyhledat osoby",
         "new_message": "Nová zpráva",
-        "new_attachment": "New message received (image or video)",
-        "open_link": "Opening the link in the browser..."
+        "new_attachment": "Obdržena nová zpráva (obraz nebo video)",
+        "open_link": "Otevírání odkazu v prohlížeči…"
     },
     "notification": {
         "one": "Oznámení",
@@ -56,19 +56,19 @@
     },
     "actions": {
       "ok": "OK",
-      "cancel": "Zrušit"
+      "cancel": "Storno"
     },
     "call": {
         "incoming": "Příchozí hovor",
         "incoming_from": "Příchozí hovor od %s",
-        "accepted": "Přjat",
-        "accept": "Příjmout",
+        "accepted": "Přijat",
+        "accept": "Přijmout",
         "rejected": "Odmítnut",
         "reject": "Odmítnout",
         "missed": "Zmeškaný hovor od %s"
     },
     "menu": {
-        "title": "Menu",
+        "title": "Nabídka",
         "file": {
             "title": "YakYak",
             "hide": "Skrýt YakYak",
@@ -90,18 +90,18 @@
             "copy_image": "Kopírovat obrázek",
             "select_all": "Vybrat vše",
             "language": "Jazyk (Language)",
-            "dateformat": "Use system date format"
+            "dateformat": "Použít systémový formát data"
         },
         "view": {
-            "title": "Zobrazení",
+            "title": "Zobrazit",
             "emoji": "Převádět text na emotikony",
-            "suggestemoji": "Suggest emoji on typing",
-            "hide_dock": "Skrýt ikonu z docku",
-            "fullscreen": "Spustit režim celé obrazovky",
+            "suggestemoji": "Navrhovat emotikony při psaní",
+            "hide_dock": "Skrýt ikonu z doku",
+            "fullscreen": "Přepnout do/z na celou obrazovku",
             "tray": {
                 "show_tray": "Zobrazit ikonu v oznamovací oblasti",
                 "show_window": "Zobrazit okno",
-                "toggle_minimize": "Přepnout minimalizaci do oznamovací oblasti",
+                "toggle_minimize": "Minimalizace do oznamovací oblasti ano/ne",
                 "start_minimize": "Spustit minimalizované v oznamovací oblasti",
                 "close": "Zavřít do oznamovací oblasti"
             },
@@ -127,12 +127,12 @@
             "notification": {
                 "title": "Vyskakující upozornění",
                 "show": "Zobrazit upozornění",
-                "toggle": "Přepnout upozornění",
+                "toggle": "Vyp/zap. upozornění",
                 "message": "Zobrazit zprávu v upozornění",
-                "username": "Zobrazit uživatelské jméno v upozornění",
+                "username": "Zobrazit v upozornění uživatelské jméno",
                 "mute": "Vypnout zvuk v upozornění",
-                "avatar": "Zobrazit ikonu uživatele v upozornění",
-                "icon": "Zobrazit YakYak ikonu v upozorněních",
+                "avatar": "Zobrazit v upozornění ikonu uživatele",
+                "icon": "Zobrazit v upozorněních YakYak ikonu",
                 "custom_sound": "Použít vlastní YakYak zvuk pro upozornění"
             },
             "color_scheme": {
@@ -160,18 +160,18 @@
             "title": "Nápověda",
             "about": {
                 "title": "O aplikaci YakYak",
-                "newer": "Novější verze je k dispozici. Je možné aktualizovat z %s na %s",
+                "newer": "Je k dispozici novější verze, je možné aktualizovat z %s na %s",
                 "license": "Licence",
                 "authors": "Hlavní autoři",
                 "contributors": "Přispěvatelé",
-                "startup": "Otevřít při přihlášení"
+                "startup": "Spouštět při přihlášení do systému"
             }
         },
         "window": {
             "title": "Okno",
             "minimize": "Minimalizovat",
             "close": "Zavřít",
-            "front": "Převést vše do popředí"
+            "front": "Přenést vše do popředí"
         }
     }
 }
