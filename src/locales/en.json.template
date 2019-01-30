@@ -114,6 +114,7 @@
             },
             "conversation": {
                 "title": "Conversation List",
+                "new": "New conversation",
                 "timestamp": "Show Conversation Timestamp",
                 "last": "Show Conversation Last Message",
                 "previous": "Previous Conversation",

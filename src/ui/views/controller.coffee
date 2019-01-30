@@ -146,6 +146,9 @@ handle 'update:viewstate', ->
         applayout.main convadd
         applayout.maininfo null
         applayout.foot null
+        later ->
+            search = document.querySelector '.search-input'
+            search.focus()
     else
         console.log 'unknown viewstate.state', viewstate.state
 
