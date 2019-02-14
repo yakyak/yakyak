@@ -1,0 +1,180 @@
+{
+    "__MyLocaleLanguage__": "Brezhoneg",
+    "__maintaner__": "http://github.com/tornoz",
+
+    "title": "YakYak - Arval Hangouts",
+    "description": "Arval Burev evit Google Hangouts",
+
+    "settings": "Arventennoù",
+    "recent": "Nevez",
+    "details": "Munudoù",
+
+    "connection" :{
+        "connecting": "O kennaskañ",
+        "loading": "O kargañ an darempredoù",
+        "not_connected": "Digennasket (gwiriekait ar c'hennask)"
+    },
+
+    "input": {
+        "message": "Kemennadenn",
+        "emoticons": "Diskouez ar fromlunioù",
+        "image": "Stagañ ur skeudenn",
+        "typing": "a zo o skrivañ"
+    },
+    "conversation": {
+        "title": {
+            "one": "Kaozeadenn",
+            "other": "Kaozeadennoù"
+        },
+        "numbered": "Kaozeaenn %d",
+        "options": "Dibarzhioù ar gaozeadenn",
+        "setting": "Arventennoù ar gaozeadenn",
+        "add": "Ouzhepennañ ur gaozeadenn nevez",
+        "new": "Kaozeadenn nevez",
+        "name": "Anv ar gaozeadenn",
+        "edit": "Embann ar gaozeadenn",
+        "multiuser": "Krouiñ ur gaozeadenn lies-arveriad",
+        "delete": "Dilemel ar gaozeadenn",
+        "delete_confirm": "Sur oc'h e fell deoc'h dilemel ar gaozeadenn?",
+        "leave": "Kuitaat ar gaozeadenn",
+        "leave_confirm": "Sur oc'h e fell deoc'h kuitaat ar gaozeadenn?",
+        "search": "Klask tud",
+        "new_message": "Kemennadenn nevez degemeret",
+        "new_attachment": "Kemennadenn nevez degemeret (skeudenn pe video)",
+        "open_link": "O tigeriñ an ere er merdeer..."
+    },
+    "notification": {
+        "one": "Rebuzadur",
+        "other": "Rebuzadurioù"
+    },
+    "favorite": {
+        "title": {
+            "one": "Pennroll",
+            "other": "Pennrolloù"
+        },
+        "star_it": "Pennrollañ / dibennrollañ"
+    },
+    "actions": {
+      "ok": "Mat eo",
+      "cancel": "Nullañ"
+    },
+    "call": {
+        "incoming": "Galv o tont",
+        "incoming_from": "Galv o tont a-berzh %s",
+        "accepted": "Asantet",
+        "accept": "Asantiñ",
+        "rejected": "Nac'het",
+        "reject": "Nac'hañ",
+        "missed": "Galv a-berzh %s c'hwitet"
+    },
+    "menu": {
+        "title": "Lañser",
+        "file": {
+            "title": "YakYak",
+            "hide": "Kuzhat YakYak",
+            "hide_others": "Kuzhat ar re all",
+            "show": "Diskouez an holl",
+            "inspector": "Digeriñ an enklasker",
+            "logout": "Digennaskañ",
+            "quit": "Kuitaat"
+        },
+        "edit": {
+            "title": "Embann",
+            "undo": "Dizober",
+            "redo": "Adober",
+            "paste": "Pegañ",
+            "cut": "Troc'hañ",
+            "copy": "Eilañ",
+            "copy_image_link": "Eilañ ere ar skeudenn",
+            "copy_link": "Eilañ an ere",
+            "copy_image": "Eilañ ar skeudenn",
+            "select_all": "Diuzañ an holl",
+            "language": "Yezh (Language)",
+            "dateformat": "Ober gant mentrezh deiziadoù ar reizhiad"
+        },
+        "view": {
+            "title": "Gwelout",
+            "emoji": "Amdreiñ an destenn d'un emoji",
+            "suggestemoji": "Erbediñ emoji en ur skrivañ",
+            "hide_dock": "Kuzhat arlun an Dock",
+            "fullscreen": "Lakaat/Tennañ ar mod skramm a-bezh",
+            "tray": {
+                "main": "Arlun ar varren rebuziñ",
+                "show_tray": "Kuzhat/diskouez an arlun prenestr",
+                "show_window": "Diskouez ar prenestr",
+                "toggle_minimize": "(Di)weredekaat bihanaat ar prenestr",
+                "start_minimize": "Loc'hañ bihanadur er varrenn rebuziñ",
+                "close": "Kuitaat er varrenn rebuziñ"
+            },
+            "escape": {
+                "title": "Emzalc'h ar stokell achap",
+                "hide": "Kuzh ar prenestr",
+                "clear": "Skarzh an enankad",
+                "default": "dre ziouer pa n'eo ket diskouezet ar varrenn rebuziñ"
+            },
+            "conversation": {
+                "title": "Roll ar c'haozeadennoù",
+                "timestamp": "Diskouez deiziad ar gaozeadenn",
+                "last": "Diskouez kemennadenn ziwezhañ ar gaozeadenn",
+                "previous": "Kaozeadenn gent",
+                "next": "Kaozeadenn da-heul",
+                "select": "Diuzañ ar gaozeadenn",
+                "thumbnails": {
+                    "show": "Diskouez ar vlevenn",
+                    "only": "Diskouez ar melvennoù nemetken",
+                    "animated": "Diskouez melvennoù fiñv"
+                }
+            },
+            "notification": {
+                "title": "Rebuzadurioù diflugell",
+                "show": "Diskouez ar rebuzadurioù",
+                "toggle": "(Di)weredekaat ar rebuzadurioù",
+                "message": "Diskouez ar gemennadenn er rebuzadurioù",
+                "username": "Diskouez an anv arveriad er rebuzadurioù",
+                "mute": "Diweredekaat ar son er rebuzadurioù",
+                "avatar": "Diskouez avatar an arveriad er rebuzadurioù",
+                "icon": "Diskouez arlun YakYak er rebuzadurioù",
+                "custom_sound": "Ober gant sonioù perosnelaet YakYak evit ar rebuzadurioù"
+            },
+            "color_scheme": {
+                "title": "Livaoueg",
+                "default": "Orin",
+                "blue": "Glas",
+                "dark": "Teñval",
+                "material": "Danvez",
+                "pop": "Pop",
+                "gruvy": "Grouvi"
+            },
+            "font": {
+                "title": "Ment an nodrezh",
+                "extra_small": "Bihan-tre",
+                "small": "Bihan",
+                "medium": "Etre",
+                "large": "Ledan",
+                "extra_large": "Ledan-tre"
+            },
+            "zoom": {
+                "in": "Zoumañ",
+                "out": "Dizoumañ out",
+                "reset": "Ment gwirion"
+            }
+        },
+        "help": {
+            "title": "Skoazell",
+            "about": {
+                "title": "A-zivout YakYak",
+                "newer": "Un handelv nevez zo hegerz, hizivait eus %s betek %s",
+                "license": "Lañvaz",
+                "authors": "Krouerien",
+                "contributors": "Kendaolerien",
+                "startup": "Digeriñ pa loc'h an urzhiataer"
+            }
+        },
+        "window": {
+            "title": "Prenestr",
+            "minimize": "Bihanaat",
+            "close": "Serriñ",
+            "front": "Degas an holl d'ar rakleur"
+        }
+    }
+}
