@@ -25,6 +25,7 @@ acceleratorMap = {
     # Platform specific
     previousconversation: { default: 'Ctrl+K', darwin:'Command+K' }
     nextconversation:  { default: 'Ctrl+J', darwin:'Command+J' }
+    newconversation: { default: 'CmdOrCtrl+M' }
     conversation1: { default: 'Alt+1', darwin:'Command+1' }
     conversation2: { default: 'Alt+2', darwin:'Command+2' }
     conversation3: { default: 'Alt+3', darwin:'Command+3' }
@@ -341,6 +342,12 @@ templateView = (viewstate) ->
             role: 'resetzoom'
         }
         { type: 'separator' }
+        {
+            label: i18n.__('menu.view.conversation.new:New conversation')
+            accelerator: getAccelerator('newconversation')
+            enabled: viewstate.loggedin
+            click: -> action 'addconversation'
+        }
         {
             label: i18n.__('menu.view.conversation.previous:Previous Conversation')
             accelerator: getAccelerator('previousconversation')
