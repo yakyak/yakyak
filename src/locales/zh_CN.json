@@ -1,0 +1,181 @@
+{
+    "__MyLocaleLanguage__": "简体中文",
+    "__maintaner__": "http://github.com/HenryHu",
+
+    "title": "YakYak - Hangouts 客户端",
+    "description": "Google Hangouts 桌面客户端",
+
+    "settings": "设置",
+    "recent": "最近",
+    "details": "详细",
+
+    "connection" :{
+        "connecting": "连接中",
+        "loading": "正在载入联系人",
+        "not_connected": "未连接 (请检查网络)"
+    },
+
+    "input": {
+        "message": "消息",
+        "emoticons": "显示表情",
+        "image": "附加图片",
+        "typing": "正在输入"
+    },
+    "conversation": {
+        "title": {
+            "one": "对话",
+            "other": "对话"
+        },
+        "numbered": "对话 %d",
+        "options": "对话选项",
+        "setting": "对话设置",
+        "add": "发起新对话",
+        "new": "新对话",
+        "name": "对话名称",
+        "edit": "编辑对话",
+        "multiuser": "创建多用户聊天",
+        "delete": "删除对话",
+        "delete_confirm": "真的要删除对话吗？",
+        "leave": "离开对话",
+        "leave_confirm": "真的要离开对话吗？",
+        "search": "搜索用户",
+        "new_message": "收到新消息",
+        "new_attachment": "收到新消息 (图片或视频)",
+        "open_link": "在浏览器中打开链接……"
+    },
+    "notification": {
+        "one": "通知",
+        "other": "通知"
+    },
+    "favorite": {
+        "title": {
+            "one": "收藏",
+            "other": "收藏"
+        },
+        "star_it": "星号标记 / 取消星号标记"
+    },
+    "actions": {
+      "ok": "好",
+      "cancel": "取消"
+    },
+    "call": {
+        "incoming": "来电",
+        "incoming_from": "自 %s 的来电",
+        "accepted": "已接受",
+        "accept": "接受",
+        "rejected": "已拒绝",
+        "reject": "拒绝",
+        "missed": "错过了自 %s 的来电"
+    },
+    "menu": {
+        "title": "菜单",
+        "file": {
+            "title": "YakYak",
+            "hide": "隐藏 YakYak",
+            "hide_others": "隐藏其他",
+            "show": "显示所有",
+            "inspector": "打开 Inspector",
+            "logout": "注销",
+            "quit": "退出"
+        },
+        "edit": {
+            "title": "编辑",
+            "undo": "撤销",
+            "redo": "重做",
+            "paste": "粘贴",
+            "cut": "剪切",
+            "copy": "复制",
+            "copy_image_link": "复制图像链接",
+            "copy_link": "复制链接",
+            "copy_image": "复制图像",
+            "select_all": "选择所有",
+            "language": "语言 (Language)",
+            "dateformat": "使用系统日期格式"
+        },
+        "view": {
+            "title": "视图",
+            "emoji": "将文字转化为表情",
+            "suggestemoji": "输入时建议表情",
+            "hide_dock": "隐藏停靠栏图标",
+            "fullscreen": "切换全屏",
+            "tray": {
+                "main": "托盘图标",
+                "show_tray": "切换窗口显示/隐藏",
+                "show_window": "显示窗口",
+                "toggle_minimize": "切换是否最小化到托盘",
+                "start_minimize": "启动时最小化到托盘",
+                "close": "关闭到托盘"
+            },
+            "escape": {
+                "title": "Esc 键行为",
+                "hide": "隐藏窗口",
+                "clear": "清空输入",
+                "default": "托盘图标不显示时此为默认行为"
+            },
+            "conversation": {
+                "title": "对话列表",
+                "timestamp": "显示对话时间戳",
+                "last": "显示对话的最后消息",
+                "previous": "上一个对话",
+                "next": "下一个对话",
+                "select": "选择对话",
+                "thumbnails": {
+                    "show": "显示缩略图",
+                    "only": "仅显示缩略图",
+                    "animated": "显示动态缩略图"
+                }
+            },
+            "notification": {
+                "title": "弹出式通知",
+                "show": "显示通知",
+                "toggle": "切换通知",
+                "message": "在通知中显示消息",
+                "username": "在通知中显示用户名",
+                "mute": "禁用通知声音",
+                "avatar": "在通知中显示用户头像",
+                "icon": "在通知中显示 YakYak 图标",
+                "custom_sound": "使用 YakYak 自定义提示音"
+            },
+            "color_scheme": {
+                "title": "颜色主题",
+                "default": "原版",
+                "blue": "蓝色",
+                "dark": "深色",
+                "material": "Material",
+                "pop": "Pop",
+                "gruvy": "Gruvy"
+            },
+            "font": {
+                "title": "文字大小",
+                "extra_small": "极小",
+                "small": "小",
+                "medium": "中",
+                "large": "大",
+                "extra_large": "极大"
+            },
+            "zoom": {
+                "in": "放大",
+                "out": "缩小",
+                "reset": "标准大小"
+            }
+        },
+        "help": {
+            "title": "帮助",
+            "about": {
+                "title": "关于 YakYak",
+                "newer": "有新版本可用，请从 %s 升级到 %s",
+                "license": "协议",
+                "authors": "主要作者",
+                "contributors": "贡献者",
+                "startup": "启动时开启"
+            }
+        },
+        "window": {
+            "title": "窗口",
+            "minimize": "最小化",
+            "close": "关闭",
+            "front": "全部前置"
+        }
+    }
+}
+
