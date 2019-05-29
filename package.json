@@ -70,7 +70,7 @@
     "electron": "^4.0.1",
     "electron-packager": "^11.2.0",
     "gulp": "^4.0.0",
-    "gulp-changed": "^3.2.0",
+    "gulp-changed": "^4.0.0",
     "gulp-coffee": "^3.0.0",
     "gulp-concat": "^2.6.0",
     "gulp-filter": "^5.1.0",
