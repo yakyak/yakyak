@@ -68,9 +68,8 @@ if !gotTheLock
 
 app.on 'second-instance', (event, commandLine, workingDirectory) ->
     # Someone tried to run a second instance, we should focus our window.
-    if mainWindow
-        mainWindow.restore() if mainWindow.isMinimized()
-        mainWindow.focus()
+    app.activate();
+    app.focus();
 
 global.i18nOpts = { opts: null, locale: null }
 
@@ -91,7 +90,10 @@ app.on 'before-quit', ->
 # For OSX show window main window if we've hidden it.
 # https://github.com/electron/electron/blob/master/docs/api/app.md#event-activate-os-x
 app.on 'activate', ->
-    mainWindow.show()
+    if mainWindow
+        mainWindow.show();
+        mainWindow.restore() if mainWindow.isMinimized()
+        mainWindow.focus();
 
 loadAppWindow = ->
     mainWindow.loadURL 'file://' + YAKYAK_ROOT_DIR + '/ui/index.html'
@@ -146,7 +148,7 @@ app.on 'ready', ->
         try
             require('devtron').install()
         catch
-          #do nothing
+            #do nothing
 
     # and load the index.html of the app. this may however be yanked
     # away if we must do auth.
@@ -365,11 +367,8 @@ app.on 'ready', ->
     , false, (ev, conv_id) -> conv_id
 
     ipc.on 'appfocus', ->
-        app.focus()
-        if mainWindow.isVisible()
-            mainWindow.focus()
-        else
-            mainWindow.show()
+        app.activate();
+        app.focus();
 
     # no retries, dedupe on conv_id
     ipc.on 'settyping', seqreq (ev, conv_id, v) ->
