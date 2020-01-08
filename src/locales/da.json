@@ -96,6 +96,7 @@
             "title": "Vis",
             "emoji": "Konvertér tekst til emoji",
             "suggestemoji": "Suggest emoji on typing",
+            "showimagepreview": "Show image preview",
             "hide_dock": "Skjul dockikon",
             "fullscreen": "Skift fuldskærm",
             "tray": {

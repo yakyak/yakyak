@@ -333,7 +333,9 @@ formatters = [
         imageUrl = getImageUrl href # false if can't find one
         if imageUrl and preload imageUrl
             div ->
-                img src: imageUrl
+                if models.viewstate.showImagePreview
+                    img src: imageUrl
+                else a {imageUrl, onclick}
     # twitter preview
     (seg) ->
         href = seg?.text
@@ -349,7 +351,7 @@ formatters = [
             if data.text
                 p ->
                     data.text
-            if data.imageUrl and preload data.imageUrl
+            if data.imageUrl and (preload data.imageUrl) and models.viewstate.showImagePreview
                 img src: data.imageUrl
     # instagram preview
     (seg) ->
@@ -366,7 +368,7 @@ formatters = [
             if data.text
                 p ->
                     data.text
-            if data.imageUrl and preload data.imageUrl
+            if data.imageUrl and (preload data.imageUrl) and models.viewstate.showImagePreview
                 img src: data.imageUrl
 ]
 
@@ -437,15 +439,15 @@ formatAttachment = (att) ->
     else
         console.warn 'ignoring attachment', att unless att?.length == 0
         return
-    
+
     # stickers do not have an href so we link to the original content instead
     href = original_content_url unless href
-    
+
     # here we assume attachments are only images
     if preload thumb
         div class:'attach', ->
             a {href, onclick}, -> img src:thumb
-    
+
 
 handle 'loadedimg', ->
     # allow controller to record current position

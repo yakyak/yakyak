@@ -96,6 +96,7 @@
             "title": "Zobrazit",
             "emoji": "Převádět text na emotikony",
             "suggestemoji": "Navrhovat emotikony při psaní",
+            "showimagepreview": "Show image preview",
             "hide_dock": "Skrýt ikonu z doku",
             "fullscreen": "Přepnout do/z na celou obrazovku",
             "tray": {

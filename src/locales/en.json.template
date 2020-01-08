@@ -96,6 +96,7 @@
             "title": "View",
             "emoji": "Convert text to emoji",
             "suggestemoji": "Suggest emoji on typing",
+            "showimagepreview": "Show image preview",
             "hide_dock": "Hide Dock icon",
             "fullscreen": "Toggle Fullscreen",
             "tray": {

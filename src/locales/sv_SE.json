@@ -96,6 +96,7 @@
             "title": "Visa",
             "emoji": "Konvertera text till emoji",
             "suggestemoji": "Suggest emoji on typing",
+            "showimagepreview": "Show image preview",
             "hide_dock": "Göm dockikon",
             "fullscreen": "Växla till fullskärm",
             "tray": {

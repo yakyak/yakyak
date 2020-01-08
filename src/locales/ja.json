@@ -96,6 +96,7 @@
             "title": "表示",
             "emoji": "絵文字に変換",
             "suggestemoji": "入力する時絵文字を勧める",
+            "showimagepreview": "Show image preview",
             "hide_dock": "ドックのアイコンを隠す",
             "fullscreen": "全画面を表示・中止",
             "tray": {

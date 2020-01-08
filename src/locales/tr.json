@@ -96,6 +96,7 @@
             "title": "Görünüm",
             "emoji": "Yazıyı emojiye çevir",
             "suggestemoji": "Yazarken emoji öner",
+            "showimagepreview": "Show image preview",
             "hide_dock": "Sabit ikonu gizle",
             "fullscreen": "Tam Ekrana Geç",
             "tray": {

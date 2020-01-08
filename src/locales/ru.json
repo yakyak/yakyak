@@ -96,6 +96,7 @@
             "title": "Вид",
             "emoji": "Преобразовать текст в emoji",
             "suggestemoji": "Suggest emoji on typing",
+            "showimagepreview": "Show image preview",
             "hide_dock": "Скрыть иконку в доке",
             "fullscreen": "Переключить полноэкранный режим",
             "tray": {
