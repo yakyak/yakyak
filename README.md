@@ -5,7 +5,7 @@ YakYak
 
 [![Build Status](https://travis-ci.org/yakyak/yakyak.svg)](https://travis-ci.org/yakyak/yakyak)
 
-Desktop client for Google Hangouts
+Desktop client for Google Hangouts (not Google Hangouts Chat, which is a [different](https://github.com/yakyak/yakyak/issues/1037) thing)
 
 ![sshot](https://cloud.githubusercontent.com/assets/123929/16032313/cdba46c2-3204-11e6-912f-a72fef60563a.png)
 
