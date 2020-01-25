@@ -148,6 +148,7 @@ handle 'mutesoundnotification', ->
     viewstate.setMuteSoundNotification(not viewstate.muteSoundNotification)
 
 handle 'togglemenu', ->
+    # Deprecated in electron >= 7.0.0
     remote.Menu.getApplicationMenu().popup({})
 
 handle 'setescapeclearsinput', (value) ->
