@@ -9,6 +9,7 @@
     "gulp": "gulp",
     "electron": "electron",
     "test": "mocha",
+    "clean": "gulp clean",
     "deploy": "gulp deploy",
     "deploy:linux": "gulp deploy:linux",
     "deploy:win32": "gulp deploy:win32",
@@ -65,10 +66,10 @@
   },
   "devDependencies": {
     "chai": "^4.2.0",
-    "coffee-script": "^1.9.2",
+    "coffeescript": "^1.9.3",
     "devtron": "^1.4.0",
     "electron": "^7.1.7",
-    "electron-packager": "^11.2.1",
+    "electron-packager": "^14.1.1",
     "gulp": "^4.0.2",
     "gulp-changed": "^3.2.0",
     "gulp-coffee": "^3.0.3",
@@ -85,7 +86,7 @@
     "gulp-util": "^3.0.6",
     "gulp-zip": "^4.2.0",
     "mocha": "^5.2.0",
-    "rimraf": "^2.7.1",
+    "rimraf": "^3.0.0",
     "sinon": "^6.0.1",
     "sinon-chai": "^3.4.0"
   }

@@ -89,7 +89,7 @@ gulp.task 'package', ->
     gulp.src paths.package
 #        .pipe changed outapp
         .pipe gulp.dest outapp
-        .pipe install(production:true)
+        .pipe install()
 
 
 # compile coffeescript
