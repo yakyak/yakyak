@@ -113,7 +113,7 @@ module.exports = {
     ":couple:": "\ud83d\udc6b",
     ":two_men_holding_hands:":  "\ud83d\udc6c",
     ":two_women_holding_hands:":    "\ud83d\udc6d",
-    ":poop:":   "\ud83d\udcaa",
+    ":poop:":   "\ud83d\udca9",
     ":point_left:": "\ud83d\udc48",
     ":point_right:":    "\ud83d\udc49",
     ":point_up:":   "\u261d",

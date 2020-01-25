@@ -109,7 +109,8 @@ ipc.on 'ready-to-show', () ->
 
     # hide menu bar in all platforms but darwin
     unless process.platform is 'darwin'
-        mainWindow.setAutoHideMenuBar(true)
+        # # Deprecated to BrowserWindow attribute
+        # mainWindow.setAutoHideMenuBar(true)
         mainWindow.setMenuBarVisibility(false)
     # handle the visibility of the window
     if viewstate.startminimizedtotray
