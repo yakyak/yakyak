@@ -67,7 +67,7 @@
     "chai": "^4.2.0",
     "coffee-script": "^1.9.2",
     "devtron": "^1.4.0",
-    "electron": "^4.2.12",
+    "electron": "^7.1.7",
     "electron-packager": "^11.2.1",
     "gulp": "^4.0.2",
     "gulp-changed": "^3.2.0",
