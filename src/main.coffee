@@ -6,7 +6,7 @@ fs        = require 'fs'
 path      = require 'path'
 tmp       = require 'tmp'
 session   = require('electron').session
-
+log       = require('bog');
 
 [drive, path_parts...] = path.normalize(__dirname).split(path.sep)
 global.YAKYAK_ROOT_DIR = [drive, path_parts.map(encodeURIComponent)...].join('/')
@@ -114,7 +114,7 @@ app.on 'ready', ->
         ]
         Q.all todo.map (t) -> Q.Promise (rs) ->
             console.log "resolving proxy #{t.url}"
-            session.defaultSession.resolveProxy t.url, (proxyURL) ->
+            session.defaultSession.resolveProxy(t.url).then (proxyURL) ->
                 console.log "resolved proxy #{proxyURL}"
                 # Format of proxyURL is either "DIRECT" or "PROXY 127.0.0.1:8888"
                 [_, purl] = proxyURL.split ' '
@@ -133,6 +133,11 @@ app.on 'ready', ->
         "min-height": 420
         icon: path.join __dirname, 'icons', icon_name
         show: false
+        autohideMenuBar: true
+        webPreferences: {
+            nodeIntegration: true
+            # preload: path.join(app.getAppPath(), 'ui', 'app.js')
+        }
         titleBarStyle: 'hiddenInset' if process.platform is 'darwin'
         frame: false if process.platform is 'win32'
         # autoHideMenuBar : true unless process.platform is 'darwin'
@@ -143,6 +148,7 @@ app.on 'ready', ->
         mainWindow.webContents.openDevTools()
         mainWindow.maximize()
         mainWindow.show()
+        log.level('debug');
         try
             require('devtron').install()
         catch
