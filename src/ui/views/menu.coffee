@@ -526,4 +526,5 @@ templateMenu = (viewstate) ->
     ].filter (n) -> n != undefined
 
 module.exports = (viewstate) ->
+    # Deprecated in electron >= 7.0.0
     Menu.setApplicationMenu Menu.buildFromTemplate templateMenu(viewstate)
