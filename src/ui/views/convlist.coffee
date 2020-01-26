@@ -14,6 +14,7 @@ module.exports = view (models) ->
             moment.locale(window.navigator.language)
         convs = conv.list()
         renderConv = (c) ->
+            return if c?.self_conversation_state.view[0] == 'ARCHIVED_VIEW'
             # remove emoji suggestions on renderConv
             if document.querySelectorAll('.emoji-sugg-container').length
                 document.querySelectorAll('.emoji-sugg-container')[0].parentNode.removeChild(document.querySelectorAll('.emoji-sugg-container')[0])
