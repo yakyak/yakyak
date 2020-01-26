@@ -23,8 +23,8 @@ acceleratorMap = {
     quit: { default: 'CmdOrCtrl+Q' }
     zoomin: { default: 'CmdOrCtrl+Plus' }
     # Platform specific
-    previousconversation: { default: 'Ctrl+K', darwin:'Command+K' }
-    nextconversation:  { default: 'Ctrl+J', darwin:'Command+J' }
+    previousconversation: { default: 'Ctrl+K', darwin:'Ctrl+Shift+Tab' }
+    nextconversation:  { default: 'Ctrl+J', darwin:'Ctrl+Tab' }
     newconversation: { default: 'CmdOrCtrl+M' }
     conversation1: { default: 'Alt+1', darwin:'Command+1' }
     conversation2: { default: 'Alt+2', darwin:'Command+2' }
