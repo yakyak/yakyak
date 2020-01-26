@@ -5,7 +5,7 @@ YakYak
 
 [![Build Status](https://travis-ci.org/yakyak/yakyak.svg)](https://travis-ci.org/yakyak/yakyak)
 
-Desktop client for Google Hangouts (not Google Hangouts Chat, which is a [different](https://github.com/yakyak/yakyak/issues/1037) thing)
+Desktop client for Google Hangouts *(not Google Hangouts Chat, which is a [different](https://github.com/yakyak/yakyak/issues/1037) thing)*
 
 ![sshot](https://cloud.githubusercontent.com/assets/123929/16032313/cdba46c2-3204-11e6-912f-a72fef60563a.png)
 
@@ -52,6 +52,7 @@ Yakyak may show up as iOS Device and Google may alert you that *"some iOS Device
 
 #### Main authors
 
+* [André Veríssimo](https://github.com/averissimo)
 * [Davide Bertola](https://github.com/davibe)
 * [Martin Algesten](https://github.com/algesten)
 
@@ -61,7 +62,6 @@ Yakyak may show up as iOS Device and Google may alert you that *"some iOS Device
 * [Max Kueng](https://github.com/maxkueng)
 * [Arnaud Riu](https://github.com/arnriu)
 * [Austin Guevara](https://github.com/austin-guevara)
-* [André Veríssimo](https://github.com/averissimo)
 
 ## Developing
 
