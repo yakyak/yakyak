@@ -82,11 +82,22 @@ module.exports = view (models) ->
         ul ->
             convsettings.selectedEntities.forEach (r) ->
                 cid = r?.id?.chat_id
-                email = (r.properties?.email?[0] ? entity[cid]?.emails?[0]);
-                li class: 'selected', title: email, ->
+                ctLocal = ''
+                ctInfo = ''
+                console.log('meme', r.properties, entity[cid])
+                if entity[cid]?.type == 0
+                    ctLocal = 'ct-local'
+                    ctInfo = 'Internal Contact' + "\r\n"
+                if (r.properties?.emails?[0] ? entity[cid]?.emails?[0])
+                    ctInfo += (r.properties?.emails?[0] ? entity[cid]?.emails?.join("\r\n")) + "\r\n"
+                if r.properties?.organization
+                    ctInfo += r.properties?.organization + "\r\n"
+                if r.properties?.location
+                    ctInfo += r.properties?.location + "\r\n"
+                li title:ctInfo, class: ctLocal + ' selected', ->
                     drawAvatar cid, viewstate, entity
                     , (r.properties?.photo_url ? entity[cid]?.photo_url)
-                    , email
+                    , ctInfo
                     , (if r.properties? then initialsof r.properties?)
                     p nameof r.properties
                 , onclick:(e) -> if not editing then action 'deselectentity', r
@@ -95,12 +106,22 @@ module.exports = view (models) ->
 
             convsettings.searchedEntities.forEach (r) ->
                 cid = r?.id?.chat_id
-                email = (r.properties?.email?[0] ? entity[cid]?.emails?[0]);
+                ctLocal = ''
+                ctInfo = ''
+                if entity[cid]?.type == 0
+                    ctLocal = 'ct-local'
+                    ctInfo = 'Internal Contact' + "\r\n"
+                if (r.properties?.emails?[0] ? entity[cid]?.emails?[0])
+                    ctInfo += (r.properties?.emails?[0] ? entity[cid]?.emails?.join("\r\n")) + "\r\n"
+                if r.properties?.organization
+                    ctInfo += r.properties?.organization + "\r\n"
+                if r.properties?.location
+                    ctInfo += r.properties?.location + "\r\n"
                 if unique(r) in selected_ids then return
-                li title: email, ->
+                li title:ctInfo, class:ctLocal, ->
                     drawAvatar cid, viewstate, entity
                     , (r.properties?.photo_url ? entity[cid]?.photo_url)
-                    , email
+                    , ctInfo
                     , (if r.properties? then initialsof r.properties?)
                     p nameof r.properties
                 , onclick:(e) -> action 'selectentity', r
