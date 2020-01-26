@@ -59,7 +59,7 @@
     "request": "^2.88.0",
     "tmp": "^0.1.0",
     "trifl": "0.0.10",
-    "uber-url-regex": "^5.0.8"
+    "uber-url-regex": "^5.0.9"
   },
   "optionalDependencies": {
     "electron-installer-flatpak": "^0.6.0"
