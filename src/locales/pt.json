@@ -97,6 +97,7 @@
             "title": "Ver",
             "emoji": "Converter texto para emoji",
             "suggestemoji": "Suggest emoji on typing",
+            "showimagepreview": "Show image preview",
             "hide_dock": "Esconder Ícone da Dock",
             "fullscreen": "Alternar Ecrã Inteiro",
             "tray": {

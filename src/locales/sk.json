@@ -95,6 +95,7 @@
             "title": "Zobrazenie",
             "emoji": "Prevádzať text na emotikony",
             "suggestemoji": "Odporúčať emoji počas písania",
+            "showimagepreview": "Show image preview",
             "hide_dock": "Skryť ikonu z Docku",
             "fullscreen": "Spustiť režim celej obrazovky",
             "tray": {

@@ -22,6 +22,7 @@ acceleratorMap = {
     # Common shortcuts
     quit: { default: 'CmdOrCtrl+Q' }
     zoomin: { default: 'CmdOrCtrl+Plus' }
+    toggleimagepreview: { default: 'CmdOrCtrl+P' }
     # Platform specific
     previousconversation: { default: 'Ctrl+K', darwin:'Ctrl+Shift+Tab' }
     nextconversation:  { default: 'Ctrl+J', darwin:'Ctrl+Tab' }
@@ -247,6 +248,14 @@ templateView = (viewstate) ->
             checked: viewstate.suggestEmoji
             enabled: viewstate.loggedin
             click: (it) -> action 'suggestemoji', it.checked
+        }
+        {
+            type: 'checkbox'
+            accelerator: getAccelerator('toggleimagepreview')
+            label: i18n.__('menu.view.showimagepreview:Show image preview')
+            checked: viewstate.showImagePreview
+            enabled: viewstate.loggedin
+            click: (it) -> action 'showimagepreview', it.checked
         }
         {
             label: i18n.__('menu.view.color_scheme.title:Color Scheme')

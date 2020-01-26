@@ -96,6 +96,7 @@
             "title": "Pogled",
             "emoji": "Pretvori besedilo v emotikone",
             "suggestemoji": "Suggest emoji on typing",
+            "showimagepreview": "Show image preview",
             "hide_dock": "Skrij ikono",
             "fullscreen": "Celozaslonski način",
             "tray": {

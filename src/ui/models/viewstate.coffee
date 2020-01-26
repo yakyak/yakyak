@@ -29,6 +29,7 @@ module.exports = exp = {
     showUsernameInNotification: tryparse(localStorage.showUsernameInNotification) ? true
     convertEmoji: tryparse(localStorage.convertEmoji) ? true
     suggestEmoji: tryparse(localStorage.suggestEmoji) ? true
+    showImagePreview: tryparse(localStorage.showImagePreview) ? true
     colorScheme: localStorage.colorScheme or 'default'
     fontSize: localStorage.fontSize or 'medium'
     zoom: tryparse(localStorage.zoom ? "1.0")
@@ -261,6 +262,11 @@ module.exports = exp = {
     setSuggestEmoji: (doshow) ->
         return if @suggestEmoji == doshow
         @suggestEmoji = localStorage.suggestEmoji = doshow
+        updated 'viewstate'
+
+    setshowImagePreview: (doshow) ->
+        return if @showImagePreview == doshow
+        @showImagePreview = localStorage.showImagePreview = doshow
         updated 'viewstate'
 
     setColorScheme: (colorscheme) ->

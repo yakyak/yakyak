@@ -495,6 +495,9 @@ handle 'convertemoji', (doshow) ->
 handle 'suggestemoji', (doshow) ->
     viewstate.setSuggestEmoji doshow
 
+handle 'showimagepreview', (doshow) ->
+    viewstate.setshowImagePreview doshow
+
 handle 'changetheme', (colorscheme) ->
     viewstate.setColorScheme colorscheme
 

@@ -96,6 +96,7 @@
             "title": "Вид",
             "emoji": "Перетворити текст в емодзі",
             "suggestemoji": "Рекомендувати емодзі при друку",
+            "showimagepreview": "Show image preview",
             "hide_dock": "Сховати іконку в док",
             "fullscreen": "Перемкнути в повноекранний режим",
             "tray": {

@@ -96,6 +96,7 @@
             "title": "视图",
             "emoji": "将文字转化为表情",
             "suggestemoji": "输入时建议表情",
+            "showimagepreview": "Show image preview",
             "hide_dock": "隐藏停靠栏图标",
             "fullscreen": "切换全屏",
             "tray": {
@@ -178,4 +179,3 @@
         }
     }
 }
-

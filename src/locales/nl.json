@@ -96,6 +96,7 @@
             "title": "Weergave",
             "emoji": "Tekst omzetten naar emoji's",
             "suggestemoji": "Emoji's aanraden tijdens het typen",
+            "showimagepreview": "Show image preview",
             "hide_dock": "Dock-pictogram verbergen",
             "fullscreen": "Volledig scherm aan/uit",
             "tray": {

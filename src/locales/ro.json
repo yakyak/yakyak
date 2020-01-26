@@ -96,6 +96,7 @@
             "title": "Vizualizează",
             "emoji": "Convertește text cu emoji",
             "suggestemoji": "Suggest emoji on typing",
+            "showimagepreview": "Show image preview",
             "hide_dock": "Ascunde icon Dock",
             "fullscreen": "Fereastră maximizată",
             "tray": {

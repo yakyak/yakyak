@@ -96,6 +96,7 @@
             "title": "Ansicht",
             "emoji": "Text in Emoji umwandeln",
             "suggestemoji": "Suggest emoji on typing",
+            "showimagepreview": "Show image preview",
             "hide_dock": "Dock-Icon verstecken",
             "fullscreen": "Vollbild",
             "tray": {

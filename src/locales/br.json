@@ -96,6 +96,7 @@
             "title": "Gwelout",
             "emoji": "Amdreiñ an destenn d'un emoji",
             "suggestemoji": "Erbediñ emoji en ur skrivañ",
+            "showimagepreview": "Show image preview",
             "hide_dock": "Kuzhat arlun an Dock",
             "fullscreen": "Lakaat/Tennañ ar mod skramm a-bezh",
             "tray": {

@@ -96,6 +96,7 @@
             "title": "பார்வையிடு",
             "emoji": "எழுத்தினை  ",
             "suggestemoji": "Suggest emoji on typing",
+            "showimagepreview": "Show image preview",
             "hide_dock": "சின்னத்தை மறை",
             "fullscreen": "முழுத்திரை",
             "tray": {
