@@ -354,7 +354,12 @@ app.on 'ready', ->
 
     # retry
     ipc.on 'deleteconversation', seqreq (ev, conv_id) ->
+        console.log 'deletingconversation', conv_id if debug
         client.deleteconversation conv_id
+        .then (r) ->
+            console.log 'DEBUG: deleteconvsersation response: ', r if debug
+            if r.response_header.status != 'OK'
+                ipcsend 'message', i18n.__('conversation.delete_error:Error occured when deleting conversation')
     , true
 
     ipc.on 'removeuser', seqreq (ev, conv_id) ->
@@ -411,14 +416,14 @@ app.on 'ready', ->
 
     # no retry, just one single request
     ipc.on 'syncallnewevents', seqreq (ev, time) ->
-        console.log 'syncallnew'
+        console.log 'syncallnewevents: Asking hangouts to sync new events'
         client.syncallnewevents(time).then (r) ->
             ipcsend 'syncallnewevents:response', r
     , false, (ev, time) -> 1
 
     # no retry, just one single request
     ipc.on 'syncrecentconversations', syncrecent = seqreq (ev) ->
-        console.log 'syncrecent'
+        console.log 'syncrecentconversations: Asking hangouts to sync recent conversations'
         client.syncrecentconversations().then (r) ->
             ipcsend 'syncrecentconversations:response', r
             # this is because we use syncrecent on reqinit (dev-mode
@@ -446,9 +451,10 @@ app.on 'ready', ->
         ipcsend 'expcetioninmain', error
         console.log "Error on #{winName} window:\n", error, "\n--- End of error message in #{winName} window."
 
-    # propagate these events to the renderer
+    # propagate Hangout client events to the renderer
     require('./ui/events').forEach (n) ->
         client.on n, (e) ->
+            console.log 'DEBUG: Received event', n if debug
             ipcsend n, e
 
     # Emitted when the window is about to close.
