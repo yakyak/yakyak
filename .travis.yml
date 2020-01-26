@@ -35,7 +35,7 @@ before_deploy:
   #
   # RPM and DEB binaries
   # install fpm
-  - gem install --no-ri --no-rdoc fpm
+  - gem install --no-document fpm
   #
   - npm run -loglevel ${NPM_DEBUG_LEVEL} gulp deploy:linux-x64:rpm:nodep
   - npm run -loglevel ${NPM_DEBUG_LEVEL} gulp deploy:linux-x64:deb:nodep
