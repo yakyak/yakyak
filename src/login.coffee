@@ -26,5 +26,4 @@ module.exports = (mainWindow) -> Q.Promise (rs) ->
                 rs(oauth_code) if oauth_code
 
     # redirect to google oauth
-    options = {"userAgent": AGENT}
     mainWindow.loadURL LOGIN_URL
