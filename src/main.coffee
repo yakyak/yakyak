@@ -194,7 +194,7 @@ app.on 'ready', ->
                 nodeIntegration: false
             }
         }
-
+        loginWindow.webContents.openDevTools() if debug
         loginWindow.on 'closed', quit
 
         global.windowHideWhileCred = true

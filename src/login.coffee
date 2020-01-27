@@ -1,6 +1,7 @@
 Client = require 'hangupsjs'
 Q = require 'q'
 {session} = require('electron')
+app = require('electron').app
 
 # Current programmatic login workflow is described here
 # https://github.com/tdryer/hangups/issues/260#issuecomment-246578670
@@ -8,7 +9,10 @@ LOGIN_URL = "https://accounts.google.com/o/oauth2/programmatic_auth?hl=en&scope=
 
 # Hack the user agent so this works again
 # Credit to https://github.com/yakyak/yakyak/issues/1087#issuecomment-565170640
-AGENT = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/80.0.3904.70 Safari/537.36"
+#
+# WARN:: This should be removed in the long term.
+AGENT = app.userAgentFallback
+    .replace('Chrome', 'Chromium')
 
 # promise for one-time oauth token
 module.exports = (mainWindow) -> Q.Promise (rs) ->
@@ -22,12 +26,15 @@ module.exports = (mainWindow) -> Q.Promise (rs) ->
         if url.indexOf('/o/oauth2/programmatic_auth') > 0
             console.log 'login: programmatic auth'
             # get the cookie from browser session, it has to be there
-            session.defaultSession.cookies.get({}).then (err, values=[]) ->
+            session.defaultSession.cookies.get({})
+            .then (values=[]) ->
                 oauth_code = false
                 for value in values
                     if value.name is 'oauth_code'
                         oauth_code = value.value
                 rs(oauth_code) if oauth_code
+            .catch (err) ->
+                console.log 'login: ERROR retrieving cookies::', err
 
     # redirect to google oauth
     options = {"userAgent": AGENT}
