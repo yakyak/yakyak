@@ -352,6 +352,9 @@ app.on 'ready', ->
         client.setconversationnotificationlevel conv_id, level
     , true, (ev, conv_id, level) -> conv_id
 
+    ipc.on 'modifyotrstatus', seqreq (ev, conv_id, otr) ->
+        client.modifyotrstatus conv_id, otr, false, (ev, conv_id, otr) -> conv_id
+
     # retry
     ipc.on 'deleteconversation', seqreq (ev, conv_id) ->
         console.log 'deletingconversation', conv_id if debug

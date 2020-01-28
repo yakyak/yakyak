@@ -14,6 +14,22 @@
         text-align: center;
         color: var(--darkgrey);
     }
+    .otr {
+        margin-top: 15px;
+        display: block;
+        font-size: 12px;
+        text-align: center;
+        background-color: var(--altgrey);
+        color: var(--darkgrey);
+
+        .banner {
+            display: inline-block;
+            vertical-align: middle;
+            &.material-icons {
+                margin-right: 10px;
+            }
+        }
+    }
     .ugroup {
         margin-top: 17px;
         position: relative;
@@ -103,6 +119,9 @@
                 .message .instagram {
                     margin: 10px -35px 3px -10px;
                 }
+                &.historyoff {
+                    background: var(--historyoffdarkgrey);
+                }
             }
         }
         &.me {
@@ -130,6 +149,9 @@
             display: inline-block;
             text-align: left;
             overflow: hidden;
+            &.historyoff {
+                background-color: var(--historyoffaltgrey);
+            }
             .message {
                 font-family: var(--emojifont);
                 padding: 5px;

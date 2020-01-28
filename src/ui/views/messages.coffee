@@ -88,13 +88,13 @@ onclick = (e) ->
     xhr.open("get", finalUrl)
     xhr.send()
 
-# helper method to group events in time/user bunches
+# helper method to group events in time/user/otr status bunches
 groupEvents = (es, entity) ->
     groups = []
     group = null
     user = null
     for e in es
-        if e.timestamp - (group?.end ? 0) > CUTOFF
+        if e.timestamp - (group?.end ? 0) > CUTOFF or e.otr_modification or user?.event[0]?.otr_modification # create new group for otr modification events, and for any conversation after an otr mod event
             group = {
                 byuser: []
                 start: e.timestamp
@@ -117,7 +117,7 @@ groupEvents = (es, entity) ->
 
 # possible classes of messages
 MESSAGE_CLASSES = ['placeholder', 'chat_message',
-'conversation_rename', 'membership_change']
+'conversation_rename', 'membership_change', 'otr_modification']
 
 OBSERVE_OPTS =
     childList:true
@@ -167,12 +167,17 @@ module.exports = view (models) ->
                         div class:'ugroup me', ->
                             drawMessageAvatar u, sender, viewstate, entity
                             drawMeMessage e for e in events
+                    else if events[0].otr_modification
+                        div class:'otr', ->
+                            drawMessage(e, entity, u.cid) for e in events # only draws message regarding history being on/off
                     else
                         clz = ['ugroup']
                         clz.push 'self' if entity.isSelf(u.cid)
                         div class:clz.join(' '), ->
                             drawMessageAvatar u, sender, viewstate, entity
-                            div class:'umessages', ->
+                            innerClz = ['umessages']
+                            innerClz.push 'historyoff' if events[0].event_otr == 'OFF_THE_RECORD' 
+                            div class:innerClz.join(' '), ->
                                 drawMessage(e, entity) for e in events
 
                             # at the end of the events group we draw who has read any of its events
@@ -241,7 +246,7 @@ drawMeMessage = (e) ->
     div class:'message', ->
         e.chat_message?.message_content.segment[0].text
 
-drawMessage = (e, entity) ->
+drawMessage = (e, entity, cid=null) ->
     # console.log 'message', e.chat_message
     mclz = ['message']
     mclz.push c for c in MESSAGE_CLASSES when e[c]?
@@ -273,6 +278,21 @@ drawMessage = (e, entity) ->
             else if hangout_event.event_type is 'END_HANGOUT'
                 span { class:'material-icons small', style }, 'call_end'
                 pass ' Call ended'
+        else if e.otr_modification
+            if e.otr_modification.new_otr_status is "OFF_THE_RECORD"
+                span class:'material-icons banner', 'query_builder'
+                if entity.isSelf(cid)
+                    p class:'banner', i18n.__('conversation.history_off.self:You turned history off.')
+                else
+                    p class:'banner', i18n.__('conversation.history_off.others:%s turned history off.', entity[cid].first_name)
+            else if e.otr_modification.new_otr_status is "ON_THE_RECORD"
+                span class:'material-icons banner', 'query_builder'
+                if entity.isSelf(cid)
+                    p class:'banner', i18n.__('conversation.history_on.self:You turned history on.')
+                else
+                    p class:'banner', i18n.__('conversation.history_on.others:%s turned history on.', entity[cid].first_name)
+            else 
+                console.log 'unhandled otr modification event type', e, entity
         else
             console.log 'unhandled event type', e, entity
 
