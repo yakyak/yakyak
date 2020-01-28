@@ -245,7 +245,7 @@ handle 'uploadimage', (files) ->
             #   see exactly what he is sending. (using the path would require
             #   polling)
             fs.readFile file.path, (err, original_data) ->
-                binaryImage = new Buffer(original_data, 'binary')
+                binaryImage = Buffer.from(original_data, 'binary')
                 base64Image = binaryImage.toString('base64')
                 mimeType = mime.lookup file.path
                 element.src = 'data:' + mimeType + ';base64,' + base64Image
@@ -288,7 +288,7 @@ handle 'uploadpreviewimage', ->
     element = document.getElementById 'preview-img'
     # build image from what is on preview
     pngData = element.src.replace /data:image\/(png|jpe?g|gif|svg);base64,/, ''
-    pngData = new Buffer(pngData, 'base64')
+    pngData = Buffer.from(pngData, 'base64')
     document.querySelector('#preview-container').classList.remove('open')
     document.querySelector('#emoji-container').classList.remove('open')
     element.src = ''
