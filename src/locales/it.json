@@ -40,8 +40,9 @@
         "leave_confirm": "Vuoi davvero lasciare la conversazione?",
         "search": "Cerca Persone",
         "new_message": "Nuovo Messaggio",
-        "new_attachment": "New message received (image or video)",
-        "open_link": "Opening the link in the browser..."
+        "new_attachment": "Nuovo Messaggio (immagine o video)",
+        "open_link": "Sto aprendo il collegamento sul browser...",
+        "no_preview_image_click_to_open": "Anteprima immagine disabilitata: clicca qui per vederla sul browser"
     },
     "notification": {
         "one": "Notifica",
@@ -90,7 +91,7 @@
             "copy_image": "Copia immagine",
             "select_all": "Seleziona tutto",
             "language": "Lingua (Language)",
-            "dateformat": "Use system date format"
+            "dateformat": "Usa il formato data del tuo sistema"
         },
         "view": {
             "title": "Visualizza",

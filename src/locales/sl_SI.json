@@ -41,7 +41,8 @@
         "search": "Najdi ljudi",
         "new_message": "Novo sporočilo",
         "new_attachment": "New message received (image or video)",
-        "open_link": "Opening the link in the browser..."
+        "open_link": "Opening the link in the browser...",
+        "no_preview_image_click_to_open": "Image preview is disabled: click to open it in the browser"
     },
     "notification": {
         "one": "Obvestilo",

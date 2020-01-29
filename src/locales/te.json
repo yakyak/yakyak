@@ -120,6 +120,7 @@
 		"settings": "సంభాషణ యొక్క ప్రాధాన్యతలు",
 		"new_attachment": "క్రొత్త చిత్రం వచ్చింది",
 		"open_link": "లింకును మీ బ్రౌజర్‌లో తెరుస్తున్నాం",
+    	"no_preview_image_click_to_open": "Image preview is disabled: click to open it in the browser",
 		"edit": "సంభాషణను సవరించు",
 		"leave": "సంభాషణ నుండి నిష్క్రమించు",
 		"delete": "సంభాషణను తొలగించు"

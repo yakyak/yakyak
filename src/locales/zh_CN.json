@@ -41,7 +41,8 @@
         "search": "搜索用户",
         "new_message": "收到新消息",
         "new_attachment": "收到新消息 (图片或视频)",
-        "open_link": "在浏览器中打开链接……"
+        "open_link": "在浏览器中打开链接……",
+        "no_preview_image_click_to_open": "Image preview is disabled: click to open it in the browser"
     },
     "notification": {
         "one": "通知",

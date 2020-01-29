@@ -42,7 +42,8 @@
         "search": "Procurar pessoas",
         "new_message": "Nova mensagem recebida",
         "new_attachment": "Nova mensagem recebida (imagem ou vídeo)",
-        "open_link": "A abrir o link no browser..."
+        "open_link": "A abrir o link no browser...",
+        "no_preview_image_click_to_open": "Image preview is disabled: click to open it in the browser"
     },
     "notification": {
         "one": "Notificação",

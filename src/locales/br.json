@@ -41,7 +41,8 @@
         "search": "Klask tud",
         "new_message": "Kemennadenn nevez degemeret",
         "new_attachment": "Kemennadenn nevez degemeret (skeudenn pe video)",
-        "open_link": "O tigeriñ an ere er merdeer..."
+        "open_link": "O tigeriñ an ere er merdeer...",
+        "no_preview_image_click_to_open": "Image preview is disabled: click to open it in the browser"
     },
     "notification": {
         "one": "Rebuzadur",
