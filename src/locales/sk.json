@@ -40,7 +40,9 @@
         "leave_confirm": "Naozaj opustiť konverzáciu?",
         "search": "Vyhľadať osoby",
         "new_message": "Nová správa",
-        "new_attachment": "New message received (image or video)"
+        "new_attachment": "New message received (image or video)",
+        "open_link": "Opening the link in the browser...",
+        "no_preview_image_click_to_open": "Image preview is disabled: click to open it in the browser"
     },
     "notification": {
         "one": "Oznámenie",

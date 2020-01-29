@@ -41,7 +41,8 @@
         "search": "Vyhledat osoby",
         "new_message": "Nová zpráva",
         "new_attachment": "Obdržena nová zpráva (obraz nebo video)",
-        "open_link": "Otevírání odkazu v prohlížeči…"
+        "open_link": "Otevírání odkazu v prohlížeči…",
+        "no_preview_image_click_to_open": "Image preview is disabled: click to open it in the browser"
     },
     "notification": {
         "one": "Oznámení",

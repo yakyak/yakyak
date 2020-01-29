@@ -72,8 +72,8 @@ onclick = (e) ->
 
     # Showing message with 3 second delay showing the user that something is happening
     notr {
-      html: i18n.__ 'conversation.open_link:Opening the link in the browser...'
-      stay: 3000
+        html: i18n.__ 'conversation.open_link:Opening the link in the browser...'
+        stay: 3000
     }
 
     xhr.onreadystatechange = (e) ->
@@ -446,8 +446,11 @@ formatAttachment = (att) ->
     # here we assume attachments are only images
     if preload thumb
         div class:'attach', ->
-            a {href, onclick}, -> img src:thumb
-
+            a {href, onclick}, ->
+                if models.viewstate.showImagePreview
+                    img src:thumb
+                else
+                    i18n.__('conversation.no_preview_image_click_to_open:Image preview is disabled: click to open it in the browser')
 
 handle 'loadedimg', ->
     # allow controller to record current position
