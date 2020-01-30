@@ -17,9 +17,9 @@ add = (conv) ->
         conv.event = (e for e in event when !e.event_id.match(/observed_/))
 
     {id} = conv.conversation_id or conv.id
-    if conv?.self_conversation_state?.self_read_state?.latest_read_timestamp == 0
+    if lookup[id] and conv?.self_conversation_state?.self_read_state?.latest_read_timestamp == 0
         # don't change latest_read_timestamp if it's 0
-        conv.self_conversation_state?.self_read_state?.latest_read_timestamp = lookup[id].self_conversation_state?.self_read_state?.latest_read_timestamp
+        conv?.self_conversation_state?.self_read_state?.latest_read_timestamp = lookup[id].self_conversation_state?.self_read_state?.latest_read_timestamp
     domerge id, conv
     # we mark conversations with few events to know that they definitely
     # got no more history.
