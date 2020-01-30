@@ -370,7 +370,6 @@ app.on 'ready', ->
     ipc.on 'setfocus', seqreq (ev, conv_id) ->
         client.setfocus conv_id
         updateConversation(conv_id)
-
     , false, (ev, conv_id) -> conv_id
 
     # update conversation with metadata (for unread messages)
