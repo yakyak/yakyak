@@ -299,8 +299,8 @@ app.on 'ready', ->
             , false, -> 1
 
     # no retry, only one outstanding call
-    ipc.on 'setpresence', seqreq ->
-        client.setpresence(true)
+    ipc.on 'setpresence', seqreq (ev, status=true) ->
+        client.setpresence(status)
     , false, -> 1
 
     # no retry, only one outstanding call
@@ -369,10 +369,17 @@ app.on 'ready', ->
     # no retries, dedupe on conv_id
     ipc.on 'setfocus', seqreq (ev, conv_id) ->
         client.setfocus conv_id
+        updateConversation(conv_id)
+    , false, (ev, conv_id) -> conv_id
+
+    # update conversation with metadata (for unread messages)
+    updateConversation = (conv_id) ->
         client.getconversation conv_id, new Date(), 1, true
         .then (r) ->
             ipcsend 'getconversationmetadata:response', r
 
+    ipc.on 'updateConversation', seqreq (ev, conv_id) ->
+        updateConversation conv_id
     , false, (ev, conv_id) -> conv_id
 
     ipc.on 'appfocus', ->
@@ -455,6 +462,9 @@ app.on 'ready', ->
     require('./ui/events').forEach (n) ->
         client.on n, (e) ->
             console.log 'DEBUG: Received event', n if debug
+            # client_conversation comes without metadata by default.
+            #  We need it for unread count
+            updateConversation e.conversation_id.id if (n == 'client_conversation')
             ipcsend n, e
 
     # Emitted when the window is about to close.

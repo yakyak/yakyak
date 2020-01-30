@@ -39,6 +39,12 @@ handle 'init', (init) ->
     unless conv[viewstate.selectedConv]
         viewstate.setSelectedConv conv.list()?[0]?.conversation_id
 
+    # explicit retrieval of conversation metadata
+    #  this is required since #1109
+    conv.list().forEach (el) ->
+        if el.self_conversation_state?.self_read_state?.latest_read_timestamp? == 0
+              ipc.send 'updateConversation', el.conversation_id.id
+
     ipc.send 'initpresence', entity.list()
 
     require('./version').check()

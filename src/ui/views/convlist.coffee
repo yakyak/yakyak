@@ -29,7 +29,7 @@ module.exports = view (models) ->
             clz.push "selected" if models.viewstate.selectedConv == cid
             clz.push "unread" if ur
             clz.push "purehang" if pureHang
-            div key:cid, class:clz.join(' '), ->
+            div key:cid, class:clz.join(' '), "data-id": cid, ->
                 part = c?.current_participant ? []
                 ents = for p in part when not entity.isSelf p.chat_id
                     entity[p.chat_id]
