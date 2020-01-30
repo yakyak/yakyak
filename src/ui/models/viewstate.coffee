@@ -18,8 +18,6 @@ module.exports = exp = {
     selectedConv: localStorage.selectedConv
     lastActivity: null
     leftSize: tryparse(localStorage.leftSize) ? 240
-    size: tryparse(localStorage.size ? "[940, 600]")
-    pos: tryparse(localStorage.pos ? "[100, 100]")
     showConvMin: tryparse(localStorage.showConvMin) ? false
     showConvThumbs: tryparse(localStorage.showConvThumbs) ? true
     showAnimatedThumbs: tryparse(localStorage.showAnimatedThumbs) ? true
@@ -146,14 +144,10 @@ module.exports = exp = {
 
     setSize: (size) ->
         windowState.setSize size
-        localStorage.size = JSON.stringify(size)
-        @size = size
         # updated 'viewstate'
 
     setPosition: (pos) ->
         windowState.setPosition pos
-        localStorage.pos = JSON.stringify(pos)
-        @pos = pos
         # updated 'viewstate'
 
     setLeftSize: (size) ->
