@@ -1,4 +1,5 @@
 Client = require 'hangupsjs'
+windowState = require './windowstate'
 
 merge   = (t, os...) -> t[k] = v for k,v of o when v not in [null, undefined] for o in os; t
 
@@ -144,11 +145,13 @@ module.exports = exp = {
             later -> action 'updatewatermark'
 
     setSize: (size) ->
+        windowState.setSize size
         localStorage.size = JSON.stringify(size)
         @size = size
         # updated 'viewstate'
 
     setPosition: (pos) ->
+        windowState.setPosition pos
         localStorage.pos = JSON.stringify(pos)
         @pos = pos
         # updated 'viewstate'

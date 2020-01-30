@@ -7,6 +7,7 @@ path      = require 'path'
 tmp       = require 'tmp'
 session   = require('electron').session
 log       = require('bog');
+windowState = require('./ui/models/windowstate')
 
 [drive, path_parts...] = path.normalize(__dirname).split(path.sep)
 global.YAKYAK_ROOT_DIR = [drive, path_parts.map(encodeURIComponent)...].join('/')
@@ -121,14 +122,18 @@ app.on 'ready', ->
                 process.env[t.env] ?= if purl then "http://#{purl}" else ""
                 rs()
 
+    bounds = windowState.getBounds()
+
     icon_name = if process.platform is 'win32'
         'icon@2.png'
     else
         'icon@32.png'
     # Create the browser window.
     mainWindow = new BrowserWindow {
-        width: 730
-        height: 590
+        x: bounds.x
+        y: bounds.y
+        width: bounds.width
+        height: bounds.height
         "min-width": 620
         "min-height": 420
         icon: path.join __dirname, 'icons', icon_name

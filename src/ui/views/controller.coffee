@@ -42,8 +42,6 @@ handle 'update:viewstate', ->
     setLeftSize viewstate.leftSize
     setConvMin viewstate.showConvMin
     if viewstate.state == viewstate.STATE_STARTUP
-        if Array.isArray viewstate.size
-            later -> remote.getCurrentWindow().setSize viewstate.size...
         #
         #
         # It will not allow the window to be placed offscreen (fully or partial)
@@ -103,7 +101,10 @@ handle 'update:viewstate', ->
                 yWindowPos = maxY if yWindowPos > maxH
                 xWindowPos = Math.max(xWindowPos, maxX)
                 yWindowPos = Math.max(yWindowPos, maxY)
-            later -> remote.getCurrentWindow().setPosition(xWindowPos, yWindowPos)
+
+            if Array.isArray viewstate.pos
+                if viewstate.pos[0] != xWindowPos or viewstate.pos[1] != yWindowPos
+                    later -> remote.getCurrentWindow().setPosition(xWindowPos, yWindowPos)
         # only render startup
         startup(models)
 
