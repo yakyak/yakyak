@@ -1,0 +1,184 @@
+{
+  "__MyLocaleLanguage__": "العربية",
+  "__maintaner__": "http://github.com/belaassal",
+
+  "title": "YakYak - وسيط Hangouts",
+  "description": "وسيط نظام سطح المكتب لجوجل Hangouts",
+
+  "settings": "الإعدادات",
+  "recent": "حديث",
+  "details": "التفاصيل",
+
+  "connection": {
+    "connecting": "جاري الإتصال",
+    "loading": "تحميل الأعضاء",
+    "not_connected": "غير متصل (تحقق من الإتصال) ."
+  },
+
+  "input": {
+    "message": "رسالة",
+    "emoticons": "إظهار الرموز",
+    "image": "إدراج صورة",
+    "typing": "يكتب"
+  },
+  "conversation": {
+    "title": {
+      "one": "محادثة",
+      "other": "محادثات"
+    },
+    "numbered": "محادثة %d",
+    "options": "خيارات المحادثة",
+    "setting": "إعدادات المحادثة",
+    "add": "إضافة محادثة",
+    "new": "محادثة جديدة",
+    "name": "إسم المحادثة",
+    "edit": "تعديل المحادثة",
+    "multiuser": "إنشاء دردشة متعددة الأعضاء",
+    "delete": " حذف المحادثة",
+    "delete_confirm": "هل تود حقا حذف المحادثة ؟",
+    "delete_error": "خطأ عند حذف المحادثة",
+    "leave": "مغادرة المحادثة",
+    "leave_confirm": "هل تود حقا مغادرة المحادثة ؟",
+    "search": "البحث عن أشخاص",
+    "new_message": "إستلام رسالة جديدة",
+    "new_attachment": "إستلام رسالة جديدة (صورة أو فيديو)",
+    "open_link": "فتح الرابط في المتصفح...",
+    "no_preview_image_click_to_open": "معاينة الصورة غير مفعلة : انقر لفتحها في المتصفح"
+  },
+  "notification": {
+    "one": "إشعار",
+    "other": "إشعارات"
+  },
+  "favorite": {
+    "title": {
+      "one": "مفضلة",
+      "other": "المفضلة"
+    },
+    "star_it": "إضافة مفضلة / حذف مفضلة"
+  },
+  "actions": {
+    "ok": "موافق",
+    "cancel": "إلغاء"
+  },
+  "call": {
+    "incoming": "مكالمة واردة",
+    "incoming_from": "مكالمة واردة من %s",
+    "accepted": "مقبولة",
+    "accept": "قبول",
+    "rejected": "مرفوضة",
+    "reject": "رفض",
+    "missed": "مكالمة فائتة من %s"
+  },
+  "menu": {
+    "title": "قائمة",
+    "file": {
+      "title": "YakYak",
+      "hide": "إخفاء YakYak",
+      "hide_others": "إخفاء الآخرين",
+      "show": "عرض الكل",
+      "inspector": "فتح المراقب",
+      "logout": "تسجيل خروج",
+      "quit": "غادر"
+    },
+    "edit": {
+      "title": "تعديل",
+      "undo": "إلغاء",
+      "redo": "رجوع",
+      "paste": "لصق",
+      "cut": "قص",
+      "copy": "نسخ",
+      "copy_image_link": "نسخ رابط الصورة",
+      "copy_link": "نسخ الرابط",
+      "copy_image": "نسخ الصورة",
+      "select_all": "إنتقي الكل",
+      "language": "اللغة (Language)",
+      "dateformat": "إستخدام نسق تاريخ النظام"
+    },
+    "view": {
+      "title": "عرض",
+      "emoji": "تحويل النص إلى رمز",
+      "suggestemoji": "إقتراح الرموز التعبيرية عند الكتابة",
+      "showimagepreview": "إظهار معاينة الصورة",
+      "hide_dock": "إخفاء أيقونة الرصيف",
+      "fullscreen": "وضع كامل الشاشة",
+      "tray": {
+        "main": "أيقونة الصينية",
+        "show_tray": "تبديل النافذة إظهار / إخفاء",
+        "show_window": "إظهار النافذة",
+        "toggle_minimize": "التصغير إلى الصينية",
+        "start_minimize": "التصغير إلى الصينية عند التشغيل",
+        "close": "الغلق إلى الصينية"
+      },
+      "escape": {
+        "title": "سلوك مفتاح الهروب",
+        "hide": "إخفاء النافذة",
+        "clear": "مسح المدخلات",
+        "default": "default when tray is not showing"
+      },
+      "conversation": {
+        "title": "قائمة المحادثة",
+        "new": "محادثة جديدة",
+        "timestamp": "إظهار زمن المحادثة",
+        "last": "إظهار أخر رسالة في المحادثة",
+        "previous": "المحادثة السابقة",
+        "next": "المحادثة التالية",
+        "select": "إنتقاء محادثة",
+        "thumbnails": {
+          "show": "إظهار الصور المصغرة",
+          "only": "إظهار الصور المصغرة فقط",
+          "animated": "إظهار الصور المصغرة المتحركة"
+        }
+      },
+      "notification": {
+        "title": "نافذة الإشعارت",
+        "show": "عرض الإشعارت",
+        "toggle": "تبديل الإشعارت",
+        "message": "إظهار الرسالة في الإشعارت",
+        "username": "إظهار إسم المستخدم في الإشعارت",
+        "mute": "تعطيل الصوت في الإشعارت",
+        "avatar": "إظهار أيقونة المستخدم في الإشعارت",
+        "icon": "إظهار أيقونة YakYak في الإشعارت",
+        "custom_sound": " إستخدام الصوت المصمم ل YakYak في الإشعارت"
+      },
+      "color_scheme": {
+        "title": "نظام الألوان",
+        "default": "الأصلي",
+        "blue": "أزرق",
+        "dark": "داكن",
+        "material": "Material",
+        "pop": "Pop",
+        "gruvy": "Gruvy"
+      },
+      "font": {
+        "title": "حجم الخط",
+        "extra_small": "صغير جدا",
+        "small": "صغير",
+        "medium": "متوسط",
+        "large": "كبير",
+        "extra_large": "كبير جدا"
+      },
+      "zoom": {
+        "in": "تكبير",
+        "out": "تصغير",
+        "reset": "الحجم الأصلي"
+      }
+    },
+    "help": {
+      "title": "مساعدة",
+      "about": {
+        "title": "حول YakYak",
+        "newer": "يتوفر إصدار أحدث ، يرجى الترقية من %s إلى %s",
+        "license": "رخصة",
+        "authors": "المؤلفون الرئيسيون",
+        "contributors": "المساهمون",
+        "startup": "فتح عند بدء التشغيل"
+      }
+    },
+    "window": {
+      "title": "نافذة",
+      "minimize": "تصغير",
+      "close": "غلق",
+      "front": "تقديم الكل"
+    }
+  }
+}
