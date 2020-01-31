@@ -22,7 +22,10 @@ module.exports = (models) ->
     {conv, notify, entity, viewstate} = models
     tonot = notify.popToNotify()
 
-    quietIf = (c, chat_id) -> (remote.getCurrentWindow().isVisible() and remote.getCurrentWindow().isFocused()) or conv.isQuiet(c) or entity.isSelf(chat_id)
+    # And we hope we don't get another 'currentWindow' ;)
+    mainWindow = remote.getCurrentWindow()
+
+    quietIf = (c, chat_id) -> (mainWindow.isVisible() and mainWindow.isFocused()) or conv.isQuiet(c) or entity.isSelf(chat_id)
 
     tonot.forEach (msg) ->
         conv_id = msg?.conversation_id?.id
@@ -67,7 +70,7 @@ module.exports = (models) ->
         # maybe trigger OS notification
         return if !text or quietIf(c, chat_id)
 
-        if viewstate.showPopUpNotifications and not remote.getCurrentWindow().isVisible()
+        if viewstate.showPopUpNotifications and not (mainWindow.isVisible() and mainWindow.isFocused())
             isNotificationCenter = notifier.constructor.name == 'NotificationCenter'
             #
             icon = path.join __dirname, '..', '..', 'icons', 'icon@8.png'
@@ -103,12 +106,10 @@ module.exports = (models) ->
             #  and mute option is not set
             if (!notifierSupportsSound || viewstate.forceCustomSound) && !viewstate.muteSoundNotification && audioEl.paused
                 audioEl.play()
-        # And we hope we don't get another 'currentWindow' ;)
-        mainWindow = remote.getCurrentWindow()
         if not mainWindow.isVisible()
             mainWindow.showInactive()
             mainWindow.minimize()
-        mainWindow.flashFrame(true)
+        # mainWindow.flashFrame(true)
 
 textMessage = (cont, proxied, showMessage = true) ->
     if cont?.segment?
