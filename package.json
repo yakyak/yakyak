@@ -40,6 +40,14 @@
   "bugs": {
     "url": "https://github.com/yakyak/yakyak/issues"
   },
+  "mocha": {
+    "reporter": "list",
+    "timeout": 500,
+    "spec": "test/**/*.coffee",
+    "require": [
+      "coffeescript/register"
+    ]
+  },
   "homepage": "https://github.com/yakyak/yakyak",
   "greenkeeper": {
     "ignore": [

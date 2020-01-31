@@ -1,3 +1,0 @@
---require coffeescript/register "test/**/*.coffee"
---reporter list
---timeout 500
