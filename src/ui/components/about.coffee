@@ -1,10 +1,8 @@
-path = require 'path'
-i18n = require 'i18n'
+path   = require 'path'
+i18n   = require 'i18n'
 remote = require('electron').remote
 Menu   = remote.Menu
-
-React = require('react')
-ReactDOM = require('react-dom');
+React  = require('react')
 
 {check, versionToInt} = require '../version'
 
