@@ -18,14 +18,18 @@ debug = process.argv.includes '--debug'
 tmp.setGracefulCleanup()
 
 app = require('electron').app
-app.disableHardwareAcceleration()
+app.disableHardwareAcceleration() # was using a lot of resources needlessly
 app.commandLine.appendSwitch('autoplay-policy', 'no-user-gesture-required')
 
 BrowserWindow = require('electron').BrowserWindow
 
+# Path for configuration
 userData = path.normalize(app.getPath('userData'))
+
+# makedir if it doesn't exist
 fs.mkdirSync(userData) if not fs.existsSync userData
 
+# some default paths to store tokens needed for hangupsjs to reconnect
 paths =
     rtokenpath: path.join(userData, 'refreshtoken.txt')
     cookiespath: path.join(userData, 'cookies.json')
@@ -37,10 +41,10 @@ client = new Client(
     cookiespath: paths.cookiespath
 )
 
-
 plug = (rs, rj) -> (err, val) -> if err then rj(err) else rs(val)
 
 logout = ->
+    log.info 'Logging out...'
     promise = client.logout()
     promise.then (res) ->
         argv = process.argv
@@ -66,8 +70,8 @@ if !gotTheLock
     app.quit()
     return
 
+# If someone tries to run a second instance, we should focus our window.
 app.on 'second-instance', (event, commandLine, workingDirectory) ->
-    # Someone tried to run a second instance, we should focus our window.
     if mainWindow
         mainWindow.restore() if mainWindow.isMinimized()
         mainWindow.focus()
@@ -93,20 +97,26 @@ app.on 'before-quit', ->
 app.on 'activate', ->
     mainWindow.show()
 
+# Load the default html for the window
+#  if user sees this html then it's an error and it tells how to report it
 loadAppWindow = ->
     mainWindow.loadURL 'file://' + YAKYAK_ROOT_DIR + '/ui/index.html'
     # Only show window when it has some content
     mainWindow.once 'ready-to-show', () ->
         mainWindow.webContents.send 'ready-to-show'
 
-toggleWindowVisible = ->
-    if mainWindow.isVisible() then mainWindow.hide() else mainWindow.show()
-
 # helper wait promise
 wait = (t) -> Q.Promise (rs) -> setTimeout rs, t
 
+#    ______ _           _
+#   |  ____| |         | |                       /\
+#   | |__  | | ___  ___| |_ _ __ ___  _ __      /  \   _ __  _ __
+#   |  __| | |/ _ \/ __| __| '__/ _ \| '_ \    / /\ \ | '_ \| '_ \
+#   | |____| |  __/ (__| |_| | | (_) | | | |  / ____ \| |_) | |_) |
+#   |______|_|\___|\___|\__|_|  \___/|_| |_| /_/    \_\ .__/| .__/
+#                                                     | |   | |
+#                                                     |_|   |_|
 app.on 'ready', ->
-
     proxycheck = ->
         todo = [
            {url:'http://plus.google.com',  env:'HTTP_PROXY'}
@@ -121,10 +131,8 @@ app.on 'ready', ->
                 process.env[t.env] ?= if purl then "http://#{purl}" else ""
                 rs()
 
-    icon_name = if process.platform is 'win32'
-        'icon@2.png'
-    else
-        'icon@32.png'
+    icon_name = if process.platform is 'win32' then 'icon@2.png' else 'icon@32.png'
+
     # Create the browser window.
     mainWindow = new BrowserWindow {
         width: 730
@@ -148,11 +156,12 @@ app.on 'ready', ->
         mainWindow.webContents.openDevTools()
         mainWindow.maximize()
         mainWindow.show()
+        # this will also show more debugging from hangupsjs client
         log.level('debug');
         try
             require('devtron').install()
         catch
-          #do nothing
+            # do nothing
 
     # and load the index.html of the app. this may however be yanked
     # away if we must do auth.
@@ -228,8 +237,10 @@ app.on 'ready', ->
                 console.log 'connected', reconnectCount
                 # on first connect, send init, after that only resync
                 if reconnectCount == 0
+                    log.debug 'Sending init...'
                     sendInit()
                 else
+                    log.debug 'SyncRecent...'
                     syncrecent()
                 reconnectCount++
             .catch (e) -> console.log 'error connecting', e
@@ -239,11 +250,11 @@ app.on 'ready', ->
 
     # whether to connect is dictated by the client.
     ipc.on 'hangupsConnect', ->
-        console.log 'hconnect'
+        console.log 'hangupsjs:: connecting'
         reconnect()
 
     ipc.on 'hangupsDisconnect', ->
-        console.log 'hdisconnect'
+        console.log 'hangupsjs:: disconnect'
         reconnectCount = 0
         client.disconnect()
 
@@ -256,9 +267,33 @@ app.on 'ready', ->
         console.log 'connect_failed', e
         wait(3000).then -> reconnect()
 
+    #    _      _     _                     _____ _____   _____
+    #   | |    (_)   | |                   |_   _|  __ \ / ____|
+    #   | |     _ ___| |_ ___ _ __           | | | |__) | |
+    #   | |    | / __| __/ _ \ '_ \          | | |  ___/| |
+    #   | |____| \__ \ ||  __/ | | |_ _ _   _| |_| |    | |____
+    #   |______|_|___/\__\___|_| |_(_|_|_) |_____|_|     \_____|
+    #
+    #
+    # Listen on events from main window
+
     # when client requests (re-)init since the first init
     # object is sent as soon as possible on startup
     ipc.on 'reqinit', -> syncrecent() if sendInit()
+
+    ipc.on 'togglefullscreen', ->
+        mainWindow.setFullScreen not mainWindow.isFullScreen()
+
+    # bye bye
+    ipc.on 'logout', logout
+
+    ipc.on 'quit', quit
+
+    ipc.on 'errorInWindow', (ev, error, winName = 'YakYak') ->
+        mainWindow.show() unless global.isReadyToShow
+        ipcsend 'expcetioninmain', error
+        console.log "Error on #{winName} window:\n", error, "\n--- End of error message in #{winName} window."
+
 
     # sendchatmessage, executed sequentially and
     # retried if not sent successfully
@@ -284,6 +319,18 @@ app.on 'ready', ->
             global.i18nOpts.opts = opts
         if language?
             global.i18nOpts.locale = language
+
+    ipc.on 'appfocus', ->
+        app.focus()
+        if mainWindow.isVisible()
+            mainWindow.focus()
+        else
+            mainWindow.show()
+
+    #
+    #
+    # Methods below use seqreq that returns a promise and allows for retry
+    #
 
     # sendchatmessage, executed sequentially and
     # retried if not sent successfully
@@ -382,13 +429,6 @@ app.on 'ready', ->
         updateConversation conv_id
     , false, (ev, conv_id) -> conv_id
 
-    ipc.on 'appfocus', ->
-        app.focus()
-        if mainWindow.isVisible()
-            mainWindow.focus()
-        else
-            mainWindow.show()
-
     # no retries, dedupe on conv_id
     ipc.on 'settyping', seqreq (ev, conv_id, v) ->
         client.settyping conv_id, v
@@ -445,23 +485,20 @@ app.on 'ready', ->
             ipcsend 'getconversation:response', r
     , false, (ev, conv_id, timestamp, max) -> conv_id
 
-    ipc.on 'togglefullscreen', ->
-        mainWindow.setFullScreen not mainWindow.isFullScreen()
-
-    # bye bye
-    ipc.on 'logout', logout
-
-    ipc.on 'quit', quit
-
-    ipc.on 'errorInWindow', (ev, error, winName = 'YakYak') ->
-        mainWindow.show() unless global.isReadyToShow
-        ipcsend 'expcetioninmain', error
-        console.log "Error on #{winName} window:\n", error, "\n--- End of error message in #{winName} window."
+    #    _      _     _                     _                                   _
+    #   | |    (_)   | |                   | |                                 | |
+    #   | |     _ ___| |_ ___ _ __         | |__   __ _ _ __   __ _  ___  _   _| |_ ___
+    #   | |    | / __| __/ _ \ '_ \        | '_ \ / _` | '_ \ / _` |/ _ \| | | | __/ __|
+    #   | |____| \__ \ ||  __/ | | |_ _ _  | | | | (_| | | | | (_| | (_) | |_| | |_\__ \
+    #   |______|_|___/\__\___|_| |_(_|_|_) |_| |_|\__,_|_| |_|\__, |\___/ \__,_|\__|___/
+    #                                                          __/ |
+    #                                                         |___/
+    # Listen on events from hangupsjs client.
 
     # propagate Hangout client events to the renderer
     require('./ui/events').forEach (n) ->
         client.on n, (e) ->
-            console.log 'DEBUG: Received event', n if debug
+            log.debug 'DEBUG: Received event', n
             # client_conversation comes without metadata by default.
             #  We need it for unread count
             updateConversation e.conversation_id.id if (n == 'client_conversation')
