@@ -119,7 +119,7 @@ module.exports = exp = layout ->
                 div class: 'inner-overlay', () ->
                     div 'Drop file here.'
             div class:'convhead', region('convhead')
-            div id: 'main', class:'main', region('main'), onscroll: onScroll
+            div class:'main', region('main'), onscroll: onScroll
             div class:'maininfo', region('maininfo')
             div class:'foot', region('foot')
     attachListeners()
