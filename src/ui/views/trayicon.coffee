@@ -2,20 +2,19 @@ path = require 'path'
 os   = require 'os'
 i18n = require 'i18n'
 
-{Menu, Tray, nativeImage} = require('electron').remote
-
+{ Menu, Tray, nativeImage } = require('electron').remote
 
 if os.platform() == 'darwin'
     trayIcons =
         "read": path.join __dirname, '..', '..', 'icons', 'osx-icon-read-Template.png'
         "unread": path.join __dirname, '..', '..', 'icons', 'osx-icon-unread-Template.png'
-        
+
 else if process.env.XDG_CURRENT_DESKTOP && process.env.XDG_CURRENT_DESKTOP.match(/KDE/)
     # This is to work around a bug with electron apps + KDE not showing correct icon size.
     trayIcons =
       "read": path.join __dirname, '..', '..', 'icons', 'icon-read@20.png'
       "unread": path.join __dirname, '..', '..', 'icons', 'icon-unread@20.png'
-     
+
 else
     trayIcons =
         "read": path.join __dirname, '..', '..', 'icons', 'icon-read@8x.png'
