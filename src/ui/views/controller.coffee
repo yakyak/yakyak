@@ -1,14 +1,25 @@
 remote = require('electron').remote
 
-{applayout, convlist, listhead, messages, convhead, input, conninfo, convadd, controls,
-notifications, typinginfo, menu, trayicon, dockicon, startup, about} = require './index'
+{
+  applayout, convlist, listhead, messages, convhead, input, conninfo,
+  convadd, controls, notifications, typinginfo, menu, trayicon, dockicon,
+  startup, about
+} = require './index'
 
-models      = require '../models'
-{viewstate, connection} = models
+models = require '../models'
 
-{later} = require '../util'
+{ viewstate, connection } = models
 
+{ later } = require '../util'
 
+#                                    _   _
+#                                   | | (_)
+#     ___ ___  _ __  _ __   ___  ___| |_ _  ___  _ __
+#    / __/ _ \| '_ \| '_ \ / _ \/ __| __| |/ _ \| '_ \
+#   | (_| (_) | | | | | | |  __/ (__| |_| | (_) | | | |
+#    \___\___/|_| |_|_| |_|\___|\___|\__|_|\___/|_| |_|
+#
+#
 handle 'update:connection', do ->
     el = null
     ->
@@ -26,21 +37,37 @@ handle 'update:connection', do ->
             # update startup with connection information
             redraw()
 
-setLeftSize = (left) ->
-    document.querySelector('.left').style.width = left + 'px'
-    document.querySelector('.leftresize').style.left = (left - 2) + 'px'
-
-setConvMin = (convmin) ->
-    if convmin
-        document.querySelector('.left').classList.add("minimal")
-        document.querySelector('.leftresize').classList.add("minimal")
-    else
-        document.querySelector('.left').classList.remove("minimal")
-        document.querySelector('.leftresize').classList.remove("minimal")
-
+#          _                   _        _
+#         (_)                 | |      | |
+#   __   ___  _____      _____| |_ __ _| |_ ___
+#   \ \ / / |/ _ \ \ /\ / / __| __/ _` | __/ _ \
+#    \ V /| |  __/\ V  V /\__ \ || (_| | ||  __/
+#     \_/ |_|\___| \_/\_/ |___/\__\__,_|\__\___|
+#
+#
 handle 'update:viewstate', ->
+
+    setLeftSize = (left) ->
+        document.querySelector('.left').style.width = left + 'px'
+        document.querySelector('.leftresize').style.left = (left - 2) + 'px'
+
+    setConvMin = (convmin) ->
+        if convmin
+            document.querySelector('.left').classList.add("minimal")
+            document.querySelector('.leftresize').classList.add("minimal")
+        else
+            document.querySelector('.left').classList.remove("minimal")
+            document.querySelector('.leftresize').classList.remove("minimal")
+
     setLeftSize viewstate.leftSize
     setConvMin viewstate.showConvMin
+
+    # check what in what state is the app
+    #
+    # STATE_STARTUP : still connecting
+    # STATE_NORMAL  : conversation list on left with selected chat showing in main window
+    # STATE_ABOUT   : conversation list on the left with about showing in main window
+    # STATE_ADD_CONVERSATION : conversation list on the left and new / modify conversation on the main window
     if viewstate.state == viewstate.STATE_STARTUP
         if Array.isArray viewstate.size
             later -> remote.getCurrentWindow().setSize viewstate.size...
@@ -152,24 +179,14 @@ handle 'update:viewstate', ->
     else
         console.log 'unknown viewstate.state', viewstate.state
 
-handle 'update:entity', ->
-    redraw()
-
-handle 'update:conv', ->
-    redraw()
-
-handle 'update:conv_count', ->
-    dockicon viewstate
-    trayicon models
-
-handle 'update:searchedentities', ->
-  redraw()
-
-handle 'update:selectedEntities', ->
-  redraw()
-
-handle 'update:convsettings', -> redraw()
-
+#                 _
+#                | |
+#    _ __ ___  __| |_ __ __ ___      __
+#   | '__/ _ \/ _` | '__/ _` \ \ /\ / /
+#   | | |  __/ (_| | | | (_| |\ V  V /
+#   |_|  \___|\__,_|_|  \__,_| \_/\_/
+#
+# simple redrawing all of yakyak UI
 redraw = ->
     notifications models
     convhead models
@@ -181,11 +198,6 @@ redraw = ->
     input models
     convadd models
     startup models
-
-
-handle 'update:language', ->
-    menu viewstate
-    redraw()
 
 throttle = (fn, time=10) ->
     timeout = false
@@ -201,26 +213,142 @@ throttle = (fn, time=10) ->
 
 redraw = throttle(redraw, 20)
 
+#               _   _ _
+#              | | (_) |
+#     ___ _ __ | |_ _| |_ _   _
+#    / _ \ '_ \| __| | __| | | |
+#   |  __/ | | | |_| | |_| |_| |
+#    \___|_| |_|\__|_|\__|\__, |
+#                          __/ |
+#                         |___/
+handle 'update:entity', -> redraw()
+
+#
+#
+#     ___ ___  _ ____   __
+#    / __/ _ \| '_ \ \ / /
+#   | (_| (_) | | | \ V /
+#    \___\___/|_| |_|\_/
+#
+#
+handle 'update:conv', -> redraw()
+
+#                                                 _
+#                                                | |
+#     ___ ___  _ ____   __   ___ ___  _   _ _ __ | |_
+#    / __/ _ \| '_ \ \ / /  / __/ _ \| | | | '_ \| __|
+#   | (_| (_) | | | \ V /  | (_| (_) | |_| | | | | |_
+#    \___\___/|_| |_|\_/    \___\___/ \__,_|_| |_|\__|
+#
+#
+handle 'update:conv_count', ->
+    dockicon viewstate
+    trayicon models
+
+#                            _              _              _   _ _   _
+#                           | |            | |            | | (_) | (_)
+#    ___  ___  __ _ _ __ ___| |__   ___  __| |   ___ _ __ | |_ _| |_ _  ___  ___
+#   / __|/ _ \/ _` | '__/ __| '_ \ / _ \/ _` |  / _ \ '_ \| __| | __| |/ _ \/ __|
+#   \__ \  __/ (_| | | | (__| | | |  __/ (_| | |  __/ | | | |_| | |_| |  __/\__ \
+#   |___/\___|\__,_|_|  \___|_| |_|\___|\__,_|  \___|_| |_|\__|_|\__|_|\___||___/
+#
+#
+handle 'update:searchedentities', -> redraw()
+
+#             _           _           _              _   _ _   _
+#            | |         | |         | |            | | (_) | (_)
+#    ___  ___| | ___  ___| |_ ___  __| |   ___ _ __ | |_ _| |_ _  ___  ___
+#   / __|/ _ \ |/ _ \/ __| __/ _ \/ _` |  / _ \ '_ \| __| | __| |/ _ \/ __|
+#   \__ \  __/ |  __/ (__| ||  __/ (_| | |  __/ | | | |_| | |_| |  __/\__ \
+#   |___/\___|_|\___|\___|\__\___|\__,_|  \___|_| |_|\__|_|\__|_|\___||___/
+#
+#
+handle 'update:selectedEntities', -> redraw()
+
+#                                    _   _   _
+#                                   | | | | (_)
+#     ___ ___  _ ____   __  ___  ___| |_| |_ _ _ __   __ _ ___
+#    / __/ _ \| '_ \ \ / / / __|/ _ \ __| __| | '_ \ / _` / __|
+#   | (_| (_) | | | \ V /  \__ \  __/ |_| |_| | | | | (_| \__ \
+#    \___\___/|_| |_|\_/   |___/\___|\__|\__|_|_| |_|\__, |___/
+#                                                     __/ |
+#                                                    |___/
+handle 'update:convsettings', -> redraw()
+
+#    _
+#   | |
+#   | | __ _ _ __   __ _ _   _  __ _  __ _  ___
+#   | |/ _` | '_ \ / _` | | | |/ _` |/ _` |/ _ \
+#   | | (_| | | | | (_| | |_| | (_| | (_| |  __/
+#   |_|\__,_|_| |_|\__, |\__,_|\__,_|\__, |\___|
+#                   __/ |             __/ |
+#                  |___/             |___/
 handle 'update:language', ->
     menu viewstate
     redraw()
 
-handle 'update:switchConv', ->
-    messages.scrollToBottom()
+#                 _ _       _
+#                (_) |     | |
+#    _____      ___| |_ ___| |__     ___ ___  _ ____   __
+#   / __\ \ /\ / / | __/ __| '_ \   / __/ _ \| '_ \ \ / /
+#   \__ \\ V  V /| | || (__| | | | | (_| (_) | | | \ V /
+#   |___/ \_/\_/ |_|\__\___|_| |_|  \___\___/|_| |_|\_/
+#
+#
+handle 'update:switchConv', -> messages.scrollToBottom()
 
-handle 'update:beforeHistory', ->
-    applayout.recordMainPos()
-handle 'update:afterHistory', ->
-    applayout.adjustMainPos()
+#    _           __                 _     _     _
+#   | |         / _|               | |   (_)   | |
+#   | |__   ___| |_ ___  _ __ ___  | |__  _ ___| |_ ___  _ __ _   _
+#   | '_ \ / _ \  _/ _ \| '__/ _ \ | '_ \| / __| __/ _ \| '__| | | |
+#   | |_) |  __/ || (_) | | |  __/ | | | | \__ \ || (_) | |  | |_| |
+#   |_.__/ \___|_| \___/|_|  \___| |_| |_|_|___/\__\___/|_|   \__, |
+#                                                              __/ |
+#                                                             |___/
+handle 'update:beforeHistory', -> applayout.recordMainPos()
 
-handle 'update:beforeImg', ->
-    applayout.recordMainPos()
+#           __ _              _     _     _
+#          / _| |            | |   (_)   | |
+#     __ _| |_| |_ ___ _ __  | |__  _ ___| |_ ___  _ __ _   _
+#    / _` |  _| __/ _ \ '__| | '_ \| / __| __/ _ \| '__| | | |
+#   | (_| | | | ||  __/ |    | | | | \__ \ || (_) | |  | |_| |
+#    \__,_|_|  \__\___|_|    |_| |_|_|___/\__\___/|_|   \__, |
+#                                                        __/ |
+#                                                       |___/
+handle 'update:afterHistory', -> applayout.adjustMainPos()
+
+#    _           __                 _
+#   | |         / _|               (_)
+#   | |__   ___| |_ ___  _ __ ___   _ _ __ ___   __ _
+#   | '_ \ / _ \  _/ _ \| '__/ _ \ | | '_ ` _ \ / _` |
+#   | |_) |  __/ || (_) | | |  __/ | | | | | | | (_| |
+#   |_.__/ \___|_| \___/|_|  \___| |_|_| |_| |_|\__, |
+#                                                __/ |
+#                                               |___/
+handle 'update:beforeImg', -> applayout.recordMainPos()
+
+#           __ _              _
+#          / _| |            (_)
+#     __ _| |_| |_ ___ _ __   _ _ __ ___   __ _
+#    / _` |  _| __/ _ \ '__| | | '_ ` _ \ / _` |
+#   | (_| | | | ||  __/ |    | | | | | | | (_| |
+#    \__,_|_|  \__\___|_|    |_|_| |_| |_|\__, |
+#                                          __/ |
+#                                         |___/
 handle 'update:afterImg', ->
     if viewstate.atbottom
         messages.scrollToBottom()
     else
         applayout.adjustMainPos()
 
+#        _             _     _               _
+#       | |           | |   | |             (_)
+#    ___| |_ __ _ _ __| |_  | |_ _   _ _ __  _ _ __   __ _
+#   / __| __/ _` | '__| __| | __| | | | '_ \| | '_ \ / _` |
+#   \__ \ || (_| | |  | |_  | |_| |_| | |_) | | | | | (_| |
+#   |___/\__\__,_|_|   \__|  \__|\__, | .__/|_|_| |_|\__, |
+#                                 __/ | |             __/ |
+#                                |___/|_|            |___/
 handle 'update:startTyping', ->
     if viewstate.atbottom
         messages.scrollToBottom()
