@@ -8,7 +8,9 @@ React  = require('react')
 
 class AboutComponent extends React.Component
     render: ->
-        # simple context menu that can only copy
+        #
+        # Change thes context menu
+        #   Only allows copy on it!
         remote.getCurrentWindow().webContents.on 'context-menu', (e, params) ->
             e.preventDefault()
             menuTemplate = [{
@@ -35,7 +37,7 @@ class AboutComponent extends React.Component
         shouldUpdate    = releasedVersion? && localVersion? &&
                           versionToInt(releasedVersion) > versionToInt(localVersion)
 
-        # Link to github
+        # Link to github (reused below)
         githubLink = "https://github.com/yakyak/yakyak"
 
         React.createElement 'div', {},
