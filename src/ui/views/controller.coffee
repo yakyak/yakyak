@@ -1,10 +1,13 @@
-ipc = require('electron').ipcRenderer
+ReactDOM  = require('react-dom')
+React     = require('react')
 
 {
   applayout, convlist, listhead, messages, convhead, input, conninfo,
   convadd, controls, notifications, typinginfo, menu, trayicon, dockicon,
   startup, about
 } = require './index'
+
+AboutComponent = require '../components/about'
 
 models = require '../models'
 
@@ -144,6 +147,8 @@ handle 'update:viewstate', ->
         document.body.style.zoom = viewstate.zoom
         document.body.style.setProperty('--zoom', viewstate.zoom)
     else if viewstate.state == viewstate.STATE_NORMAL
+        if window.document.getElementById('about-react')
+            ReactDOM.unmountComponentAtNode(window.document.getElementById('about-react'))
         redraw()
         applayout.lfoot controls
         applayout.listhead listhead
@@ -167,7 +172,10 @@ handle 'update:viewstate', ->
         applayout.convhead null
         applayout.maininfo null
         applayout.foot null
+        later -> ReactDOM.render(React.createElement(AboutComponent), window.document.getElementById('about-react'))
     else if viewstate.state == viewstate.STATE_ADD_CONVERSATION
+        if window.document.getElementById('about-react')
+            ReactDOM.unmountComponentAtNode(window.document.getElementById('about-react'))
         redraw()
         applayout.left convlist
         applayout.main convadd

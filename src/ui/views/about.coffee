@@ -1,6 +1,7 @@
-ipc  = require('electron').ipcRenderer
-path = require 'path'
-i18n = require 'i18n'
+ipc    = require('electron').ipcRenderer
+path   = require 'path'
+i18n   = require 'i18n'
+React  = require('react')
 
 {check, versionToInt} = require '../version'
 
@@ -12,52 +13,7 @@ module.exports = view (models) ->
     shouldUpdate    = releasedVersion? && localVersion? &&
                       versionToInt(releasedVersion) > versionToInt(localVersion)
     #
-    div class: 'about', ->
-        div ->
-            img src: path.join YAKYAK_ROOT_DIR, '..', 'icons', 'icon@8.png'
-        div class: 'name', ->
-            h2 ->
-                span 'YakYak v' + localVersion
-                span class: 'f-small f-no-bold', ' (latest)' unless shouldUpdate
-        # TODO: if objects are undefined then it should check again on next
-        #        time about window is opened
-        #        releasedVersion = window.localStorage.versionAdvertised
-        if shouldUpdate
-            div class: 'update', ->
-                span i18n.__('menu.help.about.newer:A newer version is available, please upgrade from %s to %s'
-                             , localVersion
-                             , releasedVersion)
-        div class: 'description', ->
-            span i18n.__('title:YakYak - Hangouts Client')
-        div class: 'license', ->
-            span ->
-                em "#{i18n.__ 'menu.help.about.license:License'}: "
-                span 'MIT'
-        div class: 'devs', ->
-            div ->
-                h3 i18n.__('menu.help.about.authors:Main authors')
-                ul ->
-                    li 'Davide Bertola'
-                    li 'Martin Algesten'
-                    li 'André Veríssimo'
-            div ->
-                h3 i18n.__('menu.help.about.contributors:Contributors')
-                ul ->
-                    li 'David Banham'
-                    li 'Max Kueng'
-                    li 'Arnaud Riu'
-                    li 'Austin Guevara'
-                    li 'Mathias Tillman'
-
-        div class: 'home', ->
-            href = "https://github.com/yakyak/yakyak"
-            a href: href
-            , onclick: (ev) ->
-                ev.preventDefault()
-                address = ev.currentTarget.getAttribute 'href'
-                require('electron').shell.openExternal address
-                false
-            , href
+    div id: 'about-react', class: 'about', 'nothing to see here'
 
 #$('document').on 'click', '.link-out', (ev)->
 #
