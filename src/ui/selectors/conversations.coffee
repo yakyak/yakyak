@@ -22,14 +22,13 @@ module.exports =
                 last_seen_events_by_user[chat_id] = e
         last_seen_events_by_user
 
-    isEventType: (type) -> (ev) -> !!ev[type]
-
     # a "hangout" is in google terms strictly an audio/video event
     # many conversations in the conversation list are just such an
     # event with no further chat messages or activity. this function
     # tells whether a hangout only contains video/audio.
     isPureHangout: (c)->
-        nots = ['chat_message', 'conversation_rename'].map(@isEventType)
+        isEventType = (type) -> (ev) -> !!ev[type]
+        nots = ['chat_message', 'conversation_rename'].map(isEventType)
         isNotHangout = (e) -> nots.some (f) -> f(e)
         not (c?.event ? []).some isNotHangout
 
@@ -64,7 +63,9 @@ module.exports =
 
     starredconvs: -> tryparse(localStorage.starredconvs) || []
 
-    unread: (conv) ->
+    unread: (state, conv) ->
+        {entity} = state
+        #
         t = conv?.self_conversation_state?.self_read_state?.latest_read_timestamp
         return 0 unless typeof t == 'number'
         c = 0

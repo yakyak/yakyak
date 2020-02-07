@@ -1,10 +1,11 @@
 convSelector = require '../selectors/conversations'
 convReducer = require '../reducers/conversations'
 convAction = require '../actions/conversations'
+entityModel = require '../models/entity'
 
 merge   = (t, os...) -> t[k] = v for k,v of o when v not in [null, undefined] for o in os; t
 
-stateStore = {conversations: {}}
+stateStore = {entity: entityModel, conversations: {}}
 
 funcs =
     MAX_UNREAD: convSelector.MAX_UNREAD
@@ -36,7 +37,7 @@ funcs =
     lastChanged: (c) -> convSelector.lastChanged(c)
     list: (sort = true) -> convSelector.list(stateStore, sort)
     redraw_conversation: () -> convSelector.redraw_conversation()
-    unread: (conv) -> convSelector.unread(conv)
+    unread: (conv) -> convSelector.unread(stateStore, conv)
     unreadTotal: convSelector.unreadTotal
 
 lookup = stateStore.conversations

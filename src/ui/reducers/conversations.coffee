@@ -1,5 +1,4 @@
 convSelector = require '../selectors/conversations'
-entityModel = require '../models/entity'     #
 viewstate = require '../models/viewstate'
 {later, uniqfn}  = require '../util'
 
@@ -8,31 +7,27 @@ viewstate = require '../models/viewstate'
 #
 #
 reducer = (state, action) ->
-    try
-        switch action.type
-            when "ADD_CONVERSATION" then add(state, action.payload.conv)
-            when "RENAME_CONVERSATION" then rename(state, action.payload)
-            when "ADD_CHAT_MESSAGE" then addChatMessage(state, action.payload)
-            when "ADD_CHAT_MESSAGE_PLACEHOLDER" then addChatMessagePlaceholder(state, action.payload)
-            when "ADD_WATERMARK" then addWatermark(state, action.payload)
-            when "TOGGLE_STAR" then toggleStar(state, action.payload)
-            when "ADD_TYPING" then addTyping(state, action.payload)
-            when "PRUNE_TYPING" then pruneTyping(state, action.payload)
-            when "SET_NOTIFICATION_LEVEL" then setNotificationLevel(state, action.payload)
-            when "DELETE_CONV" then deleteConv(state, action.payload)
-            when "REMOVE_PARTICIPANTS" then removeParticipants(state, action.payload)
-            when "ADD_PARTICIPANT" then addParticipant(state, action.payload)
-            when "REPLACE_FROM_STATES" then replaceFromStates(state, action.payload)
-            when "UPDATE_AT_TOP" then updateAtTop(state, action.payload)
-            when "UPDATE_METADATA" then updateMetadata(state, action.payload)
-            when "UPDATE_HISTORY" then updateHistory(state, action.payload)
-            when "UPDATE_PLACEHOLDER_IMAGE" then updatePlaceholderImage(state, action.payload)
-            when "INIT_FROM_CONV_STATES" then initFromConvStates(state, action.payload)
-            when "RESET" then reset(state)
-            else state
-    catch error
-        console.log 'Action', action, 'Error:', error
-        throw error
+    switch action.type
+        when "ADD_CONVERSATION" then add(state, action.payload)
+        when "RENAME_CONVERSATION" then rename(state, action.payload)
+        when "ADD_CHAT_MESSAGE" then addChatMessage(state, action.payload)
+        when "ADD_CHAT_MESSAGE_PLACEHOLDER" then addChatMessagePlaceholder(state, action.payload)
+        when "ADD_WATERMARK" then addWatermark(state, action.payload)
+        when "TOGGLE_STAR" then toggleStar(state, action.payload)
+        when "ADD_TYPING" then addTyping(state, action.payload)
+        when "PRUNE_TYPING" then pruneTyping(state, action.payload)
+        when "SET_NOTIFICATION_LEVEL" then setNotificationLevel(state, action.payload)
+        when "DELETE_CONV" then deleteConv(state, action.payload)
+        when "REMOVE_PARTICIPANTS" then removeParticipants(state, action.payload)
+        when "ADD_PARTICIPANT" then addParticipant(state, action.payload)
+        when "REPLACE_FROM_STATES" then replaceFromStates(state, action.payload)
+        when "UPDATE_AT_TOP" then updateAtTop(state, action.payload)
+        when "UPDATE_METADATA" then updateMetadata(state, action.payload)
+        when "UPDATE_HISTORY" then updateHistory(state, action.payload)
+        when "UPDATE_PLACEHOLDER_IMAGE" then updatePlaceholderImage(state, action.payload)
+        when "INIT_FROM_CONV_STATES" then initFromConvStates(state, action.payload)
+        when "RESET" then reset(state)
+        else state
 
 module.exports = reducer
 
@@ -62,10 +57,10 @@ findByEventId = (conv, event_id) ->
 
 add = (state, {conv}) ->
     lookup = state.conversations
-    entity = entityModel
+    {entity} = state
     #
     # rejig the structure since it's insane
-    if newConv?.conversation?.conversation_id?.id
+    if conv?.conversation?.conversation_id?.id
         {conversation, event} = conv
         conv = conversation
         # remove observed events
@@ -114,7 +109,7 @@ addChatMessage = (state, {msg}) ->
         conv.event.push msg
     # update the sort timestamp to list conv first
     conv?.self_conversation_state?.sort_timestamp = msg.timestamp ? (Date.now() * 1000)
-    unreadTotal()
+    convSelector.unreadTotal()
     updated 'conv'
 
     { ...state, conversations: lookup}
@@ -154,7 +149,7 @@ addParticipant = (state, {conv_id, participant}) ->
 
 addWatermark = (state, {ev}) ->
     lookup = state.conversations
-    entity = entityModel
+    {entity} = state
     #
     conv_id = ev?.conversation_id?.id
     return unless conv_id and conv = lookup[conv_id]
@@ -173,7 +168,7 @@ addWatermark = (state, {ev}) ->
     islater = latest_read_timestamp > sr?.latest_read_timestamp
     if entity.isSelf(participant_id.chat_id) and sr and islater
         sr.latest_read_timestamp = latest_read_timestamp
-    unreadTotal()
+    convSelector.unreadTotal()
     updated 'conv'
 
     { ...state, conversations: lookup }
@@ -181,6 +176,7 @@ addWatermark = (state, {ev}) ->
 # add a typing entry
 addTyping = (state, {typing}) ->
     lookup = state.conversations
+    {entity} = state
     #
     conv_id = typing?.conversation_id?.id
     # no typing entries for self
@@ -217,11 +213,7 @@ deleteConv = (state, {conv_id}) ->
 initFromConvStates = (state, {convs}) ->
     c = 0
     countIf = (a) -> c++ if a
-    try
-        countIf state = add(state, {conv}) for conv in convs
-    catch error
-        console.log 'initFromConvStates', convs, state, error
-        throw error
+    countIf state = add(state, {conv}) for conv in convs
     updated 'conv'
     state
 

@@ -9,7 +9,7 @@ module.exports =
 
     add: (conv) ->
         type: "ADD_CONVERSATION"
-        payload: {conversation: conv}
+        payload: {conv}
 
     addChatMessage: (msg) ->
         type: "ADD_CHAT_MESSAGE"
@@ -45,7 +45,7 @@ module.exports =
 
     rename: (conv_id, newname) ->
         type: "RENAME_CONVERSATION"
-        payload: {conv_id, newName: newname}
+        payload: {conv_id, newname}
 
     replaceFromStates: (states) ->
         type: "REPLACE_FROM_STATES"
