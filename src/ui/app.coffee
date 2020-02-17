@@ -250,6 +250,10 @@ window.addEventListener 'beforeunload', (e) ->
         remote.getCurrentWindow().hide()
     return
 
+window.addEventListener 'keypress', (e) ->
+    if e.keyCode == 23 and e.ctrlKey
+      ipc.send 'ctrl+w__pressed', ''
+      
 currentWindow.webContents.on 'context-menu', (e, params) ->
     e.preventDefault()
     canShow = [viewstate.STATE_NORMAL,

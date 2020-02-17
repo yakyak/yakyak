@@ -485,6 +485,9 @@ app.on 'ready', ->
             ipcsend 'getconversation:response', r
     , false, (ev, conv_id, timestamp, max) -> conv_id
 
+    ipc.on 'ctrl+w__pressed', ->
+        mainWindow.hide()
+
     #    _      _     _                     _                                   _
     #   | |    (_)   | |                   | |                                 | |
     #   | |     _ ___| |_ ___ _ __         | |__   __ _ _ __   __ _  ___  _   _| |_ ___
