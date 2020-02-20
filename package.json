@@ -97,6 +97,6 @@
     "mocha": "^7.0.1",
     "rimraf": "^3.0.0",
     "sinon": "^8.1.0",
-    "sinon-chai": "^3.4.0"
+    "sinon-chai": "^3.5.0"
   }
 }
