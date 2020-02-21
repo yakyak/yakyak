@@ -124,11 +124,12 @@ $ npm run deploy
 $ npm run deploy:darwin-x64
 ```
 
-If you have [fpm](https://github.com/jordansissel/fpm) installed (`gem install fpm`), you can also build RPM and Deb packages:
+If you have [fpm](https://github.com/jordansissel/fpm) installed (`gem install fpm`), you can also build RPM, Deb, or Arch packages:
 
 ```bash
 $ npm run deploy:linux-x64:rpm
 $ npm run deploy:linux-x64:deb
+$ npm run deploy:linux-x64:pacman
 ```
 
 *note:* if you are building *Windows* binaries in *Linux* or *Mac OS X*, Wine (1.6 or higher) must be installed. It also requires a 32-bit Wine installation when building Windows 32-bit binary.
