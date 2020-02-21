@@ -18,10 +18,12 @@
     "deploy:linux-x64:deb": "gulp deploy:linux-x64:deb",
     "deploy:linux-x64:flatpak": "gulp deploy:linux-x64:flatpak",
     "deploy:linux-x64:rpm": "gulp deploy:linux-x64:rpm",
+    "deploy:linux-x64:pacman": "gulp deploy:linux-x64:pacman",
     "deploy:linux-ia32": "gulp deploy:linux-ia32",
     "deploy:linux-ia32:deb": "gulp deploy:linux-ia32:deb",
     "deploy:linux-ia32:flatpak": "gulp deploy:linux-ia32:flatpak",
     "deploy:linux-ia32:rpm": "gulp deploy:linux-ia32:rpm",
+    "deploy:linux-ia32:pacman": "gulp deploy:linux-ia32:pacman",
     "deploy:win32-x64": "gulp deploy:win32-x64",
     "deploy:win32-ia32": "gulp deploy:win32-ia32",
     "deploy:darwin-x64": "gulp deploy:darwin-x64"
