@@ -247,7 +247,7 @@ drawMessage = (e, entity) ->
     mclz.push c for c in MESSAGE_CLASSES when e[c]?
     title = if e.timestamp then moment(e.timestamp / 1000).calendar() else null
     div id:e.event_id, key:e.event_id, class:mclz.join(' '), title:title,
-        dir: 'auto' ->
+        dir: 'auto', ->
         if e.chat_message
             content = e.chat_message?.message_content
             format content
