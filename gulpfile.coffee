@@ -336,7 +336,7 @@ archOpts.forEach (arch) ->
                 archNameSuffix = 'ia32'
             else if target is 'deb'
                 archName = 'amd64'
-                archNameSuffix = 'x64'
+                archNameSuffix = 'amd64'
             else
                 archName = 'x86_64'
                 archNameSuffix = 'x64'
