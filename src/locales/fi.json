@@ -1,0 +1,182 @@
+{
+	"__MyLocaleLanguage__": "Finnish",
+	"__maintaner__": "https://github.com/survivor303",
+	"title": "YakYak - Hangouts sovellus",
+	"description": "Työpöytäsovellus Google Hangouts palvelulle",
+	"settings": "Asetukset",
+	"recent": "Viimeisimmät",
+	"details": "Asetukset",
+	"connection": {
+		"connecting": "Yhdistää",
+		"loading": "Lataa kontakteja",
+		"not_connected": "Ei yhdistänyt (Tarkista yhteys!)"
+	},
+	"input": {
+		"message": "Viesti",
+		"emoticons": "Näytä hymiöt",
+		"image": "Liitä kuva",
+		"typing": "Kirjoittaa"
+	},
+	"conversation": {
+		"title": {
+			"one": "Keskustelu",
+			"other": "Keskustelut"
+		},
+		"numbered": "Keskustelu %d",
+		"options": "Keskustelun valinnat",
+		"setting": "Keskustelun asetukset",
+		"add": "Lisää uusi keskustelu",
+		"new": "Uusi keskustelu",
+		"name": "Keskustelun nimi",
+		"edit": "Muokkaa keskustelua",
+		"multiuser": "Luo ryhmä",
+		"delete": "Poista keskustelu",
+		"delete_confirm": "Haluatko varmasti poistaa tämän keskustelun?",
+		"leave": "Lähde keskustelusta",
+		"leave_confirm": "Haluatko varmasti lähteä keskustelusta?",
+		"search": "Etsi ihmisiä",
+		"new_message": "Uusi viesti vastaanotettu",
+		"new_attachment": "Uusi media vastaanotettu (kuva tai video)",
+		"open_link": "Avataan linkkiä selaimeen...",
+		"settings": "Conversation settings"
+	},
+	"notification": {
+		"one": "Ilmoitus",
+		"other": "Ilmoituksia"
+	},
+	"favorite": {
+		"title": {
+			"one": "Suosikki",
+			"other": "Suosikit"
+		},
+		"star_it": "Aseta/Poista tähti"
+	},
+	"actions": {
+		"ok": "ok",
+		"cancel": "Peruuta"
+	},
+	"call": {
+		"incoming": "Tuleva puhelu",
+		"incoming_from": "Tuleva puhelu käyttäjältä %s",
+		"accepted": "Hyväksytty",
+		"accept": "Vastaa",
+		"rejected": "Ei hyväksytty",
+		"reject": "Älä vastaa",
+		"missed": "Ei vastattu puhelu käyttäjältä %s"
+	},
+	"menu": {
+		"title": "Valikko",
+		"file": {
+			"title": "YakYak",
+			"hide": "Piilota YakYak",
+			"hide_others": "Piilota muut",
+			"show": "Näytä kaikki",
+			"inspector": "Avaa Inspectorissa",
+			"logout": "Kirjaudu ulos",
+			"quit": "Lopeta"
+		},
+		"edit": {
+			"title": "Muokkaa",
+			"undo": "Kumoa",
+			"redo": "Tee uudelleen",
+			"paste": "Liitä",
+			"cut": "Leikkaa",
+			"copy": "Kopioi",
+			"copy_image_link": "Kopioi kuvan linkki",
+			"copy_link": "Kopioi Linkki",
+			"copy_image": "Kopioi kuva",
+			"select_all": "Valitse kaikki",
+			"language": "Sovelluksen kieli",
+			"dateformat": "Käytä järjestelmän aikaa"
+		},
+		"view": {
+			"title": "Näytä",
+			"emoji": "Muuta teksti hymiöksi",
+			"suggestemoji": "Suosittele hymiötä kirjoittaessa",
+			"hide_dock": "Piilota dockin kuvake",
+			"fullscreen": "Aseta kokoruudulle",
+			"tray": {
+				"main": "Ilmaisinalueen kuvake",
+				"show_tray": "Näytä/Piilota ikkuna",
+				"show_window": "Näytä ikkuna",
+				"toggle_minimize": "Piilota ilmaisinalueelle",
+				"start_minimize": "Käynnistä pienennettynä ilmaisinalueelle",
+				"close": "Sulje ilmaisinalueelle"
+			},
+			"escape": {
+				"title": "Esc näppäimien toiminta",
+				"hide": "Piilottaa ikkunan",
+				"clear": "Tyhjentää tekstikentän",
+				"default": "Oletus kun ilmaisinalueen kuvaketta ei ole käytössä"
+			},
+			"conversation": {
+				"title": "Keskustelulistaus",
+				"timestamp": "Näytä keskustelun aikaleima",
+				"last": "Näytä keskustelun viimeisin viesti",
+				"previous": "Edellinen keskustelu",
+				"next": "Seuraava keskustelu",
+				"select": "Valitse keskustelu",
+				"thumbnails": {
+					"show": "Näytä keskustelukuvakkeet",
+					"only": "Näytä vain keskustelukuvakkeet",
+					"animated": "Näytä animoidut keskustelukuvakkeet"
+				},
+				"new": "Uusi keskustelu"
+			},
+			"notification": {
+				"title": "Pop-Up ilmoitukset",
+				"show": "Näytä ilmoitukset",
+				"toggle": "Käytä ilmoituksia",
+				"message": "Näytä viesti ilmoituksissa",
+				"username": "Näytä käyttäjänimet ilmoituksissa",
+				"mute": "Poista ilmoitusäänet käytöstä",
+				"avatar": "Näytä käyttäjäkuvake ilmoituksissa",
+				"icon": "Näytä YakYak kuvake ilmoituksissa",
+				"custom_sound": "Käytä YakYakin omaa ääntä ilmoituksiin"
+			},
+			"color_scheme": {
+				"title": "Väriteemat",
+				"default": "Oletus",
+				"blue": "Sininen",
+				"dark": "Pimeä",
+				"material": "Material",
+				"pop": "Pop",
+				"gruvy": "Gruvy"
+			},
+			"font": {
+				"title": "Fontin koko",
+				"extra_small": "Pienin",
+				"small": "Pieni",
+				"medium": "Keskikoko",
+				"large": "Suuri",
+				"extra_large": "Suurin"
+			},
+			"zoom": {
+				"in": "Suurenna sisään",
+				"out": "Surenna ulos",
+				"reset": "Alkuperäinen koko"
+			},
+			"showimagepreview": "Näytä kuvien esikatselu"
+		},
+		"help": {
+			"title": "Apua",
+			"about": {
+				"title": "Tietoja YakYak sovelluksesta",
+				"newer": "Uusi versio saatavilla, hae päivitys täältä %s to %s",
+				"license": "Lisenssi",
+				"authors": "Pääkehittäjät",
+				"contributors": "Avustajat",
+				"startup": "Käynnistä käynnistyksen yhteydessä"
+			}
+		},
+		"window": {
+			"title": "Ikkuna",
+			"minimize": "Pienennä",
+			"close": "Sulje",
+			"front": "Tuo kaikki päällimäiseksi"
+		}
+	},
+	"window": {
+		"controls": "Minimize"
+	}
+}
