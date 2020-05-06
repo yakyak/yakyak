@@ -40,9 +40,9 @@
         "leave_confirm": "האם אתה בטוח שברצונך לעזור את השיחה?",
         "search": "חיפוש אנשים",
         "new_message": "הודעה חדשה",
-        "new_attachment": "New message received (image or video)",
-        "open_link": "Opening the link in the browser...",
-        "no_preview_image_click_to_open": "Image preview is disabled: click to open it in the browser"
+        "new_attachment": "הודעה חדשה (תמונה או וידאו)",
+        "open_link": "פותח את הקישור בדפדפן...",
+        "no_preview_image_click_to_open": "לא ניתן להציג כן את התמונה; לחץ כדי להציכ אותה בדפדפן"
     },
     "notification": {
         "one": "התראה",
@@ -53,10 +53,10 @@
             "one": "מועדפת",
             "other": "מועדפים"
         },
-        "star_it": "סימן \\ בטל שיחה כמועדפת"
+        "star_it": "סמן \\ בטל שיחה כמועדפת"
     },
     "actions": {
-      "ok": "בסדר",
+      "ok": "אישור",
       "cancel": "ביטול"
     },
     "call": {
@@ -66,7 +66,7 @@
         "accept": "קבל",
         "rejected": "נדחתה",
         "reject": "דחה",
-        "missed": "שיחה שלא נענתה מ%s"
+        "missed": "פספסת שיחה מ%s"
     },
     "menu": {
         "title": "תפריט",
@@ -75,29 +75,29 @@
             "hide": "הסתר YakYak",
             "hide_others": "הסתר אחרים",
             "show": "הצג הכל",
-            "inspector": "Open Inspector",
-            "logout": "התנתק",
+            "inspector": "פתח כלי פיתוח",
+            "logout": "התנתק מהחשבון",
             "quit": "צא"
         },
         "edit": {
-            "title": "ערוך",
+            "title": "עריכה",
             "undo": "חזור אחורה",
             "redo": "בצע שוב",
-            "paste": "הדבר",
-            "cut": "חתוך",
+            "paste": "הדבק",
+            "cut": "גזור",
             "copy": "העתק",
             "copy_image_link": "העתק כתובת תמונה",
-            "copy_link": "העתק כתובת",
+            "copy_link": "העתק קישור",
             "copy_image": "העתק תמונה",
             "select_all": "בחר הכל",
             "language": "שפה (Language)",
-            "dateformat": "Use system date format"
+            "dateformat": "השתמש בפורמט התאריך של המערכת"
         },
         "view": {
-            "title": "גיסרא",
+            "title": "גירסה",
             "emoji": "המר טקסט לאימוג'י",
-            "suggestemoji": "Suggest emoji on typing",
-            "showimagepreview": "Show image preview",
+            "suggestemoji": "הצעת אימוג'ים במהלך הכתיבה",
+            "showimagepreview": "תצוגה מקדימה לתמונה",
             "hide_dock": "הסתר סמל עגינה",
             "fullscreen": "מסך מלא",
             "tray": {
@@ -109,8 +109,8 @@
             },
             "escape": {
                 "title": "התנהגות מקש הEscape",
-                "hide": "מסתיר חלונות",
-                "clear": "מנקה קלט",
+                "hide": "הסתרת החלון",
+                "clear": "ניקוי שורת הטקסט",
                 "default": "ברירת מחדל כאשר המגש לא מוצג"
             },
             "conversation": {
@@ -147,7 +147,7 @@
             "font": {
                 "title": "גודל גופן",
                 "extra_small": "קטן מאוד",
-                "small": "קטל",
+                "small": "קטן",
                 "medium": "בינוני",
                 "large": "גדול",
                 "extra_large": "גדול מאוד"
@@ -163,7 +163,7 @@
             "about": {
                 "title": "אודות YakYak",
                 "newer": "גירסא חדשה יותר זמינה, אנא עדכן מ%s ל%s",
-                "license": "רישון",
+                "license": "רישיון",
                 "authors": "מחברים ראשיים",
                 "contributors": "תורמים"
             }
@@ -172,7 +172,7 @@
             "title": "חלון",
             "minimize": "מזער",
             "close": "סגור",
-            "front": "הבא הכל קדימה"
+            "front": "הבא לחזית"
         }
     }
 }
