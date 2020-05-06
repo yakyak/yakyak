@@ -24,7 +24,7 @@ before_deploy:
   - sudo dpkg --add-architecture i386
   - sudo apt-get -qq update
   - sudo rm /var/lib/dpkg/lock
-  - sudo apt-get install -y -qq wine-stable zip xvfb rpm
+  - sudo apt-get install -y -qq wine-stable zip xvfb
   - wine wineboot --init # WINEARCH=win32
   #
   # actuall building of the binaries
@@ -36,11 +36,15 @@ before_deploy:
   # RPM and DEB binaries
   # install fpm
   - gem install --no-document fpm
+  # needed to deploy on rpm / pacman
+  - sudo apt-get install -y -qq rpm libarchive-tools
   #
   - npm run -loglevel ${NPM_DEBUG_LEVEL} gulp deploy:linux-x64:rpm:nodep
   - npm run -loglevel ${NPM_DEBUG_LEVEL} gulp deploy:linux-x64:deb:nodep
+  - npm run -loglevel ${NPM_DEBUG_LEVEL} gulp deploy:linux-x64:pacman:nodep
   - npm run -loglevel ${NPM_DEBUG_LEVEL} gulp deploy:linux-ia32:rpm:nodep
   - npm run -loglevel ${NPM_DEBUG_LEVEL} gulp deploy:linux-ia32:deb:nodep
+  - npm run -loglevel ${NPM_DEBUG_LEVEL} gulp deploy:linux-ia32:pacman:nodep
   #
   # Flatpak
   # install flatpak dependencies
@@ -74,6 +78,8 @@ deploy:
   # files to copy to github release
   file:
     - "dist/yakyak-${YAKYAK_VERSION}-linux-x64.tar.gz"
+    - "dist/yakyak-${YAKYAK_VERSION}-linux-x86_64-pacman.tar.gz"
+    - "dist/yakyak-${YAKYAK_VERSION}-linux-ia32-pacman.tar.gz"
     - "dist/yakyak-${YAKYAK_VERSION}-linux-ia32.tar.gz"
     - "dist/yakyak-${YAKYAK_VERSION}-win32-ia32.zip"
     - "dist/yakyak-${YAKYAK_VERSION}-win32-x64.zip"
