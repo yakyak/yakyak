@@ -327,7 +327,7 @@ platformOpts.map (plat) ->
     #
 
 archOpts.forEach (arch) ->
-    ['deb', 'rpm'].forEach (target) ->
+    ['deb', 'rpm', 'pacman'].forEach (target) ->
         gulp.task "deploy:linux-#{arch}:#{target}:nodep", (done) ->
             if arch is 'ia32'
                 archName = 'i386'
@@ -336,7 +336,12 @@ archOpts.forEach (arch) ->
             else
                 archName = 'x86_64'
 
-            packageName = json.name + '-VERSION-linux-ARCH.' + target
+            if target == 'pacman'
+                suffix = 'tar.gz'
+            else
+                suffix = target
+
+            packageName = json.name + '-VERSION-linux-ARCH.' + suffix
             iconArgs = [16, 32, 48, 128, 256, 512].map (size) ->
                 if size < 100
                     src = "0#{size}"
