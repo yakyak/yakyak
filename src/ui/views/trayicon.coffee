@@ -1,3 +1,4 @@
+{nativeImage} = require("electron");
 path = require 'path'
 os   = require 'os'
 i18n = require 'i18n'
@@ -28,7 +29,8 @@ quit = ->
 compact = (array) -> item for item in array when item
 
 create = () ->
-    tray = new Tray trayIcons["read"]
+    tray = new Tray(nativeImage.createEmpty());
+    tray.setImage(nativeImage.createFromPath(trayIcons["read"]));
     tray.currentImage = 'read'
     tray.setToolTip i18n.__('title:YakYak - Hangouts Client')
     # Emitted when the tray icon is clicked
@@ -89,10 +91,10 @@ update = (unreadCount, viewstate) ->
     # update icon
     try
         if unreadCount > 0
-            tray.setImage trayIcons["unread"] unless tray.currentImage == 'unread'
+            tray.setImage nativeImage.createFromPath(trayIcons["unread"]) unless tray.currentImage == 'unread'
             tray.currentImage = 'unread'
         else
-            tray.setImage trayIcons["read"] unless tray.currentImage == 'read'
+            tray.setImage nativeImage.createFromPath(trayIcons["read"]) unless tray.currentImage == 'read'
             tray.currentImage = 'read'
     catch e
         console.log 'missing icons', e
