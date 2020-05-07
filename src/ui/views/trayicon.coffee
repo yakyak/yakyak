@@ -1,4 +1,3 @@
-{nativeImage} = require("electron");
 path = require 'path'
 os   = require 'os'
 i18n = require 'i18n'
@@ -6,20 +5,24 @@ i18n = require 'i18n'
 { Menu, Tray, nativeImage } = require('electron').remote
 
 if os.platform() == 'darwin'
-    trayIcons =
+    trayIconsPath =
         "read": path.join __dirname, '..', '..', 'icons', 'osx-icon-read-Template.png'
         "unread": path.join __dirname, '..', '..', 'icons', 'osx-icon-unread-Template.png'
 
 else if process.env.XDG_CURRENT_DESKTOP && process.env.XDG_CURRENT_DESKTOP.match(/KDE/)
     # This is to work around a bug with electron apps + KDE not showing correct icon size.
-    trayIcons =
+    trayIconsPath =
       "read": path.join __dirname, '..', '..', 'icons', 'icon-read@20.png'
       "unread": path.join __dirname, '..', '..', 'icons', 'icon-unread@20.png'
 
 else
-    trayIcons =
+    trayIconsPath =
         "read": path.join __dirname, '..', '..', 'icons', 'icon-read@8x.png'
         "unread": path.join __dirname, '..', '..', 'icons', 'icon-unread@8x.png'
+
+trayIcons =
+  "read": nativeImage.createFromPath(trayIconsPath["read"])
+  "unread": nativeImage.createFromPath(trayIconsPath["unread"])
 
 tray = null
 
@@ -29,8 +32,7 @@ quit = ->
 compact = (array) -> item for item in array when item
 
 create = () ->
-    tray = new Tray(nativeImage.createEmpty());
-    tray.setImage(nativeImage.createFromPath(trayIcons["read"]));
+    tray = new Tray trayIcons["read"]
     tray.currentImage = 'read'
     tray.setToolTip i18n.__('title:YakYak - Hangouts Client')
     # Emitted when the tray icon is clicked
@@ -38,6 +40,7 @@ create = () ->
 
 destroy = ->
     tray.destroy() if tray
+    console.log('is Destroyed', tray.isDestroyed())
     tray = null
 
 update = (unreadCount, viewstate) ->
@@ -91,10 +94,10 @@ update = (unreadCount, viewstate) ->
     # update icon
     try
         if unreadCount > 0
-            tray.setImage nativeImage.createFromPath(trayIcons["unread"]) unless tray.currentImage == 'unread'
+            tray.setImage trayIcons["unread"] unless tray.currentImage == 'unread'
             tray.currentImage = 'unread'
         else
-            tray.setImage nativeImage.createFromPath(trayIcons["read"]) unless tray.currentImage == 'read'
+            tray.setImage trayIcons["read"] unless tray.currentImage == 'read'
             tray.currentImage = 'read'
     catch e
         console.log 'missing icons', e
