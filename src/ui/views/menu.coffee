@@ -26,7 +26,7 @@ acceleratorMap = {
     # Platform specific
     previousconversation: { default: 'Ctrl+K', darwin:'Ctrl+Shift+Tab' }
     nextconversation:  { default: 'Ctrl+J', darwin:'Ctrl+Tab' }
-    newconversation: { default: 'CmdOrCtrl+M' }
+    newconversation: { default: 'CmdOrCtrl+N' }
     conversation1: { default: 'Alt+1', darwin:'Command+1' }
     conversation2: { default: 'Alt+2', darwin:'Command+2' }
     conversation3: { default: 'Alt+3', darwin:'Command+3' }
