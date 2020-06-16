@@ -105,14 +105,10 @@ module.exports = (models) ->
             #  and mute option is not set
             if (!notifierSupportsSound || viewstate.forceCustomSound) && !viewstate.muteSoundNotification && audioEl.paused
                 dataFile = path.join USERDATA_DIR, 'media', 'new_message.ogg'
-                isCustom = audioEl.custom != undefined && audioEl.custom == 1
-                if !isCustom && fs.existsSync(dataFile)
-                    audioEl.custom = 1
+                if fs.existsSync(dataFile)
                     audioEl.src = dataFile
-                    audioEl.load()
-                else if isCustom
+                else
                     audioEl.src = path.join YAKYAK_ROOT_DIR, '..', 'media', 'new_message.ogg'
-                    audioEl.load()
 
                 audioEl.play()
         # if not mainWindow.isVisible()
