@@ -205,7 +205,7 @@ module.exports = view (models) ->
 
 drawMessageAvatar = (u, sender, viewstate, entity) ->
     div class: 'sender-wrapper', ->
-        a href:linkto(u.cid), title: sender, {onclick}, class:'sender', ->
+        a title: sender, class:'sender', ->
             drawAvatar(u.cid, viewstate, entity)
         span sender
 
