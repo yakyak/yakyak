@@ -1,6 +1,6 @@
 {
   "name": "yakyak",
-  "version": "1.5.7",
+  "version": "1.5.8",
   "description": "Chat client for Google Hangouts",
   "main": "main.js",
   "scripts": {
@@ -79,7 +79,7 @@
     "chai": "^4.2.0",
     "coffeescript": "^1.9.3",
     "devtron": "^1.4.0",
-    "electron": "^7.1.7",
+    "electron": "^9.0.3",
     "electron-packager": "^14.1.1",
     "gulp": "^4.0.2",
     "gulp-changed": "^4.0.2",
