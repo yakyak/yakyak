@@ -226,6 +226,7 @@ templateView = (viewstate) ->
                   enabled: viewstate.loggedin && viewstate.showPopUpNotifications
                   click: (it) -> action 'mutesoundnotification', it.checked
                 }
+                # Only show option if notifier backend supports sound, otherwise custom sound is always used
                 {
                   type: 'checkbox'
                   label: i18n.__('menu.view.notification.custom_sound:Use YakYak custom sound for notifications')
