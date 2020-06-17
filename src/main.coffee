@@ -133,8 +133,7 @@ app.on 'ready', ->
 
     icon_name = if process.platform is 'win32' then 'icon@2.png' else 'icon@32.png'
 
-    # Create the browser window.
-    mainWindow = new BrowserWindow {
+    windowOpts = {
         width: 730
         height: 590
         "min-width": 620
@@ -146,10 +145,15 @@ app.on 'ready', ->
             nodeIntegration: true
             # preload: path.join(app.getAppPath(), 'ui', 'app.js')
         }
-        titleBarStyle: 'hiddenInset' if process.platform is 'darwin'
-        frame: false if process.platform is 'win32'
         # autoHideMenuBar : true unless process.platform is 'darwin'
     }
+
+    if process.platform is 'darwin'
+        windowOpts.titleBarStile = 'hiddenInset'
+        windowOpts.frame = false
+
+    # Create the browser window.
+    mainWindow = new BrowserWindow windowOpts
 
     # Launch fullscreen with DevTools open, usage: npm run debug
     if debug
