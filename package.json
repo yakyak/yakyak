@@ -60,14 +60,14 @@
     "auto-launch": "^5.0.5",
     "autosize": "^4.0.2",
     "bog": "^1.0.0",
-    "hangupsjs": "yakyak/hangupsjs",
+    "hangupsjs": "github:yakyak/hangupsjs",
     "i18n": "^0.9.0",
-    "mime-types": "^2.1.26",
-    "moment": "^2.24.0",
-    "node-notifier": "^7.0.0",
+    "mime-types": "^2.1.27",
+    "moment": "^2.27.0",
+    "node-notifier": "^7.0.1",
     "notr": "^1.1.2",
     "q": "^1.5.1",
-    "request": "^2.88.0",
+    "request": "^2.88.2",
     "tmp": "^0.2.1",
     "trifl": "0.0.10",
     "uber-url-regex": "^5.0.9"
@@ -80,7 +80,7 @@
     "coffeescript": "^1.9.3",
     "devtron": "^1.4.0",
     "electron": "^9.0.3",
-    "electron-packager": "^14.1.1",
+    "electron-packager": "^14.2.1",
     "gulp": "^4.0.2",
     "gulp-changed": "^4.0.2",
     "gulp-coffee": "^3.0.3",
@@ -96,9 +96,9 @@
     "gulp-spawn": "^0.4.5",
     "gulp-util": "^3.0.6",
     "gulp-zip": "^5.0.1",
-    "mocha": "^7.1.2",
-    "rimraf": "^3.0.0",
+    "mocha": "^7.2.0",
+    "rimraf": "^3.0.2",
     "sinon": "^9.0.2",
-    "sinon-chai": "^3.4.0"
+    "sinon-chai": "^3.5.0"
   }
 }
