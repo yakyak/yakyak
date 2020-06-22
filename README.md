@@ -1,9 +1,9 @@
 YakYak
 ======
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/yakyak/yakyak.svg)](https://greenkeeper.io/)
-
 [![Build Status](https://travis-ci.org/yakyak/yakyak.svg)](https://travis-ci.org/yakyak/yakyak)
+
+[![Known Vulnerabilities](https://snyk.io/test/github/yakyak/yakyak/badge.svg?targetFile=package.json)](https://snyk.io/test/github/yakyak/yakyak?targetFile=package.json)
 
 Desktop client for Google Hangouts *(not Google Hangouts Chat, which is a [different](https://github.com/yakyak/yakyak/issues/1037) thing)*
 
