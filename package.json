@@ -69,7 +69,7 @@
     "q": "^1.5.1",
     "request": "^2.88.2",
     "tmp": "^0.2.1",
-    "trifl": "0.0.10",
+    "trifl": "1.0.3",
     "uber-url-regex": "^5.0.9"
   },
   "optionalDependencies": {
