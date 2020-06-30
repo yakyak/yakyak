@@ -8,7 +8,7 @@
     "dev": "electron app --debug",
     "gulp": "gulp",
     "electron": "electron",
-    "test": "snyk test && mocha",
+    "test": "mocha",
     "clean": "gulp clean",
     "deploy": "gulp deploy",
     "deploy:linux": "gulp deploy:linux",
