@@ -196,7 +196,7 @@ gulp.task 'clean', (cb) ->
     rimraf outapp, cb
 
 gulp.task 'default',
-          gulp.parallel 'package', 'coffee', 'html', 'images', 'snyk',
+          gulp.parallel 'package', 'coffee', 'html', 'images',
                         'media', 'locales', 'icons', 'less', 'fontello'
 
 gulp.task 'watch', ->
