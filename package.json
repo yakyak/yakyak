@@ -1,6 +1,6 @@
 {
   "name": "yakyak",
-  "version": "1.5.8",
+  "version": "1.5.9",
   "description": "Chat client for Google Hangouts",
   "main": "main.js",
   "scripts": {
@@ -26,7 +26,9 @@
     "deploy:linux-ia32:pacman": "gulp deploy:linux-ia32:pacman",
     "deploy:win32-x64": "gulp deploy:win32-x64",
     "deploy:win32-ia32": "gulp deploy:win32-ia32",
-    "deploy:darwin-x64": "gulp deploy:darwin-x64"
+    "deploy:darwin-x64": "gulp deploy:darwin-x64",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "repository": {
     "type": "git",
@@ -79,8 +81,8 @@
     "chai": "^4.2.0",
     "coffeescript": "^1.9.3",
     "devtron": "^1.4.0",
-    "electron": "^9.0.3",
-    "electron-packager": "^14.2.1",
+    "electron": "^9.0.5",
+    "electron-packager": "^15.0.0",
     "gulp": "^4.0.2",
     "gulp-changed": "^4.0.2",
     "gulp-coffee": "^3.0.3",
@@ -95,10 +97,12 @@
     "gulp-sourcemaps": "^2.6.5",
     "gulp-spawn": "^0.4.5",
     "gulp-util": "^3.0.6",
-    "gulp-zip": "^5.0.1",
+    "gulp-zip": "^5.0.2",
     "mocha": "^7.2.0",
     "rimraf": "^3.0.2",
     "sinon": "^9.0.2",
-    "sinon-chai": "^3.5.0"
-  }
+    "sinon-chai": "^3.5.0",
+    "snyk": "^1.346.0"
+  },
+  "snyk": true
 }
