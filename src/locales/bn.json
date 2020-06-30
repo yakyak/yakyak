@@ -40,9 +40,9 @@
     "leave_confirm": "সত্যিই কথোপকথন ত্যাগ করতে চান?",
     "search": "লোকেদের অনুসন্ধান করুন",
     "new_message": "নতুন বার্তা",
-    "new_attachment": "New message received (image or video)",
-    "open_link": "Opening the link in the browser...",
-    "no_preview_image_click_to_open": "Image preview is disabled: click to open it in the browser"
+    "new_attachment": "নতুন মেসেজ এসেছে (ছবি অথবা ভিডিও)",
+    "open_link": "ব্রাউজার এ লিঙ্ক টি খোলা হছে...",
+    "no_preview_image_click_to_open": "ছবির প্রিভিউ বন্ধ করা আছেঃ ব্রাউজার এ খোলার জন্য ক্লিক করুন"
   },
   "notification": {
     "one": "প্রজ্ঞাপন",
@@ -97,7 +97,7 @@
       "title": "View",
       "emoji": "পাঠ্য ইমোজিতে রূপান্তর করুন",
       "suggestemoji": "Suggest emoji on typing",
-      "showimagepreview": "Show image preview",
+      "showimagepreview": "ছবির প্রিভিউ দেখান",
       "hide_dock": "ডক আইকন লুকান",
       "fullscreen": "Toggle Fullscreen",
       "tray": {
@@ -141,7 +141,7 @@
         "title": "রঙ স্কিম",
         "default": "আসল",
         "blue": "নীল",
-        "dark": "Dark",
+        "dark": "অন্ধকার",
         "material": "Material"
       },
       "font": {
