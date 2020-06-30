@@ -8,7 +8,7 @@
     "dev": "electron app --debug",
     "gulp": "gulp",
     "electron": "electron",
-    "test": "mocha",
+    "test": "snyk test && mocha",
     "clean": "gulp clean",
     "deploy": "gulp deploy",
     "deploy:linux": "gulp deploy:linux",
@@ -70,6 +70,7 @@
     "notr": "^1.1.2",
     "q": "^1.5.1",
     "request": "^2.88.2",
+    "snyk": "^1.354.0",
     "tmp": "^0.2.1",
     "trifl": "0.0.10",
     "uber-url-regex": "^5.0.9"
@@ -101,8 +102,7 @@
     "mocha": "^7.2.0",
     "rimraf": "^3.0.2",
     "sinon": "^9.0.2",
-    "sinon-chai": "^3.5.0",
-    "snyk": "^1.346.0"
+    "sinon-chai": "^3.5.0"
   },
   "snyk": true
 }

@@ -1,6 +1,12 @@
 # Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
-version: v1.15.0
+version: v1.14.1
 ignore: {}
 # patches apply the minimum changes required to fix a vulnerability
 patch:
-
+  SNYK-JS-LODASH-567746:
+    - electron-installer-flatpak > async > lodash:
+        patched: '2020-06-30T13:32:26.801Z'
+    - electron-installer-flatpak > flatpak-bundler > lodash:
+        patched: '2020-06-30T13:32:26.801Z'
+    - electron-installer-flatpak > lodash:
+        patched: '2020-06-30T13:32:26.801Z'
