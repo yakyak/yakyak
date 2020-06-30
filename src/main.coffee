@@ -150,6 +150,8 @@ app.on 'ready', ->
 
     if process.platform is 'darwin'
         windowOpts.titleBarStile = 'hiddenInset'
+
+    if process.platform is 'win32'
         windowOpts.frame = false
 
     # Create the browser window.
