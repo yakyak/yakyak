@@ -141,6 +141,12 @@ handle 'sendmessage', (txt = '') ->
     ipc.send 'sendchatmessage', msg
     conv.addChatMessagePlaceholder entity.self.id, msg
 
+handle 'settray', (menu, iconPath, toolTip)->
+    ipc.invoke 'tray', menu, iconPath, toolTip
+
+handle 'destroytray', ->
+    ipc.invoke 'tray-destroy'
+
 handle 'toggleshowtray', ->
     viewstate.setShowTray(not viewstate.showtray)
 
@@ -172,8 +178,12 @@ handle 'hideWindow', ->
     mainWindow.hide()
 
 handle 'togglewindow', ->
+    console.log('togglewindow!')
     mainWindow = remote.getCurrentWindow() # And we hope we don't get another ;)
     if mainWindow.isVisible() then mainWindow.hide() else mainWindow.show()
+
+handle 'togglecolorblind', ->
+    viewstate.setColorblind(not viewstate.colorblind)
 
 handle 'togglestartminimizedtotray', ->
     viewstate.setStartMinimizedToTray(not viewstate.startminimizedtotray)
@@ -485,6 +495,10 @@ handle 'showconvtime', (doshow) ->
 
 handle 'showconvlast', (doshow) ->
     viewstate.setShowConvLast doshow
+
+handle 'togglepopupnotifications', ->
+    console.log('toggle popupnotifications')
+    viewstate.setShowPopUpNotifications not viewstate.showPopUpNotifications
 
 handle 'showpopupnotifications', (doshow) ->
     viewstate.setShowPopUpNotifications doshow
