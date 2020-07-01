@@ -447,7 +447,7 @@ templateView = (viewstate) ->
                     click: -> action 'toggleclosetotray'
                 }
                 {
-                    label: i18n.__('menu.view.tray.colorblind:Enhance colorblind tray icon')
+                    label: i18n.__('menu.view.tray.colorblind:Use colorblind tray icon')
                     type: 'checkbox'
                     checked:  viewstate.colorblind
                     click: -> action 'togglecolorblind'
