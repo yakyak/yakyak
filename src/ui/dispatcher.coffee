@@ -394,6 +394,9 @@ handle 'delete', (a) ->
     return unless c = conv[conv_id]
     conv.deleteConv conv_id
 
+handle 'setspellchecklanguage', (language) ->
+      viewstate.setSpellCheckLanguage(language, remote.getCurrentWindow())
+
 #
 #
 # Change language in YakYak

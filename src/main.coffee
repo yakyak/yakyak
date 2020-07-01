@@ -145,6 +145,7 @@ app.on 'ready', ->
         "min-height": 420
         icon: path.join __dirname, 'icons', icon_name
         show: false
+        spellcheck: true
         autohideMenuBar: true
         webPreferences: {
             nodeIntegration: true

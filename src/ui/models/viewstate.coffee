@@ -46,6 +46,7 @@ module.exports = exp = {
     forceCustomSound: tryparse(localStorage.forceCustomSound) ? false
     language: localStorage.language ? 'en'
     useSystemDateFormat: localStorage.useSystemDateFormat is "true"
+    spellcheckLanguage: localStorage.spellcheckLanguage ? 'none'
     # non persistent!
     messageMemory: {}      # stores input when swithching conversations
     cachedInitialsCode: {} # code used for colored initials, if no avatar
@@ -70,6 +71,16 @@ module.exports = exp = {
             # set a first active timestamp to avoid requesting
             # syncallnewevents on startup
             require('./connection').setLastActive(Date.now(), true)
+        updated 'viewstate'
+
+    setSpellCheckLanguage: (language, mainWindow) ->
+        return if @language == language
+
+        if language == 'none'
+            mainWindow.webContents.session.setSpellCheckerLanguages([])
+        else
+            mainWindow.webContents.session.setSpellCheckerLanguages([language])
+        @spellcheckLanguage = localStorage.spellcheckLanguage = language
         updated 'viewstate'
 
     setLanguage: (language) ->
