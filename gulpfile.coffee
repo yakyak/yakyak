@@ -145,6 +145,11 @@ gulp.task 'icons', ->
         'icon-unread_032.png': 'icon-unread@2x.png'
         'icon-unread_020.png': 'icon-unread@20.png'
         'icon-unread_128.png': 'icon-unread@8x.png'
+        # Read icon in tray (linux/windows - colorblind)
+        'icon-read_016_blue.png': 'icon-read_blue.png'
+        'icon-read_032_blue.png': 'icon-read@2x_blue.png'
+        'icon-read_020_blue.png': 'icon-read@20_blue.png'
+        'icon-read_128_blue.png': 'icon-read@8x_blue.png'
         # Read icon in tray (linux/windows)
         'icon-read_016.png': 'icon-read.png'
         'icon-read_032.png': 'icon-read@2x.png'
@@ -350,10 +355,10 @@ archOpts.forEach (arch) ->
                 suffix = 'tar.gz'
             else
                 suffix = target
-  
+
             if target == 'pacman'
                 packageName = json.name + '-VERSION-linux-' + archNameSuffix + '-pacman.' + suffix
-            else   
+            else
                 packageName = json.name + '-VERSION-linux-' + archNameSuffix + '.' + suffix
             iconArgs = [16, 32, 48, 128, 256, 512].map (size) ->
                 if size < 100

@@ -3,26 +3,31 @@ os   = require 'os'
 i18n = require 'i18n'
 
 { Menu, Tray, nativeImage } = require('electron').remote
+{later} = require '../util'
 
 if os.platform() == 'darwin'
     trayIconsPath =
         "read": path.join __dirname, '..', '..', 'icons', 'osx-icon-read-Template.png'
+        "read-colorblind": path.join __dirname, '..', '..', 'icons', 'osx-icon-read-Template.png'
         "unread": path.join __dirname, '..', '..', 'icons', 'osx-icon-unread-Template.png'
 
 else if process.env.XDG_CURRENT_DESKTOP && process.env.XDG_CURRENT_DESKTOP.match(/KDE/)
     # This is to work around a bug with electron apps + KDE not showing correct icon size.
     trayIconsPath =
       "read": path.join __dirname, '..', '..', 'icons', 'icon-read@20.png'
+      "read-colorblind": path.join __dirname, '..', '..', 'icons', 'icon-read@20_blue.png'
       "unread": path.join __dirname, '..', '..', 'icons', 'icon-unread@20.png'
 
 else
     trayIconsPath =
         "read": path.join __dirname, '..', '..', 'icons', 'icon-read@8x.png'
+        "read-colorblind": path.join __dirname, '..', '..', 'icons', 'icon-read@8x_blue.png'
         "unread": path.join __dirname, '..', '..', 'icons', 'icon-unread@8x.png'
 
 trayIcons =
-  "read": nativeImage.createFromPath(trayIconsPath["read"])
-  "unread": nativeImage.createFromPath(trayIconsPath["unread"])
+  "read":            trayIconsPath["read"]
+  "read-colorblind": trayIconsPath["read-colorblind"]
+  "unread":          trayIconsPath["unread"]
 
 tray = null
 
@@ -31,12 +36,8 @@ quit = ->
 
 compact = (array) -> item for item in array when item
 
-create = () ->
-    tray = new Tray trayIcons["read"]
-    tray.currentImage = 'read'
-    tray.setToolTip i18n.__('title:YakYak - Hangouts Client')
-    # Emitted when the tray icon is clicked
-    tray.on 'click', -> action 'togglewindow'
+create = (viewstate) ->
+    update(0, viewstate)
 
 destroy = ->
     tray.destroy() if tray
@@ -48,14 +49,14 @@ update = (unreadCount, viewstate) ->
     templateContextMenu = compact([
         {
           label: i18n.__ 'menu.view.tray.toggle_minimize:Toggle window show/hide'
-          click: -> action 'togglewindow'
+          click_action: 'togglewindow'
         }
 
         {
           label: i18n.__ "menu.view.tray.start_minimize:Start minimized to tray"
           type: "checkbox"
           checked: viewstate.startminimizedtotray
-          click: -> action 'togglestartminimizedtotray'
+          click_action: 'togglestartminimizedtotray'
         }
 
         {
@@ -64,48 +65,45 @@ update = (unreadCount, viewstate) ->
           checked: viewstate.showPopUpNotifications
           # usage of already existing method and implements same logic
           #  as other toggle... methods
-          click: -> action 'showpopupnotifications',
-              !viewstate.showPopUpNotifications
+          click_action: 'togglepopupnotifications'
         }
 
         {
             label: i18n.__ "menu.view.tray.close:Close to tray"
             type: "checkbox"
             checked: viewstate.closetotray
-            click: -> action 'toggleclosetotray'
+            click_action: 'toggleclosetotray'
         }
 
         {
           label: i18n.__ 'menu.view.hide_dock:Hide Dock icon'
           type: 'checkbox'
           checked: viewstate.hidedockicon
-          click: -> action 'togglehidedockicon'
+          click_action: 'togglehidedockicon'
         } if os.platform() == 'darwin'
 
         {
           label: i18n.__('menu.file.quit:Quit'),
-          click: -> action 'quit'
+          click_action: 'quit'
         }
     ])
-
-    contextMenu = Menu.buildFromTemplate templateContextMenu
-    tray.setContextMenu contextMenu
 
     # update icon
     try
         if unreadCount > 0
-            tray.setImage trayIcons["unread"] unless tray.currentImage == 'unread'
-            tray.currentImage = 'unread'
+            later ->
+                action 'settray', templateContextMenu, trayIcons["unread"], i18n.__('title:YakYak - Hangouts Client')
         else
-            tray.setImage trayIcons["read"] unless tray.currentImage == 'read'
-            tray.currentImage = 'read'
+            readIconName = if viewstate?.colorblind then 'read-colorblind' else 'read'
+            later ->
+                action 'settray', templateContextMenu, trayIcons[readIconName], i18n.__('title:YakYak - Hangouts Client')
     catch e
         console.log 'missing icons', e
 
 
 module.exports = ({viewstate, conv}) ->
     if viewstate.showtray
-        create() if not tray?
+        create(viewstate) if not tray?
         update(conv.unreadTotal(), viewstate)
     else
         destroy() if tray

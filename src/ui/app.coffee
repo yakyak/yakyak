@@ -163,6 +163,10 @@ ipc.on 'message', (msg) ->
 ipc.on 'init', (ev, data) -> dispatcher.init data
 # events from hangupsjs
 require('./events').forEach (n) -> ipc.on n, (ev, data) -> action n, data
+
+# events from tray menu
+ipc.on 'menuaction', (ev, name) -> action name
+
 # response from getentity
 ipc.on 'getentity:result', (ev, r, data) ->
     action 'addentities', r.entities, data?.add_to_conv
@@ -253,7 +257,7 @@ window.addEventListener 'beforeunload', (e) ->
 window.addEventListener 'keypress', (e) ->
     if e.keyCode == 23 and e.ctrlKey
       ipc.send 'ctrl+w__pressed', ''
-      
+
 currentWindow.webContents.on 'context-menu', (e, params) ->
     e.preventDefault()
     canShow = [viewstate.STATE_NORMAL,

@@ -37,6 +37,7 @@ module.exports = exp = {
     escapeClearsInput: tryparse(localStorage.escapeClearsInput) or false
     showtray: tryparse(localStorage.showtray) or false
     hidedockicon: tryparse(localStorage.hidedockicon) or false
+    colorblind: tryparse(localStorage.colorblind) or false
     startminimizedtotray: tryparse(localStorage.startminimizedtotray) or false
     closetotray: tryparse(localStorage.closetotray) or false
     showDockOnce: true
@@ -284,6 +285,10 @@ module.exports = exp = {
 
     setEscapeClearsInput: (value) ->
         @escapeClearsInput = localStorage.escapeClearsInput = value
+        updated 'viewstate'
+
+    setColorblind: (value) ->
+        @colorblind = localStorage.colorblind = value
         updated 'viewstate'
 
     setShowTray: (value) ->

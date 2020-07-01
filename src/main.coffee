@@ -23,6 +23,10 @@ app.commandLine.appendSwitch('autoplay-policy', 'no-user-gesture-required')
 
 BrowserWindow = require('electron').BrowserWindow
 
+# Moving out of UI into main process
+{ Menu, Tray, nativeImage } = require('electron')
+tray = null # set global tray
+
 # Path for configuration
 userData = path.normalize(app.getPath('userData'))
 
@@ -332,6 +336,26 @@ app.on 'ready', ->
             mainWindow.focus()
         else
             mainWindow.show()
+
+    ipc.handle 'tray', (ev, menu, iconpath, toolTip) ->
+        if tray # create tray if it doesn't exist
+          tray.setImage iconpath unless tray.currentImage == iconpath
+        else
+          tray = new Tray iconpath
+
+        tray.currentImage = iconpath
+
+        tray.setToolTip toolTip
+        tray.on 'click', -> action 'togglewindow'
+
+        if menu
+            # build functions that cannot be sent via ipc
+            contextMenu = menu.map (el) ->
+                el.click = (r)->
+                    ipcsend 'menuaction', el.click_action
+                # delete el.click_action
+                el
+            tray.setContextMenu Menu.buildFromTemplate contextMenu
 
     #
     #
