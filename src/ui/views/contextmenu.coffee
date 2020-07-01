@@ -1,9 +1,13 @@
-remote      = require('electron').remote
-clipboard   = require('electron').clipboard
+remote        = require('electron').remote
+clipboard     = require('electron').clipboard
 # {download}  = require('electron-dl') # See IMPORTANT below
 ContextMenu = remote.Menu
 
 {isContentPasteable} = require '../util'
+
+contents = remote.getCurrentWindow().webContents
+session = contents.session
+availableLanguages = session.availableSpellCheckerLanguages
 
 templateContext = (params, viewstate) ->
     #
@@ -14,8 +18,49 @@ templateContext = (params, viewstate) ->
     canShowCopyImgLink = params.mediaType == 'image' && params.srcURL != ''
     canShowCopyLink = params.linkURL != '' && params.mediaType == 'none'
     #
-    [{
-        label: 'Save Image'
+
+    spellcheckLanguage = viewstate.spellcheckLanguage
+    spellCheck = if spellcheckLanguage == 'none'
+        i18n.__('menu.edit.spell_check.off:Spellcheck is off')
+    else
+        i18n.__('menu.edit.spell_check.title:Spellcheck') + ': ' + spellcheckLanguage
+
+    console.log('ada', spellCheck, params.dictionarySuggestions.map (el) -> { label: el, click: -> contents.replaceMisspelling(el)})
+    [
+      ...params.dictionarySuggestions.map (el) -> { label: el, click: -> contents.replaceMisspelling(el)}
+      {
+        type: 'separator'
+        visible: params?.dictionarySuggestions?.length > 0
+      }
+      {
+        label: i18n.__('menu.edit.spell_check.title:Spellcheck')
+        submenu: [
+            {
+                label: spellCheck
+                enabled: false
+                checked: spellcheckLanguage != 'none'
+                click: -> action 'setspellchecklanguage', 'none'
+            }
+
+            {
+              label: i18n.__('menu.edit.spell_check.turn_off:Turn spellcheck off')
+              visible: spellcheckLanguage != 'none'
+              click: -> action 'setspellchecklanguage', 'none'
+            }
+
+            {
+                label: i18n.__('menu.edit.spell_check.available:Available languages')
+                submenu: availableLanguages.map (el) ->
+                    {
+                      label: el
+                      click: -> action 'setspellchecklanguage', el
+                    }
+            }
+        ]
+    }
+    { type: 'separator' }
+    {
+        label: i18n.__('menu.edit.save_image:Save Image')
         visible: canShowSaveImg
         click: (item, win) ->
             try

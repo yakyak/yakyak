@@ -58,6 +58,8 @@ ipc.send 'seti18n', i18nOpts, viewstate.language
 
 # Set locale if exists, otherwise, keep 'en'
 action 'changelanguage', viewstate.language
+action 'setspellchecklanguage', viewstate.spellcheckLanguage
+
 # does not update viewstate -- why? because locale can be recovered later
 #   not the best reasoning :)
 
@@ -259,6 +261,7 @@ window.addEventListener 'keypress', (e) ->
       ipc.send 'ctrl+w__pressed', ''
 
 currentWindow.webContents.on 'context-menu', (e, params) ->
+    console.log('context-menu', e, params)
     e.preventDefault()
     canShow = [viewstate.STATE_NORMAL,
                viewstate.STATE_ADD_CONVERSATION].includes(viewstate.state)
