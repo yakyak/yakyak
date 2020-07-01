@@ -5,31 +5,22 @@ i18n = require 'i18n'
 { Menu, Tray, nativeImage } = require('electron').remote
 {later} = require '../util'
 
-if os.platform() == 'darwin'
-    trayIconsPath =
-        "read": path.join __dirname, '..', '..', 'icons', 'osx-icon-read-Template.png'
-        "read-colorblind": path.join __dirname, '..', '..', 'icons', 'osx-icon-read-Template.png'
-        "unread": path.join __dirname, '..', '..', 'icons', 'osx-icon-unread-Template.png'
-
+trayIconsFile = if os.platform() == 'darwin'
+    "read":            'osx-icon-read-Template.png'
+    "read-colorblind": 'osx-icon-read-Template.png'
+    "unread":          'osx-icon-unread-Template.png'
 else if process.env.XDG_CURRENT_DESKTOP && process.env.XDG_CURRENT_DESKTOP.match(/KDE/)
     # This is to work around a bug with electron apps + KDE not showing correct icon size.
-    trayIconsPath =
-      "read": path.join __dirname, '..', '..', 'icons', 'icon-read@20.png'
-      "read-colorblind": path.join __dirname, '..', '..', 'icons', 'icon-read@20_blue.png'
-      "unread": path.join __dirname, '..', '..', 'icons', 'icon-unread@20.png'
-
+    "read":            'icon-read@20.png'
+    "read-colorblind": 'icon-read@20_blue.png'
+    "unread":          'icon-unread@20.png'
 else
-    trayIconsPath =
-        "read": path.join __dirname, '..', '..', 'icons', 'icon-read@8x.png'
-        "read-colorblind": path.join __dirname, '..', '..', 'icons', 'icon-read@8x_blue.png'
-        "unread": path.join __dirname, '..', '..', 'icons', 'icon-unread@8x.png'
+    "read":            'icon-read@8x.png'
+    "read-colorblind": 'icon-read@8x_blue.png'
+    "unread":          'icon-unread@8x.png'
 
-trayIcons =
-  "read":            trayIconsPath["read"]
-  "read-colorblind": trayIconsPath["read-colorblind"]
-  "unread":          trayIconsPath["unread"]
-
-tray = null
+trayIcons = {}
+trayIcons[k] = path.join __dirname, '..', '..', 'icons', v for k,v of trayIconsFile
 
 # TODO: this is all WIP
 quit = ->
@@ -40,9 +31,7 @@ create = (viewstate) ->
     update(0, viewstate)
 
 destroy = ->
-    tray.destroy() if tray
-    console.log('is Destroyed', tray.isDestroyed())
-    tray = null
+    later -> action 'destroytray'
 
 update = (unreadCount, viewstate) ->
     # update menu
@@ -103,7 +92,6 @@ update = (unreadCount, viewstate) ->
 
 module.exports = ({viewstate, conv}) ->
     if viewstate.showtray
-        create(viewstate) if not tray?
         update(conv.unreadTotal(), viewstate)
     else
-        destroy() if tray
+        destroy()

@@ -88,6 +88,7 @@ quit = ->
     global.forceClose = true
     # force all windows to close
     mainWindow.destroy() if mainWindow?
+    console.log('--------\nGoodbye')
     app.quit()
     return
 
@@ -336,6 +337,11 @@ app.on 'ready', ->
             mainWindow.focus()
         else
             mainWindow.show()
+
+    ipc.handle 'tray-destroy', (ev) ->
+        if tray
+            tray.destroy()
+            tray = null if tray.isDestroyed()
 
     ipc.handle 'tray', (ev, menu, iconpath, toolTip) ->
         if tray # create tray if it doesn't exist

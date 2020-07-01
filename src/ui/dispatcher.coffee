@@ -142,8 +142,10 @@ handle 'sendmessage', (txt = '') ->
     conv.addChatMessagePlaceholder entity.self.id, msg
 
 handle 'settray', (menu, iconPath, toolTip)->
-    console.log('Setting tray', iconPath, toolTip)
     ipc.invoke 'tray', menu, iconPath, toolTip
+
+handle 'destroytray', ->
+    ipc.invoke 'tray-destroy'
 
 handle 'toggleshowtray', ->
     viewstate.setShowTray(not viewstate.showtray)
