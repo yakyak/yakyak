@@ -25,7 +25,10 @@ templateContext = (params, viewstate) ->
     else
         i18n.__('menu.edit.spell_check.title:Spellcheck') + ': ' + spellcheckLanguage
 
-    console.log('ada', spellCheck, params.dictionarySuggestions.map (el) -> { label: el, click: -> contents.replaceMisspelling(el)})
+    langMenu = availableLanguages.map (el) ->
+        label = el
+        { label: label, click: -> action 'setspellchecklanguage', el}
+
     [
       ...params.dictionarySuggestions.map (el) -> { label: el, click: -> contents.replaceMisspelling(el)}
       {
@@ -50,11 +53,7 @@ templateContext = (params, viewstate) ->
 
             {
                 label: i18n.__('menu.edit.spell_check.available:Available languages')
-                submenu: availableLanguages.map (el) ->
-                    {
-                      label: el
-                      click: -> action 'setspellchecklanguage', el
-                    }
+                submenu: langMenu
             }
         ]
     }
