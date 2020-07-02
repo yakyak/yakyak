@@ -430,6 +430,8 @@ archOpts.forEach (arch) ->
         else
             options.arch = 'amd64'
             archNameSuffix = 'amd64'
+
+        options.rename = (dest, src) -> path.join(dest, "#{json.name}-#{json.version}-linux-#{archNameSuffix}.deb")
         debian options
 
     gulp.task "deploy:linux-#{arch}:deb",
