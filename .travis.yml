@@ -24,7 +24,7 @@ before_deploy:
   - sudo dpkg --add-architecture i386
   - sudo apt-get -qq update
   - sudo rm /var/lib/dpkg/lock
-  - sudo apt-get install -y -qq wine-stable zip xvfb
+  - sudo apt-get install -y -qq wine-stable zip xvfb fakeroot
   - wine wineboot --init # WINEARCH=win32
   #
   # actuall building of the binaries
