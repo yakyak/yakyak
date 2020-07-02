@@ -18,6 +18,7 @@ filter     = require 'gulp-filter'
 Q          = require 'q'
 Stream     = require 'stream'
 spawn      = require('child_process').spawn
+debian     = require('electron-installer-debian')
 
 #
 #
@@ -337,7 +338,7 @@ platformOpts.map (plat) ->
     #
 
 archOpts.forEach (arch) ->
-    ['deb', 'rpm', 'pacman'].forEach (target) ->
+    ['rpm', 'pacman'].forEach (target) ->
         gulp.task "deploy:linux-#{arch}:#{target}:nodep", (done) ->
 
             archNameSuffix = archName
@@ -413,6 +414,26 @@ archOpts.forEach (arch) ->
 
         gulp.task "deploy:linux-#{arch}:#{target}",
             gulp.series("deploy:linux-#{arch}", "deploy:linux-#{arch}:#{target}:nodep")
+
+    gulp.task "deploy:linux-#{arch}:deb:nodep", (done) ->
+
+        options = {
+            src: "dist/#{json.name}-linux-#{arch}"
+            dest: 'dist/'
+            name: 'yakyak'
+            bin: 'yakyak'
+        }
+
+        if arch is 'ia32'
+            options.arch = 'i386'
+            archNameSuffix = 'ia32'
+        else
+            options.arch = 'amd64'
+            archNameSuffix = 'amd64'
+        debian options
+
+    gulp.task "deploy:linux-#{arch}:deb",
+        gulp.series("deploy:linux-#{arch}", "deploy:linux-#{arch}:deb:nodep")
 
     gulp.task "deploy:linux-#{arch}:flatpak:nodep", (done) ->
         flatpakOptions =
