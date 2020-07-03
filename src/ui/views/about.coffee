@@ -7,27 +7,6 @@ Menu   = remote.Menu
 {check, versionToInt} = require '../version'
 
 module.exports = view (models) ->
-
-    # simple context menu that can only copy
-    remote.getCurrentWindow().webContents.on 'context-menu', (e, params) ->
-        e.preventDefault()
-        menuTemplate = [{
-            label: 'Copy'
-            role: 'copy'
-            enabled: params.editFlags.canCopy
-        }
-        {
-            label: "Copy Link"
-            visible: params.linkURL != '' and params.mediaType == 'none'
-            click: () ->
-                if process.platform == 'darwin'
-                    clipboard
-                    .writeBookmark params.linkText, params.linkText
-                else
-                    clipboard.writeText params.linkText
-        }]
-        Menu.buildFromTemplate(menuTemplate).popup remote.getCurrentWindow()
-
     #
     # decide if should update
     localVersion    = remote.require('electron').app.getVersion()

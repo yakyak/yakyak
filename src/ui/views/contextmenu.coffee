@@ -118,5 +118,24 @@ templateContext = (params, viewstate) ->
             viewstate.state == viewstate.STATE_NORMAL) || params.isEditable
     }].filter (n) -> n != undefined
 
-module.exports = (e, viewstate) ->
-    ContextMenu.buildFromTemplate templateContext(e, viewstate)
+templateAboutContext = (params, viewstate) ->
+    [{
+        label: i18n.__('menu.edit.copy')
+        role: 'copy'
+        enabled: params.editFlags.canCopy
+    }
+    {
+        label: i18n.__('menu.edit.copy_link')
+        visible: params.linkURL != '' and params.mediaType == 'none'
+        click: () ->
+            if process.platform == 'darwin'
+                clipboard
+                .writeBookmark params.linkText, params.linkText
+            else
+                clipboard.writeText params.linkText
+    }]
+module.exports = (params, viewstate) ->
+    if viewstate.state == viewstate.STATE_ABOUT
+        ContextMenu.buildFromTemplate templateAboutContext(params, viewstate)
+    else
+        ContextMenu.buildFromTemplate templateContext(params, viewstate)

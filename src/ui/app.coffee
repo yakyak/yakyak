@@ -264,9 +264,11 @@ currentWindow.webContents.on 'context-menu', (e, params) ->
     console.log('context-menu', e, params)
     e.preventDefault()
     canShow = [viewstate.STATE_NORMAL,
-               viewstate.STATE_ADD_CONVERSATION].includes(viewstate.state)
+               viewstate.STATE_ADD_CONVERSATION,
+               viewstate.STATE_ABOUT].includes(viewstate.state)
     if canShow
         contextmenu(params, viewstate).popup remote.getCurrentWindow()
+
 
 # tell the startup state
 action 'wonline', window.navigator.onLine
