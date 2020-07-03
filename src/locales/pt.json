@@ -93,7 +93,13 @@
             "save_image": "Salvar Imagem",
             "select_all": "Selecionar Todos",
             "language": "Idioma (Language)",
-            "dateformat": "Use system date format"
+            "dateformat": "Use system date format",
+            "spell_check": {
+                "off": "Dicionário está desligado",
+                "title": "Dicionário",
+                "turn_off": "Desactivar dicionário",
+                "available": "Dicionários disponíveis"
+            }
         },
         "view": {
             "title": "Ver",

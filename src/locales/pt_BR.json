@@ -91,7 +91,13 @@
             "copy_image": "Copiar imagem",
             "select_all": "Selecionar tudo",
             "language": "Idioma (Language)",
-            "dateformat": "Usar formato de data do sistema"
+            "dateformat": "Usar formato de data do sistema",
+            "spell_check": {
+                "off": "Dicionário está desligado",
+                "title": "Dicionário",
+                "turn_off": "Desactivar dicionário",
+                "available": "Dicionários disponíveis"
+            }
         },
         "view": {
             "title": "Ver",
