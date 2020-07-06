@@ -18,6 +18,8 @@ debug = process.argv.includes '--debug'
 tmp.setGracefulCleanup()
 
 app = require('electron').app
+
+console.log('Starting Yakyak v' + app.getVersion() + '...')
 app.disableHardwareAcceleration() # was using a lot of resources needlessly
 app.commandLine.appendSwitch('autoplay-policy', 'no-user-gesture-required')
 
