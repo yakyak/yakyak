@@ -20,6 +20,7 @@ tmp.setGracefulCleanup()
 app = require('electron').app
 
 console.log('Starting Yakyak v' + app.getVersion() + '...')
+console.log('  using hangupsjs v' + Client.VERSION) if Client.VERSION
 console.log('--------')
 app.disableHardwareAcceleration() # was using a lot of resources needlessly
 app.commandLine.appendSwitch('autoplay-policy', 'no-user-gesture-required')
