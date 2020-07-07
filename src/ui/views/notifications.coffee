@@ -106,10 +106,10 @@ module.exports = (models) ->
             #  and mute option is not set
             if (!notifierSupportsSound || viewstate.forceCustomSound) && !viewstate.muteSoundNotification && audioEl.paused
                 audioEl.play()
-        #if not mainWindow.isVisible()
+        # if not mainWindow.isVisible()
         #    mainWindow.showInactive()
         #    mainWindow.minimize()
-        # mainWindow.flashFrame(true)
+        mainWindow.flashFrame(true) # uncommented in #1206
 
 textMessage = (cont, proxied, showMessage = true) ->
     if cont?.segment?
