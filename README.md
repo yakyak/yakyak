@@ -61,6 +61,7 @@ Yakyak may show up as iOS Device and Google may alert you that *"some iOS Device
 * [Max Kueng](https://github.com/maxkueng)
 * [Arnaud Riu](https://github.com/arnriu)
 * [Austin Guevara](https://github.com/austin-guevara)
+* [Mathias Tillman](https://github.com/HomerSp)
 
 ## Developing
 

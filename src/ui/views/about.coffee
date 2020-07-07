@@ -41,6 +41,7 @@ module.exports = view (models) ->
                 ul ->
                     li 'Davide Bertola'
                     li 'Martin Algesten'
+                    li 'André Veríssimo'
             div ->
                 h3 i18n.__('menu.help.about.contributors:Contributors')
                 ul ->
@@ -48,7 +49,8 @@ module.exports = view (models) ->
                     li 'Max Kueng'
                     li 'Arnaud Riu'
                     li 'Austin Guevara'
-                    li 'André Veríssimo'
+                    li 'Mathias Tillman'
+
         div class: 'home', ->
             href = "https://github.com/yakyak/yakyak"
             a href: href
