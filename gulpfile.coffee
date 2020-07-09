@@ -13,11 +13,11 @@ changed    = require 'gulp-changed'
 rename     = require 'gulp-rename'
 packager   = require 'electron-packager'
 flatpak    = try require 'electron-installer-flatpak'
+debian     = try require 'electron-installer-debian'
 filter     = require 'gulp-filter'
 Q          = require 'q'
 Stream     = require 'stream'
 spawn      = require('child_process').spawn
-debian     = require('electron-installer-debian')
 
 #
 #
@@ -236,6 +236,7 @@ names = {linux: [], win32: [], darwin: []}
 #
 
 zipIt = (folder, filePrefix, done) ->
+    # use zip
     ext = 'zip'
     zipName = path.join outdeploy, "#{filePrefix}.#{ext}"
     folder = path.basename folder
@@ -248,11 +249,25 @@ zipIt = (folder, filePrefix, done) ->
     compressIt('zip', args, opts, zipName, done)
 
 tarIt = (folder, filePrefix, done) ->
+    # use GNU tar to make gzipped tar archive
     ext = 'tar.gz'
     zipName = path.join outdeploy, "#{filePrefix}.#{ext}"
     folder = path.basename folder
     #
     args = ['-czf', zipName, folder]
+    opts = {
+        cwd: outdeploy
+        stdio: [0, 1, 'pipe']
+    }
+    compressIt('tar', args, opts, zipName, done)
+
+zipItWin = (folder, filePrefix, done) ->
+    # use built-in tar.exe to make zip archive
+    ext = 'zip'
+    zipName = path.join outdeploy, "#{filePrefix}.#{ext}"
+    folder = path.basename folder
+    #
+    args = ['-cf', zipName, folder]
     opts = {
         cwd: outdeploy
         stdio: [0, 1, 'pipe']
@@ -316,6 +331,10 @@ deploy = (platform, arch, cb) ->
 
                 if platform == 'linux'
                     tarIt zippath, fileprefix, ->
+                      cb()
+                      deferred.resolve()
+                else if platform == 'win32'
+                    zipItWin zippath, fileprefix, ->
                       cb()
                       deferred.resolve()
                 else
