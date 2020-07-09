@@ -13,11 +13,11 @@ changed    = require 'gulp-changed'
 rename     = require 'gulp-rename'
 packager   = require 'electron-packager'
 flatpak    = try require 'electron-installer-flatpak'
+debian     = try require 'electron-installer-debian'
 filter     = require 'gulp-filter'
 Q          = require 'q'
 Stream     = require 'stream'
 spawn      = require('child_process').spawn
-debian     = require('electron-installer-debian')
 
 #
 #
