@@ -419,8 +419,26 @@ archOpts.forEach (arch) ->
         options = {
             src: "dist/#{json.name}-linux-#{arch}"
             dest: 'dist/'
-            name: 'yakyak'
+            name: 'YakYak'
+            genericName: 'IM Client'
+            productName: 'YakYak'
+            version: json.version
             bin: 'yakyak'
+            desktopTemplate: 'resources/desktop.ejs'
+            icon:
+              '16x16': 'src/icons/icon_016.png'
+              '32x32': 'src/icons/icon_032.png'
+              '48x48': 'src/icons/icon_048.png'
+              '128x128': 'src/icons/icon_128.png',
+              '256x256': 'src/icons/icon_256.png',
+              '512x512': 'src/icons/icon_512.png',
+              'scalable': 'src/icons/yakyak-logo.svg',
+            categories: [
+              'GNOME'
+              'GTK'
+              'Network'
+              'InstantMessaging'
+            ]
         }
 
         if arch is 'ia32'
