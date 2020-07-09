@@ -61,7 +61,7 @@
     "auto-launch": "^5.0.5",
     "autosize": "^4.0.2",
     "bog": "^1.0.0",
-    "hangupsjs": "github:yakyak/hangupsjs",
+    "hangupsjs": "github:yakyak/hangupsjs#coffeescriptv2",
     "i18n": "^0.10.0",
     "mime-types": "^2.1.27",
     "moment": "^2.27.0",
@@ -79,7 +79,7 @@
   },
   "devDependencies": {
     "chai": "^4.2.0",
-    "coffeescript": "^1.9.3",
+    "coffeescript": "^2.5.1",
     "devtron": "^1.4.0",
     "electron": "^9.1.0",
     "electron-installer-debian": "^3.1.0",
