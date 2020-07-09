@@ -173,7 +173,8 @@ app.on 'ready', ->
         mainWindow.maximize()
         mainWindow.show()
         # this will also show more debugging from hangupsjs client
-        log.level('debug');
+        log.level 'debug'
+        client.loglevel 'debug'
         try
             require('devtron').install()
         catch
