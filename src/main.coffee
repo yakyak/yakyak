@@ -358,7 +358,7 @@ app.on 'ready', ->
         tray.currentImage = iconpath
 
         tray.setToolTip toolTip
-        tray.on 'click', -> action 'togglewindow'
+        tray.on 'click', -> ipcsend 'togglewindow'
 
         if menu
             # build functions that cannot be sent via ipc
