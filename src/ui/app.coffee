@@ -167,7 +167,9 @@ ipc.on 'init', (ev, data) -> dispatcher.init data
 require('./events').forEach (n) -> ipc.on n, (ev, data) -> action n, data
 
 # events from tray menu
-ipc.on 'menuaction', (ev, name) -> action name
+ipc.on 'menuaction', (ev, name) ->
+    console.log('menuaction from main process', name)
+    action name
 
 # response from getentity
 ipc.on 'getentity:result', (ev, r, data) ->

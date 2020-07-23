@@ -178,6 +178,7 @@ handle 'hideWindow', ->
     mainWindow.hide()
 
 handle 'togglewindow', ->
+    console.log('toggle window!')
     mainWindow = remote.getCurrentWindow() # And we hope we don't get another ;)
     if mainWindow.isVisible() then mainWindow.hide() else mainWindow.show()
 
