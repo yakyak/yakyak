@@ -58,7 +58,7 @@ json = JSON.parse(fs.readFileSync('./package.json'))
 deploy_options = {
     dir: path.join __dirname, 'app'
     asar:
-        unpackDir: "node_modules/node-notifier/vendor/**"
+        unpackDir: "{node_modules/node-notifier/vendor/**,icons}"
     icon: path.join __dirname, 'src', 'icons', 'icon'
     out: outdeploy
     overwrite: true
