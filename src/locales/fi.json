@@ -1,23 +1,28 @@
 {
 	"__MyLocaleLanguage__": "Finnish",
 	"__maintaner__": "https://github.com/survivor303",
-	"title": "YakYak - Hangouts sovellus",
+	
+    "title": "YakYak - Hangouts sovellus",
 	"description": "Työpöytäsovellus Google Hangouts palvelulle",
-	"settings": "Asetukset",
+	
+    "settings": "Asetukset",
 	"recent": "Viimeisimmät",
 	"details": "Asetukset",
-	"connection": {
+	
+    "connection": {
 		"connecting": "Yhdistää",
 		"loading": "Lataa kontakteja",
 		"not_connected": "Ei yhdistänyt (Tarkista yhteys!)"
 	},
-	"input": {
+	
+    "input": {
 		"message": "Viesti",
 		"emoticons": "Näytä hymiöt",
 		"image": "Liitä kuva",
 		"typing": "Kirjoittaa"
 	},
-	"conversation": {
+	
+    "conversation": {
 		"title": {
 			"one": "Keskustelu",
 			"other": "Keskustelut"
@@ -38,7 +43,8 @@
 		"new_message": "Uusi viesti vastaanotettu",
 		"new_attachment": "Uusi media vastaanotettu (kuva tai video)",
 		"open_link": "Avataan linkkiä selaimeen...",
-		"settings": "Conversation settings"
+		"settings": "Conversation settings",
+        "no_preview_image_click_to_open": "Ei kuvien esikatselua: Klikkaa avataksesi selaimessa"
 	},
 	"notification": {
 		"one": "Ilmoitus",
@@ -93,7 +99,8 @@
 			"title": "Näytä",
 			"emoji": "Muuta teksti hymiöksi",
 			"suggestemoji": "Suosittele hymiötä kirjoittaessa",
-			"hide_dock": "Piilota dockin kuvake",
+			"showimagepreview": "Näytä kuvien esikatselu",
+            "hide_dock": "Piilota dockin kuvake",
 			"fullscreen": "Aseta kokoruudulle",
 			"tray": {
 				"main": "Ilmaisinalueen kuvake",
@@ -111,7 +118,8 @@
 			},
 			"conversation": {
 				"title": "Keskustelulistaus",
-				"timestamp": "Näytä keskustelun aikaleima",
+				"new": "Uusi keskustelu",
+                "timestamp": "Näytä keskustelun aikaleima",
 				"last": "Näytä keskustelun viimeisin viesti",
 				"previous": "Edellinen keskustelu",
 				"next": "Seuraava keskustelu",
@@ -121,7 +129,6 @@
 					"only": "Näytä vain keskustelukuvakkeet",
 					"animated": "Näytä animoidut keskustelukuvakkeet"
 				},
-				"new": "Uusi keskustelu"
 			},
 			"notification": {
 				"title": "Pop-Up ilmoitukset",
@@ -156,7 +163,6 @@
 				"out": "Surenna ulos",
 				"reset": "Alkuperäinen koko"
 			},
-			"showimagepreview": "Näytä kuvien esikatselu"
 		},
 		"help": {
 			"title": "Apua",
@@ -174,9 +180,6 @@
 			"minimize": "Pienennä",
 			"close": "Sulje",
 			"front": "Tuo kaikki päällimäiseksi"
-		}
-	},
-	"window": {
-		"controls": "Minimize"
-	}
+        }
+    }
 }
