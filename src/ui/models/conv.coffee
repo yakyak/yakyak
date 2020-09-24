@@ -11,7 +11,7 @@ domerge = (id, props) -> lookup[id] = merge (lookup[id] ? {}), props
 add = (conv) ->
     # rejig the structure since it's insane
     if conv?.conversation?.conversation_id?.id
-        {conversation, event} = conv
+        {conversation, event = []} = conv
         conv = conversation
         # remove observed events
         conv.event = (e for e in event when !e.event_id.match(/observed_/))
