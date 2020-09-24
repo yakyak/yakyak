@@ -280,6 +280,12 @@ templateView = (viewstate) ->
                   click: -> action 'changetheme', 'dark'
               }
               {
+                  label: i18n.__('menu.view.color_scheme.darker:Darker')
+                  type: 'radio'
+                  checked: viewstate.colorScheme == 'darker'
+                  click: -> action 'changetheme', 'darker'
+              }
+              {
                   label: i18n.__('menu.view.color_scheme.material:Material')
                   type: 'radio'
                   checked: viewstate.colorScheme == 'material'
