@@ -78,7 +78,7 @@ findByEventId = (conv, event_id) ->
 
 findLastReadEventsByUser = (conv) ->
     last_seen_events_by_user = {}
-    for contact in conv.read_state
+    for contact in conv.read_state ? []
         chat_id = contact.participant_id.chat_id
         last_read = contact.last_read_timestamp ? contact.latest_read_timestamp
         for e in conv.event ? [] when e.timestamp <= last_read
