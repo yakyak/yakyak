@@ -64,7 +64,7 @@
     "hangupsjs": "github:yakyak/hangupsjs#coffeescriptv2",
     "i18n": "^0.10.0",
     "mime-types": "^2.1.27",
-    "moment": "^2.27.0",
+    "moment": "^2.28.0",
     "node-notifier": "^7.0.1",
     "notr": "^1.1.2",
     "q": "^1.5.1",
