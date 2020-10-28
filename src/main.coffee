@@ -152,6 +152,7 @@ app.on 'ready', ->
         spellcheck: true
         autohideMenuBar: true
         webPreferences: {
+            enableRemoteModule: true
             nodeIntegration: true
             # preload: path.join(app.getAppPath(), 'ui', 'app.js')
         }
@@ -217,6 +218,7 @@ app.on 'ready', ->
             icon: path.join __dirname, 'icons', 'icon.png'
             show: true
             webPreferences: {
+                enableRemoteModule: true
                 nodeIntegration: false
             }
         }
