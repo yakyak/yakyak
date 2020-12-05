@@ -12,7 +12,7 @@ describe 'userinput', ->
             msg = userinput.buildChatMessage sender, 'foo'
             eql msg.conv_id, 'c123'
             eql msg.image_id, undefined
-            eql msg.message_action_type, [[0, '']]
+            eql msg.message_action_type, [[null, '']]
             eql msg.segs, [[0,'foo']]
             eql msg.segsj, [{text:'foo', type:'TEXT'}]
             assert.isNotNull msg.client_generated_id
