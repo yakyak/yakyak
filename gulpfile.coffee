@@ -91,7 +91,8 @@ gulp.task 'package', ->
     gulp.src paths.package
 #        .pipe changed outapp
         .pipe gulp.dest outapp
-        .pipe reinstall({ production: true })
+        .pipe reinstall()
+        #.pipe reinstall({ production: true }) # electron-packager doesn't like this
 
 
 # compile coffeescript
