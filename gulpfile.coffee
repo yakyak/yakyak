@@ -5,7 +5,7 @@ rimraf     = require 'rimraf'
 path       = require 'path'
 fs         = require 'fs'
 sourcemaps = require 'gulp-sourcemaps'
-install    = require 'gulp-install'
+reinstall    = require 'gulp-reinstall'
 {execSync} = require 'child_process'
 concat     = require 'gulp-concat'
 liveReload = require 'gulp-livereload'
@@ -91,7 +91,7 @@ gulp.task 'package', ->
     gulp.src paths.package
 #        .pipe changed outapp
         .pipe gulp.dest outapp
-        .pipe install()
+        .pipe reinstall({ production: true })
 
 
 # compile coffeescript

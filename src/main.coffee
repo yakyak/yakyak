@@ -152,7 +152,9 @@ app.on 'ready', ->
         spellcheck: true
         autohideMenuBar: true
         webPreferences: {
+            enableRemoteModule: true
             nodeIntegration: true
+            contextIsolation: false
             # preload: path.join(app.getAppPath(), 'ui', 'app.js')
         }
         # autoHideMenuBar : true unless process.platform is 'darwin'
@@ -175,10 +177,11 @@ app.on 'ready', ->
         # this will also show more debugging from hangupsjs client
         log.level 'debug'
         client.loglevel 'debug'
-        try
-            require('devtron').install()
-        catch
-            # do nothing
+        # devtron in not maintained
+        #try
+        #    require('devtron').install()
+        #catch
+        #    # do nothing
 
     # and load the index.html of the app. this may however be yanked
     # away if we must do auth.

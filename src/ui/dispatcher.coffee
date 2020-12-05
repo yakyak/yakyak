@@ -395,7 +395,7 @@ handle 'delete', (a) ->
     conv.deleteConv conv_id
 
 handle 'setspellchecklanguage', (language) ->
-      viewstate.setSpellCheckLanguage(language, remote.getCurrentWindow())
+    viewstate.setSpellCheckLanguage(language, remote.getCurrentWindow())
 
 #
 #
