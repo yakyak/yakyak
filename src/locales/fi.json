@@ -2,27 +2,24 @@
 	"__MyLocaleLanguage__": "Finnish",
 	"__maintaner__": "https://github.com/survivor303",
 
-    "title": "YakYak - Hangouts sovellus",
+  "title": "YakYak - Hangouts sovellus",
 	"description": "Työpöytäsovellus Google Hangouts palvelulle",
 
-    "settings": "Asetukset",
+  "settings": "Asetukset",
 	"recent": "Viimeisimmät",
 	"details": "Asetukset",
-
-    "connection": {
+  "connection": {
 		"connecting": "Yhdistää",
 		"loading": "Lataa kontakteja",
 		"not_connected": "Ei yhdistänyt (Tarkista yhteys!)"
 	},
-
-    "input": {
+  "input": {
 		"message": "Viesti",
 		"emoticons": "Näytä hymiöt",
 		"image": "Liitä kuva",
 		"typing": "Kirjoittaa"
 	},
-
-    "conversation": {
+  "conversation": {
 		"title": {
 			"one": "Keskustelu",
 			"other": "Keskustelut"
@@ -44,7 +41,7 @@
 		"new_attachment": "Uusi media vastaanotettu (kuva tai video)",
 		"open_link": "Avataan linkkiä selaimeen...",
 		"settings": "Conversation settings",
-        "no_preview_image_click_to_open": "Ei kuvien esikatselua: Klikkaa avataksesi selaimessa"
+    "no_preview_image_click_to_open": "Ei kuvien esikatselua: Klikkaa avataksesi selaimessa"
 	},
 	"notification": {
 		"one": "Ilmoitus",
