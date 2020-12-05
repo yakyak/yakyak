@@ -1,0 +1,185 @@
+{
+    "__MyLocaleLanguage__": "Estonian",
+    "__maintaner__": "http://github.com/TmxNoob",
+
+    "title": "YakYak - Hangoutsi Klient",
+    "description": "Töölaua klient Google Hangoutsile",
+
+    "settings": "Seaded",
+    "recent": "Hiljutised",
+    "details": "Detailid",
+
+    "connection" :{
+        "connecting": "Ühendan",
+        "loading": "Laen kontakte",
+        "not_connected": "Ühendus puudub (kontrolli võrku)"
+    },
+
+    "input": {
+        "message": "Sõnum",
+        "emoticons": "Näita emotikone",
+        "image": "Lisa pilt",
+        "typing": "kirjutab"
+    },
+
+    "conversation": {
+        "title": {
+            "one": "Vestlus",
+            "other": "Vestlused"
+        },
+        "numbered": "Vestlus %d",
+        "options": "Conversation Options",
+        "setting": "Vestluse seaded",
+        "add": "Lisa uus vestlus",
+        "new": "Uus vestlus",
+        "name": "Vestluse nimi",
+        "edit": "Muuda vestlust",
+        "multiuser": "Tee mitme kasutajaga vestlus",
+        "delete": "Kustuta vestlus",
+        "delete_confirm": "Olete kindel et tahate vestluse kustutada?",
+        "delete_error": "Vestluse kustutamisel ilmnes viga",
+        "leave": "Lahku vestlusest",
+        "leave_confirm": "Olete kindel et tahata vestlusest lahkuda?",
+        "search": "Otsi inimesi",
+        "new_message": "Uus sõnum vastu võetud",
+        "new_attachment": "Uus meediasõnum vastu võetud",
+        "open_link": "Lingi avaminen veebibrauseris...",
+        "no_preview_image_click_to_open": "Piltide eelvaade keelatud: klõpsake brauseris avamiseks"
+    },
+    "notification": {
+        "one": "Teavitus",
+        "other": "Teavitused"
+    },
+    "favorite": {
+        "title": {
+            "one": "Lemmik",
+            "other": "Lemmikud"
+        },
+        "star_it": "Tähi / Eemalda täht"
+    },
+    "actions": {
+      "ok": "OK",
+      "cancel": "Tühista"
+    },
+    "call": {
+        "incoming": "Sissetulev kõne",
+        "incoming_from": "Sissetulev kõne kasutajalt %s",
+        "accepted": "Vastatud",
+        "accept": "Vasta",
+        "rejected": "Keeldutud",
+        "reject": "Keeldu",
+        "missed": "Vastamata kõne kasutajalt %s"
+    },
+    "menu": {
+        "title": "Menüü",
+        "file": {
+            "title": "YakYak",
+            "hide": "Peida YakYak",
+            "hide_others": "Peida Muud",
+            "show": "Näita Kõik",
+            "inspector": "Ava Elemendi Inspektor",
+            "logout": "Logi Välja",
+            "quit": "Välju"
+        },
+        "edit": {
+            "title": "Muuda",
+            "undo": "Võta Tagasi",
+            "redo": "Tee Uuesti",
+            "paste": "Kleebi",
+            "cut": "Lõika",
+            "copy": "Kopeeri",
+            "copy_image_link": "Kopeeri Pildi Link",
+            "copy_link": "Kopeeri Link",
+            "copy_image": "Kopeeri Pilt",
+            "select_all": "Vali kõik",
+            "language": "Keel (Language)",
+            "dateformat": "Kasuta süsteemi aja formaati"
+        },
+        "view": {
+            "title": "Vaade",
+            "emoji": "Muuda tekst emotikonideks",
+            "suggestemoji": "Soovita emotikone kirjutades",
+            "showimagepreview": "Näita pildi eelvaade",
+            "hide_dock": "Peida Doki ikoon",
+            "fullscreen": "Lülita täisekraanile",
+            "tray": {
+                "main": "Tegumiriba ikoon",
+                "show_tray": "Näita aken",
+                "show_window": "Näita akent",
+                "toggle_minimize": "Peida/Näita aken",
+                "start_minimize": "Käivita peidetult",
+                "close": "Akna sulgemisel jää tegumiribale"
+            },
+            "escape": {
+                "title": "Escape klahvi käitumine",
+                "hide": "Peidab akna",
+                "clear": "Tühjendab sisendi",
+                "default": "vaikimisi kui tegumiriba ei ole nähtaval"
+            },
+            "conversation": {
+                "title": "Vestluste Loend",
+                "new": "Uus Vestlus",
+                "timestamp": "Näita Viimane Vestluse Aeg",
+                "last": "Näita Vestluse Viimane Sõnum",
+                "previous": "Eelmine Vestlus",
+                "next": "Järgmine Vestlus",
+                "select": "Vali vestlus",
+                "thumbnails": {
+                    "show": "Näita Pisipildid",
+                    "only": "Näita Ainult Pisipildid",
+                    "animated": "Näita Animeeritud Pisipildid"
+                }
+            },
+            "notification": {
+                "title": "Pop-Up Teavitused",
+                "show": "Näita teavitused",
+                "toggle": "Toggle notifications",
+                "message": "Näita sõnumi sisu teavituses",
+                "username": "Näita kasutajanimi teavituses",
+                "mute": "Vaigista teavitused",
+                "avatar": "Näita kasutaja pilt teavituses",
+                "icon": "Näita YakYak ikoon teavituses",
+                "custom_sound": "Kasuta YakYaki oma teavituste heli"
+            },
+            "color_scheme": {
+                "title": "Värviskeem",
+                "default": "Originaal",
+                "blue": "Sinine",
+                "dark": "Tume",
+                "material": "Material",
+                "pop": "Pop",
+                "gruvy": "Gruvy"
+            },
+            "font": {
+                "title": "Fondi Suurus",
+                "extra_small": "Väga Väike",
+                "small": "Väike",
+                "medium": "Keskmine",
+                "large": "Suur",
+                "extra_large": "Väga Suur"
+            },
+            "zoom": {
+                "in": "Suumi sisse",
+                "out": "Suumi välja",
+                "reset": "Algne suurus"
+            }
+        },
+        "help": {
+            "title": "Abi",
+            "about": {
+                "title": "YakYak-i kohta",
+                "newer": "Uuem versioon on saadaval, palun uuendage versioonilt %s versioonile %s",
+                "license": "Lisents",
+                "authors": "Autorid",
+                "contributors": "Toetajad",
+                "startup": "Ava Arvuti Käivitumisel"
+            }
+        },
+        "window": {
+            "title": "Aken",
+            "minimize": "Minimeeri",
+            "close": "Sule",
+            "front": "Too Kõik Ette"
+        }
+    }
+}
