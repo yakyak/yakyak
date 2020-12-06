@@ -61,6 +61,8 @@
     "auto-launch": "^5.0.5",
     "autosize": "^4.0.2",
     "bog": "^1.0.0",
+    "electron-installer-debian": "^3.1.0",
+    "electron-installer-flatpak": "^0.6.0",
     "got": "^11.8.0",
     "hangupsjs": "github:yakyak/hangupsjs#coffeescriptv2",
     "i18n": "^0.11.0",
@@ -75,14 +77,14 @@
     "uber-url-regex": "^5.0.9"
   },
   "optionalDependencies": {
-    "electron-installer-flatpak": "^0.6.0",
-    "electron-installer-debian": "^3.1.0"
+    "electron-installer-debian": "^3.1.0",
+    "electron-installer-flatpak": "^0.6.0"
   },
   "devDependencies": {
     "chai": "^4.2.0",
     "coffeescript": "^2.5.1",
     "electron": "^11.0.3",
-    "electron-packager": "^15.0.0",
+    "electron-packager": "^15.1.0",
     "gulp": "^4.0.2",
     "gulp-changed": "^4.0.2",
     "gulp-coffee": "^3.0.3",
