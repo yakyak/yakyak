@@ -67,7 +67,7 @@
     "electron-installer-flatpak": "^0.6.0",
     "got": "^11.8.0",
     "hangupsjs": "github:yakyak/hangupsjs#coffeescriptv2",
-    "i18n": "^0.11.0",
+    "i18n": "^0.13.2",
     "mime-types": "^2.1.27",
     "moment": "^2.28.0",
     "node-notifier": "^9.0.0",
