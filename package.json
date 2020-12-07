@@ -62,7 +62,7 @@
     "autosize": "^4.0.2",
     "bog": "^1.0.0",
     "electron-installer-debian": "^3.1.0",
-    "electron-installer-flatpak": "^0.6.0",
+    "electron-installer-flatpak": "^0.8.0",
     "got": "^11.8.0",
     "hangupsjs": "github:yakyak/hangupsjs#coffeescriptv2",
     "i18n": "^0.11.0",
