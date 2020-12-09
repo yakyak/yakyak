@@ -30,7 +30,8 @@ before_deploy:
   # actuall building of the binaries
   - npm run -loglevel ${NPM_DEBUG_LEVEL} deploy:linux-x64
   - npm run -loglevel ${NPM_DEBUG_LEVEL} deploy:linux-ia32
-  - npm run -loglevel ${NPM_DEBUG_LEVEL} deploy:darwin
+  - npm run -loglevel ${NPM_DEBUG_LEVEL} deploy:darwin-x64
+  - npm run -loglevel ${NPM_DEBUG_LEVEL} deploy:darwin-arm64
   - xvfb-run npm run -loglevel ${NPM_DEBUG_LEVEL} deploy:win32
   #
   # RPM and DEB binaries
@@ -77,7 +78,8 @@ deploy:
   api_key: "${API_KEY}"
   # files to copy to github release
   file:
-    - "dist/yakyak-${YAKYAK_VERSION}-osx.zip"
+    - "dist/yakyak-${YAKYAK_VERSION}-osx-x64.zip"
+    - "dist/yakyak-${YAKYAK_VERSION}-osx-arm64.zip"
 #
     - "dist/yakyak-${YAKYAK_VERSION}-linux-x64.tar.gz"
     - "dist/yakyak-${YAKYAK_VERSION}-linux-x64.rpm"

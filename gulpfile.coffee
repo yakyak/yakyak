@@ -51,7 +51,7 @@ paths =
 outdeploy = path.join __dirname, 'dist'
 
 platformOpts = ['linux', 'darwin', 'win32']
-archOpts =     ['x64','ia32']
+archOpts =     ['x64','ia32','arm64']
 
 json = JSON.parse(fs.readFileSync('./package.json'))
 
@@ -326,10 +326,7 @@ deploy = (platform, arch, cb) ->
                     cb()
                     return deferred.resolve()
                 zippath = "#{appPaths[0]}/"
-                if platform == 'darwin'
-                    fileprefix = "yakyak-#{json.version}-osx"
-                else
-                    fileprefix = "yakyak-#{json.version}-#{platform}-#{arch}"
+                fileprefix = "yakyak-#{json.version}-#{platform}-#{arch}"
 
                 if platform == 'linux'
                     tarIt zippath, fileprefix, ->
