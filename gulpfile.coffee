@@ -326,7 +326,10 @@ deploy = (platform, arch, cb) ->
                     cb()
                     return deferred.resolve()
                 zippath = "#{appPaths[0]}/"
-                fileprefix = "yakyak-#{json.version}-#{platform}-#{arch}"
+                if platform == 'darwin'
+                    fileprefix = "yakyak-#{json.version}-osx-#{arch}"
+                else
+                    fileprefix = "yakyak-#{json.version}-#{platform}-#{arch}"
 
                 if platform == 'linux'
                     tarIt zippath, fileprefix, ->
