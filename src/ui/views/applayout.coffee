@@ -27,12 +27,20 @@ onScroll = throttle 20, (ev) ->
     el = ev.target
     child = el.children[0]
 
+    # use the saved scroll value if we have one
+    if el.hasAttribute('scrolltop')
+        el.scrollTop = el.getAttribute('scrolltop')
+        el.removeAttribute('scrolltop')
+
     # calculation to see whether we are at the bottom with a tolerance value
     atbottom = (el.scrollTop + el.offsetHeight) >= (child.offsetHeight - 10)
     action 'atbottom', atbottom
 
     # check whether we are at the top with a tolerance value
-    attop = el.scrollTop <= (el.offsetHeight / 2)
+    if el.scrollTop < 0
+        attop = child.offsetHeight - el.offsetHeight + el.scrollTop <= el.offsetHeight / 2
+    else
+        attop = el.scrollTop <= (el.offsetHeight / 2)
     action 'attop', attop
 
 addClass = (el, cl) ->
@@ -131,18 +139,11 @@ do ->
         return last
 
     exp.recordMainPos = ->
-        el = lastVisibleMessage()
-        id = el?.id
-        return unless el and id
-        ofs = topof el
+        ofs = document.querySelector('.main').scrollTop
 
     exp.adjustMainPos = ->
-        return unless id and ofs
-        el = document.getElementById id
-        nofs = topof el
-        # the size of the inserted elements
-        inserted = nofs - ofs
-        screl = document.querySelector('.main')
-        screl.scrollTop = screl.scrollTop + inserted
+        return unless ofs
+        document.querySelector('.main').scrollTop = ofs
+        document.querySelector('.main').setAttribute('scrolltop', ofs)
         # reset
         id = ofs = null
