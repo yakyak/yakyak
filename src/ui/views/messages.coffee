@@ -293,7 +293,7 @@ scrollToBottom = module.exports.scrollToBottom = ->
     # ensure we're scrolled to bottom
     el = document.querySelector('.main')
     # to bottom
-    el.scrollTop = Number.MAX_SAFE_INTEGER
+    el.scrollTop = 0
 
 
 ifpass = (t, f) -> if t then f else pass
