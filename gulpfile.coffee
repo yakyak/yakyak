@@ -335,7 +335,7 @@ deploy = (platform, arch, cb) ->
                     tarIt zippath, fileprefix, ->
                       cb()
                       deferred.resolve()
-                else if platform == 'win32'
+                else if platform == 'win32' && process.platform == 'win32'
                     zipItWin zippath, fileprefix, ->
                       cb()
                       deferred.resolve()
