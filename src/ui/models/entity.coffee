@@ -68,7 +68,27 @@ funcs =
         lookup[id].presence = p
         updated 'entity'
 
+    setLastSeen: (id, lastseen) ->
+        return needEntity(id) if not lookup[id]
+        lookup[id].lastseen = lastseen
+        lookup[id].presence = true
+        updated 'entity'
+
     isSelf: (chat_id) -> return !!lookup.self and lookup[chat_id] == lookup.self
+
+    updatePresence: ->
+        if lookup.self?.lastseen?
+            changed = false
+            cutoff = lookup.self.lastseen - (60 * 15)
+            for k, v of lookup when v.presence
+                if !v.lastseen?
+                    v.lastseen = lookup.self.lastseen
+
+                if v.lastseen <= cutoff
+                    v.presence = false
+                    changed = true
+
+            updated 'entity' if changed
 
     _reset: ->
         delete lookup[k] for k, v of lookup when typeof v == 'object'
