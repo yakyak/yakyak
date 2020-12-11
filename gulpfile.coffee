@@ -306,7 +306,7 @@ deploy = (platform, arch, cb) ->
     opts.arch = arch
     #
     # restriction darwin won't compile ia32
-    if platform == 'darwin' && arch == 'ia32'
+    if platform is 'darwin' and arch is 'ia32'
         cb()
         deferred.resolve()
         return deferred.promise
@@ -317,6 +317,7 @@ deploy = (platform, arch, cb) ->
     if platform == 'darwin'
         packOpts.name = 'YakYak'
     #
+    console.log('packOpts', packOpts)
     packager(packOpts)
         .catch (error) ->
             console.error(error)
@@ -368,9 +369,12 @@ archOpts.forEach (arch) ->
             else if target is 'deb'
                 archName = 'amd64'
                 archNameSuffix = 'amd64'
-            else
+            else if arch is 'x64'
                 archName = 'x86_64'
                 archNameSuffix = 'x64'
+            else
+                archName = arch
+                archNameSuffix = arch
 
             if target == 'pacman'
                 suffix = 'tar.gz'
@@ -464,8 +468,10 @@ archOpts.forEach (arch) ->
 
         if arch is 'ia32'
             options.arch = 'i386'
-        else
+        else if arch is 'x64'
             options.arch = 'amd64'
+        else
+            options.arch = arch
 
         options.rename = (dest, src) -> path.join(dest, "#{json.name}-#{json.version}-linux-#{options.arch}.deb")
         debian options

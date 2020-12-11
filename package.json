@@ -14,6 +14,7 @@
     "deploy:linux": "gulp deploy:linux",
     "deploy:win32": "gulp deploy:win32",
     "deploy:darwin": "gulp deploy:darwin",
+    "deploy:linux-arm64": "gulp deploy:linux-arm64",
     "deploy:linux-x64": "gulp deploy:linux-x64",
     "deploy:linux-x64:deb": "gulp deploy:linux-x64:deb",
     "deploy:linux-x64:flatpak": "gulp deploy:linux-x64:flatpak",
