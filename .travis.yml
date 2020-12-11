@@ -29,6 +29,7 @@ before_deploy:
   #
   # actuall building of the binaries
   - npm run -loglevel ${NPM_DEBUG_LEVEL} deploy:linux-x64
+  - npm run -loglevel ${NPM_DEBUG_LEVEL} deploy:linux-arm64
   - npm run -loglevel ${NPM_DEBUG_LEVEL} deploy:linux-ia32
   - npm run -loglevel ${NPM_DEBUG_LEVEL} deploy:darwin-x64
   - npm run -loglevel ${NPM_DEBUG_LEVEL} deploy:darwin-arm64
@@ -50,8 +51,8 @@ before_deploy:
   # Flatpak
   # install flatpak dependencies
   #
-  # Commented out as it is not working
-  #
+  ## Commented out as it is not working
+  ##
   #- sudo add-apt-repository ppa:alexlarsson/flatpak -y
   #- sudo apt-get update -qq
   #- sudo apt-get install flatpak-builder flatpak -qq
