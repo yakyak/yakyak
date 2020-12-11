@@ -381,13 +381,13 @@ app.on 'ready', ->
     # retried if not sent successfully
     ipc.on 'querypresence', seqreq (ev, id) ->
         client.querypresence(id).then (r) ->
-            ipcsend 'querypresence:result', r.presence_result[0]
+            ipcsend 'querypresence:result', r.presenceResult[0]
         , false, -> 1
 
     ipc.on 'initpresence', (ev, l) ->
         for p, i in l when p != null
             client.querypresence(p.id).then (r) ->
-                ipcsend 'querypresence:result', r.presence_result[0]
+                ipcsend 'querypresence:result', r.presenceResult[0]
             , false, -> 1
 
     # no retry, only one outstanding call

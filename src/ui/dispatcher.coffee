@@ -69,7 +69,8 @@ handle 'watermark', (ev) ->
     conv.addWatermark ev
 
 handle 'presence', (ev) ->
-    entity.setPresence ev[0][0][0][0], if ev[0][0][1][1] == 1 then true else false
+    entity.setLastSeen ev[0][0][0][0], Math.floor(ev[0][0][1][9] / 1000000)
+    entity.updatePresence()
 
 # handle 'self_presence', (ev) ->
 #     console.log 'self_presence', ev
@@ -79,9 +80,9 @@ handle 'querypresence', (id) ->
 
 handle 'setpresence', (r) ->
     if not r?.presence?.available?
-        console.log "setpresence: User '#{nameof entity[r?.user_id?.chat_id]}' does not show his/hers/it status", r
+        console.log "setpresence: User '#{nameof entity[r?.userId?.chatId]}' does not show his/hers/it status", r
     else
-        entity.setPresence r.user_id.chat_id, r?.presence?.available
+        entity.setPresence r.userId.chatId, r?.presence?.available
 
 handle 'update:unreadcount', ->
     console.log 'update'
@@ -198,6 +199,7 @@ handle 'showwindow', ->
 sendsetpresence = throttle 10000, ->
     ipc.send 'setpresence'
     ipc.send 'setactiveclient', true, 15
+    entity.updatePresence()
 resendfocus = throttle 15000, -> ipc.send 'setfocus', viewstate.selectedConv
 
 # on every keep alive signal from hangouts
