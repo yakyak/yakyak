@@ -187,6 +187,12 @@ app.on 'ready', ->
     # away if we must do auth.
     loadAppWindow()
 
+    mainWindow.on 'maximize', ->
+        ipcsend 'mainwindow.maximize'
+
+    mainWindow.on 'unmaximize', ->
+        ipcsend 'mainwindow.unmaximize'
+
     #
     #
     # Handle uncaught exceptions from the main process
