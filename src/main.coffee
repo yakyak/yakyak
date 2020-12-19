@@ -220,6 +220,7 @@ app.on 'ready', ->
             icon: path.join __dirname, 'icons', 'icon.png'
             show: true
             webPreferences: {
+                enableRemoteModule: true
                 nodeIntegration: false
             }
         }
