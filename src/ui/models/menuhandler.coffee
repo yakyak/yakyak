@@ -14,6 +14,7 @@ menuaction = (mainWindow, it) ->
 
         mainWindow.webContents.send 'menuaction', it.action.name, params
     else
+        console.error('menuaction', it.action.name)
         mainWindow.webContents.send 'menuaction', it.action.name
 
 processMenu = (mainWindow, template) =>

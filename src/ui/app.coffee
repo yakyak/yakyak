@@ -264,7 +264,7 @@ ipc.on 'mainwindow.webcontents.context-menu', (event, params) ->
                viewstate.STATE_ADD_CONVERSATION,
                viewstate.STATE_ABOUT].includes(viewstate.state)
     if canShow
-        contextmenu(params, viewstate).popup remote.getCurrentWindow()
+        ipc.send 'menu.popup', contextmenu(params, viewstate)
 
 
 # tell the startup state

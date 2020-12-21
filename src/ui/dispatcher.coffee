@@ -393,6 +393,18 @@ handle 'delete', (a) ->
 handle 'setspellchecklanguage', (language) ->
     viewstate.setSpellCheckLanguage(language)
 
+handle 'replacemisspelling', (p) ->
+    ipc.send 'mainwindow.webcontents.replacemisspelling', p
+
+handle 'saveimage', (url) ->
+    ipc.send 'downloadurl', url
+
+handle 'copytext', (text) ->
+    if process.platform == 'darwin'
+        clipboard.writeBookmark text, text
+    else
+        clipboard.writeText text
+
 #
 #
 # Change language in YakYak

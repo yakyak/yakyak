@@ -288,6 +288,15 @@ app.on 'ready', ->
     ipc.on 'menu.setapplicationmenu', (event, template) ->
         Menu.setApplicationMenu require('./ui/models/menuhandler')(mainWindow, template)
 
+    ipc.on 'menu.popup', (event, template) ->
+        require('./ui/models/menuhandler')(mainWindow, template).popup mainWindow
+
+    ipc.on 'downloadurl', (event, url) ->
+        try
+            require('electron-dl').download mainWindow, url, {saveAs: true}
+        catch err
+            console.log 'Possible problem with saving image. ', err
+
     #
     #
     # Handle uncaught exceptions from the main process
