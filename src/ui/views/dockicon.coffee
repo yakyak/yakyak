@@ -1,5 +1,4 @@
-app = require('electron').remote.require('electron').app
-
+ipc  = require('electron').ipcRenderer
 # calling show multiple times makes the osx app flash
 # therefore we remember here if the dock is already shown
 # and we avoid re-calling app.dock.show() multiple times
@@ -10,10 +9,10 @@ module.exports = (viewstate) ->
 
   if viewstate.hidedockicon and (dockAlreadyVisible is true)
     console.log 'hiding dock'
-    app.dock.hide()
+    ipc.send 'app.dock.hide'
     dockAlreadyVisible = false
 
   if not viewstate.hidedockicon and (dockAlreadyVisible is false)
     console.log 'showing dock'
-    app.dock.show()
+    ipc.send 'app.dock.show'
     dockAlreadyVisible = true

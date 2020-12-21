@@ -1,5 +1,4 @@
 Client = require 'hangupsjs'
-remote = require('electron').remote
 ipc    = require('electron').ipcRenderer
 
 
@@ -161,8 +160,7 @@ handle 'mutesoundnotification', ->
     viewstate.setMuteSoundNotification(not viewstate.muteSoundNotification)
 
 handle 'togglemenu', ->
-    # Deprecated in electron >= 7.0.0
-    remote.Menu.getApplicationMenu().popup({})
+    ipc.send 'applicationmenu.popup'
 
 handle 'setescapeclearsinput', (value) ->
     viewstate.setEscapeClearsInput(value)
@@ -175,13 +173,10 @@ handle 'show-about', ->
     updated 'viewstate'
 
 handle 'hideWindow', ->
-    mainWindow = remote.getCurrentWindow() # And we hope we don't get another ;)
-    mainWindow.hide()
+    ipc.send 'mainwindow.hide'
 
 handle 'togglewindow', ->
-    console.log('toggle window!')
-    mainWindow = remote.getCurrentWindow() # And we hope we don't get another ;)
-    if mainWindow.isVisible() then mainWindow.hide() else mainWindow.show()
+    ipc.send 'mainwindow.toggle'
 
 handle 'togglecolorblind', ->
     viewstate.setColorblind(not viewstate.colorblind)
@@ -193,8 +188,7 @@ handle 'toggleclosetotray', ->
     viewstate.setCloseToTray(not viewstate.closetotray)
 
 handle 'showwindow', ->
-    mainWindow = remote.getCurrentWindow() # And we hope we don't get another ;)
-    mainWindow.show()
+    ipc.send 'mainwindow.show'
 
 sendsetpresence = throttle 10000, ->
     ipc.send 'setpresence'
@@ -397,7 +391,7 @@ handle 'delete', (a) ->
     conv.deleteConv conv_id
 
 handle 'setspellchecklanguage', (language) ->
-    viewstate.setSpellCheckLanguage(language, remote.getCurrentWindow())
+    viewstate.setSpellCheckLanguage(language)
 
 #
 #
@@ -530,7 +524,7 @@ handle 'changefontsize', (fontsize) ->
     viewstate.setFontSize fontsize
 
 handle 'devtools', ->
-    remote.getCurrentWindow().openDevTools detach:true
+    ipc.send 'mainwindow.devtools.open'
 
 handle 'quit', ->
     ipc.send 'quit'
@@ -560,13 +554,10 @@ handle 'initopenonsystemstartup', (isEnabled) ->
     viewstate.initOpenOnSystemStartup isEnabled
 
 handle 'minimize', ->
-    mainWindow = remote.getCurrentWindow()
-    mainWindow.minimize()
+    ipc.send 'mainwindow.minimize'
 
 handle 'resizewindow', ->
-    mainWindow = remote.getCurrentWindow()
-    if mainWindow.isMaximized() then mainWindow.unmaximize() else mainWindow.maximize()
+    ipc.send 'mainwindow.resize'
 
 handle 'close', ->
-    mainWindow = remote.getCurrentWindow()
-    mainWindow.close()
+    ipc.send 'mainwindow.close'

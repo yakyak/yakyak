@@ -1,4 +1,5 @@
-remote        = require('electron').remote
+remote        = require('@electron/remote')
+ipc           = require('electron').ipcRenderer
 clipboard     = require('electron').clipboard
 # {download}  = require('electron-dl') # See IMPORTANT below
 ContextMenu = remote.Menu
@@ -7,7 +8,7 @@ ContextMenu = remote.Menu
 
 contents = remote.getCurrentWindow().webContents
 session = contents.session
-availableLanguages = session.availableSpellCheckerLanguages
+availableLanguages = ipc.sendSync 'session.availablesclanguages'
 
 templateContext = (params, viewstate) ->
     #
@@ -30,7 +31,7 @@ templateContext = (params, viewstate) ->
         { label: label, click: -> action 'setspellchecklanguage', el}
 
     [
-      ...params.dictionarySuggestions.map (el) -> { label: el, click: -> contents.replaceMisspelling(el)}
+      ...params.dictionarySuggestions.map (el) -> { label: el, click: -> ipc.send 'mainwindow.webcontents.replacemisspelling', el}
       {
         type: 'separator'
         visible: params?.dictionarySuggestions?.length > 0

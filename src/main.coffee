@@ -7,6 +7,9 @@ path      = require 'path'
 tmp       = require 'tmp'
 session   = require('electron').session
 log       = require('bog');
+screen    = require('electron').screen
+
+require('@electron/remote/main').initialize()
 
 [drive, path_parts...] = path.normalize(__dirname).split(path.sep)
 global.YAKYAK_ROOT_DIR = [drive, path_parts.map(encodeURIComponent)...].join('/')
@@ -192,6 +195,95 @@ app.on 'ready', ->
 
     mainWindow.on 'unmaximize', ->
         ipcsend 'mainwindow.unmaximize'
+
+    mainWindow.on 'focus', ->
+        ipcsend 'mainwindow.focus'
+
+    mainWindow.on 'unresponsive', (error) ->
+        ipcsend 'mainwindow.unresponsive', error
+
+    mainWindow.on 'responsive', ->
+        ipcsend 'mainwindow.responsive'
+
+    mainWindow.webContents.on 'context-menu', (e, params) ->
+        e.preventDefault()
+        ipcsend 'mainwindow.webcontents.context-menu', params
+
+    ipc.on 'app.version', (event) ->
+        event.returnValue = app.getVersion()
+
+    ipc.on 'applicationmenu.popup', ->
+        Menu.getApplicationMenu().popup({})
+
+    ipc.on 'mainwindow.getsize', (event) ->
+        event.returnValue = mainWindow.getSize()
+
+    ipc.on 'mainwindow.setsize', (event, size) ->
+        mainWindow.setSize size...
+
+    ipc.on 'mainwindow.setposition', (event, x, y) ->
+        mainWindow.setPosition(x, y)
+
+    ipc.on 'mainwindow.hide', ->
+        mainWindow.hide()
+
+    ipc.on 'mainwindow.showifcred', ->
+        mainWindow.show() if !global.windowHideWhileCred? || global.windowHideWhileCred != true
+
+    ipc.on 'mainwindow.toggle', ->
+        if mainWindow.isVisible() then mainWindow.hide() else mainWindow.show()
+
+    ipc.on 'mainwindow.show', ->
+        mainWindow.show()
+
+    ipc.on 'mainwindow.flashframe', ->
+        mainWindow.flashFrame(true) # uncommented in #1206
+
+    ipc.on 'mainwindow.minimize', ->
+        mainWindow.minimize()
+
+    ipc.on 'mainwindow.resize', ->
+        if mainWindow.isMaximized() then mainWindow.unmaximize() else mainWindow.maximize()
+
+    ipc.on 'mainwindow.close', ->
+        mainWindow.close()
+
+    ipc.on 'mainwindow.setmenubarvisibility', (event, visible) ->
+        mainWindow.setMenuBarVisibility(visible)
+
+    ipc.handle "mainwindow.visibleandfocused", ->
+        return mainWindow.isVisible() and mainWindow.isFocused()
+
+    ipc.on 'mainwindow.webcontents.focus', ->
+        mainWindow.webContents.focus()
+
+    ipc.on 'mainwindow.webcontents.replacemisspelling', (event, el) ->
+        mainWindow.webContents.replaceMisspelling el
+
+    ipc.on 'mainwindow.devtools.open', ->
+        mainWindow.openDevTools detach:true
+
+    ipc.on 'session.availablesclanguages', (event) ->
+        event.returnValue = mainWindow.webContents.session.availableSpellCheckerLanguages
+
+    ipc.on 'session.setsclanguage', (event, lang) ->
+        console.error('setsclanguage', lang)
+        if lang is 'none'
+            mainWindow.webContents.session.setSpellCheckerLanguages([])
+        else
+            mainWindow.webContents.session.setSpellCheckerLanguages([lang])
+
+    ipc.on 'app.dock.show', ->
+        app.dock.show()
+
+    ipc.on 'app.dock.hide', ->
+        app.dock.hide()
+
+    ipc.on 'screen.displays', (event) ->
+        event.returnValue = screen.getAllDisplays()
+
+    ipc.on 'global.forceclose', (event) ->
+        event.returnValue = global.forceClose
 
     #
     #

@@ -1,15 +1,13 @@
 ipc  = require('electron').ipcRenderer
 path = require 'path'
 i18n = require 'i18n'
-remote = require('electron').remote
-Menu   = remote.Menu
 
 {check, versionToInt} = require '../version'
 
 module.exports = view (models) ->
     #
     # decide if should update
-    localVersion    = remote.require('electron').app.getVersion()
+    localVersion    = ipc.sendSync "app.version"
     releasedVersion = window.localStorage.versionAdvertised
     shouldUpdate    = releasedVersion? && localVersion? &&
                       versionToInt(releasedVersion) > versionToInt(localVersion)

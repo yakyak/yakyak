@@ -1,4 +1,4 @@
-remote = require('electron').remote
+ipc = require('electron').ipcRenderer
 
 {
   applayout, convlist, listhead, messages, convhead, input, conninfo,
@@ -70,7 +70,7 @@ handle 'update:viewstate', ->
     # STATE_ADD_CONVERSATION : conversation list on the left and new / modify conversation on the main window
     if viewstate.state == viewstate.STATE_STARTUP
         if Array.isArray viewstate.size
-            later -> remote.getCurrentWindow().setSize viewstate.size...
+            ipc.send 'mainwindow.setsize', viewstate.size
         #
         #
         # It will not allow the window to be placed offscreen (fully or partial)
@@ -87,9 +87,9 @@ handle 'update:viewstate', ->
             xWindowPos = viewstate.pos[0]
             yWindowPos = viewstate.pos[1]
             # window size to be used in rounding the position, i.e. avoiding partial offscreen
-            winSize = remote.getCurrentWindow().getSize()
+            winSize = ipc.sendSync 'mainwindow.getsize'
             # iterate on all displays to see if the desired position is valid
-            for screen in remote.screen.getAllDisplays()
+            for screen in ipc.sendSync 'screen.displays'
                 # get bounds of each display
                 {width, height} = screen.workAreaSize
                 {x, y} = screen.workArea
@@ -130,7 +130,7 @@ handle 'update:viewstate', ->
                 yWindowPos = maxY if yWindowPos > maxH
                 xWindowPos = Math.max(xWindowPos, maxX)
                 yWindowPos = Math.max(yWindowPos, maxY)
-            later -> remote.getCurrentWindow().setPosition(xWindowPos, yWindowPos)
+            ipc.send 'mainwindow.setposition', xWindowPos, yWindowPos
         # only render startup
         startup(models)
 

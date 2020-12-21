@@ -1,4 +1,4 @@
-remote = require('electron').remote
+remote = require('@electron/remote')
 Menu = remote.Menu
 
 {notificationCenterSupportsSound} = require '../util'

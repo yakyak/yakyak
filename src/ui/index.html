@@ -43,7 +43,7 @@
           <h1>An error has occured</h1>
           <div>
             <p>If you are seeing this then an error has occured with YakYak.</p>
-            <p>To see what happened, <a href="javascript:void 0;" onclick="require('electron').remote.getCurrentWindow().webContents.openDevTools()">open the Inspector</a> and check the messages in the console tab.</p>
+            <p>To see what happened, <a href="javascript:void 0;" onclick="require('electron').ipcRenderer.send('mainwindow.devtools.open')">open the Inspector</a> and check the messages in the console tab.</p>
             <h3>How to report</h3>
             <p>Find if this error has already been reported at
               <script>

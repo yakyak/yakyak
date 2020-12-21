@@ -1,3 +1,4 @@
+ipc = require('electron').ipcRenderer
 got = require 'got'
 
 options =
@@ -15,7 +16,7 @@ check = ()->
             body = JSON.parse res.body
             tag = body.tag_name
             releasedVersion = tag?.substr(1) # remove first "v" char
-            localVersion = require('electron').remote.app.getVersion()
+            localVersion    = ipc.sendSync "app.version"
             versionAdvertised = window.localStorage.versionAdvertised or null
             if releasedVersion? && localVersion?
                 higherVersionAvailable = versionToInt(releasedVersion) > versionToInt(localVersion)

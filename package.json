@@ -60,6 +60,7 @@
     ]
   },
   "dependencies": {
+    "@electron/remote": "^1.0.0",
     "auto-launch": "^5.0.5",
     "autosize": "^4.0.2",
     "bog": "^1.0.0",
