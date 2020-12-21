@@ -1,5 +1,4 @@
-remote = require('@electron/remote')
-Menu = remote.Menu
+ipc          = require('electron').ipcRenderer
 
 {notificationCenterSupportsSound} = require '../util'
 
@@ -49,13 +48,13 @@ templateYakYak = (viewstate) ->
     [
         {
             label: i18n.__ 'menu.help.about.title:About YakYak'
-            click: (it) -> action 'show-about'
+            action: {name: 'show-about'}
         } if isDarwin
         {
             type: 'checkbox'
             label: i18n.__('menu.help.about.startup:Open on Startup')
             checked: viewstate.openOnSystemStartup
-            click: (it) -> action 'openonsystemstartup', it.checked
+            action: {name: 'openonsystemstartup', params: [':checked']}
         }
         #{ type: 'separator' }
         # { label: 'Preferences...', accelerator: 'Command+,',
@@ -79,18 +78,18 @@ templateYakYak = (viewstate) ->
         {
           label: i18n.__ 'menu.file.inspector:Open Inspector'
           accelerator: getAccelerator('openinspector')
-          click: -> action 'devtools'
+          action: {name: 'devtools'}
         }
         { type: 'separator' }
         {
             label: i18n.__('menu.file.logout:Logout')
-            click: -> action 'logout'
+            action: {name: 'logout'}
             enabled: viewstate.loggedin
         }
         {
             label: i18n.__('menu.file.quit:Quit')
             accelerator: getAccelerator('quit')
-            click: -> action 'quit'
+            action: {name: 'quit'}
         }
     ].filter (n) -> n != undefined
 
@@ -103,8 +102,7 @@ templateEdit = (viewstate) ->
             type: 'radio'
             checked: viewstate.language == loc
             value: loc
-            click: (it) ->
-                action 'changelanguage', it.value
+            action: {name: 'changelanguage', params: [':value']}
         }
     languages = languages.filter (n) -> n != undefined
     [
@@ -143,7 +141,7 @@ templateEdit = (viewstate) ->
             type: 'checkbox'
             checked: viewstate.useSystemDateFormat
             enabled: true
-            click: (it) -> action 'setusesystemdateformat', it.checked
+            action: {name: 'setusesystemdateformat', params: [':checked']}
         }
 
     ].filter (n) -> n != undefined
@@ -158,35 +156,35 @@ templateView = (viewstate) ->
                   label: i18n.__('menu.view.conversation.thumbnails.show:Show Thumbnails')
                   checked: viewstate.showConvThumbs
                   enabled: viewstate.loggedin
-                  click: (it) -> action 'showconvthumbs', it.checked
+                  action: {name: 'showconvthumbs', params: [':checked']}
               }
               {
                   type: 'checkbox'
                   label: i18n.__('menu.view.conversation.thumbnails.only:Show Thumbnails Only')
                   checked:viewstate.showConvMin
                   enabled: viewstate.loggedin
-                  click: (it) -> action 'showconvmin', it.checked
+                  action: {name: 'showconvmin', params: [':checked']}
               }
               {
                   type: 'checkbox'
                   label: i18n.__('menu.view.conversation.thumbnails.animated:Show Animated Thumbnails')
                   checked:viewstate.showAnimatedThumbs
                   enabled: viewstate.loggedin
-                  click: (it) -> action 'showanimatedthumbs', it.checked
+                  action: {name: 'showanimatedthumbs', params: [':checked']}
               }
               {
                   type: 'checkbox'
                   label: i18n.__('menu.view.conversation.timestamp:Show Conversation Timestamp')
                   checked:viewstate.showConvTime
                   enabled: viewstate.loggedin && !viewstate.showConvMin
-                  click: (it) -> action 'showconvtime', it.checked
+                  action: {name: 'showconvtime', params: [':checked']}
               }
               {
                   type: 'checkbox'
                   label: i18n.__('menu.view.conversation.last:Show Conversation Last Message')
                   checked:viewstate.showConvLast
                   enabled: viewstate.loggedin && !viewstate.showConvMin
-                  click: (it) -> action 'showconvlast', it.checked
+                  action: {name: 'showconvlast', params: [':checked']}
               }
           ]
         }
@@ -198,33 +196,33 @@ templateView = (viewstate) ->
                     label: i18n.__('menu.view.notification.show:Show notifications')
                     checked: viewstate.showPopUpNotifications
                     enabled: viewstate.loggedin
-                    click: (it) -> action 'showpopupnotifications', it.checked
+                    action: {name: 'showpopupnotifications', params: [':checked']}
                 }, {
                     type: 'checkbox'
                     label: i18n.__('menu.view.notification.message:Show message in notifications')
                     checked: viewstate.showMessageInNotification
                     enabled: viewstate.loggedin && viewstate.showPopUpNotifications
-                    click: (it) -> action 'showmessageinnotification', it.checked
+                    action: {name: 'showmessageinnotification', params: [':checked']}
                 }, {
                     type: 'checkbox'
                     label: i18n.__('menu.view.notification.username:Show username in notifications')
                     checked: viewstate.showUsernameInNotification
                     enabled: viewstate.loggedin && viewstate.showPopUpNotifications
-                    click: (it) -> action 'showusernameinnotification', it.checked
+                    action: {name: 'showusernameinnotification', params: [':checked']}
                 }
                 {
                   type: 'checkbox'
                   label: i18n.__ (if isDarwin then 'menu.view.notification.avatar:Show user avatar icon in notifications' else 'menu.view.notification.icon:Show YakYak icon in notifications')
                   enabled: viewstate.loggedin && viewstate.showPopUpNotifications
                   checked: viewstate.showIconNotification
-                  click: (it) -> action 'showiconnotification', it.checked
+                  action: {name: 'showiconnotification', params: [':checked']}
                 }
                 {
                   type: 'checkbox'
                   label: i18n.__('menu.view.notification.mute:Disable sound in notifications')
                   checked: viewstate.muteSoundNotification
                   enabled: viewstate.loggedin && viewstate.showPopUpNotifications
-                  click: (it) -> action 'mutesoundnotification', it.checked
+                  action: {name: 'mutesoundnotification', params: [':checked']}
                 }
                 # Only show option if notifier backend supports sound, otherwise custom sound is always used
                 {
@@ -232,7 +230,7 @@ templateView = (viewstate) ->
                   label: i18n.__('menu.view.notification.custom_sound:Use YakYak custom sound for notifications')
                   checked: viewstate.forceCustomSound
                   enabled: viewstate.loggedin && viewstate.showPopUpNotifications && !viewstate.muteSoundNotification
-                  click: (it) -> action 'forcecustomsound', it.checked
+                  action: {name: 'forcecustomsound', params: [':checked']}
                 } if notifierSupportsSound
             ].filter (n) -> n != undefined
         }
@@ -241,14 +239,14 @@ templateView = (viewstate) ->
             label: i18n.__('menu.view.emoji:Convert text to emoji')
             checked: viewstate.convertEmoji
             enabled: viewstate.loggedin
-            click: (it) -> action 'convertemoji', it.checked
+            action: {name: 'convertemoji', params: [':checked']}
         }
         {
             type: 'checkbox'
             label: i18n.__('menu.view.suggestemoji:Suggest emoji on typing')
             checked: viewstate.suggestEmoji
             enabled: viewstate.loggedin
-            click: (it) -> action 'suggestemoji', it.checked
+            action: {name: 'suggestemoji', params: [':checked']}
         }
         {
             type: 'checkbox'
@@ -256,7 +254,7 @@ templateView = (viewstate) ->
             label: i18n.__('menu.view.showimagepreview:Show image preview')
             checked: viewstate.showImagePreview
             enabled: viewstate.loggedin
-            click: (it) -> action 'showimagepreview', it.checked
+            action: {name: 'showimagepreview', params: [':checked']}
         }
         {
             label: i18n.__('menu.view.color_scheme.title:Color Scheme')
@@ -265,43 +263,43 @@ templateView = (viewstate) ->
                   label: i18n.__('menu.view.color_scheme.default:Original')
                   type: 'radio'
                   checked: viewstate.colorScheme == 'default'
-                  click: -> action 'changetheme', 'default'
+                  action: {name: 'changetheme', params: ['default']}
               }
               {
                   label: i18n.__('menu.view.color_scheme.blue:Blue')
                   type: 'radio'
                   checked: viewstate.colorScheme == 'blue'
-                  click: -> action 'changetheme', 'blue'
+                  action: {name: 'changetheme', params: ['blue']}
               }
               {
                   label: i18n.__('menu.view.color_scheme.dark:Dark')
                   type: 'radio'
                   checked: viewstate.colorScheme == 'dark'
-                  click: -> action 'changetheme', 'dark'
+                  action: {name: 'changetheme', params: ['dark']}
               }
               {
                   label: i18n.__('menu.view.color_scheme.darker:Darker')
                   type: 'radio'
                   checked: viewstate.colorScheme == 'darker'
-                  click: -> action 'changetheme', 'darker'
+                  action: {name: 'changetheme', params: ['darker']}
               }
               {
                   label: i18n.__('menu.view.color_scheme.material:Material')
                   type: 'radio'
                   checked: viewstate.colorScheme == 'material'
-                  click: -> action 'changetheme', 'material'
+                  action: {name: 'changetheme', params: ['material']}
               }
               {
                   label: i18n.__('menu.view.color_scheme.pop:Pop')
                   type: 'radio'
                   checked: viewstate.colorScheme == 'pop'
-                  click: -> action 'changetheme', 'pop'
+                  action: {name: 'changetheme', params: ['pop']}
               }
               {
                   label: i18n.__('menu.view.color_scheme.gruvy:Gruvy')
                   type: 'radio'
                   checked: viewstate.colorScheme == 'gruvy'
-                  click: -> action 'changetheme', 'gruvy'
+                  action: {name: 'changetheme', params: ['gruvy']}
                }
             ]
         }
@@ -312,31 +310,31 @@ templateView = (viewstate) ->
                   label: i18n.__('menu.view.font.extra_small:Extra Small')
                   type: 'radio'
                   checked: viewstate.fontSize == 'x-small'
-                  click: -> action 'changefontsize', 'x-small'
+                  action: {name: 'changefontsize', params: ['x-small']}
               }
               {
                   label: i18n.__('menu.view.font.small:Small')
                   type: 'radio'
                   checked: viewstate.fontSize == 'small'
-                  click: -> action 'changefontsize', 'small'
+                  action: {name: 'changefontsize', params: ['small']}
               }
               {
                   label: i18n.__('menu.view.font.medium:Medium')
                   type: 'radio'
                   checked: viewstate.fontSize == 'medium'
-                  click: -> action 'changefontsize', 'medium'
+                  action: {name: 'changefontsize', params: ['medium']}
               }
               {
                   label: i18n.__('menu.view.font.large:Large')
                   type: 'radio'
                   checked: viewstate.fontSize == 'large'
-                  click: -> action 'changefontsize', 'large'
+                  action: {name: 'changefontsize', params: ['large']}
               }
               {
                   label: i18n.__('menu.view.font.extra_large:Extra Large')
                   type: 'radio'
                   checked: viewstate.fontSize == 'x-large'
-                  click: -> action 'changefontsize', 'x-large'
+                  action: {name: 'changefontsize', params: ['x-large']}
               }
             ]
         }
@@ -362,19 +360,19 @@ templateView = (viewstate) ->
             label: i18n.__('menu.view.conversation.new:New conversation')
             accelerator: getAccelerator('newconversation')
             enabled: viewstate.loggedin
-            click: -> action 'addconversation'
+            action: {name: 'addconversation'}
         }
         {
             label: i18n.__('menu.view.conversation.previous:Previous Conversation')
             accelerator: getAccelerator('previousconversation')
             enabled: viewstate.loggedin
-            click: -> action 'selectNextConv', -1
+            action: {name: 'selectNextConv', params: [-1]}
         }
         {
             label: i18n.__('menu.view.conversation.next:Next Conversation')
             accelerator: getAccelerator('nextconversation')
             enabled: viewstate.loggedin
-            click: -> action 'selectNextConv', +1
+            action: {name: 'selectNextConv', params: [+1]}
         }
         {
             label: i18n.__('menu.view.conversation.select:Select Conversation')
@@ -383,47 +381,47 @@ templateView = (viewstate) ->
               {
                   label: i18n.__('conversation.numbered:Conversation %d', 1)
                   accelerator: getAccelerator('conversation1')
-                  click: -> action 'selectConvIndex', 0
+                  action: {name: 'selectConvIndex', params: [0]}
               }
               {
                   label: i18n.__('conversation.numbered:Conversation %d', 2)
                   accelerator: getAccelerator('conversation2')
-                  click: -> action 'selectConvIndex', 1
+                  action: {name: 'selectConvIndex', params: [1]}
               }
               {
                   label: i18n.__('conversation.numbered:Conversation %d', 3)
                   accelerator: getAccelerator('conversation3')
-                  click: -> action 'selectConvIndex', 2
+                  action: {name: 'selectConvIndex', params: [2]}
               }
               {
                   label: i18n.__('conversation.numbered:Conversation %d', 4)
                   accelerator: getAccelerator('conversation4')
-                  click: -> action 'selectConvIndex', 3
+                  action: {name: 'selectConvIndex', params: [3]}
               }
               {
                   label: i18n.__('conversation.numbered:Conversation %d', 5)
                   accelerator: getAccelerator('conversation5')
-                  click: -> action 'selectConvIndex', 4
+                  action: {name: 'selectConvIndex', params: [4]}
               }
               {
                   label: i18n.__('conversation.numbered:Conversation %d', 6)
                   accelerator: getAccelerator('conversation6')
-                  click: -> action 'selectConvIndex', 5
+                  action: {name: 'selectConvIndex', params: [5]}
               }
               {
                   label: i18n.__('conversation.numbered:Conversation %d', 7)
                   accelerator: getAccelerator('conversation7')
-                  click: -> action 'selectConvIndex', 6
+                  action: {name: 'selectConvIndex', params: [6]}
               }
               {
                   label: i18n.__('conversation.numbered:Conversation %d', 8)
                   accelerator: getAccelerator('conversation8')
-                  click: -> action 'selectConvIndex', 7
+                  action: {name: 'selectConvIndex', params: [7]}
               }
               {
                   label: i18n.__('conversation.numbered:Conversation %d', 9)
                   accelerator: getAccelerator('conversation9')
-                  click: -> action 'selectConvIndex', 8
+                  action: {name: 'selectConvIndex', params: [8]}
               }
             ]
         }
@@ -436,27 +434,27 @@ templateView = (viewstate) ->
                     type: 'checkbox'
                     enabled: not viewstate.hidedockicon
                     checked:  viewstate.showtray
-                    click: -> action 'toggleshowtray'
+                    action: {name: 'toggleshowtray'}
                 }
                 {
                   label: i18n.__ "menu.view.tray.start_minimize:Start minimized to tray"
                   type: "checkbox"
                   enabled: viewstate.showtray
                   checked: viewstate.startminimizedtotray
-                  click: -> action 'togglestartminimizedtotray'
+                  action: {name: 'togglestartminimizedtotray'}
                 }
                 {
                     label: i18n.__ "menu.view.tray.close:Close to tray"
                     type: "checkbox"
                     enabled: viewstate.showtray
                     checked: viewstate.closetotray
-                    click: -> action 'toggleclosetotray'
+                    action: {name: 'toggleclosetotray'}
                 }
                 {
                     label: i18n.__('menu.view.tray.colorblind:Use colorblind tray icon')
                     type: 'checkbox'
                     checked:  viewstate.colorblind
-                    click: -> action 'togglecolorblind'
+                    action: {name: 'togglecolorblind'}
                 }
             ]
         }
@@ -468,14 +466,14 @@ templateView = (viewstate) ->
                   type: 'radio'
                   enabled: viewstate.showtray
                   checked: viewstate.showtray && !viewstate.escapeClearsInput
-                  click: -> action 'setescapeclearsinput', false
+                  action: {name: 'setescapeclearsinput', params: [false]}
               }
               {
                   label: i18n.__('menu.view.escape.clear:Clears input') + if !viewstate.showtray then " (#{i18n.__ 'menu.view.escape.default:default when tray is not showing'})" else ''
                   type: 'radio'
                   enabled: viewstate.showtray
                   checked: !viewstate.showtray || viewstate.escapeClearsInput
-                  click: -> action 'setescapeclearsinput', true
+                  action: {name: 'setescapeclearsinput', params: [true]}
               }
           ]
         }
@@ -484,7 +482,7 @@ templateView = (viewstate) ->
             type: 'checkbox'
             enabled: viewstate.showtray
             checked:  viewstate.hidedockicon
-            click: -> action 'togglehidedockicon'
+            action: {name: 'togglehidedockicon'}
         } if isDarwin
     ].filter (n) -> n != undefined
 
@@ -500,7 +498,7 @@ templateWindow = (viewstate) -> [
     }
     {
         label: i18n.__ 'menu.view.tray.toggle_minimize:Toggle window show/hide'
-        click: -> action 'togglewindow'
+        action: {name: 'togglewindow'}
     }
     { type: 'separator' }
     {
@@ -537,7 +535,7 @@ templateMenu = (viewstate) ->
           submenu: [
             {
               label: i18n.__ 'menu.help.about.title:About YakYak'
-              click: () -> action 'show-about'
+              action: {name: 'show-about'}
             }
           ]
         } if !isDarwin
@@ -549,4 +547,4 @@ templateMenu = (viewstate) ->
 
 module.exports = (viewstate) ->
     # Deprecated in electron >= 7.0.0
-    Menu.setApplicationMenu Menu.buildFromTemplate templateMenu(viewstate)
+    ipc.send 'menu.setapplicationmenu', templateMenu(viewstate)

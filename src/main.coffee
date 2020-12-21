@@ -285,6 +285,9 @@ app.on 'ready', ->
     ipc.on 'global.forceclose', (event) ->
         event.returnValue = global.forceClose
 
+    ipc.on 'menu.setapplicationmenu', (event, template) ->
+        Menu.setApplicationMenu require('./ui/models/menuhandler')(mainWindow, template)
+
     #
     #
     # Handle uncaught exceptions from the main process
