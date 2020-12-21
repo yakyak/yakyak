@@ -404,7 +404,7 @@ handle 'setspellchecklanguage', (language) ->
 # Change language in YakYak
 #
 handle 'changelanguage', (language) ->
-    if i18n.getLocales().includes viewstate.language
+    if i18n.getLocales().includes language
         ipc.send 'seti18n', null, language
         viewstate.setLanguage(language)
 
