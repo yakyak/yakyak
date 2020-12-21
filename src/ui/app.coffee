@@ -51,8 +51,10 @@ i18nOpts = {
 i18n.configure i18nOpts
 #
 # force initialize
-if i18n.getLocales().includes viewstate.language
-    i18n.setLocale(viewstate.language)
+if not i18n.getLocales().includes viewstate.language
+    viewstate.language = i18nOpts.defaultLocale
+
+i18n.setLocale(viewstate.language)
 #
 ipc.send 'seti18n', i18nOpts, viewstate.language
 
