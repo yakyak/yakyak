@@ -163,7 +163,7 @@ require('./events').forEach (n) -> ipc.on n, (ev, data) -> action n, data
 
 # events from tray menu
 ipc.on 'menuaction', (ev, name, p) ->
-    console.log('menuaction from main process', name)
+    console.log('menuaction from main process', name, p...)
     if p?
         action name, p...
     else

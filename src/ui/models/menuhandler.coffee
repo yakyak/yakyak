@@ -2,11 +2,17 @@
 
 menuaction = (mainWindow, it) -> 
     if it.action.params?
-        it.action.params.forEach (p) ->
-            p = it.checked if p is ':checked'
-            p = it.value if p is ':value'
+        params = it.action.params.map (p) ->
+            if p is ':checked'
+                it.checked
+            if p is ':value'
+                it.value
+            else
+                p
 
-        mainWindow.webContents.send 'menuaction', it.action.name, ...it.action.params
+        console.error('menuaction', it.action.name, params...)
+
+        mainWindow.webContents.send 'menuaction', it.action.name, params
     else
         mainWindow.webContents.send 'menuaction', it.action.name
 
