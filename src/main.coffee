@@ -153,7 +153,6 @@ app.on 'ready', ->
         spellcheck: true
         autohideMenuBar: true
         webPreferences: {
-            enableRemoteModule: true
             nodeIntegration: true
             contextIsolation: false
             # preload: path.join(app.getAppPath(), 'ui', 'app.js')
