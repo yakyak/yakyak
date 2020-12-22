@@ -9,8 +9,6 @@ session   = require('electron').session
 log       = require('bog');
 screen    = require('electron').screen
 
-require('@electron/remote/main').initialize()
-
 [drive, path_parts...] = path.normalize(__dirname).split(path.sep)
 global.YAKYAK_ROOT_DIR = [drive, path_parts.map(encodeURIComponent)...].join('/')
 

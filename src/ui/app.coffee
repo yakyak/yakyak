@@ -17,8 +17,6 @@ notr.defineStack 'def', 'body', {top:'3px', right:'15px'}
 # init trifl dispatcher
 dispatcher = require './dispatcher'
 
-remote = require('@electron/remote')
-
 window.onerror = (msg, url, lineNo, columnNo, error) ->
     hash = {msg, url, lineNo, columnNo, error}
     ipc.send 'errorInWindow', hash
