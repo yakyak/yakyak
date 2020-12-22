@@ -381,10 +381,9 @@ archOpts.forEach (arch) ->
             else
                 suffix = target
 
-            if target == 'pacman'
-                packageName = json.name + '-VERSION-linux-' + archNameSuffix + '-pacman.' + suffix
-            else
-                packageName = json.name + '-VERSION-linux-' + archNameSuffix + '.' + suffix
+            packageName = json.name + '-' + json.version + '-linux-' + archNameSuffix +
+                (if target is 'pacman' then '-pacman.' else '.') + suffix
+
             iconArgs = [16, 32, 48, 128, 256, 512].map (size) ->
                 if size < 100
                     src = "0#{size}"
