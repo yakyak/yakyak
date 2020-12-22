@@ -160,7 +160,7 @@ handle 'mutesoundnotification', ->
     viewstate.setMuteSoundNotification(not viewstate.muteSoundNotification)
 
 handle 'togglemenu', ->
-    ipc.send 'applicationmenu.popup'
+    ipc.send 'menu.applicationmenu:popup'
 
 handle 'setescapeclearsinput', (value) ->
     viewstate.setEscapeClearsInput(value)
@@ -173,10 +173,13 @@ handle 'show-about', ->
     updated 'viewstate'
 
 handle 'hideWindow', ->
-    ipc.send 'mainwindow.hide'
+    ipc.send 'mainwindow:hide'
+
+handle 'showwindow', ->
+    ipc.send 'mainwindow:show'
 
 handle 'togglewindow', ->
-    ipc.send 'mainwindow.toggle'
+    ipc.send 'mainwindow:toggle'
 
 handle 'togglecolorblind', ->
     viewstate.setColorblind(not viewstate.colorblind)
@@ -186,9 +189,6 @@ handle 'togglestartminimizedtotray', ->
 
 handle 'toggleclosetotray', ->
     viewstate.setCloseToTray(not viewstate.closetotray)
-
-handle 'showwindow', ->
-    ipc.send 'mainwindow.show'
 
 sendsetpresence = throttle 10000, ->
     ipc.send 'setpresence'
@@ -316,6 +316,11 @@ handle 'uploadingimage', (spec) ->
 handle 'leftresize', (size) -> viewstate.setLeftSize size
 handle 'resize', (dim) -> viewstate.setSize dim
 handle 'move', (pos) -> viewstate.setPosition pos
+handle 'minimize', -> ipc.send 'mainwindow:minimize'
+handle 'resizewindow', -> ipc.send 'mainwindow:resize'
+handle 'close', -> ipc.send 'mainwindow:close'
+handle 'on-mainwindow.maximize', -> viewstate.setMaximized true
+handle 'on-mainwindow.unmaximize', -> viewstate.setMaximized false
 
 handle 'conversationname', (name) ->
     convsettings.setName name
@@ -394,10 +399,10 @@ handle 'setspellchecklanguage', (language) ->
     viewstate.setSpellCheckLanguage(language)
 
 handle 'replacemisspelling', (p) ->
-    ipc.send 'mainwindow.webcontents.replacemisspelling', p
+    ipc.send 'mainwindow.webcontents:replacemisspelling', p
 
 handle 'saveimage', (url) ->
-    ipc.send 'downloadurl', url
+    ipc.send 'download:saveas', url
 
 handle 'copytext', (text) ->
     if process.platform == 'darwin'
@@ -536,7 +541,7 @@ handle 'changefontsize', (fontsize) ->
     viewstate.setFontSize fontsize
 
 handle 'devtools', ->
-    ipc.send 'mainwindow.devtools.open'
+    ipc.send 'mainwindow.devtools:open'
 
 handle 'quit', ->
     ipc.send 'quit'
@@ -564,12 +569,3 @@ handle 'openonsystemstartup', (open) ->
 
 handle 'initopenonsystemstartup', (isEnabled) ->
     viewstate.initOpenOnSystemStartup isEnabled
-
-handle 'minimize', ->
-    ipc.send 'mainwindow.minimize'
-
-handle 'resizewindow', ->
-    ipc.send 'mainwindow.resize'
-
-handle 'close', ->
-    ipc.send 'mainwindow.close'

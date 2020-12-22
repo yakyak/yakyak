@@ -9,10 +9,10 @@ module.exports = (viewstate) ->
 
   if viewstate.hidedockicon and (dockAlreadyVisible is true)
     console.log 'hiding dock'
-    ipc.send 'app.dock.hide'
+    ipc.send 'app.dock:hide'
     dockAlreadyVisible = false
 
   if not viewstate.hidedockicon and (dockAlreadyVisible is false)
     console.log 'showing dock'
-    ipc.send 'app.dock.show'
+    ipc.send 'app.dock:show'
     dockAlreadyVisible = true

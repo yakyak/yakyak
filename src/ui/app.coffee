@@ -89,7 +89,6 @@ do ->
 #  note: could not use event here, as it must be defined
 #  before
 ipc.on 'ready-to-show', () ->
-    console.error('ready-to-show')
     #
     # remove initial error from DOM
     elToRemove = window.document.getElementById("error-b4-app")
@@ -100,7 +99,7 @@ ipc.on 'ready-to-show', () ->
     ipc.on 'mainwindow.focus', () ->
         if viewstate.state == viewstate.STATE_NORMAL
             # focus on webContents
-            ipc.send 'mainwindow.webcontents.focus'
+            ipc.send 'mainwindow.webcontents:focus'
             el = window.document.getElementById('message-input')
             # focus on specific element
             el?.focus()
@@ -109,19 +108,19 @@ ipc.on 'ready-to-show', () ->
     unless process.platform is 'darwin'
         # # Deprecated to BrowserWindow attribute
         # mainWindow.setAutoHideMenuBar(true)
-        ipc.send 'mainwindow.setmenubarvisibility', false
+        ipc.send 'mainwindow:setmenubarvisibility', false
     # handle the visibility of the window
     if viewstate.startminimizedtotray
-        ipc.send 'mainwindow.hide'
+        ipc.send 'mainwindow:hide'
     else
-        ipc.send 'mainwindow.showifcred'
+        ipc.send 'mainwindow:showifcred'
 
     #
     window.addEventListener 'unload', (ev) ->
         if process.platform == 'darwin' && window?
             if window.isFullScreen()
                 window.setFullScreen false
-            if not ipc.sendSync 'global.forceclose'
+            if not ipc.sendSync 'global:forceclose'
                 ev.preventDefault()
                 window?.hide()
                 return
@@ -214,7 +213,7 @@ document.addEventListener 'paste', (e) ->
         action 'onpasteimage'
         e.preventDefault()
     # focus on web contents
-    ipc.send 'mainwindow.webcontents.focus'
+    ipc.send 'mainwindow.webcontents:focus'
     # focus on textarea
     el = window.document.getElementById('message-input')
     el?.focus()
@@ -240,7 +239,7 @@ ipc.on 'mainwindow.responsive', () ->
 
 # Listen to close and quit events
 window.addEventListener 'beforeunload', (e) ->
-    if ipc.sendSync 'global.forceclose'
+    if ipc.sendSync 'global:forceclose'
         return
 
     hide = (
@@ -252,7 +251,7 @@ window.addEventListener 'beforeunload', (e) ->
 
     if hide
         e.returnValue = false
-        ipc.send 'mainwindow.hide'
+        ipc.send 'mainwindow:hide'
     return
 
 window.addEventListener 'keypress', (e) ->
@@ -264,7 +263,7 @@ ipc.on 'mainwindow.webcontents.context-menu', (event, params) ->
                viewstate.STATE_ADD_CONVERSATION,
                viewstate.STATE_ABOUT].includes(viewstate.state)
     if canShow
-        ipc.send 'menu.popup', contextmenu(params, viewstate)
+        ipc.send 'menu:popup', contextmenu(params, viewstate)
 
 
 # tell the startup state

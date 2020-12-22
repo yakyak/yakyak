@@ -547,4 +547,4 @@ templateMenu = (viewstate) ->
 
 module.exports = (viewstate) ->
     # Deprecated in electron >= 7.0.0
-    ipc.send 'menu.setapplicationmenu', templateMenu(viewstate)
+    ipc.send 'menu:setapplicationmenu', templateMenu(viewstate)

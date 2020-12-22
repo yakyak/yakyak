@@ -16,7 +16,7 @@ check = ()->
             body = JSON.parse res.body
             tag = body.tag_name
             releasedVersion = tag?.substr(1) # remove first "v" char
-            localVersion    = ipc.sendSync "app.version"
+            localVersion    = ipc.sendSync "app:version"
             versionAdvertised = window.localStorage.versionAdvertised or null
             if releasedVersion? && localVersion?
                 higherVersionAvailable = versionToInt(releasedVersion) > versionToInt(localVersion)

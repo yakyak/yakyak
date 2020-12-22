@@ -7,7 +7,7 @@ i18n = require 'i18n'
 module.exports = view (models) ->
     #
     # decide if should update
-    localVersion    = ipc.sendSync "app.version"
+    localVersion    = ipc.sendSync "app:version"
     releasedVersion = window.localStorage.versionAdvertised
     shouldUpdate    = releasedVersion? && localVersion? &&
                       versionToInt(releasedVersion) > versionToInt(localVersion)

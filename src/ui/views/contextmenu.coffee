@@ -4,7 +4,7 @@ clipboard     = require('electron').clipboard
 
 {isContentPasteable} = require '../util'
 
-availableLanguages = ipc.sendSync 'session.availablesclanguages'
+availableLanguages = ipc.sendSync 'spellcheck:availablelanguages'
 
 templateContext = (params, viewstate) ->
     #

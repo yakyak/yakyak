@@ -22,92 +22,92 @@ module.exports = (models) ->
     {conv, notify, entity, viewstate} = models
     tonot = notify.popToNotify()
 
-    ipc.invoke("mainwindow.visibleandfocused").then (visibleFocused) ->
-        quietIf = (c, chat_id) -> visibleFocused or conv.isQuiet(c) or entity.isSelf(chat_id)
+    visibleFocused = ipc.sendSync 'mainwindow:isvisibleandfocused'
+    quietIf = (c, chat_id) -> visibleFocused or conv.isQuiet(c) or entity.isSelf(chat_id)
 
-        tonot.forEach (msg) ->
-            conv_id = msg?.conversation_id?.id
-            c = conv[conv_id]
-            chat_id = msg?.sender_id?.chat_id
+    tonot.forEach (msg) ->
+        conv_id = msg?.conversation_id?.id
+        c = conv[conv_id]
+        chat_id = msg?.sender_id?.chat_id
 
-            proxied = getProxiedName(msg)
-            cid = if proxied then proxied else msg?.sender_id?.chat_id
-            sender = nameof entity[cid]
-            text = null
+        proxied = getProxiedName(msg)
+        cid = if proxied then proxied else msg?.sender_id?.chat_id
+        sender = nameof entity[cid]
+        text = null
 
-            if msg.chat_message?
-                return unless msg.chat_message?.message_content?
-                text = textMessage msg.chat_message.message_content, proxied, viewstate.showMessageInNotification
-            else if msg.hangout_event?.event_type == 'START_HANGOUT'
-                text = i18n.__ "call.incoming:Incoming call"
-                callNeedAnswer[conv_id] = true
-                notr
-                    html: "#{i18n.__('call.incoming_from:Incoming call from %s', sender)}. " +
-                    "<a href=\"#\" class=\"accept\">#{i18n.__ 'call.accept:Accept'}</a> / " +
-                    "<a href=\"#\" class=\"reject\">#{i18n.__ 'call.reject:Reject'}</a>"
-                    stay: 0
-                    id: "hang#{conv_id}"
-                    onclick: (e) ->
-                        delete callNeedAnswer[conv_id]
-                        if e?.target?.className == 'accept'
-                            notr({html:i18n.__('calls.accepted:Accepted'), stay:1000, id:"hang#{conv_id}"})
-                            openHangout conv_id
-                        else
-                            notr({html: i18n.__('calls.rejected:Rejected'), stay:1000, id:"hang#{conv_id}"})
-            else if msg.hangout_event?.event_type == 'END_HANGOUT'
-                if callNeedAnswer[conv_id]
+        if msg.chat_message?
+            return unless msg.chat_message?.message_content?
+            text = textMessage msg.chat_message.message_content, proxied, viewstate.showMessageInNotification
+        else if msg.hangout_event?.event_type == 'START_HANGOUT'
+            text = i18n.__ "call.incoming:Incoming call"
+            callNeedAnswer[conv_id] = true
+            notr
+                html: "#{i18n.__('call.incoming_from:Incoming call from %s', sender)}. " +
+                "<a href=\"#\" class=\"accept\">#{i18n.__ 'call.accept:Accept'}</a> / " +
+                "<a href=\"#\" class=\"reject\">#{i18n.__ 'call.reject:Reject'}</a>"
+                stay: 0
+                id: "hang#{conv_id}"
+                onclick: (e) ->
                     delete callNeedAnswer[conv_id]
-                    notr
-                        html: "#{i18n.__('calls.missed:Missed call from %s', sender)}. " +
-                            "<a href=\"#\">#{i18n.__('actions.ok: Ok')}</a>"
-                        id: "hang#{conv_id}"
-                        stay: 0
+                    if e?.target?.className == 'accept'
+                        notr({html:i18n.__('calls.accepted:Accepted'), stay:1000, id:"hang#{conv_id}"})
+                        openHangout conv_id
+                    else
+                        notr({html: i18n.__('calls.rejected:Rejected'), stay:1000, id:"hang#{conv_id}"})
+        else if msg.hangout_event?.event_type == 'END_HANGOUT'
+            if callNeedAnswer[conv_id]
+                delete callNeedAnswer[conv_id]
+                notr
+                    html: "#{i18n.__('calls.missed:Missed call from %s', sender)}. " +
+                        "<a href=\"#\">#{i18n.__('actions.ok: Ok')}</a>"
+                    id: "hang#{conv_id}"
+                    stay: 0
+        else
+            return
+
+        # maybe trigger OS notification
+        return if !text or quietIf(c, chat_id)
+
+        if viewstate.showPopUpNotifications and not visibleFocused
+            isNotificationCenter = notifier.constructor.name == 'NotificationCenter'
+            #
+            icon = path.join __dirname, '..', '..', 'icons', 'icon@8.png'
+            # Only for NotificationCenter (darwin)
+            if isNotificationCenter && viewstate.showIconNotification
+                contentImage = fixlink entity[cid]?.photo_url
             else
-                return
-
-            # maybe trigger OS notification
-            return if !text or quietIf(c, chat_id)
-
-            if viewstate.showPopUpNotifications and not visibleFocused
-                isNotificationCenter = notifier.constructor.name == 'NotificationCenter'
-                #
-                icon = path.join __dirname, '..', '..', 'icons', 'icon@8.png'
-                # Only for NotificationCenter (darwin)
-                if isNotificationCenter && viewstate.showIconNotification
-                    contentImage = fixlink entity[cid]?.photo_url
-                else
-                    contentImage = undefined
-                #
-                notifier.notify
-                    title: if viewstate.showUsernameInNotification
-                               if !isNotificationCenter && !viewstate.showIconNotification
-                                   "#{sender} (YakYak)"
-                               else
-                                   sender
+                contentImage = undefined
+            #
+            notifier.notify
+                title: if viewstate.showUsernameInNotification
+                           if !isNotificationCenter && !viewstate.showIconNotification
+                               "#{sender} (YakYak)"
                            else
-                               'YakYak'
-                    message: text
-                    wait: true
-                    hint: "int:transient:1"
-                    category: 'im.received'
-                    sender: 'com.github.yakyak'
-                    sound: !viewstate.muteSoundNotification && (notifierSupportsSound && !viewstate.forceCustomSound)
-                    icon: icon if !isNotificationCenter && viewstate.showIconNotification
-                    contentImage: contentImage
-                , (err, res) ->
-                  if res?.trim().match(/Activate/i)
-                    action 'appfocus'
-                    action 'selectConv', c
+                               sender
+                       else
+                           'YakYak'
+                message: text
+                wait: true
+                hint: "int:transient:1"
+                category: 'im.received'
+                sender: 'com.github.yakyak'
+                sound: !viewstate.muteSoundNotification && (notifierSupportsSound && !viewstate.forceCustomSound)
+                icon: icon if !isNotificationCenter && viewstate.showIconNotification
+                contentImage: contentImage
+            , (err, res) ->
+              if res?.trim().match(/Activate/i)
+                action 'appfocus'
+                action 'selectConv', c
 
-                # only play if it is not playing already
-                #  and notifier does not support sound or force custom sound is set
-                #  and mute option is not set
-                if (!notifierSupportsSound || viewstate.forceCustomSound) && !viewstate.muteSoundNotification && audioEl.paused
-                    audioEl.play()
-            # if not mainWindow.isVisible()
-            #    mainWindow.showInactive()
-            #    mainWindow.minimize()
-            ipc.send 'mainwindow.flashframe'
+            # only play if it is not playing already
+            #  and notifier does not support sound or force custom sound is set
+            #  and mute option is not set
+            if (!notifierSupportsSound || viewstate.forceCustomSound) && !viewstate.muteSoundNotification && audioEl.paused
+                audioEl.play()
+        # if not mainWindow.isVisible()
+        #    mainWindow.showInactive()
+        #    mainWindow.minimize()
+        ipc.send 'mainwindow:flashframe'
 
 textMessage = (cont, proxied, showMessage = true) ->
     if cont?.segment?

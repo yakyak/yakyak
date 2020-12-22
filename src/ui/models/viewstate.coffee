@@ -76,7 +76,7 @@ module.exports = exp = {
 
     setSpellCheckLanguage: (language) ->
         return if @language == language
-        ipc.send 'session.setsclanguage', language
+        ipc.send 'spellcheck:setlanguage', language
         @spellcheckLanguage = localStorage.spellcheckLanguage = language
         updated 'viewstate'
 

@@ -63,11 +63,11 @@ module.exports = view (models) ->
             div class:'option-label', i18n.__('details:Details')
 
 if process.platform is 'win32'
-    ipc.on 'mainwindow.maximize', () ->
+    ipc.on 'on-mainwindow.maximize', () ->
         toggleHidden document.getElementById('win-maximize'), true
         toggleHidden document.getElementById('win-restore'), false
 
-    ipc.on 'mainwindow.unmaximize', () ->
+    ipc.on 'on-mainwindow.unmaximize', () ->
         toggleHidden document.getElementById('win-maximize'), false
         toggleHidden document.getElementById('win-restore'), true
 
