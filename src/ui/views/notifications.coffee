@@ -107,7 +107,8 @@ module.exports = (models) ->
         # if not mainWindow.isVisible()
         #    mainWindow.showInactive()
         #    mainWindow.minimize()
-        ipc.send 'mainwindow:flashframe'
+        if viewstate.bouncyIcon
+          ipc.send 'mainwindow:flashframe' # uncommented in #1206
 
 textMessage = (cont, proxied, showMessage = true) ->
     if cont?.segment?
