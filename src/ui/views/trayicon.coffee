@@ -2,7 +2,6 @@ path = require 'path'
 os   = require 'os'
 i18n = require 'i18n'
 
-{ Menu, Tray, nativeImage } = require('electron').remote
 {later} = require '../util'
 
 trayIconsFile = if os.platform() == 'darwin'

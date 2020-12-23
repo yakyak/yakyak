@@ -7,6 +7,7 @@ path      = require 'path'
 tmp       = require 'tmp'
 session   = require('electron').session
 log       = require('bog');
+screen    = require('electron').screen
 
 [drive, path_parts...] = path.normalize(__dirname).split(path.sep)
 global.YAKYAK_ROOT_DIR = [drive, path_parts.map(encodeURIComponent)...].join('/')
@@ -152,7 +153,6 @@ app.on 'ready', ->
         spellcheck: true
         autohideMenuBar: true
         webPreferences: {
-            enableRemoteModule: true
             nodeIntegration: true
             contextIsolation: false
             # preload: path.join(app.getAppPath(), 'ui', 'app.js')
@@ -186,6 +186,72 @@ app.on 'ready', ->
     # and load the index.html of the app. this may however be yanked
     # away if we must do auth.
     loadAppWindow()
+
+    ipc.on 'app:version', (event) ->
+        event.returnValue = app.getVersion()
+
+    ipc.on 'download:saveas', (event, url) ->
+        try
+            require('electron-dl').download mainWindow, url, {saveAs: true}
+        catch err
+            console.log 'Possible problem with saving image. ', err
+
+    ipc.on 'global:forceclose', (event) ->
+        event.returnValue = global.forceClose
+
+    ipc.on 'mainwindow:getsize', (event) -> event.returnValue = mainWindow.getSize()
+    ipc.on 'mainwindow:setsize', (event, size) -> mainWindow.setSize size...
+    ipc.on 'mainwindow:setposition', (event, x, y) -> mainWindow.setPosition(x, y)
+    ipc.on 'mainwindow:close', -> mainWindow.close()
+    ipc.on 'mainwindow:hide', -> mainWindow.hide()
+    ipc.on 'mainwindow:show', -> mainWindow.show()
+    ipc.on 'mainwindow:toggle', ->
+        if mainWindow.isVisible() then mainWindow.hide() else mainWindow.show()
+
+    ipc.on "mainwindow:isvisibleandfocused", (event) ->
+        event.returnValue = mainWindow.isVisible() and mainWindow.isFocused()
+
+    ipc.on 'mainwindow:flashframe', -> mainWindow.flashFrame(true)
+    ipc.on 'mainwindow:minimize', -> mainWindow.minimize()
+    ipc.on 'mainwindow:maximize', -> mainWindow.maximize()
+    ipc.on 'mainwindow:resize', ->
+        if mainWindow.isMaximized() then mainWindow.unmaximize() else mainWindow.maximize()
+
+    ipc.on 'mainwindow:showifcred', ->
+        mainWindow.show() if !global.windowHideWhileCred? || global.windowHideWhileCred != true
+
+    ipc.on 'mainwindow:setmenubarvisibility', (event, visible) ->
+        mainWindow.setMenuBarVisibility(visible)
+
+    ipc.on 'mainwindow.webcontents:focus', ->
+        mainWindow.webContents.focus()
+
+    ipc.on 'mainwindow.webcontents:replacemisspelling', (event, el) ->
+        mainWindow.webContents.replaceMisspelling el
+
+    ipc.on 'mainwindow.devtools:open', ->
+        mainWindow.openDevTools detach:true
+
+    ipc.on 'menu:setapplicationmenu', (event, template) ->
+        Menu.setApplicationMenu require('./ui/models/menuhandler')(mainWindow, template)
+
+    ipc.on 'menu:popup', (event, template) ->
+        require('./ui/models/menuhandler')(mainWindow, template).popup mainWindow
+
+    ipc.on 'menu.applicationmenu:popup', ->
+        Menu.getApplicationMenu().popup({})
+
+    ipc.on 'screen:getalldisplays', (event) ->
+        event.returnValue = screen.getAllDisplays()
+
+    ipc.on 'spellcheck:availablelanguages', (event) ->
+        event.returnValue = mainWindow.webContents.session.availableSpellCheckerLanguages
+
+    ipc.on 'spellcheck:setlanguage', (event, lang) ->
+        if lang is 'none'
+            mainWindow.webContents.session.setSpellCheckerLanguages([])
+        else
+            mainWindow.webContents.session.setSpellCheckerLanguages([lang])
 
     #
     #
@@ -282,6 +348,15 @@ app.on 'ready', ->
     # client deals with window sizing
     mainWindow.on 'resize', (ev) -> ipcsend 'resize', mainWindow.getSize()
     mainWindow.on 'move',  (ev) -> ipcsend 'move', mainWindow.getPosition()
+    mainWindow.on 'maximize', -> ipcsend 'on-mainwindow.maximize'
+    mainWindow.on 'unmaximize', -> ipcsend 'on-mainwindow.unmaximize'
+    mainWindow.on 'focus', -> ipcsend 'mainwindow.focus'
+    mainWindow.on 'unresponsive', (error) -> ipcsend 'mainwindow.unresponsive', error
+    mainWindow.on 'responsive', -> ipcsend 'mainwindow.responsive'
+
+    mainWindow.webContents.on 'context-menu', (e, params) ->
+        e.preventDefault()
+        ipcsend 'mainwindow.webcontents.context-menu', params
 
     # whenever it fails, we try again
     client.on 'connect_failed', (e) ->

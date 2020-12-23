@@ -1,13 +1,10 @@
-remote        = require('electron').remote
+ipc           = require('electron').ipcRenderer
 clipboard     = require('electron').clipboard
 # {download}  = require('electron-dl') # See IMPORTANT below
-ContextMenu = remote.Menu
 
 {isContentPasteable} = require '../util'
 
-contents = remote.getCurrentWindow().webContents
-session = contents.session
-availableLanguages = session.availableSpellCheckerLanguages
+availableLanguages = ipc.sendSync 'spellcheck:availablelanguages'
 
 templateContext = (params, viewstate) ->
     #
@@ -26,11 +23,17 @@ templateContext = (params, viewstate) ->
         i18n.__('menu.edit.spell_check.title:Spellcheck') + ': ' + spellcheckLanguage
 
     langMenu = availableLanguages.map (el) ->
-        label = el
-        { label: label, click: -> action 'setspellchecklanguage', el}
+        {
+            label: el,
+            action: {name: 'setspellchecklanguage', params: [el]}
+        }
 
     [
-      ...params.dictionarySuggestions.map (el) -> { label: el, click: -> contents.replaceMisspelling(el)}
+      ...params.dictionarySuggestions.map (el) ->
+        {
+            label: el,
+            action: {name: 'replacemisspelling', params: [el]}
+        }
       {
         type: 'separator'
         visible: params?.dictionarySuggestions?.length > 0
@@ -42,13 +45,13 @@ templateContext = (params, viewstate) ->
                 label: spellCheck
                 enabled: false
                 checked: spellcheckLanguage != 'none'
-                click: -> action 'setspellchecklanguage', 'none'
+                action: {name: 'setspellchecklanguage', params: ['none']}
             }
 
             {
               label: i18n.__('menu.edit.spell_check.turn_off:Turn spellcheck off')
               visible: spellcheckLanguage != 'none'
-              click: -> action 'setspellchecklanguage', 'none'
+              action: {name: 'setspellchecklanguage', params: ['none']}
             }
 
             {
@@ -61,11 +64,7 @@ templateContext = (params, viewstate) ->
     {
         label: i18n.__('menu.edit.save_image:Save Image')
         visible: canShowSaveImg
-        click: (item, win) ->
-            try
-                download win, params.srcURL
-            catch
-                console.log 'Possible problem with saving image. ', err
+        action: {name: 'saveimage', params: [params.srcURL]}
     }
     { type: 'separator' } if canShowSaveImg
     {
@@ -96,20 +95,12 @@ templateContext = (params, viewstate) ->
     {
         label: i18n.__('menu.edit.copy_link:Copy Link')
         visible: canShowCopyLink
-        click: () ->
-            if process.platform == 'darwin'
-                clipboard.writeBookmark params.linkText, params.linkText
-            else
-                clipboard.writeText params.linkText
+        action: {name: 'copytext', params: [params.linkText]}
     }
     {
         label: i18n.__('menu.edit.copy_image_link:Copy Image Link')
         visible: canShowCopyImgLink
-        click: (item, win) ->
-            if process.platform == 'darwin'
-                clipboard.writeBookmark params.srcURL, params.srcURL
-            else
-                clipboard.writeText params.srcURL
+        action: {name: 'copytext', params: [params.srcURL]}
     }
     {
         label: i18n.__('menu.edit.paste:Paste')
@@ -125,17 +116,12 @@ templateAboutContext = (params, viewstate) ->
         enabled: params.editFlags.canCopy
     }
     {
-        label: i18n.__('menu.edit.copy_link')
+        label: i18n.__('menu.edit.copy_link:Copy Link')
         visible: params.linkURL != '' and params.mediaType == 'none'
-        click: () ->
-            if process.platform == 'darwin'
-                clipboard
-                .writeBookmark params.linkText, params.linkText
-            else
-                clipboard.writeText params.linkText
+        action: {name: 'copytext', params: [params.linkText]}
     }]
 module.exports = (params, viewstate) ->
     if viewstate.state == viewstate.STATE_ABOUT
-        ContextMenu.buildFromTemplate templateAboutContext(params, viewstate)
+        templateAboutContext(params, viewstate)
     else
-        ContextMenu.buildFromTemplate templateContext(params, viewstate)
+        templateContext(params, viewstate)

@@ -1,6 +1,6 @@
 {nameofconv}  = require '../util'
 
-remote = require('electron').remote
+ipc       = require('electron').ipcRenderer
 
 onclickaction = (a) -> (ev) -> action a
 
@@ -63,12 +63,11 @@ module.exports = view (models) ->
             div class:'option-label', i18n.__('details:Details')
 
 if process.platform is 'win32'
-    mainWindow = remote.getCurrentWindow()
-    mainWindow.on 'maximize', () ->
+    ipc.on 'on-mainwindow.maximize', () ->
         toggleHidden document.getElementById('win-maximize'), true
         toggleHidden document.getElementById('win-restore'), false
 
-    mainWindow.on 'unmaximize', () ->
+    ipc.on 'on-mainwindow.unmaximize', () ->
         toggleHidden document.getElementById('win-maximize'), false
         toggleHidden document.getElementById('win-restore'), true
 

@@ -1,7 +1,7 @@
+ipc      = require('electron').ipcRenderer
 notifier = require 'node-notifier'
 shell    = require('electron').shell
 path     = require 'path'
-remote   = require('electron').remote
 i18n     = require 'i18n'
 
 {nameof, getProxiedName, fixlink, notificationCenterSupportsSound} = require '../util'
@@ -22,10 +22,8 @@ module.exports = (models) ->
     {conv, notify, entity, viewstate} = models
     tonot = notify.popToNotify()
 
-    # And we hope we don't get another 'currentWindow' ;)
-    mainWindow = remote.getCurrentWindow()
-
-    quietIf = (c, chat_id) -> (mainWindow.isVisible() and mainWindow.isFocused()) or conv.isQuiet(c) or entity.isSelf(chat_id)
+    visibleFocused = ipc.sendSync 'mainwindow:isvisibleandfocused'
+    quietIf = (c, chat_id) -> visibleFocused or conv.isQuiet(c) or entity.isSelf(chat_id)
 
     tonot.forEach (msg) ->
         conv_id = msg?.conversation_id?.id
@@ -70,7 +68,7 @@ module.exports = (models) ->
         # maybe trigger OS notification
         return if !text or quietIf(c, chat_id)
 
-        if viewstate.showPopUpNotifications and not (mainWindow.isVisible() and mainWindow.isFocused())
+        if viewstate.showPopUpNotifications and not visibleFocused
             isNotificationCenter = notifier.constructor.name == 'NotificationCenter'
             #
             icon = path.join __dirname, '..', '..', 'icons', 'icon@8.png'
@@ -109,7 +107,7 @@ module.exports = (models) ->
         # if not mainWindow.isVisible()
         #    mainWindow.showInactive()
         #    mainWindow.minimize()
-        mainWindow.flashFrame(true) # uncommented in #1206
+        ipc.send 'mainwindow:flashframe'
 
 textMessage = (cont, proxied, showMessage = true) ->
     if cont?.segment?

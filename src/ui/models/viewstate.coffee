@@ -1,4 +1,5 @@
 Client = require 'hangupsjs'
+ipc = require('electron').ipcRenderer
 
 merge   = (t, os...) -> t[k] = v for k,v of o when v not in [null, undefined] for o in os; t
 
@@ -73,13 +74,9 @@ module.exports = exp = {
             require('./connection').setLastActive(Date.now(), true)
         updated 'viewstate'
 
-    setSpellCheckLanguage: (language, mainWindow) ->
+    setSpellCheckLanguage: (language) ->
         return if @language == language
-
-        if language == 'none'
-            mainWindow.webContents.session.setSpellCheckerLanguages([])
-        else
-            mainWindow.webContents.session.setSpellCheckerLanguages([language])
+        ipc.send 'spellcheck:setlanguage', language
         @spellcheckLanguage = localStorage.spellcheckLanguage = language
         updated 'viewstate'
 

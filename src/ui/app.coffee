@@ -17,8 +17,6 @@ notr.defineStack 'def', 'body', {top:'3px', right:'15px'}
 # init trifl dispatcher
 dispatcher = require './dispatcher'
 
-remote = require('electron').remote
-
 window.onerror = (msg, url, lineNo, columnNo, error) ->
     hash = {msg, url, lineNo, columnNo, error}
     ipc.send 'errorInWindow', hash
@@ -75,9 +73,6 @@ action 'setspellchecklanguage', viewstate.spellcheckLanguage
 contextmenu = require('./views/contextmenu')
 require('./views/menu')(viewstate)
 
-# tie layout to DOM
-currentWindow = remote.getCurrentWindow()
-
 document.body.appendChild applayout.el
 
 # intercept every event we listen to
@@ -98,15 +93,13 @@ ipc.on 'ready-to-show', () ->
     # remove initial error from DOM
     elToRemove = window.document.getElementById("error-b4-app")
     elToRemove.parentNode.removeChild(elToRemove)
-    # get window object
-    mainWindow = remote.getCurrentWindow()
     #
     # when yakyak becomes active, focus is automatically given
     #  to textarea
-    mainWindow.on 'focus', () ->
+    ipc.on 'mainwindow.focus', () ->
         if viewstate.state == viewstate.STATE_NORMAL
             # focus on webContents
-            mainWindow.webContents.focus()
+            ipc.send 'mainwindow.webcontents:focus'
             el = window.document.getElementById('message-input')
             # focus on specific element
             el?.focus()
@@ -115,20 +108,19 @@ ipc.on 'ready-to-show', () ->
     unless process.platform is 'darwin'
         # # Deprecated to BrowserWindow attribute
         # mainWindow.setAutoHideMenuBar(true)
-        mainWindow.setMenuBarVisibility(false)
+        ipc.send 'mainwindow:setmenubarvisibility', false
     # handle the visibility of the window
     if viewstate.startminimizedtotray
-        mainWindow.hide()
-    else if !remote.getGlobal('windowHideWhileCred')? ||
-             remote.getGlobal('windowHideWhileCred') != true
-        mainWindow.show()
+        ipc.send 'mainwindow:hide'
+    else
+        ipc.send 'mainwindow:showifcred'
 
     #
     window.addEventListener 'unload', (ev) ->
         if process.platform == 'darwin' && window?
             if window.isFullScreen()
                 window.setFullScreen false
-            if not remote.getGlobal('forceClose')
+            if not ipc.sendSync 'global:forceclose'
                 ev.preventDefault()
                 window?.hide()
                 return
@@ -169,9 +161,12 @@ ipc.on 'init', (ev, data) -> dispatcher.init data
 require('./events').forEach (n) -> ipc.on n, (ev, data) -> action n, data
 
 # events from tray menu
-ipc.on 'menuaction', (ev, name) ->
+ipc.on 'menuaction', (ev, name, p) ->
     console.log('menuaction from main process', name)
-    action name
+    if p?
+        action name, p...
+    else
+        action name
 
 # response from getentity
 ipc.on 'getentity:result', (ev, r, data) ->
@@ -218,8 +213,7 @@ document.addEventListener 'paste', (e) ->
         action 'onpasteimage'
         e.preventDefault()
     # focus on web contents
-    mainWindow = remote.getCurrentWindow()
-    mainWindow.webContents.focus()
+    ipc.send 'mainwindow.webcontents:focus'
     # focus on textarea
     el = window.document.getElementById('message-input')
     el?.focus()
@@ -231,7 +225,7 @@ window.addEventListener 'offline', -> action 'wonline', false
 #
 #
 # Catch unresponsive events
-remote.getCurrentWindow().on 'unresponsive', (error) ->
+ipc.on 'mainwindow.unresponsive', (error) ->
     notr msg = "Warning: YakYak is becoming unresponsive.",
         { id: 'unresponsive'}
     console.log 'Unresponsive event', msg
@@ -240,12 +234,12 @@ remote.getCurrentWindow().on 'unresponsive', (error) ->
 #
 #
 # Show a message
-remote.getCurrentWindow().on 'responsive', () ->
+ipc.on 'mainwindow.responsive', () ->
     notr "Back to normal again!", { id: 'unresponsive'}
 
 # Listen to close and quit events
 window.addEventListener 'beforeunload', (e) ->
-    if remote.getGlobal('forceClose')
+    if ipc.sendSync 'global:forceclose'
         return
 
     hide = (
@@ -257,21 +251,19 @@ window.addEventListener 'beforeunload', (e) ->
 
     if hide
         e.returnValue = false
-        remote.getCurrentWindow().hide()
+        ipc.send 'mainwindow:hide'
     return
 
 window.addEventListener 'keypress', (e) ->
     if e.keyCode == 23 and e.ctrlKey
       ipc.send 'ctrl+w__pressed', ''
 
-currentWindow.webContents.on 'context-menu', (e, params) ->
-    console.log('context-menu', e, params)
-    e.preventDefault()
+ipc.on 'mainwindow.webcontents.context-menu', (event, params) ->
     canShow = [viewstate.STATE_NORMAL,
                viewstate.STATE_ADD_CONVERSATION,
                viewstate.STATE_ABOUT].includes(viewstate.state)
     if canShow
-        contextmenu(params, viewstate).popup remote.getCurrentWindow()
+        ipc.send 'menu:popup', contextmenu(params, viewstate)
 
 
 # tell the startup state
