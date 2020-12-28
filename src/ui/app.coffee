@@ -3,6 +3,18 @@ clipboard    = require('electron').clipboard
 path         = require('path')
 autoLauncher = require('./util').autoLauncher
 
+# <Redux>
+{ createStore } = require('redux')
+reducer = require('./reducers')
+
+store = createStore(reducer, {
+  conversations: {}
+})
+
+window.store = store
+
+# </Redux>
+
 [drive, path_parts...] = path.normalize(__dirname).split(path.sep)
 global.YAKYAK_ROOT_DIR = [drive, path_parts.map(encodeURIComponent)...].join('/')
 
