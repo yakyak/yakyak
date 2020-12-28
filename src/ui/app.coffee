@@ -117,11 +117,13 @@ ipc.on 'ready-to-show', () ->
 
     #
     window.addEventListener 'unload', (ev) ->
+        ev.preventDefault()
+
+        forceclose = await ipc.invoke 'global:forceclose'
         if process.platform == 'darwin' && window?
             if window.isFullScreen()
                 window.setFullScreen false
-            if not ipc.sendSync 'global:forceclose'
-                ev.preventDefault()
+            if not forceclose
                 window?.hide()
                 return
 
@@ -239,8 +241,13 @@ ipc.on 'mainwindow.responsive', () ->
 
 # Listen to close and quit events
 window.addEventListener 'beforeunload', (e) ->
-    if ipc.sendSync 'global:forceclose'
+    if window.shouldQuit?
         return
+
+    # we don't want to close here before retrieving
+    # the force close value
+    e.returnValue = false
+    forceclose = await ipc.invoke 'global:forceclose'
 
     hide = (
         # Mac os and the dock have a special relationship
@@ -249,10 +256,12 @@ window.addEventListener 'beforeunload', (e) ->
         viewstate.closetotray
     )
 
-    if hide
-        e.returnValue = false
-        ipc.send 'mainwindow:hide'
-    return
+    if forceclose or not hide
+        window.shouldQuit = true
+        ipc.send 'mainwindow:close'
+        return
+
+    ipc.send 'mainwindow:hide'
 
 window.addEventListener 'keypress', (e) ->
     if e.keyCode == 23 and e.ctrlKey

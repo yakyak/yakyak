@@ -196,8 +196,8 @@ app.on 'ready', ->
         catch err
             console.log 'Possible problem with saving image. ', err
 
-    ipc.on 'global:forceclose', (event) ->
-        event.returnValue = global.forceClose
+    ipc.handle 'global:forceclose', () ->
+        return global.forceClose
 
     ipc.on 'mainwindow:getsize', (event) -> event.returnValue = mainWindow.getSize()
     ipc.on 'mainwindow:setsize', (event, size) -> mainWindow.setSize size...
