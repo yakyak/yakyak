@@ -11,12 +11,13 @@ versionToInt = (version) ->
     version = (micro * Math.pow(10,4)) + (minor * Math.pow(10,8)) + (major * Math.pow(10,12))
 
 check = ()->
+    window.localStorage.localVersion = await ipc.invoke "app:version"
     got(options.url)
         .then (res) ->
             body = JSON.parse res.body
             tag = body.tag_name
-            releasedVersion = tag?.substr(1) # remove first "v" char
-            localVersion    = ipc.sendSync "app:version"
+            releasedVersion   = tag?.substr(1) # remove first "v" char
+            localVersion      = window.localStorage.localVersion
             versionAdvertised = window.localStorage.versionAdvertised or null
             if releasedVersion? && localVersion?
                 higherVersionAvailable = versionToInt(releasedVersion) > versionToInt(localVersion)

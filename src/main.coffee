@@ -187,8 +187,8 @@ app.on 'ready', ->
     # away if we must do auth.
     loadAppWindow()
 
-    ipc.on 'app:version', (event) ->
-        event.returnValue = app.getVersion()
+    ipc.handle 'app:version', () ->
+        return app.getVersion()
 
     ipc.on 'download:saveas', (event, url) ->
         try
