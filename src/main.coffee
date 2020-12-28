@@ -82,6 +82,7 @@ if !gotTheLock
 # If someone tries to run a second instance, we should focus our window.
 app.on 'second-instance', (event, commandLine, workingDirectory) ->
     if mainWindow
+        mainWindow.show() if !mainWindow.isVisible()
         mainWindow.restore() if mainWindow.isMinimized()
         mainWindow.focus()
 
