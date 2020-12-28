@@ -208,8 +208,8 @@ app.on 'ready', ->
     ipc.on 'mainwindow:toggle', ->
         if mainWindow.isVisible() then mainWindow.hide() else mainWindow.show()
 
-    ipc.on "mainwindow:isvisibleandfocused", (event) ->
-        event.returnValue = mainWindow.isVisible() and mainWindow.isFocused()
+    ipc.handle "mainwindow:isvisibleandfocused", () ->
+        return mainWindow.isVisible() and mainWindow.isFocused()
 
     ipc.on 'mainwindow:flashframe', -> mainWindow.flashFrame(true)
     ipc.on 'mainwindow:minimize', -> mainWindow.minimize()
