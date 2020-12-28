@@ -1,7 +1,6 @@
+ipc  = require('electron').ipcRenderer
 path   = require 'path'
 i18n   = require 'i18n'
-remote = require('electron').remote
-Menu   = remote.Menu
 React  = require('react')
 
 {check, versionToInt} = require '../version'
@@ -9,30 +8,8 @@ React  = require('react')
 class AboutComponent extends React.Component
     render: ->
         #
-        # Change thes context menu
-        #   Only allows copy on it!
-        remote.getCurrentWindow().webContents.on 'context-menu', (e, params) ->
-            e.preventDefault()
-            menuTemplate = [{
-                label: 'Copy'
-                role: 'copy'
-                enabled: params.editFlags.canCopy
-            }
-            {
-                label: "Copy Link"
-                visible: params.linkURL != '' and params.mediaType == 'none'
-                click: () ->
-                    if process.platform == 'darwin'
-                        clipboard
-                        .writeBookmark params.linkText, params.linkText
-                    else
-                        clipboard.writeText params.linkText
-            }]
-            Menu.buildFromTemplate(menuTemplate).popup remote.getCurrentWindow()
-
-        #
         # decide if should update
-        localVersion    = remote.require('electron').app.getVersion()
+        localVersion    = ipc.sendSync "app:version"
         releasedVersion = window.localStorage.versionAdvertised
         shouldUpdate    = releasedVersion? && localVersion? &&
                           versionToInt(releasedVersion) > versionToInt(localVersion)

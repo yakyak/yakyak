@@ -1,5 +1,6 @@
 ReactDOM  = require('react-dom')
 React     = require('react')
+ipc       = require('electron').ipcRenderer
 
 {
   applayout, convlist, listhead, messages, convhead, input, conninfo,
@@ -49,7 +50,6 @@ handle 'update:connection', do ->
 #
 #
 handle 'update:viewstate', ->
-
     setLeftSize = (left) ->
         document.querySelector('.left').style.width = left + 'px'
         document.querySelector('.leftresize').style.left = (left - 2) + 'px'
@@ -159,7 +159,6 @@ handle 'update:viewstate', ->
         applayout.foot input
 
         applayout.last null
-
         menu viewstate
         dockicon viewstate
         trayicon models

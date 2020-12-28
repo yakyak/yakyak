@@ -64,7 +64,7 @@ add = (state, {conv}) ->
         {conversation, event} = conv
         conv = conversation
         # remove observed events
-        conv.event = (e for e in event when !e.event_id.match(/observed_/))
+        conv.event = (e for e in event when !e.event_id.match(/observed_/)) if event?.length > 0
 
     {id} = conv.conversation_id or conv.id
     if lookup[id] and conv?.self_conversation_state?.self_read_state?.latest_read_timestamp == 0
@@ -109,7 +109,7 @@ addChatMessage = (state, {msg}) ->
         conv.event.push msg
     # update the sort timestamp to list conv first
     conv?.self_conversation_state?.sort_timestamp = msg.timestamp ? (Date.now() * 1000)
-    convSelector.unreadTotal()
+    lookup.unreadTotal()
     updated 'conv'
 
     { ...state, conversations: lookup}
@@ -168,7 +168,7 @@ addWatermark = (state, {ev}) ->
     islater = latest_read_timestamp > sr?.latest_read_timestamp
     if entity.isSelf(participant_id.chat_id) and sr and islater
         sr.latest_read_timestamp = latest_read_timestamp
-    convSelector.unreadTotal()
+    lookup.unreadTotal()
     updated 'conv'
 
     { ...state, conversations: lookup }

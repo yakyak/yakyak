@@ -38,7 +38,7 @@ funcs =
     list: (sort = true) -> convSelector.list(stateStore, sort)
     redraw_conversation: () -> convSelector.redraw_conversation()
     unread: (conv) -> convSelector.unread(stateStore, conv)
-    unreadTotal: convSelector.unreadTotal
+    unreadTotal: do -> convSelector.unreadTotal(stateStore)
 
 lookup = stateStore.conversations
 

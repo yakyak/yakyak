@@ -74,18 +74,19 @@ module.exports =
             return @MAX_UNREAD if c >= @MAX_UNREAD
         c
 
-    unreadTotal: do ->
+    unreadTotal: (state) ->
+        self = @
         current = 0
         orMore = false
         ->
             sum = (a, b) -> return a + b
             orMore = false
             countunread = (c) ->
-                if @isQuiet(c) then return 0
-                count = @unread c
-                if count == @MAX_UNREAD then orMore = true
+                if self.isQuiet(c) then return 0
+                count = self.unread state, c
+                if count >= self.MAX_UNREAD then orMore = true
                 return count
-            newTotal = @list(false).map(countunread).reduce(sum, 0)
+            newTotal = self.list(state, false).map(countunread).reduce(sum, 0)
             if current != newTotal
                 current = newTotal
                 later -> action 'unreadtotal', newTotal, orMore
