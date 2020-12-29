@@ -45,8 +45,10 @@ handle 'update:connection', do ->
 #     \_/ |_|\___| \_/\_/ |___/\__\__,_|\__\___|
 #
 #
-handle 'update:viewstate', ->
+handle 'viewstate:updated', ->
+    updated 'viewstate'
 
+handle 'update:viewstate', ->
     setLeftSize = (left) ->
         document.querySelector('.left').style.width = left + 'px'
         document.querySelector('.leftresize').style.left = (left - 2) + 'px'
@@ -87,9 +89,9 @@ handle 'update:viewstate', ->
             xWindowPos = viewstate.pos[0]
             yWindowPos = viewstate.pos[1]
             # window size to be used in rounding the position, i.e. avoiding partial offscreen
-            winSize = ipc.sendSync 'mainwindow:getsize'
+            winSize = viewstate.winSize
             # iterate on all displays to see if the desired position is valid
-            for screen in ipc.sendSync 'screen:getalldisplays'
+            for screen in viewstate.allDisplays
                 # get bounds of each display
                 {width, height} = screen.workAreaSize
                 {x, y} = screen.workArea

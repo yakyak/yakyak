@@ -199,7 +199,7 @@ app.on 'ready', ->
     ipc.handle 'global:forceclose', () ->
         return global.forceClose
 
-    ipc.on 'mainwindow:getsize', (event) -> event.returnValue = mainWindow.getSize()
+    ipc.handle 'mainwindow:getsize', () -> return mainWindow.getSize()
     ipc.on 'mainwindow:setsize', (event, size) -> mainWindow.setSize size...
     ipc.on 'mainwindow:setposition', (event, x, y) -> mainWindow.setPosition(x, y)
     ipc.on 'mainwindow:close', -> mainWindow.close()
@@ -241,8 +241,7 @@ app.on 'ready', ->
     ipc.on 'menu.applicationmenu:popup', ->
         Menu.getApplicationMenu().popup({})
 
-    ipc.on 'screen:getalldisplays', (event) ->
-        event.returnValue = screen.getAllDisplays()
+    ipc.handle 'screen:getalldisplays', () -> return screen.getAllDisplays()
 
     ipc.on 'spellcheck:availablelanguages', (event) ->
         event.returnValue = mainWindow.webContents.session.availableSpellCheckerLanguages

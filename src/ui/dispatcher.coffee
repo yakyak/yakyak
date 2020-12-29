@@ -170,7 +170,7 @@ handle 'togglehidedockicon', ->
 
 handle 'show-about', ->
     viewstate.setState viewstate.STATE_ABOUT
-    updated 'viewstate'
+    viewstate.updateView()
 
 handle 'hideWindow', ->
     ipc.send 'mainwindow:hide'
