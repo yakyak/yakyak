@@ -243,8 +243,8 @@ app.on 'ready', ->
 
     ipc.handle 'screen:getalldisplays', () -> return screen.getAllDisplays()
 
-    ipc.on 'spellcheck:availablelanguages', (event) ->
-        event.returnValue = mainWindow.webContents.session.availableSpellCheckerLanguages
+    ipc.handle 'spellcheck:availablelanguages', () ->
+        return mainWindow.webContents.session.availableSpellCheckerLanguages
 
     ipc.on 'spellcheck:setlanguage', (event, lang) ->
         if lang is 'none'
