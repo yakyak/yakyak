@@ -45,7 +45,7 @@ handle 'update:connection', do ->
 #     \_/ |_|\___| \_/\_/ |___/\__\__,_|\__\___|
 #
 #
-handle 'viewstate:updated', ->
+handle 'viewstate_updated', ->
     updated 'viewstate'
 
 handle 'update:viewstate', ->

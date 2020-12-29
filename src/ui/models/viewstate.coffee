@@ -348,7 +348,7 @@ module.exports = exp = {
 
         # the awaits above means this function will be async,
         # so we can't trigger the 'updated' action directly from here
-        action 'viewstate:updated'
+        action 'viewstate_updated'
 }
 
 merge exp, STATES
