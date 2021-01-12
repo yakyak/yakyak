@@ -160,6 +160,9 @@ module.exports = exp = {
         # @updateView()
 
     setPosition: (pos) ->
+        if @state == STATES.STATE_STARTUP
+            return
+
         localStorage.pos = JSON.stringify(pos)
         @pos = pos
         # @updateView()
