@@ -357,11 +357,11 @@ app.on 'ready', ->
           tray.setImage iconpath unless tray.currentImage == iconpath
         else
           tray = new Tray iconpath
+          tray.on 'click', (ev) -> ipcsend 'menuaction', 'togglewindow'
 
         tray.currentImage = iconpath
 
         tray.setToolTip toolTip
-        tray.on 'click', (ev) -> ipcsend 'menuaction', 'togglewindow'
 
         if menu
             # build functions that cannot be sent via ipc
