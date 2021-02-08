@@ -155,20 +155,19 @@ module.exports = exp = {
             later -> action 'updatewatermark'
 
     setSize: (size) ->
+        return if @state == STATES.STATE_STARTUP
         localStorage.size = JSON.stringify(size)
         @size = size
         # @updateView()
 
     setPosition: (pos) ->
-        if @state == STATES.STATE_STARTUP
-            return
-
+        return if @state == STATES.STATE_STARTUP
         localStorage.pos = JSON.stringify(pos)
         @pos = pos
         # @updateView()
 
     setLeftSize: (size) ->
-        return if @leftSize == size or size < 180
+        return if @state == STATES.STATE_STARTUP or @leftSize == size or size < 180
         @leftSize = localStorage.leftSize = size
         @updateView()
 
