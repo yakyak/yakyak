@@ -4,7 +4,11 @@ clipboard     = require('electron').clipboard
 
 {isContentPasteable} = require '../util'
 
-availableLanguages = ipc.sendSync 'spellcheck:availablelanguages'
+ipc.invoke('spellcheck:availablelanguages')
+    .then (res) ->
+        window.availableLanguages = res
+    .catch (error) ->
+        console.error(error)
 
 templateContext = (params, viewstate) ->
     #
@@ -22,7 +26,7 @@ templateContext = (params, viewstate) ->
     else
         i18n.__('menu.edit.spell_check.title:Spellcheck') + ': ' + spellcheckLanguage
 
-    langMenu = availableLanguages.map (el) ->
+    langMenu = (window.availableLanguages ? []).map (el) ->
         {
             label: el,
             action: {name: 'setspellchecklanguage', params: [el]}

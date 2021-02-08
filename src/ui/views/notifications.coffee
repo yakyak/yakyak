@@ -22,7 +22,7 @@ module.exports = (models) ->
     {conv, notify, entity, viewstate} = models
     tonot = notify.popToNotify()
 
-    visibleFocused = ipc.sendSync 'mainwindow:isvisibleandfocused'
+    visibleFocused = await ipc.invoke 'mainwindow:isvisibleandfocused'
     quietIf = (c, chat_id) -> visibleFocused or conv.isQuiet(c) or entity.isSelf(chat_id)
 
     tonot.forEach (msg) ->

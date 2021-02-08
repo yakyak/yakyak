@@ -55,6 +55,8 @@ module.exports = exp = {
     # contacts are loaded
     loadedContacts: false
     openOnSystemStartup: false
+    allDisplays: {}
+    winSize: {}
 
     setUseSystemDateFormat: (val) ->
         @useSystemDateFormat = val
@@ -64,7 +66,7 @@ module.exports = exp = {
     setContacts: (state) ->
         return if state == @loadedContacts
         @loadedContacts = state
-        updated 'viewstate'
+        @updateView()
 
     setState: (state) ->
         return if @state == state
@@ -73,13 +75,13 @@ module.exports = exp = {
             # set a first active timestamp to avoid requesting
             # syncallnewevents on startup
             require('./connection').setLastActive(Date.now(), true)
-        updated 'viewstate'
+        @updateView()
 
     setSpellCheckLanguage: (language) ->
         return if @language == language
         ipc.send 'spellcheck:setlanguage', language
         @spellcheckLanguage = localStorage.spellcheckLanguage = language
-        updated 'viewstate'
+        @updateView()
 
     setLanguage: (language) ->
         return if @language == language
@@ -114,7 +116,7 @@ module.exports = exp = {
         @switchInput(conv_id)
         @selectedConv = localStorage.selectedConv = conv_id
         @setLastKeyDown 0
-        updated 'viewstate'
+        @updateView()
         updated 'switchConv'
 
     selectNextConv: (offset = 1) ->
@@ -135,7 +137,7 @@ module.exports = exp = {
     updateAtTop: (attop) ->
         return if @attop == attop
         @attop = attop
-        updated 'viewstate'
+        @updateView()
 
     updateAtBottom: (atbottom) ->
         return if @atbottom == atbottom
@@ -154,19 +156,21 @@ module.exports = exp = {
             later -> action 'updatewatermark'
 
     setSize: (size) ->
+        return if @state == STATES.STATE_STARTUP
         localStorage.size = JSON.stringify(size)
         @size = size
-        # updated 'viewstate'
+        # @updateView()
 
     setPosition: (pos) ->
+        return if @state == STATES.STATE_STARTUP
         localStorage.pos = JSON.stringify(pos)
         @pos = pos
-        # updated 'viewstate'
+        # @updateView()
 
     setLeftSize: (size) ->
-        return if @leftSize == size or size < 180
+        return if @state == STATES.STATE_STARTUP or @leftSize == size or size < 180
         @leftSize = localStorage.leftSize = size
-        updated 'viewstate'
+        @updateView()
 
     setZoom: (zoom) ->
         @zoom = localStorage.zoom = document.body.style.zoom = zoom
@@ -174,11 +178,11 @@ module.exports = exp = {
 
     setLoggedin: (val) ->
         @loggedin = val
-        updated 'viewstate'
+        @updateView()
 
     setShowSeenStatus: (val) ->
         @showseenstatus = localStorage.showseenstatus = !!val
-        updated 'viewstate'
+        @updateView()
 
     setLastKeyDown: do ->
         {TYPING, PAUSED, STOPPED} = Client.TypingStatus
@@ -210,49 +214,49 @@ module.exports = exp = {
         @showConvMin = localStorage.showConvMin = doshow
         if doshow
             this.setShowConvThumbs(true)
-        updated 'viewstate'
+        @updateView()
 
     setShowConvThumbs: (doshow) ->
         return if @showConvThumbs == doshow
         @showConvThumbs = localStorage.showConvThumbs = doshow
         unless doshow
             this.setShowConvMin(false)
-        updated 'viewstate'
+        @updateView()
 
     setShowAnimatedThumbs: (doshow) ->
         return if @showAnimatedThumbs == doshow
         @showAnimatedThumbs = localStorage.showAnimatedThumbs = doshow
-        updated 'viewstate'
+        @updateView()
 
     setShowConvTime: (doshow) ->
         return if @showConvTime == doshow
         @showConvTime = localStorage.showConvTime = doshow
-        updated 'viewstate'
+        @updateView()
 
     setShowConvLast: (doshow) ->
         return if @showConvLast == doshow
         @showConvLast = localStorage.showConvLast = doshow
-        updated 'viewstate'
+        @updateView()
 
     setShowPopUpNotifications: (doshow) ->
         return if @showPopUpNotifications == doshow
         @showPopUpNotifications = localStorage.showPopUpNotifications = doshow
-        updated 'viewstate'
+        @updateView()
 
     setShowMessageInNotification: (doshow) ->
         return if @showMessageInNotification == doshow
         @showMessageInNotification = localStorage.showMessageInNotification = doshow
-        updated 'viewstate'
+        @updateView()
 
     setShowUsernameInNotification: (doshow) ->
         return if @showUsernameInNotification == doshow
         @showUsernameInNotification = localStorage.showUsernameInNotification = doshow
-        updated 'viewstate'
+        @updateView()
 
     setForceCustomSound: (doshow) ->
         return if localStorage.forceCustomSound == doshow
         @forceCustomSound = localStorage.forceCustomSound = doshow
-        updated 'viewstate'
+        @updateView()
 
     setBouncyIcon: (doshow) ->
         return if localStorage.bouncyIcon == doshow
@@ -262,27 +266,27 @@ module.exports = exp = {
     setShowIconNotification: (doshow) ->
         return if localStorage.showIconNotification == doshow
         @showIconNotification = localStorage.showIconNotification = doshow
-        updated 'viewstate'
+        @updateView()
 
     setMuteSoundNotification: (doshow) ->
         return if localStorage.muteSoundNotification == doshow
         @muteSoundNotification = localStorage.muteSoundNotification = doshow
-        updated 'viewstate'
+        @updateView()
 
     setConvertEmoji: (doshow) ->
         return if @convertEmoji == doshow
         @convertEmoji = localStorage.convertEmoji = doshow
-        updated 'viewstate'
+        @updateView()
 
     setSuggestEmoji: (doshow) ->
         return if @suggestEmoji == doshow
         @suggestEmoji = localStorage.suggestEmoji = doshow
-        updated 'viewstate'
+        @updateView()
 
     setshowImagePreview: (doshow) ->
         return if @showImagePreview == doshow
         @showImagePreview = localStorage.showImagePreview = doshow
-        updated 'viewstate'
+        @updateView()
 
     setColorScheme: (colorscheme) ->
         @colorScheme = localStorage.colorScheme = colorscheme
@@ -299,11 +303,11 @@ module.exports = exp = {
 
     setEscapeClearsInput: (value) ->
         @escapeClearsInput = localStorage.escapeClearsInput = value
-        updated 'viewstate'
+        @updateView()
 
     setColorblind: (value) ->
         @colorblind = localStorage.colorblind = value
-        updated 'viewstate'
+        @updateView()
 
     setShowTray: (value) ->
         @showtray = localStorage.showtray = value
@@ -312,22 +316,22 @@ module.exports = exp = {
             @setCloseToTray(false)
             @setStartMinimizedToTray(false)
         else
-            updated 'viewstate'
+            @updateView()
 
     setHideDockIcon: (value) ->
         @hidedockicon = localStorage.hidedockicon = value
-        updated 'viewstate'
+        @updateView()
 
     setStartMinimizedToTray: (value) ->
         @startminimizedtotray = localStorage.startminimizedtotray = value
-        updated 'viewstate'
+        @updateView()
 
     setShowDockIconOnce: (value) ->
         @showDockIconOnce = value
 
     setCloseToTray: (value) ->
         @closetotray = localStorage.closetotray = !!value
-        updated 'viewstate'
+        @updateView()
 
     setOpenOnSystemStartup: (open) ->
         return if @openOnSystemStartup == open
@@ -339,12 +343,20 @@ module.exports = exp = {
 
         @openOnSystemStartup = open
 
-        updated 'viewstate'
+        @updateView()
 
     initOpenOnSystemStartup: (isEnabled) ->
         @openOnSystemStartup = isEnabled
 
-        updated 'viewstate'
+        @updateView()
+
+    updateView: () ->
+        @allDisplays = await ipc.invoke 'screen:getalldisplays'
+        @winSize = await ipc.invoke 'mainwindow:getsize'
+
+        # the awaits above means this function will be async,
+        # so we can't trigger the 'updated' action directly from here
+        action 'viewstate_updated'
 }
 
 merge exp, STATES

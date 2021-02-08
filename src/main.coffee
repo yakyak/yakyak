@@ -188,8 +188,8 @@ app.on 'ready', ->
     # away if we must do auth.
     loadAppWindow()
 
-    ipc.on 'app:version', (event) ->
-        event.returnValue = app.getVersion()
+    ipc.handle 'app:version', () ->
+        return app.getVersion()
 
     ipc.on 'download:saveas', (event, url) ->
         try
@@ -197,10 +197,10 @@ app.on 'ready', ->
         catch err
             console.log 'Possible problem with saving image. ', err
 
-    ipc.on 'global:forceclose', (event) ->
-        event.returnValue = global.forceClose
+    ipc.handle 'global:forceclose', () ->
+        return global.forceClose
 
-    ipc.on 'mainwindow:getsize', (event) -> event.returnValue = mainWindow.getSize()
+    ipc.handle 'mainwindow:getsize', () -> return mainWindow.getSize()
     ipc.on 'mainwindow:setsize', (event, size) -> mainWindow.setSize size...
     ipc.on 'mainwindow:setposition', (event, x, y) -> mainWindow.setPosition(x, y)
     ipc.on 'mainwindow:close', -> mainWindow.close()
@@ -209,8 +209,8 @@ app.on 'ready', ->
     ipc.on 'mainwindow:toggle', ->
         if mainWindow.isVisible() then mainWindow.hide() else mainWindow.show()
 
-    ipc.on "mainwindow:isvisibleandfocused", (event) ->
-        event.returnValue = mainWindow.isVisible() and mainWindow.isFocused()
+    ipc.handle "mainwindow:isvisibleandfocused", () ->
+        return mainWindow.isVisible() and mainWindow.isFocused()
 
     ipc.on 'mainwindow:flashframe', -> mainWindow.flashFrame(true)
     ipc.on 'mainwindow:minimize', -> mainWindow.minimize()
@@ -242,11 +242,10 @@ app.on 'ready', ->
     ipc.on 'menu.applicationmenu:popup', ->
         Menu.getApplicationMenu().popup({})
 
-    ipc.on 'screen:getalldisplays', (event) ->
-        event.returnValue = screen.getAllDisplays()
+    ipc.handle 'screen:getalldisplays', () -> return screen.getAllDisplays()
 
-    ipc.on 'spellcheck:availablelanguages', (event) ->
-        event.returnValue = mainWindow.webContents.session.availableSpellCheckerLanguages
+    ipc.handle 'spellcheck:availablelanguages', () ->
+        return mainWindow.webContents.session.availableSpellCheckerLanguages
 
     ipc.on 'spellcheck:setlanguage', (event, lang) ->
         if lang is 'none'
@@ -434,11 +433,11 @@ app.on 'ready', ->
           tray.setImage iconpath unless tray.currentImage == iconpath
         else
           tray = new Tray iconpath
+          tray.on 'click', (ev) -> ipcsend 'menuaction', 'togglewindow'
 
         tray.currentImage = iconpath
 
         tray.setToolTip toolTip
-        tray.on 'click', (ev) -> ipcsend 'menuaction', 'togglewindow'
 
         if menu
             # build functions that cannot be sent via ipc

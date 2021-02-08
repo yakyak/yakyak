@@ -405,6 +405,7 @@ preloadTweet = (href) ->
             frag = document.createElement 'div'
             frag.innerHTML = html
             container = frag.querySelector '[data-associated-tweet-id]'
+            return if not container?
             textNode = container.querySelector ('.tweet-text')
             image = container.querySelector ('[data-image-url]')
             preload_cache[href].text = textNode.textContent
