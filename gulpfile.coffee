@@ -407,6 +407,7 @@ archOpts.forEach (arch) ->
                 '--package', "./dist/#{packageName}"
                 '--after-install', './resources/linux/after-install.sh'
                 '--after-remove', './resources/linux/after-remove.sh'
+                '--pacman-compression', 'gz'
                 "./dist/#{json.name}-linux-#{arch}/.=/opt/#{json.name}"
                 "./resources/linux/app.desktop=/usr/share/applications/#{json.name}.desktop"
             ].concat iconArgs
