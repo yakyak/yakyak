@@ -413,7 +413,7 @@ archOpts.forEach (arch) ->
             child = spawn 'fpm', fpmArgs
             child.stdout.on 'data', (data) ->
               # do nothing
-              console.log("fpm: #{data}") if target == 'rpm'
+              console.log("fpm: #{data}")
               done()
               return true
             # log all errors
