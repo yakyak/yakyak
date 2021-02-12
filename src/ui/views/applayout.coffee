@@ -32,15 +32,15 @@ onScroll = throttle 20, (ev) ->
         el.scrollTop = el.getAttribute('scrolltop')
         el.removeAttribute('scrolltop')
 
-    # calculation to see whether we are at the bottom with a tolerance value
-    atbottom = (el.scrollTop + el.offsetHeight) >= (child.offsetHeight - 10)
-    action 'atbottom', atbottom
-
-    # check whether we are at the top with a tolerance value
-    if el.scrollTop < 0
+    # calculation to see whether we are at the bottom or top with a tolerance value
+    if el.scrollTop <= 0
+        atbottom = el.scrollTop >= -10
         attop = child.offsetHeight - el.offsetHeight + el.scrollTop <= el.offsetHeight / 2
     else
+        atbottom = (el.scrollTop + el.offsetHeight) >= (child.offsetHeight - 10)
         attop = el.scrollTop <= (el.offsetHeight / 2)
+
+    action 'atbottom', atbottom
     action 'attop', attop
 
 addClass = (el, cl) ->
