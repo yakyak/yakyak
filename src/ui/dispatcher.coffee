@@ -69,7 +69,8 @@ handle 'watermark', (ev) ->
 
 handle 'presence', (ev) ->
     entity.setLastSeen ev[0][0][0][0], Math.floor(ev[0][0][1][9] / 1000000)
-    entity.updatePresence()
+    later ->
+        action 'updatepresence'
 
 # handle 'self_presence', (ev) ->
 #     console.log 'self_presence', ev
@@ -193,10 +194,15 @@ handle 'togglestartminimizedtotray', ->
 handle 'toggleclosetotray', ->
     viewstate.setCloseToTray(not viewstate.closetotray)
 
+handle 'updatepresence', ->
+    entity.updatePresence()
+
 sendsetpresence = throttle 10000, ->
     ipc.send 'setpresence'
     ipc.send 'setactiveclient', true, 15
-    entity.updatePresence()
+    later ->
+        action 'updatepresence'
+
 resendfocus = throttle 15000, -> ipc.send 'setfocus', viewstate.selectedConv
 
 # on every keep alive signal from hangouts
