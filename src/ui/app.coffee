@@ -174,6 +174,9 @@ ipc.on 'menuaction', (ev, name, p) ->
 ipc.on 'getentity:result', (ev, r, data) ->
     action 'addentities', r.entities, data?.add_to_conv
 
+ipc.on 'getvideoinformation:result', (ev, conv_id, event_id, photo_id, result) ->
+    action 'videoinformation', conv_id, event_id, photo_id, result
+
 ipc.on 'resize', (ev, dim) -> action 'resize', dim
 
 ipc.on 'move', (ev, pos)  -> action 'move', pos

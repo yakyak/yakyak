@@ -292,6 +292,12 @@ handle 'uploadimage', (files) ->
     # clear value for upload image input
     document.getElementById('attachFile').value = ''
 
+handle 'getvideoinformation', (conv_id, event_id, user_id, photo_id) ->
+    ipc.send 'getvideoinformation', conv_id, event_id, user_id, photo_id
+
+handle 'videoinformation', (conv_id, event_id, photo_id, result) ->
+    conv.updateVideoInformation conv_id, event_id, photo_id, result
+
 handle 'onpasteimage', ->
     element = document.getElementById 'preview-img'
     element.src = clipboard.readImage().toDataURL()

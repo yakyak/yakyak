@@ -131,6 +131,30 @@ addWatermark = (ev) ->
     unreadTotal()
     updated 'conv'
 
+updateVideoInformation = (conv_id, event_id, photo_id, result) ->
+    console.error('updateVideoInformation', result)
+    thumb = result.videoItem?.thumbnail?.url
+    url = null
+    res = 0
+    for stream in result.videoItem?.videoStream ? []
+        continue if stream.width * stream.height < res
+        res = stream.width * stream.height
+        url = stream.playUrl
+
+    conv = lookup[conv_id]
+    if conv? and conv.event?
+        cpos = findByEventId conv, event_id
+        if cpos
+            for e in conv.event[cpos].chat_message.message_content.attachment ? []
+                plus_photo = e.embed_item.plus_photo
+                if plus_photo.data.photo_id is photo_id
+                    plus_photo.videoinformation = {
+                        thumb: thumb,
+                        url: url
+                    }
+
+    updated 'conv'
+
 uniqfn = (as, fn) -> bs = as.map fn; as.filter (e, i) -> bs.indexOf(bs[i]) == i
 
 sortby = (conv) -> conv?.self_conversation_state?.sort_timestamp ? 0
@@ -288,6 +312,7 @@ funcs =
     pruneTyping: pruneTyping
     unreadTotal: unreadTotal
     findLastReadEventsByUser: findLastReadEventsByUser
+    updateVideoInformation: updateVideoInformation
 
     setNotificationLevel: (conv_id, level) ->
         return unless c = lookup[conv_id]
