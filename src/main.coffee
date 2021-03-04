@@ -499,6 +499,10 @@ app.on 'ready', ->
             client.sendchatmessage conv_id, null, image_id, null, client_generated_id, delivery_medium
     , true
 
+    ipc.on 'getvideoinformation', seqreq (ev, conv_id, event_id, user_id, photo_id) ->
+        client.getvideoinformation(user_id, photo_id).then (body) ->
+            ipcsend 'getvideoinformation:result', conv_id, event_id, photo_id, body
+
     # we want to upload. in the order specified, with retry
     ipc.on 'uploadclipboardimage', seqreq (ev, spec) ->
         {pngData, conv_id, client_generated_id} = spec

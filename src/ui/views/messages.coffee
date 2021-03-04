@@ -45,6 +45,10 @@ onclick = (e) ->
     e.preventDefault()
     address = e.currentTarget.getAttribute 'href'
 
+    if e.currentTarget.classList.contains 'public_url'
+        shell.openExternal(fixlink(address))
+        return
+
     patt = new RegExp("^(https?[:][/][/]www[.]google[.](com|[a-z][a-z])[/]url[?]q[=])([^&]+)(&.+)*")
     if patt.test(address)
         address = address.replace(patt, '$3')
@@ -249,7 +253,7 @@ drawMessage = (e, entity) ->
     div id:e.event_id, key:e.event_id, class:mclz.join(' '), title:title, dir: 'auto', ->
         if e.chat_message
             content = e.chat_message?.message_content
-            format content
+            format e, content
             # loadInlineImages content
             if e.placeholder and e.uploadimage
                 span class:'material-icons spin', 'donut_large'
@@ -298,10 +302,10 @@ scrollToBottom = module.exports.scrollToBottom = ->
 
 ifpass = (t, f) -> if t then f else pass
 
-format = (cont) ->
+format = (event, cont) ->
     if cont?.attachment?
         try
-            formatAttachment cont.attachment
+            formatAttachment event, cont.attachment
         catch e
             console.error e
     for seg, i in cont?.segment ? []
@@ -426,17 +430,17 @@ preloadInstagramPhoto = (href) ->
             later -> action 'loadedinstagramphoto'
     return cache
 
-formatAttachment = (att) ->
+formatAttachment = (event, att) ->
     # console.log 'attachment', att if att.length > 0
     if att?[0]?.embed_item?.type_
-        data = extractProtobufStyle(att)
+        data = extractProtobufStyle(event, att)
         return if not data
-        {href, thumb, original_content_url} = data
+        {href, thumb, original_content_url, public_url} = data
     else if att?[0]?.embed_item?.type
         console.log('THIS SHOULD NOT HAPPEN WTF !!')
-        data = extractProtobufStyle(att)
+        data = extractProtobufStyle(event, att)
         return if not data
-        {href, thumb, original_content_url} = data
+        {href, thumb, original_content_url, public_url} = data
     else
         console.warn 'ignoring attachment', att unless att?.length == 0
         return
@@ -445,9 +449,10 @@ formatAttachment = (att) ->
     href = original_content_url unless href
 
     # here we assume attachments are only images
+    cls = if public_url then 'public_url' else ''
     if preload thumb
         div class:'attach', ->
-            a {href, onclick}, ->
+            a class:cls, {href, onclick}, ->
                 if models.viewstate.showImagePreview
                     img src:thumb
                 else
@@ -467,19 +472,28 @@ handle 'loadedtweet', ->
 handle 'loadedinstagramphoto', ->
     updated 'conv'
 
-extractProtobufStyle = (att) ->
+extractProtobufStyle = (event, att) ->
     href = null
     thumb = null
+    public_url = false
 
     embed_item = att?[0]?.embed_item
     {plus_photo, data, type_} = embed_item ? {}
     if plus_photo?
-        href  = plus_photo.data?.url
-        thumb = plus_photo.data?.thumbnail?.image_url
-        href  = plus_photo.data?.thumbnail?.url
+        console.error('plus_photo', plus_photo)
+        href  = plus_photo.data?.thumbnail?.image_url
+        thumb = href.replace /googleusercontent.com\/(.+)\/s0\/(.+)$/, 'googleusercontent.com/$1/s512/$2'
         original_content_url = plus_photo.data?.original_content_url
+        console.error(href, thumb)
         isVideo = plus_photo.data?.media_type isnt 'MEDIA_TYPE_PHOTO'
-        return {href, thumb, original_content_url}
+        if isVideo
+            if plus_photo.videoinformation?
+                thumb = plus_photo.videoinformation.thumb
+                href = plus_photo.videoinformation.url
+                public_url = true
+            else
+                action 'getvideoinformation', event.conversation_id?.id, event.event_id, plus_photo.data?.owner_obfuscated_id, plus_photo.data?.photo_id
+        return {href, thumb, original_content_url, public_url}
 
     t = type_?[0]
     return console.warn 'ignoring (old) attachment type', att unless t == 249
@@ -491,7 +505,7 @@ extractProtobufStyle = (att) ->
         href = data?[k]?[4]
         thumb = data?[k]?[5]
 
-    {href, thumb, original_content_url}
+    {href, thumb, original_content_url, public_url}
 
 extractObjectStyle = (att) ->
     eitem = att?[0]?.embed_item
