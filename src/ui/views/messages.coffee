@@ -480,11 +480,9 @@ extractProtobufStyle = (event, att) ->
     embed_item = att?[0]?.embed_item
     {plus_photo, data, type_} = embed_item ? {}
     if plus_photo?
-        console.error('plus_photo', plus_photo)
         href  = plus_photo.data?.thumbnail?.image_url
         thumb = href.replace /googleusercontent.com\/(.+)\/s0\/(.+)$/, 'googleusercontent.com/$1/s512/$2'
         original_content_url = plus_photo.data?.original_content_url
-        console.error(href, thumb)
         isVideo = plus_photo.data?.media_type isnt 'MEDIA_TYPE_PHOTO'
         if isVideo
             if plus_photo.videoinformation?
