@@ -18,6 +18,7 @@ filter     = require 'gulp-filter'
 Q          = require 'q'
 Stream     = require 'stream'
 spawn      = require('child_process').spawn
+glob       = require('glob')
 
 #
 #
@@ -323,6 +324,16 @@ deploy = (platform, arch, cb) ->
             console.error(error)
         .then (appPaths) ->
             if appPaths?.length > 0
+                # Work around issue when upgrading from an older version that causes
+                # it to use the old app directory, rather than the new app.asar file.
+                # This is due to electron checking for the app dir first, then the asar.
+                # See: https://github.com/electron/electron/blob/master/lib/browser/init.ts#L84
+                files = glob.sync "#{appPaths[0]}/**/app.asar", {nodir: true}
+                if files.length > 0
+                    resPath = path.dirname files[0]
+                    fs.mkdirSync "#{resPath}/app", {recursive: true}
+                    fs.writeFileSync "#{resPath}/app/package.json", ""
+
                 if process.env.NO_ZIP
                     cb()
                     return deferred.resolve()
