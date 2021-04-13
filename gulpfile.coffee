@@ -12,7 +12,7 @@ liveReload = require 'gulp-livereload'
 changed    = require 'gulp-changed'
 rename     = require 'gulp-rename'
 packager   = require 'electron-packager'
-flatpak    = try require 'electron-installer-flatpak'
+flatpak    = try require '@malept/electron-installer-flatpak'
 debian     = try require 'electron-installer-debian'
 filter     = require 'gulp-filter'
 Q          = require 'q'
@@ -494,7 +494,6 @@ archOpts.forEach (arch) ->
         flatpakOptions =
             id: 'com.github.yakyak.YakYak'
             arch: arch
-            runtimeVersion: "1.6"
             src: 'dist/yakyak-linux-' + arch
             dest: 'dist/'
             genericName: 'Internet Messenger'
@@ -507,7 +506,17 @@ archOpts.forEach (arch) ->
                 '256x256': 'src/icons/icon_256.png'
                 '512x512': 'src/icons/icon_512.png'
             categories: ['Network', 'InstantMessaging']
-            finishArgs: ['-v']
+            finishArgs: [
+                '--socket=x11'
+                '--socket=wayland'
+                '--share=ipc'
+                '--device=dri'
+                '--socket=pulseaudio'
+                '--filesystem=home'
+                '--env=TMPDIR=/var/tmp'
+                '--share=network'
+                '--talk-name=org.freedesktop.Notifications'
+            ]
         flatpak flatpakOptions, (err) ->
             if err
                 console.error err.stack
