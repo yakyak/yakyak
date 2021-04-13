@@ -3,6 +3,8 @@ notifier = require 'node-notifier'
 shell    = require('electron').shell
 path     = require 'path'
 i18n     = require 'i18n'
+fs       = require 'fs'
+app = require('electron').app
 
 {nameof, getProxiedName, fixlink, notificationCenterSupportsSound} = require '../util'
 
@@ -16,7 +18,6 @@ audioFile = path.join YAKYAK_ROOT_DIR, '..', 'media',
 'new_message.ogg'
 audioEl = new Audio(audioFile)
 audioEl.volume = .4
-
 
 module.exports = (models) ->
     {conv, notify, entity, viewstate} = models
@@ -103,6 +104,12 @@ module.exports = (models) ->
             #  and notifier does not support sound or force custom sound is set
             #  and mute option is not set
             if (!notifierSupportsSound || viewstate.forceCustomSound) && !viewstate.muteSoundNotification && audioEl.paused
+                dataFile = path.join USERDATA_DIR, 'media', 'new_message.ogg'
+                if fs.existsSync(dataFile)
+                    audioEl.src = dataFile
+                else
+                    audioEl.src = path.join YAKYAK_ROOT_DIR, '..', 'media', 'new_message.ogg'
+
                 audioEl.play()
         # if not mainWindow.isVisible()
         #    mainWindow.showInactive()

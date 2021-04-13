@@ -17,6 +17,11 @@ notr.defineStack 'def', 'body', {top:'3px', right:'15px'}
 # init trifl dispatcher
 dispatcher = require './dispatcher'
 
+ipc.invoke('app:getpath', 'userData').then((res) ->
+    console.error 'userData', res
+    global.USERDATA_DIR = res
+)
+
 window.onerror = (msg, url, lineNo, columnNo, error) ->
     hash = {msg, url, lineNo, columnNo, error}
     ipc.send 'errorInWindow', hash

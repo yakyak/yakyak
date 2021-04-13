@@ -34,6 +34,7 @@ tray = null # set global tray
 
 # Path for configuration
 userData = path.normalize(app.getPath('userData'))
+global.USERDATA_DIR = userData
 
 # makedir if it doesn't exist
 fs.mkdirSync(userData) if not fs.existsSync userData
@@ -190,6 +191,9 @@ app.on 'ready', ->
 
     ipc.handle 'app:version', () ->
         return app.getVersion()
+
+    ipc.handle 'app:getpath', (event, type) ->
+        return path.normalize(app.getPath(type))
 
     ipc.on 'download:saveas', (event, url) ->
         try
