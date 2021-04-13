@@ -64,7 +64,7 @@
     "autosize": "^4.0.2",
     "bog": "^1.0.0",
     "electron-installer-debian": "^3.1.0",
-    "electron-installer-flatpak": "^0.6.0",
+    "electron-installer-flatpak": "^0.8.0",
     "got": "^11.8.1",
     "hangupsjs": "yakyak/hangupsjs",
     "i18n": "^0.13.2",
@@ -80,7 +80,7 @@
   },
   "optionalDependencies": {
     "electron-installer-debian": "^3.1.0",
-    "electron-installer-flatpak": "^0.6.0"
+    "electron-installer-flatpak": "^0.8.0"
   },
   "devDependencies": {
     "chai": "^4.2.0",
