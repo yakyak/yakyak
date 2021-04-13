@@ -491,14 +491,12 @@ archOpts.forEach (arch) ->
         gulp.series("deploy:linux-#{arch}", "deploy:linux-#{arch}:deb:nodep")
 
     gulp.task "deploy:linux-#{arch}:flatpak:nodep", (done) ->
-        branch = execSync('git rev-parse --abbrev-ref HEAD').toString().replace(/[^a-z0-9.-]/ig, '')
-
         flatpakOptions =
             id: 'com.github.yakyak.YakYak'
             arch: arch
             src: 'dist/yakyak-linux-' + arch
             dest: 'dist/'
-            branch: branch
+            branch: "#{json.branch}"
             genericName: 'Internet Messenger'
             productName: 'YakYak'
             icon:
