@@ -58,8 +58,8 @@ before_deploy:
   - sudo apt-get install flatpak-builder flatpak -qq
   - flatpak --user remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
   ## 64-bits
-  - flatpak --user install flathub org.freedesktop.Sdk/x86_64/18.09
-  - flatpak --user install flathub org.freedesktop.Platform/x86_64/18.09
+  - flatpak --user install flathub org.freedesktop.Sdk/x86_64/19.08
+  - flatpak --user install flathub org.freedesktop.Platform/x86_64/19.08
   ## 32-bits
   #- flatpak --user install flathub org.freedesktop.Sdk/i386/1.6
   #- flatpak --user install flathub org.freedesktop.Platform/i386/1.6
