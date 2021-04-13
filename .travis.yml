@@ -18,10 +18,10 @@ before_install:
 before_deploy:
   # YAKYAK_VERSION is used in the files to copy
   - export YAKYAK_VERSION=`node -e "console.log(require('./package.json').version);"`
+  # branch
+  - export YAKYAK_BRANCH=`node -e "console.log(require('./package.json').branch);`
   # debug information for the electron packager
   - export DEBUG=electron-packager
-  # branch
-  - export BRANCH=`git rev-parse --abbrev-ref HEAD`
   # allows to have wine with 32-bits
   - sudo dpkg --add-architecture i386
   - sudo apt-get -qq update
@@ -55,7 +55,7 @@ before_deploy:
   #
   - sudo add-apt-repository ppa:alexlarsson/flatpak -y
   - sudo apt-get update -qq
-  - sudo apt-get install flatpak-builder flatpak -qq
+  - sudo apt-get install flatpak-builder flatpak elfutils -qq
   - flatpak --user remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
   ## 64-bits
   - flatpak --user --noninteractive install flathub org.freedesktop.Sdk/x86_64/19.08
@@ -96,7 +96,7 @@ deploy:
 #
     - "dist/yakyak-${YAKYAK_VERSION}-win32-ia32.zip"
 #
-    - "dist/com.github.yakyak.YakYak_${BRANCH}_x64.flatpak"
+    - "dist/com.github.yakyak.YakYak_${YAKYAK_BRANCH}_x64.flatpak"
 #    - "dist/com.github.yakyak.YakYak_master_ia32.flatpak"
   # only trigger on tags
   on:
