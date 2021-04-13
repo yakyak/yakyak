@@ -19,7 +19,7 @@ before_deploy:
   # YAKYAK_VERSION is used in the files to copy
   - export YAKYAK_VERSION=`node -e "console.log(require('./package.json').version);"`
   # branch
-  - export YAKYAK_BRANCH=`node -e "console.log(require('./package.json').branch);`
+  - export YAKYAK_BRANCH=`node -e "console.log(require('./package.json').branch);"`
   # debug information for the electron packager
   - export DEBUG=electron-packager
   # allows to have wine with 32-bits
