@@ -1,0 +1,19 @@
+html[theme="custom"] {
+  --white: #ffffff;
+  --ghostwhite: #f4f4f4;
+  --lightgrey: #e8e8e8;
+  --altgrey: #C5CED4;
+  --grey: #b4b4b4;
+  --darkgrey: #777777;
+  --lightblack: #455a64;
+  --black: #263238;
+  --green: #0f9d58;
+  --darkgreen: #0b6e3e;
+  --red: #f44336;
+  --darkred: #ea1c0d;
+  --link: #3879d9;
+  --tweetbg: #55acee;
+  --tweettext: #fff;
+  --instagrambg: #55acee;
+  --instagramtext: #fff;
+}
