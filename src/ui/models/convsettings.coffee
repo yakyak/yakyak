@@ -57,7 +57,7 @@ module.exports = exp = {
                 id: chat_id: id
                 properties:
                     photo_url: p.photo_url
-                    display_name: p.display_name or p.fallback_name
+                    displayName: p.displayName or p.fallback_name
         @group = @selectedEntities.length > 1
         @id = c.conversation_id?.id or c.id?.id
         @initialName = @name = c.name or ""

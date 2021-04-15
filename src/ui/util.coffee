@@ -28,15 +28,15 @@ notificationCenterSupportsSound = () ->
         str == notifier.constructor.name
     )?
 
-nameof = (e) -> e?.display_name ? e?.fallback_name ? e?.first_name ? 'Unknown'
+nameof = (e) -> e?.displayName ? e?.fallback_name ? e?.firstName ? 'Unknown'
 
 initialsof = (e) ->
-    if e?.first_name
+    if e?.firstName
         name = nameof e
-        firstname = e?.first_name
+        firstname = e?.firstName
         return  firstname.charAt(0) + name.replace(firstname, "").charAt(1)
-    else if e?.display_name || e?.fallback_name
-        name_to_split = e?.display_name ? e?.fallback_name
+    else if e?.displayName || e?.fallback_name
+        name_to_split = e?.displayName ? e?.fallback_name
         name_splitted = name_to_split.split(' ')
         firstname = name_splitted[0].charAt(0)
         if name_splitted.length == 1
