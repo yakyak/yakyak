@@ -6,13 +6,14 @@ merge   = (t, os...) -> t[k] = v for k,v of o when v not in [null, undefined] fo
 {throttle, later, tryparse, autoLauncher} = require '../util'
 
 STATES =
-    STATE_STARTUP: 'startup'
+    STATE_INITIAL: 'initial'
     STATE_NORMAL: 'normal'
     STATE_ADD_CONVERSATION: 'add_conversation'
     STATE_ABOUT: 'about'
 
 module.exports = exp = {
     state: null
+    startup: true
     attop: false   # tells whether message list is scrolled to top
     atbottom: true # tells whether message list is scrolled to bottom
     selectedConv: localStorage.selectedConv
@@ -69,9 +70,12 @@ module.exports = exp = {
         @updateView()
 
     setState: (state) ->
+        if state == STATES.STATE_INITIAL
+            @startup = true
+
         return if @state == state
         @state = state
-        if state == STATES.STATE_STARTUP
+        if @startup
             # set a first active timestamp to avoid requesting
             # syncallnewevents on startup
             require('./connection').setLastActive(Date.now(), true)
@@ -156,19 +160,19 @@ module.exports = exp = {
             later -> action 'updatewatermark'
 
     setSize: (size) ->
-        return if @state == STATES.STATE_STARTUP
+        return if @startup
         localStorage.size = JSON.stringify(size)
         @size = size
         # @updateView()
 
     setPosition: (pos) ->
-        return if @state == STATES.STATE_STARTUP
+        return if @startup
         localStorage.pos = JSON.stringify(pos)
         @pos = pos
         # @updateView()
 
     setLeftSize: (size) ->
-        return if @state == STATES.STATE_STARTUP or @leftSize == size or size < 180
+        return if @startup or @leftSize == size or size < 180
         @leftSize = localStorage.leftSize = size
         @updateView()
 
@@ -357,6 +361,9 @@ module.exports = exp = {
         # the awaits above means this function will be async,
         # so we can't trigger the 'updated' action directly from here
         action 'viewstate_updated'
+
+    startupDone: () ->
+        @startup = false
 }
 
 merge exp, STATES
