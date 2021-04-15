@@ -217,7 +217,12 @@ isPureHangout = do ->
         not (c?.event ? []).some isNotHangout
 
 # the time of the last added event
-lastChanged = (c) -> (c?.event?[(c?.event?.length ? 0) - 1]?.timestamp ? 0) / 1000
+lastChanged = (c) ->
+    time = (c?.event?[(c?.event?.length ? 0) - 1]?.timestamp ? 0)
+    if time is 0
+        time = (c?.self_conversation_state?.self_read_state?.latest_read_timestamp ? 0)
+
+    time / 1000
 
 # the number of history events to request
 HISTORY_AMOUNT = 20

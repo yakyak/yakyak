@@ -90,6 +90,9 @@ MESSAGE_CLASSES = ['placeholder', 'chat_message',
 'conversation_rename', 'membership_change']
 
 drawMessage = (e, entity) ->
+    if not e?
+        return
+
     mclz = ['message']
     mclz.push c for c in MESSAGE_CLASSES when e[c]?
     title = if e.timestamp then moment(e.timestamp / 1000).calendar() else null
