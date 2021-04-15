@@ -18,7 +18,6 @@ notr.defineStack 'def', 'body', {top:'3px', right:'15px'}
 dispatcher = require './dispatcher'
 
 ipc.invoke('app:getpath', 'userData').then((res) ->
-    console.error 'userData', res
     global.USERDATA_DIR = res
 )
 
