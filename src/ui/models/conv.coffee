@@ -52,9 +52,9 @@ addChatMessage = (msg) ->
     # we can add message placeholder that needs replacing when
     # the real event drops in. if we find the same event id.
     cpos = findClientGenerated conv, msg?.self_event_state?.client_generated_id
-    unless cpos
+    if not cpos?
         cpos = findByEventId conv, msg.event_id
-    if cpos
+    if cpos?
         # replace event by position
         conv.event[cpos] = msg
     else
@@ -132,7 +132,6 @@ addWatermark = (ev) ->
     updated 'conv'
 
 updateVideoInformation = (conv_id, event_id, photo_id, result) ->
-    console.error('updateVideoInformation', result)
     thumb = result.videoItem?.thumbnail?.url
     url = null
     res = 0
@@ -228,7 +227,8 @@ shouldShow = (c) ->
     pureHang = @isPureHangout(c)
     lastChanged = @lastChanged(c)
     # don't list pure hangouts that are older than 24h
-    return if pureHang and (Date.now() - lastChanged) > 24 * 60 * 60 * 1000 then false else true
+    return false if pureHang and (Date.now() - lastChanged) > 24 * 60 * 60 * 1000
+    return true
 
 # the number of history events to request
 HISTORY_AMOUNT = 20
