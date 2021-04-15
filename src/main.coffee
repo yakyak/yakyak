@@ -57,16 +57,10 @@ logout = ->
     log.info 'Logging out...'
     promise = client.logout()
     promise.then (res) ->
-        argv = process.argv
-        spawn = require('child_process').spawn
         # remove electron cookies
         mainWindow?.webContents?.session?.clearStorageData([], (data) -> console.log(data))
-        spawn argv.shift(), argv,
-            cwd: process.cwd
-            env: process.env
-            detached: true
-            stdio: 'inherit'
-        quit()
+        app.relaunch()
+        app.quit()
     return promise # like it matters
 
 seqreq = require './seqreq'
