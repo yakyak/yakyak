@@ -292,8 +292,11 @@ pruneTyping = do ->
         c.typingtimer = setTimeout (-> action 'pruneTyping', conv_id), waitUntil
 
 funcs =
-    count: ->
-        c = 0; (c++ for k, v of lookup when typeof v == 'object'); c
+    count: (showOnly = false) ->
+        c = 0; (c++ for k, v of lookup when typeof v == 'object' and (not showOnly or @shouldShow(v))); c
+
+    countShow: ->
+        @count true
 
     _reset: ->
         delete lookup[k] for k, v of lookup when typeof v == 'object'
@@ -399,8 +402,8 @@ funcs =
         seg.link_data = link_target:path
         updated 'conv'
 
-    list: (sort = true) ->
-        convs = (v for k, v of lookup when typeof v == 'object' and @shouldShow(v))
+    list: (sort = true, showOnly = false) ->
+        convs = (v for k, v of lookup when typeof v == 'object' and (not showOnly or @shouldShow(v)))
         if sort
             starred = (c for c in convs when isStarred(c))
             convs = (c for c in convs when not isStarred(c))
@@ -408,6 +411,9 @@ funcs =
             convs.sort (e1, e2) -> sortby(e2) - sortby(e1)
             return starred.concat convs
         convs
+
+    listShow: (sort = true) ->
+        @list sort, true
 
 
 

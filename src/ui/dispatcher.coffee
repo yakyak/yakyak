@@ -36,7 +36,7 @@ handle 'init', (init) ->
     conv._initFromConvStates init.conv_states
     # ensure there's a selected conv
     unless conv[viewstate.selectedConv]
-        viewstate.setSelectedConv conv.list()?[0]?.conversation_id
+        viewstate.setSelectedConv conv.listShow()?[0]?.conversation_id
 
     # explicit retrieval of conversation metadata
     #  this is required since #1109

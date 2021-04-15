@@ -115,7 +115,7 @@ module.exports = exp = {
         conv = require './conv' # circular
         conv_id = c?.conversation_id?.id ? c?.id ? c
         unless conv_id
-            conv_id = conv.list()?[0]?.conversation_id?.id
+            conv_id = conv.listShow()?[0]?.conversation_id?.id
         return if @selectedConv == conv_id
         @switchInput(conv_id)
         @selectedConv = localStorage.selectedConv = conv_id
@@ -127,7 +127,7 @@ module.exports = exp = {
         conv = require './conv'
         id = @selectedConv
         c = conv[id]
-        list = (i for i in conv.list() when not conv.isPureHangout(i))
+        list = conv.listShow()
         for c, index in list
             if id == c.conversation_id.id
                 candidate = index + offset
@@ -135,8 +135,8 @@ module.exports = exp = {
 
     selectConvIndex: (index = 0) ->
         conv = require './conv'
-        list = (i for i in conv.list() when not conv.isPureHangout(i))
-        @setSelectedConv list[index]
+        list = conv.listShow()
+        @setSelectedConv list[index] if index < list.length
 
     updateAtTop: (attop) ->
         return if @attop == attop

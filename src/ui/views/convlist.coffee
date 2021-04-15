@@ -12,7 +12,7 @@ module.exports = view (models) ->
             moment.locale(i18n.getLocale())
         else
             moment.locale(window.navigator.language)
-        convs = conv.list()
+        convs = conv.listShow()
         renderConv = (c) ->
             return if c?.self_conversation_state?.view?[0] == 'ARCHIVED_VIEW'
             # remove emoji suggestions on renderConv
