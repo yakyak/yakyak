@@ -19,8 +19,8 @@ module.exports = exp = {
     selectedConv: localStorage.selectedConv
     lastActivity: null
     leftSize: tryparse(localStorage.leftSize) ? 240
-    size: tryparse(localStorage.size ? "[940, 600]")
-    pos: tryparse(localStorage.pos ? "[100, 100]")
+    size: tryparse(localStorage.size) ? [940, 600]
+    pos: tryparse(localStorage.pos) ? [100, 100]
     showConvMin: tryparse(localStorage.showConvMin) ? false
     showConvThumbs: tryparse(localStorage.showConvThumbs) ? true
     showAnimatedThumbs: tryparse(localStorage.showAnimatedThumbs) ? true
@@ -34,7 +34,7 @@ module.exports = exp = {
     showImagePreview: tryparse(localStorage.showImagePreview) ? true
     colorScheme: localStorage.colorScheme or 'default'
     fontSize: localStorage.fontSize or 'medium'
-    zoom: tryparse(localStorage.zoom ? "1.0")
+    zoom: tryparse(localStorage.zoom) ? 1.0
     loggedin: false
     escapeClearsInput: tryparse(localStorage.escapeClearsInput) or false
     showtray: tryparse(localStorage.showtray) or false
