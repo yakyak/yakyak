@@ -224,6 +224,12 @@ lastChanged = (c) ->
 
     time / 1000
 
+shouldShow = (c) ->
+    pureHang = @isPureHangout(c)
+    lastChanged = @lastChanged(c)
+    # don't list pure hangouts that are older than 24h
+    return if pureHang and (Date.now() - lastChanged) > 24 * 60 * 60 * 1000 then false else true
+
 # the number of history events to request
 HISTORY_AMOUNT = 20
 
@@ -313,6 +319,7 @@ funcs =
     toggleStar: toggleStar
     isPureHangout: isPureHangout
     lastChanged: lastChanged
+    shouldShow: shouldShow
     addTyping: addTyping
     pruneTyping: pruneTyping
     unreadTotal: unreadTotal
@@ -393,7 +400,7 @@ funcs =
         updated 'conv'
 
     list: (sort = true) ->
-        convs = (v for k, v of lookup when typeof v == 'object')
+        convs = (v for k, v of lookup when typeof v == 'object' and @shouldShow(v))
         if sort
             starred = (c for c in convs when isStarred(c))
             convs = (c for c in convs when not isStarred(c))
