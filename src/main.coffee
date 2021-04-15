@@ -116,7 +116,10 @@ loadAppWindow = ->
 
     mainWindow.webContents.on 'did-finish-load', () ->
         customcss = path.join path.normalize(app.getPath('userData')), 'colorscheme', 'custom.css'
-        csskey = await mainWindow.webContents.insertCSS(fs.readFileSync(customcss).toString())
+        csskey = null
+        if fs.existsSync(customcss)
+            csskey = await mainWindow.webContents.insertCSS(fs.readFileSync(customcss).toString())
+
         ipc.on 'colorscheme:set', (ev, colorscheme) ->
             if colorscheme != "custom"
                 fs.unwatchFile customcss
@@ -133,7 +136,7 @@ loadAppWindow = ->
                             await mainWindow.webContents.removeInsertedCSS(csskey)
                             csskey = null
 
-                        if curr.mtime != 0
+                        if fs.existsSync(customcss)
                             csskey = await mainWindow.webContents.insertCSS(fs.readFileSync(customcss).toString())
 
     # Only show window when it has some content
