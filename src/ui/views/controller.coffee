@@ -31,7 +31,7 @@ handle 'update:connection', do ->
             later -> action 'lastActivity'
             el?.hide?()
             el = null
-        else if viewstate.state != viewstate.STATE_STARTUP
+        else if not viewstate.startup
             el = notr {html:conninfo.el.innerHTML, stay:0, id:'conn'}
         else
             # update startup with connection information
@@ -66,11 +66,11 @@ handle 'update:viewstate', ->
 
     # check what in what state is the app
     #
-    # STATE_STARTUP : still connecting
+    # STATE_INITIAL : still connecting
     # STATE_NORMAL  : conversation list on left with selected chat showing in main window
     # STATE_ABOUT   : conversation list on the left with about showing in main window
     # STATE_ADD_CONVERSATION : conversation list on the left and new / modify conversation on the main window
-    if viewstate.state == viewstate.STATE_STARTUP
+    if viewstate.startup
         if Array.isArray viewstate.size
             ipc.send 'mainwindow:setsize', viewstate.size
         #
@@ -145,7 +145,10 @@ handle 'update:viewstate', ->
 
         document.body.style.zoom = viewstate.zoom
         document.body.style.setProperty('--zoom', viewstate.zoom)
-    else if viewstate.state == viewstate.STATE_NORMAL
+
+        viewstate.startupDone()
+
+    if viewstate.state == viewstate.STATE_NORMAL
         redraw()
         applayout.lfoot controls
         applayout.listhead listhead

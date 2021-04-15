@@ -12,16 +12,13 @@ module.exports = view (models) ->
             moment.locale(i18n.getLocale())
         else
             moment.locale(window.navigator.language)
-        convs = conv.list()
+        convs = conv.listShow()
         renderConv = (c) ->
             return if c?.self_conversation_state?.view?[0] == 'ARCHIVED_VIEW'
             # remove emoji suggestions on renderConv
             if document.querySelectorAll('.emoji-sugg-container').length
                 document.querySelectorAll('.emoji-sugg-container')[0].parentNode.removeChild(document.querySelectorAll('.emoji-sugg-container')[0])
             pureHang = conv.isPureHangout(c)
-            lastChanged = conv.lastChanged(c)
-            # don't list pure hangouts that are older than 24h
-            return if pureHang and (Date.now() - lastChanged) > 24 * 60 * 60 * 1000
             cid = c?.conversation_id?.id
             ur = conv.unread c
             clz = ['conv']
@@ -90,6 +87,9 @@ MESSAGE_CLASSES = ['placeholder', 'chat_message',
 'conversation_rename', 'membership_change']
 
 drawMessage = (e, entity) ->
+    if not e?
+        return
+
     mclz = ['message']
     mclz.push c for c in MESSAGE_CLASSES when e[c]?
     title = if e.timestamp then moment(e.timestamp / 1000).calendar() else null

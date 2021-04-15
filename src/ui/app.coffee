@@ -185,10 +185,16 @@ ipc.on 'getvideoinformation:result', (ev, conv_id, event_id, photo_id, result) -
 ipc.on 'resize', (ev, dim) -> action 'resize', dim
 
 ipc.on 'move', (ev, pos)  -> action 'move', pos
+
+ipc.on 'showerror', (ev, error) ->
+    notr {
+        html: "#{error}<br/><i style=\"font-size: .9em; color: gray\">(click to dismiss)</i>",
+        stay: 0
+    }
+
 ipc.on 'searchentities:result', (ev, r) ->
     action 'setsearchedentities', r.entity
 ipc.on 'createconversation:result', (ev, c, name) ->
-    c.conversation_id = c.id # fix conversation payload
     c.name = name if name
     action 'createconversationdone', c
     action 'setstate', viewstate.STATE_NORMAL

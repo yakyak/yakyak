@@ -18,7 +18,7 @@ handle 'alive', (time) -> connection.setLastActive time
 handle 'reqinit', ->
     ipc.send 'reqinit'
     connection.setState connection.CONNECTING
-    viewstate.setState viewstate.STATE_STARTUP
+    viewstate.setState viewstate.STATE_INITIAL
 
 module.exports =
     init: ({init}) -> action 'init', init
@@ -36,7 +36,7 @@ handle 'init', (init) ->
     conv._initFromConvStates init.conv_states
     # ensure there's a selected conv
     unless conv[viewstate.selectedConv]
-        viewstate.setSelectedConv conv.list()?[0]?.conversation_id
+        viewstate.setSelectedConv conv.listShow()?[0]?.conversation_id
 
     # explicit retrieval of conversation metadata
     #  this is required since #1109
@@ -385,7 +385,7 @@ handle 'membership_change', (e) ->
 handle 'createconversationdone', (c) ->
     convsettings.reset()
     conv.add c
-    viewstate.setSelectedConv c.id.id
+    viewstate.setSelectedConv c.conversation_id.id
 
 handle 'notification_level', (n) ->
     conv_id = n?[0]?[0]

@@ -52,9 +52,9 @@ addChatMessage = (msg) ->
     # we can add message placeholder that needs replacing when
     # the real event drops in. if we find the same event id.
     cpos = findClientGenerated conv, msg?.self_event_state?.client_generated_id
-    unless cpos
+    if not cpos?
         cpos = findByEventId conv, msg.event_id
-    if cpos
+    if cpos?
         # replace event by position
         conv.event[cpos] = msg
     else
@@ -132,7 +132,6 @@ addWatermark = (ev) ->
     updated 'conv'
 
 updateVideoInformation = (conv_id, event_id, photo_id, result) ->
-    console.error('updateVideoInformation', result)
     thumb = result.videoItem?.thumbnail?.url
     url = null
     res = 0
@@ -217,7 +216,19 @@ isPureHangout = do ->
         not (c?.event ? []).some isNotHangout
 
 # the time of the last added event
-lastChanged = (c) -> (c?.event?[(c?.event?.length ? 0) - 1]?.timestamp ? 0) / 1000
+lastChanged = (c) ->
+    time = (c?.event?[(c?.event?.length ? 0) - 1]?.timestamp ? 0)
+    if time is 0
+        time = (c?.self_conversation_state?.self_read_state?.latest_read_timestamp ? 0)
+
+    time / 1000
+
+shouldShow = (c) ->
+    pureHang = @isPureHangout(c)
+    lastChanged = @lastChanged(c)
+    # don't list pure hangouts that are older than 24h
+    return false if pureHang and (Date.now() - lastChanged) > 24 * 60 * 60 * 1000
+    return true
 
 # the number of history events to request
 HISTORY_AMOUNT = 20
@@ -281,8 +292,11 @@ pruneTyping = do ->
         c.typingtimer = setTimeout (-> action 'pruneTyping', conv_id), waitUntil
 
 funcs =
-    count: ->
-        c = 0; (c++ for k, v of lookup when typeof v == 'object'); c
+    count: (showOnly = false) ->
+        c = 0; (c++ for k, v of lookup when typeof v == 'object' and (not showOnly or @shouldShow(v))); c
+
+    countShow: ->
+        @count true
 
     _reset: ->
         delete lookup[k] for k, v of lookup when typeof v == 'object'
@@ -308,6 +322,7 @@ funcs =
     toggleStar: toggleStar
     isPureHangout: isPureHangout
     lastChanged: lastChanged
+    shouldShow: shouldShow
     addTyping: addTyping
     pruneTyping: pruneTyping
     unreadTotal: unreadTotal
@@ -387,8 +402,8 @@ funcs =
         seg.link_data = link_target:path
         updated 'conv'
 
-    list: (sort = true) ->
-        convs = (v for k, v of lookup when typeof v == 'object')
+    list: (sort = true, showOnly = false) ->
+        convs = (v for k, v of lookup when typeof v == 'object' and (not showOnly or @shouldShow(v)))
         if sort
             starred = (c for c in convs when isStarred(c))
             convs = (c for c in convs when not isStarred(c))
@@ -396,6 +411,9 @@ funcs =
             convs.sort (e1, e2) -> sortby(e2) - sortby(e1)
             return starred.concat convs
         convs
+
+    listShow: (sort = true) ->
+        @list sort, true
 
 
 
