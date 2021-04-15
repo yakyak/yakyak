@@ -385,7 +385,7 @@ handle 'membership_change', (e) ->
 handle 'createconversationdone', (c) ->
     convsettings.reset()
     conv.add c
-    viewstate.setSelectedConv c.id.id
+    viewstate.setSelectedConv c.conversation_id.id
 
 handle 'notification_level', (n) ->
     conv_id = n?[0]?[0]

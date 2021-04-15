@@ -195,7 +195,6 @@ ipc.on 'showerror', (ev, error) ->
 ipc.on 'searchentities:result', (ev, r) ->
     action 'setsearchedentities', r.entity
 ipc.on 'createconversation:result', (ev, c, name) ->
-    c.conversation_id = c.id # fix conversation payload
     c.name = name if name
     action 'createconversationdone', c
     action 'setstate', viewstate.STATE_NORMAL

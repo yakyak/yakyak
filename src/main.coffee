@@ -573,7 +573,7 @@ app.on 'ready', ->
                 return
 
             conv = res.conversation
-            conv_id = conv.id.id
+            conv_id = conv.conversation_id.id
             client.renameconversation conv_id, name if name
             ipcsend 'createconversation:result', conv, name
 
