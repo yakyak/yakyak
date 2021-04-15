@@ -295,16 +295,11 @@ module.exports = exp = {
     setColorScheme: (colorscheme) ->
         ipc.send 'colorscheme:set', colorscheme
         @colorScheme = localStorage.colorScheme = colorscheme
-        while document.querySelector('html').classList.length > 0
-            document.querySelector('html').classList.remove document.querySelector('html').classList.item(0)
-        document.querySelector('html').classList.add(colorscheme)
+        document.querySelector('html').setAttribute 'theme', @colorScheme
 
     setFontSize: (fontsize) ->
         @fontSize = localStorage.fontSize = fontsize
-        while document.querySelector('html').classList.length > 0
-            document.querySelector('html').classList.remove document.querySelector('html').classList.item(0)
-        document.querySelector('html').classList.add(localStorage.colorScheme)
-        document.querySelector('html').classList.add(fontsize)
+        document.querySelector('html').setAttribute 'font-size', @fontSize
 
     setEscapeClearsInput: (value) ->
         @escapeClearsInput = localStorage.escapeClearsInput = value
