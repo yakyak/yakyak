@@ -34,7 +34,7 @@ buildChatMessage = (sender, txt) ->
       delivery_medium = ClientDeliveryMediumType.BABEL
     action = null
     if /^\/me\s/.test txt
-        txt = txt.replace /^\/me/, sender.firstName if sender.firstName?
+        txt = txt.replace /^\/me/, sender.first_name
         action = MessageActionType.ME_ACTION
     mb = new MessageBuilder(action)
     parse mb, txt

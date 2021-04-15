@@ -237,7 +237,7 @@ drawSeenAvatar = (u, event_id, viewstate, entity) ->
     div class: "seen"
     , "data-id": u.id
     , "data-event-id": event_id
-    , title: u.displayName
+    , title: u.display_name
     , ->
         drawAvatar(u.id, viewstate, entity)
 
