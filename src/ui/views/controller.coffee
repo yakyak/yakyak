@@ -31,7 +31,7 @@ handle 'update:connection', do ->
             later -> action 'lastActivity'
             el?.hide?()
             el = null
-        else if not viewstate.startup
+        else if not viewstate.loggedin
             el = notr {html:conninfo.el.innerHTML, stay:0, id:'conn'}
         else
             # update startup with connection information
