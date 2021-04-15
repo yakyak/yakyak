@@ -310,6 +310,12 @@ templateView = (viewstate) ->
                   checked: viewstate.colorScheme == 'gruvy'
                   action: {name: 'changetheme', params: ['gruvy']}
                }
+               {
+                  label: i18n.__('menu.view.color_scheme.custom:Custom')
+                  type: 'radio'
+                  checked: viewstate.colorScheme == 'custom'
+                  action: {name: 'changetheme', params: ['custom']}
+               }
             ]
         }
         {
