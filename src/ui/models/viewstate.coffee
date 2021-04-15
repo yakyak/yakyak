@@ -289,6 +289,7 @@ module.exports = exp = {
         @updateView()
 
     setColorScheme: (colorscheme) ->
+        ipc.send 'colorscheme:set', colorscheme
         @colorScheme = localStorage.colorScheme = colorscheme
         while document.querySelector('html').classList.length > 0
             document.querySelector('html').classList.remove document.querySelector('html').classList.item(0)

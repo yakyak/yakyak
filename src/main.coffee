@@ -115,19 +115,26 @@ loadAppWindow = ->
     mainWindow.loadURL 'file://' + YAKYAK_ROOT_DIR + '/ui/index.html'
 
     mainWindow.webContents.on 'did-finish-load', () ->
-        csskey = null
         customcss = path.join path.normalize(app.getPath('userData')), 'colorscheme', 'custom.css'
-        if fs.existsSync(customcss)
-            csskey = await mainWindow.webContents.insertCSS(fs.readFileSync(customcss).toString())
-
-        fs.watchFile customcss, (curr, prev) ->
-            if curr.mtime != prev.mtime or curr.mtime is 0
+        csskey = await mainWindow.webContents.insertCSS(fs.readFileSync(customcss).toString())
+        ipc.on 'colorscheme:set', (ev, colorscheme) ->
+            if colorscheme != "custom"
+                fs.unwatchFile customcss
                 if csskey != null
                     await mainWindow.webContents.removeInsertedCSS(csskey)
                     csskey = null
-
-                if curr.mtime != 0
+            else
+                if fs.existsSync(customcss)
                     csskey = await mainWindow.webContents.insertCSS(fs.readFileSync(customcss).toString())
+
+                fs.watchFile customcss, (curr, prev) ->
+                    if curr.mtime != prev.mtime or curr.mtime is 0
+                        if csskey != null
+                            await mainWindow.webContents.removeInsertedCSS(csskey)
+                            csskey = null
+
+                        if curr.mtime != 0
+                            csskey = await mainWindow.webContents.insertCSS(fs.readFileSync(customcss).toString())
 
     # Only show window when it has some content
     mainWindow.once 'ready-to-show', () ->
