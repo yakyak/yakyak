@@ -18,65 +18,72 @@ module.exports = view (models) ->
         span class:'material-icons', "star"
       name
     div class:"optionwrapper", ->
-      if process.platform is 'win32'
-          div class:"win-buttons", ->
-            button id: "win-minimize"
-            , title:i18n.__('window.controls:Minimize')
-            , onclick: onclickaction('minimize')
-            button id: "win-maximize"
-            , title:i18n.__('window.controls:Maximize')
-            , onclick: onclickaction('resizewindow')
-            button id: "win-restore"
-            , title:i18n.__('window.controls:Restore')
-            , onclick: onclickaction('resizewindow')
-            button id: "win-close"
-            , title:i18n.__('window.controls:Close')
-            , onclick: onclickaction('close')
       div class:'button'
       , title: i18n.__('conversation.options:Conversation Options')
       , onclick:convoptions, -> span class:'material-icons', 'more_vert'
-    div class:'convoptions'
-    , title:i18n.__('conversation.settings:Conversation settings'), ->
-        div class:'button'
-        , title: i18n.__('menu.view.notification.toggle:Toggle notifications')
-        , onclick:onclickaction('togglenotif')
-        , ->
-            if conv.isQuiet(c)
-                span class:'material-icons', 'notifications_off'
-            else
-                span class:'material-icons', 'notifications'
-            div class:'option-label', i18n.__n('notification:Notification', 1)
-        div class:'button'
-        , title:i18n.__('favorite.star_it:Star / unstar')
-        , onclick:onclickaction('togglestar')
-        , ->
-            if not conv.isStarred(c)
-                span class:'material-icons', 'star_border'
-            else
-                span class:'material-icons', 'star'
-            div class:'option-label', i18n.__n('favorite.title:Favorite',1)
-        div class:'button'
-        , title:i18n.__('settings:Settings')
-        , onclick:onclickaction('convsettings')
-        , ->
-            span class:'material-icons', 'info_outline'
-            div class:'option-label', i18n.__('details:Details')
+      div class:'convoptions'
+      , title:i18n.__('conversation.settings:Conversation settings'), ->
+          div class:'button'
+          , title: i18n.__('menu.view.notification.toggle:Toggle notifications')
+          , onclick:onclickaction('togglenotif')
+          , ->
+              if conv.isQuiet(c)
+                  span class:'material-icons', 'notifications_off'
+              else
+                  span class:'material-icons', 'notifications'
+              div class:'option-label', i18n.__n('notification:Notification', 1)
+          div class:'button'
+          , title:i18n.__('favorite.star_it:Star / unstar')
+          , onclick:onclickaction('togglestar')
+          , ->
+              if not conv.isStarred(c)
+                  span class:'material-icons', 'star_border'
+              else
+                  span class:'material-icons', 'star'
+              div class:'option-label', i18n.__n('favorite.title:Favorite',1)
+          div class:'button'
+          , title:i18n.__('settings:Settings')
+          , onclick:onclickaction('convsettings')
+          , ->
+              span class:'material-icons', 'info_outline'
+              div class:'option-label', i18n.__('details:Details')
+    if process.platform is 'win32'
+        div class:"win-buttons", ->
+            div class:'button', ->
+                button id: "win-minimize"
+                , title:i18n.__('window.controls:Minimize')
+                , onclick: onclickaction('minimize')
+            div class:'button', ->
+                button id: "win-maximize"
+                , title:i18n.__('window.controls:Maximize')
+                , onclick: onclickaction('resizewindow')
+            div class:'button', ->
+                button id: "win-restore"
+                , title:i18n.__('window.controls:Restore')
+                , onclick: onclickaction('resizewindow')
+            div class:'button', ->
+                button id: "win-close"
+                , title:i18n.__('window.controls:Close')
+                , onclick: onclickaction('close')
 
-if process.platform is 'win32'
-    ipc.on 'on-mainwindow.maximize', () ->
-        toggleHidden document.getElementById('win-maximize'), true
-        toggleHidden document.getElementById('win-restore'), false
+ipc.on 'on-mainwindow.maximize', () ->
+    toggleHidden document.getElementById('win-maximize'), true
+    toggleHidden document.getElementById('win-restore'), false
 
-    ipc.on 'on-mainwindow.unmaximize', () ->
-        toggleHidden document.getElementById('win-maximize'), false
-        toggleHidden document.getElementById('win-restore'), true
+ipc.on 'on-mainwindow.unmaximize', () ->
+    toggleHidden document.getElementById('win-maximize'), false
+    toggleHidden document.getElementById('win-restore'), true
 
-    toggleHidden = (element, hidden) ->
-        return unless element
-        if hidden
-            element.style.display = 'none'
-        else
-            element.style.display = 'inline'
+toggleHidden = (element, hidden) ->
+    return unless element
+    if hidden
+        element.style.display = 'none'
+    else
+        element.style.display = 'inline'
+
+document.querySelector('body').addEventListener 'click', (event) ->
+  if not document.querySelector('.optionwrapper').contains(event.target)
+    document.querySelector('.convoptions').classList.remove('open')
 
 convoptions  = ->
   {viewstate} = models

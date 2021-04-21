@@ -225,8 +225,7 @@ app.on 'ready', ->
         return global.forceClose
 
     ipc.handle 'mainwindow:getsize', () -> return mainWindow.getSize()
-    ipc.on 'mainwindow:setsize', (event, size) -> mainWindow.setSize size...
-    ipc.on 'mainwindow:setposition', (event, x, y) -> mainWindow.setPosition(x, y)
+    ipc.on 'mainwindow:setbounds', (event, bounds) -> mainWindow.setBounds bounds
     ipc.on 'mainwindow:close', -> mainWindow.close()
     ipc.on 'mainwindow:hide', -> mainWindow.hide()
     ipc.on 'mainwindow:show', -> mainWindow.show()
@@ -310,8 +309,8 @@ app.on 'ready', ->
             icon: path.join __dirname, 'icons', 'icon.png'
             show: true
             webPreferences: {
-                enableRemoteModule: true
                 nodeIntegration: false
+                javascript: true
             }
         }
         loginWindow.webContents.openDevTools() if debug
@@ -328,6 +327,9 @@ app.on 'ready', ->
             loginWindow.close()
             mainWindow.show()
             rs
+        .catch (error) ->
+            if error == 'logout'
+                logout()
         auth: -> prom
 
     # sends the init structures to the client

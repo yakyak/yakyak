@@ -80,7 +80,7 @@ handle 'querypresence', (id) ->
 
 handle 'setpresence', (r) ->
     if not r?.presence?.available?
-        console.log "setpresence: User '#{nameof entity[r?.userId?.chatId]}' does not show his/hers/it status", r
+        console.debug "setpresence: User '#{nameof entity[r?.userId?.chatId]}' do not show their status", r
     else
         entity.setPresence r.userId.chatId, r?.presence?.available
 

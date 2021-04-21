@@ -15,7 +15,7 @@ AGENT = app.userAgentFallback
     .replace('Chrome', 'Chromium')
 
 # promise for one-time oauth token
-module.exports = (mainWindow) -> Q.Promise (rs) ->
+module.exports = (mainWindow) -> Q.Promise (rs, reject) ->
 
     mainWindow.webContents.on 'did-finish-load', onDidFinishLoad = ->
 
@@ -23,7 +23,11 @@ module.exports = (mainWindow) -> Q.Promise (rs) ->
         url = mainWindow.getURL()
         console.log 'login: did-finish-load', url
 
-        if url.indexOf('/o/oauth2/programmatic_auth') > 0
+        if url.indexOf('/signin/rejected') > 0 and url.indexOf('rrk=47') > 0
+            console.error 'javascript disabled, testing logout...'
+            reject 'logout'
+
+        else if url.indexOf('/o/oauth2/programmatic_auth') > 0
             console.log 'login: programmatic auth'
             # get the cookie from browser session, it has to be there
             session.defaultSession.cookies.get({})

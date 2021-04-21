@@ -84,7 +84,7 @@ module.exports = view (models) ->
                 cid = r?.id?.chat_id
                 ctLocal = ''
                 ctInfo = ''
-                console.log('meme', r.properties, entity[cid])
+                console.debug('meme', r.properties, entity[cid])
                 if entity[cid]?.type == 0
                     ctLocal = 'ct-local'
                     ctInfo = 'Internal Contact' + "\r\n"
