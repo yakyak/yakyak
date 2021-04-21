@@ -71,8 +71,11 @@ handle 'update:viewstate', ->
     # STATE_ABOUT   : conversation list on the left with about showing in main window
     # STATE_ADD_CONVERSATION : conversation list on the left and new / modify conversation on the main window
     if viewstate.state == viewstate.STATE_INITIAL or viewstate.startup
-        if Array.isArray viewstate.size
-            ipc.send 'mainwindow:setsize', viewstate.size
+        winBounds = {}
+        if Array.isArray(viewstate.size) and viewstate.size.length == 2
+            winBounds.width = Math.floor(viewstate.size[0])
+            winBounds.height = Math.floor(viewstate.size[1])
+
         #
         #
         # It will not allow the window to be placed offscreen (fully or partial)
@@ -132,7 +135,12 @@ handle 'update:viewstate', ->
                 yWindowPos = maxY if yWindowPos > maxH
                 xWindowPos = Math.max(xWindowPos, maxX)
                 yWindowPos = Math.max(yWindowPos, maxY)
-            ipc.send 'mainwindow:setposition', xWindowPos, yWindowPos
+
+            winBounds.x = Math.floor(xWindowPos)
+            winBounds.y = Math.floor(yWindowPos)
+
+        ipc.send 'mainwindow:setbounds', winBounds
+
         # only render startup
         startup(models)
 

@@ -225,8 +225,7 @@ app.on 'ready', ->
         return global.forceClose
 
     ipc.handle 'mainwindow:getsize', () -> return mainWindow.getSize()
-    ipc.on 'mainwindow:setsize', (event, size) -> mainWindow.setSize size...
-    ipc.on 'mainwindow:setposition', (event, x, y) -> mainWindow.setPosition(x, y)
+    ipc.on 'mainwindow:setbounds', (event, bounds) -> mainWindow.setBounds bounds
     ipc.on 'mainwindow:close', -> mainWindow.close()
     ipc.on 'mainwindow:hide', -> mainWindow.hide()
     ipc.on 'mainwindow:show', -> mainWindow.show()
