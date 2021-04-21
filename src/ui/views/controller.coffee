@@ -70,7 +70,7 @@ handle 'update:viewstate', ->
     # STATE_NORMAL  : conversation list on left with selected chat showing in main window
     # STATE_ABOUT   : conversation list on the left with about showing in main window
     # STATE_ADD_CONVERSATION : conversation list on the left and new / modify conversation on the main window
-    if viewstate.startup
+    if viewstate.state == viewstate.STATE_INITIAL or viewstate.startup
         if Array.isArray viewstate.size
             ipc.send 'mainwindow:setsize', viewstate.size
         #
@@ -148,7 +148,7 @@ handle 'update:viewstate', ->
 
         viewstate.startupDone()
 
-    if viewstate.state == viewstate.STATE_NORMAL
+    else if viewstate.state == viewstate.STATE_NORMAL
         redraw()
         applayout.lfoot controls
         applayout.listhead listhead
