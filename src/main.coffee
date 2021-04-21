@@ -327,6 +327,9 @@ app.on 'ready', ->
             loginWindow.close()
             mainWindow.show()
             rs
+        .catch (error) ->
+            if error == 'logout'
+                logout()
         auth: -> prom
 
     # sends the init structures to the client
