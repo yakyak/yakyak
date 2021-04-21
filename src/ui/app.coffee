@@ -153,12 +153,12 @@ if process.platform == 'win32'
 #  - Exceptions that were caught
 #  - Window crashes
 ipc.on 'expcetioninmain', (error) ->
-    console.log (msg = "Possible fatal error on main process" +
+    console.error (msg = "Possible fatal error on main process" +
         ", YakYak could stop working as expected."), error
     notr msg, {stay: 0}
 
 ipc.on 'message', (msg) ->
-    console.log 'Message from main process:', msg
+    console.debug 'Message from main process:', msg
     notr msg
 
 # wire up stuff from server
@@ -168,7 +168,7 @@ require('./events').forEach (n) -> ipc.on n, (ev, data) -> action n, data
 
 # events from tray menu
 ipc.on 'menuaction', (ev, name, p) ->
-    console.log('menuaction from main process', name)
+    console.debug('menuaction from main process', name)
     if p?
         action name, p...
     else
@@ -243,7 +243,7 @@ window.addEventListener 'offline', -> action 'wonline', false
 ipc.on 'mainwindow.unresponsive', (error) ->
     notr msg = "Warning: YakYak is becoming unresponsive.",
         { id: 'unresponsive'}
-    console.log 'Unresponsive event', msg
+    console.error 'Unresponsive event', msg
     ipc.send 'errorInWindow', 'Unresponsive window'
 
 #
