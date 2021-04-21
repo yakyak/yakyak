@@ -6,38 +6,39 @@
 	-webkit-app-region: drag;
 	-webkit-user-select: none;
 
-	.name{
-		background: var(--green);
-		z-index: 2;
-		position: relative;
-		width: 100%;
-		display: block;
-		color: var(--white);
-		height: ~"calc(var(--headerbarheight) / var(--zoom))";
-		line-height: ~"calc(var(--headerbarheight) / var(--zoom))";
-		font-size: ~"calc(16px / var(--zoom))";
-		font-weight: bold;
-		text-align: center;
-		overflow: hidden;
-		.material-icons{
-			font-size: .82em;
-			margin-right: 2px;
-		}
-	}
+    .headwrap {
+        display: flex;
+        flex-flow: row nowrap;
+        background: var(--green);
+        height: ~"calc(var(--headerbarheight) / var(--zoom))";
+        line-height: ~"calc(var(--headerbarheight) / var(--zoom))";
+    }
+
+    .headwrap > .name {
+        flex-grow: 1;
+        z-index: 2;
+        position: relative;
+        display: block;
+        overflow: hidden;
+        color: var(--white);
+        font-size: ~"calc(16px / var(--zoom))";
+        font-weight: bold;
+        text-align: center;
+        .material-icons{
+            font-size: .82em;
+            margin-right: 2px;
+        }
+    }
+
 	.headwrap > .optionwrapper{
+        position: relative;
         -webkit-app-region: no-drag;
-		position: absolute;
-		right: 5px;
-		top: 0;
         z-index: 2;
 
         > .button {
-            float: right;
             width: 50px;
             cursor: pointer;
             color: var(--white);
-            line-height: ~"calc(var(--headerbarheight) / var(--zoom))";
-            height: ~"calc(var(--headerbarheight) / var(--zoom))";
             text-align: center;
             .material-icons {
                 position: relative;
@@ -49,25 +50,25 @@
 
 	.convoptions{
 		background: var(--white);
-		width: 100%;
-		height: 100%;
-		line-height: ~"calc(var(--headerbarheight) / var(--zoom))";
-		position: relative;
+		position: absolute;
+        top: calc(var(--headerbarheight) / var(--zoom));
+        right: 0px;
 		z-index: 1;
 		border-bottom: 1px solid rgba(0, 0, 0, .1);
 		text-align: right;
 		transition: all .3s ease;
-		transform: translate3d(0, -100%, 0);
+        opacity: 0.0;
+        visibility: hidden;
 		&.open{
-			transform: translate3d(0, 0, 0);
+            opacity: 1.0;
+            visibility: visible;
 		}
-		.button{
+		.button {
 			position: relative;
-			display: inline-block;
+			display: flex;
+            flex-flow: row nowrap;
 			vertical-align: top;
 			color: var(--darkgrey);
-			height: ~"calc(var(--headerbarheight) / var(--zoom))";
-			line-height: ~"calc(var(--headerbarheight) / var(--zoom))";
 			width: auto;
 			padding: 0 10px;
 			cursor: pointer;
@@ -94,7 +95,8 @@
 	}
 
     .win-buttons{
-      float: right;
+      display: flex;
+      flex-flow: row nowrap;
       button{
         -webkit-mask-size: ~"calc(20px / var(--zoom))";
         -webkit-mask-position: center;
@@ -102,7 +104,6 @@
         -webkit-app-region: no-drag;
         cursor: pointer;
         padding: 0 1.5em 0 1.5em;;
-        height: ~"calc(var(--headerbarheight) / var(--zoom))";
         background-color: var(--white);
       }
       #win-minimize{
