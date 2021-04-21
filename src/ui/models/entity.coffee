@@ -64,12 +64,16 @@ funcs =
     list: list
 
     setPresence: (id, p) ->
+        console.error('setPresence', id, p)
         return needEntity(id) if not lookup[id]
         lookup[id].presence = p
         updated 'entity'
 
     setLastSeen: (id, lastseen) ->
+        return if @isSelf id
+        console.error('setLastSeen', id, lastseen)
         return needEntity(id) if not lookup[id]
+        console.error('lastseen', id, lookup[id], lastseen)
         lookup[id].lastseen = lastseen
         lookup[id].presence = true
         updated 'entity'

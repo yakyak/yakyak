@@ -1,22 +1,33 @@
 {nameofconv}  = require '../util'
 
 ipc       = require('electron').ipcRenderer
+moment    = require('moment')
 
 onclickaction = (a) -> (ev) -> action a
 
 module.exports = view (models) ->
   {conv, viewstate} = models
+
+  if !viewstate.useSystemDateFormat
+    moment.locale(i18n.getLocale())
+  else
+    moment.locale(window.navigator.language)
+
   conv_id = viewstate?.selectedConv
   c = conv[conv_id]
   div class:'headwrap', ->
     return if not c # region cannot take undefined
     name = nameofconv c
-    span class:'name', ->
-      if conv.isQuiet(c)
-            span class:'material-icons', 'notifications_off'
-      if conv.isStarred(c)
-        span class:'material-icons', "star"
-      name
+    active = conv.lastActive(c)
+    div class:'namewrapper', ->
+        span class:'name', ->
+          if conv.isQuiet(c)
+                span class:'material-icons', 'notifications_off'
+          if conv.isStarred(c)
+            span class:'material-icons', "star"
+          name
+        span class:'active', ->
+          i18n.__('conversation.active:Active %s', moment(active).fromNow()) if active != 0
     div class:"optionwrapper", ->
       div class:'button'
       , title: i18n.__('conversation.options:Conversation Options')
