@@ -48,19 +48,23 @@ module.exports = view (models) ->
               span class:'material-icons', 'info_outline'
               div class:'option-label', i18n.__('details:Details')
     if process.platform is 'win32'
-          div class:"win-buttons", ->
-            button id: "win-minimize"
-            , title:i18n.__('window.controls:Minimize')
-            , onclick: onclickaction('minimize')
-            button id: "win-maximize"
-            , title:i18n.__('window.controls:Maximize')
-            , onclick: onclickaction('resizewindow')
-            button id: "win-restore"
-            , title:i18n.__('window.controls:Restore')
-            , onclick: onclickaction('resizewindow')
-            button id: "win-close"
-            , title:i18n.__('window.controls:Close')
-            , onclick: onclickaction('close')
+        div class:"win-buttons", ->
+            div class:'button', ->
+                button id: "win-minimize"
+                , title:i18n.__('window.controls:Minimize')
+                , onclick: onclickaction('minimize')
+            div class:'button', ->
+                button id: "win-maximize"
+                , title:i18n.__('window.controls:Maximize')
+                , onclick: onclickaction('resizewindow')
+            div class:'button', ->
+                button id: "win-restore"
+                , title:i18n.__('window.controls:Restore')
+                , onclick: onclickaction('resizewindow')
+            div class:'button', ->
+                button id: "win-close"
+                , title:i18n.__('window.controls:Close')
+                , onclick: onclickaction('close')
 
 ipc.on 'on-mainwindow.maximize', () ->
     toggleHidden document.getElementById('win-maximize'), true

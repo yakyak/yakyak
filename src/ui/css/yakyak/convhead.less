@@ -14,6 +14,14 @@
         line-height: ~"calc(var(--headerbarheight) / var(--zoom))";
     }
 
+    .headwrap .button {
+        transition: all .1s ease;
+    }
+
+    .headwrap .button:hover {
+        background-color: rgba(255, 255, 255, 0.25);
+    }
+
     .headwrap > .name {
         flex-grow: 1;
         z-index: 2;
@@ -37,6 +45,7 @@
 
         > .button {
             width: 50px;
+            height: 100%;
             cursor: pointer;
             color: var(--white);
             text-align: center;
@@ -102,6 +111,8 @@
         -webkit-mask-position: center;
         -webkit-mask-repeat: no-repeat;
         -webkit-app-region: no-drag;
+        width: 50px;
+        height: 100%;
         cursor: pointer;
         padding: 0 1.5em 0 1.5em;;
         background-color: var(--white);
