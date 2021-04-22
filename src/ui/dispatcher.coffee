@@ -68,7 +68,7 @@ handle 'watermark', (ev) ->
     conv.addWatermark ev
 
 handle 'presence', (ev) ->
-    entity.setLastSeen ev[0][0][0][0], Math.floor(ev[0][0][1][9] / 1000000)
+    entity.setLastSeen ev[0][0][0][0], Math.floor(ev[0][0][1][9] / 1000)
     later ->
         action 'updatepresence'
 
@@ -83,6 +83,12 @@ handle 'setpresence', (r) ->
         console.debug "setpresence: User '#{nameof entity[r?.userId?.chatId]}' do not show their status", r
     else
         entity.setPresence r.userId.chatId, r?.presence?.available
+
+    if r?.presence?.lastSeen?.lastSeenTimestampUsec?
+        entity.setLastSeen r.userId.chatId, Math.floor(r.presence.lastSeen.lastSeenTimestampUsec / 1000)
+
+    later ->
+        action 'updatepresence'
 
 handle 'update:unreadcount', ->
     console.log 'update'

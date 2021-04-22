@@ -483,14 +483,19 @@ app.on 'ready', ->
     # retried if not sent successfully
     ipc.on 'querypresence', seqreq (ev, id) ->
         client.querypresence(id).then (r) ->
-            ipcsend 'querypresence:result', r.presenceResult[0]
+            for v in r.presenceResult
+                ipcsend 'querypresence:result', v
         , false, -> 1
 
     ipc.on 'initpresence', (ev, l) ->
+        ids = []
         for p, i in l when p != null
-            client.querypresence(p.id).then (r) ->
-                ipcsend 'querypresence:result', r.presenceResult[0]
-            , false, -> 1
+            ids.push p.id
+
+        client.querypresence(ids).then (r) ->
+            for v in r.presenceResult
+                ipcsend 'querypresence:result', v
+        , false, -> 1
 
     # no retry, only one outstanding call
     ipc.on 'setpresence', seqreq (ev, status=true) ->
