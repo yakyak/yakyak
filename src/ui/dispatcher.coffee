@@ -68,7 +68,7 @@ handle 'watermark', (ev) ->
     conv.addWatermark ev
 
 handle 'presence', (ev) ->
-    entity.setLastSeen ev[0][0][0][0], Math.floor(ev[0][0][1][9] / 1000)
+    entity.setLastSeen ev[0][0][0][0], Math.floor(ev[0][0][1][9] / 1000 / 1000)
     later ->
         action 'updatepresence'
 
@@ -85,7 +85,7 @@ handle 'setpresence', (r) ->
         entity.setPresence r.userId.chatId, r?.presence?.available
 
     if r?.presence?.lastSeen?.lastSeenTimestampUsec?
-        entity.setLastSeen r.userId.chatId, Math.floor(r.presence.lastSeen.lastSeenTimestampUsec / 1000)
+        entity.setLastSeen r.userId.chatId, Math.floor(r.presence.lastSeen.lastSeenTimestampUsec / 1000 / 1000)
 
     later ->
         action 'updatepresence'
@@ -593,6 +593,6 @@ handle 'initopenonsystemstartup', (isEnabled) ->
 
 handle 'focus', (data) ->
     if data?.status is 'FOCUSED'
-        entity.setLastSeen data?.user_id?.chat_id, Math.floor(data?.timestamp / 1000)
+        entity.setLastSeen data?.user_id?.chat_id, Math.floor(data?.timestamp / 1000 / 1000)
         later ->
             action 'updatepresence'

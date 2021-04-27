@@ -223,13 +223,13 @@ lastChanged = (c) ->
 
     time / 1000
 
-lastActive = (c) ->
+lastActiveSec = (c) ->
     part = c?.current_participant ? []
     ents = for p in part when not entity.isSelf p.chat_id
         entity[p.chat_id]
 
     if ents.length == 1
-        return ents?[0]?.lastseen ? 0 * 1000
+        return ents?[0]?.lastseen ? 0
 
     return 0
 
@@ -332,7 +332,7 @@ funcs =
     toggleStar: toggleStar
     isPureHangout: isPureHangout
     lastChanged: lastChanged
-    lastActive: lastActive
+    lastActiveSec: lastActiveSec
     shouldShow: shouldShow
     addTyping: addTyping
     pruneTyping: pruneTyping
