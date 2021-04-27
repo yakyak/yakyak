@@ -590,3 +590,9 @@ handle 'openonsystemstartup', (open) ->
 
 handle 'initopenonsystemstartup', (isEnabled) ->
     viewstate.initOpenOnSystemStartup isEnabled
+
+handle 'focus', (data) ->
+    if data?.status is 'FOCUSED'
+        entity.setLastSeen data?.user_id?.chat_id, Math.floor(data?.timestamp / 1000)
+        later ->
+            action 'updatepresence'
