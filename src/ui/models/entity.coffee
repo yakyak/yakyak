@@ -55,8 +55,6 @@ needEntity = do ->
 list = ->
     v for k, v of lookup when typeof v == 'object'
 
-
-
 funcs =
     count: ->
         c = 0; (c++ for k, v of lookup when typeof v == 'object'); c
@@ -69,9 +67,12 @@ funcs =
         updated 'entity'
 
     setLastSeen: (id, lastseen) ->
-        return if @isSelf id
         return needEntity(id) if not lookup[id]
         lookup[id].lastseen = lastseen
+        cutoff = lookup.self.lastseen - (60 * 15)
+        if lastseen > cutoff
+            lookup[id].presence = true
+
         updated 'entity'
 
     isSelf: (chat_id) -> return !!lookup.self and lookup[chat_id] == lookup.self
@@ -80,7 +81,7 @@ funcs =
         if lookup.self?.lastseen?
             changed = false
             cutoff = lookup.self.lastseen - (60 * 15)
-            for k, v of lookup when v.presence
+            for k, v of lookup when v.presence and not @isSelf(k)
                 if !v.lastseen?
                     v.lastseen = lookup.self.lastseen
 
