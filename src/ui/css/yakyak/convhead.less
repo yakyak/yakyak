@@ -22,20 +22,35 @@
         background-color: rgba(255, 255, 255, 0.25);
     }
 
-    .headwrap > .name {
+    .headwrap > .namewrapper {
+        display: flex;
+        flex-flow: column nowrap;
         flex-grow: 1;
-        z-index: 2;
         position: relative;
-        display: block;
         overflow: hidden;
+        text-align: center;
+    }
+
+    .headwrap > .namewrapper > span {
+        z-index: 2;
+        line-height: initial;
         color: var(--white);
+    }
+
+    .headwrap > .namewrapper > .name {
+        margin: auto;
         font-size: ~"calc(16px / var(--zoom))";
         font-weight: bold;
-        text-align: center;
         .material-icons{
             font-size: .82em;
             margin-right: 2px;
         }
+    }
+
+    .headwrap > .namewrapper > .active {
+        padding: 1px 0px;
+        font-size: ~"calc(12px / var(--zoom))";
+        font-style: italic;
     }
 
 	.headwrap > .optionwrapper{
@@ -51,7 +66,7 @@
             text-align: center;
             .material-icons {
                 position: relative;
-                top: 7px;
+                top: calc((var(--headerbarheight) - 24px) / var(--zoom) / 2);
                 font-size: ~"calc(24px / var(--zoom))";
             }
         }

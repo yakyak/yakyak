@@ -69,9 +69,9 @@ funcs =
         updated 'entity'
 
     setLastSeen: (id, lastseen) ->
+        return if @isSelf id
         return needEntity(id) if not lookup[id]
         lookup[id].lastseen = lastseen
-        lookup[id].presence = true
         updated 'entity'
 
     isSelf: (chat_id) -> return !!lookup.self and lookup[chat_id] == lookup.self
