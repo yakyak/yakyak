@@ -1,6 +1,6 @@
 {
   "name": "yakyak",
-  "version": "1.5.11.3",
+  "version": "1.5.11.4",
   "description": "Chat client for Google Hangouts",
   "main": "main.js",
   "scripts": {
