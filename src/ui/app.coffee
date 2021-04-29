@@ -103,7 +103,6 @@ ipc.on 'ready-to-show', () ->
     ipc.on 'mainwindow.focus', () ->
         if viewstate.state == viewstate.STATE_NORMAL
             # focus on webContents
-            ipc.send 'mainwindow.webcontents:focus'
             el = window.document.getElementById('message-input')
             # focus on specific element
             el?.focus()
@@ -152,7 +151,7 @@ if process.platform == 'win32'
 # Get information on exceptions in main process
 #  - Exceptions that were caught
 #  - Window crashes
-ipc.on 'expcetioninmain', (error) ->
+ipc.on 'exceptioninmain', (error) ->
     console.error (msg = "Possible fatal error on main process" +
         ", YakYak could stop working as expected."), error
     notr msg, {stay: 0}

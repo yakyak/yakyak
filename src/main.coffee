@@ -280,19 +280,21 @@ app.on 'ready', ->
     #
     # Handle uncaught exceptions from the main process
     process.on 'uncaughtException', (msg) ->
-        ipcsend 'expcetioninmain', msg
         #
-        console.log "Error on main process:\n#{msg}\n" +
+        console.error "Error on main process:\n#{msg}\n" +
             "--- End of error message. More details:\n", msg
+
+        ipcsend 'exceptioninmain', JSON.stringify(msg)
 
     #
     #
     # Handle crashes on the main window and show in console
-    mainWindow.webContents.on 'crashed', (msg) ->
-        console.log 'Crash event on main window!', msg
-        ipc.send 'expcetioninmain', {
+    mainWindow.webContents.on 'render-process-gone', (event, details) ->
+        console.log 'Crash event on main window!', 'event', event, 'details', details
+        ipcsend 'exceptioninmain', {
             msg: 'Detected a crash event on the main window.'
-            event: msg
+            event: JSON.stringify(event)
+            details: details
         }
 
     # short hand
@@ -311,6 +313,7 @@ app.on 'ready', ->
             webPreferences: {
                 nodeIntegration: false
                 javascript: true
+                contextIsolation: true
             }
         }
         loginWindow.webContents.openDevTools() if debug
@@ -413,7 +416,7 @@ app.on 'ready', ->
 
     ipc.on 'errorInWindow', (ev, error, winName = 'YakYak') ->
         mainWindow.show() unless global.isReadyToShow
-        ipcsend 'expcetioninmain', error
+        ipcsend 'exceptioninmain', error
         console.log "Error on #{winName} window:\n", error, "\n--- End of error message in #{winName} window."
 
 

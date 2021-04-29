@@ -69,7 +69,7 @@ funcs =
     setLastSeen: (id, lastseen) ->
         return needEntity(id) if not lookup[id]
         lookup[id].lastseen = lastseen
-        cutoff = lookup.self.lastseen - (60 * 15)
+        cutoff = Date.now() / 1000 - (60 * 15)
         if lastseen > cutoff
             lookup[id].presence = true
 
@@ -78,18 +78,14 @@ funcs =
     isSelf: (chat_id) -> return !!lookup.self and lookup[chat_id] == lookup.self
 
     updatePresence: ->
-        if lookup.self?.lastseen?
-            changed = false
-            cutoff = lookup.self.lastseen - (60 * 15)
-            for k, v of lookup when v.presence and not @isSelf(k)
-                if !v.lastseen?
-                    v.lastseen = lookup.self.lastseen
+        changed = false
+        cutoff = Math.floor(Date.now() / 1000) - (60 * 15)
+        for k, v of lookup when v?.presence? and v.presence and v.lastseen? and not @isSelf(k)
+            if v.lastseen <= cutoff
+                v.presence = false
+                changed = true
 
-                if v.lastseen <= cutoff
-                    v.presence = false
-                    changed = true
-
-            updated 'entity' if changed
+        updated 'entity' if changed
 
     _reset: ->
         delete lookup[k] for k, v of lookup when typeof v == 'object'
