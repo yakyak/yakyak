@@ -281,9 +281,10 @@ app.on 'ready', ->
     # Handle uncaught exceptions from the main process
     process.on 'uncaughtException', (msg) ->
         #
-        ipcsend 'exceptioninmain', JSON.stringify(msg)
         console.error "Error on main process:\n#{msg}\n" +
             "--- End of error message. More details:\n", msg
+
+        ipcsend 'exceptioninmain', JSON.stringify(msg)
 
     #
     #
