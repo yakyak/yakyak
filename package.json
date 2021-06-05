@@ -62,7 +62,7 @@
   },
   "dependencies": {
     "auto-launch": "^5.0.5",
-    "autosize": "^4.0.2",
+    "autosize": "^4.0.3",
     "bog": "^1.0.0",
     "got": "^11.8.1",
     "hangupsjs": "github:yakyak/hangupsjs",
