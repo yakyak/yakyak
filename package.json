@@ -12,6 +12,7 @@
     "test": "mocha",
     "clean": "gulp clean",
     "deploy": "gulp deploy",
+    "deploy:full": "gulp deploy:full",
     "deploy:linux": "gulp deploy:linux",
     "deploy:win32": "gulp deploy:win32",
     "deploy:darwin": "gulp deploy:darwin",

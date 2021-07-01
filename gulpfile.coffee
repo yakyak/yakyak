@@ -234,7 +234,8 @@ buildDeployTask = (platform, arch) ->
 
 #
 # task to deploy all
-allNames = []
+defaultNames = []
+fullNames = []
 names = {linux: [], win32: [], darwin: []}
 #
 
@@ -363,7 +364,7 @@ platformOpts.map (plat) ->
         # create a task per platform/architecture
         taskName = buildDeployTask(plat, arch)
         names[plat].push taskName
-        allNames.push taskName
+        defaultNames.push taskName
     #
     # create arch-independet task
     gulp.task "deploy:#{plat}", gulp.series 'default', names[plat]...
@@ -444,8 +445,8 @@ archOpts.forEach (arch) ->
                     console.log 'fpm arguments: ' + fpmArgs.join(' ')
                     process.exit(1)
             return child
-        #names['linux'].push 'deploy:linux-' + arch + ':' + target
-        #allNames.push('deploy:linux-' + arch + ':' + target)
+        names['linux'].push 'deploy:linux-' + arch + ':' + target
+        fullNames.push('deploy:linux-' + arch + ':' + target)
 
         gulp.task "deploy:linux-#{arch}:#{target}",
             gulp.series("deploy:linux-#{arch}", "deploy:linux-#{arch}:#{target}:nodep")
@@ -487,48 +488,54 @@ archOpts.forEach (arch) ->
         options.rename = (dest, src) -> path.join(dest, "#{json.name}-#{json.version}-linux-#{options.arch}.deb")
         debian options
 
+        names['linux'].push 'deploy:linux-' + arch + ':deb'
+        fullNames.push('deploy:linux-' + arch + ':deb')
+
     gulp.task "deploy:linux-#{arch}:deb",
         gulp.series("deploy:linux-#{arch}", "deploy:linux-#{arch}:deb:nodep")
 
-    gulp.task "deploy:linux-#{arch}:flatpak:nodep", (done) ->
-        flatpakOptions =
-            id: 'com.github.yakyak.YakYak'
-            arch: arch
-            src: 'dist/yakyak-linux-' + arch
-            dest: 'dist/'
-            branch: "#{json.branch}"
-            genericName: 'Internet Messenger'
-            productName: 'YakYak'
-            icon:
-                '16x16': 'src/icons/icon_016.png'
-                '32x32': 'src/icons/icon_032.png'
-                '48x48': 'src/icons/icon_048.png'
-                '128x128': 'src/icons/icon_128.png'
-                '256x256': 'src/icons/icon_256.png'
-                '512x512': 'src/icons/icon_512.png'
-            categories: ['Network', 'InstantMessaging']
-            finishArgs: [
-                '--socket=x11'
-                '--socket=wayland'
-                '--share=ipc'
-                '--device=dri'
-                '--socket=pulseaudio'
-                '--filesystem=home'
-                '--env=TMPDIR=/var/tmp'
-                '--share=network'
-                '--talk-name=org.freedesktop.Notifications'
-            ]
-        flatpak flatpakOptions, (err) ->
-            if err
-                console.error err.stack
-                done()
-                process.exit 1
-            else
-                console.log "Created flatpak (#{json.name}_#{json.version}_#{arch}.flatpak)"
-                done()
-    gulp.task "deploy:linux-#{arch}:flatpak",
-        gulp.series("deploy:linux-#{arch}", "deploy:linux-#{arch}:flatpak:nodep")
-    #names['linux'].push 'deploy:linux-' + arch + ':flatpak'
-    #allNames.push('deploy:linux-' + arch + ':flatpak')
+    # flatpak only works on x64
+    if arch is 'x64'
+        gulp.task "deploy:linux-#{arch}:flatpak:nodep", (done) ->
+            flatpakOptions =
+                id: 'com.github.yakyak.YakYak'
+                arch: arch
+                src: 'dist/yakyak-linux-' + arch
+                dest: 'dist/'
+                branch: "#{json.branch}"
+                genericName: 'Internet Messenger'
+                productName: 'YakYak'
+                icon:
+                    '16x16': 'src/icons/icon_016.png'
+                    '32x32': 'src/icons/icon_032.png'
+                    '48x48': 'src/icons/icon_048.png'
+                    '128x128': 'src/icons/icon_128.png'
+                    '256x256': 'src/icons/icon_256.png'
+                    '512x512': 'src/icons/icon_512.png'
+                categories: ['Network', 'InstantMessaging']
+                finishArgs: [
+                    '--socket=x11'
+                    '--socket=wayland'
+                    '--share=ipc'
+                    '--device=dri'
+                    '--socket=pulseaudio'
+                    '--filesystem=home'
+                    '--env=TMPDIR=/var/tmp'
+                    '--share=network'
+                    '--talk-name=org.freedesktop.Notifications'
+                ]
+            flatpak flatpakOptions, (err) ->
+                if err
+                    console.error err.stack
+                    done()
+                    process.exit 1
+                else
+                    console.log "Created flatpak (#{json.name}_#{json.version}_#{arch}.flatpak)"
+                    done()
+        gulp.task "deploy:linux-#{arch}:flatpak",
+            gulp.series("deploy:linux-#{arch}", "deploy:linux-#{arch}:flatpak:nodep")
+        names['linux'].push 'deploy:linux-' + arch + ':flatpak'
+        fullNames.push('deploy:linux-' + arch + ':flatpak')
 
-gulp.task 'deploy', gulp.series 'default', allNames...
+gulp.task 'deploy', gulp.series 'default', defaultNames...
+gulp.task 'deploy:full', gulp.series 'default', defaultNames..., fullNames...
