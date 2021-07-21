@@ -60,9 +60,9 @@ handle 'chat_message', (ev) ->
     # if does not have user on cache
     entity.needEntity ev.sender_id.chat_id unless entity[ev.sender_id.chat_id]?
     # add chat to conversation
-    conv.addChatMessage ev
+    notifyEv = conv.addChatMessage ev
     # these messages are to go through notifications
-    notify.addToNotify ev
+    notify.addToNotify notifyEv
 
 handle 'watermark', (ev) ->
     conv.addWatermark ev

@@ -1,7 +1,7 @@
 moment    = require 'moment'
-shell     = require('electron').shell
 urlRegexp = require 'uber-url-regex'
 url       = require 'url'
+ipc       = require('electron').ipcRenderer
 
 {nameof, initialsof, nameofconv, linkto, later, forceredraw, throttle,
 getProxiedName, fixlink, isImg, getImageUrl, drawAvatar}  = require '../util'
@@ -46,7 +46,7 @@ onclick = (e) ->
     address = e.currentTarget.getAttribute 'href'
 
     if e.currentTarget.classList.contains 'public_url'
-        shell.openExternal(fixlink(address))
+        ipc.send 'openlink', (fixlink(address))
         return
 
     patt = new RegExp("^(https?[:][/][/]www[.]google[.](com|[a-z][a-z])[/]url[?]q[=])([^&]+)(&.+)*")
@@ -55,7 +55,7 @@ onclick = (e) ->
         address = unescape(address)
         # this is a link outside google and can be opened directly
         #  as there is no need for authentication
-        shell.openExternal(fixlink(address))
+        ipc.send 'openlink', (fixlink(address))
         return
 
     if urlRegexp({exact: true}).test(address)
@@ -86,7 +86,7 @@ onclick = (e) ->
         redirected = finalUrl.indexOf(xhr.responseURL) != 0
         if redirected
             finalUrl = xhr.responseURL
-        shell.openExternal(finalUrl)
+        ipc.send 'openlink', finalUrl
         xhr.abort()
 
     xhr.open("get", finalUrl)
@@ -435,12 +435,12 @@ formatAttachment = (event, att) ->
     if att?[0]?.embed_item?.type_
         data = extractProtobufStyle(event, att)
         return if not data
-        {href, thumb, original_content_url, public_url} = data
+        {href, thumb, original_content_url, public_url, video_icon} = data
     else if att?[0]?.embed_item?.type
         console.log('THIS SHOULD NOT HAPPEN WTF !!')
         data = extractProtobufStyle(event, att)
         return if not data
-        {href, thumb, original_content_url, public_url} = data
+        {href, thumb, original_content_url, public_url, video_icon} = data
     else
         console.warn 'ignoring attachment', att unless att?.length == 0
         return
@@ -455,6 +455,8 @@ formatAttachment = (event, att) ->
             a class:cls, {href, onclick}, ->
                 if models.viewstate.showImagePreview
                     img src:thumb
+                    if video_icon
+                        div class:'play_button'
                 else
                     i18n.__('conversation.no_preview_image_click_to_open:Image preview is disabled: click to open it in the browser')
 
@@ -476,34 +478,44 @@ extractProtobufStyle = (event, att) ->
     href = null
     thumb = null
     public_url = false
+    video_icon = false
 
     embed_item = att?[0]?.embed_item
     {plus_photo, data, type_} = embed_item ? {}
     if plus_photo?
         href  = plus_photo.data?.thumbnail?.image_url
-        thumb = href.replace /googleusercontent.com\/(.+)\/s0\/(.+)$/, 'googleusercontent.com/$1/s512/$2'
-        original_content_url = plus_photo.data?.original_content_url
         isVideo = plus_photo.data?.media_type isnt 'MEDIA_TYPE_PHOTO'
+        if plus_photo.data?.thumbnail?.thumb_url?
+            thumb = plus_photo.data.thumbnail.thumb_url
+            video_icon = isVideo
+        else
+            thumb = href.replace /googleusercontent.com\/(.+)\/s0\/(.+)$/, 'googleusercontent.com/$1/s512/$2'
+
+        original_content_url = plus_photo.data?.original_content_url
         if isVideo
             if plus_photo.videoinformation?
                 thumb = plus_photo.videoinformation.thumb
                 href = plus_photo.videoinformation.url
-                public_url = true
+                if plus_photo.videoinformation.public?
+                    public_url = plus_photo.videoinformation.public
+                else
+                    public_url = true
             else
                 action 'getvideoinformation', event.conversation_id?.id, event.event_id, plus_photo.data?.owner_obfuscated_id, plus_photo.data?.photo_id
-        return {href, thumb, original_content_url, public_url}
+        return {href, thumb, original_content_url, public_url, video_icon}
 
     t = type_?[0]
     return console.warn 'ignoring (old) attachment type', att unless t == 249
     k = Object.keys(data)?[0]
     return unless k
     href = data?[k]?[5]
-    thumb = data?[k]?[9]
-    if not thumb
-        href = data?[k]?[4]
-        thumb = data?[k]?[5]
+    original_content_url = href
 
-    {href, thumb, original_content_url, public_url}
+    thumburl = new URL(href)
+    thumburl.searchParams.set('size', '512')
+    thumb = thumburl.toString()
+
+    {href, thumb, original_content_url, public_url, video_icon}
 
 extractObjectStyle = (att) ->
     eitem = att?[0]?.embed_item
