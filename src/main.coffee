@@ -2,6 +2,7 @@ Client    = require 'hangupsjs'
 Q         = require 'q'
 login     = require './login'
 ipc       = require('electron').ipcMain
+shell     = require('electron').shell
 fs        = require 'fs'
 path      = require 'path'
 tmp       = require 'tmp'
@@ -536,6 +537,12 @@ app.on 'ready', ->
     ipc.on 'getvideoinformation', seqreq (ev, conv_id, event_id, user_id, photo_id) ->
         client.getvideoinformation(user_id, photo_id).then (body) ->
             ipcsend 'getvideoinformation:result', conv_id, event_id, photo_id, body
+
+    ipc.on 'openlink', seqreq (ev, url) ->
+        Q.Promise (rs, rj) ->
+            shell.openExternal url
+            rs()
+    , true
 
     # we want to upload. in the order specified, with retry
     ipc.on 'uploadclipboardimage', seqreq (ev, spec) ->

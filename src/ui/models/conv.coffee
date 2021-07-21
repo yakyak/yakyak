@@ -8,13 +8,55 @@ lookup = {}
 
 domerge = (id, props) -> lookup[id] = merge (lookup[id] ? {}), props
 
+preprocessMessage = (msg) ->
+    cont = msg?.chat_message?.message_content
+    embed = cont?.attachment?[0].embed_item
+
+    # Workaround for attachments sent through google chat not appearing correctly
+    if cont? and embed?.type_?[0] is 456
+        href = null
+        for seg in cont.segment ? []
+            if seg.type is "LINK" and seg.link_data?.link_target?
+                href = seg.link_data?.link_target
+                break
+
+        if href?
+            url = new URL(href)
+            params = new URLSearchParams(url.search);
+
+            isVideo = params.get('url_type') is 'STREAMING_URL'
+
+            params.set 'url_type', 'FIFE_URL'
+            params.set 'sz', 's512'
+
+            url.search = params.toString()
+            thumb = url.toString()
+
+            cont.segment = null
+            embed.type_[0] = 249
+            embed.data = "and0"
+            embed.plus_photo = {}
+            embed.plus_photo.data = {}
+            embed.plus_photo.data.thumbnail = {}
+            embed.plus_photo.data.thumbnail.image_url = href
+            embed.plus_photo.data.thumbnail.thumb_url = thumb
+            embed.plus_photo.data.original_content_url = null
+            embed.plus_photo.data.media_type = if isVideo then 'MEDIA_TYPE_VIDEO' else 'MEDIA_TYPE_PHOTO'
+
+            if isVideo
+                embed.plus_photo.videoinformation = {}
+                embed.plus_photo.videoinformation.thumb = url.toString()
+                embed.plus_photo.videoinformation.url = href
+                embed.plus_photo.videoinformation.public = false
+    msg
+
 add = (conv) ->
     # rejig the structure since it's insane
     if conv?.conversation?.conversation_id?.id
         {conversation, event = []} = conv
         conv = conversation
         # remove observed events
-        conv.event = (e for e in event when !e.event_id.match(/observed_/))
+        conv.event = (preprocessMessage(e) for e in event when !e.event_id.match(/observed_/))
 
     {id} = conv.conversation_id or conv.id
     if lookup[id] and conv?.self_conversation_state?.self_read_state?.latest_read_timestamp == 0
@@ -35,6 +77,7 @@ rename = (conv, newname) ->
     updated 'conv'
 
 addChatMessage = (msg) ->
+    msg = preprocessMessage msg
     {id} = msg.conversation_id ? {}
     return unless id
     # ignore observed events
@@ -65,6 +108,7 @@ addChatMessage = (msg) ->
     unreadTotal()
     updated 'conv'
     conv
+    return msg
 
 findClientGenerated = (conv, client_generated_id) ->
     return unless client_generated_id
@@ -396,7 +440,7 @@ funcs =
         conv_id = state?.conversation_id?.id
         return unless c = lookup[conv_id]
         c.requestinghistory = false
-        event = state?.event
+        event = (preprocessMessage(e) for e in state?.event)
 
         @updateMetadata(state, false)
 
