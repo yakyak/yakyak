@@ -445,6 +445,7 @@ archOpts.forEach (arch) ->
                     console.log 'fpm arguments: ' + fpmArgs.join(' ')
                     process.exit(1)
             return child
+
         names['linux'].push 'deploy:linux-' + arch + ':' + target
         fullNames.push('deploy:linux-' + arch + ':' + target)
 
@@ -488,8 +489,10 @@ archOpts.forEach (arch) ->
         options.rename = (dest, src) -> path.join(dest, "#{json.name}-#{json.version}-linux-#{options.arch}.deb")
         debian options
 
-        names['linux'].push 'deploy:linux-' + arch + ':deb'
-        fullNames.push('deploy:linux-' + arch + ':deb')
+        done()
+
+    names['linux'].push 'deploy:linux-' + arch + ':deb'
+    fullNames.push('deploy:linux-' + arch + ':deb')
 
     gulp.task "deploy:linux-#{arch}:deb",
         gulp.series("deploy:linux-#{arch}", "deploy:linux-#{arch}:deb:nodep")
