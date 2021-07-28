@@ -14,39 +14,40 @@ preprocessMessage = (msg) ->
 
     # Workaround for attachments sent through google chat not appearing correctly
     if cont? and embed?.type_?[0] is 456
-        href = null
-        for seg in cont.segment ? []
+        index = -1
+        url = null
+        for seg, i in cont.segment ? []
             if seg.type is "LINK" and seg.link_data?.link_target?
-                href = seg.link_data?.link_target
-                break
+                u = new URL(seg.link_data.link_target)
+                if u.hostname.includes 'chat.google.com'
+                    url = u
+                    index = i
+                    break
 
-        if href?
-            url = new URL(href)
-            params = new URLSearchParams(url.search);
+        if url?
+            # Remove the 'I shared ...' message, newline and link
+            if index - 2 >= 0
+                cont.segment.splice(index - 2, 3)
 
-            isVideo = params.get('url_type') is 'STREAMING_URL'
+            thumburl = url
+            thumburl.searchParams.set 'url_type', 'FIFE_URL'
+            thumburl.searchParams.set 'sz', 's512'
 
-            params.set 'url_type', 'FIFE_URL'
-            params.set 'sz', 's512'
-
-            url.search = params.toString()
-            thumb = url.toString()
-
-            cont.segment = null
             embed.type_[0] = 249
             embed.data = "and0"
             embed.plus_photo = {}
             embed.plus_photo.data = {}
             embed.plus_photo.data.thumbnail = {}
-            embed.plus_photo.data.thumbnail.image_url = href
-            embed.plus_photo.data.thumbnail.thumb_url = thumb
+            embed.plus_photo.data.thumbnail.image_url = url.toString()
+            embed.plus_photo.data.thumbnail.thumb_url = thumburl.toString()
             embed.plus_photo.data.original_content_url = null
-            embed.plus_photo.data.media_type = if isVideo then 'MEDIA_TYPE_VIDEO' else 'MEDIA_TYPE_PHOTO'
+            embed.plus_photo.data.media_type = 'MEDIA_TYPE_PHOTO'
 
-            if isVideo
+            if url.searchParams.get('url_type') is 'STREAMING_URL'
+                embed.plus_photo.data.media_type = 'MEDIA_TYPE_VIDEO'
                 embed.plus_photo.videoinformation = {}
-                embed.plus_photo.videoinformation.thumb = url.toString()
-                embed.plus_photo.videoinformation.url = href
+                embed.plus_photo.videoinformation.thumb = thumburl.toString()
+                embed.plus_photo.videoinformation.url = url.toString()
                 embed.plus_photo.videoinformation.public = false
     msg
 
