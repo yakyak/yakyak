@@ -29,7 +29,7 @@ preprocessMessage = (msg) ->
             if index - 2 >= 0
                 cont.segment.splice(index - 2, 3)
 
-            thumburl = url
+            thumburl = new URL(url.toString())
             thumburl.searchParams.set 'url_type', 'FIFE_URL'
             thumburl.searchParams.set 'sz', 's512'
 
