@@ -3,16 +3,16 @@
     "__maintaner__": "http://github.com/vistaus",
 
     "title": "YakYak - Hangouts-client",
-    "description": "Bureaubladapplicatie voor Google Hangouts",
+    "description": "Bureaubladtoepassing voor Google Hangouts",
 
     "settings": "Instellingen",
     "recent": "Recent",
     "details": "Details",
 
     "connection" :{
-        "connecting": "Bezig met verbinden...",
-        "loading": "Bezig met laden van contactpersonen...",
-        "not_connected": "Niet verbonden (controleer uw netwerkinstellingen)"
+        "connecting": "Bezig met verbinden…",
+        "loading": "Bezig met laden van contactpersonen…",
+        "not_connected": "Niet verbonden - controleer uw internetverbinding"
     },
 
     "input": {
@@ -35,14 +35,14 @@
         "edit": "Gesprek bewerken",
         "multiuser": "Groepsgesprek creëren",
         "delete": "Gesprek verwijderen",
-        "delete_confirm": "Weet u zeker dat u dit gesprek wilt verwijderen?",
+        "delete_confirm": "Weet je zeker dat je dit gesprek wilt verwijderen?",
         "leave": "Gesprek verlaten",
-        "leave_confirm": "Weet u zeker dat u dit gesprek wilt verlaten?",
+        "leave_confirm": "Weet je zeker dat je dit gesprek wilt verlaten?",
         "search": "Contactpersonen doorzoeken",
         "new_message": "Nieuw bericht",
-        "new_attachment": "New message received (image or video)",
-        "open_link": "Opening the link in the browser...",
-        "no_preview_image_click_to_open": "Image preview is disabled: click to open it in the browser"
+        "new_attachment": "Nieuw bericht ontvangen (afbeelding of video)",
+        "open_link": "Bezig met openen van link in de browser…",
+        "no_preview_image_click_to_open": "De voorvertoning is uitgeschakeld: klik om te openen in de webbrowser"
     },
     "notification": {
         "one": "Melding",
@@ -53,7 +53,7 @@
             "one": "Favoriet",
             "other": "Favorieten"
         },
-        "star_it": "Toevoegen aan favorieten / Verwijderen uit favorieten"
+        "star_it": "Toevoegen aan/Verwijderen uit favorieten"
     },
     "actions": {
       "ok": "Oké",
@@ -64,8 +64,8 @@
         "incoming_from": "Inkomende oproep van %s",
         "accepted": "Geaccepteerd",
         "accept": "Accepteren",
-        "rejected": "Verworpen",
-        "reject": "Verwerpen",
+        "rejected": "Geweigerd",
+        "reject": "Weigeren",
         "missed": "Gemiste oproep van %s"
     },
     "menu": {
@@ -74,8 +74,8 @@
             "title": "YakYak",
             "hide": "YakYak verbergen",
             "hide_others": "Anderen verbergen",
-            "show": "Alles weergeven",
-            "inspector": "Inspector openen",
+            "show": "Alles tonen",
+            "inspector": "Inspectie openen",
             "logout": "Uitloggen",
             "quit": "Afsluiten"
         },
@@ -96,45 +96,45 @@
         "view": {
             "title": "Weergave",
             "emoji": "Tekst omzetten naar emoji's",
-            "suggestemoji": "Emoji's aanraden tijdens het typen",
-            "showimagepreview": "Show image preview",
+            "suggestemoji": "Emojisuggesties tonen tijdens typen",
+            "showimagepreview": "Afbeeldingen voorvertonen",
             "hide_dock": "Dock-pictogram verbergen",
-            "fullscreen": "Volledig scherm aan/uit",
+            "fullscreen": "Beeldvullende modus aan/uit",
             "tray": {
-                "show_tray": "Systeemvakpictogram weergeven",
-                "show_window": "Venster weergeven",
+                "show_tray": "Systeemvakpictogram tonen",
+                "show_window": "Venster tonen",
                 "toggle_minimize": "Minimaliseren naar systeemvak aan/uit",
                 "start_minimize": "Geminimaliseerd opstarten",
                 "close": "Sluiten naar systeemvak"
             },
             "escape": {
-                "title": "Gedrag van Escape-toets",
+                "title": "Gedrag van escapetoets",
                 "hide": "Verbergt venster",
                 "clear": "Wist invoer",
-                "default": "standaard wanneer systeemvak niet aanwezig is"
+                "default": "standaard als systeemvak niet aanwezig is"
             },
             "conversation": {
                 "title": "Gesprekslijst",
-                "timestamp": "Tijdstempel weergeven",
-                "last": "Laatste bericht weergeven",
+                "timestamp": "Tijdstippen tonen",
+                "last": "Recentste bericht tonen",
                 "previous": "Vorig gesprek",
                 "next": "Volgend gesprek",
-                "select": "Selecteer gesprek",
+                "select": "Kies een gesprek",
                 "thumbnails": {
-                    "show": "Voorbeeldweergaven tonen",
-                    "only": "Alleen voorbeeldweergaven tonen",
-                    "animated": "Voorbeeldweergaven met animatie tonen"
+                    "show": "Miniaturen tonen",
+                    "only": "Alleen miniaturen tonen",
+                    "animated": "Bewegende miniaturen tonen"
                 }
             },
             "notification": {
                 "title": "Meldingen",
-                "show": "Meldingen weergeven",
+                "show": "Meldingen tonen",
                 "toggle": "Meldingen aan/uit",
-                "message": "Bericht weergeven in meldingen",
-                "username": "Gebruikersnaam weergeven in meldingen",
+                "message": "Berichtinhoud tonen op meldingen",
+                "username": "Gebruikersnaam tonen op meldingen",
                 "mute": "Geluidloze meldingen",
-                "avatar": "Gebruikersafbeelding weergeven in meldingen",
-                "icon": "YakYak-pictogram weergeven in meldingen",
+                "avatar": "Gebruikersafbeeldingen tonen op meldingen",
+                "icon": "YakYak-pictogram tonen op meldingen",
                 "custom_sound": "Aangepast YakYak-geluid voor meldingen"
             },
             "color_scheme": {
@@ -145,7 +145,7 @@
                 "material": "Material"
             },
             "font": {
-                "title": "Lettertypegrootte",
+                "title": "Tekstgrootte",
                 "extra_small": "Kleinst",
                 "small": "Klein",
                 "medium": "Normaal",
@@ -162,18 +162,18 @@
             "title": "Hulp",
             "about": {
                 "title": "Over YakYak",
-                "newer": "Er is een nieuwe versie beschikbaar. Werk uw versie bij van %s naar %s",
+                "newer": "Er is een nieuwe versie beschikbaar. Werk je versie bij van %s naar %s.",
                 "license": "Licentie",
                 "authors": "Hoofdontwikkelaars",
                 "contributors": "Bijdragers",
-                "startup": "Openen bij opstarten"
+                "startup": "Openen na opstarten"
             }
         },
         "window": {
             "title": "Venster",
             "minimize": "Minimaliseren",
             "close": "Sluiten",
-            "front": "Alle venster naar voorgrond halen"
+            "front": "Alle vensters naar voorgrond halen"
         }
     }
 }
