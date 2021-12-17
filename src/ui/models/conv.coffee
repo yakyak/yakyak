@@ -10,7 +10,7 @@ domerge = (id, props) -> lookup[id] = merge (lookup[id] ? {}), props
 
 preprocessMessage = (msg) ->
     cont = msg?.chat_message?.message_content
-    embed = cont?.attachment?[0].embed_item
+    embed = cont?.attachment?[0]?.embed_item
 
     # Workaround for attachments sent through google chat not appearing correctly
     if cont? and embed?.type_?[0] is 456
