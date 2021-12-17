@@ -25,6 +25,14 @@ preprocessMessage = (msg) ->
                     break
 
         if url?
+            # Try to extract the name of the attachment from the message
+            name = url.href
+            if index - 2 >= 0
+                name = cont.segment[index - 2]?.text
+                names = cont.segment[index - 2]?.text.match(/‘(.+?)’/)
+                if names?[1]?
+                    name = names[1]
+
             params = url.searchParams
             type = params.get('url_type')
 
@@ -44,10 +52,11 @@ preprocessMessage = (msg) ->
                 embed.plus_photo = {}
                 embed.plus_photo.data = {}
                 embed.plus_photo.data.thumbnail = {}
+                embed.plus_photo.data.thumbnail.name = name
                 embed.plus_photo.data.thumbnail.image_url = url.toString()
                 embed.plus_photo.data.thumbnail.thumb_url = thumburl.toString()
                 embed.plus_photo.data.original_content_url = null
-                embed.plus_photo.data.media_type = if isPhoto 'MEDIA_TYPE_PHOTO' else 'MEDIA_TYPE_VIDEO'
+                embed.plus_photo.data.media_type = if isPhoto then 'MEDIA_TYPE_PHOTO' else 'MEDIA_TYPE_VIDEO'
 
                 if isVideo
                     embed.plus_photo.videoinformation = {}
@@ -55,15 +64,8 @@ preprocessMessage = (msg) ->
                     embed.plus_photo.videoinformation.url = url.toString()
                     embed.plus_photo.videoinformation.public = false
             else
-                # Regular attachment, try to extract the name from the message
-                if index - 2 >= 0
-                    name = cont.segment[index - 2]?.text
-                    names = cont.segment[index - 2]?.text.match(/‘(.+?)’/)
-                    if names? and names.length > 1
-                        name = names[1]
-
-                    cont.segment[index].text = name
-                    cont.segment.splice(index - 2, 2)
+                cont.segment[index].text = name
+                cont.segment.splice(index - 2, 2)
 
     # If we still have a 456 attachment here, unset it as it causes issues with later processing
     if embed?.type_?[0] is 456
