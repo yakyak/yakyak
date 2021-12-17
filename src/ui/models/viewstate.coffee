@@ -156,7 +156,9 @@ module.exports = exp = {
         c = conv[@selectedConv]
         return unless c
         ur = conv.unread c
-        if ur > 0
+        # send updatewatermark if this is the first update, even if we have no unread messages
+        if ur > 0 or not c.watermark_updated?
+            c.watermark_updated = true
             later -> action 'updatewatermark'
 
     setSize: (size) ->
