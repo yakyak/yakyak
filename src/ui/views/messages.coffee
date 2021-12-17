@@ -435,12 +435,12 @@ formatAttachment = (event, att) ->
     if att?[0]?.embed_item?.type_
         data = extractProtobufStyle(event, att)
         return if not data
-        {href, thumb, original_content_url, public_url, video_icon} = data
+        {href, thumb, original_content_url, public_url, video_icon, name} = data
     else if att?[0]?.embed_item?.type
         console.log('THIS SHOULD NOT HAPPEN WTF !!')
         data = extractProtobufStyle(event, att)
         return if not data
-        {href, thumb, original_content_url, public_url, video_icon} = data
+        {href, thumb, original_content_url, public_url, video_icon, name} = data
     else
         console.warn 'ignoring attachment', att unless att?.length == 0
         return
@@ -448,17 +448,19 @@ formatAttachment = (event, att) ->
     # stickers do not have an href so we link to the original content instead
     href = original_content_url unless href
 
+    name = name or href
+
     # here we assume attachments are only images
     cls = if public_url then 'public_url' else ''
-    if preload thumb
-        div class:'attach', ->
-            a class:cls, {href, onclick}, ->
-                if models.viewstate.showImagePreview
-                    img src:thumb
-                    if video_icon
-                        div class:'play_button'
-                else
-                    i18n.__('conversation.no_preview_image_click_to_open:Image preview is disabled: click to open it in the browser')
+    preload thumb
+    div class:'attach', ->
+        a class:cls, {href, onclick}, ->
+            if models.viewstate.showImagePreview
+                img src:thumb, title: name
+                if video_icon
+                    div class:'play_button'
+            else
+                i18n.__('conversation.no_preview_image_click_to_open:Image preview is disabled: click to open it in the browser')
 
 handle 'loadedimg', ->
     # allow controller to record current position
@@ -475,6 +477,7 @@ handle 'loadedinstagramphoto', ->
     updated 'conv'
 
 extractProtobufStyle = (event, att) ->
+    name = null
     href = null
     thumb = null
     public_url = false
@@ -484,6 +487,7 @@ extractProtobufStyle = (event, att) ->
     {plus_photo, data, type_} = embed_item ? {}
     if plus_photo?
         href  = plus_photo.data?.thumbnail?.image_url
+        name = plus_photo.data?.thumbnail?.name
         isVideo = plus_photo.data?.media_type isnt 'MEDIA_TYPE_PHOTO'
         if plus_photo.data?.thumbnail?.thumb_url?
             thumb = plus_photo.data.thumbnail.thumb_url
@@ -502,7 +506,7 @@ extractProtobufStyle = (event, att) ->
                     public_url = true
             else
                 action 'getvideoinformation', event.conversation_id?.id, event.event_id, plus_photo.data?.owner_obfuscated_id, plus_photo.data?.photo_id
-        return {href, thumb, original_content_url, public_url, video_icon}
+        return {href, thumb, original_content_url, public_url, video_icon, name}
 
     t = type_?[0]
     return console.warn 'ignoring (old) attachment type', att unless t == 249
@@ -515,7 +519,7 @@ extractProtobufStyle = (event, att) ->
     thumburl.searchParams.set('size', '512')
     thumb = thumburl.toString()
 
-    {href, thumb, original_content_url, public_url, video_icon}
+    {href, thumb, original_content_url, public_url, video_icon, name}
 
 extractObjectStyle = (att) ->
     eitem = att?[0]?.embed_item
