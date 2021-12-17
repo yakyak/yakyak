@@ -513,9 +513,10 @@ app.on 'ready', ->
 
     # watermarking is only interesting for the last of each conv_id
     # retry send and dedupe for each conv_id
-    ipc.on 'updatewatermark', seqreq (ev, conv_id, time) ->
+    ipc.on 'updatewatermark', seqreq (ev, conv_id, event_id, time) ->
         client.updatewatermark conv_id, time
-    , true, (ev, conv_id, time) -> conv_id
+        client.markeventobserved conv_id, event_id
+    , true, (ev, conv_id, event_id, time) -> conv_id
 
     # getentity is not super important, the client will try again when encountering
     # entities without photo_url. so no retry, but do execute all such reqs
