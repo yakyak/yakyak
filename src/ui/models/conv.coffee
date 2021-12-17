@@ -25,30 +25,50 @@ preprocessMessage = (msg) ->
                     break
 
         if url?
-            # Remove the 'I shared ...' message, newline and link
-            if index - 2 >= 0
-                cont.segment.splice(index - 2, 3)
+            params = url.searchParams
+            type = params.get('url_type')
 
-            thumburl = new URL(url.toString())
-            thumburl.searchParams.set 'url_type', 'FIFE_URL'
-            thumburl.searchParams.set 'sz', 's512'
+            isPhoto = type is 'FIFE_URL' and (params.get('width')? or params.get('height')?)
+            isVideo = type is 'STREAMING_URL'
+            if isPhoto or isVideo
+                # Remove the 'I shared ...' message, newline and link
+                if index - 2 >= 0
+                    cont.segment.splice(index - 2, 3)
 
-            embed.type_[0] = 249
-            embed.data = "and0"
-            embed.plus_photo = {}
-            embed.plus_photo.data = {}
-            embed.plus_photo.data.thumbnail = {}
-            embed.plus_photo.data.thumbnail.image_url = url.toString()
-            embed.plus_photo.data.thumbnail.thumb_url = thumburl.toString()
-            embed.plus_photo.data.original_content_url = null
-            embed.plus_photo.data.media_type = 'MEDIA_TYPE_PHOTO'
+                thumburl = new URL(url.toString())
+                thumburl.searchParams.set 'url_type', 'FIFE_URL'
+                thumburl.searchParams.set 'sz', 's512'
 
-            if url.searchParams.get('url_type') is 'STREAMING_URL'
-                embed.plus_photo.data.media_type = 'MEDIA_TYPE_VIDEO'
-                embed.plus_photo.videoinformation = {}
-                embed.plus_photo.videoinformation.thumb = thumburl.toString()
-                embed.plus_photo.videoinformation.url = url.toString()
-                embed.plus_photo.videoinformation.public = false
+                embed.type_[0] = 249
+                embed.data = "and0"
+                embed.plus_photo = {}
+                embed.plus_photo.data = {}
+                embed.plus_photo.data.thumbnail = {}
+                embed.plus_photo.data.thumbnail.image_url = url.toString()
+                embed.plus_photo.data.thumbnail.thumb_url = thumburl.toString()
+                embed.plus_photo.data.original_content_url = null
+                embed.plus_photo.data.media_type = if isPhoto 'MEDIA_TYPE_PHOTO' else 'MEDIA_TYPE_VIDEO'
+
+                if isVideo
+                    embed.plus_photo.videoinformation = {}
+                    embed.plus_photo.videoinformation.thumb = thumburl.toString()
+                    embed.plus_photo.videoinformation.url = url.toString()
+                    embed.plus_photo.videoinformation.public = false
+            else
+                # Regular attachment, try to extract the name from the message
+                if index - 2 >= 0
+                    name = cont.segment[index - 2]?.text
+                    names = cont.segment[index - 2]?.text.match(/‘(.+?)’/)
+                    if names? and names.length > 1
+                        name = names[1]
+
+                    cont.segment[index].text = name
+                    cont.segment.splice(index - 2, 2)
+
+    # If we still have a 456 attachment here, unset it as it causes issues with later processing
+    if embed?.type_?[0] is 456
+        delete cont?.attachment
+
     msg
 
 add = (conv) ->
