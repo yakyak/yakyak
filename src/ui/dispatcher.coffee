@@ -233,7 +233,7 @@ handle 'updatewatermark', do ->
         sendWater = throttleWaterByConv[conv_id]
         unless sendWater
             do (conv_id) ->
-                sendWater = throttle 1000, -> ipc.send 'updatewatermark', conv_id, Date.now()
+                sendWater = throttle 1000, -> ipc.send 'updatewatermark', conv_id, c.event?[c.event?.length - 1]?.timestamp / 1000
                 throttleWaterByConv[conv_id] = sendWater
         sendWater()
 
