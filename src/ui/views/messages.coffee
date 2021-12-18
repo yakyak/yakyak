@@ -89,7 +89,7 @@ onclick = (e) ->
         ipc.send 'openlink', finalUrl
         xhr.abort()
 
-    xhr.open("get", finalUrl)
+    xhr.open("head", finalUrl)
     xhr.send()
 
 # helper method to group events in time/user bunches
