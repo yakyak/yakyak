@@ -1,6 +1,7 @@
 moment    = require 'moment'
 urlRegexp = require 'uber-url-regex'
 url       = require 'url'
+Q         = require 'q';
 ipc       = require('electron').ipcRenderer
 
 {nameof, initialsof, nameofconv, linkto, later, forceredraw, throttle,
@@ -21,6 +22,22 @@ CUTOFF = 5 * 60 * 1000 * 1000 # 5 mins
 HANGOUT_ANNOTATION_TYPE = {
     me_message: 4
 }
+
+getPublicUrl = (url) -> Q.promise (resolve) ->
+    if url?
+        xhr = new XMLHttpRequest
+        xhr.onreadystatechange = (e) ->
+            return if xhr.readyState isnt 4
+            redirected = url.indexOf(xhr.responseURL) != 0
+            if redirected
+                url = xhr.responseURL
+            resolve(url)
+            xhr.abort()
+
+        xhr.open("head", url)
+        xhr.send()
+    else
+        resolve(url)
 
 # this helps fixing houts proxied with things like hangupsbot
 # the format of proxied messages are
@@ -72,25 +89,9 @@ onclick = (e) ->
     # The finalURL will be cdn-hosted, static and does not require authentication
     # so we can finally open it in the external browser :(
 
-    xhr = new XMLHttpRequest
-
-    # Showing message with 3 second delay showing the user that something is happening
-    notr {
-        html: i18n.__ 'conversation.open_link:Opening the link in the browser...'
-        stay: 3000
-    }
-
-    xhr.onreadystatechange = (e) ->
-        return if e.target.status is 0
-        return if xhr.readyState isnt 4
-        redirected = finalUrl.indexOf(xhr.responseURL) != 0
-        if redirected
-            finalUrl = xhr.responseURL
-        ipc.send 'openlink', finalUrl
-        xhr.abort()
-
-    xhr.open("head", finalUrl)
-    xhr.send()
+    getPublicUrl finalUrl
+    .then (url) ->
+        ipc.send 'openlink', url
 
 # helper method to group events in time/user bunches
 groupEvents = (es, entity) ->
