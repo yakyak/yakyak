@@ -2,6 +2,7 @@ URL       = require 'url'
 notifier  = require 'node-notifier'
 AutoLaunch = require 'auto-launch'
 clipboard = require('electron').clipboard
+Q         = require 'q';
 
 #
 #
@@ -143,13 +144,25 @@ uniqfn = (as, fn) ->
 
 isImg = (url) -> url?.match /\.(png|jpe?g|gif|svg)$/i
 
-getImageUrl = (url="") ->
-    return false if !url? | url == ""
-    return url if isImg url
-    parsed = URL.parse url, true
-    url = parsed.query.q
-    return url if isImg url
-    false
+getRedirectedUrl = (url) -> Q.promise (resolve) ->
+    if url?
+        parsed = URL.parse url, true
+        url = parsed.query.q if parsed.hostname.indexOf('google') >= 0 and parsed.pathname is '/url' and parsed.query?.q?
+
+    if url?
+        xhr = new XMLHttpRequest
+        xhr.onreadystatechange = (e) ->
+            return if xhr.readyState isnt 4
+            redirected = url.indexOf(xhr.responseURL) != 0
+            if redirected
+                url = xhr.responseURL
+            resolve({url: url, contentType: xhr.getResponseHeader('Content-Type')})
+            xhr.abort()
+
+        xhr.open("head", url)
+        xhr.send()
+    else
+        resolve({url: url})
 
 toggleVisibility = (element) ->
     if element.style.display == 'block'
@@ -213,6 +226,6 @@ autoLauncher = new AutoLaunch({
 
 module.exports = {nameof, initialsof, nameofconv, linkto, later,
                   throttle, uniqfn, isAboutLink, getProxiedName, tryparse,
-                  fixlink, topof, isImg, getImageUrl, toggleVisibility,
+                  fixlink, topof, isImg, getRedirectedUrl, toggleVisibility,
                   convertEmoji, drawAvatar, notificationCenterSupportsSound,
                   insertTextAtCursor, isContentPasteable, autoLauncher}
