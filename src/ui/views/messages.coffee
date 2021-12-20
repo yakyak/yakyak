@@ -1,11 +1,10 @@
 moment    = require 'moment'
 urlRegexp = require 'uber-url-regex'
 url       = require 'url'
-Q         = require 'q';
 ipc       = require('electron').ipcRenderer
 
 {nameof, initialsof, nameofconv, linkto, later, forceredraw, throttle,
-getProxiedName, fixlink, isImg, getImageUrl, drawAvatar}  = require '../util'
+getProxiedName, fixlink, getRedirectedUrl, drawAvatar}  = require '../util'
 
 CUTOFF = 5 * 60 * 1000 * 1000 # 5 mins
 
@@ -22,22 +21,6 @@ CUTOFF = 5 * 60 * 1000 * 1000 # 5 mins
 HANGOUT_ANNOTATION_TYPE = {
     me_message: 4
 }
-
-getPublicUrl = (url) -> Q.promise (resolve) ->
-    if url?
-        xhr = new XMLHttpRequest
-        xhr.onreadystatechange = (e) ->
-            return if xhr.readyState isnt 4
-            redirected = url.indexOf(xhr.responseURL) != 0
-            if redirected
-                url = xhr.responseURL
-            resolve(url)
-            xhr.abort()
-
-        xhr.open("head", url)
-        xhr.send()
-    else
-        resolve(url)
 
 # this helps fixing houts proxied with things like hangupsbot
 # the format of proxied messages are
@@ -89,9 +72,9 @@ onclick = (e) ->
     # The finalURL will be cdn-hosted, static and does not require authentication
     # so we can finally open it in the external browser :(
 
-    getPublicUrl finalUrl
-    .then (url) ->
-        ipc.send 'openlink', url
+    getRedirectedUrl finalUrl
+    .then (result) ->
+        ipc.send 'openlink', result.url
 
 # helper method to group events in time/user bunches
 groupEvents = (es, entity) ->
@@ -335,12 +318,13 @@ formatters = [
     # image formatter
     (seg) ->
         href = seg?.link_data?.link_target
-        imageUrl = getImageUrl href # false if can't find one
-        if imageUrl and preload imageUrl
+        if href and preload href
+            el = preload_cache[href]
+            imageUrl = el.src
             div ->
-                if models.viewstate.showImagePreview
-                    img src: imageUrl
-                else a {imageUrl, onclick}
+                a class:'public_url', {href, onclick}, ->
+                    if models.viewstate.showImagePreview
+                        img src: imageUrl
     # twitter preview
     (seg) ->
         href = seg?.text
@@ -390,13 +374,21 @@ preload = (href) ->
     cache = preload_cache[href]
     if not cache
         el = document.createElement 'img'
-        el.onload = ->
-            return unless typeof el.naturalWidth == 'number'
-            el.loaded = true
-            later -> action 'loadedimg'
-        el.onerror = -> console.log 'error loading image', href
-        el.src = href
         preload_cache[href] = el
+
+        getRedirectedUrl href
+        .then (result) ->
+            return unless result.contentType?
+            return if result.contentType.indexOf('image') < 0
+
+            el = preload_cache[href]
+            el.onload = ->
+                return unless typeof el.naturalWidth == 'number'
+                el.loaded = true
+                later -> action 'loadedimg'
+            el.onerror = -> console.log 'error loading image', href, result.url
+            el.src = result.url
+
     return cache?.loaded
 
 preloadTweet = (href) ->
