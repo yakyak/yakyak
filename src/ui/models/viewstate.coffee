@@ -118,7 +118,9 @@ module.exports = exp = {
             conv_id = conv.listShow()?[0]?.conversation_id?.id
         return if @selectedConv == conv_id
         @switchInput(conv_id)
-        @selectedConv = localStorage.selectedConv = conv_id
+        # don't save the selected conv if we don't have a valid input
+        if c?
+            @selectedConv = localStorage.selectedConv = conv_id
         @setLastKeyDown 0
         @updateView()
         updated 'switchConv'
