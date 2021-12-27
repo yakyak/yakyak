@@ -108,7 +108,6 @@ app.on 'activate', ->
 #  if user sees this html then it's an error and it tells how to report it
 loadAppWindow = ->
     mainWindow.loadURL 'file://' + YAKYAK_ROOT_DIR + '/ui/index.html'
-
     mainWindow.webContents.on 'did-finish-load', () ->
         customcss = path.join path.normalize(app.getPath('userData')), 'colorscheme', 'custom.css'
         csskey = null
@@ -348,10 +347,12 @@ app.on 'ready', ->
     # attempts to the client.
     reconnect = ->
         console.log 'reconnecting', reconnectCount
+
         proxycheck().then ->
             client.connect(creds)
             .then ->
                 console.log 'connected', reconnectCount
+                client.syncCookies mainWindow.webContents.session
                 # on first connect, send init, after that only resync
                 if reconnectCount == 0
                     log.debug 'Sending init...'
