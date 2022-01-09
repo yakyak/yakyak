@@ -83,10 +83,10 @@
             "title": "編輯",
             "undo": "復原",
             "redo": "重做",
-            "paste": "粘贴",
+            "paste": "貼上",
             "cut": "剪下",
             "copy": "複製",
-            "copy_image_link": "複製圖片咧節",
+            "copy_image_link": "複製圖片連結",
             "copy_link": "複製連結",
             "copy_image": "複製圖片",
             "select_all": "全選",
@@ -144,8 +144,8 @@
                 "blue": "藍色",
                 "dark": "深色",
                 "material": "材質",
-                "pop": "Pop",
-                "gruvy": "Gruvy"
+                "pop": "咖啡",
+                "gruvy": "黑色"
             },
             "font": {
                 "title": "文字大小",
