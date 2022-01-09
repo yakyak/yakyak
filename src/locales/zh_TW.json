@@ -105,8 +105,8 @@
                 "show_tray": "切換視窗顯示/隱藏",
                 "show_window": "顯示視窗",
                 "toggle_minimize": "切換是否最小化到托盤",
-                "start_minimize": "启动时最小化到托盘",
-                "close": "关闭到托盘"
+                "start_minimize": "啟動時最小化到托盤",
+                "close": "關閉到托盤"
             },
             "escape": {
                 "title": "Esc 鍵行為",
