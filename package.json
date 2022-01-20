@@ -67,7 +67,7 @@
     "bog": "^1.0.0",
     "got": "^11.8.3",
     "hangupsjs": "github:yakyak/hangupsjs",
-    "i18n": "^0.13.3",
+    "i18n": "^0.13.4",
     "mime-types": "^2.1.31",
     "moment": "^2.28.0",
     "node-notifier": "^9.0.1",
